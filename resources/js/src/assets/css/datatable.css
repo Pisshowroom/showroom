@@ -1,0 +1,125 @@
+.datatable > div {
+    @apply text-black dark:text-white-dark;
+}
+
+.datatable .bh-table-responsive {
+    @apply rounded-none;
+}
+
+.datatable .bh-table-responsive table thead tr th {
+    @apply font-bold;
+}
+
+.datatable .bh-pagination {
+    @apply font-medium;
+}
+
+.datatable .bh-pagination .bh-page-item {
+    @apply w-9 h-9 bg-white-light text-dark border-white-light dark:border-[#191e3a] dark:bg-[#191e3a] dark:text-white-light hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white;
+}
+
+.datatable .bh-pagination .bh-page-item.bh-active {
+    @apply bg-primary text-white;
+}
+
+.datatable .bh-pagination .bh-page-item.bh-active {
+    @apply dark:bg-primary dark:text-white;
+}
+
+.datatable .bh-pagination select {
+    @apply rounded-md border border-[#e0e6ed] bg-white pl-2 pr-4 py-1.5 text-sm font-semibold text-black focus:border-primary focus:ring-transparent dark:border-[#17263c] dark:bg-[#121e32] dark:text-white-dark dark:focus:border-primary;
+}
+
+.datatable .bh-pagination .bh-pagination-number {
+    @apply rtl:!ml-0 rtl:sm:mr-auto rtl:space-x-reverse;
+}
+
+.datatable .bh-pagination .bh-pagination-info > span {
+    @apply rtl:mr-0 rtl:ml-2;
+}
+
+.datatable.invoice-table .bh-pagination {
+    @apply px-5;
+}
+
+.datatable .bh-filter div button {
+    @apply block;
+}
+
+.datatable .bh-sort svg polygon {
+    @apply dark:text-dark;
+}
+
+.datatable .bh-filter .bh-form-control {
+    @apply dark:!border-[#17263c] dark:!bg-[#121e32] dark:!text-white-dark dark:focus:!ring-transparent;
+}
+
+.datatable .bh-filter > button {
+    @apply dark:border-dark dark:bg-dark dark:text-white-dark dark:hover:text-white-light;
+}
+
+.datatable .bh-filter-menu button {
+    @apply dark:bg-[#1b2e4b] dark:hover:bg-[#181f32] dark:hover:text-white-dark;
+}
+
+.datatable .bh-filter-menu button.active {
+    @apply dark:bg-[#181f32];
+}
+
+.datatable .bh-table-responsive input[type='checkbox'] + div {
+    @apply rounded border-2 border-[#e0e6ed] bg-transparent text-primary dark:border-[#253b5c];
+}
+
+.datatable .bh-table-responsive input[type='checkbox']:checked + div,
+.datatable .bh-table-responsive input[type='checkbox']:indeterminate + div {
+    @apply !bg-primary border-primary;
+}
+
+.datatable .bh-table-responsive table.table-bordered thead tr th,
+.datatable .bh-table-responsive table.table-bordered tbody tr td {
+    @apply dark:border-[#191e3a];
+}
+
+.datatable .bh-table-responsive table th.bh-sticky,
+.datatable .bh-table-responsive table td.bh-sticky {
+    @apply bg-[#f6f8fa]  dark:bg-[#1a2941];
+}
+
+.datatable .bh-filter-menu {
+    @apply min-w-max;
+}
+
+.next-prev-pagination .bh-pagination > div {
+    @apply flex-col justify-center;
+}
+
+.next-prev-pagination .bh-pagination .bh-pagination-number {
+    @apply ltr:ml-0 rtl:mr-0;
+}
+
+.next-prev-pagination .bh-pagination .bh-page-item {
+    @apply w-max rounded-md px-5 py-2 bg-transparent border-primary text-primary dark:bg-transparent dark:border-primary dark:text-primary;
+}
+
+.datatable .bh-table-responsive table.bh-table-bordered tbody tr td,
+.datatable .bh-table-responsive table.bh-table-bordered thead tr th {
+    @apply border-white-light/40 dark:border-[#191e3a];
+}
+
+.datatable .bh-table-responsive table.bh-table-hover tbody tr {
+    @apply hover:!bg-white-light/20 dark:hover:!bg-[#1a2941]/40;
+}
+
+.datatable .bh-table-responsive table.bh-table-striped tbody tr:nth-child(odd) {
+    @apply !bg-white-light/20 dark:!bg-[#1a2941]/40;
+}
+
+.datatable .bh-sort {
+    @apply rtl:ml-0 rtl:mr-3;
+}
+
+.datatable .bh-table-responsive table tbody tr td,
+.datatable .bh-table-responsive table tfoot tr th,
+.datatable .bh-table-responsive table thead tr th {
+    @apply rtl:text-right;
+}

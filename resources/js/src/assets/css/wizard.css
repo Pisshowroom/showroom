@@ -1,0 +1,53 @@
+.vue-form-wizard.text-only .wizard-nav li .stepTitle {
+  @apply absolute top-1/2 -translate-y-1/2 !mt-0;
+}
+.vue-form-wizard .wizard-nav li .stepTitle {
+  @apply !text-inherit !mt-2;
+}
+.vue-form-wizard.text-only .wizard-nav li .stepTitle.active {
+  @apply !text-white;
+}
+.vue-form-wizard .wizard-nav li .stepTitle.active {
+  @apply !text-primary;
+}
+.vue-form-wizard .wizard-nav-pills > li > a {
+  @apply !top-0 !text-black dark:!text-white-dark;
+}
+.vue-form-wizard.text-only .wizard-nav-pills > li > a {
+  @apply !mb-2;
+}
+.vue-form-wizard.text-only .wizard-nav li .wizard-icon {
+  @apply !hidden;
+}
+.vue-form-wizard .wizard-icon-circle.tab_shape {
+  @apply !rounded-full overflow-hidden dark:bg-[#1b2e4b];
+}
+.vue-form-wizard.pills .wizard-navigation .wizard-progress-with-circle {
+  @apply !h-0;
+}
+.vue-form-wizard .wizard-tab-content {
+  @apply !min-h-0 !p-0 my-5 -top-1 relative;
+}
+.vue-form-wizard {
+  @apply !pb-0;
+}
+.vue-form-wizard .wizard-btn {
+  @apply !py-2 !px-5 !border !rounded-md !min-w-0 shadow-[0_10px_20px_-10px] shadow-primary/60 hover:shadow-none;
+}
+.vue-form-wizard .wizard-card-footer {
+  @apply !px-0;
+}
+.vue-form-wizard.circle .wizard-icon-circle,
+.vue-form-wizard.square .wizard-icon-circle {
+  @apply !w-16 !h-16 !border-[#f3f2ee] dark:!border-[#1b2e4b] bg-white dark:bg-[#253b5c];
+}
+.vue-form-wizard .wizard-navigation .wizard-progress-with-circle {
+  @apply !top-[30px];
+}
+.vue-form-wizard.circle .wizard-nav-pills,
+.vue-form-wizard.square .wizard-nav-pills {
+  @apply -top-1;
+}
+.vue-form-wizard .wizard-progress-bar {
+    @apply rtl:!float-right;
+}

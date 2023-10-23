@@ -1,0 +1,19 @@
+.range-slider .simple-range-slider .simple-range-slider-bg-bar {
+    @apply !h-2 border !rounded border-[#D3D3D3] dark:border-[#253b5c];
+}
+
+.range-slider .simple-range-slider-anchor {
+    @apply !w-6 !h-5 !rounded dark:!bg-[#3b3f5c] border border-[#D3D3D3] dark:border-[#3b3f5c] !shadow-[inset_0_0_1px_#fff,inset_0_1px_7px_#ebebeb,0_3px_6px_-3px_#bbb] dark:!shadow-none;
+}
+
+.range-slider .simple-range-slider-popover-arrow {
+    @apply hidden;
+}
+
+.range-slider .simple-range-slider-popover {
+    @apply mb-0.5 !p-1 border dark:!bg-[#1b2e4b] border-[#D3D3D3] dark:border-[#253b5c] !shadow-none;
+}
+
+.range-slider .simple-range-slider-handle {
+    @apply !shadow-none !rounded-sm;
+}

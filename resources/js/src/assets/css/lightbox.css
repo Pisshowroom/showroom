@@ -1,0 +1,46 @@
+.demo-gallery {
+    width: 100%;
+    height: auto;
+    float: left;
+}
+.demo-gallery a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-touch-callout: none;
+    display: block;
+    float: left;
+    line-height: 0;
+}
+.demo-gallery a img {
+    width: 100%;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.demo-gallery figure {
+    display: none;
+}
+.vel-modal {
+    @apply !bg-[black]/60;
+}
+.vel-modal.minimal .vel-toolbar {
+    display: none;
+}
+
+.vel-modal .vel-toolbar {
+    top: 6px;
+    bottom: inherit;
+    right: 45px;
+    left: inherit;
+    transform: none;
+}
+
+.vel-modal .vel-img-title {
+    font-size: 13px;
+    line-height: 20px;
+    color: #ccc;
+    bottom: 30px;
+}
+.vel-modal .btn__close .vel-icon {
+    width: 24px;
+    height: 24px;
+}
