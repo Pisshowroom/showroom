@@ -3786,7 +3786,7 @@ a.text-brand-3:hover {
   transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
   background-color: #ffffff;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.09);
-  z-index: 1003;
+  z-index: 10000;
 }
 .mobile-header-wrapper-style.sidebar-visible {
   visibility: visible;
@@ -5441,7 +5441,7 @@ a.text-brand-3:hover {
 }
 
 /***************************
-    Page section margin 
+    Page section margin
 ****************************/
 .mtb-0 {
   margin: 0;

@@ -2,25 +2,25 @@
     <div class="footer-1">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 width-25 mb-30">
-                    <h4 class="mb-30 color-gray-1000">Contact</h4>
-                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Address:</strong> 502
+                <div class="col-lg-4 width-25 mb-30">
+                    <h4 class="mb-30 color-gray-1000">Kontak</h4>
+                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Alamat:</strong> 502
                         New Design Str, Melbourne, San Francisco, CA 94110, United States</div>
-                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Phone:</strong> (+01)
+                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">No. Handphone:</strong> (+01)
                         123-456-789</div>
                     <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">E-mail:</strong>
                         contact@ecom-market.com</div>
-                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Hours:</strong> 8:00
-                        - 17:00, Mon - Sat</div>
+                    {{-- <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Hours:</strong> 8:00
+                        - 17:00, Mon - Sat</div> --}}
                     <div class="mt-30"><a class="icon-socials icon-facebook" href="#"></a><a
                             class="icon-socials icon-instagram" href="#"></a><a class="icon-socials icon-twitter"
                             href="#"></a><a class="icon-socials icon-linkedin" href="#"></a></div>
                 </div>
-                <div class="col-lg-3 width-20 mb-30">
-                    <h4 class="mb-30 color-gray-1000">Make Money with Us</h4>
+                {{-- <div class="col-lg-3 width-20 mb-30">
+                    <h4 class="mb-30 color-gray-1000">Hasilkan Uang bersama Kami</h4>
                     <ul class="menu-footer">
-                        <li><a href="page-about-us.html">Mission &amp; Vision</a></li>
-                        <li><a href="page-about-us.html">Our Team</a></li>
+                        <li><a href="{{ route('buyer.about') }}">Mission &amp; Vision</a></li>
+                        <li><a href="{{ route('buyer.about') }}">Our Team</a></li>
                         <li><a href="#">Press &amp; Media</a></li>
                         <li><a href="#">Advertising</a></li>
                         <li><a href="#">Testimonials</a></li>
@@ -36,9 +36,9 @@
                         <li><a href="#">Office Center</a></li>
                         <li><a href="blog.html">News &amp; Events</a></li>
                     </ul>
-                </div>
-                <div class="col-lg-3 width-16 mb-30">
-                    <h4 class="mb-30 color-gray-1000">My account</h4>
+                </div> --}}
+                <div class="col-lg-4 mb-30">
+                    <h4 class="mb-30 color-gray-1000">Akun saya</h4>
                     <ul class="menu-footer">
                         <li><a href="#">FAQs</a></li>
                         <li><a href="#">Editor Help</a></li>
@@ -48,16 +48,15 @@
                         <li><a href="#">Support Center</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-3 width-23">
-                    <h4 class="mb-30 color-gray-1000">App &amp; Payment</h4>
+                <div class="col-lg-4">
+                    <h4 class="mb-30 color-gray-1000">Aplikasi &amp; Pembayaran</h4>
                     <div>
-                        <p class="font-md color-gray-900">Download our Apps and get extra 15% Discount on your
-                            first Order&mldr;!</p>
+                        <p class="font-md color-gray-900">Unduh Aplikasi kami dan dapatkan Diskon ekstra 15% pada Pesanan pertama Anda…&mldr;!</p>
                         <div class="mt-20"><a class="mr-10" href="#"><img
                                     src="{{ asset('ecom/imgs/template/appstore.png') }}" alt="Ecom"></a><a
                                 href="#"><img src="{{ asset('ecom/imgs/template/google-play.png') }}"
                                     alt="Ecom"></a></div>
-                        <p class="font-md color-gray-900 mt-20 mb-10">Secured Payment Gateways</p><img
+                        <p class="font-md color-gray-900 mt-20 mb-10">Pembayaran Aman</p><img
                             src="{{ asset('ecom/imgs/template/payment-method.png') }}" alt="Ecom">
                     </div>
                 </div>
@@ -76,33 +75,33 @@
                     <div class="head-left-footer">
                         <h6 class="color-gray-1000">Electronic:</h6>
                     </div>
-                    <div class="tags-footer"><a href="shop-fullwidth.html">Cell Phones</a><a
-                            href="shop-grid.html">Headphones</a><a href="shop-grid-2.html">Television &amp;
-                            Video</a><a href="shop-list.html">Game Controller</a><a href="shop-list-2.html">Apple
-                            Watch</a><a href="shop-grid.html">HTC</a><a href="shop-grid.html">Ipad</a><a
-                            href="shop-grid.html">Keyboard</a><a href="shop-grid.html">Samsung</a><a
-                            href="shop-grid.html">Wireless Speaker</a><a href="shop-grid.html">Samsung Galaxy</a><a
-                            href="shop-grid.html">Gaming Mouse</a><a href="shop-grid.html">eBook Readers</a><a
-                            href="shop-grid.html">Service Plans</a><a href="shop-grid.html">Home Audio</a><a
-                            href="shop-grid.html">Office
-                            Electronics</a><a href="shop-grid.html">Lenovo</a><a href="shop-grid.html">Mackbook
-                            Pro M1</a><a href="shop-grid.html">HD Videos Player</a></div>
+                    <div class="tags-footer"><a href="{{ route('buyer.allGridProduct') }}">Cell Phones</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Headphones</a><a href="{{ route('buyer.allGridProduct') }}">Television &amp;
+                            Video</a><a href="{{ route('buyer.allListProduct') }}">Game Controller</a><a href="{{ route('buyer.allGridProduct') }}">Apple
+                            Watch</a><a href="{{ route('buyer.allGridProduct') }}">HTC</a><a href="{{ route('buyer.allGridProduct') }}">Ipad</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Keyboard</a><a href="{{ route('buyer.allGridProduct') }}">Samsung</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Wireless Speaker</a><a href="{{ route('buyer.allGridProduct') }}">Samsung Galaxy</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Gaming Mouse</a><a href="{{ route('buyer.allGridProduct') }}">eBook Readers</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Service Plans</a><a href="{{ route('buyer.allGridProduct') }}">Home Audio</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Office
+                            Electronics</a><a href="{{ route('buyer.allGridProduct') }}">Lenovo</a><a href="{{ route('buyer.allGridProduct') }}">Mackbook
+                            Pro M1</a><a href="{{ route('buyer.allGridProduct') }}">HD Videos Player</a></div>
                 </div>
                 <div class="footer-2-bottom">
                     <div class="head-left-footer">
                         <h6 class="color-gray-1000">Furniture:</h6>
                     </div>
-                    <div class="tags-footer"><a href="shop-grid.html">Sofa</a><a href="shop-grid.html">Chair</a><a
-                            href="shop-grid.html">Dining Table</a><a href="shop-grid.html">Living Room</a><a
-                            href="shop-grid.html">Table Lamp</a><a href="shop-grid.html">Night Stand</a><a
-                            href="shop-grid.html">Computer Desk</a><a href="shop-grid.html">Bar Table</a><a
-                            href="shop-grid.html">Pillow</a><a href="shop-grid.html">Radio</a><a
-                            href="shop-grid.html">Clock</a><a href="shop-grid.html">Bad Room</a><a
-                            href="shop-grid.html">Stool</a><a href="shop-grid.html">Television</a><a
-                            href="shop-grid.html">wardrobe</a><a href="shop-grid.html">Living Room Tables</a><a
-                            href="shop-grid.html">Dressers</a><a href="shop-grid.html">Patio Sofas</a><a
-                            href="shop-grid.html">Nursery</a><a href="shop-grid.html">Kitchen</a><a
-                            href="shop-grid.html">Accent Furniture</a><a href="shop-grid.html">Replacement Parts</a>
+                    <div class="tags-footer"><a href="{{ route('buyer.allGridProduct') }}">Sofa</a><a href="{{ route('buyer.allGridProduct') }}">Chair</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Dining Table</a><a href="{{ route('buyer.allGridProduct') }}">Living Room</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Table Lamp</a><a href="{{ route('buyer.allGridProduct') }}">Night Stand</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Computer Desk</a><a href="{{ route('buyer.allGridProduct') }}">Bar Table</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Pillow</a><a href="{{ route('buyer.allGridProduct') }}">Radio</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Clock</a><a href="{{ route('buyer.allGridProduct') }}">Bad Room</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Stool</a><a href="{{ route('buyer.allGridProduct') }}">Television</a><a
+                            href="{{ route('buyer.allGridProduct') }}">wardrobe</a><a href="{{ route('buyer.allGridProduct') }}">Living Room Tables</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Dressers</a><a href="{{ route('buyer.allGridProduct') }}">Patio Sofas</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Nursery</a><a href="{{ route('buyer.allGridProduct') }}">Kitchen</a><a
+                            href="{{ route('buyer.allGridProduct') }}">Accent Furniture</a><a href="{{ route('buyer.allGridProduct') }}">Replacement Parts</a>
                     </div>
                 </div>
             </div>
@@ -117,7 +116,7 @@
                         <ul class="menu-bottom">
                             <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a>
                             </li>
-                            <li><a class="font-sm color-gray-900" href="page-term.html">Privacy Notice</a></li>
+                            <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Privacy Notice</a></li>
                         </ul>
                     </div>
                 </div>

@@ -27,5 +27,24 @@ Route::get('/kontak-kami', [BuyerController::class, 'contact'])->name('buyer.con
 Route::get('/tentang-kami', [BuyerController::class, 'about'])->name('buyer.about');
 Route::get('/syarat-dan-ketentuan', [BuyerController::class, 'term'])->name('buyer.term');
 
+Route::get('/semua-penjual', [BuyerController::class, 'allSeller'])->name('buyer.allSeller');
+Route::get('/detail-penjual', [BuyerController::class, 'detailSeller'])->name('buyer.detailSeller');
+
+Route::get('/semua-produk', [BuyerController::class, 'allListProduct'])->name('buyer.allListProduct');
+Route::get('/semua-produk-grid', [BuyerController::class, 'allGridProduct'])->name('buyer.allGridProduct');
+Route::get('/detail-produk', [BuyerController::class, 'detailProduct'])->name('buyer.detailProduct');
+Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');
+Route::get('/checkout', [BuyerController::class, 'checkout'])->name('buyer.checkout');
+Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
+
+
+// Route::get('/detail-produk/{slug}', [BuyerController::class, 'detailProduct'])->name('buyer.detailProduct');
+
+
+// Route::middleware("auth:api")->group(function () {
+    Route::group(['prefix' => 'pembeli'], function () {
+        Route::get('/', [BuyerController::class, 'dashboard'])->name('buyer.dashboard');
+});
+// });
 // seller
 Route::get('/seller', [SellerController::class, 'home'])->name('seller.home');
