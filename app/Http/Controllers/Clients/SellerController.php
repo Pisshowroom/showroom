@@ -7,8 +7,36 @@ use Illuminate\Http\Request;
 
 class SellerController extends Controller
 {
-    public function home(Request $request)
+    public function dashboard(Request $request)
     {
-        return view('clients.seller.home');
+        return view('clients.seller.dashboard');
+    }
+    public function profile(Request $request)
+    {
+        return view('clients.seller.profile');
+    }
+    public function addProduct(Request $request)
+    {
+        return view('clients.seller.product.add');
+    }
+    public function allProduct(Request $request)
+    {
+        return view('clients.seller.product.all');
+    }
+    public function allTransaction(Request $request)
+    {
+        return view('clients.seller.transaction.all');
+    }
+    public function detailTransaction(Request $request)
+    {
+        return view('clients.seller.transaction.detail');
+    }
+    public function allWithdraw(Request $request)
+    {
+        return view('clients.seller.withdraw.all');
+    }
+    public function detailWithdraw(Request $request)
+    {
+        return view('clients.seller.withdraw.detail');
     }
 }

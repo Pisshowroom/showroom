@@ -100,156 +100,162 @@
                                 </ul>
                             </div>
                         </div>
-                    @endauth
-                    @guest
-                        <a class="font-lg icon-list icon-account" href="{{ route('buyer.login') }}"><span>Masuk</span></a>
-                    @endguest
-                    <a class="font-lg icon-list icon-wishlist" href="{{ route('buyer.wishlist') }}"><span>Wishlist</span><span
-                            class="number-item font-xs">5</span></a>
-                    <div class="d-inline-block box-dropdown-cart"><span
-                            class="font-lg icon-list icon-cart"><span>Cart</span><span
-                                class="number-item font-xs">2</span></span>
-                        <div class="dropdown-cart">
-                            <div class="item-cart mb-20">
-                                <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                        alt="Ecom"></div>
-                                <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                        href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K Display 8GB
-                                        RAM, 256GB SSD</a>
-                                    <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
-                                </div>
-                            </div>
-                            <div class="item-cart mb-20">
-                                <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                        alt="Ecom"></div>
-                                <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                        href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K Display
-                                        8GB RAM, 256GB SSD</a>
-                                    <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
-                                </div>
-                            </div>
-                            <div class="border-bottom pt-0 mb-15"></div>
-                            <div class="cart-total">
-                                <div class="row">
-                                    <div class="col-6 text-start"><span class="font-md-bold color-brand-3">Total</span>
-                                    </div>
-                                    <div class="col-6"><span class="font-md-bold color-brand-1">$2586.3</span>
+                        <a class="font-lg icon-list icon-wishlist"
+                            href="{{ route('buyer.wishlist') }}"><span>Wishlist</span><span
+                                class="number-item font-xs">5</span></a>
+                        <div class="d-inline-block box-dropdown-cart"><span
+                                class="font-lg icon-list icon-cart"><span>Cart</span><span
+                                    class="number-item font-xs">2</span></span>
+                            <div class="dropdown-cart">
+                                <div class="item-cart mb-20">
+                                    <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
+                                            alt="Ecom"></div>
+                                    <div class="cart-info"><a class="font-sm-bold color-brand-3"
+                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K
+                                            Display 8GB
+                                            RAM, 256GB SSD</a>
+                                        <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
                                     </div>
                                 </div>
-                                <div class="row mt-15">
-                                    <div class="col-6 text-start"><a class="btn btn-cart w-auto"
-                                            href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                    <div class="col-6"><a class="btn btn-buy w-auto"
-                                            href="{{ route('buyer.checkout') }}">Checkout</a></div>
+                                <div class="item-cart mb-20">
+                                    <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
+                                            alt="Ecom"></div>
+                                    <div class="cart-info"><a class="font-sm-bold color-brand-3"
+                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K
+                                            Display
+                                            8GB RAM, 256GB SSD</a>
+                                        <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
+                                    </div>
+                                </div>
+                                <div class="border-bottom pt-0 mb-15"></div>
+                                <div class="cart-total">
+                                    <div class="row">
+                                        <div class="col-6 text-start"><span class="font-md-bold color-brand-3">Total</span>
+                                        </div>
+                                        <div class="col-6"><span class="font-md-bold color-brand-1">$2586.3</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-15">
+                                        <div class="col-6 text-start"><a class="btn btn-cart w-auto"
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
+                                        <div class="col-6"><a class="btn btn-buy w-auto"
+                                                href="{{ route('buyer.checkout') }}">Checkout</a></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    @endauth
+                    {{-- @guest
+                        <a class="font-lg icon-list icon-account" href="{{ route('buyer.login') }}"><span>Masuk</span></a>
+                    @endguest --}}
                 </div>
             </div>
         </div>
-    </div>
-    <div class="header-bottom">
-        <div class="container">
-            <div class="dropdown d-inline-block">
-                <button class="btn dropdown-toggle btn-category" id="dropdownCategory" type="button"
-                    data-bs-toggle="dropdown" aria-expanded="true" data-bs-display="static"><span
-                        class="dropdown-right font-sm-bold color-white">Berdasarkan Kategori</span></button>
-                <div class="sidebar-left dropdown-menu dropdown-menu-light" aria-labelledby="dropdownCategory"
-                    data-bs-popper="static">
-                    <ul class="menu-texts menu-close">
-                        <li class="has-children"><a href="javascript:;"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/monitor.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Computers &amp;
-                                    Accessories</span></a>
-                            <ul class="sub-menu">
-                                <li><a href="#">Computer Accessories</a></li>
-                                <li><a href="#">Computer Cases</a></li>
-                                <li><a href="#">Laptop</a></li>
-                                <li><a href="#">HDD</a></li>
-                                <li><a href="#">RAM</a></li>
-                                <li><a href="#">Headphone</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-children"><a class="active" href="javascript:;"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/mobile.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Cell Phones</span></a>
-                            <ul class="sub-menu">
-                                <li><a href="#">Phone Accessories</a></li>
-                                <li><a href="#">Phone Cases</a></li>
-                                <li><a href="#">Postpaid Phones</a></li>
-                                <li><a href="#">Unlocked Phones</a></li>
-                                <li><a href="#">Prepaid Phones</a></li>
-                                <li><a href="#">Prepaid Plans</a></li>
-                                <li><a href="#">Refurbished Phones</a></li>
-                                <li><a href="#">Straight Talk</a></li>
-                                <li><a href="#">iPhone</a></li>
-                                <li><a href="#">Samsung Galaxy</a></li>
-                                <li><a href="#">Samsung Galaxy</a></li>
-                                <li><a href="#">Samsung Galaxy</a></li>
-                                <li><a href="#">Samsung Galaxy</a></li>
-                                <li><a href="#">Samsung Galaxy</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/game.svg') }}" alt="Ecom"></span><span
-                                    class="text-link">Gaming Gatgets</span></a>
-                        </li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/clock.svg') }}" alt="Ecom"></span><span
-                                    class="text-link">Smart watches</span></a>
-                        </li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/airpod.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Airpod</span></a></li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/airpods.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Wired Headphone</span></a>
-                        </li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/mouse.svg') }}" alt="Ecom"></span><span
-                                    class="text-link">Mouse &amp;
-                                    Keyboard</span></a></li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/music-play.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Headphone</span></a></li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/bluetooth.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Bluetooth devices</span></a>
-                        </li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/clound.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Cloud Software</span></a>
-                        </li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/electricity.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Electric accessories</span></a>
-                        </li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/cpu.svg') }}" alt="Ecom"></span><span
-                                    class="text-link">Mainboard &amp;
-                                    CPU</span></a></li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/devices.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Desktop</span></a></li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/driver.svg') }}"
-                                        alt="Ecom"></span><span class="text-link">Speaker</span></a></li>
-                        <li><a href="#"><span class="img-link"><img
-                                        src="{{ asset('ecom/imgs/template/lamp.svg') }}" alt="Ecom"></span><span
-                                    class="text-link">Computer Decor</span></a>
-                        </li>
-                    </ul>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="dropdown d-inline-block">
+                    <button class="btn dropdown-toggle btn-category" id="dropdownCategory" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="true" data-bs-display="static"><span
+                            class="dropdown-right font-sm-bold color-white">Berdasarkan Kategori</span></button>
+                    <div class="sidebar-left dropdown-menu dropdown-menu-light" aria-labelledby="dropdownCategory"
+                        data-bs-popper="static">
+                        <ul class="menu-texts menu-close">
+                            <li class="has-children"><a href="javascript:;"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/monitor.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Computers &amp;
+                                        Accessories</span></a>
+                                <ul class="sub-menu">
+                                    <li><a href="#">Computer Accessories</a></li>
+                                    <li><a href="#">Computer Cases</a></li>
+                                    <li><a href="#">Laptop</a></li>
+                                    <li><a href="#">HDD</a></li>
+                                    <li><a href="#">RAM</a></li>
+                                    <li><a href="#">Headphone</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-children"><a class="active" href="javascript:;"><span
+                                        class="img-link"><img src="{{ asset('ecom/imgs/template/mobile.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Cell Phones</span></a>
+                                <ul class="sub-menu">
+                                    <li><a href="#">Phone Accessories</a></li>
+                                    <li><a href="#">Phone Cases</a></li>
+                                    <li><a href="#">Postpaid Phones</a></li>
+                                    <li><a href="#">Unlocked Phones</a></li>
+                                    <li><a href="#">Prepaid Phones</a></li>
+                                    <li><a href="#">Prepaid Plans</a></li>
+                                    <li><a href="#">Refurbished Phones</a></li>
+                                    <li><a href="#">Straight Talk</a></li>
+                                    <li><a href="#">iPhone</a></li>
+                                    <li><a href="#">Samsung Galaxy</a></li>
+                                    <li><a href="#">Samsung Galaxy</a></li>
+                                    <li><a href="#">Samsung Galaxy</a></li>
+                                    <li><a href="#">Samsung Galaxy</a></li>
+                                    <li><a href="#">Samsung Galaxy</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/game.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Gaming Gatgets</span></a>
+                            </li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/clock.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Smart watches</span></a>
+                            </li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/airpod.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Airpod</span></a></li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/airpods.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Wired Headphone</span></a>
+                            </li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/mouse.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Mouse &amp;
+                                        Keyboard</span></a></li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/music-play.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Headphone</span></a></li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/bluetooth.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Bluetooth devices</span></a>
+                            </li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/clound.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Cloud Software</span></a>
+                            </li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/electricity.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Electric
+                                        accessories</span></a>
+                            </li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/cpu.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Mainboard &amp;
+                                        CPU</span></a></li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/devices.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Desktop</span></a></li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/driver.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Speaker</span></a></li>
+                            <li><a href="#"><span class="img-link"><img
+                                            src="{{ asset('ecom/imgs/template/lamp.svg') }}"
+                                            alt="Ecom"></span><span class="text-link">Computer Decor</span></a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="header-nav d-inline-block">
-                <nav class="nav-main-menu d-none d-xl-block">
-                    <ul class="main-menu">
-                        <li><a class="active" href="{{ route('buyer.home') }}">Beranda</a></li>
-                        <li><a class="active" href="{{ route('buyer.login') }}">Masuk</a></li>
-                        <li><a class="active" href="{{ route('buyer.register') }}">Mendaftar</a></li>
-                        <li><a class="active" href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
+                <div class="header-nav d-inline-block">
+                    <nav class="nav-main-menu d-none d-xl-block">
+                        <ul class="main-menu">
+                            <li><a class="@yield('home')"
+                                    href="{{ route('buyer.home') }}">Beranda</a></li>
+                            <li><a class="@yield('login')"
+                                    href="{{ route('buyer.login') }}">Masuk</a></li>
+                            <li><a class="@yield('allProduct')"
+                                    href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
 
-                        {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
+                            {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
                                 <ul class="sub-menu two-col">
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid 2</a></li>
@@ -265,14 +271,14 @@
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
                                 </ul>
                             </li> --}}
-                        <li class="has-children"><a href="#">Selengkapnya</a>
-                            <ul class="sub-menu">
-                                <li><a href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                                <li><a href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                                <li><a href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
-                            </ul>
-                        </li>
-                        {{-- <li class="has-children"><a href="blog.html">Blog</a>
+                            <li class="has-children"><a href="#">Selengkapnya</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{ route('buyer.about') }}">Tentang Kami</a></li>
+                                    <li><a href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
+                                    <li><a href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
+                                </ul>
+                            </li>
+                            {{-- <li class="has-children"><a href="blog.html">Blog</a>
                             <ul class="sub-menu">
                                 <li><a href="blog.html">Blog - No Sidebar</a></li>
                                 <li><a href="blog-2.html">Blog - Right Sidebar</a></li>
@@ -283,12 +289,12 @@
                                 <li><a href="blog-single-3.html">Blog Single - No sidebar</a></li>
                             </ul>
                         </li> --}}
-                    </ul>
-                </nav>
+                        </ul>
+                    </nav>
+                </div>
+                {{-- <div class="discount font-16 font-bold">HARGA SPESIAL</div> --}}
             </div>
-            {{-- <div class="discount font-16 font-bold">HARGA SPESIAL</div> --}}
         </div>
-    </div>
 </header>
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
@@ -299,10 +305,12 @@
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
                         <ul class="mobile-menu font-heading">
-                            <li><a class="active" href="{{ route('buyer.home') }}">Beranda</a></li>
-                            <li><a class="active" href="{{ route('buyer.login') }}">Masuk</a></li>
-                            <li><a class="active" href="{{ route('buyer.register') }}">Mendaftar</a></li>
-                            <li><a class="active" href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
+                            <li><a class="@yield('privacyPolicy')"
+                                    href="{{ route('buyer.home') }}">Beranda</a></li>
+                            <li><a class="@yield('login')"
+                                    href="{{ route('buyer.login') }}">Masuk</a></li>
+                            <li><a class="@yield('allProduct')"
+                                    href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
 
                             {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
                                 <ul class="sub-menu two-col">

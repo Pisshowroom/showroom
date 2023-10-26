@@ -3,7 +3,20 @@
         <div class="menu-topbar-left d-none d-xl-block">
             <ul class="nav-small">
                 <li><a class="font-xs" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                <li><a class="font-xs" href="{{ route('buyer.register') }}">Buka toko</a></li>
+                <li>
+                    @auth
+                    {{-- @if () --}}
+                    <a class="font-xs" href="{{ route('dashboard.dashboard') }}">Buka toko</a>
+                    {{-- @else
+                    <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Toko</a>
+                    @endif --}}
+
+                    @endauth
+                    @guest
+
+                    <a class="font-xs" href="{{ route('buyer.register') }}">Buka toko</a>
+                    @endguest
+                </li>
             </ul>
         </div>
         <div class="info-topbar text-center d-none d-xl-block"><span class="font-xs color-brand-3">Pengiriman gratis untuk
@@ -76,10 +89,12 @@
                 <div class="header-nav">
                     <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
-                            <li><a class="active" href="{{ route('buyer.home') }}">Beranda</a></li>
-                            <li><a class="active" href="{{ route('buyer.login') }}">Masuk</a></li>
-                            {{-- <li><a class="active" href="{{ route('buyer.register') }}">Mendaftar</a></li> --}}
-                            <li><a class="active" href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
+                            <li><a class="@yield('home')"
+                                    href="{{ route('buyer.home') }}">Beranda</a></li>
+                            <li><a class="@yield('login')"
+                                    href="{{ route('buyer.login') }}">Masuk</a></li>
+                            <li><a class="@yield('allProduct')"
+                                    href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
 
                             {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
                                 <ul class="sub-menu two-col">
@@ -97,11 +112,11 @@
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
                                 </ul>
                             </li> --}}
-                            <li class="has-children"><a href="#">Selengkapnya</a>
+                            <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
                                 <ul class="sub-menu">
-                                    <li><a href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                                    <li><a href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                                    <li><a href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
+                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
+                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
+                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
                                 </ul>
                             </li>
                             {{-- <li class="has-children"><a href="blog.html">Blog</a>
@@ -135,56 +150,58 @@
                                 </ul>
                             </div>
                         </div>
-                    @endauth
-                    @guest
-                        <a class="font-lg icon-list icon-account" href="{{ route('buyer.login') }}"><span>Masuk</span></a>
-                    @endguest
-                    <a class="font-lg icon-list icon-wishlist" href="{{ route('buyer.wishlist') }}"><span>Wishlist</span><span
-                            class="number-item font-xs">5</span></a>
-                    <div class="d-inline-block box-dropdown-cart"><span
-                            class="font-lg icon-list icon-cart"><span>Cart</span><span
-                                class="number-item font-xs">2</span></span>
-                        <div class="dropdown-cart">
-                            <div class="item-cart mb-20">
-                                <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                        alt="Ecom">
-                                </div>
-                                <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                        href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K Display 8GB RAM,
-                                        256GB SSD</a>
-                                    <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
-                                </div>
-                            </div>
-                            <div class="item-cart mb-20">
-                                <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                        alt="Ecom">
-                                </div>
-                                <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                        href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K Display 8GB
-                                        RAM, 256GB SSD</a>
-                                    <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
-                                </div>
-                            </div>
-                            <div class="border-bottom pt-0 mb-15"></div>
-                            <div class="cart-total">
-                                <div class="row">
-                                    <div class="col-6 text-start"><span
-                                            class="font-md-bold color-brand-3">Total</span>
+                        <a class="font-lg icon-list icon-wishlist"
+                            href="{{ route('buyer.wishlist') }}"><span>Wishlist</span><span
+                                class="number-item font-xs">5</span></a>
+                        <div class="d-inline-block box-dropdown-cart"><span
+                                class="font-lg icon-list icon-cart"><span>Cart</span><span
+                                    class="number-item font-xs">2</span></span>
+                            <div class="dropdown-cart">
+                                <div class="item-cart mb-20">
+                                    <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
+                                            alt="Ecom">
                                     </div>
-                                    <div class="col-6"><span class="font-md-bold color-brand-1">$2586.3</span></div>
+                                    <div class="cart-info"><a class="font-sm-bold color-brand-3"
+                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K
+                                            Display 8GB RAM,
+                                            256GB SSD</a>
+                                        <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
+                                    </div>
                                 </div>
-                                <div class="row mt-15">
-                                    <div class="col-6 text-start"><a class="btn btn-cart w-auto"
-                                            href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                    <div class="col-6"><a class="btn btn-buy w-auto"
-                                            href="{{ route('buyer.checkout') }}">Checkout</a></div>
+                                <div class="item-cart mb-20">
+                                    <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
+                                            alt="Ecom">
+                                    </div>
+                                    <div class="cart-info"><a class="font-sm-bold color-brand-3"
+                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K
+                                            Display 8GB
+                                            RAM, 256GB SSD</a>
+                                        <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
+                                    </div>
+                                </div>
+                                <div class="border-bottom pt-0 mb-15"></div>
+                                <div class="cart-total">
+                                    <div class="row">
+                                        <div class="col-6 text-start"><span class="font-md-bold color-brand-3">Total</span>
+                                        </div>
+                                        <div class="col-6"><span class="font-md-bold color-brand-1">$2586.3</span></div>
+                                    </div>
+                                    <div class="row mt-15">
+                                        <div class="col-6 text-start"><a class="btn btn-cart w-auto"
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
+                                        <div class="col-6"><a class="btn btn-buy w-auto"
+                                                href="{{ route('buyer.checkout') }}">Checkout</a></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    @endauth
+                    {{-- @guest
+                        <a class="font-lg icon-list icon-account" href="{{ route('buyer.login') }}"><span>Masuk</span></a>
+                    @endguest --}}
                 </div>
             </div>
         </div>
-    </div>
 </header>
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
@@ -195,11 +212,14 @@
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
                         <ul class="mobile-menu font-heading">
-                            <li><a class="active" href="{{ route('buyer.home') }}">Beranda</a></li>
-                            <li><a class="active" href="{{ route('buyer.login') }}">Masuk</a></li>
-                            <li><a class="active" href="{{ route('buyer.register') }}">Mendaftar</a></li>
-
-                            <li><a class="active" href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
+                            <li><a class="@yield('home')"
+                                    href="{{ route('buyer.home') }}">Beranda</a></li>
+                            <li><a class="@yield('login')"
+                                    href="{{ route('buyer.login') }}">Masuk</a></li>
+                            <li><a class="@yield('register')"
+                                    href="{{ route('buyer.register') }}">Mendaftar</a></li>
+                            <li><a class="@yield('allProduct')"
+                                    href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
 
                             {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
                                 <ul class="sub-menu two-col">
@@ -217,11 +237,11 @@
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
                                 </ul>
                             </li> --}}
-                            <li class="has-children"><a href="#">Selengkapnya</a>
+                            <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
                                 <ul class="sub-menu">
-                                    <li><a href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                                    <li><a href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                                    <li><a href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
+                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
+                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
+                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
                                 </ul>
                             </li>
                             {{-- <li class="has-children"><a href="blog.html">Blog</a>
@@ -491,10 +511,14 @@
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
                         <ul class="mobile-menu font-heading">
-                            <li><a class="active" href="{{ route('buyer.home') }}">Beranda</a></li>
-                            <li><a class="active" href="{{ route('buyer.login') }}">Masuk</a></li>
-                            <li><a class="active" href="{{ route('buyer.register') }}">Mendaftar</a></li>
-                            <li><a class="active" href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
+                            <li><a class="@yield('home')"
+                                    href="{{ route('buyer.home') }}">Beranda</a></li>
+                            <li><a class="@yield('login')"
+                                    href="{{ route('buyer.login') }}">Masuk</a></li>
+                            <li><a class="@yield('register')"
+                                    href="{{ route('buyer.register') }}">Mendaftar</a></li>
+                            <li><a class="@yield('allProduct')"
+                                    href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
 
                             {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
                                 <ul class="sub-menu two-col">
@@ -512,11 +536,11 @@
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
                                 </ul>
                             </li> --}}
-                            <li class="has-children"><a href="#">Selengkapnya</a>
+                            <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
                                 <ul class="sub-menu">
-                                    <li><a href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                                    <li><a href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                                    <li><a href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
+                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
+                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
+                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
                                 </ul>
                             </li>
                             {{-- <li class="has-children"><a href="blog.html">Blog</a>

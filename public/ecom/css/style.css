@@ -3346,10 +3346,10 @@ a.text-brand-3:hover {
   text-decoration: none;
   position: relative;
 }
-.header .main-menu li a:hover {
+.header .main-menu li a:hover,.header .main-menu li a.actived {
   color: #FD9636;
 }
-.header .main-menu li a:hover i {
+.header .main-menu li a:hover i,.header .main-menu li a.actived {
   opacity: 1;
   transition: 0.2s;
 }
@@ -6722,7 +6722,7 @@ a.text-brand-3:hover {
   padding: 15px 20px;
   margin-bottom: 10px;
 }
-.box-sidebar .head h4 {
+.box-sidebar .head h4,.box-sidebar .head h5 {
   color: #ffffff;
 }
 

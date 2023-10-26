@@ -1,6 +1,6 @@
 @extends('clients.buyer.master')
 @section('title', 'Semua Produk')
-
+@section('allProduct', 'actived')
 @section('childs')
     <main class="main">
         <div class="section-box">

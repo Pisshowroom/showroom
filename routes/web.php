@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\Clients\BuyerController;
+use App\Http\Controllers\Clients\DashboardController;
 use App\Http\Controllers\Clients\SellerController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,8 +43,21 @@ Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
 
 
 // Route::middleware("auth:api")->group(function () {
-    Route::group(['prefix' => 'pembeli'], function () {
-        Route::get('/', [BuyerController::class, 'dashboard'])->name('buyer.dashboard');
+Route::group(['prefix' => 'pembeli'], function () {
+    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
+    Route::get('/pesananku', [DashboardController::class, 'myOrder'])->name('dashboard.myOrder');
+    Route::get('/detail-pesanan', [DashboardController::class, 'detailOrder'])->name('dashboard.detailOrder');
+    Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
+});
+Route::group(['prefix' => 'toko'], function () {
+    Route::get('/', [SellerController::class, 'dashboard'])->name('dashboardSeller.dashboard');
+    Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
+    Route::get('/tambah-produk', [SellerController::class, 'addProduct'])->name('dashboardSeller.addProduct');
+    Route::get('/semua-produk', [SellerController::class, 'allProduct'])->name('dashboardSeller.allProduct');
+    Route::get('/semua-transaksi', [SellerController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
+    Route::get('/detail-transaksi', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
+    Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
+    Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');
 });
 // });
 // seller

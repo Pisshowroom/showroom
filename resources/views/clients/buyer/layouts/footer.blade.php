@@ -110,13 +110,13 @@
             <div class="footer-bottom mt-20">
                 <div class="row">
                     <div class="col-lg-6 col-md-12 text-center text-lg-start"><span
-                            class="color-gray-900 font-sm">Copyright &copy; 2022 Ecom Market. All rights
+                            class="color-gray-900 font-sm">Copyright &copy; <script>document.write(new Date().getFullYear())</script> <a href="https://hotama.co.id/" target="_blank" rel="noopener noreferrer">PT.Kreasi Putra Hotama.</a>  All rights
                             reserved.</span></div>
                     <div class="col-lg-6 col-md-12 text-center text-lg-end">
                         <ul class="menu-bottom">
                             <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a>
                             </li>
-                            <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Privacy Notice</a></li>
+                            {{-- <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Privacy Notice</a></li> --}}
                         </ul>
                     </div>
                 </div>

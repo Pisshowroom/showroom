@@ -1,6 +1,6 @@
 @extends('clients.buyer.master')
 @section('title', 'Beranda')
-
+@section('home', 'actived')
 @section('childs')
     <main class="main">
         <section class="section-box">
@@ -2413,7 +2413,7 @@
                     <div class="col-xl-3 col-lg-4">
                         <div class="box-slider-item box-sidebar">
                             <div class="head">
-                                <h4 class="d-inline-block">Penjualan Terbaik</h4>
+                                <h5 class="d-inline-block">Penjualan Terbaik</h5>
                                 <div class="box-button-control">
                                     <div
                                         class="swiper-button-prev swiper-button-prev-style-2 swiper-button-prev-bestseller">
@@ -2604,7 +2604,7 @@
                         </div>
                         <div class="box-slider-item box-sidebar">
                             <div class="head">
-                                <h4 class="d-inline-block">Produk Baru</h4>
+                                <h5 class="d-inline-block">Produk Baru</h5>
                                 <div class="box-button-control">
                                     <div
                                         class="swiper-button-prev swiper-button-prev-style-2 swiper-button-prev-featured">

@@ -1,5 +1,6 @@
 @extends('clients.buyer.master')
 @section('title', 'Daftar sebagai Pembeli')
+@section('register', 'actived')
 
 @section('childs')
 

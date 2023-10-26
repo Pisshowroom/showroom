@@ -1,6 +1,7 @@
 @extends('clients.buyer.master')
 @section('title', 'Tentang Kami')
-
+@section('more', 'actived')
+@section('about', 'actived')
 @section('childs')
     <main class="main">
         <div class="section-box">
