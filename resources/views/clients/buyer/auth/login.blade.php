@@ -53,7 +53,6 @@
                 </div>
             </div>
         </section>
-        @include('clients.buyer.layouts.subscribe')
     </main>
 @endsection
 @push('importjs')

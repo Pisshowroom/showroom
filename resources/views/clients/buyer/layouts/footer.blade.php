@@ -51,7 +51,7 @@
                 <div class="col-lg-4">
                     <h4 class="mb-30 color-gray-1000">Aplikasi &amp; Pembayaran</h4>
                     <div>
-                        <p class="font-md color-gray-900">Unduh Aplikasi kami dan dapatkan Diskon ekstra 15% pada Pesanan pertama Anda…&mldr;!</p>
+                        <p class="font-md color-gray-900">Unduh Aplikasi kami di Appstore dan Playstore&mldr;!</p>
                         <div class="mt-20"><a class="mr-10" href="#"><img
                                     src="{{ asset('ecom/imgs/template/appstore.png') }}" alt="Ecom"></a><a
                                 href="#"><img src="{{ asset('ecom/imgs/template/google-play.png') }}"

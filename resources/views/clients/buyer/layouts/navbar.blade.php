@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="header-nav text-start">
-                    <nav class="nav-main-menu d-none d-xl-block">
+                    {{-- <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
                             <li><a class="active" href="#">Flash Deals</a></li>
                             <li><a href="#">Spesial</a></li>
@@ -83,7 +83,7 @@
                         </ul>
                     </nav>
                     <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
-                            class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
+                            class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div> --}}
                 </div>
                 <div class="header-shop">
                     @auth

@@ -17,8 +17,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-9 order-first order-lg-last">
-                        <div class="banner-ads-top mb-30"><a href="{{ route('buyer.detailProduct') }}"><img
-                                    src="{{ asset('ecom/imgs/page/shop/banner.png') }}" alt="Ecom"></a></div>
                         <div class="box-filters mt-0 pb-5 border-bottom">
                             <div class="row">
                                 <div class="col-xl-2 col-lg-3 mb-10 text-lg-start text-center"><a
@@ -98,11 +96,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -144,11 +137,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -190,11 +178,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -236,11 +219,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -282,11 +260,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -328,11 +301,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -374,11 +342,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -420,11 +383,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -466,11 +424,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -512,11 +465,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -558,11 +506,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -604,11 +547,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -650,11 +588,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -696,11 +629,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -742,11 +670,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -789,11 +712,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -835,11 +753,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -881,11 +794,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -927,11 +835,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -974,11 +877,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1022,11 +920,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1070,11 +963,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1118,11 +1006,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1167,11 +1050,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1216,11 +1094,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1265,11 +1138,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1313,11 +1181,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1361,11 +1224,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1409,11 +1267,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1458,11 +1311,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1507,11 +1355,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -1556,11 +1399,6 @@
                                                     class="color-gray-500 price-line">$3225.6</span></div>
                                             <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
                                                     href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                            <ul class="list-features">
-                                                <li>27-inch (diagonal) Retina 5K display</li>
-                                                <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                                <li>AMD Radeon Pro 5300 graphics</li>
-                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -2009,18 +1847,11 @@
                                     class="btn btn-border mr-5"
                                     href="{{ route('buyer.allGridProduct') }}">Keyboard</a></div>
                         </div>
-                        <div class="banner-right h-500 text-center mb-30"><span class="text-no font-11">No.9</span>
-                            <h5 class="font-23 mt-20">Sensitive Touch<br class="d-none d-lg-block">without fingerprint
-                            </h5>
-                            <p class="text-desc font-16 mt-15">Smooth handle and accurate click</p><a
-                                href="{{ route('buyer.detailProduct') }}">View Details</a>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
         @include('clients.buyer.layouts.benefit')
-        @include('clients.buyer.layouts.subscribe')
         <div class="modal fade" id="ModalFiltersForm" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content apply-job-form">

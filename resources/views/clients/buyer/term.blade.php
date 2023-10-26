@@ -435,7 +435,6 @@
         </section>
 
         @include('clients.buyer.layouts.benefit')
-        @include('clients.buyer.layouts.subscribe')
     </main>
 @endsection
 @push('importjs')

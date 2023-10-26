@@ -1,4 +1,4 @@
-<section class="section-box mt-90 mb-50">
+<section class="section-box mt-50 mb-50">
     <div class="container">
         <ul class="list-col-5">
             <li>

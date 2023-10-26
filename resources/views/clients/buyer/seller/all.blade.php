@@ -601,7 +601,6 @@
             </div>
         </section>
         @include('clients.buyer.layouts.benefit')
-        @include('clients.buyer.layouts.subscribe')
 
         <div class="modal fade" id="ModalFiltersForm" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-xl">

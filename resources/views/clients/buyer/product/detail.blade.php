@@ -224,49 +224,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="border-bottom pt-30 mb-40"></div>
-                <h4 class="color-brand-3 mb-20">Frequently Bought Together</h4>
-                <div class="box-bought-together">
-                    <div class="box-product-bought">
-                        <div class="product-bought"><img src="{{ asset('ecom/imgs/page/product/sp1.png') }}"
-                                alt="Ecom"></div>
-                        <div class="product-bought"><img src="{{ asset('ecom/imgs/page/product/sp2.png') }}"
-                                alt="Ecom"></div>
-                        <div class="product-bought"><img src="{{ asset('ecom/imgs/page/product/sp3.png') }}"
-                                alt="Ecom"></div>
-                    </div>
-                    <div class="price-bought">
-                        <h3 class="color-brand-3 mr-10">$2856.3</h3><span class="font-lg color-gray-900">(3 items)</span>
-                        <div class="box-btn-add-cart"><a class="btn btn-cart"
-                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                    </div>
-                </div>
-                <label class="cb-container-2">
-                    <input type="checkbox" checked="checked"><span class="font-md color-brand-3"><strong>This
-                            item:</strong>iPhone 12 Pro Max 128GB Pacific Blue - $1,099.00</span><span
-                        class="checkmark"></span>
-                </label>
-                <label class="cb-container-2">
-                    <input type="checkbox" checked="checked"><span class="font-md color-brand-3">Apple AirPods Pro,
-                        Active Noise Cancellation, Custom Fit - $197.00</span><span class="checkmark"></span>
-                </label>
-                <label class="cb-container-2">
-                    <input type="checkbox" checked="checked"><span class="font-md color-brand-3">Apple iMac 24"
-                        All-In-One Computer, Apple M1, 8GB RAM, 512GB SSD, macOS Big Sur, Green, MGPJ3LL/A -
-                        $1,599.00</span><span class="checkmark"></span>
-                </label>
             </div>
         </section>
         <section class="section-box shop-template">
             <div class="container">
-                <div class="pt-30 mb-10">
+                <div class="mb-10">
                     <ul class="nav nav-tabs nav-tabs-product" role="tablist">
                         <li><a class="active" href="#tab-description" data-bs-toggle="tab" role="tab"
-                                aria-controls="tab-description" aria-selected="true">Description</a></li>
+                                aria-controls="tab-description" aria-selected="true">Deskripsi</a></li>
                         <li><a href="#tab-specification" data-bs-toggle="tab" role="tab"
                                 aria-controls="tab-specification" aria-selected="true">Specification</a></li>
                         <li><a href="#tab-additional" data-bs-toggle="tab" role="tab" aria-controls="tab-additional"
-                                aria-selected="true">Additional information</a></li>
+                                aria-selected="true">Informasi tambahan</a></li>
                         <li><a href="#tab-reviews" data-bs-toggle="tab" role="tab" aria-controls="tab-reviews"
                                 aria-selected="true">Reviews (2)</a></li>
                         <li><a href="#tab-vendor" data-bs-toggle="tab" role="tab" aria-controls="tab-vendor"
@@ -357,7 +326,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="tab-additional" role="tabpanel" aria-labelledby="tab-additional">
-                            <h5 class="mb-25">Additional information</h5>
+                            <h5 class="mb-25">Informasi tambahan</h5>
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <tbody>
@@ -582,13 +551,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -628,13 +591,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -673,13 +630,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -719,13 +670,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -764,13 +709,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -813,13 +752,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -858,13 +791,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -903,13 +830,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -948,13 +869,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -993,13 +908,7 @@
                                                 class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
                                                 class="color-gray-500 price-line">$3225.6</span></div>
                                         <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                href="{{ route('buyer.cart') }}">Add
-                                                To Cart</a></div>
-                                        <ul class="list-features">
-                                            <li>27-inch (diagonal) Retina 5K display</li>
-                                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                                            <li>AMD Radeon Pro 5300 graphics</li>
-                                        </ul>
+                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -1112,218 +1021,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="border-bottom pt-20 mb-40"></div>
-                        {{-- <h4 class="color-brand-3">Similar products to compare</h4>
-                        <div class="list-products-5 mt-20">
-                            <div class="card-grid-style-3">
-                                <div class="card-grid-inner">
-                                    <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
-                        <a class="btn btn-wishlist btn-tooltip mb-10" href="{{ route('buyer.wishlist') }}"
-                            aria-label="Tambahkan ke Wishlist"></a>
-                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
-                    </div>
-                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                            href="{{ route('buyer.detailProduct') }}"><img
-                                src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}" alt="Ecom"></a></div>
-                    <div class="info-right"><a class="font-xs color-gray-500"
-                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
-                            href="{{ route('buyer.detailProduct') }}">Logitech MK345 Wireless Combo Full-Sized
-                            Keyboard</a>
-                        <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                        <div class="price-info"><strong
-                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                class="color-gray-500 price-line">$3225.6</span></div>
-                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                        <ul class="list-features">
-                            <li>27-inch (diagonal) Retina 5K display</li>
-                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                            <li>AMD Radeon Pro 5300 graphics</li>
-                        </ul>
                     </div>
                 </div>
-            </div>
-            <div class="card-grid-style-3">
-                <div class="card-grid-inner">
-                    <div class="tools">
-                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
-                        <a class="btn btn-wishlist btn-tooltip mb-10" href="{{ route('buyer.wishlist') }}"
-                            aria-label="Tambahkan ke Wishlist"></a>
-                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
-                    </div>
-                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                            href="{{ route('buyer.detailProduct') }}"><img
-                                src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}" alt="Ecom"></a></div>
-                    <div class="info-right"><a class="font-xs color-gray-500"
-                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
-                            href="{{ route('buyer.detailProduct') }}">Logitech Brio 4K Webcam, Ultra 4K HD Video
-                            Calling</a>
-                        <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                        <div class="price-info"><strong
-                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                class="color-gray-500 price-line">$3225.6</span></div>
-                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                        <ul class="list-features">
-                            <li>27-inch (diagonal) Retina 5K display</li>
-                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                            <li>AMD Radeon Pro 5300 graphics</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-grid-style-3">
-                <div class="card-grid-inner">
-                    <div class="tools">
-                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
-                        <a class="btn btn-wishlist btn-tooltip mb-10" href="{{ route('buyer.wishlist') }}"
-                            aria-label="Tambahkan ke Wishlist"></a>
-                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
-                    </div>
-                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                            href="{{ route('buyer.detailProduct') }}"><img
-                                src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}" alt="Ecom"></a></div>
-                    <div class="info-right"><a class="font-xs color-gray-500"
-                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
-                            href="{{ route('buyer.detailProduct') }}">HP 24mh
-                            FHD Monitor - Computer Monitor</a>
-                        <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                        <div class="price-info"><strong
-                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                class="color-gray-500 price-line">$3225.6</span></div>
-                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                        <ul class="list-features">
-                            <li>27-inch (diagonal) Retina 5K display</li>
-                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                            <li>AMD Radeon Pro 5300 graphics</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-grid-style-3">
-                <div class="card-grid-inner">
-                    <div class="tools">
-                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
-                        <a class="btn btn-wishlist btn-tooltip mb-10" href="{{ route('buyer.wishlist') }}"
-                            aria-label="Tambahkan ke Wishlist"></a>
-                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
-                    </div>
-                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                            href="{{ route('buyer.detailProduct') }}"><img
-                                src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}" alt="Ecom"></a></div>
-                    <div class="info-right"><a class="font-xs color-gray-500"
-                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
-                            href="{{ route('buyer.detailProduct') }}">2022
-                            Apple iMac with Retina 5K Display 8GB RAM</a>
-                        <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                        <div class="price-info"><strong
-                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                class="color-gray-500 price-line">$3225.6</span></div>
-                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                        <ul class="list-features">
-                            <li>27-inch (diagonal) Retina 5K display</li>
-                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                            <li>AMD Radeon Pro 5300 graphics</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-grid-style-3">
-                <div class="card-grid-inner">
-                    <div class="tools">
-                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
-                        <a class="btn btn-wishlist btn-tooltip mb-10" href="{{ route('buyer.wishlist') }}"
-                            aria-label="Tambahkan ke Wishlist"></a>
-                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
-                    </div>
-                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                            href="{{ route('buyer.detailProduct') }}"><img
-                                src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}" alt="Ecom"></a></div>
-                    <div class="info-right"><a class="font-xs color-gray-500"
-                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                            class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct') }}">Seagate
-                            Portable 2TB External Hard Drive</a>
-                        <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                        <div class="price-info"><strong
-                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                class="color-gray-500 price-line">$3225.6</span></div>
-                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                        <ul class="list-features">
-                            <li>27-inch (diagonal) Retina 5K display</li>
-                            <li>3.1GHz 6-core 10th-generation Intel Core i5</li>
-                            <li>AMD Radeon Pro 5300 graphics</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            </div> --}}
-            </div>
-            </div>
             </div>
         </section>
-        <div class="container mt-20">
-            <div class="text-center"><a href="#"><img
-                        src="{{ asset('ecom/imgs/page/product/banner-ads.png') }}" alt="Ecom"></a></div>
-        </div>
         @include('clients.buyer.layouts.benefit')
-        @include('clients.buyer.layouts.subscribe')
         <div class="modal fade" id="ModalFiltersForm" tabindex="-1" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content apply-job-form">
                     <div class="modal-header">
                         <h5 class="modal-title color-gray-1000 filters-icon">Filter Tingkat Lanjut
                         </h5>
-                        <button class="btn-close" type="button" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body p-30">
                         <div class="row">
@@ -1436,9 +1145,8 @@
                                     </li>
                                     <li>
                                         <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span
-                                                class="text-small">1&ndash;3 business days</span><span
-                                                class="checkmark"></span>
+                                            <input type="checkbox" checked="checked"><span class="text-small">1&ndash;3
+                                                business days</span><span class="checkmark"></span>
                                         </label>
                                     </li>
                                     <li>
