@@ -4,7 +4,7 @@
 @section('dashboard')
     <section class="content-main">
         <div class="row">
-            <div class="col-9">
+            <div class="col-12">
                 <div class="content-header">
                     <h2 class="content-title">Add New Product</h2>
                     <div>
@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="card mb-4">
                     <div class="card-header">
                         <h4>Basic</h4>
@@ -29,40 +29,24 @@
                                 <textarea class="form-control" placeholder="Type here" rows="4"></textarea>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="mb-4">
-                                        <label class="form-label">Regular price</label>
+                                        <label class="form-label">Harga</label>
                                         <div class="row gx-2"></div>
                                         <input class="form-control" placeholder="$" type="text">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="mb-4">
-                                        <label class="form-label">Promotional price</label>
-                                        <input class="form-control" placeholder="$" type="text">
+                                        <label class="form-label">Discount</label>
+                                        <input class="form-control" type="text" id="myPercent" oninput="convertToDecimal(this)" />
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <label class="form-label">Currency</label>
-                                    <select class="form-select">
-                                        <option> USD</option>
-                                        <option> EUR</option>
-                                        <option> RUBL</option>
-                                    </select>
-                                </div>
                             </div>
-                            <div class="mb-4">
-                                <label class="form-label">Tax rate</label>
-                                <input class="form-control" id="product_name" type="text" placeholder="%">
-                            </div>
-                            <label class="form-check mb-4">
-                                <input class="form-check-input" type="checkbox" value=""><span
-                                    class="form-check-label"> Make a template</span>
-                            </label>
                         </form>
                     </div>
                 </div>
-                <div class="card mb-4">
+                {{-- <div class="card mb-4">
                     <div class="card-header">
                         <h4>Shipping</h4>
                     </div>
@@ -92,9 +76,9 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-header">
                         <h4>Media</h4>
@@ -133,7 +117,7 @@
                                 </select>
                             </div>
                             <div class="mb-4">
-                                <label class="form-label" for="product_name">Tags</label>
+                                <label class="form-label" for="product_name">Tag</label>
                                 <input class="form-control" type="text">
                             </div>
                         </div>
@@ -145,4 +129,24 @@
 
 @endsection
 @push('importjs')
+    <script>
+function convertToDecimal(inputElement) {
+  var inputValue = inputElement.value.trim();
+
+  // Remove any percentage sign (%) if present
+  if (inputValue.endsWith("%")) {
+    inputValue = inputValue.slice(0, -1);
+  }
+
+  // Convert the input to a decimal (e.g., 50% to 0.5)
+  var decimalValue = parseFloat(inputValue) / 100;
+
+  if (!isNaN(decimalValue) && decimalValue >= 0 && decimalValue <= 1) {
+    // Update the input field with the decimal value
+    inputElement.value = (decimalValue * 100).toFixed(2) + "%";
+  } else {
+    // Handle invalid input, e.g., display an error message
+  }
+}
+    </script>
 @endpush

@@ -2100,14 +2100,14 @@ a.text-brand-3:hover {
 }
 
 .list-col-5 {
-  display: table;
-  table-layout: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  /* table-layout: fixed;
   width: calc(100% + 20px);
-  margin: 0px -10px;
+  margin: 0px -10px; */
 }
 .list-col-5 li {
   float: left;
-  width: 20%;
   padding: 0px 10px;
 }
 .list-col-5 li .item-list {
@@ -9982,9 +9982,7 @@ a:hover span {
     width: 50%;
   }
   .list-col-5 li {
-    width: 50%;
     height: 110px;
-    margin-bottom: 15px;
   }
   .bg-metaverse {
     padding: 20px 15px 0px 15px;

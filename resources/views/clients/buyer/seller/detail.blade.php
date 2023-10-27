@@ -106,7 +106,7 @@
                                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort"
                                                 style="margin: 0px;">
                                                 <li><a class="dropdown-item active" href="#">Produk Terbaru</a></li>
-                                                <li><a class="dropdown-item" href="#">Produk terlama</a></li>
+                                                <li><a class="dropdown-item" href="#">Produk Terlama</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -908,20 +908,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="mt-20">
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item"><a class="page-link page-prev" href="#"></a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link active" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                    <li class="page-item"><a class="page-link page-next" href="#"></a></li>
-                                </ul>
-                            </nav>
                         </div>
                     </div>
                 </div>

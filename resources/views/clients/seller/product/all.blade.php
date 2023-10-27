@@ -7,7 +7,6 @@
         <div class="content-header">
             <div>
                 <h2 class="content-title card-title">Products List</h2>
-                <p>Lorem ipsum dolor sit amet.</p>
             </div>
             <div><a class="btn btn-light rounded font-md" href="#">Export</a><a class="btn btn-light rounded font-md"
                     href="#">Import</a><a class="btn btn-primary btn-sm rounded" href="#">Create new</a></div>
@@ -62,10 +61,10 @@
                                 class="badge rounded-pill alert-success">Active</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->
@@ -89,10 +88,10 @@
                                 class="badge rounded-pill alert-success">Active</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->
@@ -116,10 +115,10 @@
                                 class="badge rounded-pill alert-warning">Archived</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->
@@ -143,10 +142,10 @@
                                 class="badge rounded-pill alert-success">Active</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->
@@ -170,10 +169,10 @@
                                 class="badge rounded-pill alert-danger">Disabled</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->
@@ -197,10 +196,10 @@
                                 class="badge rounded-pill alert-warning">Archived</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->
@@ -224,10 +223,10 @@
                                 class="badge rounded-pill alert-success">Active</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->
@@ -251,10 +250,10 @@
                                 class="badge rounded-pill alert-success">Active</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->
@@ -278,10 +277,10 @@
                                 class="badge rounded-pill alert-success">Active</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->
@@ -305,10 +304,10 @@
                                 class="badge rounded-pill alert-success">Active</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date"><span>02.11.2022</span></div>
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end"><a
-                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="#"><i
-                                    class="material-icons md-edit"></i> Edit</a><a
+                                class="btn btn-sm font-sm rounded btn-brand mr-5" href="{{ route('dashboardSeller.editProduct') }}"><i
+                                    class="material-icons md-edit"></i> Ubah</a><a
                                 class="btn btn-sm font-sm btn-light rounded" href="#"><i
-                                    class="material-icons md-delete_forever"></i> Delete</a></div>
+                                    class="material-icons md-delete_forever"></i> Hapus</a></div>
                     </div>
                     <!-- row .//-->
                     <!-- itemlist  .//-->

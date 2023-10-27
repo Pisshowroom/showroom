@@ -156,7 +156,7 @@
                                         <th>Transaction ID</th>
                                         <th>Paid</th>
                                         <th>Date</th>
-                                        <th class="text-end"> Action</th>
+                                        <th class="text-end"> Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>

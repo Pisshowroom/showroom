@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="col-lg-2 col-6">
                                     <select class="form-select">
-                                        <option>Method</option>
+                                        <option>Pembayaran</option>
                                         <option>Master card</option>
                                         <option>Visa card</option>
                                         <option>Paypal</option>
@@ -32,10 +32,10 @@
                                 <thead>
                                     <tr>
                                         <th>Transaksi ID</th>
-                                        <th>Paid</th>
-                                        <th>Method</th>
-                                        <th>Date</th>
-                                        <th class="text-end"> Action</th>
+                                        <th>Jumlah</th>
+                                        <th>Pembayaran</th>
+                                        <th>Tanggal</th>
+                                        <th class="text-center"> Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,7 +49,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#134768</b></td>
@@ -61,7 +61,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#134768</b></td>
@@ -73,7 +73,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#134768</b></td>
@@ -85,7 +85,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#887780</b></td>
@@ -97,7 +97,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#344556</b></td>
@@ -109,7 +109,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#134768</b></td>
@@ -121,7 +121,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#134768</b></td>
@@ -133,7 +133,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#998784</b></td>
@@ -145,7 +145,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#556667</b></td>
@@ -157,7 +157,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#098989</b></td>
@@ -169,7 +169,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                     <tr>
                                         <td><b>#134768</b></td>
@@ -181,7 +181,7 @@
                                         </td>
                                         <td>16.12.2022, 14:21</td>
                                         <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="#">Details</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                 </tbody>
                             </table>

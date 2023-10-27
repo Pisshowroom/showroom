@@ -31,6 +31,10 @@ Route::get('/syarat-dan-ketentuan', [BuyerController::class, 'term'])->name('buy
 Route::get('/semua-penjual', [BuyerController::class, 'allSeller'])->name('buyer.allSeller');
 Route::get('/detail-penjual', [BuyerController::class, 'detailSeller'])->name('buyer.detailSeller');
 
+
+Route::get('/semua-artikel', [BuyerController::class, 'allArticle'])->name('buyer.allArticle');
+Route::get('/detail-artikel', [BuyerController::class, 'detailArticle'])->name('buyer.detailArticle');
+
 Route::get('/semua-produk', [BuyerController::class, 'allListProduct'])->name('buyer.allListProduct');
 Route::get('/semua-produk-grid', [BuyerController::class, 'allGridProduct'])->name('buyer.allGridProduct');
 Route::get('/detail-produk', [BuyerController::class, 'detailProduct'])->name('buyer.detailProduct');
@@ -54,8 +58,10 @@ Route::group(['prefix' => 'toko'], function () {
     Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
     Route::get('/tambah-produk', [SellerController::class, 'addProduct'])->name('dashboardSeller.addProduct');
     Route::get('/semua-produk', [SellerController::class, 'allProduct'])->name('dashboardSeller.allProduct');
+    Route::get('/ubah-produk', [SellerController::class, 'editProduct'])->name('dashboardSeller.editProduct');
     Route::get('/semua-transaksi', [SellerController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
     Route::get('/detail-transaksi', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
+    Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
     Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
     Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');
 });

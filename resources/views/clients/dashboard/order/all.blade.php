@@ -7,7 +7,6 @@
         <div class="content-header">
             <div>
                 <h2 class="content-title card-title">Order List</h2>
-                <p>Lorem ipsum dolor sit amet.</p>
             </div>
             <div>
                 <input class="form-control bg-white" type="text" placeholder="Search order ID">
@@ -47,7 +46,7 @@
                                 <th scope="col">Total</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Date</th>
-                                <th class="text-end" scope="col"> Action</th>
+                                <th class="text-end" scope="col"> Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,12 +57,11 @@
                                 <td>$9.00</td>
                                 <td><span class="badge rounded-pill alert-warning">Pending</span></td>
                                 <td>03.12.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View detail</a><a
-                                                class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -74,12 +72,11 @@
                                 <td>$46.61</td>
                                 <td><span class="badge rounded-pill alert-warning">Pending</span></td>
                                 <td>21.02.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View detail</a><a
-                                                class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -90,12 +87,11 @@
                                 <td>$12.00</td>
                                 <td><span class="badge rounded-pill alert-danger">Canceled</span></td>
                                 <td>03.07.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View detail</a><a
-                                                class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -106,12 +102,11 @@
                                 <td>$12.00</td>
                                 <td><span class="badge rounded-pill alert-danger">Canceled</span></td>
                                 <td>03.07.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View detail</a><a
-                                                class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -122,12 +117,11 @@
                                 <td>$589.99</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>22.05.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -138,12 +132,11 @@
                                 <td>$16.58</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>23.04.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -154,12 +147,11 @@
                                 <td>$10.00</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>13.03.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -170,12 +162,11 @@
                                 <td>$105.55</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>23.09.2019</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -186,12 +177,11 @@
                                 <td>$710.68</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>28.04.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -202,12 +192,11 @@
                                 <td>$710.68</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>23.03.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -218,12 +207,11 @@
                                 <td>$767.50</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>28.04.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -234,12 +222,11 @@
                                 <td>$406.27</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>14.07.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -250,12 +237,11 @@
                                 <td>$601.13</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>18.03.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>
@@ -266,12 +252,11 @@
                                 <td>$948.55</td>
                                 <td><span class="badge rounded-pill alert-success">Received</span></td>
                                 <td>03.07.2022</td>
-                                <td class="text-end"><a class="btn btn-md rounded font-sm" href="#">Detail</a>
+                                <td class="text-end">
                                     <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm" href="#"
                                             data-bs-toggle="dropdown"><i class="material-icons md-more_horiz"></i></a>
-                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">View
-                                                detail</a><a class="dropdown-item" href="#">Edit info</a><a
-                                                class="dropdown-item text-danger" href="#">Delete</a></div>
+                                        <div class="dropdown-menu"><a class="dropdown-item" href="{{ route('dashboard.detailOrder') }}">Detail</a><a
+                                                class="dropdown-item text-danger" href="#">Batalkan</a></div>
                                     </div>
                                 </td>
                             </tr>

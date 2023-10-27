@@ -19,6 +19,10 @@ class SellerController extends Controller
     {
         return view('clients.seller.product.add');
     }
+    public function editProduct(Request $request)
+    {
+        return view('clients.seller.product.add');
+    }
     public function allProduct(Request $request)
     {
         return view('clients.seller.product.all');
@@ -30,6 +34,10 @@ class SellerController extends Controller
     public function detailTransaction(Request $request)
     {
         return view('clients.seller.transaction.detail');
+    }
+    public function addWithdraw(Request $request)
+    {
+        return view('clients.seller.withdraw.add');
     }
     public function allWithdraw(Request $request)
     {

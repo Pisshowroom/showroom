@@ -5,21 +5,17 @@
                 <li><a class="font-xs" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
                 <li>
                     @auth
-                    {{-- @if () --}}
-                    <a class="font-xs" href="{{ route('dashboard.dashboard') }}">Buka toko</a>
-                    {{-- @else
-                    <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Toko</a>
-                    @endif --}}
-
+                        <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Dashboard Toko</a>
                     @endauth
                     @guest
 
-                    <a class="font-xs" href="{{ route('buyer.register') }}">Buka toko</a>
+                        <a class="font-xs" href="{{ route('buyer.register') }}">Buka toko</a>
                     @endguest
                 </li>
             </ul>
         </div>
-        <div class="info-topbar text-center d-none d-xl-block"><span class="font-xs color-brand-3">Pengiriman gratis untuk
+        <div class="info-topbar text-center d-none d-xl-block"><span class="font-xs color-brand-3">Pengiriman gratis
+                untuk
                 semua pesanan di atas</span><span class="font-sm-bold color-success"> 5 Juta</span></div>
         <div class="menu-topbar-right"><span class="font-xs color-brand-3">Butuh bantuan? Hubungi:</span><span
                 class="font-sm-bold color-success"> + 1800 900</span>
@@ -89,12 +85,12 @@
                 <div class="header-nav">
                     <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
-                            <li><a class="@yield('home')"
-                                    href="{{ route('buyer.home') }}">Beranda</a></li>
-                            <li><a class="@yield('login')"
-                                    href="{{ route('buyer.login') }}">Masuk</a></li>
-                            <li><a class="@yield('allProduct')"
-                                    href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
+                            <li><a class="@yield('home')" href="{{ route('buyer.home') }}">Beranda</a></li>
+                            <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
+                            <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}">Semua Produk</a>
+                            </li>
+                            <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}">Artikel</a>
+                            </li>
 
                             {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
                                 <ul class="sub-menu two-col">
@@ -114,9 +110,13 @@
                             </li> --}}
                             <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
                                 <ul class="sub-menu">
-                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
+                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang Kami</a>
+                                    </li>
+                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak
+                                            Kami</a>
+                                    </li>
+                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan
+                                            Ketentuan</a></li>
                                 </ul>
                             </li>
                             {{-- <li class="has-children"><a href="blog.html">Blog</a>
@@ -182,7 +182,8 @@
                                 <div class="border-bottom pt-0 mb-15"></div>
                                 <div class="cart-total">
                                     <div class="row">
-                                        <div class="col-6 text-start"><span class="font-md-bold color-brand-3">Total</span>
+                                        <div class="col-6 text-start"><span
+                                                class="font-md-bold color-brand-3">Total</span>
                                         </div>
                                         <div class="col-6"><span class="font-md-bold color-brand-1">$2586.3</span></div>
                                     </div>
@@ -212,14 +213,13 @@
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
                         <ul class="mobile-menu font-heading">
-                            <li><a class="@yield('home')"
-                                    href="{{ route('buyer.home') }}">Beranda</a></li>
-                            <li><a class="@yield('login')"
-                                    href="{{ route('buyer.login') }}">Masuk</a></li>
-                            <li><a class="@yield('register')"
-                                    href="{{ route('buyer.register') }}">Mendaftar</a></li>
-                            <li><a class="@yield('allProduct')"
-                                    href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
+                            <li><a class="@yield('home')" href="{{ route('buyer.home') }}">Beranda</a></li>
+                            <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
+                            <li><a class="@yield('register')" href="{{ route('buyer.register') }}">Mendaftar</a></li>
+                            <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}">Semua
+                                    Produk</a></li>
+                            <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}">Artikel</a>
+                            </li>
 
                             {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
                                 <ul class="sub-menu two-col">
@@ -239,9 +239,12 @@
                             </li> --}}
                             <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
                                 <ul class="sub-menu">
-                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
+                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang
+                                            Kami</a></li>
+                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak
+                                            Kami</a></li>
+                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan
+                                            Ketentuan</a></li>
                                 </ul>
                             </li>
                             {{-- <li class="has-children"><a href="blog.html">Blog</a>
@@ -279,15 +282,6 @@
                         </ul>
                     </div>
                 @endauth
-                <div class="mobile-banner">
-                    <div class="bg-5 block-iphone"><span class="color-brand-3 font-sm-lh32">Starting from $899</span>
-                        <h3 class="font-xl mb-10">iPhone 12 Pro 128Gb</h3>
-                        <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow"
-                            href="{{ route('buyer.allGridProduct') }}">learn more</a>
-                    </div>
-                </div>
-                <div class="site-copyright color-gray-400 mt-30">Copyright 2022 &copy; Ecom - Marketplace
-                    Template.<br>Designed by<a href="http://alithemes.com" target="_blank">&nbsp; AliThemes</a></div>
             </div>
         </div>
     </div>
@@ -511,15 +505,14 @@
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
                         <ul class="mobile-menu font-heading">
-                            <li><a class="@yield('home')"
-                                    href="{{ route('buyer.home') }}">Beranda</a></li>
-                            <li><a class="@yield('login')"
-                                    href="{{ route('buyer.login') }}">Masuk</a></li>
-                            <li><a class="@yield('register')"
-                                    href="{{ route('buyer.register') }}">Mendaftar</a></li>
-                            <li><a class="@yield('allProduct')"
-                                    href="{{ route('buyer.allGridProduct') }}">Semua Produk</a></li>
-
+                            <li><a class="@yield('home')" href="{{ route('buyer.home') }}">Beranda</a></li>
+                            <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
+                            <li><a class="@yield('register')" href="{{ route('buyer.register') }}">Mendaftar</a>
+                            </li>
+                            <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}">Semua
+                                    Produk</a></li>
+                            <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}">Artikel</a>
+                            </li>
                             {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
                                 <ul class="sub-menu two-col">
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid</a></li>
@@ -538,9 +531,12 @@
                             </li> --}}
                             <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
                                 <ul class="sub-menu">
-                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
+                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang
+                                            Kami</a></li>
+                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak
+                                            Kami</a></li>
+                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan
+                                            Ketentuan</a></li>
                                 </ul>
                             </li>
                             {{-- <li class="has-children"><a href="blog.html">Blog</a>
@@ -578,15 +574,6 @@
                         </ul>
                     </div>
                 @endauth
-                <div class="mobile-banner">
-                    <div class="bg-5 block-iphone"><span class="color-brand-3 font-sm-lh32">Starting from $899</span>
-                        <h3 class="font-xl mb-10">iPhone 12 Pro 128Gb</h3>
-                        <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow"
-                            href="{{ route('buyer.allGridProduct') }}">learn more</a>
-                    </div>
-                </div>
-                <div class="site-copyright color-gray-400 mt-30">Copyright 2022 &copy; Ecom - Marketplace
-                    Template.<br>Designed by<a href="http://alithemes.com" target="_blank">&nbsp; AliThemes</a></div>
             </div>
         </div>
     </div>

@@ -132,7 +132,7 @@
                                                 style="margin: 0px;">
                                                 <li><a class="dropdown-item active" href="#">Produk Terbaru</a>
                                                 </li>
-                                                <li><a class="dropdown-item" href="#">Produk terlama</a></li>
+                                                <li><a class="dropdown-item" href="#">Produk Terlama</a></li>
                                             </ul>
                                         </div>
                                     </div>

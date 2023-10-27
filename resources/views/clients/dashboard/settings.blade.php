@@ -4,7 +4,7 @@
 @section('dashboard')
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title">Profile setting</h2>
+            <h2 class="content-title">Profil</h2>
         </div>
         <div class="card">
             <div class="card-body">

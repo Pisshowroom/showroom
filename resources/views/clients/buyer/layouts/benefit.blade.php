@@ -1,8 +1,8 @@
 <section class="section-box mt-50 mb-50">
     <div class="container">
-        <ul class="list-col-5">
-            <li>
-                <div class="item-list">
+        <ul class="list-col-5 row">
+            <li class="col-lg-4 col-sm-6 p-2">
+                <div class="item-list align-items-center">
                     <div class="icon-left"><img src="{{ asset('ecom/imgs/template/delivery.svg') }}"
                             alt="Ecom"></div>
                     <div class="info-right">
@@ -11,8 +11,8 @@
                     </div>
                 </div>
             </li>
-            <li>
-                <div class="item-list">
+            <li class="col-lg-4 col-sm-6 p-2">
+                <div class="item-list align-items-center">
                     <div class="icon-left"><img src="{{ asset('ecom/imgs/template/support.svg') }}"
                             alt="Ecom"></div>
                     <div class="info-right">
@@ -21,8 +21,8 @@
                     </div>
                 </div>
             </li>
-            <li>
-                <div class="item-list">
+            <li class="col-lg-4 col-sm-6 p-2">
+                <div class="item-list align-items-center">
                     <div class="icon-left"><img src="{{ asset('ecom/imgs/template/voucher.svg') }}"
                             alt="Ecom"></div>
                     <div class="info-right">
@@ -31,8 +31,8 @@
                     </div>
                 </div>
             </li>
-            <li>
-                <div class="item-list">
+            <li class="col-lg-4 col-sm-6 p-2">
+                <div class="item-list align-items-center">
                     <div class="icon-left"><img src="{{ asset('ecom/imgs/template/return.svg') }}"
                             alt="Ecom"></div>
                     <div class="info-right">
@@ -41,8 +41,8 @@
                     </div>
                 </div>
             </li>
-            <li>
-                <div class="item-list">
+            <li class="col-lg-4 col-sm-6 p-2">
+                <div class="item-list align-items-center">
                     <div class="icon-left"><img src="{{ asset('ecom/imgs/template/secure.svg') }}"
                             alt="Ecom"></div>
                     <div class="info-right">

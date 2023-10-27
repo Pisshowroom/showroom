@@ -79,6 +79,17 @@ class BuyerController extends Controller
         return view('clients.buyer.seller.detail');
     }
 
+    //article
+    public function allArticle()
+    {
+        return view('clients.buyer.article.all');
+    }
+
+    public function detailArticle()
+    {
+        return view('clients.buyer.article.detail');
+    }
+
 
     //dashboard
     public function dashboard()

@@ -32,7 +32,7 @@
                     href="page-transactions-details.html">Transaction Details</a></div>
         </li> --}}
         <li class="menu-item @yield('myOrder')"><a class="menu-link" disabled=""
-                href="{{ route('dashboard.myOrder') }}"><i class="icon material-icons md-monetization_on"></i><span
+                href="{{ route('dashboard.myOrder') }}"><i class="icon material-icons md-star"></i><span
                     class="text">Pesanan ku</span></a>
         </li>
         <li class="menu-item"><a class="menu-link" disabled="" href="{{ route('buyer.wishlist') }}"><i
@@ -84,9 +84,13 @@
             href="{{ route('dashboardSeller.profile') }}"><i
             class="icon material-icons md-storefront"></i><span class="text">Profil Toko</span></a>
         </li>
-        <li class="menu-item @yield('withdraw')"><a class="menu-link" disabled=""
-                href="{{ route('dashboardSeller.allTransaction') }}"><i
-                    class="icon material-icons md-monetization_on"></i><span class="text">Pencairan Uang</span></a>
+        <li class="menu-item has-submenu @yield('withdraw')">
+            <a class="menu-link" href="{{ route('dashboardSeller.allWithdraw') }}"><i
+                    class="icon material-icons md-account_balance_wallet"></i><span class="text">Pencairan Uang</span></a>
+            <div class="submenu">
+                <a href="{{ route('dashboardSeller.addWithdraw') }}">Cairkan</a>
+                <a href="{{ route('dashboardSeller.allWithdraw') }}">Semua Pencairan</a>
+            </div>
         </li>
         {{-- <li class="menu-item @yield('review')"><a class="menu-link" href="page-reviews.html"><i
                     class="icon material-icons md-comment"></i><span class="text">Review</span></a></li> --}}
