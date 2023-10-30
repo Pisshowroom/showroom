@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,5 +32,10 @@ Route::group(['prefix' => 'article'], function () {
 
 Route::group(['prefix' => 'product'], function () {
     Route::get('/', [ProductController::class, 'products']);
+    Route::get('/{product}', [ProductController::class, 'show']);
+});
+
+Route::group(['prefix' => 'order'], function () {
+    Route::post('/precheck', [OrderController::class, 'preCheck']);
     Route::get('/{product}', [ProductController::class, 'show']);
 });

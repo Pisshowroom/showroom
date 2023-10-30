@@ -38,11 +38,24 @@ Route::get('/forcing-auth/{id}', function (Request $request) {
 // Route get, authed, returnin auth()->user()\
 Route::get('/authed', function () {
     // $authUser = auth()->user();
-    $authUser = Auth::guard('api-client')->user();
+    // $authUser = Auth::guard('api-client')->user();
 
-    return $authUser;
-// });
-})->middleware('auth:sanctum');
+    // return $authUser;
+    $user = App\Models\User::find(1);
+    return ResponseAPI(['error' => 'Stok Produk ' . 'asdasdasd' . " tidak cukup. stok yang tersisa sebanyak " . 12 ], 400);
+    // Auth::login($user, true);
+    $userAuth = Auth::guard('api-client')->setUser($user);
+// dd($userAuth);
+    $data = Auth::user();
+
+    return $user->createToken('lypsis-auth')->plainTextToken;
+    // return ResponseAPI($userAuth);
+    return ResponseAPI($data);
+// return $userAuth;
+
+    return $data;
+});
+// })->middleware('auth:sanctum');
 
 
 // Route::get('/{any}', [AppController::class, 'index'])->where('any', '.*');
