@@ -129,19 +129,6 @@ function generateInFolderFilename($path, $folder, $windows = false)
     return implode($d, $pathArr);
 }
 
-function getCurrentRole()
-{
-    $user = Auth::user();
-    if ($user) {
-        return $user->role;
-    } else {
-        // call function logout from UserController
-
-        $userController = new UserController(new UserRepository());
-        $userController->logout2(request());
-    }
-    return null;
-}
 
 function roleChecker($roleFromData, $roleWanted): bool
 {
@@ -306,22 +293,6 @@ function moneyFormat($price, $decimal = true)
     return \number_format($price);
 }
 
-
-function subordinateUser($id)
-{
-    $user = User::find($id);
-    if ($user->isSpv())
-        $ids = User::where('blocked', false)->where('supervisor_id', $user->id)->orWhere('id', $user->id)->pluck('id');
-    if ($user->isManager()) {
-        if ($user->role->role != 'owner') {
-            $roles = Role::whereIn('role', ['area_spv', 'cashier_spv', 'admin_spv', 'warehouse_spv', 'security_spv', 'sama_juice', 'belanja_smart'])->pluck('id');
-            $ids = User::where('blocked', false)->where('manager_id', $user->id)->orWhere('id', $user->id)->pluck('id');
-        } else {
-            $ids = User::where('blocked', false)->where('id', '!=', $user->id)->pluck('id');
-        }
-    }
-    return $ids;
-}
 
 function getCountTwoDate($start, $end)
 {
