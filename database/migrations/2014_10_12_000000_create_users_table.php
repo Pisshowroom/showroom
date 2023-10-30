@@ -15,10 +15,21 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            
+            $table->string('device_id')->nullable();
+            $table->string('api_token')->nullable();
+            $table->string('image')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->integer('balance')->nullable();
+            $table->boolean('is_seller')->default(false);
+            $table->string('seller_slug')->unique()->nullable();
+            $table->text('seller_description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
+            // $table->timestamp('email_verified_at')->nullable();
+            // $table->string('password');
+            // $table->rememberToken();
         });
     }
 
