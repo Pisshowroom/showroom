@@ -34,6 +34,12 @@ Route::group(['prefix' => 'article'], function () {
 
 Route::group(['prefix' => 'product'], function () {
     Route::get('/', [ProductController::class, 'products']);
+    Route::middleware('auth:api-client')->group(function () {
+        Route::get('/seller/my-products', [ProductController::class, 'sellerMyProducts']);
+        Route::post('/store-or-update-product', [ProductController::class, 'storeOrUpdateProduct']);
+        Route::delete('/{product}', [ProductController::class, 'destroy']);
+    });
+
     Route::get('/{product}', [ProductController::class, 'show']);
 });
 
