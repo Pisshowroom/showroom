@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\Clients\buyer\ArticleController;
+use App\Http\Controllers\Clients\buyer\ProductController as BuyerProductController;
+use App\Http\Controllers\Clients\buyer\SellerController as BuyerSellerController;
 use App\Http\Controllers\Clients\BuyerController;
 use App\Http\Controllers\Clients\DashboardController;
+use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
 use App\Http\Controllers\Clients\SellerController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -57,16 +61,16 @@ Route::get('/kontak-kami', [BuyerController::class, 'contact'])->name('buyer.con
 Route::get('/tentang-kami', [BuyerController::class, 'about'])->name('buyer.about');
 Route::get('/syarat-dan-ketentuan', [BuyerController::class, 'term'])->name('buyer.term');
 
-Route::get('/semua-penjual', [BuyerController::class, 'allSeller'])->name('buyer.allSeller');
-Route::get('/detail-penjual', [BuyerController::class, 'detailSeller'])->name('buyer.detailSeller');
+Route::get('/semua-penjual', [BuyerSellerController::class, 'allSeller'])->name('buyer.allSeller');
+Route::get('/penjual-{slug}', [BuyerSellerController::class, 'detailSeller'])->name('buyer.detailSeller');
 
 
-Route::get('/semua-artikel', [BuyerController::class, 'allArticle'])->name('buyer.allArticle');
-Route::get('/detail-artikel', [BuyerController::class, 'detailArticle'])->name('buyer.detailArticle');
+Route::get('/semua-artikel', [ArticleController::class, 'allArticle'])->name('buyer.allArticle');
+Route::get('/detail-artikel/{id}', [ArticleController::class, 'detailArticle'])->name('buyer.detailArticle');
 
-Route::get('/semua-produk', [BuyerController::class, 'allListProduct'])->name('buyer.allListProduct');
-Route::get('/semua-produk-grid', [BuyerController::class, 'allGridProduct'])->name('buyer.allGridProduct');
-Route::get('/detail-produk', [BuyerController::class, 'detailProduct'])->name('buyer.detailProduct');
+Route::get('/semua-produk', [BuyerProductController::class, 'allListProduct'])->name('buyer.allListProduct');
+Route::get('/semua-produk-grid', [BuyerProductController::class, 'allGridProduct'])->name('buyer.allGridProduct');
+Route::get('/produk-{slug}', [BuyerProductController::class, 'detailProduct'])->name('buyer.detailProduct');
 Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');
 Route::get('/checkout', [BuyerController::class, 'checkout'])->name('buyer.checkout');
 Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
@@ -85,9 +89,9 @@ Route::group(['prefix' => 'pembeli'], function () {
 Route::group(['prefix' => 'toko'], function () {
     Route::get('/', [SellerController::class, 'dashboard'])->name('dashboardSeller.dashboard');
     Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
-    Route::get('/tambah-produk', [SellerController::class, 'addProduct'])->name('dashboardSeller.addProduct');
-    Route::get('/semua-produk', [SellerController::class, 'allProduct'])->name('dashboardSeller.allProduct');
-    Route::get('/ubah-produk', [SellerController::class, 'editProduct'])->name('dashboardSeller.editProduct');
+    Route::get('/tambah-produk', [SellerProductController::class, 'addProduct'])->name('dashboardSeller.addProduct');
+    Route::get('/semua-produk', [SellerProductController::class, 'allProduct'])->name('dashboardSeller.allProduct');
+    Route::get('/ubah-produk', [SellerProductController::class, 'editProduct'])->name('dashboardSeller.editProduct');
     Route::get('/semua-transaksi', [SellerController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
     Route::get('/detail-transaksi', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
     Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');

@@ -7,16 +7,18 @@
             <div class="banner-hero banner-1 pt-10">
                 <div class="container">
                     <div class="row">
-                        <div class="col-xl-9 col-lg-12 col-md-12 mb-30">
+                        <div class="col-12 mb-30">
                             <div class="box-swiper">
                                 <div class="swiper-container swiper-group-1">
                                     <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="banner-big banner-big-3 bg-22"
-                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner.png') }})">
-                                                <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
-                                                        class="d-none d-lg-block"> The Music</h1>
-                                                <div class="row">
+                                        @if (count($data['sliders']) > 0)
+                                            @foreach ($data['sliders'] as $slider)
+                                                <div class="swiper-slide">
+                                                    <div class="banner-big banner-big-3 bg-22"
+                                                        style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner.png') }})">
+                                                        <h1 class="color-gray-100 w-50 text-uppercase text-shadow">
+                                                            {!! $slider->description ?? '' !!}</h1>
+                                                        {{-- <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <ul class="list-disc">
                                                             <li class="font-lg color-brand-3">Free Shipping. Secure
@@ -26,21 +28,23 @@
                                                             <li class="font-lg color-brand-3">Support gift service</li>
                                                         </ul>
                                                     </div>
-                                                </div>
-                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                        href="{{route('buyer.allGridProduct')}}">Belanja</a>
-                                                    {{-- <a
+                                                </div> --}}
+                                                        <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
+                                                                href="{{ route('buyer.allGridProduct') }}">Belanja</a>
+                                                            {{-- <a
                                                         class="btn btn-link text-underline" href="{{route('buyer.allGridProduct')}}">Learn
                                                         more</a> --}}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="banner-big banner-big-3 bg-22"
-                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-2.png') }})">
-                                                <h1 class="color-gray-100 text-uppercase text-shadow">360 DEGREE<br
-                                                        class="d-none d-lg-block"> VIRTUAL REALITY</h1>
-                                                <div class="row">
+                                            @endforeach
+                                        @else
+                                            <div class="swiper-slide">
+                                                <div class="banner-big banner-big-3 bg-22"
+                                                    style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner.png') }})">
+                                                    <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
+                                                            class="d-none d-lg-block"> The Music</h1>
+                                                    {{-- <div class="row">
                                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                                         <ul class="list-disc">
                                                             <li class="font-lg color-brand-3">Free Shipping. Secure
@@ -50,1544 +54,111 @@
                                                             <li class="font-lg color-brand-3">Support gift service</li>
                                                         </ul>
                                                     </div>
-                                                </div>
-                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                        href="{{route('buyer.allGridProduct')}}">Belanja</a>
-                                                    {{-- <a
-                                                            class="btn btn-link text-underline" href="{{route('buyer.allGridProduct')}}">Learn
-                                                            more</a> --}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="banner-big banner-big-3 bg-22"
-                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-3.png') }})">
-                                                <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
-                                                        class="d-none d-lg-block"> The Music</h1>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <ul class="list-disc">
-                                                            <li class="font-lg color-brand-3">Free Shipping. Secure
-                                                                Payment</li>
-                                                            <li class="font-lg color-brand-3">Kontak Kami 24hrs a day
-                                                            </li>
-                                                            <li class="font-lg color-brand-3">Support gift service</li>
-                                                        </ul>
+                                                </div> --}}
+                                                    <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
+                                                            href="{{ route('buyer.allGridProduct') }}">Belanja</a>
+                                                        {{-- <a
+                                                        class="btn btn-link text-underline" href="{{route('buyer.allGridProduct')}}">Learn
+                                                        more</a> --}}
                                                     </div>
                                                 </div>
-                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                        href="{{route('buyer.allGridProduct')}}">Belanja</a>
-                                                    {{-- <a
-                                                    class="btn btn-link text-underline" href="{{route('buyer.allGridProduct')}}">Learn
-                                                    more</a> --}}
-                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </div>
                                     <div class="swiper-pagination swiper-pagination-1"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-12 col-md-12">
-                            <div class="row">
-                                <div class="col-12 mb-30">
-                                    <div class="bg-metaverse bg-22 pt-25 mb-20 pl-20 h-175">
-                                        <h3 class="mb-10 font-32">Metaverse</h3>
-                                        <p class="font-16">The Future of Creativity</p>
-                                        <div class="mt-10"><a class="btn btn-link-brand-2 btn-arrow-brand-2"
-                                                href="{{route('buyer.allGridProduct')}}">Selengkapnya</a></div>
-                                    </div>
-                                    <div class="bg-4 box-bdrd-4 bg-headphone pt-20 mh-307"><span
-                                            class="font-md color-brand-3">Headphone</span>
-                                        <h4 class="font-32 color-gray-1000 mb-10 mt-5">Rockez 547</h4>
-                                        <p class="color-brand-1 font-sm">MUSIC EVERYWHERE<br
-                                                class="d-none d-lg-block">ANYTIME</p>
-                                        <div class="mt-35"><a class="btn btn-brand-2 btn-arrow-right"
-                                                href="{{route('buyer.allGridProduct')}}">Belanja</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <div class="section-box">
-            <div class="container">
-                <div class="row mt-10">
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <div class="card-grid-style-2 card-grid-style-2-small">
-                            <div class="image-box"><a href="{{ route('buyer.allGridProduct') }}"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/smartphone.png') }}" alt="Ecom"></a>
-                                <div class="mt-10 text-center"><a class="btn btn-gray" href="{{ route('buyer.allGridProduct') }}">View
-                                        all</a></div>
-                            </div>
-                            <div class="info-right"><a class="color-brand-3 font-sm-bold" href="{{ route('buyer.allGridProduct') }}">
-                                    <h6>Smart Phone</h6>
-                                </a>
-                                <ul class="list-links-disc">
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Phone Accessories</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Phone Cases</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Postpaid Phones</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Refurbished Phones</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <div class="card-grid-style-2 card-grid-style-2-small">
-                            <div class="image-box"><a href="{{ route('buyer.allGridProduct') }}"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/television.png') }}" alt="Ecom"></a>
-                                <div class="mt-10 text-center"><a class="btn btn-gray" href="{{ route('buyer.allGridProduct') }}">View
-                                        all</a></div>
-                            </div>
-                            <div class="info-right"><a class="color-brand-3 font-sm-bold" href="{{ route('buyer.allGridProduct') }}">
-                                    <h6>Television</h6>
-                                </a>
-                                <ul class="list-links-disc">
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">HD DVD Players</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Projection Screens</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Television Accessories</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">TV-DVD Combos</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <div class="card-grid-style-2 card-grid-style-2-small">
-                            <div class="image-box"><a href="{{ route('buyer.allGridProduct') }}"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/computer.png') }}" alt="Ecom"></a>
-                                <div class="mt-10 text-center"><a class="btn btn-gray" href="{{ route('buyer.allGridProduct') }}">View
-                                        all</a></div>
-                            </div>
-                            <div class="info-right"><a class="color-brand-3 font-sm-bold" href="{{ route('buyer.allGridProduct') }}">
-                                    <h6>Computers</h6>
-                                </a>
-                                <ul class="list-links-disc">
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Computer Components</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Computer Accessories</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Desktops</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Monitors</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <div class="card-grid-style-2 card-grid-style-2-small">
-                            <div class="image-box"><a href="{{ route('buyer.allGridProduct') }}"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/electric.png') }}" alt="Ecom"></a>
-                                <div class="mt-10 text-center"><a class="btn btn-gray" href="{{ route('buyer.allGridProduct') }}">View
-                                        all</a></div>
-                            </div>
-                            <div class="info-right"><a class="color-brand-3 font-sm-bold" href="{{ route('buyer.allGridProduct') }}">
-                                    <h6>Electronics</h6>
-                                </a>
-                                <ul class="list-links-disc">
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Office Electronics</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Portable Audio &amp; Video</a>
-                                    </li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Washing Machine</a></li>
-                                    <li><a class="font-sm" href="{{ route('buyer.allGridProduct') }}">Accessories &amp; Supplies</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+        <div class="container mt-20">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="head-main">
+                        <h3 class="mb-5">Produk terbatas</h3>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-12 order-first order-lg-last">
+
+                    <div class="row mt-20">
+                        @if (count($data['limited_product']) > 0)
+                            @foreach ($data['limited_product'] as $lpr)
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="card-grid-style-3">
+                                        <div class="card-grid-inner">
+                                            <div class="tools">
+                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
+                                            aria-label="Trend"></a> --}}
+                                                <a class="btn btn-wishlist btn-tooltip mb-10"
+                                                    href="{{ route('buyer.wishlist') }}"
+                                                    aria-label="Tambahkan ke Wishlist"></a>
+                                                {{--
+                                            <a class="btn btn-quickview btn-tooltip"
+                                            aria-label="Quick view" href="#ModalQuickview"
+                                            data-bs-toggle="modal"></a> --}}
+                                            </div>
+                                            <div class="image-box">
+                                                {{-- <span class="label bg-brand-2">-17%</span> --}}
+                                                <a href="{{ route('buyer.detailProduct', ['slug' => $lpr->slug]) }}"><img
+                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
+                                                        alt="Ecom"></a>
+                                            </div>
+                                            <div class="info-right"><a class="font-xs color-gray-500"
+                                                    href="{{ route('buyer.detailSeller', ['slug' => $lpr->seller->seller_slug]) }}">Apple</a><br><a
+                                                    class="color-brand-3 font-sm-bold"
+                                                    href="{{ route('buyer.detailProduct', ['slug' => $lpr->slug]) }}">{{ $lpr->name ?? '' }}</a>
+                                                <div class="rating"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span>
+                                                </div>
+                                                <div class="price-info">
+                                                    <strong class="font-lg-bold color-brand-3 price-main">
+                                                        {{ $lpr->price }}
+                                                        {{-- {{ $lpr->price > 0 ? numbFormat($lpr->price) : 'rp 0' }} --}}
+                                                    </strong>
+                                                    {{-- <span class="color-gray-500 price-line">$3225.6</span> --}}
+                                                </div>
+                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
+                                                        href="{{ route('buyer.cart') }}">Keranjang</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="col-lg-12 text-center mt-40">
+                                <h4>Tidak ada data Produk saat ini</h4>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
             </div>
         </div>
-        <section class="section-box mt-30">
-            <div class="container">
-                <div class="head-main bd-gray-200">
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12">
-                            <ul class="nav nav-tabs text-start" role="tablist">
-                                <li class="pl-0"><a class="active pl-0" href="#tab-1-featured" data-bs-toggle="tab"
-                                        role="tab" aria-controls="tab-1-featured" aria-selected="true"
-                                        data-index="1">
-                                        <h4>Unggulan</h4>
-                                    </a></li>
-                                <li><a href="#tab-1-bestseller" data-bs-toggle="tab" role="tab"
-                                        aria-controls="tab-1-bestseller" aria-selected="false" data-index="2">
-                                        <h4>Penjualan terbaik</h4>
-                                    </a></li>
-                                <li><a href="#tab-1-mostviewed" data-bs-toggle="tab" role="tab"
-                                        aria-controls="tab-1-mostviewed" aria-selected="false" data-index="3">
-                                        <h4>Paling banyak dilihat</h4>
-                                    </a></li>
-                            </ul>
-                            <!-- Button slider-->
-                            <div class="box-button-slider">
-                                <div class="button-slider-nav" id="tab-1-featured-nav">
-                                    <div class="swiper-button-next swiper-button-next-tab-1"></div>
-                                    <div class="swiper-button-prev swiper-button-prev-tab-1"></div>
-                                </div>
-                                <div class="button-slider-nav" id="tab-1-bestseller-nav" style="display: none;">
-                                    <div class="swiper-button-next swiper-button-next-tab-2"></div>
-                                    <div class="swiper-button-prev swiper-button-prev-tab-2"></div>
-                                </div>
-                                <div class="button-slider-nav" id="tab-1-mostviewed-nav" style="display: none;">
-                                    <div class="swiper-button-next swiper-button-next-tab-3"></div>
-                                    <div class="swiper-button-prev swiper-button-prev-tab-3"></div>
-                                </div>
-                            </div>
-                            <!-- End Button slider-->
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-content tab-content-slider">
-                    <div class="tab-pane fade active show" id="tab-1-featured" role="tabpanel"
-                        aria-labelledby="tab-1-featured">
-                        <div class="box-swiper">
-                            <div class="swiper-container swiper-tab-1">
-                                <div class="swiper-wrapper pt-5">
-                                    <div class="swiper-slide">
-                                        <div class="list-products-5">
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Dell</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Dell Optiplex 9020
-                                                            Small
-                                                            Form Business Desktop Tower PC</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP 24 All-in-One PC,
-                                                            Intel
-                                                            Core i3-1115G4, 4GB RAM</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Gateway</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Gateway 23.8&quot;
-                                                            All-in-one Desktop, Fully Adjustable Stand</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP 22 All-in-One PC,
-                                                            Intel
-                                                            Pentium Silver J5040, 4GB RAM</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP Slim Desktop,
-                                                            Intel
-                                                            Celeron J4025, 4GB RAM, 256GB SSD</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="list-products-5">
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Dell</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Dell Optiplex 9020
-                                                            Small
-                                                            Form Business Desktop Tower PC</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP 24 All-in-One PC,
-                                                            Intel
-                                                            Core i3-1115G4, 4GB RAM</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Gateway</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Gateway 23.8&quot;
-                                                            All-in-one Desktop, Fully Adjustable Stand</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP 22 All-in-One
-                                                            PC, Intel
-                                                            Pentium Silver J5040, 4GB RAM</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP Slim Desktop,
-                                                            Intel
-                                                            Celeron J4025, 4GB RAM, 256GB SSD</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="tab-1-bestseller" role="tabpanel" aria-labelledby="tab-1-bestseller">
-                        <div class="box-swiper">
-                            <div class="swiper-container swiper-tab-2">
-                                <div class="swiper-wrapper pt-5">
-                                    <div class="swiper-slide">
-                                        <div class="list-products-5">
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Roku</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Class 4K UHD
-                                                            (2160P) LED
-                                                            Roku Smart TV HDR</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">SAMSUNG</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">SAMSUNG Galaxy Tab
-                                                            S7 Plus
-                                                            12.4&quot; 128GB Mystic Black</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP 11.6&quot;
-                                                            Chromebook,
-                                                            AMD A4, 4GB RAM, 32GB Storage</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac
-                                                            with
-                                                            Retina 5K Display 8GB RAM, 256GB SSD</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">SAMSUNG</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">SAMSUNG Galaxy Tab
-                                                            A7
-                                                            Lite, 8.7&quot; Tablet 32GB</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="list-products-5">
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Roku</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Class 4K UHD
-                                                            (2160P) LED
-                                                            Roku Smart TV HDR</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">SAMSUNG</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">SAMSUNG Galaxy Tab
-                                                            S7 Plus
-                                                            12.4&quot; 128GB Mystic Black</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP 11.6&quot;
-                                                            Chromebook,
-                                                            AMD A4, 4GB RAM, 32GB Storage</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac
-                                                            with
-                                                            Retina 5K Display 8GB RAM, 256GB SSD</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">SAMSUNG</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">SAMSUNG Galaxy Tab
-                                                            A7
-                                                            Lite, 8.7&quot; Tablet 32GB</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="tab-1-mostviewed" role="tabpanel"
-                        aria-labelledby="tab-1-mostviewed">
-                        <div class="box-swiper">
-                            <div class="swiper-container swiper-tab-3">
-                                <div class="swiper-wrapper pt-5">
-                                    <div class="swiper-slide">
-                                        <div class="list-products-5">
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">MSI Optix G272
-                                                            27&quot;
-                                                            Full HD LED Gaming LCD Monitor</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">LG 65&quot; Class
-                                                            4K UHD
-                                                            Smart TV OLED A1 Series </a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac
-                                                            with
-                                                            Retina 5K Display 8GB RAM, 256GB SSD</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Chromecast with
-                                                            Google TV
-                                                            - Streaming Entertainment</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Apple Watch Series
-                                                            7 GPS +
-                                                            Cellular, 41mm Midnight</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="list-products-5">
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">MSI Optix G272
-                                                            27&quot;
-                                                            Full HD LED Gaming LCD Monitor</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">LG 65&quot; Class
-                                                            4K UHD
-                                                            Smart TV OLED A1 Series </a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac
-                                                            with
-                                                            Retina 5K Display 8GB RAM, 256GB SSD</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Chromecast with
-                                                            Google TV
-                                                            - Streaming Entertainment</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="card-grid-style-3">
-                                                <div class="card-grid-inner">
-                                                    <div class="tools">
-                                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                        <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                            href="{{ route('buyer.wishlist') }}"
-                                                            aria-label="Tambahkan ke Wishlist"></a>
-                                                        {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                    </div>
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="font-xs color-gray-500"
-                                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                            class="color-brand-3 font-sm-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Apple Watch Series
-                                                            7 GPS +
-                                                            Cellular, 41mm Midnight</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span
-                                                                class="font-xs color-gray-500">(65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="section-box pt-60 pb-60 bg-gray-50 mt-50">
+        <div class="section-box pt-30 pb-60 bg-gray-50 mt-50">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-9 col-lg-8">
+                    <div class="col-12">
                         <div class="box-content">
                             <div class="head-main bd-gray-200">
                                 <div class="row">
                                     <div class="col-xl-7 col-lg-6">
-                                        <h4 class="mb-5">Produk yang Sedang Tren</h4>
+                                        <h3 class="mb-5">Produk Terbaru</h4>
                                     </div>
-                                    <div class="col-xl-5 col-lg-6">
+                                    {{-- <div class="col-xl-5 col-lg-6">
                                         <!-- Button slider-->
                                         <div class="box-button-slider-normal">
                                             <div class="button-slider-nav" id="tab-1-all-nav">
@@ -1596,39 +167,37 @@
                                             </div>
                                         </div>
                                         <!-- End Button slider-->
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="box-swiper">
                                 <div class="swiper-container swiper-tab-4">
-                                    <div class="swiper-wrapper pt-5">
-                                        <div class="swiper-slide">
-                                            <div class="row">
+                                    <div class="row">
+                                        {{-- 8 --}}
+                                        @if (count($data['latest_product']) > 0)
+                                            @foreach ($data['latest_product'] as $lp)
                                                 <div class="col-xl-3 col-lg-6 col-md-6">
                                                     <div class="card-grid-style-3">
                                                         <div class="card-grid-inner">
                                                             <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
+
                                                                 <a class="btn btn-wishlist btn-tooltip mb-10"
                                                                     href="{{ route('buyer.wishlist') }}"
                                                                     aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
+
                                                             </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                        alt="Ecom"></a></div>
+                                                            <div class="image-box">
+                                                                {{-- <span
+                                                                    class="label bg-brand-2">-17%</span> --}}
+                                                                <a
+                                                                    href="{{ route('buyer.detailProduct', ['slug' => $lp->slug]) }}">
+                                                                    <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
+                                                                        alt="produk {{ $lp->name ?? '' }}"></a>
+                                                            </div>
                                                             <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">SAMSUNG</a><br><a
+                                                                    href="{{ route('buyer.detailSeller', ['slug' => $lp->seller->seller_slug]) }}">{{ $lp->seller ? $lp->seller->name ?? '' : '' }}</a><br><a
                                                                     class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">SAMSUNG
-                                                                    Galaxy Tab
-                                                                    A7 Lite, 8.7&quot; Tablet 32GB</a>
+                                                                    href="{{ route('buyer.detailProduct', ['slug' => $lp->slug]) }}">{{ $lp->name ?? '' }}</a>
                                                                 <div class="rating"><img
                                                                         src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                                         alt="Ecom"><img
@@ -1643,361 +212,29 @@
                                                                         class="font-xs color-gray-500">(65)</span>
                                                                 </div>
                                                                 <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
+                                                                        class="font-lg-bold color-brand-3 price-main">{{ $lp->price }}</strong>
+                                                                    {{-- <span
+                                                                                class="color-gray-500 price-line">$3225.6</span> --}}
                                                                 </div>
                                                                 <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
+                                                                        href="{{ route('buyer.cart') }}">Keranjang</a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Dell</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">Dell
-                                                                    Optiplex 9020
-                                                                    Small Form Business Desktop</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Gateway</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">Gateway
-                                                                    23.8&quot;
-                                                                    All-in-one Desktop, Fully Adjustable</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">HP</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">HP 22
-                                                                    All-in-One
-                                                                    PC, Intel Pentium J5040, 4GB RAM</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Roku</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">Class 4K
-                                                                    UHD
-                                                                    (2160P) LED Roku Smart TV HDR</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">SAMSUNG</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">SAMSUNG
-                                                                    Galaxy Tab
-                                                                    S7 Plus 12.4&quot; 128GB Mystic Black</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">MSI</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">MSI Optix
-                                                                    G272
-                                                                    27&quot; Full HD LED Gaming LCD Monitor</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">Apple
-                                                                    AirPods Pro
-                                                                    with MagSafe Charging Case</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            @endforeach
+                                        @else
+                                            <div class="col-lg-12 text-center mt-40">
+                                                <h4>Tidak ada data Produk terbaru saat ini</h4>
                                             </div>
-                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-20"><a href="{{ route('buyer.detailProduct') }}"><img
-                                        src="{{ asset('ecom/imgs/page/homepage4/banner-ads.png') }}"
-                                        alt="Ecom"></a></div>
                         </div>
-                        <div class="box-content mt-45">
+
+                        {{-- <div class="box-content mt-45">
                             <div class="head-main bd-gray-200">
                                 <div class="row">
                                     <div class="col-xl-7 col-lg-6">
@@ -2020,397 +257,128 @@
                                     <div class="swiper-wrapper pt-5">
                                         <div class="swiper-slide">
                                             <div class="row">
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">Apple
-                                                                    AirPods Pro
-                                                                    with MagSafe Charging Case</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                {{-- 8 --}}
+                        {{-- <div class="col-xl-3 col-lg-6 col-md-6">
+                            <div class="card-grid-style-3">
+                                <div class="card-grid-inner">
+                                    <div class="tools">
+
+                                        <a class="btn btn-wishlist btn-tooltip mb-10"
+                                            href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
+
+                                    </div>
+                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
+                                            href="{{ route('buyer.detailProduct', ['slug' => 'slug']) }}"><img
+                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
+                                                alt="Ecom"></a></div>
+                                    <div class="info-right"><a class="font-xs color-gray-500"
+                                            href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Apple</a><br><a
+                                            class="color-brand-3 font-sm-bold"
+                                            href="{{ route('buyer.detailProduct', ['slug' => 'slug']) }}">Apple
+                                            AirPods Pro
+                                            with MagSafe Charging Case</a>
+                                        <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                alt="Ecom"><img
+                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                alt="Ecom"><img
+                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                alt="Ecom"><img
+                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                alt="Ecom"><img
+                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                alt="Ecom"><span class="font-xs color-gray-500">(65)</span>
+                                        </div>
+                                        <div class="price-info"><strong
+                                                class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
+                                                class="color-gray-500 price-line">$3225.6</span>
+                                        </div>
+                                        <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
+                                                href="{{ route('buyer.cart') }}">Keranjang</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-20">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="head-main">
+                        <h3 class="mb-5">Produk yang direkomendasikan</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 order-first order-lg-last">
+
+                    <div class="row mt-20">
+                        @if (count($data['recommended_products']) > 0)
+                            @foreach ($data['recommended_products'] as $rp)
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="card-grid-style-3">
+                                        <div class="card-grid-inner">
+                                            <div class="tools">
+                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
+                                            aria-label="Trend"></a> --}}
+                                                <a class="btn btn-wishlist btn-tooltip mb-10"
+                                                    href="{{ route('buyer.wishlist') }}"
+                                                    aria-label="Tambahkan ke Wishlist"></a>
+                                                {{--
+                                            <a class="btn btn-quickview btn-tooltip"
+                                            aria-label="Quick view" href="#ModalQuickview"
+                                            data-bs-toggle="modal"></a> --}}
+                                            </div>
+                                            <div class="image-box">
+                                                {{-- <span class="label bg-brand-2">-17%</span> --}}
+                                                <a href="{{ route('buyer.detailProduct', ['slug' => $rp->slug]) }}"><img
+                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
+                                                        alt="Ecom"></a>
+                                            </div>
+                                            <div class="info-right"><a class="font-xs color-gray-500"
+                                                    href="{{ route('buyer.detailSeller', ['slug' => $rp->seller->seller_slug]) }}">Apple</a><br><a
+                                                    class="color-brand-3 font-sm-bold"
+                                                    href="{{ route('buyer.detailProduct', ['slug' => $rp->slug]) }}">{{ $rp->name ?? '' }}</a>
+                                                <div class="rating"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><img
+                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
+                                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span>
                                                 </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">2022 Apple
-                                                                    iMac
-                                                                    with Retina 5K Display 8GB RAM, 256GB</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="price-info">
+                                                    <strong class="font-lg-bold color-brand-3 price-main">
+                                                        {{ $rp->price }}
+                                                        {{-- {{ $rp->price > 0 ? numbFormat($rp->price) : 'Rp 0' }} --}}
+                                                    </strong>
+                                                    {{-- <span class="color-gray-500 price-line">$3225.6</span> --}}
                                                 </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">Chromecast
-                                                                    with
-                                                                    Google TV - Streaming</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">2HDR Smart
-                                                                    Portable Projector - SP-LSP3BL</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">SAMSUNG
-                                                                    Galaxy Tab
-                                                                    A7 Lite, 8.7&quot; Tablet 32GB</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">Class 4K
-                                                                    UHD
-                                                                    (2160P) LED Roku Smart TV HDR</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">HP 24
-                                                                    All-in-One
-                                                                    PC, Intel Core i3-1115G4, 4GB RAM</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
-                                                        <div class="card-grid-inner">
-                                                            <div class="tools">
-                                                                {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                    aria-label="Trend" data-bs-placement="left"></a> --}}
-                                                                <a class="btn btn-wishlist btn-tooltip mb-10"
-                                                                    href="{{ route('buyer.wishlist') }}"
-                                                                    aria-label="Tambahkan ke Wishlist"></a>
-                                                                {{--
-                                    <a
-                                    class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                    data-bs-toggle="modal"></a> --}}
-                                                            </div>
-                                                            <div class="image-box"><span
-                                                                    class="label bg-brand-2">-17%</span><a
-                                                                    href="{{ route('buyer.detailProduct') }}"><img
-                                                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                                                        alt="Ecom"></a></div>
-                                                            <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                                                    class="color-brand-3 font-sm-bold"
-                                                                    href="{{ route('buyer.detailProduct') }}">Dell
-                                                                    Optiplex 9020
-                                                                    Small Form Business Desktop</a>
-                                                                <div class="rating"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><img
-                                                                        src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                        alt="Ecom"><span
-                                                                        class="font-xs color-gray-500">(65)</span>
-                                                                </div>
-                                                                <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">$2856.3</strong><span
-                                                                        class="color-gray-500 price-line">$3225.6</span>
-                                                                </div>
-                                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
-                                                                        href="{{ route('buyer.cart') }}">Keranjang</a></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="mt-20 box-btn-cart"><a class="btn btn-cart"
+                                                        href="{{ route('buyer.cart') }}">Keranjang</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            @endforeach
+                        @else
+                            <div class="col-lg-12 text-center mt-40">
+                                <h4>Tidak ada data Produk saat ini</h4>
                             </div>
-                        </div>
+                        @endif
                     </div>
-                    <div class="col-xl-3 col-lg-4">
+                </div>
+
+            </div>
+        </div>
+        {{-- <div class="col-xl-3 col-lg-4">
                         <div class="box-slider-item box-sidebar">
                             <div class="head">
                                 <h5 class="d-inline-block">Penjualan Terbaik</h5>
@@ -2430,12 +398,12 @@
                                             <div class="swiper-slide">
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/camera.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">LG 65&quot; Class
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">LG 65&quot; Class
                                                             4K UHD
                                                             Smart TV OLED A1 Series </a>
                                                         <div class="rating"><img
@@ -2458,12 +426,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/clock.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Chromecast with
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">Chromecast with
                                                             Google TV
                                                             - Streaming Entertainment</a>
                                                         <div class="rating"><img
@@ -2486,12 +454,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/airpod.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">2022 Apple iMac
                                                             with
                                                             Retina 5K Display 8GB RAM, 256GB SSD</a>
                                                         <div class="rating"><img
@@ -2514,12 +482,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/camera.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">RCA 43&quot; Class
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">RCA 43&quot; Class
                                                             4K
                                                             Ultra HD (2160P) HDR Roku Smart</a>
                                                         <div class="rating"><img
@@ -2542,12 +510,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/clock.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Apple Watch Series
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">Apple Watch Series
                                                             7 GPS +
                                                             Cellular, 41mm Midnight</a>
                                                         <div class="rating"><img
@@ -2570,12 +538,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/airpod.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP 11.6&quot;
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">HP 11.6&quot;
                                                             Chromebook,
                                                             AMD A4, 4GB RAM, 32GB Storage</a>
                                                         <div class="rating"><img
@@ -2621,12 +589,12 @@
                                             <div class="swiper-slide">
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/camera.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">2022 Apple iMac
                                                             with
                                                             Retina 5K Display 8GB RAM, 256GB SSD</a>
                                                         <div class="rating"><img
@@ -2649,12 +617,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/clock.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">HP 11.6&quot;
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">HP 11.6&quot;
                                                             Chromebook,
                                                             AMD A4, 4GB RAM, 32GB Storage</a>
                                                         <div class="rating"><img
@@ -2677,12 +645,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/airpod.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">MSI Optix G272
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">MSI Optix G272
                                                             27&quot;
                                                             Full HD LED Gaming LCD Monitor</a>
                                                         <div class="rating"><img
@@ -2705,12 +673,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/camera.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">Apple Watch Series
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">Apple Watch Series
                                                             7 GPS +
                                                             Cellular, 41mm Midnight</a>
                                                         <div class="rating"><img
@@ -2733,12 +701,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/clock.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">LG 65&quot; Class
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">LG 65&quot; Class
                                                             4K UHD
                                                             Smart TV OLED A1 Series D</a>
                                                         <div class="rating"><img
@@ -2761,12 +729,12 @@
                                                 </div>
                                                 <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
                                                     <div class="image-box"><a
-                                                            href="{{ route('buyer.detailProduct') }}"><img
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}"><img
                                                                 src="{{ asset('ecom/imgs/page/homepage2/airpod.png') }}"
                                                                 alt="Ecom"></a>
                                                     </div>
                                                     <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac
+                                                            href="{{ route('buyer.detailProduct',['slug'=>'slug']) }}">2022 Apple iMac
                                                             with
                                                             Retina 5K Display 8GB RAM, 256GB SSD</a>
                                                         <div class="rating"><img
@@ -2793,41 +761,62 @@
                                 </div>
                             </div>
                         </div>
+                    </div> --}}
+        <div class="section-box pt-30 pb-60 bg-gray-50 mt-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="box-content">
+                            <div class="head-main bd-gray-200">
+                                <div class="row">
+                                    <div class="col-xl-7 col-lg-6">
+                                        <h3 class="mb-5">Artikel</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-swiper">
+                                <div class="swiper-container swiper-tab-4">
+                                    <div class="row mt-4">
+                                        @if (count($data['articles']) > 0)
+                                            @foreach ($data['articles'] as $article)
+                                                <div class="col-xl-3 col-lg-6 col-md-6">
+                                                    <div class="card-grid-style-3">
+                                                        <div class="card-grid-inner">
+                                                            <div class="image-box">
+                                                                <a
+                                                                    href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}">
+                                                                    <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
+                                                                        alt="produk {{ $article->title ?? '' }}"></a>
+                                                            </div>
+                                                            <div class="info-right">
+                                                                <a
+                                                                    class="color-brand-3 font-sm-bold line-2 text-start"
+                                                                    href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}">{{ $article->title ?? '' }}</a>
+                                                                    <div class="price-info">
+                                                                        <span
+                                                                            class="color-gray-500 line-3 text-start">{!! $article->content !!}</span>
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <div class="col-lg-12 text-center mt-40">
+                                                <h4>Tidak ada Artikel saat ini</h4>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
-        <section class="section-box pt-50">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 mb-30">
-                        <div class="bg-5 block-iphone"><span class="color-brand-3 font-sm-lh32">Starting from
-                                $899</span>
-                            <h3 class="font-xl mb-10">iPhone 12 Pro 128Gb</h3>
-                            <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow"
-                                href="{{ route('buyer.allGridProduct') }}">Selengkapnya</a>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-7 col-md-7 col-sm-12 mb-30">
-                        <div class="bg-4 block-samsung"><span class="color-brand-3 font-sm-lh32">New Arrivals</span>
-                            <h3 class="font-xl mb-10">Samsung 2022 Led TV</h3>
-                            <p class="font-base color-brand-3 mb-20">Special Sale</p><a
-                                class="btn btn-brand-2 btn-arrow-right"
-                                href="{{ route('buyer.allGridProduct') }}">Selengkapnya</a>
-                        </div>
-                    </div>
-                    <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
-                        <div class="bg-6 block-drone">
-                            <h3 class="font-33 mb-20">Drone Quadcopter UAV - DJI Air 2S</h3>
-                            <div class="mb-30"><strong class="font-18">Gimbal Camera, 5.4K Video</strong></div><a
-                                class="btn btn-brand-2 btn-arrow-right"
-                                href="{{ route('buyer.allGridProduct') }}">Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="section-box mt-50">
+        {{-- <section class="section-box mt-50">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -2858,169 +847,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card-grid-style-2">
-                            <div class="image-box"><a href="#"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}" alt="Ecom"></a>
-                            </div>
-                            <div class="info-right"><span class="font-xs color-gray-500">HP</span><br><a
-                                    class="color-brand-3 font-sm-bold" href="#">HP 11.6&quot; Chromebook, AMD
-                                    A4, 4GB RAM, 32GB Storage</a>
-                                <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                                <div class="price-info"><strong
-                                        class="font-lg-bold color-brand-3 price-main">$2556.3</strong><span
-                                        class="color-gray-500 price-line">$3225.6</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card-grid-style-2">
-                            <div class="image-box"><a href="#"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}" alt="Ecom"></a>
-                            </div>
-                            <div class="info-right"><span class="font-xs color-gray-500">RCA</span><br><a
-                                    class="color-brand-3 font-sm-bold" href="#">RCA 43&quot; Class 4K Ultra HD
-                                    (2160P) HDR Roku Smart</a>
-                                <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                                <div class="price-info"><strong
-                                        class="font-lg-bold color-brand-3 price-main">$2556.3</strong><span
-                                        class="color-gray-500 price-line">$3225.6</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card-grid-style-2">
-                            <div class="image-box"><a href="#"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}" alt="Ecom"></a>
-                            </div>
-                            <div class="info-right"><span class="font-xs color-gray-500">ASUS</span><br><a
-                                    class="color-brand-3 font-sm-bold" href="#">ASUS VivoBook 15.6&quot; 1080p
-                                    PC Laptops, Intel Core i3</a>
-                                <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                                <div class="price-info"><strong
-                                        class="font-lg-bold color-brand-3 price-main">$2556.3</strong><span
-                                        class="color-gray-500 price-line">$3225.6</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card-grid-style-2">
-                            <div class="image-box"><a href="#"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}" alt="Ecom"></a>
-                            </div>
-                            <div class="info-right"><span class="font-xs color-gray-500">LG</span><br><a
-                                    class="color-brand-3 font-sm-bold" href="#">LG 65&quot; Class 4K UHD Smart
-                                    TV OLED A1 Series </a>
-                                <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                                <div class="price-info"><strong
-                                        class="font-lg-bold color-brand-3 price-main">$2556.3</strong><span
-                                        class="color-gray-500 price-line">$3225.6</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card-grid-style-2">
-                            <div class="image-box"><a href="#"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}" alt="Ecom"></a>
-                            </div>
-                            <div class="info-right"><span class="font-xs color-gray-500">SAMSUNG</span><br><a
-                                    class="color-brand-3 font-sm-bold" href="#">SAMSUNG Galaxy Tab A7 Lite,
-                                    8.7&quot; Tablet 32GB</a>
-                                <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                                <div class="price-info"><strong
-                                        class="font-lg-bold color-brand-3 price-main">$2556.3</strong><span
-                                        class="color-gray-500 price-line">$3225.6</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card-grid-style-2">
-                            <div class="image-box"><a href="#"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}" alt="Ecom"></a>
-                            </div>
-                            <div class="info-right"><span class="font-xs color-gray-500">Apple</span><br><a
-                                    class="color-brand-3 font-sm-bold" href="#">2022 Apple iMac with Retina 5K
-                                    Display 8GB RAM, 256GB SSD</a>
-                                <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                                <div class="price-info"><strong
-                                        class="font-lg-bold color-brand-3 price-main">$2556.3</strong><span
-                                        class="color-gray-500 price-line">$3225.6</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card-grid-style-2">
-                            <div class="image-box"><a href="#"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}" alt="Ecom"></a>
-                            </div>
-                            <div class="info-right"><span class="font-xs color-gray-500">Apple</span><br><a
-                                    class="color-brand-3 font-sm-bold" href="#">Apple AirPods Pro with MagSafe
-                                    Charging Case</a>
-                                <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                                <div class="price-info"><strong
-                                        class="font-lg-bold color-brand-3 price-main">$2556.3</strong><span
-                                        class="color-gray-500 price-line">$3225.6</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-12">
-                        <div class="card-grid-style-2">
-                            <div class="image-box"><a href="#"><img
-                                        src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}" alt="Ecom"></a>
-                            </div>
-                            <div class="info-right"><span class="font-xs color-gray-500">HP</span><br><a
-                                    class="color-brand-3 font-sm-bold" href="#">HP Slim Desktop, Intel Celeron
-                                    J4025, 4GB RAM</a>
-                                <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500">(65)</span></div>
-                                <div class="price-info"><strong
-                                        class="font-lg-bold color-brand-3 price-main">$2556.3</strong><span
-                                        class="color-gray-500 price-line">$3225.6</span></div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         {{-- <section class="section-box pt-50">
             <div class="container">
                 <div class="row">
@@ -3228,7 +1057,7 @@
                                     <div class="info-by"><span
                                             class="bytext color-gray-500 font-xs font-medium">by</span><a
                                             class="byAUthor color-gray-900 font-xs font-medium"
-                                            href="{{ route('buyer.detailSeller') }}"> Ecom Tech</a>
+                                            href="{{ route('buyer.detailSeller', ['slug' => 'sd']) }}"> Ecom Tech</a>
                                         <div class="rating d-inline-block"><img
                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -3258,8 +1087,8 @@
                                         </ul>
                                     </div>
                                     <div class="box-product-color mt-10">
-                                        <p class="font-sm color-gray-900">Color:<span
-                                                class="color-brand-2 nameColor">Pink Gold</span></p>
+                                        <p class="font-sm color-gray-900">Color:<span class="color-brand-2 nameColor">Pink
+                                                Gold</span></p>
                                         <ul class="list-colors">
                                             <li class="disabled"><img
                                                     src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
@@ -3309,13 +1138,12 @@
                                         <p class="font-sm mb-10">Kuantitas</p>
                                         <div class="box-quantity">
                                             <div class="input-quantity">
-                                                <input class="font-xl color-brand-3" type="text"
-                                                    value="1"><span class="minus-cart"></span><span
-                                                    class="plus-cart"></span>
+                                                <input class="font-xl color-brand-3" type="text" value="1"><span
+                                                    class="minus-cart"></span><span class="plus-cart"></span>
                                             </div>
                                             <div class="button-buy"><a class="btn btn-cart"
-                                                    href="{{ route('buyer.cart') }}">Keranjang</a><a
-                                                    class="btn btn-buy" href="{{ route('buyer.checkout') }}">Beli
+                                                    href="{{ route('buyer.cart') }}">Keranjang</a><a class="btn btn-buy"
+                                                    href="{{ route('buyer.checkout') }}">Beli
                                                     Sekarang</a></div>
 
                                         </div>

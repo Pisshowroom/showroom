@@ -31,7 +31,7 @@
                             <div class="row">
                                 <div class="col-xl-2 col-lg-3 mb-10 text-lg-start text-center"><a
                                         class="btn btn-filter font-sm color-brand-3 font-medium" href="#ModalFiltersForm"
-                                        data-bs-toggle="modal">Semua Filter</a></div>
+                                        data-bs-toggle="modal">Filter</a></div>
                                 <div class="col-xl-10 col-lg-9 mb-10 text-lg-end text-center"><span
                                     class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
                                     1&ndash;16
@@ -78,7 +78,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -126,7 +126,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -150,7 +150,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -174,7 +174,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -198,7 +198,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -222,7 +222,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -246,7 +246,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -270,7 +270,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -294,7 +294,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -318,7 +318,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -342,7 +342,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -366,7 +366,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -390,7 +390,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -414,7 +414,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -438,7 +438,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -462,7 +462,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -486,7 +486,7 @@
                                                     alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         </div>
                                         <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                href="{{ route('buyer.detailSeller') }}">360 Produk</a>
+                                                href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}">360 Produk</a>
                                             <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                         </div>
                                     </div>
@@ -557,7 +557,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-slider-item">
+                        {{-- <div class="box-slider-item">
                             <div class="head pb-15 border-brand-2">
                                 <h5 class="color-gray-900">Penjual berdasarkan tag</h5>
                             </div>
@@ -577,7 +577,7 @@
                                     href="{{ route('buyer.allSeller') }}">Laptop</a><a class="btn btn-border mr-5"
                                     href="{{ route('buyer.allSeller') }}">Dashboard</a><a class="btn btn-border mr-5"
                                     href="{{ route('buyer.allSeller') }}">Keyboard</a></div>
-                        </div>
+                        </div> --}}
                         {{-- <div class="box-slider-item">
                             <div class="head pb-15 border-brand-2 mb-20">
                                 <h5 class="color-gray-900">Make money with us</h5>
@@ -973,7 +973,7 @@
                                     <div class="info-by"><span
                                             class="bytext color-gray-500 font-xs font-medium">by</span><a
                                             class="byAUthor color-gray-900 font-xs font-medium"
-                                            href="{{ route('buyer.detailSeller') }}"> Ecom Tech</a>
+                                            href="{{ route('buyer.detailSeller', ['slug' => 'asa']) }}"> Ecom Tech</a>
                                         <div class="rating d-inline-block"><img
                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img
                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img

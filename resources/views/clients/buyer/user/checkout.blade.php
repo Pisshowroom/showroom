@@ -89,8 +89,8 @@
                 <div class="item-wishlist">
                   <div class="wishlist-product">
                     <div class="product-wishlist">
-                      <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img src="{{ asset('ecom/imgs/page/product/img-sub.png') }}" alt="Ecom"></a></div>
-                      <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                      <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img src="{{ asset('ecom/imgs/page/product/img-sub.png') }}" alt="Ecom"></a></div>
+                      <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                           <h6 class="color-brand-3">Gateway 23.8&quot; All-in-one Desktop, Fully Adjustable Stand</h6></a>
                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                       </div>
@@ -106,8 +106,8 @@
                 <div class="item-wishlist">
                   <div class="wishlist-product">
                     <div class="product-wishlist">
-                      <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img src="{{ asset('ecom/imgs/page/product/img-sub2.png') }}" alt="Ecom"></a></div>
-                      <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                      <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img src="{{ asset('ecom/imgs/page/product/img-sub2.png') }}" alt="Ecom"></a></div>
+                      <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                           <h6 class="color-brand-3">HP 24 All-in-One PC, Intel Core i3-1115G4, 4GB RAM</h6></a>
                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                       </div>
@@ -123,8 +123,8 @@
                 <div class="item-wishlist">
                   <div class="wishlist-product">
                     <div class="product-wishlist">
-                      <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img src="{{ asset('ecom/imgs/page/product/img-sub3.png') }}" alt="Ecom"></a></div>
-                      <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                      <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img src="{{ asset('ecom/imgs/page/product/img-sub3.png') }}" alt="Ecom"></a></div>
+                      <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                           <h6 class="color-brand-3">Dell Optiplex 9020 Small Form Business Desktop Tower PC</h6></a>
                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                       </div>

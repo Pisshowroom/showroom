@@ -6,10 +6,12 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">Products List</h2>
+                <h2 class="content-title card-title">List Produk</h2>
             </div>
-            <div><a class="btn btn-light rounded font-md" href="#">Export</a><a class="btn btn-light rounded font-md"
-                    href="#">Import</a><a class="btn btn-primary btn-sm rounded" href="#">Create new</a></div>
+            <div>
+                {{-- <a class="btn btn-light rounded font-md" href="#">Export</a><a class="btn btn-light rounded font-md"
+                    href="#">Import</a> --}}
+                    <a class="btn btn-primary btn-sm rounded" href="{{ route('dashboardSeller.addProduct') }}">Tambah Produk</a></div>
         </div>
         <div class="card mb-4">
             <header class="card-header">

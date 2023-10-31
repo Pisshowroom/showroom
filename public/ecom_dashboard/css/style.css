@@ -465,6 +465,10 @@ button {
   cursor: pointer;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 b {
   font-weight: 500;
 }
@@ -2917,7 +2921,7 @@ ul.row, ul.row-sm {
 }
 
 /***************************
-    Page section margin 
+    Page section margin
 ****************************/
 .mtb-0 {
   margin: 0;
@@ -4156,7 +4160,7 @@ body.dark .dropdown-menu .dropdown-item.text-danger {
     min-width: unset;
   }
   .table-responsive table td {
-    display: block;
+    /* display: block; */
     width: 100%;
     text-align: center;
   }

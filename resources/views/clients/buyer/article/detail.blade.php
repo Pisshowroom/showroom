@@ -18,89 +18,26 @@
         <section class="section-box shop-template mt-10">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-9">
+                    <div class="col-12">
                         <div class="row">
-                            <div class="col-lg-12 mb-50 display-list"><a class="tag-dot font-xs"
-                                    href="#">Technology</a>
-                                <h3 class="mt-15 mb-25">The latest technologies to be used for VR in 2022</h3>
+                            <div class="col-lg-12 display-list">
+                                {{-- <a class="tag-dot font-xs"
+                                    href="#">Technology</a> --}}
+                                <h3 class="mt-15 mb-25">{{ $article->title ?? '' }}</h3>
                                 <div class="box-author mb-5">
                                     <div class="img-author mr-30"><img src="{{ asset('ecom/imgs/page/blog/author.png') }}"
                                             alt="Ecom"><span class="font-md-bold">By Sugar Rosie</span></div><span
-                                        class="datepost color-gray-500 font-sm mr-30">August 30, 2022</span><span
-                                        class="timeread color-gray-500 font-sm">4 Mins read</span>
+                                        class="datepost color-gray-500 font-sm mr-30">{{ $article->date ?? '' }}</span>
+                                    {{-- <span
+                                        class="timeread color-gray-500 font-sm">4 Mins read</span> --}}
                                 </div>
-                                <div class="image-feature"><img src="{{ asset('ecom/imgs/page/blog/img-big.png') }}"
-                                        alt="Ecom"></div>
+                                <div class="image-feature"><img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
+                                        alt="artikel {{ $article->title ?? '' }}"></div>
                                 <div class="content-text">
-                                    <p>Nibiru, a new crypto derivatives protocol co-founded by Tribe Capital GP Arjun Sethi,
-                                        has raised $7.5 million in seed funding at a valuation of $100 million, two sources
-                                        familiar with the matter told TechCrunch.<br>Tribe Capital, Republic Crypto and
-                                        Kraken invested in the seed round, a source said, requesting anonymity as the
-                                        information is not public.<br>Sethi co-founded the startups with four industry
-                                        veterans — including Sankha Banerjee, formerly with Credence Capital and Binance;
-                                        and Boris Revsin, who co-founded Republic Capital. Nibiru has attracted nearly two
-                                        dozen contributors from firms including Meta, Reddit, JP Morgan and Yahoo, an
-                                        investor deck obtained by TechCrunch showed.</p>
-                                    <p>The crypto market is flooded with centralized (Binance, FTX) and decentralized
-                                        ETH-based perpetuals and options trading platforms (Dydx, Opyn, Perpetual Protocol).
-                                        Nibiru is attempting to build the first mainstream decentralized multichain
-                                        solution, according to its website.<br>Currently in private testnet, Nibiru’s
-                                        decentralized protocol unifies derivatives trading, spot trading, staking and bonded
-                                        liquidity, and aims to serve users across over 40 blockchains, it says on the
-                                        website.<br>On its investor deck, Nibiru says it will provide customers with
-                                        unlocked hedging opportunities, extremely low gas costs, MEV resistance and high
-                                        futures volume. It is also creating composable yield in rising/falling regimes using
-                                        decentralized perps and options, the deck added.Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Nibiru, a new crypto
-                                        derivatives protocol co-founded by Tribe Capital GP Arjun Sethi, has raised $7.5
-                                        million in seed funding at a valuation of $100 million, two sources familiar with
-                                        the matter told TechCrunch. has raised $7.5 million in seed funding at a valuation
-                                        of $100 million, two sources familiar with the matter told TechCrunch.</p>
-                                    <h4 class="mt-20 mb-20">The FTC Is Closing in on Runaway AI</h4>
-                                    <p>Nibiru, a new crypto derivatives protocol co-founded by Tribe Capital GP Arjun Sethi,
-                                        has raised $7.5 million in seed funding at a valuation of $100 million, two sources
-                                        familiar with the matter told TechCrunch.<br>Tribe Capital, Republic Crypto and
-                                        Kraken invested in the seed round, a source said, requesting anonymity as the
-                                        information is not public.<br>Sethi co-founded the startups with four industry
-                                        veterans — including Sankha Banerjee, formerly with Credence Capital and Binance;
-                                        and Boris Revsin, who co-founded Republic Capital. Nibiru has attracted nearly two
-                                        dozen contributors from firms including Meta, Reddit, JP Morgan and Yahoo, an
-                                        investor deck obtained by TechCrunch showed.</p>
-                                    <div class="image-single"><img src="{{ asset('ecom/imgs/page/blog/img-single.png') }}"
-                                            alt="Ecom"></div>
-                                    <p>Nibiru, a new crypto derivatives protocol co-founded by Tribe Capital GP Arjun Sethi,
-                                        has raised $7.5 million in seed funding at a valuation of $100 million, two sources
-                                        familiar with the matter told TechCrunch.<br>Tribe Capital, Republic Crypto and
-                                        Kraken invested in the seed round, a source said, requesting anonymity as the
-                                        information is not public.<br>Sethi co-founded the startups with four industry
-                                        veterans — including Sankha Banerjee, formerly with Credence Capital and Binance;
-                                        and Boris Revsin, who co-founded Republic Capital. Nibiru has attracted nearly two
-                                        dozen contributors from firms including Meta, Reddit, JP Morgan and Yahoo, an
-                                        investor deck obtained by TechCrunch showed.</p>
-                                    <p>The crypto market is flooded with centralized (Binance, FTX) and decentralized
-                                        ETH-based perpetuals and options trading platforms (Dydx, Opyn, Perpetual Protocol).
-                                        Nibiru is attempting to build the first mainstream decentralized multichain
-                                        solution, according to its website.<br>Currently in private testnet, Nibiru’s
-                                        decentralized protocol unifies derivatives trading, spot trading, staking and bonded
-                                        liquidity, and aims to serve users across over 40 blockchains, it says on the
-                                        website.<br>On its investor deck, Nibiru says it will provide customers with
-                                        unlocked hedging opportunities, extremely low gas costs, MEV resistance and high
-                                        futures volume. It is also creating composable yield in rising/falling regimes using
-                                        decentralized perps and options, the deck added.Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                                        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Nibiru, a new crypto
-                                        derivatives protocol co-founded by Tribe Capital GP Arjun Sethi, has raised $7.5
-                                        million in seed funding at a valuation of $100 million, two sources familiar with
-                                        the matter told TechCrunch. has raised $7.5 million in seed funding at a valuation
-                                        of $100 million, two sources familiar with the matter told TechCrunch.</p>
+                                    {!! $article->content ?? '' !!}
                                 </div>
-                                <div class="border-bottom-4 mb-20"></div>
-                                <div class="row">
+                                <div class="border-bottom-4 mt-20"></div>
+                                {{-- <div class="row">
                                     <div class="col-lg-6">
                                         <div class="box-tags"><a class="btn btn-tags mr-10 hover-up">Technology</a><a
                                                 class="btn btn-tags mr-10 hover-up">Devices</a><a
@@ -116,8 +53,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="border-bottom-4 mt-20 mb-30"></div>
+                                </div> --}}
+                                {{-- <div class="border-bottom-4 mt-20 mb-30"></div>
                                 <div class="comment-box">
                                     <div class="comment-item">
                                         <div class="top-comment">
@@ -215,11 +152,11 @@
                                             valuation of $100 million, two sources familiar with the matter told TechCrunch.
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    {{-- <div class="col-lg-3">
                         <div class="sidebar-border">
                             <div class="sidebar-head">
                                 <h6 class="color-gray-900">Kategori</h6>
@@ -237,17 +174,6 @@
                                     <li><a href="blog.html">Tips and Tricks<span class="number">23</span></a></li>
                                     <li><a href="blog.html">Make money online<span class="number">98</span></a></li>
                                 </ul>
-                                {{-- <div>
-                                    <div class="collapse" id="moreMenu">
-                                        <ul class="list-nav-arrow">
-                                            <li><a href="blog-2.html">Home theater<span class="number">98</span></a></li>
-                                            <li><a href="blog-2.html">Cameras & drones<span class="number">124</span></a>
-                                            </li>
-                                            <li><a href="blog-2.html">PC gaming<span class="number">56</span></a></li>
-                                        </ul>
-                                    </div><a class="link-see-more mt-5" data-bs-toggle="collapse" href="#moreMenu"
-                                        role="button" aria-expanded="false" aria-controls="moreMenu">See More</a>
-                                </div> --}}
                             </div>
                         </div>
                         <div class="box-slider-item mb-30">
@@ -400,11 +326,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>
-        <section class="section-box shop-template mt-30">
+        {{-- <section class="section-box shop-template mt-30">
             <div class="container">
                 <h3 class="color-brand-3">Artikel Terkait</h3>
                 <div class="row mt-30">
@@ -466,7 +392,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         @include('clients.buyer.layouts.benefit')
     </main>
 @endsection

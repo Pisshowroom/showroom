@@ -56,7 +56,7 @@
     <div class="container">
         <div class="main-header">
             <div class="header-left">
-                <div class="header-logo"><a class="d-flex" href="{{ route('buyer.home') }}"><img alt="Ecom"
+                <div class="header-logo logo-auth"><a class="d-flex" href="{{ route('buyer.home') }}"><img alt="Ecom"
                             src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
                 <div class="header-search">
                     <div class="box-header-search">
@@ -99,10 +99,10 @@
                                     <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 4</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
                                     <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
                                     <li><a href="{{ route('buyer.checkout') }}">Shop Checkout</a></li>
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
@@ -162,7 +162,7 @@
                                             alt="Ecom">
                                     </div>
                                     <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">2022 Apple iMac with Retina 5K
                                             Display 8GB RAM,
                                             256GB SSD</a>
                                         <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
@@ -173,7 +173,7 @@
                                             alt="Ecom">
                                     </div>
                                     <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">2022 Apple iMac with Retina 5K
                                             Display 8GB
                                             RAM, 256GB SSD</a>
                                         <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
@@ -228,10 +228,10 @@
                                     <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 4</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
                                     <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
                                     <li><a href="{{ route('buyer.checkout') }}">Shop Checkout</a></li>
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
@@ -520,10 +520,10 @@
                                     <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 4</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
                                     <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
                                     <li><a href="{{ route('buyer.checkout') }}">Shop Checkout</a></li>
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>

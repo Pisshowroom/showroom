@@ -92,9 +92,9 @@
                             <li><a href="#">Spesial</a></li>
                             <li><a href="#">Penjual Teratas</a></li>
                         </ul>
-                    </nav>
+                    </nav> --}}
                     <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
-                            class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div> --}}
+                            class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
                 </div>
                 <div class="header-shop">
                     @auth
@@ -122,7 +122,7 @@
                                     <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
                                             alt="Ecom"></div>
                                     <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">2022 Apple iMac with Retina 5K
                                             Display 8GB
                                             RAM, 256GB SSD</a>
                                         <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
@@ -132,7 +132,7 @@
                                     <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
                                             alt="Ecom"></div>
                                     <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                            href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">2022 Apple iMac with Retina 5K
                                             Display
                                             8GB RAM, 256GB SSD</a>
                                         <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
@@ -164,7 +164,7 @@
         </div>
         <div class="header-bottom">
             <div class="container">
-                <div class="dropdown d-inline-block">
+                {{-- <div class="dropdown d-inline-block">
                     <button class="btn dropdown-toggle btn-category" id="dropdownCategory" type="button"
                         data-bs-toggle="dropdown" aria-expanded="true" data-bs-display="static"><span
                             class="dropdown-right font-sm-bold color-white">Berdasarkan Kategori</span></button>
@@ -255,7 +255,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> --}}
                 <div class="header-nav d-inline-block">
                     <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
@@ -272,10 +272,10 @@
                                     <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 4</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
                                     <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
                                     <li><a href="{{ route('buyer.checkout') }}">Shop Checkout</a></li>
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
@@ -328,10 +328,10 @@
                                     <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
                                     <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct') }}">Single Product 4</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
+                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
                                     <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
                                     <li><a href="{{ route('buyer.checkout') }}">Shop Checkout</a></li>
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>

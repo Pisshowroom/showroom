@@ -41,11 +41,9 @@
                     <h4 class="mb-30 color-gray-1000">Akun saya</h4>
                     <ul class="menu-footer">
                         <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Editor Help</a></li>
-                        <li><a href="#">Community</a></li>
-                        <li><a href="#">Live Chatting</a></li>
                         <li><a href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                        <li><a href="#">Support Center</a></li>
+                        <li><a href="{{ route('buyer.about') }}">Tentang Kami</a></li>
+                        <li><a href="{{ route('buyer.term') }}">Syarat & Ketentuan</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
@@ -71,39 +69,6 @@
                         href="#">EcomMarket.com</a><a class="font-xs color-gray-1000" href="#">Ecom
                         Partners</a><a class="font-xs color-gray-1000" href="#">Ecom
                         Bussiness</a><a class="font-xs color-gray-1000" href="#">Ecom Factory</a></div>
-                <div class="footer-2-bottom">
-                    <div class="head-left-footer">
-                        <h6 class="color-gray-1000">Electronic:</h6>
-                    </div>
-                    <div class="tags-footer"><a href="{{ route('buyer.allGridProduct') }}">Cell Phones</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Headphones</a><a href="{{ route('buyer.allGridProduct') }}">Television &amp;
-                            Video</a><a href="{{ route('buyer.allListProduct') }}">Game Controller</a><a href="{{ route('buyer.allGridProduct') }}">Apple
-                            Watch</a><a href="{{ route('buyer.allGridProduct') }}">HTC</a><a href="{{ route('buyer.allGridProduct') }}">Ipad</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Keyboard</a><a href="{{ route('buyer.allGridProduct') }}">Samsung</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Wireless Speaker</a><a href="{{ route('buyer.allGridProduct') }}">Samsung Galaxy</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Gaming Mouse</a><a href="{{ route('buyer.allGridProduct') }}">eBook Readers</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Service Plans</a><a href="{{ route('buyer.allGridProduct') }}">Home Audio</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Office
-                            Electronics</a><a href="{{ route('buyer.allGridProduct') }}">Lenovo</a><a href="{{ route('buyer.allGridProduct') }}">Mackbook
-                            Pro M1</a><a href="{{ route('buyer.allGridProduct') }}">HD Videos Player</a></div>
-                </div>
-                <div class="footer-2-bottom">
-                    <div class="head-left-footer">
-                        <h6 class="color-gray-1000">Furniture:</h6>
-                    </div>
-                    <div class="tags-footer"><a href="{{ route('buyer.allGridProduct') }}">Sofa</a><a href="{{ route('buyer.allGridProduct') }}">Chair</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Dining Table</a><a href="{{ route('buyer.allGridProduct') }}">Living Room</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Table Lamp</a><a href="{{ route('buyer.allGridProduct') }}">Night Stand</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Computer Desk</a><a href="{{ route('buyer.allGridProduct') }}">Bar Table</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Pillow</a><a href="{{ route('buyer.allGridProduct') }}">Radio</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Clock</a><a href="{{ route('buyer.allGridProduct') }}">Bad Room</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Stool</a><a href="{{ route('buyer.allGridProduct') }}">Television</a><a
-                            href="{{ route('buyer.allGridProduct') }}">wardrobe</a><a href="{{ route('buyer.allGridProduct') }}">Living Room Tables</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Dressers</a><a href="{{ route('buyer.allGridProduct') }}">Patio Sofas</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Nursery</a><a href="{{ route('buyer.allGridProduct') }}">Kitchen</a><a
-                            href="{{ route('buyer.allGridProduct') }}">Accent Furniture</a><a href="{{ route('buyer.allGridProduct') }}">Replacement Parts</a>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="container">

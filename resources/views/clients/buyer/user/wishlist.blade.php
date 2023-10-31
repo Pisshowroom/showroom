@@ -37,10 +37,10 @@
                             </div>
                             <div class="wishlist-product">
                                 <div class="product-wishlist">
-                                    <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-sub.png') }}" alt="Ecom"></a>
                                     </div>
-                                    <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                    <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                             <h6 class="color-brand-3">Samsung 36&quot; French door 28 cu. ft. Smart Energy
                                                 Star Refrigerator </h6>
                                         </a>
@@ -68,11 +68,11 @@
                             </div>
                             <div class="wishlist-product">
                                 <div class="product-wishlist">
-                                    <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-sub2.png') }}"
                                                 alt="Ecom"></a>
                                     </div>
-                                    <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                    <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                             <h6 class="color-brand-3">Samsung 36&quot; French door 28 cu. ft. Smart Energy
                                                 Star Refrigerator </h6>
                                         </a>
@@ -100,10 +100,10 @@
                             </div>
                             <div class="wishlist-product">
                                 <div class="product-wishlist">
-                                    <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-sub3.png') }}"
                                                 alt="Ecom"></a></div>
-                                    <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                    <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                             <h6 class="color-brand-3">Samsung 36&quot; French door 28 cu. ft. Smart Energy
                                                 Star Refrigerator </h6>
                                         </a>
@@ -135,10 +135,10 @@
                             </div>
                             <div class="wishlist-product">
                                 <div class="product-wishlist">
-                                    <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-sub4.png') }}"
                                                 alt="Ecom"></a></div>
-                                    <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                    <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                             <h6 class="color-brand-3">Samsung 36&quot; French door 28 cu. ft. Smart Energy
                                                 Star Refrigerator </h6>
                                         </a>
@@ -170,10 +170,10 @@
                             </div>
                             <div class="wishlist-product">
                                 <div class="product-wishlist">
-                                    <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-sub5.png') }}"
                                                 alt="Ecom"></a></div>
-                                    <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                    <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                             <h6 class="color-brand-3">Samsung 36&quot; French door 28 cu. ft. Smart Energy
                                                 Star Refrigerator </h6>
                                         </a>
@@ -205,10 +205,10 @@
                             </div>
                             <div class="wishlist-product">
                                 <div class="product-wishlist">
-                                    <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-sub.png') }}"
                                                 alt="Ecom"></a></div>
-                                    <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                    <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                             <h6 class="color-brand-3">Samsung 36&quot; French door 28 cu. ft. Smart Energy
                                                 Star Refrigerator </h6>
                                         </a>
@@ -240,10 +240,10 @@
                             </div>
                             <div class="wishlist-product">
                                 <div class="product-wishlist">
-                                    <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-sub2.png') }}"
                                                 alt="Ecom"></a></div>
-                                    <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                    <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                             <h6 class="color-brand-3">Samsung 36&quot; French door 28 cu. ft. Smart Energy
                                                 Star Refrigerator </h6>
                                         </a>
@@ -286,12 +286,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
-                                    href="{{ route('buyer.detailProduct') }}">Razer Power Up Gaming Bundle V2 - Cynosa Lite</a>
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Razer Power Up Gaming Bundle V2 - Cynosa Lite</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -319,12 +319,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
-                                    href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K Display 8GB RAM</a>
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">2022 Apple iMac with Retina 5K Display 8GB RAM</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -352,12 +352,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
-                                    href="{{ route('buyer.detailProduct') }}">Samsung Galaxy Tab A7 Lite, 8.7&quot; Tablet 32</a>
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Samsung Galaxy Tab A7 Lite, 8.7&quot; Tablet 32</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -385,12 +385,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
-                                    href="{{ route('buyer.detailProduct') }}">2022 Apple iMac with Retina 5K Display 8GB RAM</a>
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">2022 Apple iMac with Retina 5K Display 8GB RAM</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -418,12 +418,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
-                                    href="{{ route('buyer.detailProduct') }}">HDR Smart Portable Projector - SP-LSP3B</a>
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Apple</a><br><a class="color-brand-3 font-sm-bold"
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HDR Smart Portable Projector - SP-LSP3B</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -896,7 +896,7 @@
                                     <div class="info-by"><span
                                             class="bytext color-gray-500 font-xs font-medium">by</span><a
                                             class="byAUthor color-gray-900 font-xs font-medium"
-                                            href="{{ route('buyer.detailSeller') }}"> Ecom Tech</a>
+                                            href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}"> Ecom Tech</a>
                                         <div class="rating d-inline-block"><img
                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img

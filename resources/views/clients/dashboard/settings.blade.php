@@ -20,16 +20,12 @@
                         <section class="content-body p-xl-4">
                             <form>
                                 <div class="row">
-                                    <div class="col-lg-8">
+                                    <div class="col-12">
                                         <div class="row gx-3">
-                                            <div class="col-6 mb-3">
-                                                <label class="form-label">First name</label>
-                                                <input class="form-control" type="text" placeholder="Type here">
-                                            </div>
-                                            <!-- col .//-->
-                                            <div class="col-6 mb-3">
-                                                <label class="form-label">Last name</label>
-                                                <input class="form-control" type="text" placeholder="Type here">
+                                            <div class="col-12 mb-3">
+                                                <label class="form-label" for="name">Nama Lengkap</label>
+                                                <input class="form-control" id="name" name="name" type="text"
+                                                    placeholder="Masukkan nama">
                                             </div>
                                             <!-- col .//-->
                                             <div class="col-lg-6 mb-3">
@@ -42,29 +38,29 @@
                                                 <input class="form-control" type="tel" placeholder="+1234567890">
                                             </div>
                                             <!-- col .//-->
-                                            <div class="col-lg-12 mb-3">
-                                                <label class="form-label">Address</label>
-                                                <input class="form-control" type="text" placeholder="Type here">
-                                            </div>
-                                            <!-- col .//-->
-                                            <div class="col-lg-6 mb-3">
+                                            <div class="col-12 mb-3">
                                                 <label class="form-label">Birthday</label>
                                                 <input class="form-control" type="date">
                                             </div>
+                                            <div class="col-lg-12 mb-3">
+                                                <label class="form-label">Alamat</label>
+                                                <textarea class="form-control" placeholder="Masukkan alamat" rows="5"></textarea>
+                                            </div>
+                                            <!-- col .//-->
                                             <!-- col .//-->
                                             <!-- row.//-->
                                             <!-- col.//-->
                                         </div>
+                                        <aside>
+                                            <figure class="text-lg-center"><img class="img-lg mb-3 img-avatar"
+                                                    src="{{ asset('ecom_dashboard/imgs/people/avatar1.jpg') }}"
+                                                    alt="User Photo">
+                                                <figcaption><a class="btn btn-light rounded font-md" href="#"><i
+                                                            class="icons material-icons md-backup font-md"></i> Upload</a>
+                                                </figcaption>
+                                            </figure>
+                                        </aside>
                                     </div>
-                                    <aside class="col-lg-4">
-                                        <figure class="text-lg-center"><img class="img-lg mb-3 img-avatar"
-                                                src="{{ asset('ecom_dashboard/imgs/people/avatar1.jpg') }}"
-                                                alt="User Photo">
-                                            <figcaption><a class="btn btn-light rounded font-md" href="#"><i
-                                                        class="icons material-icons md-backup font-md"></i> Upload</a>
-                                            </figcaption>
-                                        </figure>
-                                    </aside>
                                     <!-- col.//-->
                                     <!-- row.//-->
                                 </div><br>

@@ -48,8 +48,10 @@
                             <div class="box-login-social pt-65">
                                 <h5 class="text-center">Gunakan Akun Sosmed</h5>
                                 <div class="box-button-login mt-25"><a
-                                        class="btn btn-login font-md-bold color-brand-3 mb-15">Masuk Menggunakan<img
-                                            src="{{ asset('ecom/imgs/page/account/google.svg') }}" alt="Ecom"></a>
+                                        class="btn btn-login font-md-bold color-brand-3 mb-15">Daftar Menggunakan<img
+                                            src="{{ asset('ecom/imgs/page/account/google.svg') }}" alt="daftar menggunakan akun google"></a>
+                                    <a class="btn btn-login font-md-bold color-brand-3 mb-15">Masuk Menggunakan<img
+                                            src="{{ asset('ecom/imgs/page/account/apple.svg') }}" alt="daftar menggunakan akun apple"></a>
                                     {{-- <a
                                                 class="btn btn-login font-md-bold color-brand-3 mb-15">Sign up with<span
                                                     class="color-blue font-md-bold">Facebook</span></a><a

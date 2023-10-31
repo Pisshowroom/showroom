@@ -45,10 +45,10 @@
                                     </div>
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
-                                            <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                            <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                         src="{{ asset('ecom/imgs/page/product/img-sub.png') }}"
                                                         alt="Ecom"></a></div>
-                                            <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                            <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                                     <h6 class="color-brand-3">Dell Optiplex 9020 Small Form Business Desktop
                                                         Tower PC</h6>
                                                 </a>
@@ -89,11 +89,11 @@
                                     </div>
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
-                                            <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                            <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                         src="{{ asset('ecom/imgs/page/product/img-sub2.png') }}"
                                                         alt="Ecom"></a>
                                             </div>
-                                            <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                            <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                                     <h6 class="color-brand-3">HP 24 All-in-One PC, Intel Core i3-1115G4, 4GB
                                                         RAM</h6>
                                                 </a>
@@ -134,11 +134,11 @@
                                     </div>
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
-                                            <div class="product-image"><a href="{{ route('buyer.detailProduct') }}"><img
+                                            <div class="product-image"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                         src="{{ asset('ecom/imgs/page/product/img-sub3.png') }}"
                                                         alt="Ecom"></a>
                                             </div>
-                                            <div class="product-info"><a href="{{ route('buyer.detailProduct') }}">
+                                            <div class="product-info"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">
                                                     <h6 class="color-brand-3">Gateway 23.8&quot; All-in-one Desktop, Fully
                                                         Adjustable Stand</h6>
                                                 </a>
@@ -276,12 +276,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">Hisense</a><br><a
-                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct') }}">Hisense
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Hisense</a><br><a
+                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Hisense
                                     43&quot; Class 4K UHD LED XClass Smart TV
                                     HDR</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -311,12 +311,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct') }}">2022
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Apple</a><br><a
+                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">2022
                                     Apple 10.9-inch iPad Air Wi-Fi 64GB - Silver</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -345,12 +345,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">LG</a><br><a
-                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct') }}">LG
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">LG</a><br><a
+                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">LG
                                     65&quot; Class 4K UHD Smart TV OLED A1 Series </a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -379,12 +379,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
-                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct') }}">Apple
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Apple</a><br><a
+                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Apple
                                     AirPods Pro with MagSafe Charging Case</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -413,12 +413,12 @@
                                     data-bs-toggle="modal"></a> --}}
                             </div>
                             <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                    href="{{ route('buyer.detailProduct') }}"><img
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><a class="font-xs color-gray-500"
-                                    href="{{ route('buyer.detailSeller') }}">Razer</a><br><a
-                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct') }}">Razer
+                                    href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}">Razer</a><br><a
+                                    class="color-brand-3 font-sm-bold" href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Razer
                                     Power Up Gaming Bundle V2 - Cynosa Lite</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -439,11 +439,11 @@
                 <div class="row mt-40">
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="card-grid-style-2 card-grid-none-border hover-up">
-                            <div class="image-box"><a href="{{ route('buyer.detailProduct') }}"><img
+                            <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><span class="font-xs color-gray-500">HP</span><br><a
-                                    class="color-brand-3 font-xs-bold" href="{{ route('buyer.detailProduct') }}">HP
+                                    class="color-brand-3 font-xs-bold" href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP
                                     DeskJet 2755e
                                     Wireless Color All-in-One Printer</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -460,11 +460,11 @@
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="card-grid-style-2 card-grid-none-border hover-up">
-                            <div class="image-box"><a href="{{ route('buyer.detailProduct') }}"><img
+                            <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><span class="font-xs color-gray-500">HP</span><br><a
-                                    class="color-brand-3 font-xs-bold" href="{{ route('buyer.detailProduct') }}">Original
+                                    class="color-brand-3 font-xs-bold" href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Original
                                     HP 63XL
                                     Black High-yield Ink Cartridge</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -481,12 +481,12 @@
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="card-grid-style-2 card-grid-none-border hover-up">
-                            <div class="image-box"><a href="{{ route('buyer.detailProduct') }}"><img
+                            <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><span class="font-xs color-gray-500">Logitech</span><br><a
                                     class="color-brand-3 font-xs-bold"
-                                    href="{{ route('buyer.detailProduct') }}">Logitech H390 Wired
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Logitech H390 Wired
                                     Headset, Stereo Headphones</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -502,12 +502,12 @@
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="card-grid-style-2 card-grid-none-border hover-up">
-                            <div class="image-box"><a href="{{ route('buyer.detailProduct') }}"><img
+                            <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                         src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}" alt="Ecom"></a>
                             </div>
                             <div class="info-right"><span class="font-xs color-gray-500">Logitech</span><br><a
                                     class="color-brand-3 font-xs-bold"
-                                    href="{{ route('buyer.detailProduct') }}">Logitech MK345
+                                    href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Logitech MK345
                                     Wireless Combo Full-Sized</a>
                                 <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -896,7 +896,7 @@
                                     <div class="info-by"><span
                                             class="bytext color-gray-500 font-xs font-medium">by</span><a
                                             class="byAUthor color-gray-900 font-xs font-medium"
-                                            href="{{ route('buyer.detailSeller') }}"> Ecom Tech</a>
+                                            href="{{ route('buyer.detailSeller',['slug'=>'sd']) }}"> Ecom Tech</a>
                                         <div class="rating d-inline-block"><img
                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img

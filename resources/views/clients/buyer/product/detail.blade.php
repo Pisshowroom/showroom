@@ -10,7 +10,8 @@
                         <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}">Beranda</a></li>
                         <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allListProduct') }}">Semua Produk</a>
                         </li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.detailProduct') }}">Detail Produk</a>
+                        <li><a class="font-xs color-gray-500"
+                                href="{{ route('buyer.detailProduct', ['slug' => $product->slug]) }}">Detail Produk</a>
                         </li>
                     </ul>
                 </div>
@@ -23,7 +24,7 @@
                         <div class="gallery-image">
                             <div class="galleries">
                                 <div class="detail-gallery">
-                                    <label class="label">-17%</label>
+                                    {{-- <label class="label">-17%</label> --}}
                                     <div class="product-image-slider">
                                         <figure class="border-radius-10"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
@@ -96,20 +97,19 @@
                         </div>
                     </div>
                     <div class="col-lg-7">
-                        <h3 class="color-brand-3 mb-25">Samsung Galaxy S22 Ultra, 8K Camera & Video, Brightest Display
-                            Screen, S Pen Pro</h3>
+                        <h3 class="color-brand-3 mb-25">{{ $product->name ?? '' }}</h3>
                         <div class="row align-items-center">
                             <div class="col-lg-4 col-md-4 col-sm-3 mb-mobile"><span
-                                    class="bytext color-gray-500 font-xs font-medium">by</span><a
+                                    class="bytext color-gray-500 font-xs font-medium">dari</span><a
                                     class="byAUthor color-gray-900 font-xs font-medium"
-                                    href="{{ route('buyer.detailSeller') }}"> Ecom
-                                    Tech</a>
+                                    href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">
+                                    {{ $product->seller ? $product->seller->name ?? '' : '' }}</a>
                                 <div class="rating mt-5"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500 font-medium"> (65 reviews)</span>
+                                        alt="Ecom"><span class="font-xs color-gray-500 font-medium"> (65 ulasan)</span>
                                 </div>
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-9 text-start text-sm-end"><a class="mr-20"
@@ -120,8 +120,9 @@
                         </div>
                         <div class="border-bottom pt-10 mb-20"></div>
                         <div class="box-product-price">
-                            <h3 class="color-brand-3 price-main d-inline-block mr-10">$2856.3</h3><span
-                                class="color-gray-500 price-line font-xl line-througt">$3225.6</span>
+                            <h3 class="color-brand-3 price-main d-inline-block mr-10">{{ $product->price ?? '' }}</h3>
+                            {{-- <span
+                                class="color-gray-500 price-line font-xl line-througt">$3225.6</span> --}}
                         </div>
                         <div class="product-description mt-20 color-gray-900">
                             <div class="row">
@@ -200,7 +201,7 @@
 
                             </div>
                         </div>
-                        <div class="info-product mt-40">
+                        {{-- <div class="info-product mt-40">
                             <div class="row align-items-end">
                                 <div class="col-lg-4 col-md-4 mb-20"><span
                                         class="font-sm font-medium color-gray-900">SKU:<span
@@ -221,7 +222,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -232,38 +233,19 @@
                     <ul class="nav nav-tabs nav-tabs-product" role="tablist">
                         <li><a class="active" href="#tab-description" data-bs-toggle="tab" role="tab"
                                 aria-controls="tab-description" aria-selected="true">Deskripsi</a></li>
-                        <li><a href="#tab-specification" data-bs-toggle="tab" role="tab"
-                                aria-controls="tab-specification" aria-selected="true">Specification</a></li>
                         <li><a href="#tab-additional" data-bs-toggle="tab" role="tab" aria-controls="tab-additional"
                                 aria-selected="true">Informasi tambahan</a></li>
                         <li><a href="#tab-reviews" data-bs-toggle="tab" role="tab" aria-controls="tab-reviews"
-                                aria-selected="true">Reviews (2)</a></li>
-                        <li><a href="#tab-vendor" data-bs-toggle="tab" role="tab" aria-controls="tab-vendor"
-                                aria-selected="true">Vendor</a></li>
+                                aria-selected="true">Ulasan (2)</a></li>
+                        <li><a href="#tab-create-reviews" data-bs-toggle="tab" role="tab"
+                                aria-controls="tab-create-reviews" aria-selected="true">Tulis Ulasan</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="tab-description" role="tabpanel"
                             aria-labelledby="tab-description">
                             <div class="display-text-short">
-                                <p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
-                                    Even the all-powerful Pointing has no control about the blind texts it is an almost
-                                    unorthographic life One day however a small line of blind text by the name of Lorem
-                                    Ipsum decided to leave for the far World of Grammar. The Big Oxmox advised her not to do
-                                    so, because there were thousands of bad Commas, wild Question Marks and devious
-                                    Semikoli, but the Little Blind Text didn’t listen. She packed her seven versalia, put
-                                    her initial into the belt and made herself on the way.</p>
-                                <p>When she reached the first hills of the Italic Mountains, she had a last view back on the
-                                    skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline
-                                    of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she
-                                    continued her way. On her way she met a copy. The copy warned the Little Blind Text,
-                                    that where it came from it would have been rewritten a thousand times and everything
-                                    that was left from its origin would be the word “and” and the Little Blind Text should
-                                    turn around and return to its own, safe country. It is a paradisematic country, in which
-                                    roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no
-                                    control about the blind texts it is an almost unorthographic life One day however a
-                                    small line of blind text by the name of Lorem Ipsum decided to leave for the far World
-                                    of Grammar.</p>
-                                <p><img src="{{ asset('ecom/imgs/page/product/product-banner.jpg') }}" alt="Ecom">
+                                {!! $product->description !!}
+                                {{-- <p><img src="{{ asset('ecom/imgs/page/product/product-banner.jpg') }}" alt="Ecom">
                                 </p>
                                 <p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
                                     Even the all-powerful Pointing has no control about the blind texts it is an almost
@@ -280,66 +262,49 @@
                                     continued her way. On her way she met a copy. The copy warned the Little Blind Text,
                                     that where it came from it would have been rewritten a thousand times and everything
                                     that was left from its origin would be the word “and” and the Little Blind Text should
-                                    turn around and return to its own, safe country.</p>
+                                    turn around and return to its own, safe country.</p> --}}
                             </div>
-                            <div class="mt-20 text-center"><a
-                                    class="btn btn-border font-sm-bold pl-80 pr-80 btn-expand-more">More Details</a></div>
-                        </div>
-                        <div class="tab-pane fade" id="tab-specification" role="tabpanel"
-                            aria-labelledby="tab-specification">
-                            <h5 class="mb-25">Specification</h5>
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <tr>
-                                        <td>Mode</td>
-                                        <td>#SK10923</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Brand</td>
-                                        <td>SamSung</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Size</td>
-                                        <td>6.7"</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Finish</td>
-                                        <td>Pacific Blue</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Origin of Country</td>
-                                        <td>United States</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Manufacturer</td>
-                                        <td>USA</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Released Year</td>
-                                        <td>2022</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Warranty</td>
-                                        <td>International</td>
-                                    </tr>
-                                </table>
-                            </div>
+                            {{-- <div class="mt-20 text-center"><a
+                                    class="btn btn-border font-sm-bold pl-80 pr-80 btn-expand-more">More Details</a></div> --}}
                         </div>
                         <div class="tab-pane fade" id="tab-additional" role="tabpanel" aria-labelledby="tab-additional">
-                            <h5 class="mb-25">Informasi tambahan</h5>
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <tbody>
                                         <tr>
-                                            <td>Weight</td>
+                                            <td>Nama</td>
                                             <td>
-                                                <p>0.240 kg</p>
+                                                <p>{{ $product->name ?? '' }}</p>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Dimensions</td>
+                                            <td>Kategori</td>
                                             <td>
-                                                <p>0.74 x 7.64 x 16.08 cm</p>
+                                                <p>{{ $product->category ? $product->category->name ?? '' : '' }}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Stok</td>
+                                            <td>
+                                                <p>{{ $product->stock ?? Habis }}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Satuan</td>
+                                            <td>
+                                                <p>{{ $product->unit ?? '' }}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Diskon</td>
+                                            <td>
+                                                <p>{{ $product->discount ?? '-' }}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Harga</td>
+                                            <td>
+                                                <p>{{ $product->price ?? '0' }}</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -349,8 +314,7 @@
                         <div class="tab-pane fade" id="tab-reviews" role="tabpanel" aria-labelledby="tab-reviews">
                             <div class="comments-area">
                                 <div class="row">
-                                    <div class="col-lg-8">
-                                        <h4 class="mb-30 title-question">Customer questions &amp; answers</h4>
+                                    <div class="col-12">
                                         <div class="comment-list">
                                             <div class="single-comment justify-content-between d-flex mb-30 hover-up">
                                                 <div class="user justify-content-between d-flex">
@@ -432,7 +396,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    {{-- <div class="col-lg-4">
                                         <h4 class="mb-30 title-question">Customer reviews</h4>
                                         <div class="d-flex mb-30">
                                             <div class="product-rate d-inline-block mr-15">
@@ -460,82 +424,98 @@
                                             <div class="progress-bar" role="progressbar" style="width: 85%"
                                                 aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
                                         </div><a class="font-xs text-muted" href="#">How are ratings calculated?</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tab-vendor" role="tabpanel" aria-labelledby="tab-vendor">
-                            <div class="vendor-logo d-flex mb-30"><img
-                                    src="{{ asset('ecom/imgs/page/product/futur.png') }}" alt="">
-                                <div class="vendor-name ml-15">
-                                    <h6><a href="{{ route('buyer.detailSeller') }}">Futur Tech.</a></h6>
-                                    <div class="product-rate-cover text-end">
-                                        <div class="product-rate d-inline-block">
+                        <div class="tab-pane fade" id="tab-create-reviews" role="tabpanel"
+                        aria-labelledby="tab-create-reviews">
+                        <div class="comments-area">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="form-comment">
+                                        <div class="row">
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <p style="font-size: 18px">Rating barang ini menurut kamu</p>
+                                            <div class="stars">
+                                                <input class="star star-5" id="star-5" type="radio" name="rating"
+                                                    value="5" checked />
+                                                <label class="star star-5" for="star-5"></label>
+                                                <input class="star star-4" id="star-4" type="radio" name="rating"
+                                                    value="4" />
+                                                <label class="star star-4" for="star-4"></label>
+                                                <input class="star star-3" id="star-3" type="radio" name="rating"
+                                                    value="3" />
+                                                <label class="star star-3" for="star-3"></label>
+                                                <input class="star star-2" id="star-2" type="radio" name="rating"
+                                                    value="2" />
+                                                <label class="star star-2" for="star-2"></label>
+                                                <input class="star star-1" id="star-1" type="radio" name="rating"
+                                                    value="1" />
+                                                <label class="star star-1" for="star-1"></label>
+                                            </div>
+                                            <div class="col-lg-12 mt-4">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" placeholder="Tulis Ulasan" rows="5"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input class="btn btn-buy w-auto" type="submit" value="Kirim">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- <div class="col-lg-4">
+                                    <h4 class="mb-30 title-question">Customer reviews</h4>
+                                    <div class="d-flex mb-30">
+                                        <div class="product-rate d-inline-block mr-15">
                                             <div class="product-rating" style="width: 90%"></div>
-                                        </div><span class="font-small ml-5 text-muted"> (32 reviews)</span>
+                                        </div>
+                                        <h6>4.8 out of 5</h6>
                                     </div>
-                                </div>
+                                    <div class="progress"><span>5 star</span>
+                                        <div class="progress-bar" role="progressbar" style="width: 50%"
+                                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                                    </div>
+                                    <div class="progress"><span>4 star</span>
+                                        <div class="progress-bar" role="progressbar" style="width: 25%"
+                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                    </div>
+                                    <div class="progress"><span>3 star</span>
+                                        <div class="progress-bar" role="progressbar" style="width: 45%"
+                                            aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
+                                    </div>
+                                    <div class="progress"><span>2 star</span>
+                                        <div class="progress-bar" role="progressbar" style="width: 65%"
+                                            aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
+                                    </div>
+                                    <div class="progress mb-30"><span>1 star</span>
+                                        <div class="progress-bar" role="progressbar" style="width: 85%"
+                                            aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
+                                    </div><a class="font-xs text-muted" href="#">How are ratings calculated?</a>
+                                </div> --}}
                             </div>
-                            <ul class="contact-infor mb-50">
-                                <li><img src="{{ asset('ecom/imgs/page/product/icon-location.svg') }}"
-                                        alt=""><strong>Address:</strong><span> 5171 W Campbell Ave undefined Kent,
-                                        Utah 53127 United States</span></li>
-                                <li><img src="{{ asset('ecom/imgs/page/product/icon-contact.svg') }}"
-                                        alt=""><strong>Contact
-                                        Seller:</strong><span> (+91) - 540-025-553</span></li>
-                            </ul>
-                            <div class="d-flex mb-25">
-                                <div class="mr-30">
-                                    <p class="color-brand-1 font-xs">Rating</p>
-                                    <h4 class="mb-0">92%</h4>
-                                </div>
-                                <div class="mr-30">
-                                    <p class="color-brand-1 font-xs">Ship on time</p>
-                                    <h4 class="mb-0">100%</h4>
-                                </div>
-                                <div>
-                                    <p class="color-brand-1 font-xs">Chat response</p>
-                                    <h4 class="mb-0">89%</h4>
-                                </div>
-                            </div>
-                            <p class="font-sm color-gray-500 mb-15">
-                                Noodles &amp; Company is an American fast-casual restaurant that offers international and
-                                American noodle dishes and pasta in addition to soups and salads. Noodles &amp; Company was
-                                founded in 1995 by Aaron Kennedy and is headquartered in Broomfield,
-                                Colorado. The company went public in 2013 and recorded a $457 million revenue in 2017.In
-                                late 2018, there were 460 Noodles &amp; Company locations across 29 states and Washington,
-                                D.C.
-                            </p>
-                            <p class="font-sm color-gray-500">Proin congue dapibus rhoncus. Curabitur ipsum orci, malesuada
-                                in porttitor a, porttitor quis diam. Nunc at arcu ut turpis facilisis volutpat. Proin
-                                tristique, mauris non gravida dignissim, purus mauris malesuada tellus, in tincidunt orci
-                                enim eget ligula. Quisque bibendum, ipsum id malesuada placerat, purus felis vehicula risus,
-                                vel fringilla justo erat ullamcorper ligula. Fusce congue ullamcorper ligula, at commodo
-                                turpis molestie vel.</p>
                         </div>
-                        <div class="border-bottom pt-30 mb-50"></div>
+                        </div>
+                        {{-- <div class="border-bottom pt-30 mb-50"></div>
                         <h4 class="color-brand-3">Produk terkait</h4>
                         <div class="list-products-5 mt-20">
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">Dell</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Dell</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">Dell
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Dell
                                             Optiplex 9020 Small Form Business Desktop Tower</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -558,23 +538,17 @@
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">HP</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">HP 24 All-in-One PC, Intel Core
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP 24 All-in-One PC, Intel Core
                                             i3-1115G4,
                                             4GB RAM</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -598,23 +572,17 @@
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">Gateway</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Gateway</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">Gateway
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Gateway
                                             23.8&quot; All-in-one Desktop, Fully Adjustable</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -637,23 +605,17 @@
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">HP</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">HP</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">HP 22 All-in-One PC, Intel Pentium
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP 22 All-in-One PC, Intel Pentium
                                             Silver
                                             J5040, 4GB RAM</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -677,23 +639,17 @@
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">Sceptre</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Sceptre</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">Sceptre
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Sceptre
                                             24&quot; Professional Thin 75Hz 1080p LED Monitor</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -720,23 +676,17 @@
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">HP
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP
                                             DeskJet 2755e Wireless Color All-in-One Printer</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -759,23 +709,17 @@
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">Razer
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Razer
                                             Power Up Gaming Bundle V2 - Cynosa Lite</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -798,23 +742,17 @@
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">Apple
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Apple
                                             AirPods Pro with MagSafe Charging Case</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -837,23 +775,17 @@
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">SAMSUNG
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">SAMSUNG
                                             Galaxy Tab A7 Lite, 8.7&quot; Tablet 32GB</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -876,23 +808,17 @@
                             <div class="card-grid-style-3">
                                 <div class="card-grid-inner">
                                     <div class="tools">
-                                        {{-- <a class="btn btn-trend btn-tooltip mb-10" href="#"
-                                            aria-label="Trend" data-bs-placement="left"></a> --}}
                                         <a class="btn btn-wishlist btn-tooltip mb-10"
                                             href="{{ route('buyer.wishlist') }}" aria-label="Tambahkan ke Wishlist"></a>
-                                        {{--
-                                            <a
-                                            class="btn btn-quickview btn-tooltip" aria-label="Quick view" href="#ModalQuickview"
-                                            data-bs-toggle="modal"></a> --}}
                                     </div>
                                     <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                            href="{{ route('buyer.detailProduct') }}"><img
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller') }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
-                                            href="{{ route('buyer.detailProduct') }}">HP 24mh
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP 24mh
                                             FHD Monitor - Computer Monitor</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -918,13 +844,13 @@
                         <div class="row mt-40">
                             <div class="col-lg-3 col-md-6 col-sm-12">
                                 <div class="card-grid-style-2 card-grid-none-border hover-up">
-                                    <div class="image-box"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}"
                                                 alt="Ecom"></a>
                                     </div>
                                     <div class="info-right"><span class="font-xs color-gray-500">Apple</span><br><a
                                             class="color-brand-3 font-xs-bold"
-                                            href="{{ route('buyer.detailProduct') }}">SAMSUNG
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">SAMSUNG
                                             Galaxy Tab A7 Lite, 8.7&quot; Tablet 32GB</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -944,13 +870,13 @@
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-12">
                                 <div class="card-grid-style-2 card-grid-none-border hover-up">
-                                    <div class="image-box"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}"
                                                 alt="Ecom"></a>
                                     </div>
                                     <div class="info-right"><span class="font-xs color-gray-500">Apple</span><br><a
                                             class="color-brand-3 font-xs-bold"
-                                            href="{{ route('buyer.detailProduct') }}">Class 4K
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Class 4K
                                             UHD (2160P) LED Roku Smart TV HDR</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -970,13 +896,13 @@
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-12">
                                 <div class="card-grid-style-2 card-grid-none-border hover-up">
-                                    <div class="image-box"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}"
                                                 alt="Ecom"></a>
                                     </div>
                                     <div class="info-right"><span class="font-xs color-gray-500">Apple</span><br><a
                                             class="color-brand-3 font-xs-bold"
-                                            href="{{ route('buyer.detailProduct') }}">HP 24mh
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP 24mh
                                             FHD Monitor - Computer Monitor with 23.8-Inch</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -996,13 +922,13 @@
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-12">
                                 <div class="card-grid-style-2 card-grid-none-border hover-up">
-                                    <div class="image-box"><a href="{{ route('buyer.detailProduct') }}"><img
+                                    <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp2.png') }}"
                                                 alt="Ecom"></a>
                                     </div>
                                     <div class="info-right"><span class="font-xs color-gray-500">Apple</span><br><a
                                             class="color-brand-3 font-xs-bold"
-                                            href="{{ route('buyer.detailProduct') }}">Logitech
+                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Logitech
                                             H390 Wired Headset, Stereo Headphones</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -1020,7 +946,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -1392,12 +1318,11 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="product-info">
-                                    <h5 class="mb-15">SAMSUNG Galaxy S22 Ultra, 8K Camera & Video, Brightest Display
-                                        Screen, S Pen Pro</h5>
+                                    <h5 class="mb-15">{{ $product->name ?? '' }}</h5>
                                     <div class="info-by"><span
                                             class="bytext color-gray-500 font-xs font-medium">by</span><a
                                             class="byAUthor color-gray-900 font-xs font-medium"
-                                            href="{{ route('buyer.detailSeller') }}"> Ecom Tech</a>
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}"> Ecom Tech</a>
                                         <div class="rating d-inline-block"><img
                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -1409,12 +1334,14 @@
                                                 alt="Ecom"><img
                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><span class="font-xs color-gray-500 font-medium"> (65
-                                                reviews)</span></div>
+                                                ulasan)</span></div>
                                     </div>
                                     <div class="border-bottom pt-10 mb-20"></div>
                                     <div class="box-product-price">
-                                        <h3 class="color-brand-3 price-main d-inline-block mr-10">$2856.3</h3><span
-                                            class="color-gray-500 price-line font-xl line-througt">$3225.6</span>
+                                        <h3 class="color-brand-3 price-main d-inline-block mr-10">{{ $product->price }}
+                                        </h3>
+                                        {{-- <span
+                                            class="color-gray-500 price-line font-xl line-througt">$3225.6</span> --}}
                                     </div>
                                     <div class="product-description mt-10 color-gray-900">
                                         <ul class="list-dot">
@@ -1427,8 +1354,8 @@
                                         </ul>
                                     </div>
                                     <div class="box-product-color mt-10">
-                                        <p class="font-sm color-gray-900">Color:<span
-                                                class="color-brand-2 nameColor">Pink Gold</span></p>
+                                        <p class="font-sm color-gray-900">Color:<span class="color-brand-2 nameColor">Pink
+                                                Gold</span></p>
                                         <ul class="list-colors">
                                             <li class="disabled"><img
                                                     src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
@@ -1478,13 +1405,12 @@
                                         <p class="font-sm mb-10">Kuantitas</p>
                                         <div class="box-quantity">
                                             <div class="input-quantity">
-                                                <input class="font-xl color-brand-3" type="text"
-                                                    value="1"><span class="minus-cart"></span><span
-                                                    class="plus-cart"></span>
+                                                <input class="font-xl color-brand-3" type="text" value="1"><span
+                                                    class="minus-cart"></span><span class="plus-cart"></span>
                                             </div>
                                             <div class="button-buy"><a class="btn btn-cart"
-                                                    href="{{ route('buyer.cart') }}">Keranjang</a><a
-                                                    class="btn btn-buy" href="{{ route('buyer.checkout') }}">Beli
+                                                    href="{{ route('buyer.cart') }}">Keranjang</a><a class="btn btn-buy"
+                                                    href="{{ route('buyer.checkout') }}">Beli
                                                     Sekarang</a></div>
 
 
@@ -1500,5 +1426,53 @@
     </main>
 
 @endsection
+@push('css')
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+<style>
+    .stars {
+        padding: 0 20px;
+        width: 100%;
+        display: inline-block;
+    }
+
+    input.star {
+        display: none;
+    }
+
+    label.star {
+        float: right;
+        padding: 10px;
+        font-size: 36px;
+        color: #444;
+        transition: all .2s;
+    }
+
+    input.star:checked~label.star:before {
+        content: '\f005';
+        color: #FD4;
+        transition: all .25s;
+    }
+
+    input.star-5:checked~label.star:before {
+        color: #FE7;
+        text-shadow: 0 0 20px #952;
+    }
+
+    input.star-1:checked~label.star:before {
+        color: #F62;
+    }
+
+    label.star:hover {
+        transform: rotate(-15deg) scale(1.3);
+    }
+
+    label.star:before {
+        content: '\f006';
+        font-family: FontAwesome;
+    }
+</style>
+@endpush
 @push('importjs')
 @endpush

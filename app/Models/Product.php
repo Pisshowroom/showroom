@@ -15,11 +15,16 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+
 
     public function parent()
     {
         return $this->belongsTo(Product::class, 'parent_id');
     }
     // & okdopaskdpoakpsod
-    
+
 }

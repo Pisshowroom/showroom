@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta name="msapplication-TileColor" content="#0E0E0E">
     <meta name="template-color" content="#0E0E0E">
     <meta name="description" content="Index page">
@@ -36,9 +39,6 @@
 
     @yield('childs')
     @include('clients.buyer.layouts.footer')
-
-    @stack('js')
-    @stack('importjs')
     <script src="{{ asset('ecom/js/vendors/modernizr-3.6.0.min.js') }}"></script>
     <script src="{{ asset('ecom/js/vendors/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('ecom/js/vendors/jquery-migrate-3.3.0.min.js') }}"></script>
@@ -61,6 +61,9 @@
     <script src="{{ asset('ecom/js/vendors/slick.js') }}"></script>
     <script src="{{ asset('ecom/js/shop.js?v=1.2.1') }}"></script>
     <script src="{{ asset('ecom/js/main.js?v=3.0.0') }}"></script>
+
+    @stack('js')
+    @stack('importjs')
 </body>
 
 </html>
