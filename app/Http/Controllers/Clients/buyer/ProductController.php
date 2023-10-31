@@ -16,7 +16,7 @@ class ProductController extends Controller
     }
     public function allGridProduct(Request $request)
     {
-        $product = Product::when($request->filled('search'), function ($q) use ($request) {
+        $product = Product::with(['seller:id,name,seller_slug', 'category'])->when($request->filled('search'), function ($q) use ($request) {
             return $q->where('name', 'like', "%$request->search%");
         })->when($request->filled('category_id'), function ($q) use ($request) {
             return $q->where('category_id', $request->category_id);
@@ -26,7 +26,7 @@ class ProductController extends Controller
     }
     public function allListProduct(Request $request)
     {
-        $product = Product::with(['seller:id,name', 'category'])->when($request->filled('search'), function ($q) use ($request) {
+        $product = Product::with(['seller:id,name,seller_slug', 'category'])->when($request->filled('search'), function ($q) use ($request) {
             return $q->where('name', 'like', "%$request->search%");
         })->when($request->filled('category_id'), function ($q) use ($request) {
             return $q->where('category_id', $request->category_id);
@@ -37,7 +37,7 @@ class ProductController extends Controller
     }
     public function detailProduct($slug)
     {
-        $product = Product::with(['seller:id,name', 'category'])->where('slug', $slug)->first();
+        $product = Product::with(['seller:id,name,seller_slug', 'category'])->where('slug', $slug)->first();
         $data['categories'] = $this->categories();
         return view('clients.buyer.product.detail', ['product' => $product, 'data' => $data]);
     }

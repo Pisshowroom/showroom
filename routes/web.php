@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\Clients\AuthController;
 use App\Http\Controllers\Clients\buyer\ArticleController;
 use App\Http\Controllers\Clients\buyer\ProductController as BuyerProductController;
 use App\Http\Controllers\Clients\buyer\SellerController as BuyerSellerController;
@@ -46,16 +47,16 @@ Route::get('/authed', function () {
 
     // return $authUser;
     $user = App\Models\User::find(1);
-    return ResponseAPI(['error' => 'Stok Produk ' . 'asdasdasd' . " tidak cukup. stok yang tersisa sebanyak " . 12 ], 400);
+    return ResponseAPI(['error' => 'Stok Produk ' . 'asdasdasd' . " tidak cukup. stok yang tersisa sebanyak " . 12], 400);
     // Auth::login($user, true);
     $userAuth = Auth::guard('api-client')->setUser($user);
-// dd($userAuth);
+    // dd($userAuth);
     $data = Auth::user();
 
     return $user->createToken('lypsis-auth')->plainTextToken;
     // return ResponseAPI($userAuth);
     return ResponseAPI($data);
-// return $userAuth;
+    // return $userAuth;
 
     return $data;
 });
@@ -67,8 +68,12 @@ Route::get('/admin{any}', [AppController::class, 'index'])->where('any', '.*');
 
 // buyer
 Route::get('/', [BuyerController::class, 'home'])->name('buyer.home');
-Route::get('/masuk', [BuyerController::class, 'login'])->name('buyer.login');
-Route::get('/mendaftar', [BuyerController::class, 'register'])->name('buyer.register');
+Route::get('/masuk', [BuyerController::class, 'login'])->name('buyer.login')->middleware('guest');
+Route::post('/login', [AuthController::class, 'loginUsingGoogle'])->name('loginUsingGoogle');
+Route::post('/login-email', [AuthController::class, 'loginEmail'])->name('loginEmail');
+Route::get('/mendaftar', [BuyerController::class, 'register'])->name('buyer.register')->middleware('guest');
+Route::post('/register', [AuthController::class, 'registerUsingGoogle'])->name('registerUsingGoogle');
+Route::post('/register-email', [AuthController::class, 'registerEmail'])->name('registerEmail');
 Route::get('/tidak-ditemukan', [BuyerController::class, 'notFound'])->name('buyer.notFound');
 Route::get('/kontak-kami', [BuyerController::class, 'contact'])->name('buyer.contact');
 Route::get('/tentang-kami', [BuyerController::class, 'about'])->name('buyer.about');
@@ -84,33 +89,34 @@ Route::get('/detail-artikel/{id}', [ArticleController::class, 'detailArticle'])-
 Route::get('/semua-produk', [BuyerProductController::class, 'allListProduct'])->name('buyer.allListProduct');
 Route::get('/semua-produk-grid', [BuyerProductController::class, 'allGridProduct'])->name('buyer.allGridProduct');
 Route::get('/produk-{slug}', [BuyerProductController::class, 'detailProduct'])->name('buyer.detailProduct');
-Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');
-Route::get('/checkout', [BuyerController::class, 'checkout'])->name('buyer.checkout');
-Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
 
 
 // Route::get('/detail-produk/{slug}', [BuyerController::class, 'detailProduct'])->name('buyer.detailProduct');
 
 
-// Route::middleware("auth:api")->group(function () {
-Route::group(['prefix' => 'pembeli'], function () {
-    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
-    Route::get('/pesananku', [DashboardController::class, 'myOrder'])->name('dashboard.myOrder');
-    Route::get('/detail-pesanan', [DashboardController::class, 'detailOrder'])->name('dashboard.detailOrder');
-    Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
+Route::group(['middleware' => ['auth:web']], function () {
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::group(['prefix' => 'pembeli'], function () {
+        Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
+        Route::get('/pesananku', [DashboardController::class, 'myOrder'])->name('dashboard.myOrder');
+        Route::get('/detail-pesanan', [DashboardController::class, 'detailOrder'])->name('dashboard.detailOrder');
+        Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
+        Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');
+        Route::get('/checkout', [BuyerController::class, 'checkout'])->name('buyer.checkout');
+        Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
+    });
+    Route::group(['prefix' => 'toko'], function () {
+        Route::get('/', [SellerController::class, 'dashboard'])->name('dashboardSeller.dashboard');
+        Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
+        Route::get('/tambah-produk', [SellerProductController::class, 'addProduct'])->name('dashboardSeller.addProduct');
+        Route::get('/semua-produk', [SellerProductController::class, 'allProduct'])->name('dashboardSeller.allProduct');
+        Route::get('/ubah-produk', [SellerProductController::class, 'editProduct'])->name('dashboardSeller.editProduct');
+        Route::get('/semua-transaksi', [SellerController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
+        Route::get('/detail-transaksi', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
+        Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
+        Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
+        Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');
+    });
 });
-Route::group(['prefix' => 'toko'], function () {
-    Route::get('/', [SellerController::class, 'dashboard'])->name('dashboardSeller.dashboard');
-    Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
-    Route::get('/tambah-produk', [SellerProductController::class, 'addProduct'])->name('dashboardSeller.addProduct');
-    Route::get('/semua-produk', [SellerProductController::class, 'allProduct'])->name('dashboardSeller.allProduct');
-    Route::get('/ubah-produk', [SellerProductController::class, 'editProduct'])->name('dashboardSeller.editProduct');
-    Route::get('/semua-transaksi', [SellerController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
-    Route::get('/detail-transaksi', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
-    Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
-    Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
-    Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');
-});
-// });
 // seller
 Route::get('/seller', [SellerController::class, 'home'])->name('seller.home');

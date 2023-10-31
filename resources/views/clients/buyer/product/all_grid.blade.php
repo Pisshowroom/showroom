@@ -23,9 +23,8 @@
                                         class="btn btn-filter font-sm color-brand-3 font-medium" href="#ModalFiltersForm"
                                         data-bs-toggle="modal">Filter</a></div>
                                 <div class="col-xl-10 col-lg-9 mb-10 text-lg-end text-center"><span
-                                        class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
-                                        1&ndash;16 of
-                                        17 hasil</span>
+                                    class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
+                                    {{ count($products) > 0 ? count($products) : 0 }} hasil</span>
                                     <div class="d-inline-block"><span
                                             class="font-sm color-gray-500 font-medium">Berdasarkan:</span>
                                         <div class="dropdown dropdown-sort border-1-right">
@@ -84,7 +83,7 @@
                                                             alt="Ecom"></a>
                                                 </div>
                                                 <div class="info-right"><a class="font-xs color-gray-500"
-                                                        href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
+                                                        href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">{{ $product->seller ? $product->seller->name ?? '' : '' }}</a><br><a
                                                         class="color-brand-3 font-sm-bold"
                                                         href="{{ route('buyer.detailProduct', ['slug' => $product->slug]) }}">{{ $product->name ?? '' }}</a>
                                                     <div class="rating"><img
@@ -101,8 +100,7 @@
                                                     </div>
                                                     <div class="price-info">
                                                         <strong class="font-lg-bold color-brand-3 price-main">
-                                                            {{ $product->price }}
-                                                            {{-- {{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }} --}}
+                                                            {{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}
                                                         </strong>
                                                         {{-- <span class="color-gray-500 price-line">$3225.6</span> --}}
                                                     </div>

@@ -108,7 +108,7 @@
                                                         alt="Ecom"></a>
                                             </div>
                                             <div class="info-right"><a class="font-xs color-gray-500"
-                                                    href="{{ route('buyer.detailSeller', ['slug' => $lpr->seller->seller_slug]) }}">Apple</a><br><a
+                                                    href="{{ route('buyer.detailSeller', ['slug' => $lpr->seller->seller_slug]) }}">{{ $lpr->seller ? $lpr->seller->name ?? '' : '' }}</a><br><a
                                                     class="color-brand-3 font-sm-bold"
                                                     href="{{ route('buyer.detailProduct', ['slug' => $lpr->slug]) }}">{{ $lpr->name ?? '' }}</a>
                                                 <div class="rating"><img
@@ -125,8 +125,7 @@
                                                 </div>
                                                 <div class="price-info">
                                                     <strong class="font-lg-bold color-brand-3 price-main">
-                                                        {{ $lpr->price }}
-                                                        {{-- {{ $lpr->price > 0 ? numbFormat($lpr->price) : 'rp 0' }} --}}
+                                                        {{ $lpr->price > 0 ? numbFormat($lpr->price) : 'Rp 0' }}
                                                     </strong>
                                                     {{-- <span class="color-gray-500 price-line">$3225.6</span> --}}
                                                 </div>
@@ -212,7 +211,7 @@
                                                                         class="font-xs color-gray-500">(65)</span>
                                                                 </div>
                                                                 <div class="price-info"><strong
-                                                                        class="font-lg-bold color-brand-3 price-main">{{ $lp->price }}</strong>
+                                                                        class="font-lg-bold color-brand-3 price-main">{{ $lp->price > 0 ? numbFormat($lp->price) : 'Rp 0' }}</strong>
                                                                     {{-- <span
                                                                                 class="color-gray-500 price-line">$3225.6</span> --}}
                                                                 </div>
@@ -338,7 +337,7 @@
                                                         alt="Ecom"></a>
                                             </div>
                                             <div class="info-right"><a class="font-xs color-gray-500"
-                                                    href="{{ route('buyer.detailSeller', ['slug' => $rp->seller->seller_slug]) }}">Apple</a><br><a
+                                                    href="{{ route('buyer.detailSeller', ['slug' => $rp->seller->seller_slug]) }}">{{ $rp->seller ? $rp->seller->name ?? '' : '' }}</a><br><a
                                                     class="color-brand-3 font-sm-bold"
                                                     href="{{ route('buyer.detailProduct', ['slug' => $rp->slug]) }}">{{ $rp->name ?? '' }}</a>
                                                 <div class="rating"><img
@@ -355,8 +354,7 @@
                                                 </div>
                                                 <div class="price-info">
                                                     <strong class="font-lg-bold color-brand-3 price-main">
-                                                        {{ $rp->price }}
-                                                        {{-- {{ $rp->price > 0 ? numbFormat($rp->price) : 'Rp 0' }} --}}
+                                                        {{ $rp->price > 0 ? numbFormat($rp->price) : 'Rp 0' }}
                                                     </strong>
                                                     {{-- <span class="color-gray-500 price-line">$3225.6</span> --}}
                                                 </div>
@@ -785,17 +783,16 @@
                                                             <div class="image-box">
                                                                 <a
                                                                     href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}">
-                                                                    <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
+                                                                    <img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
                                                                         alt="produk {{ $article->title ?? '' }}"></a>
                                                             </div>
                                                             <div class="info-right">
-                                                                <a
-                                                                    class="color-brand-3 font-sm-bold line-2 text-start"
+                                                                <a class="color-brand-3 font-sm-bold line-2 text-start"
                                                                     href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}">{{ $article->title ?? '' }}</a>
-                                                                    <div class="price-info">
-                                                                        <span
-                                                                            class="color-gray-500 line-3 text-start">{!! $article->content !!}</span>
-                                                                    </div>
+                                                                <div class="price-info">
+                                                                    <span
+                                                                        class="color-gray-500 line-3 text-start">{!! $article->content !!}</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

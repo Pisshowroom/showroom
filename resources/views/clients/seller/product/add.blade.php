@@ -31,9 +31,18 @@
                                 <textarea class="form-control" id="description" name="description" placeholder="Masukkan nama produk" rows="4"></textarea>
                             </div>
                             <div class="mb-4">
+                                <label class="form-label" for="variant">Variasi</label>
+                                <input class="form-control" id="variant" name="variant" type="text"
+                                    placeholder="Masukkan variasi produk">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label" for="stock">Jumlah Stok</label>
+                                <input class="form-control" id="stock" name="stock" onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
+                            </div>
+                            <div class="mb-4">
                                 <label class="form-label">Harga</label>
                                 <div class="row gx-2"></div>
-                                <input class="form-control" placeholder="$" type="text">
+                                <input class="form-control" onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                             </div>
                             <div class="mb-4">
                                 <div class="form-check form-switch mx-3">
@@ -91,7 +100,7 @@
                     <div class="card-body">
                         <div class="input-upload"><img src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
                                 alt="">
-                            <input class="form-control" type="file">
+                            <input class="form-control" type="file" multiple accept="image/*">
                         </div>
                     </div>
                 </div>
