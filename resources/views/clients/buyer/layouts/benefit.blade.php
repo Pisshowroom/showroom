@@ -7,7 +7,7 @@
                             alt="Ecom"></div>
                     <div class="info-right">
                         <h5 class="font-lg-bold color-gray-100">Pengiriman gratis</h5>
-                        <p class="font-sm color-gray-500">Dari semua pesanan di atas 5 Juta</p>
+                        <p class="font-sm color-gray-500">Semua pesanan di atas 5 Juta</p>
                     </div>
                 </div>
             </li>

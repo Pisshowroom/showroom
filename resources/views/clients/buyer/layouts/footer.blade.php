@@ -38,7 +38,7 @@
                     </ul>
                 </div> --}}
                 <div class="col-lg-4 mb-30">
-                    <h4 class="mb-30 color-gray-1000">Akun saya</h4>
+                    <h4 class="mb-30 color-gray-1000">Selengkapnya</h4>
                     <ul class="menu-footer">
                         <li><a href="#">FAQs</a></li>
                         <li><a href="{{ route('buyer.contact') }}">Kontak Kami</a></li>

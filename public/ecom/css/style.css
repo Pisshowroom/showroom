@@ -2409,6 +2409,32 @@ a.text-brand-3:hover {
   line-height: 10px;
 }
 
+.alert {
+    padding: 20px 40px;
+    position: fixed;
+    right: 0;
+    bottom: 10px;
+    z-index: 9999;
+    border-radius: 4px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.alert-warning {
+    color: white;
+    background-color: #dc3545;
+}
+
+.alert-success {
+    color: white;
+    background-color: #28a745;
+}
+
+.alert-info {
+    color: white;
+    background-color: #1967D2;
+}
+
 .list-products-5 {
   display: flex;
   flex-wrap: wrap;

@@ -52,46 +52,56 @@
         {{-- <li class="menu-item"><a class="menu-link" disabled="" href="#"><i
                     class="icon material-icons md-pie_chart"></i><span class="text">Statistics</span></a>
         </li> --}}
-
+        @if (Auth::guard('web')->user()->is_seller == 0)
+            <li class="menu-item @yield('out')"><a class="menu-link" disabled=""
+                    href="{{ route('dashboard.settings') }}"><i class="icon material-icons md-storefront"></i><span
+                        class="text">Daftar Toko</span></a>
+            </li>
+        @endif
         <li class="menu-item @yield('settings')"><a class="menu-link" disabled=""
                 href="{{ route('dashboard.settings') }}"><i class="icon material-icons md-settings"></i><span
                     class="text">Pengaturan</span></a>
         </li>
-        <li class="menu-item"><a class="menu-link" disabled="" href="page-settings-1.html"><i
+        <li class="menu-item"><a class="menu-link" disabled="" href="{{ route('logout') }}"><i
                     class="icon material-icons md-exit_to_app"></i><span class="text">Keluar</span></a>
         </li>
-        <hr>
-        <li class="menu-item"><span class="text">Toko</span></li>
+        @if (Auth::guard('web')->user()->is_seller == 1)
+            <hr>
+            <li class="menu-item"><span class="text">Toko</span></li>
 
-        <li class="menu-item @yield('dashboardSeller')"><a class="menu-link" href="{{ route('dashboardSeller.dashboard') }}"><i
-                    class="icon material-icons md-home"></i><span class="text">Dashboard</span></a></li>
-        <li class="menu-item has-submenu @yield('product')">
-            <a class="menu-link" href="{{ route('dashboardSeller.allProduct') }}"><i
-                    class="icon material-icons md-shopping_bag"></i><span class="text">Produk</span></a>
-            <div class="submenu">
-                <a href="{{ route('dashboardSeller.allProduct') }}">Semua Produk</a>
-                <a href="{{ route('dashboardSeller.addProduct') }}">Tambah Produk</a>
-            </div>
-        </li>
-        {{-- <li class="menu-item"><a class="menu-link" disabled="" href="page-products-list.html"><i
+            <li class="menu-item @yield('dashboardSeller')"><a class="menu-link"
+                    href="{{ route('dashboardSeller.dashboard') }}"><i class="icon material-icons md-home"></i><span
+                        class="text">Dashboard</span></a></li>
+            <li class="menu-item has-submenu @yield('product')">
+                <a class="menu-link" href="{{ route('dashboardSeller.allProduct') }}"><i
+                        class="icon material-icons md-shopping_bag"></i><span class="text">Produk</span></a>
+                <div class="submenu">
+                    <a href="{{ route('dashboardSeller.allProduct') }}">Semua Produk</a>
+                    <a href="{{ route('dashboardSeller.addProduct') }}">Tambah Produk</a>
+                </div>
+            </li>
+            {{-- <li class="menu-item"><a class="menu-link" disabled="" href="page-products-list.html"><i
                     class="icon material-icons md-shopping_bag"></i><span class="text">Produk</span></a>
         </li> --}}
-        <li class="menu-item @yield('transaction')"><a class="menu-link" disabled=""
-                href="{{ route('dashboardSeller.allTransaction') }}"><i
-                    class="icon material-icons md-monetization_on"></i><span class="text">Transaksi Produk</span></a>
-        </li>
-        <li class="menu-item @yield('profile')"><a class="menu-link" disabled=""
-            href="{{ route('dashboardSeller.profile') }}"><i
-            class="icon material-icons md-storefront"></i><span class="text">Profil Toko</span></a>
-        </li>
-        <li class="menu-item has-submenu @yield('withdraw')">
-            <a class="menu-link" href="{{ route('dashboardSeller.allWithdraw') }}"><i
-                    class="icon material-icons md-account_balance_wallet"></i><span class="text">Pencairan Uang</span></a>
-            <div class="submenu">
-                <a href="{{ route('dashboardSeller.addWithdraw') }}">Cairkan</a>
-                <a href="{{ route('dashboardSeller.allWithdraw') }}">Semua Pencairan</a>
-            </div>
-        </li>
+            <li class="menu-item @yield('transaction')"><a class="menu-link" disabled=""
+                    href="{{ route('dashboardSeller.allTransaction') }}"><i
+                        class="icon material-icons md-monetization_on"></i><span class="text">Transaksi
+                        Produk</span></a>
+            </li>
+            <li class="menu-item @yield('profile')"><a class="menu-link" disabled=""
+                    href="{{ route('dashboardSeller.profile') }}"><i
+                        class="icon material-icons md-storefront"></i><span class="text">Profil Toko</span></a>
+            </li>
+            <li class="menu-item has-submenu @yield('withdraw')">
+                <a class="menu-link" href="{{ route('dashboardSeller.allWithdraw') }}"><i
+                        class="icon material-icons md-account_balance_wallet"></i><span class="text">Pencairan
+                        Uang</span></a>
+                <div class="submenu">
+                    <a href="{{ route('dashboardSeller.addWithdraw') }}">Cairkan</a>
+                    <a href="{{ route('dashboardSeller.allWithdraw') }}">Semua Pencairan</a>
+                </div>
+            </li>
+        @endif
         {{-- <li class="menu-item @yield('review')"><a class="menu-link" href="page-reviews.html"><i
                     class="icon material-icons md-comment"></i><span class="text">Review</span></a></li> --}}
 

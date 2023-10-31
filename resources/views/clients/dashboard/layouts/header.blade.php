@@ -38,19 +38,25 @@
                         href="#"><img src="{{ asset('ecom_dashboard/imgs/theme/flag-cn.png') }}"
                             alt="Français">&#x4E2D;&#x56FD;&#x4EBA;</a></div>
             </li> --}}
-            <li class="dropdown nav-item"><a class="dropdown-toggle" id="dropdownAccount" data-bs-toggle="dropdown"
-                    href="#" aria-expanded="false"><img class="img-xs rounded-circle"
+            <li class="dropdown nav-item">
+                <a class="dropdown-toggle" id="dropdownAccount" data-bs-toggle="dropdown" href="#"
+                    aria-expanded="false"><img class="img-xs rounded-circle"
                         src="{{ asset('ecom_dashboard/imgs/people/avatar2.jpg') }}" alt="User"></a>
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount"><a class="dropdown-item"
-                        href="{{ route('dashboard.settings') }}"><i class="material-icons md-perm_identity"></i>
-                        Profil</a><a class="dropdown-item" href="#"><i
-                            class="material-icons md-settings"></i>Account Settings</a><a class="dropdown-item"
-                        href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a><a
-                        class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a><a
-                        class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help
-                        center</a>
-                    <div class="dropdown-divider"></div><a class="dropdown-item text-danger" href="#"><i
-                            class="material-icons md-exit_to_app"></i>Logout</a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                    <a class="dropdown-item" href="{{ route('dashboard.settings') }}"><i
+                            class="material-icons md-settings"></i>Pengaturan</a>
+                    <a class="dropdown-item" href="{{ route('dashboard.myOrder') }}"><i
+                            class="material-icons md-star"></i>Pesanan ku</a>
+                    @if (Auth::guard('web')->user()->is_seller == 0)
+                        <a class="dropdown-item" href="{{ route('dashboardSeller.dashboard') }}"><i
+                                class="material-icons md-storefront"></i>Toko</a>
+                    @else
+                        <a class="dropdown-item" href="{{ route('dashboardSeller.dashboard') }}"><i
+                                class="material-icons md-storefront"></i>Daftar Toko</a>
+                    @endif
+                    <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Bantuan</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item text-danger"
+                        href="{{ route('logout') }}"><i class="material-icons md-exit_to_app"></i>Logout</a>
                 </div>
             </li>
         </ul>

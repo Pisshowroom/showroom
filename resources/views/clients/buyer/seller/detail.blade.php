@@ -9,7 +9,9 @@
                     <ul class="breadcrumb">
                         <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}">Beranda</a></li>
                         <li><a class="font-xs color-gray-500" href="{{ route('buyer.allSeller') }}">Semua Penjual</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">Detail Penjual</a>
+                        <li><a class="font-xs color-gray-500"
+                                href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">Detail
+                                Penjual</a>
                         </li>
                     </ul>
                 </div>
@@ -24,7 +26,8 @@
                             <div class="d-flex box-info-vendor">
                                 <div class="avarta"><img class="mb-5"
                                         src="{{ asset('ecom/imgs/page/vendor/fasfox.png') }}" alt="Ecom"><a
-                                        class="btn btn-buy font-xs" href="{{ route('buyer.allGridProduct') }}">360
+                                        class="btn btn-buy font-xs"
+                                        href="{{ route('buyer.allGridProduct') }}">{{ $seller->products_count ?? 0 }}
                                         Produk</a></div>
                                 <div class="info-vendor">
                                     <h4 class="mb-5">Fasfox Coporation</h4><span
@@ -57,29 +60,29 @@
                             <div class="item-featured">
                                 <div class="featured-icon"><img src="{{ asset('ecom/imgs/page/product/delivery.svg') }}"
                                         alt="Ecom"></div>
-                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Free Delivery</span>
-                                    <p class="font-sm color-gray-500 font-medium">From all orders over $10</p>
+                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Pengiriman gratis</span>
+                                    <p class="font-sm color-gray-500 font-medium">Semua pesanan di atas 5 Juta</p>
                                 </div>
                             </div>
                             <div class="item-featured">
                                 <div class="featured-icon"><img src="{{ asset('ecom/imgs/page/product/support.svg') }}"
                                         alt="Ecom"></div>
-                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Support 24/7</span>
-                                    <p class="font-sm color-gray-500 font-medium">Shop with an expert</p>
+                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Bantuan 24/7</span>
+                                    <p class="font-sm color-gray-500 font-medium">Berbelanja dengan ahlinya</p>
                                 </div>
                             </div>
                             <div class="item-featured">
-                                <div class="featured-icon"><img src="{{ asset('ecom/imgs/page/product/return.svg') }}"
+                                <div class="featured-icon"><img src="{{ asset('ecom/imgs/template/voucher.svg') }}"
                                         alt="Ecom"></div>
-                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Return & Refund</span>
-                                    <p class="font-sm color-gray-500 font-medium">Free return over $200</p>
+                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Kupon hadiah</span>
+                                    <p class="font-sm color-gray-500 font-medium">Ajak teman</p>
                                 </div>
                             </div>
                             <div class="item-featured">
-                                <div class="featured-icon"><img src="{{ asset('ecom/imgs/page/product/payment.svg') }}"
+                                <div class="featured-icon"><img src="{{ asset('ecom/imgs/template/secure.svg') }}"
                                         alt="Ecom"></div>
-                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Secure payment</span>
-                                    <p class="font-sm color-gray-500 font-medium">100% Protected</p>
+                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Dana Kembali</span>
+                                    <p class="font-sm color-gray-500 font-medium">100% Terlindungi</p>
                                 </div>
                             </div>
                         </div>
@@ -94,11 +97,10 @@
                                         data-bs-toggle="modal">Filter</a></div>
                                 <div class="col-xl-10 col-lg-9 mb-10 text-lg-end text-center"><span
                                         class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
-                                        1&ndash;16 of
-                                        17 hasil</span>
+                                        {{ count($products) > 0 ? count($products) : 0 }} hasil</span>
                                     <div class="d-inline-block"><span
                                             class="font-sm color-gray-500 font-medium">Berdasarkan:</span>
-                                        <div class="dropdown dropdown-sort border-1-right">
+                                        <div class="dropdown dropdown-sort">
                                             <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
                                                 id="dropdownSort" type="button" data-bs-toggle="dropdown"
                                                 aria-expanded="false">Produk Terbaru</button>
@@ -122,10 +124,6 @@
                                             </ul>
                                         </div>
                                     </div> --}}
-                                    <div class="d-inline-block"><a class="view-type-grid mr-5 active"
-                                            href="{{ route('buyer.allGridProduct') }}"></a><a class="view-type-list"
-                                            href="{{ route('buyer.allListProduct') }}"></a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +152,7 @@
                                                             alt="Ecom"></a>
                                                 </div>
                                                 <div class="info-right"><a class="font-xs color-gray-500"
-                                                        href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
+                                                        href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">{{ $product->seller ? $product->seller->name ?? '' : '' }}</a><br><a
                                                         class="color-brand-3 font-sm-bold"
                                                         href="{{ route('buyer.detailProduct', ['slug' => $product->slug]) }}">{{ $product->name ?? '' }}</a>
                                                     <div class="rating"><img
@@ -167,12 +165,12 @@
                                                             src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                             alt="Ecom"><img
                                                             src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                            alt="Ecom"><span class="font-xs color-gray-500">(65)</span>
+                                                            alt="Ecom"><span
+                                                            class="font-xs color-gray-500">(65)</span>
                                                     </div>
                                                     <div class="price-info">
                                                         <strong class="font-lg-bold color-brand-3 price-main">
-                                                            {{ $product->price }}
-                                                            {{-- {{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }} --}}
+                                                            {{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}
                                                         </strong>
                                                         {{-- <span class="color-gray-500 price-line">$3225.6</span> --}}
                                                     </div>
@@ -214,8 +212,8 @@
                                 @if (count($data['categories']) > 0)
                                     <ul class="list-nav-arrow">
                                         @foreach ($data['categories'] as $ct)
-                                            <li class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"><a
-                                                    class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
+                                            <li class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}">
+                                                <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
                                                     href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}">{{ $ct->name ?? '' }}<span
                                                         class="number">{{ $ct->products_count }}</span></a></li>
                                         @endforeach
@@ -1009,8 +1007,8 @@
                                         </ul>
                                     </div>
                                     <div class="box-product-color mt-10">
-                                        <p class="font-sm color-gray-900">Color:<span
-                                                class="color-brand-2 nameColor">Pink Gold</span></p>
+                                        <p class="font-sm color-gray-900">Color:<span class="color-brand-2 nameColor">Pink
+                                                Gold</span></p>
                                         <ul class="list-colors">
                                             <li class="disabled"><img
                                                     src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
@@ -1060,13 +1058,12 @@
                                         <p class="font-sm mb-10">Quantity</p>
                                         <div class="box-quantity">
                                             <div class="input-quantity">
-                                                <input class="font-xl color-brand-3" type="text"
-                                                    value="1"><span class="minus-cart"></span><span
-                                                    class="plus-cart"></span>
+                                                <input class="font-xl color-brand-3" type="text" value="1"><span
+                                                    class="minus-cart"></span><span class="plus-cart"></span>
                                             </div>
                                             <div class="button-buy"><a class="btn btn-cart"
-                                                    href="{{ route('buyer.cart') }}">Keranjang</a><a
-                                                    class="btn btn-buy" href="{{ route('buyer.checkout') }}">Beli
+                                                    href="{{ route('buyer.cart') }}">Keranjang</a><a class="btn btn-buy"
+                                                    href="{{ route('buyer.checkout') }}">Beli
                                                     Sekarang</a></div>
 
                                         </div>

@@ -17,7 +17,7 @@ class SellerController extends Controller
     public function allSeller(Request $request)
     {
         $data['categories'] = $this->categories();
-        $seller = User::where('is_seller', true)->when($request->filled('search'), function ($q) use ($request) {
+        $seller = User::where('is_seller', true)->withCount('products')->when($request->filled('search'), function ($q) use ($request) {
             return $q->where('name', 'like', "%$request->search%");
         })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
         return view('clients.buyer.seller.all', ['sellers' => $seller, 'data' => $data]);
@@ -25,7 +25,7 @@ class SellerController extends Controller
 
     public function detailSeller($slug, Request $request)
     {
-        $seller = User::where('seller_slug', $slug)->first();
+        $seller = User::where('seller_slug', $slug)->withCount('products')->first();
         $product = Product::when($request->filled('search'), function ($q) use ($request) {
             return $q->where('name', 'like', "%$request->search%");
         })->when($request->filled('category_id'), function ($q) use ($request) {

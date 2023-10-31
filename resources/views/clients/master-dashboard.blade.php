@@ -21,8 +21,8 @@
 <body>
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top"><a class="brand-wrap" href="index.html"><img class="logo"
-                    src="{{ asset('ecom_dashboard/imgs/theme/logo.svg') }}" alt="Evara Dashboard"></a>
+        <div class="aside-top"><a class="brand-wrap" href="{{ route('buyer.home') }}"><img class="logo"
+                    src="{{ asset('ecom_dashboard/imgs/theme/logo.svg') }}" alt="Dashboard"></a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"><i
                         class="text-muted material-icons md-menu_open"></i></button>

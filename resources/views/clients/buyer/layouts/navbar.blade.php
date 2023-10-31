@@ -62,24 +62,19 @@
                             src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
                 <div class="header-search">
                     <div class="box-header-search">
-                        <form class="form-search" method="post" action="#">
+                        <form class="form-search" method="get" action="{{ route('buyer.allGridProduct') }}">
                             <div class="box-category">
                                 <select class="select-active select2-hidden-accessible" data-select2-id="1"
                                     tabindex="-1" aria-hidden="true">
                                     <option>Semua kategori</option>
-                                    <option value="Computers Accessories">Computers Accessories</option>
-                                    <option value="Cell Phones">Cell Phones</option>
-                                    <option value="Gaming Gatgets">Gaming Gatgets</option>
-                                    <option value="Smart watches">Smart watches</option>
-                                    <option value="Wired Headphone">Wired Headphone</option>
-                                    <option value="Mouse &amp; Keyboard">Mouse Keyboard</option>
-                                    <option value="Headphone">Headphone</option>
-                                    <option value="Bluetooth devices">Bluetooth devices</option>
-                                    <option value="Cloud Software">Cloud Software</option>
+                                    @foreach ($data['categories'] as $ct)
+                                        <option name="category_id" value="{{ $ct->id }}">{{ $ct->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="box-keysearch">
-                                <input class="form-control font-xs" type="text" value=""
+                                <input class="form-control font-xs" type="text" value="" name="search"
                                     placeholder="Cari produk">
                             </div>
                         </form>
@@ -98,19 +93,23 @@
                 </div>
                 <div class="header-shop">
                     @auth
-                        <div class="d-inline-block box-dropdown-cart"><span
+                        {{-- <div class="d-inline-block box-dropdown-cart"><span
                                 class="font-lg icon-list icon-account"><span>Akun</span></span>
                             <div class="dropdown-account">
                                 <ul>
-                                    <li><a href="{{ route('buyer.dashboard') }}">Akun saya</a></li>
-                                    <li><a href="{{ route('buyer.dashboard') }}">Order Tracking</a></li>
-                                    <li><a href="{{ route('buyer.dashboard') }}">My Orders</a></li>
-                                    <li><a href="{{ route('buyer.dashboard') }}">My Wishlist</a></li>
-                                    <li><a href="{{ route('buyer.dashboard') }}">Setting</a></li>
-                                    <li><a href="{{ route('buyer.login') }}">Keluar Akun</a></li>
+                                    <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                                    <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
+                                    <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
+                                    @if (Auth::guard('web')->user()->is_seller == 0)
+                                        <li><a href="{{ route('dashboard.settings') }}">Daftar Toko</a></li>
+                                    @else
+                                        <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                    @endif
+                                    <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
+                                    <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> --}}
                         <a class="font-lg icon-list icon-wishlist"
                             href="{{ route('buyer.wishlist') }}"><span>Wishlist</span><span
                                 class="number-item font-xs">5</span></a>
@@ -122,7 +121,9 @@
                                     <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
                                             alt="Ecom"></div>
                                     <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">2022 Apple iMac with Retina 5K
+                                            href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">2022 Apple iMac
+                                            with
+                                            Retina 5K
                                             Display 8GB
                                             RAM, 256GB SSD</a>
                                         <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
@@ -132,7 +133,9 @@
                                     <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
                                             alt="Ecom"></div>
                                     <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">2022 Apple iMac with Retina 5K
+                                            href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">2022 Apple iMac
+                                            with
+                                            Retina 5K
                                             Display
                                             8GB RAM, 256GB SSD</a>
                                         <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
@@ -260,7 +263,9 @@
                     <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
                             <li><a class="@yield('home')" href="{{ route('buyer.home') }}">Beranda</a></li>
-                            <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
+                            @guest
+                                <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
+                            @endguest
                             <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}">Semua
                                     Produk</a></li>
                             <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}">Artikel</a>
@@ -308,7 +313,7 @@
 </header>
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
-        <div class="mobile-header-content-area">
+        <div class="mobile-header-content-area position-absolute">
             <div class="mobile-logo"><a class="d-flex" href="{{ route('buyer.home') }}"><img alt="Ecom"
                         src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
             <div class="perfect-scroll" style="height:100% !important">
@@ -316,7 +321,9 @@
                     <nav class="mt-15">
                         <ul class="mobile-menu font-heading">
                             <li><a class="@yield('privacyPolicy')" href="{{ route('buyer.home') }}">Beranda</a></li>
-                            <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
+                            @guest
+                                <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
+                            @endguest
                             <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}">Semua
                                     Produk</a></li>
                             <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}">Artikel</a>
@@ -361,26 +368,29 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('buyer.dashboard') }}"><img
+                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img
                                         src="{{ asset('ecom/imgs/template/ava_1.png') }}" alt="Ecom"></a>
                                 <div class="content">
-                                    <h6 class="user-name">Hello<span class="text-brand"> Steven !</span></h6>
-                                    <p class="font-xs text-muted">You have 3 new messages</p>
+                                    <h6 class="user-name">Hello, {{ Auth::guard('web')->user()->name ?? '' }}</h6>
                                 </div>
                             </div>
                         </div>
                         <ul class="mobile-menu">
-                            <li><a href="{{ route('buyer.dashboard') }}">Akun saya</a></li>
-                            <li><a href="{{ route('buyer.dashboard') }}">Order Tracking</a></li>
-                            <li><a href="{{ route('buyer.dashboard') }}">My Orders</a></li>
-                            <li><a href="{{ route('buyer.dashboard') }}">My Wishlist</a></li>
-                            <li><a href="{{ route('buyer.dashboard') }}">Setting</a></li>
-                            <li><a href="{{ route('buyer.login') }}">Keluar Akun</a></li>
+                            <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                            <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
+                            <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
+                            @if (Auth::guard('web')->user()->is_seller == 0)
+                                <li><a href="{{ route('dashboard.settings') }}">Daftar Toko</a></li>
+                            @else
+                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                            @endif
+                            <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
+                            <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
                         </ul>
                     </div>
                 @endauth
-                </div>
             </div>
         </div>
     </div>
+</div>
 </div>

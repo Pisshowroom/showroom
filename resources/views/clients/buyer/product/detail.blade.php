@@ -120,7 +120,7 @@
                         </div>
                         <div class="border-bottom pt-10 mb-20"></div>
                         <div class="box-product-price">
-                            <h3 class="color-brand-3 price-main d-inline-block mr-10">{{ $product->price ?? '' }}</h3>
+                            <h3 class="color-brand-3 price-main d-inline-block mr-10">{{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}</h3>
                             {{-- <span
                                 class="color-gray-500 price-line font-xl line-througt">$3225.6</span> --}}
                         </div>
@@ -304,7 +304,7 @@
                                         <tr>
                                             <td>Harga</td>
                                             <td>
-                                                <p>{{ $product->price ?? '0' }}</p>
+                                                <p>{{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1338,7 +1338,7 @@
                                     </div>
                                     <div class="border-bottom pt-10 mb-20"></div>
                                     <div class="box-product-price">
-                                        <h3 class="color-brand-3 price-main d-inline-block mr-10">{{ $product->price }}
+                                        <h3 class="color-brand-3 price-main d-inline-block mr-10">{{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}
                                         </h3>
                                         {{-- <span
                                             class="color-gray-500 price-line font-xl line-througt">$3225.6</span> --}}

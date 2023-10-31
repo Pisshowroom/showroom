@@ -47,51 +47,51 @@ class BuyerController extends Controller
     public function login()
     {
         $data['categories'] = $this->categories();
-        return view('clients.buyer.auth.login');
+        return view('clients.buyer.auth.login', ['data' => $data]);
     }
     public function register()
     {
         $data['categories'] = $this->categories();
-        return view('clients.buyer.auth.register');
+        return view('clients.buyer.auth.register', ['data' => $data]);
     }
 
     public function notFound()
     {
         $data['categories'] = $this->categories();
-        return view('clients.buyer.error404');
+        return view('clients.buyer.error404', ['data' => $data]);
     }
     public function contact()
     {
         $data['categories'] = $this->categories();
-        return view('clients.buyer.contact');
+        return view('clients.buyer.contact', ['data' => $data]);
     }
     public function about()
     {
         $data['categories'] = $this->categories();
-        return view('clients.buyer.about');
+        return view('clients.buyer.about', ['data' => $data]);
     }
     public function term()
     {
         $data['categories'] = $this->categories();
-        return view('clients.buyer.term');
+        return view('clients.buyer.term', ['data' => $data]);
     }
 
     //user
     public function checkout()
     {
         $data['categories'] = $this->categories();
-        return view('clients.buyer.user.checkout');
+        return view('clients.buyer.user.checkout', ['data' => $data]);
     }
     public function cart()
     {
         $data['categories'] = $this->categories();
-        return view('clients.buyer.user.cart');
+        return view('clients.buyer.user.cart', ['data' => $data]);
     }
 
     public function wishlist()
     {
         $data['categories'] = $this->categories();
-        return view('clients.buyer.user.wishlist');
+        return view('clients.buyer.user.wishlist', ['data' => $data]);
     }
 
     //dashboard
