@@ -25,7 +25,7 @@ class AuthController extends Controller
             'uid' => 'required',
         ]);
         if ($request->uid) {
-            $checkUser = User::where('uid', bcrypt($request->uid))->first();
+            $checkUser = User::where('uid', $request->uid)->first();
             if ($checkUser) {
                 Auth::guard('web')->loginUsingId($checkUser->id, true);
                 return response()->json([
