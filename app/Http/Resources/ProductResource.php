@@ -15,7 +15,7 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         $imagesData = [];
-        foreach($this->images as $img) {
+        foreach(($this->images ?? []) as $img) {
             $imagesData[] = lypsisAsset($img);
         }
         
