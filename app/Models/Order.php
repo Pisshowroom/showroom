@@ -17,4 +17,13 @@ class Order extends Model
 
         return $statement[0]->Auto_increment;
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function order_items()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

@@ -209,9 +209,9 @@
                                 <h6 class="color-gray-900">Kategori Produk</h6>
                             </div>
                             <div class="sidebar-content">
-                                @if (count($data['categories']) > 0)
+                                @if (count($data['categories_product']) > 0)
                                     <ul class="list-nav-arrow">
-                                        @foreach ($data['categories'] as $ct)
+                                        @foreach ($data['categories_product'] as $ct)
                                             <li class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}">
                                                 <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
                                                     href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}">{{ $ct->name ?? '' }}<span

@@ -40,6 +40,10 @@
                                 <input class="form-control" id="stock" name="stock" onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                             </div>
                             <div class="mb-4">
+                                <label class="form-label" for="weight">Berat barang (*kg)</label>
+                                <input class="form-control" id="weight" name="weight" onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
+                            </div>
+                            <div class="mb-4">
                                 <label class="form-label">Harga</label>
                                 <div class="row gx-2"></div>
                                 <input class="form-control" onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">

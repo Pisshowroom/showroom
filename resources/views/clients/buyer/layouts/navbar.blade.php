@@ -263,9 +263,9 @@
                     <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
                             <li><a class="@yield('home')" href="{{ route('buyer.home') }}">Beranda</a></li>
-                            @guest
+                            {{-- @guest
                                 <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
-                            @endguest
+                            @endguest --}}
                             <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}">Semua
                                     Produk</a></li>
                             <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}">Artikel</a>
@@ -307,7 +307,12 @@
                         </ul>
                     </nav>
                 </div>
-                {{-- <div class="discount font-16 font-bold">HARGA SPESIAL</div> --}}
+                <div class="discount d-xl-flex d-none">
+                    @guest
+                        <a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a>
+                        <a class="@yield('register')" href="{{ route('buyer.register') }}">Mendaftar</a>
+                    @endguest
+                </div>
             </div>
         </div>
 </header>
@@ -368,10 +373,12 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img
-                                        src="{{ asset('ecom/imgs/template/ava_1.png') }}" alt="Ecom"></a>
+                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img width="80px"
+                                        height="80px"
+                                        src="{{ Auth::guard('web')->user() ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                        alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
                                 <div class="content">
-                                    <h6 class="user-name">Hello, {{ Auth::guard('web')->user()->name ?? '' }}</h6>
+                                    <h6 class="user-name">Halo, {{ Auth::guard('web')->user()->name ?? '' }}</h6>
                                 </div>
                             </div>
                         </div>

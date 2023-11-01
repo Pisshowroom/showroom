@@ -224,7 +224,24 @@ function parseDate($date, $format = "l, d F Y")
     $ret = str_ireplace($nmeng, $nmtur, $ret);
     return $ret;
 }
+function parseDateIds($date, $format = 'j F Y')
+{
+    \Carbon\Carbon::setLocale('id_ID');
 
+    return \Carbon\Carbon::parse($date)->translatedFormat($format);
+}
+function parseDateId($date, $format = 'j F Y, H:H')
+{
+    \Carbon\Carbon::setLocale('id_ID');
+
+    return \Carbon\Carbon::parse($date)->translatedFormat($format);
+}
+function parseDates($date, $format = 'j M Y, H:H')
+{
+    \Carbon\Carbon::setLocale('id_ID');
+
+    return \Carbon\Carbon::parse($date)->translatedFormat($format);
+}
 function convertToIndonesianMonth($monthNumber)
 {
     switch ($monthNumber) {
@@ -341,7 +358,7 @@ function terbilang($nilai)
     return $hasil;
 }
 
-/* 
+/*
 function sendMessage($title, $message, $data, $device_id, $send_all = false, $image = null)
 {
     $content = array("en" => $message);

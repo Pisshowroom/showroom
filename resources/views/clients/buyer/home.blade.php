@@ -108,7 +108,7 @@
                                                         alt="Ecom"></a>
                                             </div>
                                             <div class="info-right"><a class="font-xs color-gray-500"
-                                                    href="{{ route('buyer.detailSeller', ['slug' => $lpr->seller->seller_slug]) }}">{{ $lpr->seller ? $lpr->seller->name ?? '' : '' }}</a><br><a
+                                                    href="{{ route('buyer.detailSeller', ['slug' => $lpr->seller ? $lpr->seller->seller_slug : 'bobsmith']) }}">{{ $lpr->seller ? $lpr->seller->name ?? '' : '' }}</a><br><a
                                                     class="color-brand-3 font-sm-bold"
                                                     href="{{ route('buyer.detailProduct', ['slug' => $lpr->slug]) }}">{{ $lpr->name ?? '' }}</a>
                                                 <div class="rating"><img
@@ -194,7 +194,7 @@
                                                                         alt="produk {{ $lp->name ?? '' }}"></a>
                                                             </div>
                                                             <div class="info-right"><a class="font-xs color-gray-500"
-                                                                    href="{{ route('buyer.detailSeller', ['slug' => $lp->seller->seller_slug]) }}">{{ $lp->seller ? $lp->seller->name ?? '' : '' }}</a><br><a
+                                                                    href="{{ route('buyer.detailSeller', ['slug' => $lp->seller ? $lp->seller->seller_slug : 'bobsmith']) }}">{{ $lp->seller ? $lp->seller->name ?? '' : '' }}</a><br><a
                                                                     class="color-brand-3 font-sm-bold"
                                                                     href="{{ route('buyer.detailProduct', ['slug' => $lp->slug]) }}">{{ $lp->name ?? '' }}</a>
                                                                 <div class="rating"><img
@@ -337,7 +337,7 @@
                                                         alt="Ecom"></a>
                                             </div>
                                             <div class="info-right"><a class="font-xs color-gray-500"
-                                                    href="{{ route('buyer.detailSeller', ['slug' => $rp->seller->seller_slug]) }}">{{ $rp->seller ? $rp->seller->name ?? '' : '' }}</a><br><a
+                                                    href="{{ route('buyer.detailSeller', ['slug' => $rp->seller ? $rp->seller->seller_slug : 'bobsmith']) }}">{{ $rp->seller ? $rp->seller->name ?? '' : '' }}</a><br><a
                                                     class="color-brand-3 font-sm-bold"
                                                     href="{{ route('buyer.detailProduct', ['slug' => $rp->slug]) }}">{{ $rp->name ?? '' }}</a>
                                                 <div class="rating"><img

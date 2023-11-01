@@ -6,90 +6,101 @@
         <div class="content-header">
             <h2 class="content-title">Profil</h2>
         </div>
+        @if (session('error'))
+            <div class="alert alert-warning" id="mydiv">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success" id="mydiv">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="card">
             <div class="card-body">
                 <div class="row gx-5">
                     <aside class="col-lg-3 border-end">
-                        <nav class="nav nav-pills flex-lg-column mb-4"><a class="nav-link active" aria-current="page"
-                                href="#">General</a><a class="nav-link" href="#">Moderators</a><a
-                                class="nav-link" href="#">Admin account</a><a class="nav-link" href="#">SEO
-                                settings</a><a class="nav-link" href="#">Mail settings</a><a class="nav-link"
-                                href="#">Newsletter</a></nav>
+                        {{-- <nav class="nav nav-pills flex-lg-column mb-4">
+                            <a class="nav-link active" aria-current="page" href="#">Umum</a>
+                            <a class="nav-link" href="#">Alamat</a>
+                            <a class="nav-link" href="#">Admin account</a>
+                            <a class="nav-link" href="#">SEO
+                                settings</a>
+                            <a class="nav-link" href="#">Mail settings</a><a class="nav-link"
+                                href="#">Newsletter</a>
+                        </nav> --}}
+                        <ul class="nav nav-pills flex-lg-column mb-4" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" href="#" id="pills-general-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-general" type="button" role="tab"
+                                    aria-controls="pills-general" aria-selected="true">Umum</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" href="#" id="pills-address-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-address" type="button" role="tab"
+                                    aria-controls="pills-address" aria-selected="false">Alamat</a>
+                            </li>
+                        </ul>
                     </aside>
                     <div class="col-lg-9">
                         <section class="content-body p-xl-4">
-                            <form>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="row gx-3">
-                                            <div class="col-12 mb-3">
-                                                <label class="form-label" for="name">Nama Lengkap</label>
-                                                <input class="form-control" id="name" name="name" type="text"
-                                                    placeholder="Masukkan nama">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-general" role="tabpanel"
+                                    aria-labelledby="pills-general-tab">
+                                    <form method="POST" action="{{ route('dashboard.updateProfile') }}">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row gx-3">
+                                                    <div class="col-12 mb-3">
+                                                        <label class="form-label" for="name">Nama</label>
+                                                        <input class="form-control" id="name" name="name"
+                                                            type="text" placeholder="Masukkan nama"
+                                                            value="{{ Auth::guard('web')->user()->name }}" required>
+                                                    </div>
+                                                    <!-- col .//-->
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="form-label">Email</label>
+                                                        <input class="form-control" type="email"
+                                                            placeholder="andi@mail.com"
+                                                            value="{{ Auth::guard('web')->user()->email }}" required>
+                                                    </div>
+                                                    <!-- col .//-->
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="form-label" for="password">Password</label>
+                                                        <input class="form-control" type="password" id="password"
+                                                            placeholder="*****">
+                                                    </div>
+                                                    <!-- col .//-->
+                                                    <div class="col-12 mb-3">
+                                                        <label class="form-label" for="birthdate">Tanggal Lahir</label>
+                                                        <input class="form-control" type="date" id="birthdate">
+                                                    </div>
+                                                </div>
+                                                <aside>
+                                                    <label for="image" class="form-label">Gambar</label>
+                                                    <figure class="text-lg-center">
+                                                        <img class="img-lg mb-3 img-avatar"
+                                                            src="{{ Auth::guard('web')->user() ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                                            alt="User">
+                                                        <figcaption>
+                                                            <input class="form-control" type="file" id="image"
+                                                                name="image" accept="image/*">
+
+                                                            {{-- <a class="btn btn-light rounded font-md"
+                                                                href="#"><i
+                                                                    class="icons material-icons md-backup font-md"></i>
+                                                                Upload</a> --}}
+                                                        </figcaption>
+                                                    </figure>
+                                                </aside>
                                             </div>
-                                            <!-- col .//-->
-                                            <div class="col-lg-6 mb-3">
-                                                <label class="form-label">Email</label>
-                                                <input class="form-control" type="email" placeholder="example@mail.com">
-                                            </div>
-                                            <!-- col .//-->
-                                            <div class="col-lg-6 mb-3">
-                                                <label class="form-label">Phone</label>
-                                                <input class="form-control" type="tel" placeholder="+1234567890">
-                                            </div>
-                                            <!-- col .//-->
-                                            <div class="col-12 mb-3">
-                                                <label class="form-label">Birthday</label>
-                                                <input class="form-control" type="date">
-                                            </div>
-                                            <div class="col-lg-12 mb-3">
-                                                <label class="form-label">Alamat</label>
-                                                <textarea class="form-control" placeholder="Masukkan alamat" rows="5"></textarea>
-                                            </div>
-                                            <!-- col .//-->
-                                            <!-- col .//-->
-                                            <!-- row.//-->
-                                            <!-- col.//-->
-                                        </div>
-                                        <aside>
-                                            <figure class="text-lg-center"><img class="img-lg mb-3 img-avatar"
-                                                    src="{{ asset('ecom_dashboard/imgs/people/avatar1.jpg') }}"
-                                                    alt="User Photo">
-                                                <figcaption><a class="btn btn-light rounded font-md" href="#"><i
-                                                            class="icons material-icons md-backup font-md"></i> Upload</a>
-                                                </figcaption>
-                                            </figure>
-                                        </aside>
-                                    </div>
-                                    <!-- col.//-->
-                                    <!-- row.//-->
-                                </div><br>
-                                <button class="btn btn-primary" type="submit">Save changes</button>
-                            </form>
-                            <hr class="my-5">
-                            <div class="row" style="max-width:920px">
-                                <div class="col-md">
-                                    <article class="box mb-3 bg-light"><a
-                                            class="btn float-end btn-light btn-sm rounded font-md" href="#">Change</a>
-                                        <h6>Password</h6><small class="text-muted d-block" style="width:70%">You can reset
-                                            or change your password by clicking here</small>
-                                    </article>
+                                        </div><br>
+                                        <button class="btn btn-primary" type="submit">Simpan</button>
+                                    </form>
                                 </div>
-                                <!-- col.//-->
-                                <div class="col-md">
-                                    <article class="box mb-3 bg-light"><a
-                                            class="btn float-end btn-light rounded btn-sm font-md"
-                                            href="#">Deactivate</a>
-                                        <h6>Remove account</h6><small class="text-muted d-block" style="width:70%">Once you
-                                            delete your account, there is no going back.</small>
-                                    </article>
-                                </div>
-                                <!-- col.//-->
-                                <!-- row.//-->
-                                <!-- content-body .//-->
-                                <!-- col.//-->
-                                <!-- row.//-->
-                                <!-- card body end//-->
+                                <div class="tab-pane fade" id="pills-address" role="tabpanel"
+                                    aria-labelledby="pills-address-tab">...</div>
                             </div>
                         </section>
                     </div>
@@ -100,4 +111,9 @@
 
 @endsection
 @push('importjs')
+    <script type="text/javascript">
+        setTimeout(function() {
+            $('#mydiv').fadeOut('fast');
+        }, 2000);
+    </script>
 @endpush
