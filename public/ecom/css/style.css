@@ -3693,14 +3693,26 @@ a.text-brand-3:hover {
   right: 0px;
   margin-top: -4px;
 }
+.header-bottom .discount a {
+    font-family: "DM Sans", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: #425A8B;
+    line-height: 24px;
+    display: block;
+    text-decoration: none;
+    position: relative;
+}
+.header-bottom .discount .active,.header-bottom .discount a:hover {
+  color: #FD9636;
+  opacity: 1;
+  transition: 0.2s;
+}
 .header-bottom .discount {
+  gap:1rem;
   display: inline-block;
-  padding: 9px 0px 9px 42px;
-  background-image: url(../imgs/page/homepage4/discount.svg);
-  background-position: left center;
-  background-repeat: no-repeat;
-  min-width: 160px;
-  max-height: 53px;
+  padding: 9px 0px 9px 0px;
 }
 .header-bottom .dropdown-right {
   background-image: url(../imgs/page/homepage4/arrow-down.svg);
@@ -8469,7 +8481,7 @@ a:hover span {
   margin: 0 0 15px 0;
   border: 1px solid #DDE4F0;
   border-radius: 4px;
-  padding: 20px;
+  padding:20px;
   transition: 0.2s;
 }
 
@@ -9862,6 +9874,9 @@ a:hover span {
   }
 }
 @media (max-width: 1199.98px) {
+  .header {
+    border-bottom: 0px !important;
+  }
   .burger-icon {
     display: inline-block;
   }
@@ -10540,6 +10555,12 @@ a:hover span {
   }
   .banner-home10 .banner-big-home10 .box-img-banner-2 img {
     max-width: 250px;
+  }
+  .comments-area .comment-list .single-comment {
+    padding: 10px !important;
+  }
+  .comments-area .thumb {
+    margin-right: 10px !important;
   }
 }
 @media (max-width: 499.98px) {

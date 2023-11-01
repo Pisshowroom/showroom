@@ -32,6 +32,9 @@ class SellerController extends Controller
             return $q->where('category_id', $request->category_id);
         })->where('seller_id', $seller->id)->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
         $data['categories'] = $this->categories();
+        $data['categories_product'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) use ($seller) {
+            $q->where('seller_id', $seller->id);
+        })->get();
         return view('clients.buyer.seller.detail', ['seller' => $seller, 'products' => $product, 'data' => $data]);
     }
 }

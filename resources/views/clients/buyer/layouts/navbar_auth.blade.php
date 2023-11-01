@@ -272,10 +272,11 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img
-                                        src="{{ asset('ecom/imgs/template/ava_1.png') }}" alt="Ecom"></a>
+                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img width="80px" height="80px"
+                                        src="{{ Auth::guard('web')->user() ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                        alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
                                 <div class="content">
-                                    <h6 class="user-name">Hello, {{ Auth::guard('web')->user()->name ?? '' }}</h6>
+                                    <h6 class="user-name">Halo, {{ Auth::guard('web')->user()->name ?? '' }}</h6>
                                 </div>
                             </div>
                         </div>
@@ -569,10 +570,11 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img
-                                        src="{{ asset('ecom/imgs/template/ava_1.png') }}" alt="Ecom"></a>
+                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img width="80px" height="80px"
+                                        src="{{ Auth::guard('web')->user() ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                        alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
                                 <div class="content">
-                                    <h6 class="user-name">Hello, {{ Auth::guard('web')->user()->name ?? '' }}</h6>
+                                    <h6 class="user-name">Halo, {{ Auth::guard('web')->user()->name ?? '' }}</h6>
                                 </div>
                             </div>
                         </div>

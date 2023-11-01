@@ -89,12 +89,14 @@ Route::get('/detail-artikel/{id}', [ArticleController::class, 'detailArticle'])-
 Route::get('/semua-produk', [BuyerProductController::class, 'allListProduct'])->name('buyer.allListProduct');
 Route::get('/semua-produk-grid', [BuyerProductController::class, 'allGridProduct'])->name('buyer.allGridProduct');
 Route::get('/produk-{slug}', [BuyerProductController::class, 'detailProduct'])->name('buyer.detailProduct');
+Route::post('/tambah-ulasan', [BuyerProductController::class, 'addReview'])->name('buyer.addReview');
 
 
 // Route::get('/detail-produk/{slug}', [BuyerController::class, 'detailProduct'])->name('buyer.detailProduct');
 
 
 Route::group(['middleware' => ['auth:web']], function () {
+    Route::post('/perbarui-profil', [DashboardController::class, 'updateProfile'])->name('dashboard.updateProfile');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::group(['prefix' => 'pembeli'], function () {
         Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
@@ -116,6 +118,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
         Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
         Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');
+        Route::post('/perbarui-profil', [SellerController::class, 'updateProfile'])->name('dashboardSeller.updateProfile');
     });
 });
 // seller

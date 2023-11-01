@@ -17,6 +17,16 @@
                 </div>
             </div>
         </div>
+        @if (session('error'))
+            <div class="alert alert-warning" id="mydiv">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success" id="mydiv">
+                {{ session('success') }}
+            </div>
+        @endif
         <section class="section-box shop-template">
             <div class="container">
                 <div class="row">
@@ -120,11 +130,12 @@
                         </div>
                         <div class="border-bottom pt-10 mb-20"></div>
                         <div class="box-product-price">
-                            <h3 class="color-brand-3 price-main d-inline-block mr-10">{{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}</h3>
+                            <h3 class="color-brand-3 price-main d-inline-block mr-10">
+                                {{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}</h3>
                             {{-- <span
                                 class="color-gray-500 price-line font-xl line-througt">$3225.6</span> --}}
                         </div>
-                        <div class="product-description mt-20 color-gray-900">
+                        {{-- <div class="product-description mt-20 color-gray-900">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <ul class="list-dot">
@@ -141,7 +152,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="box-product-color mt-20">
                             <p class="font-sm color-gray-900">Color:<span class="color-brand-2 nameColor">Pink Gold</span>
                             </p>
@@ -236,9 +247,11 @@
                         <li><a href="#tab-additional" data-bs-toggle="tab" role="tab" aria-controls="tab-additional"
                                 aria-selected="true">Informasi tambahan</a></li>
                         <li><a href="#tab-reviews" data-bs-toggle="tab" role="tab" aria-controls="tab-reviews"
-                                aria-selected="true">Ulasan (2)</a></li>
-                        <li><a href="#tab-create-reviews" data-bs-toggle="tab" role="tab"
-                                aria-controls="tab-create-reviews" aria-selected="true">Tulis Ulasan</a></li>
+                                aria-selected="true">Ulasan ({{ $data['reviews']->total() ?? 0 }})</a></li>
+                        @auth
+                            <li><a href="#tab-create-reviews" data-bs-toggle="tab" role="tab"
+                                    aria-controls="tab-create-reviews" aria-selected="true">Tulis Ulasan</a></li>
+                        @endauth
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="tab-description" role="tabpanel"
@@ -307,6 +320,13 @@
                                                 <p>{{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}</p>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>Berat barang</td>
+                                            <td>
+                                                <p>1 kg</p>
+                                                {{-- <p>{{ $product->weight ?? '-' }}</p> --}}
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -316,84 +336,66 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="comment-list">
-                                            <div class="single-comment justify-content-between d-flex mb-30 hover-up">
-                                                <div class="user justify-content-between d-flex">
-                                                    <div class="thumb text-center"><img
-                                                            src="{{ asset('ecom/imgs/page/product/author-2.png') }}"
-                                                            alt="Ecom"><a class="font-heading text-brand"
-                                                            href="#">Sienna</a>
-                                                    </div>
-                                                    <div class="desc">
-                                                        <div class="d-flex justify-content-between mb-10">
-                                                            <div class="d-flex align-items-center"><span
-                                                                    class="font-xs color-gray-700">December 4, 2022 at 3:12
-                                                                    pm</span></div>
-                                                            <div class="product-rate d-inline-block">
-                                                                <div class="product-rating" style="width: 100%"></div>
+                                            @if (count($data['reviews']) > 0)
+                                                @foreach ($data['reviews'] as $review)
+                                                    <div
+                                                        class="single-comment w-100 justify-content-between d-flex hover-up">
+                                                        <div class="user w-100 d-flex">
+                                                            <div class="thumb text-center"><img width="80px" height="80px"
+                                                                    src="{{ $review->user ? $review->user->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                                                    alt="ulasan dari {{ $review->user->name }}">
+                                                                <p class="font-heading text-brand">
+                                                                    {{ $review->user ? $review->user->name ?? '' : '' }}
+                                                                </p>
+                                                            </div>
+                                                            <div class="desc w-100">
+                                                                <div
+                                                                    class="d-sm-flex d-block justify-content-between mb-10">
+                                                                    <div class="d-flex align-items-center"><span
+                                                                            class="font-xs color-gray-700">{{ $review->date }}</span>
+                                                                    </div>
+                                                                    <div class="product-rate d-inline-block">
+                                                                        @if ($review->rating)
+                                                                            @if ($review->rating == 1)
+                                                                                <div class="product-rating"
+                                                                                    style="width: 20%">
+                                                                                </div>
+                                                                            @elseif($review->rating == 2)
+                                                                                <div class="product-rating"
+                                                                                    style="width: 40%">
+                                                                                </div>
+                                                                            @elseif($review->rating == 3)
+                                                                                <div class="product-rating"
+                                                                                    style="width: 60%">
+                                                                                </div>
+                                                                            @elseif($review->rating == 4)
+                                                                                <div class="product-rating"
+                                                                                    style="width: 80%">
+                                                                                </div>
+                                                                            @elseif($review->rating == 5)
+                                                                                <div class="product-rating"
+                                                                                    style="width: 100%">
+                                                                                </div>
+                                                                            @else
+                                                                            @endif
+                                                                        @else
+                                                                            <div class="product-rating" style="width: 0%">
+                                                                            </div>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                                <p class="mb-10 font-sm color-gray-900">
+                                                                    {!! $review->text ?? '' !!}
+                                                                </p>
                                                             </div>
                                                         </div>
-                                                        <p class="mb-10 font-sm color-gray-900">
-                                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                            Delectus, suscipit exercitationem accusantium obcaecati quos
-                                                            voluptate nesciunt facilis itaque modi commodi dignissimos sequi
-                                                            repudiandae minus ab deleniti totam officia id incidunt?<a
-                                                                class="reply" href="#"> Reply</a>
-                                                        </p>
                                                     </div>
+                                                @endforeach
+                                            @else
+                                                <div class="col-lg-12 text-center mt-40">
+                                                    <h4>Tidak ada ulasan saat ini</h4>
                                                 </div>
-                                            </div>
-                                            <div
-                                                class="single-comment justify-content-between d-flex mb-30 ml-30 hover-up">
-                                                <div class="user justify-content-between d-flex">
-                                                    <div class="thumb text-center"><img
-                                                            src="{{ asset('ecom/imgs/page/product/author-3.png') }}"
-                                                            alt="Ecom"><a class="font-heading text-brand"
-                                                            href="#">Brenna</a>
-                                                    </div>
-                                                    <div class="desc">
-                                                        <div class="d-flex justify-content-between mb-10">
-                                                            <div class="d-flex align-items-center"><span
-                                                                    class="font-xs color-gray-700">December 4, 2022 at 3:12
-                                                                    pm</span></div>
-                                                            <div class="product-rate d-inline-block">
-                                                                <div class="product-rating" style="width: 80%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="mb-10 font-sm color-gray-900">
-                                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                            Delectus, suscipit exercitationem accusantium obcaecati quos
-                                                            voluptate nesciunt facilis itaque modi commodi dignissimos sequi
-                                                            repudiandae minus ab deleniti totam officia id incidunt?<a
-                                                                class="reply" href="#"> Reply</a>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="single-comment justify-content-between d-flex hover-up">
-                                                <div class="user justify-content-between d-flex">
-                                                    <div class="thumb text-center"><img
-                                                            src="{{ asset('ecom/imgs/page/product/author-4.png') }}"
-                                                            alt="Ecom"><a class="font-heading text-brand"
-                                                            href="#">Gemma</a></div>
-                                                    <div class="desc">
-                                                        <div class="d-flex justify-content-between mb-10">
-                                                            <div class="d-flex align-items-center"><span
-                                                                    class="font-xs color-gray-700">December 4, 2022 at 3:12
-                                                                    pm</span></div>
-                                                            <div class="product-rate d-inline-block">
-                                                                <div class="product-rating" style="width: 80%"></div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="mb-10 font-sm color-gray-900">
-                                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                            Delectus, suscipit exercitationem accusantium obcaecati quos
-                                                            voluptate nesciunt facilis itaque modi commodi dignissimos sequi
-                                                            repudiandae minus ab deleniti totam officia id incidunt?<a
-                                                                class="reply" href="#"> Reply</a>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @endif
                                         </div>
                                     </div>
                                     {{-- <div class="col-lg-4">
@@ -428,46 +430,58 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tab-create-reviews" role="tabpanel"
-                        aria-labelledby="tab-create-reviews">
-                        <div class="comments-area">
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <div class="form-comment">
-                                        <div class="row">
-                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                            <p style="font-size: 18px">Rating barang ini menurut kamu</p>
-                                            <div class="stars">
-                                                <input class="star star-5" id="star-5" type="radio" name="rating"
-                                                    value="5" checked />
-                                                <label class="star star-5" for="star-5"></label>
-                                                <input class="star star-4" id="star-4" type="radio" name="rating"
-                                                    value="4" />
-                                                <label class="star star-4" for="star-4"></label>
-                                                <input class="star star-3" id="star-3" type="radio" name="rating"
-                                                    value="3" />
-                                                <label class="star star-3" for="star-3"></label>
-                                                <input class="star star-2" id="star-2" type="radio" name="rating"
-                                                    value="2" />
-                                                <label class="star star-2" for="star-2"></label>
-                                                <input class="star star-1" id="star-1" type="radio" name="rating"
-                                                    value="1" />
-                                                <label class="star star-1" for="star-1"></label>
-                                            </div>
-                                            <div class="col-lg-12 mt-4">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" placeholder="Tulis Ulasan" rows="5"></textarea>
+                        @auth
+                            <div class="tab-pane fade" id="tab-create-reviews" role="tabpanel"
+                                aria-labelledby="tab-create-reviews">
+                                <div class="comments-area">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <form class="form-comment" action="{{ route('buyer.addReview') }}"
+                                                method="POST">
+                                                @csrf
+                                                <div class="row">
+                                                    <input type="hidden" name="order_id" value="1">
+                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                    <input type="hidden" name="product_slug" value="{{ $product->slug }}">
+                                                    <p style="font-size: 18px">Rating barang ini menurut kamu</p>
+                                                    <div class="stars">
+                                                        <input class="star star-5" id="star-5" type="radio"
+                                                            name="rating" value="5" checked />
+                                                        <label class="star star-5" for="star-5"></label>
+                                                        <input class="star star-4" id="star-4" type="radio"
+                                                            name="rating" value="4" />
+                                                        <label class="star star-4" for="star-4"></label>
+                                                        <input class="star star-3" id="star-3" type="radio"
+                                                            name="rating" value="3" />
+                                                        <label class="star star-3" for="star-3"></label>
+                                                        <input class="star star-2" id="star-2" type="radio"
+                                                            name="rating" value="2" />
+                                                        <label class="star star-2" for="star-2"></label>
+                                                        <input class="star star-1" id="star-1" type="radio"
+                                                            name="rating" value="1" />
+                                                        <label class="star star-1" for="star-1"></label>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-4">
+                                                        <div class="form-group">
+                                                            <textarea class="form-control" placeholder="Tulis Ulasan" rows="5" name="text" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-4">
+                                                        <div class="form-group">
+                                                            <label for="image" class="form-label">Gambar</label>
+                                                            <input class="form-control" type="file" id="image"
+                                                                name="image" accept="image/*">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <button class="btn btn-buy w-auto" type="submit">Kirim</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-group">
-                                                    <input class="btn btn-buy w-auto" type="submit" value="Kirim">
-                                                </div>
-                                            </div>
+                                            </form>
                                         </div>
-                                    </div>
-                                </div>
-                                {{-- <div class="col-lg-4">
+                                        {{-- <div class="col-lg-4">
                                     <h4 class="mb-30 title-question">Customer reviews</h4>
                                     <div class="d-flex mb-30">
                                         <div class="product-rate d-inline-block mr-15">
@@ -496,9 +510,10 @@
                                             aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
                                     </div><a class="font-xs text-muted" href="#">How are ratings calculated?</a>
                                 </div> --}}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        </div>
+                        @endauth
                         {{-- <div class="border-bottom pt-30 mb-50"></div>
                         <h4 class="color-brand-3">Produk terkait</h4>
                         <div class="list-products-5 mt-20">
@@ -1322,7 +1337,8 @@
                                     <div class="info-by"><span
                                             class="bytext color-gray-500 font-xs font-medium">by</span><a
                                             class="byAUthor color-gray-900 font-xs font-medium"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}"> Ecom Tech</a>
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">
+                                            Ecom Tech</a>
                                         <div class="rating d-inline-block"><img
                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><img
@@ -1338,12 +1354,13 @@
                                     </div>
                                     <div class="border-bottom pt-10 mb-20"></div>
                                     <div class="box-product-price">
-                                        <h3 class="color-brand-3 price-main d-inline-block mr-10">{{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}
+                                        <h3 class="color-brand-3 price-main d-inline-block mr-10">
+                                            {{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}
                                         </h3>
                                         {{-- <span
                                             class="color-gray-500 price-line font-xl line-througt">$3225.6</span> --}}
                                     </div>
-                                    <div class="product-description mt-10 color-gray-900">
+                                    {{-- <div class="product-description mt-10 color-gray-900">
                                         <ul class="list-dot">
                                             <li>8k super steady video</li>
                                             <li>Nightography plus portait mode</li>
@@ -1352,7 +1369,7 @@
                                             <li>premium design & craftmanship</li>
                                             <li>Long lasting battery plus fast charging</li>
                                         </ul>
-                                    </div>
+                                    </div> --}}
                                     <div class="box-product-color mt-10">
                                         <p class="font-sm color-gray-900">Color:<span class="color-brand-2 nameColor">Pink
                                                 Gold</span></p>
@@ -1427,52 +1444,57 @@
 
 @endsection
 @push('css')
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
-<style>
-    .stars {
-        padding: 0 20px;
-        width: 100%;
-        display: inline-block;
-    }
+    <style>
+        .stars {
+            padding: 0 20px;
+            width: 100%;
+            display: inline-block;
+        }
 
-    input.star {
-        display: none;
-    }
+        input.star {
+            display: none;
+        }
 
-    label.star {
-        float: right;
-        padding: 10px;
-        font-size: 36px;
-        color: #444;
-        transition: all .2s;
-    }
+        label.star {
+            float: right;
+            padding: 10px;
+            font-size: 36px;
+            color: #444;
+            transition: all .2s;
+        }
 
-    input.star:checked~label.star:before {
-        content: '\f005';
-        color: #FD4;
-        transition: all .25s;
-    }
+        input.star:checked~label.star:before {
+            content: '\f005';
+            color: #FD4;
+            transition: all .25s;
+        }
 
-    input.star-5:checked~label.star:before {
-        color: #FE7;
-        text-shadow: 0 0 20px #952;
-    }
+        input.star-5:checked~label.star:before {
+            color: #FE7;
+            text-shadow: 0 0 20px #952;
+        }
 
-    input.star-1:checked~label.star:before {
-        color: #F62;
-    }
+        input.star-1:checked~label.star:before {
+            color: #F62;
+        }
 
-    label.star:hover {
-        transform: rotate(-15deg) scale(1.3);
-    }
+        label.star:hover {
+            transform: rotate(-15deg) scale(1.3);
+        }
 
-    label.star:before {
-        content: '\f006';
-        font-family: FontAwesome;
-    }
-</style>
+        label.star:before {
+            content: '\f006';
+            font-family: FontAwesome;
+        }
+    </style>
 @endpush
 @push('importjs')
+    <script type="text/javascript">
+        setTimeout(function() {
+            $('#mydiv').fadeOut('fast');
+        }, 2000);
+    </script>
 @endpush

@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Clients\buyer;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
-use Carbon\Carbon;
+use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -38,7 +39,34 @@ class ProductController extends Controller
     public function detailProduct($slug)
     {
         $product = Product::with(['seller:id,name,seller_slug', 'category'])->where('slug', $slug)->first();
+        $data['reviews'] = Review::whereNull('deleted_at')->with('user:id,name,image')->orderByDesc('id')->paginate(5);
+        foreach ($data['reviews'] as $review) {
+            if ($review->created_at)
+                $review->date = parseDateId($review->created_at) . ' WIB';
+            else
+                $review->date = null;
+        }
         $data['categories'] = $this->categories();
         return view('clients.buyer.product.detail', ['product' => $product, 'data' => $data]);
+    }
+
+    public function addReview(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required',
+            'rating' => 'required',
+            'text' => 'required'
+        ]);
+        $user = Auth::guard('web')->user();
+        $review = new Review();
+        $review->user_id = $user->id;
+        if ($request->filled('order_id'))
+            $review->order_id = (int) $request->order_id;
+        $review->rating =  (int) $request->rating;
+        $review->text = $request->text;
+        if ($request->hasFile('image'))
+            $review->images = $request->image;
+        $review->save();
+        return redirect("/produk-" . $request->product_slug)->with('success', 'Berhasil menambahkan Ulasan');
     }
 }

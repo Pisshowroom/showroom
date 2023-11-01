@@ -19,7 +19,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 mb-30">
                         <p class="font-md color-gray-500">Kami mempunyai<span class="font-md-bold color-brand-3">
-                                780</span><span>
+                                {{ $sellers->total() ?? 0 }}</span><span>
                                 penjual sekarang</span></p>
                     </div>
                     @if (Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller == 0)
@@ -32,10 +32,10 @@
                     <div class="col-12 order-first order-lg-last">
                         <div class="box-filters mt-0 pb-5 border-bottom">
                             <div class="row">
-                                <div class="col-xl-2 col-lg-3 mb-10 text-lg-start text-center"><a
+                                <div class="col-xl-2 col-lg-3 mb-10 text-lg-start"><a
                                         class="btn btn-filter font-sm color-brand-3 font-medium" href="#ModalFiltersForm"
                                         data-bs-toggle="modal">Filter</a></div>
-                                <div class="col-xl-10 col-lg-9 mb-10 text-lg-end text-center"><span
+                                <div class="col-xl-10 col-lg-9 mb-10 text-lg-end"><span
                                         class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
                                         {{ count($sellers) > 0 ? count($sellers) : 0 }} hasil</span>
                                     <div class="d-inline-block"><span
@@ -43,11 +43,11 @@
                                         <div class="dropdown dropdown-sort border-1-right">
                                             <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
                                                 id="dropdownSort" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">Penjual Terbaru</button>
+                                                aria-expanded="false">Rating Tertinggi</button>
                                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort"
                                                 style="margin: 0px;">
-                                                <li><a class="dropdown-item active" href="#">Penjual Terbaru</a></li>
-                                                <li><a class="dropdown-item" href="#">Penjual Terlama</a></li>
+                                                <li><a class="dropdown-item active" href="#">Rating Tertinggi</a></li>
+                                                <li><a class="dropdown-item" href="#">Rating Terendah</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -74,7 +74,7 @@
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                                         <a href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">
                                             <div class="card-vendor">
-                                                <div class="card-top-vendor">
+                                                <div class="card-top-vendor mb-0 pb-0 border-0">
                                                     <div class="card-top-vendor-left"><img
                                                             src="{{ asset('ecom/imgs/page/vendor/futur.png') }}"
                                                             alt="Ecom">
@@ -89,7 +89,8 @@
                                                                 alt="Ecom"><img
                                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                                 alt="Ecom"><span class="font-xs color-gray-500">
-                                                                (65)</span>
+                                                                (65)
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <div class="card-top-vendor-right"><a class="btn btn-gray"
@@ -98,12 +99,12 @@
                                                         <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                                     </div>
                                                 </div>
-                                                <div class="card-bottom-vendor">
+                                                {{-- <div class="card-bottom-vendor">
                                                     <p class="font-sm color-gray-500 location mb-10">5171 W Campbell Ave
                                                         undefined Kent,
                                                         Utah 53127 United States</p>
                                                     <p class="font-sm color-gray-500 phone">(+91) - 540-025-124553</p>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </a>
                                     </div>
