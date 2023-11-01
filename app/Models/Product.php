@@ -10,6 +10,10 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $casts = [
+        'images' => 'array'
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -25,6 +29,4 @@ class Product extends Model
     {
         return $this->belongsTo(Product::class, 'parent_id');
     }
-    // & okdopaskdpoakpsod
-
 }

@@ -14,6 +14,11 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $imagesData = [];
+        foreach(($this->images ?? []) as $img) {
+            $imagesData[] = lypsisAsset($img);
+        }
+        
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -21,6 +26,8 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'stock' => $this->stock,
+            // how to handling images that  casted into array ?
+            'images' => $imagesData,
             'unit' => $this->unit,
             'is_featured' => $this->is_featured,
             'category' => new CategoryResource($this->whenLoaded('category')),

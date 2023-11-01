@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
@@ -34,12 +35,25 @@ Route::group(['prefix' => 'article'], function () {
 
 Route::group(['prefix' => 'product'], function () {
     Route::get('/', [ProductController::class, 'products']);
+    Route::middleware('auth:api-client')->group(function () {
+        Route::get('/seller/my-products', [ProductController::class, 'sellerMyProducts']);
+        Route::post('/store-or-update-product', [ProductController::class, 'storeOrUpdateProduct']);
+        Route::delete('/{product}', [ProductController::class, 'destroy']);
+    });
+
     Route::get('/{product}', [ProductController::class, 'show']);
+});
+
+Route::group(['prefix' => 'addresses', 'middleware' => 'auth:api-client'],function () {
+    Route::get('/', [AddressController::class, 'index']);
+    Route::post('/store-or-update', [AddressController::class, 'storeOrUpdate']);
+    Route::post('/set-main-address/{address}', [AddressController::class, 'setMainAddress']);
+    Route::delete('delete/{address}', [AddressController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'order'], function () {
     Route::post('/precheck', [OrderController::class, 'preCheck']);
-    Route::get('/{product}', [ProductController::class, 'show']);
+    Route::get('/check-shipping-price', [OrderController::class, 'checkShippingPrice']);
 });
 
 // create route group user

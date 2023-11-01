@@ -65,6 +65,11 @@ function ResponseAPI($data, $status = 200)
     return response()->json($data, $status);
 }
 
+function lypsisAsset($path)
+{
+    return $path ? url($path) : null;
+}
+
 function get_distance_between_points($latitude1, $longitude1, $latitude2, $longitude2)
 {
     $meters = get_meters_between_points($latitude1, $longitude1, $latitude2, $longitude2);

@@ -21,12 +21,12 @@ class AddressController extends Controller
     public function storeOrUpdate(Request $request)
     {
         $id = $request->id ?? null;
+        $user = auth()->user();
         $data = $request->validate([
             'ro_province_id' => 'required|exists:ro_provinces,id',
             'ro_city_id' => 'required|exists:ro_cities,id',
             'ro_subdistrict_id' => 'required|exists:ro_subdistricts,id',
             'street' => 'nullable|string',
-            'main' => 'required|boolean',
             'place_name' => 'nullable|string',
             'person_name' => 'nullable|string',
             'phone_number' => 'required',
@@ -39,19 +39,32 @@ class AddressController extends Controller
             'long' => 'required|numeric',
         ]);
 
-        $data['user_id'] = auth()->id();
 
         if ($id) {
             $address = Address::findOrFail($id);
             $address->update($data);
         } else {
+            $data['user_id'] = $user->id;
+            if ($user->addresses->count() < 1) {
+                $data['main'] = true;
+            }
             $address = Address::create($data);
         }
 
         return new AddressResource($address);
     }
 
-    // setMainAddress
+    public function setMainAddress(Address $address)
+    {
+        $user = auth()->user();
+        $user->addresses()->where('main', true)->update(['main' => false]);
+        $address->update(['main' => true]);
+        return new AddressResource($address);
+    }
 
-    // destroy
+    public function destroy(Address $address)
+    {
+        $address->delete();
+        return ResponseAPI('Address berhasil dihapus');
+    }
 }
