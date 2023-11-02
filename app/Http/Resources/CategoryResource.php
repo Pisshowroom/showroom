@@ -14,6 +14,11 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+        
+        // Replace the image key with your custom image URL
+        $data['image'] = lypsisAsset($this->image);
+        
+        return $data;
     }
 }

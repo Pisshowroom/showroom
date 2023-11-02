@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RegionalController;
 use App\Http\Controllers\Api\UserController;
@@ -43,6 +44,10 @@ Route::group(['prefix' => 'product'], function () {
     });
 
     Route::get('/{product}', [ProductController::class, 'show']);
+});
+
+Route::prefix('payment')->group(function () {
+    Route::get('payment-list', [PaymentController::class, 'index']);
 });
 
 Route::group(['prefix' => 'addresses', 'middleware' => 'auth:api-client'],function () {
