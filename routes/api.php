@@ -53,6 +53,7 @@ Route::group(['prefix' => 'addresses', 'middleware' => 'auth:api-client'],functi
 
 Route::group(['prefix' => 'order'], function () {
     Route::post('/precheck', [OrderController::class, 'preCheck']);
+    Route::post('/precheck-with-delivery', [OrderController::class, 'precheckWithDelivery']);
     Route::get('/check-shipping-price', [OrderController::class, 'checkShippingPrice']);
 });
 

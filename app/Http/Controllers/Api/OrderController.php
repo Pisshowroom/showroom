@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -13,6 +16,7 @@ class OrderController extends Controller
     {
         $request->validate([
             'order_items' => 'required',
+            'address_id' => 'required',
         ]);
 
         $products = [];
@@ -28,10 +32,71 @@ class OrderController extends Controller
             $product = \App\Models\Product::find($order_item['product_id']);
             if ($product == null) {
                 $product = Product::withTrashed()->where('id', $product_id)->first();
+                if ($product == null)
+                    return ResponseAPI("Maaf produk dengan id tidak ditemukan.", 404);
+                else
+                    return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
+            }
+
+            if ($product->stock < $order_item['qty']) {
+                return ResponseAPI('Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock, 400);
+            }
+
+            if ($product->discount > 0) {
+                // minusing the product price with discount as percentage
+                $thePromoAmount = ($product->price * $product->discount / 100);
+                $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
+                $countedPromoProduct++;
+                $countedAmountPromo += $thePromoAmount * $order_item['qty'];
+
+                $total += $resultItemPriceAfterDiscount * $order_item['qty'];
+                $totalWithoutDiscount += $product->price * $order_item['qty'];
+            } else {
+                $total += $product->price * $order_item['qty'];
+                $totalWithoutDiscount += $product->price * $order_item['qty'];
+            }
+            array_push($products, $product);
+        }
+
+        $data['total'] = $total;
+        $data['total_without_discount'] = $totalWithoutDiscount;
+        $data['counted_promo_product'] = $countedPromoProduct;
+        $data['counted_amount_promo'] = $countedAmountPromo;
+        $data['delivery_services_info'] = $this->checkShippingPrice();
+        // $aa = $this->checkShippingPrice();
+        $data['products'] = $products;
+
+        return ResponseAPI($data);
+    }
+
+    public function precheckWithDelivery(Request $request)
+    {
+        $request->validate([
+            'order_items' => 'required',
+            'address_id' => 'required',
+            'delivery_cost' => 'required|numeric',
+            'delivery_code' => 'required',
+            'delivery_name' => 'required',
+            'delivery_service' => 'required',
+        ]);
+
+        $products = [];
+        $total = 0;
+        $totalWithoutDiscount = 0;
+        $countedPromoProduct = 0;
+        $countedAmountPromo = 0;
+        $deliveryCost = (int)$request->delivery_cost;
+
+
+        $orderItems = json_decode($request->order_items, true);
+
+        foreach ($orderItems as $order_item) {
+            $product_id = $order_item['product_id'];
+            $product = \App\Models\Product::find($order_item['product_id']);
+            if ($product == null) {
+                $product = Product::withTrashed()->where('id', $product_id)->first();
                 return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", false);
             }
-        // dd($order_item);
-
 
             if ($product->stock < $order_item['qty']) {
                 return ResponseAPI(['error' => 'Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock], 40);
@@ -53,12 +118,176 @@ class OrderController extends Controller
             array_push($products, $product);
         }
 
-        $data['products'] = $products;
+        // create $identifier on Order::class i had getNextId() 
+
+
+        // $type = 'QRIS';
+        // $type = 'VirtualAccount';
+        $serviceFee = 0;
+        $type = 'Retail';
+        if ($type == 'VirtualAccount') {
+            $serviceFee = 4500;
+        } elseif ($type == 'QRIS') {
+            // $serviceFee = floor($total * 0.00699);
+            $serviceFee = floor($total * 0.007);
+        } elseif ($type == 'Retail') {
+            $serviceFee = 5550;
+        }
+
+        $data['subtotal'] = $total;
+        $additionFee = $deliveryCost + $serviceFee;
+        $total += $additionFee;
+        $totalWithoutDiscount += $additionFee;
+
+        $data['delivery_cost'] = $deliveryCost;
+        $data['payment_service_fee'] = $serviceFee;
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
+        $data['products'] = $products;
 
         return ResponseAPI($data);
+    }
+
+    public function checkout(Request $request)
+    {
+        $request->validate([
+            'order_items' => 'required',
+            'address_id' => 'required',
+            'delivery_cost' => 'required|numeric',
+            'delivery_code' => 'required',
+            'delivery_name' => 'required',
+            'delivery_service' => 'required',
+        ]);
+        $user = auth()->user();
+
+        $products = [];
+        $total = 0;
+        $totalWithoutDiscount = 0;
+        $countedPromoProduct = 0;
+        $countedAmountPromo = 0;
+        $deliveryCost = (int)$request->delivery_cost;
+        $paymentDue = now()->addDays(1)->format('Y-m-d H:i:s');
+        $countOrderToday = DB::table('orders')->whereDate('created_at', now())->count();
+        $identifier = str_pad(now()->day, 2, '0', STR_PAD_LEFT) . strtoupper(now()->format("M")) . now()->format('y') . 'ORD' . str_pad(($countOrderToday + 1), 3, '0', STR_PAD_LEFT) . env('XND_ID');
+
+
+        $orderItems = json_decode($request->order_items, true);
+
+        foreach ($orderItems as $order_item) {
+            $product_id = $order_item['product_id'];
+            $product = \App\Models\Product::find($order_item['product_id']);
+            if ($product == null) {
+                $product = Product::withTrashed()->where('id', $product_id)->first();
+                return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", false);
+            }
+
+            if ($product->stock < $order_item['qty']) {
+                return ResponseAPI(['error' => 'Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock], 40);
+            }
+
+            if ($product->discount > 0) {
+                // minusing the product price with discount as percentage
+                $thePromoAmount = ($product->price * $product->discount / 100);
+                $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
+                $countedPromoProduct++;
+                $countedAmountPromo += $thePromoAmount * $order_item['qty'];
+
+                $total += $resultItemPriceAfterDiscount * $order_item['qty'];
+                $totalWithoutDiscount += $product->price * $order_item['qty'];
+            } else {
+                $total += $product->price * $order_item['qty'];
+                $totalWithoutDiscount += $product->price * $order_item['qty'];
+            }
+            array_push($products, $product);
+        }
+
+        // create $identifier on Order::class i had getNextId() 
+
+
+        // $type = 'QRIS';
+        // $type = 'VirtualAccount';
+        $data['subtotal'] = $total;
+
+        $serviceFee = 0;
+        $type = 'Retail';
+        if ($type == 'VirtualAccount') {
+            $serviceFee = 4500;
+            $additionFee = $deliveryCost + $serviceFee;
+
+            $total += $additionFee;
+            $totalWithoutDiscount += $additionFee;
+            $params = [
+                'external_id' => $identifier,
+                'bank_code' => $request->payment_provider_name,
+                'name' => ucwords(Str::slug(preg_replace('/\d+/u', '', $user->name),  ' ')),
+                'is_closed' => true,
+                'expected_amount' => $total,
+                'expiration_date' => $paymentDue,
+            ];
+
+            $vaResponse = VirtualAcc
+        } elseif ($type == 'QRIS') {
+            // $serviceFee = floor($total * 0.00699);
+            $serviceFee = floor($total * 0.007);
+        } elseif ($type == 'Retail') {
+            $serviceFee = 5550;
+        }
+
+
+
+
+        $data['delivery_cost'] = $deliveryCost;
+        $data['payment_service_fee'] = $serviceFee;
+        $data['total'] = $total;
+        $data['total_without_discount'] = $totalWithoutDiscount;
+        $data['counted_promo_product'] = $countedPromoProduct;
+        $data['counted_amount_promo'] = $countedAmountPromo;
+        $data['products'] = $products;
+
+        return ResponseAPI($data);
+    }
+
+
+    public function checkShippingPrice()
+    {
+
+        $client = new Client();
+        $city = 365; // pontianak
+        $orType = 'city';
+        $destination = 55; // bekasi
+        $orType = 'city';
+
+        // $destination = 224; // Lampung Selatan
+        // $orType = 'city';
+
+        $weight = 100;
+
+
+
+        $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
+            'headers' => [
+                'key' => env('RO_KEY')
+            ],
+            'json' => [
+                'origin' => $city,
+                'originType' => $orType,
+                'destination' => $destination,
+                'destinationType' => $orType,
+                'weight' => $weight,
+                'courier' => env('RO_SERVICES'),
+            ]
+        ]);
+
+        $rajaOngkirResponse = json_decode($res->getBody()->getContents());
+        // dd($rajaOngkirResponse);
+        // return $rajaOngkirResponse;
+        $shippingCost = $rajaOngkirResponse->rajaongkir;
+        $data['origin_details'] = $shippingCost->origin_details;
+        $data['destination_details'] = $shippingCost->destination_details;
+        $data['results'] = $shippingCost->results;
+        return $data;
+        // return  $shippingCost->results;
     }
 }
