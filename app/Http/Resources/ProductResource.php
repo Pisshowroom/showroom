@@ -26,6 +26,8 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'stock' => $this->stock,
+            'discount' => $this->discount,
+            'weight' => $this->weight,
             // how to handling images that  casted into array ?
             'images' => $imagesData,
             'unit' => $this->unit,

@@ -8,12 +8,19 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+// use Xendit\PaymentMethod\VirtualAccount;
+use Xendit\PaymentRequest\VirtualAccount;
+
+// use Xendit\PaymentRequest\VirtualAccount;
+// use Xendit\VirtualAccounts;
+
 
 class OrderController extends Controller
 {
     // create function preCheck Price from request order_items[product_id,qty], calculate total of order
     public function preCheck(Request $request)
     {
+        VirtualAccount::setters($request)->check();
         $request->validate([
             'order_items' => 'required',
             'address_id' => 'required',
@@ -227,7 +234,6 @@ class OrderController extends Controller
                 'expiration_date' => $paymentDue,
             ];
 
-            $vaResponse = VirtualAcc
         } elseif ($type == 'QRIS') {
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
