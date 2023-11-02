@@ -112,7 +112,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-3 mb-mobile"><span
                                     class="bytext color-gray-500 font-xs font-medium">dari</span><a
                                     class="byAUthor color-gray-900 font-xs font-medium"
-                                    href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">
+                                    href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">
                                     {{ $product->seller ? $product->seller->name ?? '' : '' }}</a>
                                 <div class="rating mt-5"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -528,7 +528,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Dell</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">Dell</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Dell
                                             Optiplex 9020 Small Form Business Desktop Tower</a>
@@ -561,7 +561,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">HP</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">HP</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP 24 All-in-One PC, Intel Core
                                             i3-1115G4,
@@ -595,7 +595,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Gateway</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">Gateway</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Gateway
                                             23.8&quot; All-in-one Desktop, Fully Adjustable</a>
@@ -628,7 +628,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">HP</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">HP</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP 22 All-in-One PC, Intel Pentium
                                             Silver
@@ -662,7 +662,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Sceptre</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">Sceptre</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Sceptre
                                             24&quot; Professional Thin 75Hz 1080p LED Monitor</a>
@@ -699,7 +699,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP
                                             DeskJet 2755e Wireless Color All-in-One Printer</a>
@@ -732,7 +732,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Razer
                                             Power Up Gaming Bundle V2 - Cynosa Lite</a>
@@ -765,7 +765,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Apple
                                             AirPods Pro with MagSafe Charging Case</a>
@@ -798,7 +798,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp6.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">SAMSUNG
                                             Galaxy Tab A7 Lite, 8.7&quot; Tablet 32GB</a>
@@ -831,7 +831,7 @@
                                                 src="{{ asset('ecom/imgs/page/homepage1/imgsp7.png') }}"
                                                 alt="Ecom"></a></div>
                                     <div class="info-right"><a class="font-xs color-gray-500"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">Apple</a><br><a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">Apple</a><br><a
                                             class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP 24mh
                                             FHD Monitor - Computer Monitor</a>
@@ -1337,7 +1337,7 @@
                                     <div class="info-by"><span
                                             class="bytext color-gray-500 font-xs font-medium">by</span><a
                                             class="byAUthor color-gray-900 font-xs font-medium"
-                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller->seller_slug]) }}">
+                                            href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">
                                             Ecom Tech</a>
                                         <div class="rating d-inline-block"><img
                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
