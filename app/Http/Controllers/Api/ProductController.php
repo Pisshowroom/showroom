@@ -18,6 +18,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+        $product->load(['category', 'variants']);
         return new ProductResource($product);
     }
 

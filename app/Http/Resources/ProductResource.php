@@ -32,7 +32,9 @@ class ProductResource extends JsonResource
             'images' => $imagesData,
             'unit' => $this->unit,
             'is_featured' => $this->is_featured,
+            'category_id' => $this->category_id,
             'category' => new CategoryResource($this->whenLoaded('category')),
+            'variants' => self::collection($this->whenLoaded('variants')),
             'parent' => new self($this->whenLoaded('parent'))
         ];
     }
