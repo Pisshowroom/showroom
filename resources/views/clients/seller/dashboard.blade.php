@@ -7,7 +7,8 @@
             <div>
                 <h2 class="content-title card-title">Dashboard</h2>
             </div>
-            <div><a class="btn btn-primary" href="{{ route('dashboardSeller.addWithdraw') }}"><i class="text-muted material-icons md-post_add"></i>Cairkan
+            <div><a class="btn btn-primary" href="{{ route('dashboardSeller.addWithdraw') }}"><i
+                        class="text-muted material-icons md-post_add"></i>Cairkan
                     Uang</a></div>
         </div>
         <div class="row">
@@ -16,8 +17,9 @@
                     <article class="icontext"><span class="icon icon-sm rounded-circle bg-primary-light"><i
                                 class="text-primary material-icons md-monetization_on"></i></span>
                         <div class="text">
-                            <h6 class="mb-1 card-title">Pendapatan</h6><span>$13,456.5</span><span class="text-sm">Tidak
-                                Termasuk biaya pengiriman </span>
+                            <h6 class="mb-1 card-title">Pendapatan</h6>
+                            <span>{{ numbFormat($data['achievement']) ?? 0 }}</span><span class="text-sm">Hanya
+                                pesanan yang telah sampai kepada konsumen</span>
                         </div>
                     </article>
                 </div>
@@ -27,7 +29,8 @@
                     <article class="icontext"><span class="icon icon-sm rounded-circle bg-success-light"><i
                                 class="text-success material-icons md-local_shipping"></i></span>
                         <div class="text">
-                            <h6 class="mb-1 card-title">Pesanan</h6><span>53.668</span><span class="text-sm">Tidak termasuk
+                            <h6 class="mb-1 card-title">Pesanan</h6><span>{{ $data['orders_done'] ?? 0 }}</span><span
+                                class="text-sm">Tidak termasuk
                                 pesanan dalam perjalanan</span>
                         </div>
                     </article>
@@ -38,7 +41,9 @@
                     <article class="icontext"><span class="icon icon-sm rounded-circle bg-warning-light"><i
                                 class="text-warning material-icons md-qr_code"></i></span>
                         <div class="text">
-                            <h6 class="mb-1 card-title">Produk</h6><span>9.856</span><span class="text-sm">Dalam 19
+                            <h6 class="mb-1 card-title">Produk</h6><span>{{ $data['products'] ?? 0 }}</span><span
+                                class="text-sm">Dalam
+                                {{ $data['categories'] ?? 0 }}
                                 Kategori</span>
                         </div>
                     </article>
@@ -47,16 +52,17 @@
             <div class="col-lg-6">
                 <div class="card card-body mb-4">
                     <article class="icontext"><span class="icon icon-sm rounded-circle bg-info-light"><i
-                                class="text-info material-icons md-shopping_basket"></i></span>
+                                class="text-info material-icons md-account_balance_wallet"></i></span>
                         <div class="text">
-                            <h6 class="mb-1 card-title">Penghasilan Bulanan</h6><span>$6,982</span><span
-                                class="text-sm">Berdasarkan waktu setempat Anda.</span>
+                            <h6 class="mb-1 card-title">Pencairan Uang</h6>
+                            <span>{{ numbFormat($data['withdrawals']) ?? 0 }}</span><span class="text-sm">Total pencairan
+                                yang sudah dilakukan</span>
                         </div>
                     </article>
                 </div>
             </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-xl-8 col-lg-12">
                 <div class="card mb-4">
                     <article class="card-body">
@@ -73,12 +79,18 @@
                     </article>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="card mb-4">
             <header class="card-header">
-                <h4 class="card-title">Pesanan terbaru</h4>
+                <h4 class="card-title">List Pesanan</h4>
                 <div class="row align-items-center">
                     <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+                        <form action="{{ route('dashboardSeller.dashboard') }}">
+                            <input class="form-control" type="text" placeholder="berdasarkan kode..." name="search"
+                                value="{{ request()->input('search') ?? '' }}">
+                        </form>
+                    </div>
+                    <div class="col-md-2 col-6">
                         <div class="custom_select">
                             <select class="form-select select-nice">
                                 <option selected="">All Categories</option>
@@ -94,9 +106,6 @@
                                 <option>Mother &amp; Kids</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <input class="form-control" type="date" value="02.05.2022">
                     </div>
                     <div class="col-md-2 col-6">
                         <div class="custom_select">
@@ -117,113 +126,45 @@
                         <table class="table align-middle table-nowrap mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="text-center" scope="col">
-                                        <div class="form-check align-middle">
-                                            <input class="form-check-input" id="transactionCheck01" type="checkbox">
-                                            <label class="form-check-label" for="transactionCheck01"></label>
-                                        </div>
-                                    </th>
-                                    <th class="align-middle" scope="col">Order ID</th>
-                                    <th class="align-middle" scope="col">Billing Name</th>
-                                    <th class="align-middle" scope="col">Date</th>
+                                    <th class="align-middle" scope="col">No</th>
+                                    <th class="align-middle" scope="col">Kode Pembayaran</th>
                                     <th class="align-middle" scope="col">Total</th>
-                                    <th class="align-middle" scope="col">Payment Status</th>
-                                    <th class="align-middle" scope="col">Payment Method</th>
+                                    <th class="align-middle" scope="col">Status</th>
+                                    <th class="align-middle" scope="col">Tanggal</th>
                                     <th class="align-middle" scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="transactionCheck02" type="checkbox">
-                                            <label class="form-check-label" for="transactionCheck02"></label>
-                                        </div>
-                                    </td>
-                                    <td><a class="fw-bold" href="#">#SK2540</a></td>
-                                    <td>Neal Matthews</td>
-                                    <td>07 Oct, 2022</td>
-                                    <td>$400</td>
-                                    <td><span class="badge badge-pill badge-soft-success">Paid</span></td>
-                                    <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i> Mastercard
-                                    </td>
-                                    <td><a class="btn btn-xs" href="{{ route('dashboardSeller.detailTransaction') }}">Detail</a></td>
-                                </tr>
+                                    @if (count($orders) > 0)
+                                        @foreach ($orders as $key => $order)
                                 <tr>
-                                    <td class="text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="transactionCheck03" type="checkbox">
-                                            <label class="form-check-label" for="transactionCheck03"></label>
-                                        </div>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td><b>{{ $key + 1 }}</b></td>
+                                    <td>{{ $order->total ? numbFormat($order->total) : '' }}</td>
+                                    <td>
+                                        @if ($order->status == 'pending')
+                                            <span class="badge rounded-pill alert-warning">Pending</span>
+                                        @elseif ($order->status == 'done')
+                                            <span class="badge rounded-pill alert-success">Selesai</span>
+                                        @else
+                                            <span class="badge rounded-pill alert-warning">Pending</span>
+                                        @endif
                                     </td>
-                                    <td><a class="fw-bold" href="#">#SK2541</a></td>
-                                    <td>Jamal Burnett</td>
-                                    <td>07 Oct, 2022</td>
-                                    <td>$380</td>
-                                    <td><span class="badge badge-pill badge-soft-danger">Chargeback</span></td>
-                                    <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i> Visa</td>
-                                    <td><a class="btn btn-xs" href="{{ route('dashboardSeller.detailTransaction') }}">Detail</a></td>
+                                    <td>{{ $order->date . ' WIB' }}</td>
+                                    <td>
+                                        <a class="btn btn-xs"
+                                            href="{{ route('dashboardSeller.detailTransaction') }}">Detail</a>
+                                        <a class="btn btn-danger btn-xs" href="#">Hapus</a>
+                                    </td>
                                 </tr>
+                                @endforeach
+                                {{ $orders->links() }}
+                            @else
                                 <tr>
-                                    <td class="text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="transactionCheck04" type="checkbox">
-                                            <label class="form-check-label" for="transactionCheck04"></label>
-                                        </div>
-                                    </td>
-                                    <td><a class="fw-bold" href="#">#SK2542</a></td>
-                                    <td>Juan Mitchell</td>
-                                    <td>06 Oct, 2022</td>
-                                    <td>$384</td>
-                                    <td><span class="badge badge-pill badge-soft-success">Paid</span></td>
-                                    <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i> Paypal</td>
-                                    <td><a class="btn btn-xs" href="{{ route('dashboardSeller.detailTransaction') }}">Detail</a></td>
+                                    <td colspan="8">No data Available</td>
                                 </tr>
-                                <tr>
-                                    <td class="text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="transactionCheck05" type="checkbox">
-                                            <label class="form-check-label" for="transactionCheck05"></label>
-                                        </div>
-                                    </td>
-                                    <td><a class="fw-bold" href="#">#SK2543</a></td>
-                                    <td>Barry Dick</td>
-                                    <td>05 Oct, 2022</td>
-                                    <td>$412</td>
-                                    <td><span class="badge badge-pill badge-soft-success">Paid</span></td>
-                                    <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i> Mastercard
-                                    </td>
-                                    <td><a class="btn btn-xs" href="{{ route('dashboardSeller.detailTransaction') }}">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="transactionCheck06" type="checkbox">
-                                            <label class="form-check-label" for="transactionCheck06"></label>
-                                        </div>
-                                    </td>
-                                    <td><a class="fw-bold" href="#">#SK2544</a></td>
-                                    <td>Ronald Taylor</td>
-                                    <td>04 Oct, 2022</td>
-                                    <td>$404</td>
-                                    <td><span class="badge badge-pill badge-soft-warning">Refund</span></td>
-                                    <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i> Visa</td>
-                                    <td><a class="btn btn-xs" href="{{ route('dashboardSeller.detailTransaction') }}">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">
-                                        <div class="form-check">
-                                            <input class="form-check-input" id="transactionCheck07" type="checkbox">
-                                            <label class="form-check-label" for="transactionCheck07"></label>
-                                        </div>
-                                    </td>
-                                    <td><a class="fw-bold" href="#">#SK2545</a></td>
-                                    <td>Jacob Hunter</td>
-                                    <td>04 Oct, 2022</td>
-                                    <td>$392</td>
-                                    <td><span class="badge badge-pill badge-soft-success">Paid</span></td>
-                                    <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i> Paypal</td>
-                                    <td><a class="btn btn-xs" href="{{ route('dashboardSeller.detailTransaction') }}">Detail</a></td>
+                                @endif
                                 </tr>
                             </tbody>
                         </table>
@@ -231,19 +172,6 @@
                 </div>
                 <!-- table-responsive end//-->
             </div>
-        </div>
-        <div class="pagination-area mt-30 mb-50">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-start">
-                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                    <li class="page-item"><a class="page-link" href="#"><i
-                                class="material-icons md-chevron_right"></i></a></li>
-                </ul>
-            </nav>
         </div>
     </section>
 

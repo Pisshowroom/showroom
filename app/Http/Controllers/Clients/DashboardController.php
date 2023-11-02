@@ -12,13 +12,29 @@ class DashboardController extends Controller
 {
     public function dashboard(Request $request)
     {
-        return view('clients.dashboard.dashboard');
+        $order = Order::where('user_id', Auth::guard('web')->user()->id)
+            ->with(['user:id,name', 'order_items:id,product_id,order_id', 'order_items.product:id,name'])
+            ->when($request->filled('search'), function ($q) use ($request) {
+                return $q->where('payment_identifier', 'like', "%$request->search%");
+            })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
+        foreach ($order as $key => $value) {
+            $value->date = parseDates($value->created_at);
+        }
+        $data['orders_pending'] = Order::where('status', 'pending')
+            ->where('user_id', Auth::guard('web')->user()->id)->count();
+        $data['cart'] = 0;
+        $data['wishlist'] = 0;
+        $data['orders_done'] = Order::where('status', 'done')
+            ->where('user_id', Auth::guard('web')->user()->id)->count();
+        return view('clients.dashboard.dashboard', ['orders' => $order, 'data' => $data]);
     }
     public function myOrder(Request $request)
     {
-        $order = Order::where('user_id', Auth::guard('web')->user()->id)->with(['user:id,name', 'order_items:id,product_id,order_id', 'order_items.product:id,name'])->when($request->filled('search'), function ($q) use ($request) {
-            return $q->where('payment_identifier', 'like', "%$request->search%");
-        })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
+        $order = Order::where('user_id', Auth::guard('web')->user()->id)
+            ->with(['user:id,name', 'order_items:id,product_id,order_id', 'order_items.product:id,name'])
+            ->when($request->filled('search'), function ($q) use ($request) {
+                return $q->where('payment_identifier', 'like', "%$request->search%");
+            })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
         foreach ($order as $key => $value) {
             $value->date = parseDates($value->created_at);
         }

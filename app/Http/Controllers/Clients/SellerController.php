@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -19,7 +22,36 @@ class SellerController extends Controller
         if (!$this->isSeller()) {
             return redirect('/pembeli');
         }
-        return view('clients.seller.dashboard');
+        $order = Order::whereHas('order_items', function ($q) {
+            $q->whereHas('product', function ($qq) {
+                $qq->where('seller_id', Auth::guard('web')->user()->id);
+            });
+        })
+            ->with(['user:id,name', 'order_items:id,product_id,order_id', 'order_items.product:id,name'])
+            ->when($request->filled('search'), function ($q) use ($request) {
+                return $q->where('payment_identifier', 'like', "%$request->search%");
+            })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
+        foreach ($order as $key => $value) {
+            $value->date = parseDates($value->created_at);
+        }
+        $data['products'] = Product::where('seller_id', Auth::guard('web')->user()->id)->whereNull('deleted_at')->count();
+        $data['withdrawals'] = 0;
+        $data['categories'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) {
+            $q->where('seller_id', Auth::guard('web')->user()->id);
+        })->count();
+        $data['achievement'] = Order::where('status', 'done')
+            ->whereHas('order_items', function ($q) {
+                $q->whereHas('product', function ($qq) {
+                    $qq->where('seller_id', Auth::guard('web')->user()->id);
+                });
+            })->sum('total_final');
+        $data['orders_done'] = Order::where('status', 'done')
+            ->whereHas('order_items', function ($q) {
+                $q->whereHas('product', function ($qq) {
+                    $qq->where('seller_id', Auth::guard('web')->user()->id);
+                });
+            })->count();
+        return view('clients.seller.dashboard', ['orders' => $order, 'data' => $data]);
     }
     public function profile(Request $request)
     {
