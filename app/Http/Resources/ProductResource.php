@@ -26,11 +26,15 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'stock' => $this->stock,
+            'discount' => $this->discount,
+            'weight' => $this->weight,
             // how to handling images that  casted into array ?
             'images' => $imagesData,
             'unit' => $this->unit,
             'is_featured' => $this->is_featured,
+            'category_id' => $this->category_id,
             'category' => new CategoryResource($this->whenLoaded('category')),
+            'variants' => self::collection($this->whenLoaded('variants')),
             'parent' => new self($this->whenLoaded('parent'))
         ];
     }

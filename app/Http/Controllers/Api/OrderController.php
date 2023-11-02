@@ -8,12 +8,19 @@ use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+// use Xendit\PaymentMethod\VirtualAccount;
+use Xendit\PaymentRequest\VirtualAccount;
+
+// use Xendit\PaymentRequest\VirtualAccount;
+// use Xendit\VirtualAccounts;
+
 
 class OrderController extends Controller
 {
     // create function preCheck Price from request order_items[product_id,qty], calculate total of order
     public function preCheck(Request $request)
     {
+        // VirtualAccount::setters
         $request->validate([
             'order_items' => 'required',
             'address_id' => 'required',
@@ -227,7 +234,6 @@ class OrderController extends Controller
                 'expiration_date' => $paymentDue,
             ];
 
-            $vaResponse = VirtualAcc
         } elseif ($type == 'QRIS') {
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
@@ -289,5 +295,27 @@ class OrderController extends Controller
         $data['results'] = $shippingCost->results;
         return $data;
         // return  $shippingCost->results;
+    }
+
+    public function waybillCheck(Request $request)
+    {
+        $request->validate([
+            'delivery_receipt_number' => 'required',
+            'delivery_service' => 'required',
+        ]);
+
+        $client = new Client();
+        $res = $client->request('POST', 'https://pro.rajaongkir.com/api/waybill', [
+            'headers' => [
+                'key'     => '5f96f4b2ff5b4de345165466b71d002c',
+            ],
+            'form_params' => [
+                'waybill' => $request->delivery_receipt_number,
+                'courier' => $request->delivery_service,
+            ]
+        ]);
+
+        $rajaOngkirResponse = json_decode($res->getBody()->getContents())->rajaongkir->result;
+        return ResponseAPI($rajaOngkirResponse);
     }
 }

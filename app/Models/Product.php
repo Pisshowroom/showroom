@@ -24,9 +24,13 @@ class Product extends Model
         return $this->belongsTo(User::class, 'seller_id');
     }
 
-
     public function parent()
     {
         return $this->belongsTo(Product::class, 'parent_id');
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(Product::class, 'parent_id');
     }
 }

@@ -26,4 +26,9 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+    
+    public function master_account()
+    {
+        return $this->belongsTo(MasterAccount::class);
+    }
 }

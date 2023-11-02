@@ -13,8 +13,4 @@ class RoSubdistrict extends Model
     {
         return $this->belongsTo(RoCity::class);
     }
-
-    // create query Subdistict id = 18 load(city.province)
-    // App\Models\RoSubdistrict::find(18)->load('city.province');
-    
 }
