@@ -27,9 +27,7 @@
                                 class="text-warning material-icons md-local_shipping"></i></span>
                         <div class="text">
                             <h6 class="mb-1 card-title">Total Pesanan</h6>
-                            <span>{{ $data['orders_pending'] ?? 0 }}</span><span class="text-sm">Tidak
-                                termasuk
-                                pesanan dalam perjalanan</span>
+                            <span>{{ $data['all_order'] ?? 0 }}</span><span class="text-sm">Total semua pesanan</span>
                         </div>
                     </article>
                 </div>
@@ -74,7 +72,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
                         <form action="{{ route('dashboard.dashboard') }}">
-                            <input class="form-control" type="text" placeholder="berdasarkan kode..." name="search"
+                            <input class="form-control" type="text" placeholder="Cari produk..." name="search"
                                 value="{{ request()->input('search') ?? '' }}">
                         </form>
                     </div>
@@ -115,7 +113,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th class="align-middle" scope="col">No</th>
-                                    <th class="align-middle" scope="col">Kode Pembayaran</th>
+                                    <th class="align-middle" scope="col">Produk</th>
                                     <th class="align-middle" scope="col">Total</th>
                                     <th class="align-middle" scope="col">Status</th>
                                     <th class="align-middle" scope="col">Tanggal</th>
@@ -126,23 +124,25 @@
                                 @if (count($orders) > 0)
                                     @foreach ($orders as $key => $order)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td><b>{{ $key + 1 }}</b></td>
-                                            <td>{{ $order->total ? numbFormat($order->total) : '' }}</td>
-                                            <td>
+                                            <td class="align-middle">{{ $key + 1 }}</td>
+                                            <td class="align-middle">{{ $order->order_items[0]->product ? $order->order_items[0]->product->name ?? '' : '' }}
+                                            </td>
+                                            <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
+                                            <td class="align-middle">
                                                 @if ($order->status == 'pending')
-                                                    <span class="badge rounded-pill alert-warning">Pending</span>
+                                                    <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
                                                 @elseif ($order->status == 'done')
-                                                    <span class="badge rounded-pill alert-success">Selesai</span>
+                                                    <span class="badge rounded-pill alert-success fw-normal">Selesai</span>
                                                 @else
-                                                    <span class="badge rounded-pill alert-warning">Pending</span>
+                                                    <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
                                                 @endif
                                             </td>
-                                            <td>{{ $order->date . ' WIB' }}</td>
-                                            <td>
+                                            <td class="align-middle">{{ $order->date . ' WIB' }}</td>
+                                            <td class="align-middle">
                                                 <a class="btn btn-xs"
-                                                    href="{{ route('dashboard.detailOrder') }}">Detail</a>
-                                                <a class="btn btn-danger btn-xs" href="#">Hapus</a>
+                                                    href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
+                                                <a class="btn btn-xs-danger"
+                                                    href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a>
                                             </td>
                                         </tr>
                                     @endforeach

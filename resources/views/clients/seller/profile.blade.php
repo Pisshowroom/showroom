@@ -67,7 +67,7 @@
                                                 </div>
                                                 <aside>
                                                     <label for="image" class="form-label">Gambar</label>
-                                                    <figure class="text-lg-center">
+                                                    <figure>
                                                         <img class="img-lg mb-3 img-avatar"
                                                             src="{{ Auth::guard('web')->user() ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                                             alt="User">
@@ -91,7 +91,8 @@
 
                     <div class="col-12">
                         <section class="content-body p-xl-4">
-                            <form method="POST" action="{{ route('dashboardSeller.updateProfile') }}">
+                            <form method="POST" action="{{ route('dashboardSeller.updateProfile') }}"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-12">
@@ -104,7 +105,8 @@
                                             </div>
                                             <div class="col-12 mb-3">
                                                 <label class="form-label" for="seller_description">Deskripsi Toko</label>
-                                                <textarea class="form-control" name="seller_description" id="seller_description" placeholder="Masukkan alamat" rows="5" required>{{ Auth::guard('web')->user()->seller_description }}</textarea>
+                                                <textarea class="form-control" name="seller_description" id="seller_description" placeholder="Masukkan alamat"
+                                                    rows="5" required>{{ Auth::guard('web')->user()->seller_description }}</textarea>
                                             </div>
                                             {{-- <div class="col-lg-6 mb-3">
                                                 <label class="form-label">Email</label>
@@ -121,19 +123,19 @@
                                                 <input class="form-control" type="date" id="birthdate">
                                             </div> --}}
                                         </div>
-                                        {{-- <aside>
+                                        <aside>
                                             <label for="image" class="form-label">Gambar</label>
-                                            <figure class="text-lg-center">
-                                                <img class="img-lg mb-3 img-avatar"
-                                                    src="{{ Auth::guard('web')->user() ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                            <figure>
+                                                <img class="img-lg mb-3 img-avatar" id="previewImage"
+                                                    src="{{ Auth::guard('web')->user() ? asset(Auth::guard('web')->user()->image) ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                                     alt="User">
                                                 <figcaption>
-                                                    <input class="form-control" type="file" id="image"
-                                                        name="image" accept="image/*">
+                                                    <input class="form-control" type="file" id="image" name="image"
+                                                        accept="image/*">
 
                                                 </figcaption>
                                             </figure>
-                                        </aside> --}}
+                                        </aside>
                                     </div>
                                 </div><br>
                                 <button class="btn btn-primary" type="submit">Simpan</button>
@@ -151,5 +153,19 @@
         setTimeout(function() {
             $('#mydiv').fadeOut('fast');
         }, 2000);
+        $(document).ready(function() {
+            $('#image').change(function() {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function(event) {
+                    $('#previewImage').attr('src', event.target.result);
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
     </script>
 @endpush

@@ -691,17 +691,22 @@ b {
 .btn.btn-md:hover {
   background-color: #425A8B;
 }
-.btn.btn-xs {
-  background-color: #425A8B;
-  color: #ffffff;
-  border: none;
-  font-size: 11px;
-  font-weight: 400;
-  border-radius: 4px;
-  display: inline-block;
-  padding: 6px 19px;
+.btn.btn-xs ,.btn.btn-xs-danger{
+    color: #ffffff;
+    border: none;
+    font-size: 11px;
+    font-weight: 400;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 6px 19px;
 }
-.btn.btn-xs i {
+.btn.btn-xs{
+    background-color: #425A8B;
+}
+.btn-xs-danger{
+    background-color: #dc3545;
+}
+.btn.btn-xs i,.btn.btn-xs-danger i {
   font-size: 11px;
 }
 
@@ -4178,7 +4183,7 @@ body.dark .dropdown-menu .dropdown-item.text-danger {
   .order-info-wrap .icontext {
     margin-bottom: 1rem;
   }
-  .btn.btn-xs {
+  .btn.btn-xs,.btn.btn-xs-danger {
     font-size: 10px;
     padding: 5px 4px;
   }

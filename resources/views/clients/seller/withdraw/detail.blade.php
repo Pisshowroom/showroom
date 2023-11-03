@@ -50,7 +50,7 @@
                         </div>
                         <h5 class="mb-15">Item List</h5>
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table align-middle">
                                 <thead>
                                     <tr>
                                         <th width="40%">Product</th>
@@ -150,7 +150,7 @@
                         </header>
                         <!-- card-header end//-->
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover align-middle">
                                 <thead>
                                     <tr>
                                         <th>Transaction ID</th>

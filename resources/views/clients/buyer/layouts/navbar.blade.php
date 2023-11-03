@@ -5,8 +5,11 @@
                 <li><a class="font-xs" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
                 <li>
                     @auth
-                        <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Dashboard Toko</a>
-
+                        @if (Auth::guard('web')->user()->is_seller == 1)
+                            <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Dashboard Toko</a>
+                        @else
+                            <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Daftar Toko</a>
+                        @endif
                     @endauth
                     @guest
 

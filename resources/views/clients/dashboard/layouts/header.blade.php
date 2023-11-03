@@ -1,6 +1,6 @@
 <header class="main-header navbar">
     <div class="col-search">
-        <form class="searchform">
+        {{-- <form class="searchform">
             <div class="input-group">
                 <input class="form-control" list="search_terms" type="text" placeholder="Cari Produk">
                 <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
@@ -11,7 +11,7 @@
                 <option value="Apple iphone"></option>
                 <option value="Ahmed Hassan"></option>
             </datalist>
-        </form>
+        </form> --}}
     </div>
     <div class="col-nav">
         <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
