@@ -21,7 +21,9 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        $product->load(['category', 'variants', 'seller', 'reviews.user']);
+        $product->load(['category', 'variants' => function ($query) {
+            $query->withoutGlobalScope('parent');
+        }, 'seller', 'reviews.user']);
         $data['product'] = new ProductResource($product);
 
         // total_sell is order_items sum with quantity where relation to order where status is done
