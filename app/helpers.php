@@ -5,6 +5,7 @@ use App\Models\Critic;
 use App\Models\Role;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Request;
@@ -68,6 +69,67 @@ function ResponseAPI($data, $status = 200)
 function lypsisAsset($path)
 {
     return $path ? url($path) : null;
+}
+
+function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
+{
+    $client = new Client();
+    // $city = 365; // pontianak
+    $originType = 'city';
+    // $destination = 55; // bekasi
+    $destinationType = 'subdistrict';
+
+    // $destination = 224; // Lampung Selatan
+    // $originType = 'city';
+
+    $client = new Client();
+    // $city = 365; // pontianak
+    $originType = 'city';
+    // $destination = 55; // bekasi
+    $destinationType = 'subdistrict';
+
+    // $destination = 224; // Lampung Selatan
+    // $originType = 'city';
+
+    $weight = 100;
+
+
+
+    $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
+        'headers' => [
+            'key' => env('RO_KEY')
+        ],
+        'json' => [
+            'origin' => $originId,
+            'originType' => $originType,
+            'destination' => $destinationId,
+            'destinationType' => $destinationType,
+            'weight' => $weight,
+            'courier' => env('RO_SERVICES'),
+        ]
+    ]);
+
+    $rajaOngkirResponse = json_decode($res->getBody()->getContents());
+    // dd($rajaOngkirResponse);
+    // return $rajaOngkirResponse;
+    $shippingCost = $rajaOngkirResponse->rajaongkir;
+    $data['origin_details'] = $shippingCost->origin_details;
+    $data['destination_details'] = $shippingCost->destination_details;
+    if ($earlierMode == false) {
+        $data['results'] = $shippingCost->results;
+    } else {
+        $dataEarlier = null;
+        if (isset($shippingCost->results[0]->costs[1])) {
+            $dataEarlier = $shippingCost->results[0]->costs[1];
+        } else {
+            $dataEarlier = $shippingCost->results[0]->costs[0];
+        }
+
+        $data['results_earlier'] = $dataEarlier;
+    }
+    // $shippingCost->results[0]->costs[0]->cost[0]->value;
+    return $data;
+    // return  $shippingCost->results;
 }
 
 function get_distance_between_points($latitude1, $longitude1, $latitude2, $longitude2)
