@@ -20,19 +20,23 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $user = auth()->guard('api-client')->user();
-        $buyerAddress = $user->addresses()->where('main', true)->firstOrFail();
-        $sellerAddress = $product->seller->addresses()->where('main', true)->firstOrFail();
+
         $product->load(['category', 'variants', 'seller', 'reviews.user']);
         $data['product'] = new ProductResource($product);
 
         // total_sell is order_items sum with quantity where relation to order where status is done
-        $data['total_sell'] = OrderItem::where('product_id', $product->id)->whereHas('order', function($query) {
+        $data['total_sell'] = OrderItem::where('product_id', $product->id)->whereHas('order', function ($query) {
             $query->where('status', 'done');
         })->sum('quantity');
-        
-        $data['delivery_service'] = checkShippingPrice($buyerAddress->ro_subdistrict_id, $sellerAddress->ro_subdistrict_id, $product->weight,true);
-        
+
+        $user = auth()->guard('api-client')->user();
+        if ($user != null) {
+            $buyerAddress = $user->addresses()->where('main', true)->firstOrFail();
+            $sellerAddress = $product->seller->addresses()->where('main', true)->firstOrFail();
+
+            $data['delivery_service'] = checkShippingPrice($buyerAddress->ro_subdistrict_id, $sellerAddress->ro_subdistrict_id, $product->weight, true);
+        }
+
         return $data;
     }
 
