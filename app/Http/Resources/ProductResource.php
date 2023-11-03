@@ -33,9 +33,11 @@ class ProductResource extends JsonResource
             'unit' => $this->unit,
             'is_featured' => $this->is_featured,
             'category_id' => $this->category_id,
+            'seller' => new UserResource($this->whenLoaded('seller')),
             'category' => new CategoryResource($this->whenLoaded('category')),
             'variants' => self::collection($this->whenLoaded('variants')),
-            'parent' => new self($this->whenLoaded('parent'))
+            'parent' => new self($this->whenLoaded('parent')),
+            'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
         ];
     }
 }

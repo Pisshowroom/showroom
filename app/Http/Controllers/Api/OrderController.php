@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\Product;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -20,17 +21,25 @@ class OrderController extends Controller
     // create function preCheck Price from request order_items[product_id,qty], calculate total of order
     public function preCheck(Request $request)
     {
+        $user = auth()->guard('api-client')->user();
         // VirtualAccount::setters
         $request->validate([
             'order_items' => 'required',
             'address_id' => 'required',
+            'seller_id' => 'required',
         ]);
+
+        $addressBuyer = Address::findOrFail($request->address_id);
+        $seller = \App\Models\User::find($request->seller_id);
+        // dd($seller);
+        $sellerAddress = Address::where('user_id', $seller->id)->where('main', true)->firstOrFail();
 
         $products = [];
         $total = 0;
         $totalWithoutDiscount = 0;
         $countedPromoProduct = 0;
         $countedAmountPromo = 0;
+        $weight = 0;
 
         $orderItems = json_decode($request->order_items, true);
 
@@ -62,6 +71,8 @@ class OrderController extends Controller
                 $total += $product->price * $order_item['qty'];
                 $totalWithoutDiscount += $product->price * $order_item['qty'];
             }
+
+            $weight += $product->weight * $order_item['qty'];
             array_push($products, $product);
         }
 
@@ -69,7 +80,7 @@ class OrderController extends Controller
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
-        $data['delivery_services_info'] = $this->checkShippingPrice();
+        $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
 
@@ -233,7 +244,6 @@ class OrderController extends Controller
                 'expected_amount' => $total,
                 'expiration_date' => $paymentDue,
             ];
-
         } elseif ($type == 'QRIS') {
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
@@ -256,46 +266,7 @@ class OrderController extends Controller
     }
 
 
-    public function checkShippingPrice()
-    {
-
-        $client = new Client();
-        $city = 365; // pontianak
-        $orType = 'city';
-        $destination = 55; // bekasi
-        $orType = 'city';
-
-        // $destination = 224; // Lampung Selatan
-        // $orType = 'city';
-
-        $weight = 100;
-
-
-
-        $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
-            'headers' => [
-                'key' => env('RO_KEY')
-            ],
-            'json' => [
-                'origin' => $city,
-                'originType' => $orType,
-                'destination' => $destination,
-                'destinationType' => $orType,
-                'weight' => $weight,
-                'courier' => env('RO_SERVICES'),
-            ]
-        ]);
-
-        $rajaOngkirResponse = json_decode($res->getBody()->getContents());
-        // dd($rajaOngkirResponse);
-        // return $rajaOngkirResponse;
-        $shippingCost = $rajaOngkirResponse->rajaongkir;
-        $data['origin_details'] = $shippingCost->origin_details;
-        $data['destination_details'] = $shippingCost->destination_details;
-        $data['results'] = $shippingCost->results;
-        return $data;
-        // return  $shippingCost->results;
-    }
+    
 
     public function waybillCheck(Request $request)
     {

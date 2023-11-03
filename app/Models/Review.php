@@ -10,15 +10,19 @@ class Review extends Model
 {
     use HasFactory, SoftDeletes;
     
-    // belongsTo User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // belongsTo Order
     public function order()
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
 }
