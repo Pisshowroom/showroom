@@ -45,7 +45,7 @@
                                 <th scope="col">Total</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Tanggal</th>
-                                <th class="text-end" scope="col"> Aksi</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,14 +65,11 @@
                                             @endif
                                         </td>
                                         <td>{{ $order->date . ' WIB' }}</td>
-                                        <td class="text-end">
-                                            <div class="dropdown"><a class="btn btn-light rounded btn-sm font-sm"
-                                                    href="#" data-bs-toggle="dropdown"><i
-                                                        class="material-icons md-more_horiz"></i></a>
-                                                <div class="dropdown-menu"><a class="dropdown-item"
-                                                        href="{{ route('dashboard.detailOrder') }}">Detail</a><a
-                                                        class="dropdown-item text-danger" href="#">Batalkan</a></div>
-                                            </div>
+                                        <td>
+                                            <a class="btn btn-xs"
+                                            href="{{ route('dashboard.detailOrder') }}">Detail</a>
+                                            <a class="btn btn-danger btn-xs"
+                                            href="#">Hapus</a>
                                         </td>
                                     </tr>
                                 @endforeach

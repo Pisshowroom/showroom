@@ -312,6 +312,9 @@
                         <a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a>
                         <a class="@yield('register')" href="{{ route('buyer.register') }}">Mendaftar</a>
                     @endguest
+                    @auth
+                        <a href="{{ route('dashboard.dashboard') }}">Dashboard</a>
+                    @endauth
                 </div>
             </div>
         </div>
