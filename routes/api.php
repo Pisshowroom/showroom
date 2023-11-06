@@ -29,6 +29,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get("home", [HomeController::class, 'home']);
+Route::get("stats-count", [HomeController::class, 'statsCount']);
+
 
 Route::group(['prefix' => 'article'], function () {
     Route::get('/', [ArticleController::class, 'index']);
@@ -50,7 +52,7 @@ Route::prefix('payment')->group(function () {
     Route::get('payment-list', [PaymentController::class, 'index']);
 });
 
-Route::group(['prefix' => 'addresses', 'middleware' => 'auth:api-client'],function () {
+Route::group(['prefix' => 'addresses', 'middleware' => 'auth:api-client'], function () {
     Route::get('/', [AddressController::class, 'index']);
     Route::post('/store-or-update', [AddressController::class, 'storeOrUpdate']);
     Route::post('/set-main-address/{address}', [AddressController::class, 'setMainAddress']);
@@ -72,7 +74,7 @@ Route::prefix('regionals')->group(function () {
 
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login-firebase', [AuthController::class, 'loginFirebase']);
-    
+
     Route::middleware('auth:api-client')->group(function () {
         Route::get('/profile', [UserController::class, 'profile']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
