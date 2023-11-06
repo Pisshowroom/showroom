@@ -14,7 +14,13 @@ class ProductController extends Controller
 {
     public function products()
     {
-        $products = Product::inRandomOrder()->paginate(15);
+        $products = Product::inRandomOrder()->withAvg('reviews', 'rating')
+            ->withSum(['order_items as total_sell' => function ($query) {
+                $query->whereHas('order', function ($query) {
+                    $query->where('status', 'done');
+                });
+            }], 'quantity')
+            ->paginate(15);
         return ProductResource::collection($products);
     }
 
@@ -22,14 +28,36 @@ class ProductController extends Controller
     {
 
         $product->load(['category', 'variants' => function ($query) {
-            $query->withoutGlobalScope('parent');
+            $query->withoutGlobalScope('hasParentRelation');
         }, 'seller', 'reviews.user']);
+
+        $product->loadAvg('reviews', 'rating');
+        $product->loadCount(['reviews']);
+        // product loadCount or loadSum reviews on images(array) - for counting total images
+
+        $product->loadSum(['order_items as total_sell' => function ($query) {
+            $query->whereHas('order', function ($query) {
+                $query->where('status', 'done');
+            });
+        }], 'quantity');
+
+        $totalImages = 0;
+        foreach ($product->reviews as $review) {
+            $images = json_decode($review->images, true);
+            if ($images !== null) {
+                $totalImages += count($images);
+            }
+        }
+
+        $product->total_images = $totalImages;
+
+        // return ResponseAPI($product);
+
         $data['product'] = new ProductResource($product);
 
-        // total_sell is order_items sum with quantity where relation to order where status is done
-        $data['total_sell'] = OrderItem::where('product_id', $product->id)->whereHas('order', function ($query) {
+        /* $data['total_sell'] = OrderItem::where('product_id', $product->id)->whereHas('order', function ($query) {
             $query->where('status', 'done');
-        })->sum('quantity');
+        })->sum('quantity'); */
 
         $user = auth()->guard('api-client')->user();
         if ($user != null) {
