@@ -59,9 +59,7 @@ class UserController extends Controller
 
     public function updateSeller(Request $request)
     {
-        $user = Auth::guard('api-client')->user();
-        $user->load('seller');
-        $seller = $user->seller;
+        $seller = Auth::guard('api-client')->user();
 
         if ($seller == null) {
             $seller = new Seller();
@@ -73,7 +71,7 @@ class UserController extends Controller
         ]);
 
         if ($request->filled('name')) {
-            $seller->name = $request->input('name');
+            $seller->seller_name = $request->input('name');
             $seller->seller_slug = Str::slug($request->name);
         }
 
@@ -82,16 +80,14 @@ class UserController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $seller->image = uploadFoto($request->image, 'uploads/sellers/');
+            $seller->seller_name = uploadFoto($request->image, 'uploads/sellers/');
         } else if ($request->filled('image')) {
-            $seller->image = $request->image;
+            $seller->seller_name = $request->image;
         }
 
 
+        $seller->is_seller = true;
         $seller->save();
-        $user->is_seller = true;
-        $user->seller_id = $seller->id;
-        $user->save();
 
         return response()->json(['message' => 'Berhasil memperbarui data.']);
     }

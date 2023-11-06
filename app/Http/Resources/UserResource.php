@@ -24,7 +24,7 @@ class UserResource extends JsonResource
             'birth_date' => $this->birth_date,
             'balance' => $this->balance,
             'is_seller' => $this->is_seller,
-            'seller' => $this->when($this->seller, new SellerResource($this->seller)),
+            'seller' => $this->when($this->is_seller == true, new SellerResource($this)),
         ];
     }
 }

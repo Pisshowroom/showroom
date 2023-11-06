@@ -14,11 +14,13 @@ class SellerResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'seller_name' => $this->seller_name,
+            'seller_slug' => $this->seller_slug,
+            'seller_image' => lypsisAsset($this->seller_image),
+            'seller_description' => $this->seller_description,
+        ];
         
-        // Replace the image key with your custom image URL
-        $data['image'] = lypsisAsset($this->image);
-        
-        return $data;
     }
 }
