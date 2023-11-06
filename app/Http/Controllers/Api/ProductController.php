@@ -12,15 +12,43 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function products()
+    public function products(Request $request)
     {
-        $products = Product::inRandomOrder()->withAvg('reviews', 'rating')
+        $query = Product::with(['seller'])->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
                     $query->where('status', 'done');
                 });
-            }], 'quantity')
-            ->paginate(15);
+            }], 'quantity');
+
+        $filtered = false;
+
+        if ($request->filled('rating')) {
+            // $query->having('reviews_avg_rating', '>=', $request->input('rating'));
+            $query->orderByDesc('reviews_avg_rating');
+            $filtered = true;
+        }
+
+        if ($request->filled('latest')) {
+            $query->latest();
+            $filtered = true;
+        }
+
+        if ($request->filled('lowest_price')) {
+            $query->orderBy('price');
+            $filtered = true;
+        }
+
+        if ($request->filled('highest_price')) {
+            $query->orderByDesc('price');
+            $filtered = true;
+        }
+
+        if ($filtered == false) {
+            $query->inRandomOrder();
+        }
+
+        $products = $query->paginate(15);
         return ProductResource::collection($products);
     }
 
@@ -66,6 +94,23 @@ class ProductController extends Controller
 
             $data['delivery_service'] = checkShippingPrice($buyerAddress->ro_subdistrict_id, $sellerAddress->ro_subdistrict_id, $product->weight, true);
         }
+
+        $relatedProductsByCategory = Product::where('category_id', $product->category_id)
+            ->whereNot('id', $product->id)
+            ->inRandomOrder()
+            ->take(7)
+            ->get();
+
+        $data['related_products'] = ProductResource::collection($relatedProductsByCategory);
+
+        $productsFromSameSeller = Product::where('seller_id', $product->seller_id)
+            ->whereNot('id', $product->id)
+            ->inRandomOrder()
+            ->take(7)
+            ->get();
+
+        $data['products_from_same_seller'] = ProductResource::collection($productsFromSameSeller);
+
 
         return $data;
     }
