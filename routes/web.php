@@ -91,12 +91,18 @@ Route::get('/semua-produk-grid', [BuyerProductController::class, 'allGridProduct
 Route::get('/produk-{slug}', [BuyerProductController::class, 'detailProduct'])->name('buyer.detailProduct');
 Route::post('/tambah-ulasan', [BuyerProductController::class, 'addReview'])->name('buyer.addReview');
 
+Route::prefix('regionals')->group(function () {
+    Route::get('/cities/{id?}', [DashboardController::class, 'citiesByProvince'])->name('getCity');
+    Route::get('/subdistricts/{id?}', [DashboardController::class, 'subdistrictsByCity'])->name('getDistrict');
+});
 
 // Route::get('/detail-produk/{slug}', [BuyerController::class, 'detailProduct'])->name('buyer.detailProduct');
 
 
 Route::group(['middleware' => ['auth:web']], function () {
     Route::post('/perbarui-profil', [DashboardController::class, 'updateProfile'])->name('dashboard.updateProfile');
+    Route::post('/tambah-alamat', [DashboardController::class, 'updateAddress'])->name('dashboard.updateAddress');
+    Route::get('/hapus-alamat/{id}', [DashboardController::class, 'deleteAddress'])->name('dashboard.deleteAddress');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
     Route::group(['prefix' => 'pembeli'], function () {
@@ -104,6 +110,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/pesananku', [DashboardController::class, 'myOrder'])->name('dashboard.myOrder');
         Route::get('/detail-pesanan/{identifier}', [DashboardController::class, 'detailOrder'])->name('dashboard.detailOrder');
         Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
+        Route::get('/ubah-alamat/{id}', [DashboardController::class, 'changeAddress'])->name('dashboard.changeAddress');
         Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');
         Route::get('/checkout', [BuyerController::class, 'checkout'])->name('buyer.checkout');
         Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');

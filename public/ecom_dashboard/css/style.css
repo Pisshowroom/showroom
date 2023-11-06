@@ -710,6 +710,36 @@ b {
   font-size: 11px;
 }
 
+.iti__flag {
+    background-image: url("../imgs/flags.png")
+}
+
+@media (-webkit-min-device-pixel-ratio:2),
+(min-resolution:192dpi) {
+    .iti__flag {
+        background-image: url("../imgs/flags@2x.png")
+    }
+}
+
+.iti--separate-dial-code .iti__selected-flag {
+    border-right: 1px solid #dadfe6;
+    background-color: transparent !important
+}
+
+.iti {
+    position: relative;
+    display: inline-block;
+    width: 100%
+}
+
+.iti--allow-dropdown input[type=tel] {
+    padding-top: .8rem;
+    padding-bottom: .8rem;
+    border-radius: 5px;
+    border: 1px solid #dadfe6;
+    outline: 0
+}
+
 .btn-facebook {
   background-color: #405D9D;
   color: #fff;
@@ -3680,6 +3710,22 @@ body {
 
 body.offcanvas-active {
   overflow: hidden;
+}
+
+.line-2{
+    width: 100%;
+    overflow: hidden;
+    line-break:anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box
+}
+.line-3{
+    width: 100%;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    display: -webkit-box
 }
 
 .main-wrap {

@@ -53,7 +53,7 @@ class ProductController extends Controller
     public function addReview(Request $request)
     {
         $request->validate([
-            'order_id' => 'required',
+            'product_id' => 'required',
             'rating' => 'required',
             'text' => 'required'
         ]);
@@ -62,6 +62,8 @@ class ProductController extends Controller
         $review->user_id = $user->id;
         if ($request->filled('order_id'))
             $review->order_id = (int) $request->order_id;
+        if ($request->filled('product_id'))
+            $review->product_id = (int) $request->product_id;
         $review->rating =  (int) $request->rating;
         $review->text = $request->text;
         if ($request->hasFile('image'))
