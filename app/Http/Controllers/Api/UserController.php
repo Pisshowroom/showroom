@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -13,6 +14,7 @@ class UserController extends Controller
     public function profile()
     {
         $user = Auth::guard('api-client')->user();
+        $user->load('seller');
 
         // return ResponseAPI($user, 'Profile berhasil diambil');
         return new UserResource($user);
@@ -36,8 +38,10 @@ class UserController extends Controller
             $user->device_id = $request->input('device_id');
         }
 
-        if ($request->filled('image')) {
-            $user->image = $request->input('image');
+        if ($request->hasFile('image')) {
+            $user->image = uploadFoto($request->image, 'uploads/users/');
+        } else if ($request->filled('image')) {
+            $user->image = $request->image;
         }
 
         if ($request->filled('birth_date')) {
@@ -52,6 +56,47 @@ class UserController extends Controller
 
         return ResponseAPI('Profil berhasil diperbarui');
     }
+
+    public function updateSeller(Request $request)
+    {
+        $user = Auth::guard('api-client')->user();
+        $user->load('seller');
+        $seller = $user->seller;
+
+        if ($seller == null) {
+            $seller = new Seller();
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'seller_description' => 'nullable|string',
+        ]);
+
+        if ($request->filled('name')) {
+            $seller->name = $request->input('name');
+            $seller->seller_slug = Str::slug($request->name);
+        }
+
+        if ($request->filled('seller_description')) {
+            $seller->seller_description = $request->input('seller_description');
+        }
+
+        if ($request->hasFile('image')) {
+            $seller->image = uploadFoto($request->image, 'uploads/sellers/');
+        } else if ($request->filled('image')) {
+            $seller->image = $request->image;
+        }
+
+
+        $seller->save();
+        $user->is_seller = true;
+        $user->seller_id = $seller->id;
+        $user->save();
+
+        return response()->json(['message' => 'Berhasil memperbarui data.']);
+    }
+
+
 
     public function logout()
     {

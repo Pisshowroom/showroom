@@ -78,6 +78,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::middleware('auth:api-client')->group(function () {
         Route::get('/profile', [UserController::class, 'profile']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
+        Route::post('/update-seller', [UserController::class, 'updateSeller']);
         Route::post('/logout', [UserController::class, 'logout']);
     });
 });
