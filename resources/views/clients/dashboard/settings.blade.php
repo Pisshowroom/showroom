@@ -47,6 +47,59 @@
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-general" role="tabpanel"
                                     aria-labelledby="pills-general-tab">
+                                    <form method="POST" action="{{ route('dashboard.updateProfile') }}"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row gx-3">
+                                                    <div class="col-12 mb-3">
+                                                        <label class="form-label" for="name">Nama</label>
+                                                        <input class="form-control" id="name" name="name"
+                                                            type="text" placeholder="Masukkan nama"
+                                                            value="{{ Auth::guard('web')->user()->name }}" required>
+                                                    </div>
+                                                    <!-- col .//-->
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="form-label">Email</label>
+                                                        <input class="form-control" type="email"
+                                                            placeholder="andi@mail.com"
+                                                            value="{{ Auth::guard('web')->user()->email }}" required>
+                                                    </div>
+                                                    <!-- col .//-->
+                                                    <div class="col-lg-6 mb-3">
+                                                        <label class="form-label" for="password">Password</label>
+                                                        <input class="form-control" type="password" id="password"
+                                                            placeholder="*****">
+                                                    </div>
+                                                    <!-- col .//-->
+                                                    <div class="col-12 mb-3">
+                                                        <label class="form-label" for="birthdate">Tanggal Lahir</label>
+                                                        <input class="form-control" type="date" name="birth_date"
+                                                            id="birthdate"
+                                                            value="{{ Auth::guard('web')->user()->birth_date }}">
+                                                    </div>
+                                                </div>
+                                                <aside>
+                                                    <label for="image" class="form-label">Gambar</label>
+                                                    <figure>
+                                                        <img class="img-lg mb-3 img-avatar" id="previewImage"
+                                                            src="{{ Auth::guard('web')->user() ? asset(Auth::guard('web')->user()->image) ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                                            alt="User">
+                                                        <figcaption>
+                                                            <input class="form-control" type="file" id="image"
+                                                                name="image" accept="image/*">
+
+                                                        </figcaption>
+                                                    </figure>
+                                                </aside>
+                                            </div>
+                                        </div><br>
+                                        <button class="btn btn-primary" type="submit">Simpan</button>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="pills-address" role="tabpanel"
+                                    aria-labelledby="pills-address-tab">
                                     <form method="POST" action="{{ route('dashboard.updateProfile') }}">
                                         @csrf
                                         <div class="row">
@@ -77,30 +130,11 @@
                                                         <input class="form-control" type="date" id="birthdate">
                                                     </div>
                                                 </div>
-                                                <aside>
-                                                    <label for="image" class="form-label">Gambar</label>
-                                                    <figure class="text-lg-center">
-                                                        <img class="img-lg mb-3 img-avatar"
-                                                            src="{{ Auth::guard('web')->user() ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
-                                                            alt="User">
-                                                        <figcaption>
-                                                            <input class="form-control" type="file" id="image"
-                                                                name="image" accept="image/*">
-
-                                                            {{-- <a class="btn btn-light rounded font-md"
-                                                                href="#"><i
-                                                                    class="icons material-icons md-backup font-md"></i>
-                                                                Upload</a> --}}
-                                                        </figcaption>
-                                                    </figure>
-                                                </aside>
                                             </div>
                                         </div><br>
                                         <button class="btn btn-primary" type="submit">Simpan</button>
                                     </form>
                                 </div>
-                                <div class="tab-pane fade" id="pills-address" role="tabpanel"
-                                    aria-labelledby="pills-address-tab">...</div>
                             </div>
                         </section>
                     </div>
@@ -115,5 +149,19 @@
         setTimeout(function() {
             $('#mydiv').fadeOut('fast');
         }, 2000);
+        $(document).ready(function() {
+            $('#image').change(function() {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function(event) {
+                    $('#previewImage').attr('src', event.target.result);
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
     </script>
 @endpush

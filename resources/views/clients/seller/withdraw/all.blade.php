@@ -28,159 +28,27 @@
                         </header>
                         <!-- card-header end//-->
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover align-middle">
                                 <thead>
                                     <tr>
-                                        <th>Transaksi ID</th>
-                                        <th>Jumlah</th>
-                                        <th>Pembayaran</th>
-                                        <th>Tanggal</th>
-                                        <th class="text-center"> Aksi</th>
+                                        <th class="align-middle">Transaksi ID</th>
+                                        <th class="align-middle">Jumlah</th>
+                                        <th class="align-middle">Pembayaran</th>
+                                        <th class="align-middle">Tanggal</th>
+                                        <th class="text-center align-middle"> Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><b>#456667</b></td>
-                                        <td>$294.00</td>
-                                        <td>
+                                        <td class="align-middle"><b>#456667</b></td>
+                                        <td class="align-middle">$294.00</td>
+                                        <td class="align-middle">
                                             <div class="icontext"><img class="icon border"
                                                     src="{{ asset('ecom_dashboard/imgs/card-brands/1.png') }}"
                                                     alt="Payment"><span class="text text-muted">Amex</span></div>
                                         </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#134768</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/2.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Master card</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#134768</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/3.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Paypal</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#134768</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/4.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Visa</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#887780</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/4.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Visa</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#344556</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/4.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Visa</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#134768</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/2.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Master card</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#134768</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/2.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Master card</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#998784</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/3.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Paypal</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#556667</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/3.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Paypal</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#098989</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/3.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Paypal</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>#134768</b></td>
-                                        <td>$294.00</td>
-                                        <td>
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/4.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Visa</span></div>
-                                        </td>
-                                        <td>16.12.2022, 14:21</td>
-                                        <td class="text-end"><a class="btn btn-sm btn-light font-sm rounded"
+                                        <td class="align-middle">16.12.2022, 14:21</td>
+                                        <td class="text-end align-middle"><a class="btn btn-sm btn-light font-sm rounded"
                                                 href="{{ route('dashboardSeller.detailWithdraw') }}">Detail</a></td>
                                     </tr>
                                 </tbody>

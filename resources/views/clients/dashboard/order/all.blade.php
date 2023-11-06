@@ -14,7 +14,7 @@
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
                         <form action="{{ route('dashboard.myOrder') }}">
-                            <input class="form-control" type="text" placeholder="berdasarkan kode..." name="search"
+                            <input class="form-control" type="text" placeholder="Cari produk..." name="search"
                                 value="{{ request()->input('search') ?? '' }}">
                         </form>
                     </div>
@@ -37,39 +37,40 @@
             </header>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-hover align-middle">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th scope="col">Kode Pembayaran</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Aksi</th>
+                                <th class="align-middle">No</th>
+                                <th class="align-middle" scope="col">Nama</th>
+                                <th class="align-middle" scope="col">Total</th>
+                                <th class="align-middle" scope="col">Status</th>
+                                <th class="align-middle" scope="col">Tanggal</th>
+                                <th class="align-middle" scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if (count($orders) > 0)
                                 @foreach ($orders as $key => $order)
                                     <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td><b>{{ $key + 1 }}</b></td>
-                                        <td>{{ $order->total ? numbFormat($order->total) : '' }}</td>
-                                        <td>
+                                        <td class="align-middle">{{ $key + 1 }}</td>
+                                        <td class="align-middle">{{ $order->order_items[0]->product ? $order->order_items[0]->product->name ?? '' : '' }}
+                                        </td>
+                                        <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
+                                        <td class="align-middle">
                                             @if ($order->status == 'pending')
-                                                <span class="badge rounded-pill alert-warning">Pending</span>
+                                                <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
                                             @elseif ($order->status == 'done')
-                                                <span class="badge rounded-pill alert-success">Selesai</span>
+                                                <span class="badge rounded-pill alert-success fw-normal">Selesai</span>
                                             @else
-                                                <span class="badge rounded-pill alert-warning">Pending</span>
+                                                <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
                                             @endif
                                         </td>
-                                        <td>{{ $order->date . ' WIB' }}</td>
-                                        <td>
+                                        <td class="align-middle">{{ $order->date . ' WIB' }}</td>
+                                        <td class="align-middle">
                                             <a class="btn btn-xs"
-                                            href="{{ route('dashboard.detailOrder') }}">Detail</a>
-                                            <a class="btn btn-danger btn-xs"
-                                            href="#">Hapus</a>
+                                                href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
+                                            <a class="btn btn-xs-danger"
+                                                href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a>
                                         </td>
                                     </tr>
                                 @endforeach

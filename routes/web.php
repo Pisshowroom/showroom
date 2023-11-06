@@ -6,9 +6,9 @@ use App\Http\Controllers\Clients\buyer\ArticleController;
 use App\Http\Controllers\Clients\buyer\ProductController as BuyerProductController;
 use App\Http\Controllers\Clients\buyer\SellerController as BuyerSellerController;
 use App\Http\Controllers\Clients\BuyerController;
-use App\Http\Controllers\Clients\DashboardController;
+use App\Http\Controllers\Clients\buyer\DashboardController;
 use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
-use App\Http\Controllers\Clients\SellerController;
+use App\Http\Controllers\Clients\seller\SellerController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,10 +98,11 @@ Route::post('/tambah-ulasan', [BuyerProductController::class, 'addReview'])->nam
 Route::group(['middleware' => ['auth:web']], function () {
     Route::post('/perbarui-profil', [DashboardController::class, 'updateProfile'])->name('dashboard.updateProfile');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
     Route::group(['prefix' => 'pembeli'], function () {
         Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
         Route::get('/pesananku', [DashboardController::class, 'myOrder'])->name('dashboard.myOrder');
-        Route::get('/detail-pesanan', [DashboardController::class, 'detailOrder'])->name('dashboard.detailOrder');
+        Route::get('/detail-pesanan/{identifier}', [DashboardController::class, 'detailOrder'])->name('dashboard.detailOrder');
         Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
         Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');
         Route::get('/checkout', [BuyerController::class, 'checkout'])->name('buyer.checkout');
@@ -112,9 +113,10 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
         Route::get('/tambah-produk', [SellerProductController::class, 'addProduct'])->name('dashboardSeller.addProduct');
         Route::get('/semua-produk', [SellerProductController::class, 'allProduct'])->name('dashboardSeller.allProduct');
-        Route::get('/ubah-produk', [SellerProductController::class, 'editProduct'])->name('dashboardSeller.editProduct');
+        Route::get('/ubah-produk/{slug}', [SellerProductController::class, 'editProduct'])->name('dashboardSeller.editProduct');
+        Route::get('/hapus-produk/{slug}', [SellerProductController::class, 'deleteProduct'])->name('dashboardSeller.deleteProduct');
         Route::get('/semua-transaksi', [SellerController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
-        Route::get('/detail-transaksi', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
+        Route::get('/detail-transaksi/{identifier}', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
         Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
         Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
         Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');

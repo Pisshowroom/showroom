@@ -5,8 +5,11 @@
                 <li><a class="font-xs" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
                 <li>
                     @auth
-                        <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Dashboard Toko</a>
-
+                        @if (Auth::guard('web')->user()->is_seller == 1)
+                            <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Dashboard Toko</a>
+                        @else
+                            <a class="font-xs" href="{{ route('dashboardSeller.profile') }}">Daftar Toko</a>
+                        @endif
                     @endauth
                     @guest
 
@@ -390,7 +393,7 @@
                             <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                             <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                             @if (Auth::guard('web')->user()->is_seller == 0)
-                                <li><a href="{{ route('dashboard.settings') }}">Daftar Toko</a></li>
+                                <li><a href="{{ route('dashboardSeller.profile') }}">Daftar Toko</a></li>
                             @else
                                 <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
                             @endif

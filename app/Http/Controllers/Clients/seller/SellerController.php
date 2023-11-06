@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Clients;
+namespace App\Http\Controllers\Clients\seller;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -22,15 +22,15 @@ class SellerController extends Controller
         if (!$this->isSeller()) {
             return redirect('/pembeli');
         }
-        $order = Order::whereHas('order_items', function ($q) {
-            $q->whereHas('product', function ($qq) {
+        $order = Order::whereHas('order_items', function ($q) use ($request) {
+            $q->whereHas('product', function ($qq) use ($request) {
+                if ($request->filled('search'))
+                    $qq->where('name', 'like', "%$request->search%");
                 $qq->where('seller_id', Auth::guard('web')->user()->id);
             });
         })
             ->with(['user:id,name', 'order_items:id,product_id,order_id', 'order_items.product:id,name'])
-            ->when($request->filled('search'), function ($q) use ($request) {
-                return $q->where('payment_identifier', 'like', "%$request->search%");
-            })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
+            ->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
         foreach ($order as $key => $value) {
             $value->date = parseDates($value->created_at);
         }
@@ -53,11 +53,8 @@ class SellerController extends Controller
             })->count();
         return view('clients.seller.dashboard', ['orders' => $order, 'data' => $data]);
     }
-    public function profile(Request $request)
+    public function profile()
     {
-        if (!$this->isSeller()) {
-            return redirect('/pembeli');
-        }
         return view('clients.seller.profile');
     }
     public function allTransaction(Request $request)
@@ -65,14 +62,25 @@ class SellerController extends Controller
         if (!$this->isSeller()) {
             return redirect('/pembeli');
         }
-        return view('clients.seller.transaction.all');
+        $order = Order::whereHas('order_items', function ($q) use ($request) {
+            $q->whereHas('product', function ($qq) use ($request) {
+                if ($request->filled('search'))
+                    $qq->where('name', 'like', "%$request->search%");
+                $qq->where('seller_id', Auth::guard('web')->user()->id);
+            });
+        })
+            ->with(['user:id,name', 'order_items:id,product_id,order_id', 'order_items.product:id,name'])
+            ->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
+        return view('clients.seller.transaction.all', ['orders' => $order]);
     }
-    public function detailTransaction(Request $request)
+    public function detailTransaction($identifier)
     {
         if (!$this->isSeller()) {
             return redirect('/pembeli');
         }
-        return view('clients.seller.transaction.detail');
+        $order = Order::where('payment_identifier', $identifier)->with(['order_items', 'order_items.product:id,name,seller_id,images,slug', 'order_items.product.seller:id,name,seller_slug'])->first();
+        $order->date = parseDates($order->created_at);
+        return view('clients.seller.transaction.detail', ['order' => $order]);
     }
     public function addWithdraw(Request $request)
     {
@@ -108,13 +116,20 @@ class SellerController extends Controller
         if ($request->filled('seller_description')) {
             $user->seller_description = $request->seller_description;
         }
+        if ($request->filled('is_seller')) {
+            $user->is_seller = true;
+        }
 
         if ($request->filled('image')) {
             $user->image = $request->image;
         }
 
         $user->save();
+        if ($request->filled('is_seller')) {
+            return redirect("/toko/profil")->with('success', 'berhasil membuat toko');
+        }else{
+            return redirect("/toko/profil")->with('success', 'Profil toko berhasil diperbarui');
+        }
 
-        return redirect("/toko/profil")->with('success', 'Profil toko berhasil diperbarui');
     }
 }
