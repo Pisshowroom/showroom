@@ -20,11 +20,11 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'uid' => $this->uid,
             'device_id' => $this->device_id,
-            'image' => $this->image,
+            'image' => lypsisAsset($this->image),
             'birth_date' => $this->birth_date,
             'balance' => $this->balance,
             'is_seller' => $this->is_seller,
-            'seller' => $this->whenLoaded('seller'),
+            'seller' => $this->when($this->seller, new SellerResource($this->seller)),
         ];
     }
 }
