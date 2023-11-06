@@ -14,13 +14,18 @@ class ReviewResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $imagesData = [];
+        foreach(($this->images ?? []) as $img) {
+            $imagesData[] = lypsisAsset($img);
+        }
+        
         return [
             'id' => $this->id,
             'order_id' => $this->order_id,
             'user_id' => $this->user_id,
             'rating' => $this->rating,
             'text' => $this->text,
-            'images' => $this->images,
+            'images' => $imagesData,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,

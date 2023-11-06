@@ -12,24 +12,81 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function products()
+    public function products(Request $request)
     {
-        $products = Product::inRandomOrder()->paginate(15);
+        $query = Product::with(['seller'])->withAvg('reviews', 'rating')
+            ->withSum(['order_items as total_sell' => function ($query) {
+                $query->whereHas('order', function ($query) {
+                    $query->where('status', 'done');
+                });
+            }], 'quantity');
+
+        $filtered = false;
+
+        if ($request->filled('rating')) {
+            // $query->having('reviews_avg_rating', '>=', $request->input('rating'));
+            $query->orderByDesc('reviews_avg_rating');
+            $filtered = true;
+        }
+
+        if ($request->filled('latest')) {
+            $query->latest();
+            $filtered = true;
+        }
+
+        if ($request->filled('lowest_price')) {
+            $query->orderBy('price');
+            $filtered = true;
+        }
+
+        if ($request->filled('highest_price')) {
+            $query->orderByDesc('price');
+            $filtered = true;
+        }
+
+        if ($filtered == false) {
+            $query->inRandomOrder();
+        }
+
+        $products = $query->paginate(15);
         return ProductResource::collection($products);
     }
 
     public function show(Product $product)
     {
 
-        $product->load(['category', 'variants' => function ($query) {
-            $query->withoutGlobalScope('parent');
+        $product->load(['category', 'reviews', 'variants' => function ($query) {
+            $query->withoutGlobalScope('hasParentRelation');
         }, 'seller', 'reviews.user']);
+
+        $product->loadAvg('reviews', 'rating');
+        $product->loadCount(['reviews']);
+        // product loadCount or loadSum reviews on images(array) - for counting total images
+
+        $product->loadSum(['order_items as total_sell' => function ($query) {
+            $query->whereHas('order', function ($query) {
+                $query->where('status', 'done');
+            });
+        }], 'quantity');
+
+        $totalImages = 0;
+        foreach ($product->reviews as $review) {
+            // $images = json_decode($review->images, true);
+            $images = $review->images;
+            if ($images !== null) {
+                $totalImages += count($images);
+            }
+        }
+
+        $product->total_images = $totalImages;
+
+        // return ResponseAPI($product);
+
         $data['product'] = new ProductResource($product);
 
-        // total_sell is order_items sum with quantity where relation to order where status is done
-        $data['total_sell'] = OrderItem::where('product_id', $product->id)->whereHas('order', function ($query) {
+        /* $data['total_sell'] = OrderItem::where('product_id', $product->id)->whereHas('order', function ($query) {
             $query->where('status', 'done');
-        })->sum('quantity');
+        })->sum('quantity'); */
 
         $user = auth()->guard('api-client')->user();
         if ($user != null) {
@@ -38,6 +95,23 @@ class ProductController extends Controller
 
             $data['delivery_service'] = checkShippingPrice($buyerAddress->ro_subdistrict_id, $sellerAddress->ro_subdistrict_id, $product->weight, true);
         }
+
+        $relatedProductsByCategory = Product::where('category_id', $product->category_id)
+            ->whereNot('id', $product->id)
+            ->inRandomOrder()
+            ->take(7)
+            ->get();
+
+        $data['related_products'] = ProductResource::collection($relatedProductsByCategory);
+
+        $productsFromSameSeller = Product::where('seller_id', $product->seller_id)
+            ->whereNot('id', $product->id)
+            ->inRandomOrder()
+            ->take(7)
+            ->get();
+
+        $data['products_from_same_seller'] = ProductResource::collection($productsFromSameSeller);
+
 
         return $data;
     }

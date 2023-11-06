@@ -19,10 +19,10 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $latestProducts = Product::with(['category', 'parent'])->latest()->take(10)->get();
-        $limitedProducts = Product::with(['category', 'parent'])->inRandomOrder()->take(10)->get();
-        $promoProducts = Product::with(['category', 'parent'])->whereNotNull('discount')->inRandomOrder()->take(10)->get();
-        $bestSellerProducts = Product::with(['category', 'parent'])
+        $latestProducts = Product::with(['category', 'seller'])->latest()->take(10)->get();
+        $limitedProducts = Product::with(['category', 'seller'])->inRandomOrder()->take(10)->get();
+        $promoProducts = Product::with(['category', 'seller'])->whereNotNull('discount')->inRandomOrder()->take(10)->get();
+        $bestSellerProducts = Product::with(['category', 'seller'])
             ->addSelect([
                 'total_quantity' => OrderItem::selectRaw('sum(quantity)')
                     ->whereColumn('product_id', 'products.id')
