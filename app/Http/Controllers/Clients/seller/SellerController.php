@@ -53,11 +53,8 @@ class SellerController extends Controller
             })->count();
         return view('clients.seller.dashboard', ['orders' => $order, 'data' => $data]);
     }
-    public function profile(Request $request)
+    public function profile()
     {
-        if (!$this->isSeller()) {
-            return redirect('/pembeli');
-        }
         return view('clients.seller.profile');
     }
     public function allTransaction(Request $request)
@@ -119,13 +116,20 @@ class SellerController extends Controller
         if ($request->filled('seller_description')) {
             $user->seller_description = $request->seller_description;
         }
+        if ($request->filled('is_seller')) {
+            $user->is_seller = true;
+        }
 
         if ($request->filled('image')) {
             $user->image = $request->image;
         }
 
         $user->save();
+        if ($request->filled('is_seller')) {
+            return redirect("/toko/profil")->with('success', 'berhasil membuat toko');
+        }else{
+            return redirect("/toko/profil")->with('success', 'Profil toko berhasil diperbarui');
+        }
 
-        return redirect("/toko/profil")->with('success', 'Profil toko berhasil diperbarui');
     }
 }

@@ -1,10 +1,18 @@
 @extends('clients.master-dashboard')
-@section('title', 'Profil Toko')
+@section('title',
+    Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller == 0
+    ? 'Daftar Toko'
+    : 'Profil
+    Toko')
 @section('profile', 'active')
 @section('dashboard')
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title">Profil Toko</h2>
+            @if (Auth::guard('web')->user()->is_seller == 0)
+                <h2 class="content-title">Daftar Toko</h2>
+            @else
+                <h2 class="content-title">Profil Toko</h2>
+            @endif
         </div>
         @if (session('error'))
             <div class="alert alert-warning" id="mydiv">
@@ -108,6 +116,9 @@
                                                 <textarea class="form-control" name="seller_description" id="seller_description" placeholder="Masukkan alamat"
                                                     rows="5" required>{{ Auth::guard('web')->user()->seller_description }}</textarea>
                                             </div>
+                                            @if (Auth::guard('web')->user()->is_seller == 0)
+                                                <input type="hidden" name="is_seller" value="1">
+                                            @endif
                                             {{-- <div class="col-lg-6 mb-3">
                                                 <label class="form-label">Email</label>
                                                 <input class="form-control" type="email" placeholder="andi@mail.com"

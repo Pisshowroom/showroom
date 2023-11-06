@@ -49,11 +49,11 @@
                     <a class="dropdown-item" href="{{ route('dashboard.myOrder') }}"><i
                             class="material-icons md-star"></i>Pesanan ku</a>
                     @if (Auth::guard('web')->user()->is_seller == 0)
-                        <a class="dropdown-item" href="{{ route('dashboardSeller.dashboard') }}"><i
-                                class="material-icons md-storefront"></i>Toko</a>
+                        <a class="dropdown-item" href="{{ route('dashboardSeller.profile') }}"><i
+                                class="material-icons md-storefront"></i>Daftar Toko</a>
                     @else
                         <a class="dropdown-item" href="{{ route('dashboardSeller.dashboard') }}"><i
-                                class="material-icons md-storefront"></i>Daftar Toko</a>
+                                class="material-icons md-storefront"></i>Toko</a>
                     @endif
                     <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Bantuan</a>
                     <div class="dropdown-divider"></div><a class="dropdown-item text-danger"
