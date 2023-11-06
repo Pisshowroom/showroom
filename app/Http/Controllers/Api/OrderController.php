@@ -19,6 +19,66 @@ use Xendit\PaymentRequest\VirtualAccount;
 class OrderController extends Controller
 {
     // create function preCheck Price from request order_items[product_id,qty], calculate total of order
+    public function preCheckEarly(Request $request)
+    {
+        $user = auth()->guard('api-client')->user();
+        // VirtualAccount::setters
+        $request->validate([
+            'order_items' => 'required',
+        ]);
+
+        $products = [];
+        $total = 0;
+        $totalWithoutDiscount = 0;
+        $countedPromoProduct = 0;
+        $countedAmountPromo = 0;
+        $weight = 0;
+
+        $orderItems = json_decode($request->order_items, true);
+
+        foreach ($orderItems as $order_item) {
+            $product_id = $order_item['product_id'];
+            $product = \App\Models\Product::find($order_item['product_id']);
+            if ($product == null) {
+                $product = Product::withTrashed()->where('id', $product_id)->first();
+                if ($product == null)
+                    return ResponseAPI("Maaf produk dengan id tidak ditemukan.", 404);
+                else
+                    return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
+            }
+
+            if ($product->stock < $order_item['qty']) {
+                return ResponseAPI('Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock, 400);
+            }
+
+            if ($product->discount > 0) {
+                // minusing the product price with discount as percentage
+                $thePromoAmount = ($product->price * $product->discount / 100);
+                $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
+                $countedPromoProduct++;
+                $countedAmountPromo += $thePromoAmount * $order_item['qty'];
+
+                $total += $resultItemPriceAfterDiscount * $order_item['qty'];
+                $totalWithoutDiscount += $product->price * $order_item['qty'];
+            } else {
+                $total += $product->price * $order_item['qty'];
+                $totalWithoutDiscount += $product->price * $order_item['qty'];
+            }
+
+            $weight += $product->weight * $order_item['qty'];
+            array_push($products, $product);
+        }
+
+        $data['total'] = $total;
+        $data['total_without_discount'] = $totalWithoutDiscount;
+        $data['counted_promo_product'] = $countedPromoProduct;
+        $data['counted_amount_promo'] = $countedAmountPromo;
+        // $aa = $this->checkShippingPrice();
+        $data['products'] = $products;
+
+        return ResponseAPI($data);
+    }
+    
     public function preCheck(Request $request)
     {
         $user = auth()->guard('api-client')->user();
@@ -26,7 +86,6 @@ class OrderController extends Controller
         $request->validate([
             'order_items' => 'required',
             'address_id' => 'required',
-            'seller_id' => 'required',
         ]);
 
         $addressBuyer = Address::findOrFail($request->address_id);
