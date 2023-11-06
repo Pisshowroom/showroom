@@ -55,7 +55,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        $product->load(['category', 'variants' => function ($query) {
+        $product->load(['category', 'reviews', 'variants' => function ($query) {
             $query->withoutGlobalScope('hasParentRelation');
         }, 'seller', 'reviews.user']);
 
