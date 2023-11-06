@@ -71,7 +71,8 @@ class ProductController extends Controller
 
         $totalImages = 0;
         foreach ($product->reviews as $review) {
-            $images = json_decode($review->images, true);
+            // $images = json_decode($review->images, true);
+            $images = $review->images;
             if ($images !== null) {
                 $totalImages += count($images);
             }
