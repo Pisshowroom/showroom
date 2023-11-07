@@ -303,7 +303,7 @@
         </div>
     </div>
 </div>
-<div class="sidebar-left"><a class="btn btn-open" href="#"></a>
+{{-- <div class="sidebar-left"><a class="btn btn-open" href="#"></a>
     <ul class="menu-icons hidden">
         <li><a href="javascript:void(0)"><img src="{{ asset('ecom/imgs/template/monitor.svg') }}"
                     alt="Ecom"></a></li>
@@ -512,7 +512,7 @@
             </ul>
         </li>
     </ul>
-</div>
+</div> --}}
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area position-absolute">

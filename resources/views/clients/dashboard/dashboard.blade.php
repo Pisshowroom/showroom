@@ -79,7 +79,7 @@
                     <div class="col-md-2 col-6">
                         <div class="custom_select">
                             <select class="form-select select-nice">
-                                <option selected="">All Categories</option>
+                                <option selected="">Kategori</option>
                                 <option>Women&apos;s Clothing</option>
                                 <option>Men&apos;s Clothing</option>
                                 <option>Cellphones</option>
