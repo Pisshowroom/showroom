@@ -78,26 +78,24 @@
                                                     <div class="card-top-vendor-left"><img
                                                             src="{{ asset('ecom/imgs/page/vendor/futur.png') }}"
                                                             alt="Ecom">
-                                                        <div class="rating"><img
+                                                        <div class="rating gap-1 d-flex align-items-center"><img
                                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span class="font-xs color-gray-500">
-                                                                (65)
+                                                                alt="Ecom"><span class="font-xs color-gray-500">5
+                                                                    {{-- ({{ $prd->total_sell ? moneyFormat($prd->total_sell) ?? 0 : 0 }}) --}}
+                                                                (65 Terjual)
                                                             </span>
                                                         </div>
                                                     </div>
                                                     <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">{{ $seller->products_count ?? 0 }}
+                                                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
                                                             Produk</a>
                                                         <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                                     </div>
+                                                </div>
+                                                <div class="price-info mt-1 d-flex flex-row gap-1 align-items-center">
+                                                    {!! file_get_contents('ecom/imgs/page/product/icon-location.svg') !!}
+                                                    <strong class="font-md color-gray-500 price-main">
+                                                        Jakarta</strong>
                                                 </div>
                                                 {{-- <div class="card-bottom-vendor">
                                                     <p class="font-sm color-gray-500 location mb-10">5171 W Campbell Ave

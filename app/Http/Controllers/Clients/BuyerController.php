@@ -8,6 +8,7 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\SliderResource;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
@@ -33,11 +34,25 @@ class BuyerController extends Controller
         $sliders = Slider::all();
         // limitted 5 article latest
         $articles  = Article::latest()->take(4)->get();
-
+        $latestProducts = Product::with(['category', 'seller'])->latest()->take(10)->get();
+        $limitedProducts = Product::with(['category', 'seller'])->inRandomOrder()->take(10)->get();
+        $promoProducts = Product::with(['category', 'seller'])->whereNotNull('discount')->inRandomOrder()->take(10)->get();
+        $bestSellerProducts = Product::with(['category', 'seller'])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])
+            ->orderByDesc('total_quantity')
+            ->take(10)
+            ->get();
         $data['sliders'] = SliderResource::collection($sliders);
-        $data['latest_product'] = Product::with(['category', 'seller:id,name,seller_slug'])->withCount('reviews')->whereNull('parent_id')->latest()->take(8)->get();
-        $data['limited_product'] = Product::with(['category', 'seller:id,name,seller_slug'])->withCount('reviews')->whereNull('parent_id')->inRandomOrder()->take(8)->get();
-        $data['recommended_products'] = Product::with(['category', 'seller:id,name,seller_slug'])->withCount('reviews')->whereNull('parent_id')->inRandomOrder()->take(8)->get();
+        $data['latest_product'] = ProductResource::collection($latestProducts);
+        $data['limited_product'] = ProductResource::collection($limitedProducts);
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        $data['recommended_products'] = ProductResource::collection($limitedProducts);
+        $data['promo_products'] = ProductResource::collection($promoProducts);
         $data['articles'] = ArticleResource::collection($articles);
         $data['categories'] = $this->categories();
         return view('clients.buyer.home', ['data' => $data]);

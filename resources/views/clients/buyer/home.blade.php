@@ -191,9 +191,26 @@
                                 <div class="swiper-container swiper-tab-4">
                                     <div class="row mt-4">
                                         @if (count($data['articles']) > 0)
-                                            @foreach ($data['articles'] as $prd)
+                                            @foreach ($data['articles'] as $article)
                                                 <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    @include('clients.buyer.components.list_product1')
+                                                    <div class="card-grid-style-3">
+                                                        <div class="card-grid-inner">
+                                                            <div class="image-box">
+                                                                <a
+                                                                    href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}">
+                                                                    <img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
+                                                                        alt="produk {{ $article->title ?? '' }}"></a>
+                                                            </div>
+                                                            <div class="info-right">
+                                                                <a class="color-brand-3 font-sm-bold line-2 text-start"
+                                                                    href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}">{{ $article->title ?? '' }}</a>
+                                                                <div class="price-info">
+                                                                    <span
+                                                                        class="color-gray-500 line-3 text-start">{!! $article->content !!}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             @endforeach
                                         @else
@@ -217,6 +234,16 @@
 @push('importjs')
     <script>
         $(document).ready(function() {
+            $('.info-right').each(function() {
+                var text = $(this).find('.color-brand-3.font-sm-bold').text();
+
+                // Menghapus spasi ekstra dan memeriksa jumlah baris
+                if (text.trim().split(/\r\n|\r|\n/).length < 2) {
+                    $(this).find('.color-brand-3.font-sm-bold').css('height', '40px');
+                } else {
+                    console.log('Jumlah baris tidak kurang dari 2.');
+                }
+            });
             // Fungsi untuk menambahkan produk ke localStorage
             function tambahkanKeLocalStorage(product) {
                 let existingProducts = JSON.parse(localStorage.getItem('produkKeranjang')) || [];

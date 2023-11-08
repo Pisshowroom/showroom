@@ -2252,6 +2252,14 @@ a.text-brand-3:hover {
   max-width: 100px;
   min-width: 100px;
 }
+.line-1{
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    display: -webkit-box
+}
 .line-2{
     width: 100%;
     text-align: center;
@@ -7947,11 +7955,8 @@ a.text-brand-3:hover {
   }
   .display-list .card-grid-style-3 .card-grid-inner .tools {
     bottom: 10px;
-    left: 10px;
+    right: 10px;
     top: auto;
-    right: auto;
-    width: 100%;
-    max-width: 260px;
   }
   .display-list .card-grid-style-3 .card-grid-inner .tools .btn {
     margin-bottom: 0px !important;

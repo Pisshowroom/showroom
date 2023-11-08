@@ -27,16 +27,12 @@
                                 <div class="avarta"><img class="mb-5"
                                         src="{{ asset('ecom/imgs/page/vendor/fasfox.png') }}" alt="Ecom"><a
                                         class="btn btn-buy font-xs"
-                                        href="{{ route('buyer.allGridProduct') }}">{{ $seller->products_count ?? 0 }}
+                                        href="{{ route('buyer.allGridProduct') }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
                                         Produk</a></div>
                                 <div class="info-vendor">
                                     <h4 class="mb-5">Fasfox Coporation</h4><span
                                         class="font-xs color-gray-500 mr-20">sejak 2012</span>
                                     <div class="rating d-inline-block"><img
-                                            src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img
-                                            src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img
-                                            src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img
-                                            src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><img
                                             src="{{ asset('ecom/imgs/template/icons/star.svg') }}" alt="Ecom"><span
                                             class="font-xs color-gray-500"> (65)</span></div>
                                 </div>
@@ -60,7 +56,8 @@
                             <div class="item-featured">
                                 <div class="featured-icon"><img src="{{ asset('ecom/imgs/page/product/delivery.svg') }}"
                                         alt="Ecom"></div>
-                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Pengiriman gratis</span>
+                                <div class="featured-info"><span class="font-sm-bold color-gray-1000">Pengiriman
+                                        gratis</span>
                                     <p class="font-sm color-gray-500 font-medium">Semua pesanan di atas 5 Juta</p>
                                 </div>
                             </div>
@@ -168,7 +165,8 @@
                                             <li class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}">
                                                 <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
                                                     href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}">{{ $ct->name ?? '' }}<span
-                                                        class="number">{{ $ct->products_count }}</span></a></li>
+                                                        class="number">{{ $ct->products_count }}</span></a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 @else
@@ -311,14 +309,6 @@
                                                             Celeron J4025, 4GB RAM</a>
                                                         <div class="rating"><img
                                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                                 alt="Ecom"><span class="font-xs color-gray-500">
                                                                 (65)</span></div>
                                                         <div class="price-info"><strong
@@ -338,14 +328,6 @@
                                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Lenovo Legion 5i 15.6&quot;
                                                             Laptop, Intel Core i5</a>
                                                         <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><img
                                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                                 alt="Ecom"><span class="font-xs color-gray-500">
                                                                 (65)</span></div>

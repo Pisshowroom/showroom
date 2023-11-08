@@ -67,7 +67,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                {{ $orders->links() }}
+                                {{ $orders->onEachSide(3)->links() }}
                             @else
                                 <tr>
                                     <td colspan="8">No data Available</td>
