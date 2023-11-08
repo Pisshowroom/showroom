@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use App\Models\MasterAccount;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -90,10 +91,14 @@ class ProductController extends Controller
 
         $user = auth()->guard('api-client')->user();
         if ($user != null) {
-            $buyerAddress = $user->addresses()->where('main', true)->firstOrFail();
-            $sellerAddress = $product->seller->addresses()->where('main', true)->firstOrFail();
+            $buyerAddress = $user->addresses()->where('main', true)->first();
+            $sellerAddress = $product->seller->addresses()->where('main', true)->first();
+            if ($buyerAddress != null && $sellerAddress != null) {
+                $data['delivery_service'] = checkShippingPrice($buyerAddress->ro_subdistrict_id, $sellerAddress->ro_subdistrict_id, $product->weight, true);
+            } else {
+                $data['delivery_service'] = null;
+            }
 
-            $data['delivery_service'] = checkShippingPrice($buyerAddress->ro_subdistrict_id, $sellerAddress->ro_subdistrict_id, $product->weight, true);
         }
 
         $relatedProductsByCategory = Product::where('category_id', $product->category_id)
@@ -163,6 +168,7 @@ class ProductController extends Controller
 
         $product->name = $request->name;
         $product->category_id = $request->category_id;
+        $product->seller_id = $user->id;
         $product->slug = Str::slug($request->name);
         $product->price = $request->price;
         $product->stock = $request->stock;
@@ -178,7 +184,6 @@ class ProductController extends Controller
             return ResponseAPI("Product berhasil diperbarui.");
         }
     }
-
     public function destroy(Product $product)
     {
         $product->delete();
