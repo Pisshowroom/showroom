@@ -90,7 +90,7 @@ class ProductController extends Controller
         })->sum('quantity'); */
 
         $user = auth()->guard('api-client')->user();
-        if ($user != null) {
+        if ($user != null && $product->seller_id != null) {
             $buyerAddress = $user->addresses()->where('main', true)->first();
             $sellerAddress = $product->seller->addresses()->where('main', true)->first();
             if ($buyerAddress != null && $sellerAddress != null) {
