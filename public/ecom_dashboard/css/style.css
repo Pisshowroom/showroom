@@ -694,7 +694,7 @@ b {
 .btn.btn-xs ,.btn.btn-xs-danger{
     color: #ffffff;
     border: none;
-    font-size: 11px;
+    font-size: 11px !important;
     font-weight: 400;
     border-radius: 4px;
     display: inline-block;

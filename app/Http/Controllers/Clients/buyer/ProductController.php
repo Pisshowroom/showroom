@@ -17,28 +17,32 @@ class ProductController extends Controller
     }
     public function allGridProduct(Request $request)
     {
-        $product = Product::with(['seller:id,name,seller_slug', 'category'])->when($request->filled('search'), function ($q) use ($request) {
-            return $q->where('name', 'like', "%$request->search%");
-        })->when($request->filled('category_id'), function ($q) use ($request) {
-            return $q->where('category_id', $request->category_id);
-        })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
+        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category'])->whereNull('parent_id')
+            ->when($request->filled('search'), function ($q) use ($request) {
+                return $q->where('name', 'like', "%$request->search%");
+            })->when($request->filled('category_id'), function ($q) use ($request) {
+                return $q->where('category_id', $request->category_id);
+            })
+            ->withCount('reviews')
+            ->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
         $data['categories'] = $this->categories();
         return view('clients.buyer.product.all_grid', ['products' => $product, 'data' => $data]);
     }
     public function allListProduct(Request $request)
     {
-        $product = Product::with(['seller:id,name,seller_slug', 'category'])->when($request->filled('search'), function ($q) use ($request) {
-            return $q->where('name', 'like', "%$request->search%");
-        })->when($request->filled('category_id'), function ($q) use ($request) {
-            return $q->where('category_id', $request->category_id);
-        })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
+        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category'])->whereNull('parent_id')
+            ->when($request->filled('search'), function ($q) use ($request) {
+                return $q->where('name', 'like', "%$request->search%");
+            })->when($request->filled('category_id'), function ($q) use ($request) {
+                return $q->where('category_id', $request->category_id);
+            })->withCount('reviews')->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
         $data['categories'] = $this->categories();
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
     public function detailProduct($slug)
     {
-        $product = Product::with(['seller:id,name,seller_slug', 'category'])->where('slug', $slug)->first();
+        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category'])->withCount('reviews')->where('slug', $slug)->firstOrFail();
         $data['reviews'] = Review::whereNull('deleted_at')->with('user:id,name,image')->orderByDesc('id')->paginate(5);
         foreach ($data['reviews'] as $review) {
             if ($review->created_at)
@@ -46,6 +50,12 @@ class ProductController extends Controller
             else
                 $review->date = null;
         }
+        $data['related_products'] = Product::whereNot('id', $product->id)->where('category_id', $product->category_id)
+            ->with(['seller:id,name,seller_slug,seller_name', 'category'])
+            ->withCount('reviews')->orderByDesc('reviews_count')->take(8)->get();
+        $data['same_products'] = Product::whereNot('id', $product->id)->where('seller_id', $product->seller_id)
+            ->with(['seller:id,name,seller_slug,seller_name', 'category'])
+            ->withCount('reviews')->orderByDesc('reviews_count')->take(8)->get();
         $data['categories'] = $this->categories();
         return view('clients.buyer.product.detail', ['product' => $product, 'data' => $data]);
     }

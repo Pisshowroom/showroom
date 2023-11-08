@@ -7,7 +7,7 @@
             <div>
                 <h2 class="content-title">Ubah Alamat</h2>
             </div>
-            <div> <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAddress">
+            <div> <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal" data-bs-target="#deleteAddress">
                     Hapus Alamat
                 </button>
             </div>
@@ -163,16 +163,16 @@
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header border-bottom-0">
                         <h1 class="modal-title fs-5 text-dark" id="deleteAddressLabel">Hapus Alamat</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h5 class="text-dark">Apakah kamu yakin ingin menghapus alamat ini ?</h5>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="padding: 10px !important">Tutup</button>
-                        <a class="btn btn-danger"
+                    <div class="modal-footer border-top-0">
+                        <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
+                        <a class="btn btn-xs-danger" style="background-color:#dc3545 !important;"
                             href="{{ route('dashboard.deleteAddress', ['id' => $data->id]) }}">Hapus
                         </a>
                     </div>

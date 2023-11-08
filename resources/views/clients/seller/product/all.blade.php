@@ -6,7 +6,7 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">List Produk</h2>
+                <h2 class="content-title card-title">Semua Produk</h2>
             </div>
             <div>
                 {{-- <a class="btn btn-light rounded font-md" href="#">Export</a><a class="btn btn-light rounded font-md"
@@ -71,9 +71,11 @@
                                         </td>
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
-                                                href="{{ route('dashboardSeller.editProduct', ['slug' => $product->slug ?? '1234']) }}">Detail</a>
-                                            <a class="btn btn-xs-danger"
-                                                href="{{ route('dashboardSeller.deleteProduct', ['slug' => $product->slug ?? '1234']) }}">Hapus</a>
+                                                href="{{ route('dashboardSeller.editProduct', ['id' => $product->id ?? '1']) }}">Detail</a>
+                                            <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
+                                                data-bs-target="#deleteProduct">
+                                                Batalkan
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -85,6 +87,25 @@
                             @endif
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteProduct" tabindex="-1" aria-labelledby="deleteProductLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <h1 class="modal-title fs-5 text-dark" id="deleteProductLabel">Hapus Produk</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-dark">Apakah kamu yakin ingin menghapus Produk ini ?</h5>
+                    </div>
+                    <div class="modal-footer border-top-0">
+                        <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
+                        <a class="btn btn-xs-danger"
+                            href="{{ route('dashboardSeller.deleteProduct', ['id' => $product->id ?? '1']) }}">Hapus</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -139,7 +160,7 @@
                 if (searchQuery !== '') {
                     url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location=url;
+                window.location = url;
                 // Navigate to the constructed URL
                 // history.pushState({}, '', url);
             }

@@ -26,6 +26,9 @@ class SellerController extends Controller
             $q->whereHas('product', function ($qq) use ($request) {
                 if ($request->filled('search'))
                     $qq->where('name', 'like', "%$request->search%");
+                if ($request->filled('category_id'))
+                    $qq->where('category_id', $request->category_id);
+
                 $qq->where('seller_id', Auth::guard('web')->user()->id);
             });
         })
@@ -34,11 +37,12 @@ class SellerController extends Controller
         foreach ($order as $key => $value) {
             $value->date = parseDates($value->created_at);
         }
-        $data['products'] = Product::where('seller_id', Auth::guard('web')->user()->id)->whereNull('deleted_at')->count();
+        $data['products'] = Product::where('seller_id', Auth::guard('web')->user()->id)->whereNull(['parent_id', 'deleted_at'])->count();
         $data['withdrawals'] = 0;
-        $data['categories'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) {
+        $categories = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) {
             $q->where('seller_id', Auth::guard('web')->user()->id);
-        })->count();
+        });
+        $data['categories'] = $categories->count();
         $data['achievement'] = Order::where('status', 'done')
             ->whereHas('order_items', function ($q) {
                 $q->whereHas('product', function ($qq) {
@@ -78,7 +82,11 @@ class SellerController extends Controller
         if (!$this->isSeller()) {
             return redirect('/pembeli');
         }
-        $order = Order::where('payment_identifier', $identifier)->with(['order_items', 'order_items.product:id,name,seller_id,images,slug', 'order_items.product.seller:id,name,seller_slug'])->first();
+        $order = Order::where('payment_identifier', $identifier)
+            ->with([
+                'order_items', 'order_items.product:id,name,seller_id,images,slug',
+                'order_items.product.seller:id,name,seller_slug'
+            ])->firstOrFail();
         $order->date = parseDates($order->created_at);
         return view('clients.seller.transaction.detail', ['order' => $order]);
     }
@@ -108,9 +116,9 @@ class SellerController extends Controller
     {
         $user = Auth::guard('web')->user();
 
-        if ($request->filled('name')) {
-            $user->name = $request->name;
-            $user->seller_slug = Str::slug($request->name);
+        if ($request->filled('seller_name')) {
+            $user->seller_name = $request->seller_name;
+            $user->seller_slug = Str::slug($request->seller_name);
         }
 
         if ($request->filled('seller_description')) {
@@ -120,16 +128,15 @@ class SellerController extends Controller
             $user->is_seller = true;
         }
 
-        if ($request->filled('image')) {
-            $user->image = $request->image;
+        if ($request->hasFile('seller_image')) {
+            $user->seller_image = uploadFoto($request->seller_image, 'uploads/seller/');
         }
 
         $user->save();
         if ($request->filled('is_seller')) {
             return redirect("/toko/profil")->with('success', 'berhasil membuat toko');
-        }else{
+        } else {
             return redirect("/toko/profil")->with('success', 'Profil toko berhasil diperbarui');
         }
-
     }
 }

@@ -35,9 +35,9 @@ class BuyerController extends Controller
         $articles  = Article::latest()->take(4)->get();
 
         $data['sliders'] = SliderResource::collection($sliders);
-        $data['latest_product'] = Product::with(['category', 'seller:id,name,seller_slug'])->latest()->take(8)->get();
-        $data['limited_product'] = Product::with(['category', 'seller:id,name,seller_slug'])->inRandomOrder()->take(8)->get();
-        $data['recommended_products'] = Product::with(['category', 'seller:id,name,seller_slug'])->inRandomOrder()->take(8)->get();
+        $data['latest_product'] = Product::with(['category', 'seller:id,name,seller_slug'])->withCount('reviews')->whereNull('parent_id')->latest()->take(8)->get();
+        $data['limited_product'] = Product::with(['category', 'seller:id,name,seller_slug'])->withCount('reviews')->whereNull('parent_id')->inRandomOrder()->take(8)->get();
+        $data['recommended_products'] = Product::with(['category', 'seller:id,name,seller_slug'])->withCount('reviews')->whereNull('parent_id')->inRandomOrder()->take(8)->get();
         $data['articles'] = ArticleResource::collection($articles);
         $data['categories'] = $this->categories();
         return view('clients.buyer.home', ['data' => $data]);

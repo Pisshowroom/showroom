@@ -6,7 +6,7 @@
     <section class="content-main">
         <div class="content-header">
             <div>
-                <h2 class="content-title card-title">List Pesanan</h2>
+                <h2 class="content-title card-title">Semua Pesanan</h2>
             </div>
         </div>
         <div class="card mb-4">
@@ -69,8 +69,8 @@
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
-                                            <a class="btn btn-xs-danger"
-                                                href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a>
+                                            {{-- <a class="btn btn-xs-danger"
+                                                href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                         </td>
                                     </tr>
                                 @endforeach

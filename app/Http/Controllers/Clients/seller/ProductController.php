@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -16,19 +17,89 @@ class ProductController extends Controller
             return $q->where('name', 'like', "%$request->search%");
         })->when($request->filled('category_id'), function ($q) use ($request) {
             return $q->where('category_id', $request->category_id);
-        })->where('seller_id', Auth::guard('web')->user()->id)->with('category:id,name')->orderBy('id', $request->orderBy ?? 'desc')->paginate(10);
+        })->where('seller_id', Auth::guard('web')->user()->id)->whereNull('parent_id')->with('category:id,name')->orderBy('id', $request->orderBy ?? 'desc')->paginate(10);
         $data['categories_product'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) {
             $q->where('seller_id', Auth::guard('web')->user()->id);
-        })->select('id','name')->get();
+        })->select('id', 'name')->get();
         return view('clients.seller.product.all', ['products' => $product, 'data' => $data]);
     }
     public function addProduct(Request $request)
     {
-        return view('clients.seller.product.add', ['product' => null]);
+        $data['categories'] = Category::whereNull('deleted_at')->get();
+        return view('clients.seller.product.add', ['product' => null, 'data' => $data]);
     }
     public function editProduct(Request $request)
     {
-        $product = Product::where('id', $request->id)->first();
-        return view('clients.seller.product.add', ['product' => $product]);
+        $data['categories'] = Category::whereNull('deleted_at')->get();
+        $product = Product::where('id', $request->id)->firstOrFail();
+        return view('clients.seller.product.add', ['product' => $product, 'data' => $data]);
+    }
+    public function addUpdateProduct(Request $request)
+    {
+        $user = Auth::guard('web')->user();
+
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'category_id' => 'required',
+            'price' => 'required|integer',
+            'stock' => 'required|integer',
+            'images' => 'required',
+            'images.*.file' => 'required',
+            'weight' => 'required',
+            'unit' => 'required|string|max:255',
+            'description' => 'required|string',
+            // '' => 'nullable|integer|min:1|max:100'
+        ]);
+
+        $images = [];
+        $isCreate = false;
+
+        if ($request->filled('id')) {
+            $product = Product::find($request->id);
+        } else {
+            $product = new Product();
+            $isCreate = true;
+        }
+
+        if (!empty($request->images)) {
+            foreach ($request->images as $img) {
+                if (isset($img) && is_uploaded_file($img)) {
+                    $images[] = uploadFoto($img, 'uploads/products/' . $user->id);
+                } else if (isset($img)) {
+                    $images[] = $img;
+                }
+            }
+            $product->images = $images;
+        }
+        if ($request->filled('name')) {
+            $product->name = $request->name;
+            $product->slug = Str::slug($request->name);
+        }
+        if ($request->filled('category_id'))
+            $product->category_id = $request->category_id;
+        if ($request->filled('price'))
+            $product->price = $request->price;
+        if ($request->filled('stock'))
+            $product->stock = $request->stock;
+        if ($request->filled('unit'))
+            $product->unit = $request->unit;
+        if ($request->filled('description'))
+            $product->description = $request->description;
+        if ($request->filled('discount'))
+            $product->discount = $request->discount;
+        $product->seller_id = $user->id;
+        $product->save();
+
+        if ($isCreate) {
+            return redirect("/toko/semua-produk")->with('success', 'Produk berhasil disimpan.');
+        } else {
+            return redirect("/toko/semua-produk")->with('success', 'Produk berhasil diperbarui.');
+        }
+    }
+    public function deleteProduct($id)
+    {
+        $ad = Product::where('id', $id)->firstOrFail();
+        $ad->delete();
+        return redirect("/toko/semua-produk")->with('success', 'Produk berhasil dihapus');
     }
 }

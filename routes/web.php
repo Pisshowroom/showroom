@@ -119,9 +119,10 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/', [SellerController::class, 'dashboard'])->name('dashboardSeller.dashboard');
         Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
         Route::get('/tambah-produk', [SellerProductController::class, 'addProduct'])->name('dashboardSeller.addProduct');
+        Route::post('/tambah-ubah-produk', [SellerProductController::class, 'addUpdateProduct'])->name('dashboardSeller.addUpdateProduct');
         Route::get('/semua-produk', [SellerProductController::class, 'allProduct'])->name('dashboardSeller.allProduct');
-        Route::get('/ubah-produk/{slug}', [SellerProductController::class, 'editProduct'])->name('dashboardSeller.editProduct');
-        Route::get('/hapus-produk/{slug}', [SellerProductController::class, 'deleteProduct'])->name('dashboardSeller.deleteProduct');
+        Route::get('/ubah-produk/{id}', [SellerProductController::class, 'editProduct'])->name('dashboardSeller.editProduct');
+        Route::get('/hapus-produk/{id}', [SellerProductController::class, 'deleteProduct'])->name('dashboardSeller.deleteProduct');
         Route::get('/semua-transaksi', [SellerController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
         Route::get('/detail-transaksi/{identifier}', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
         Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');

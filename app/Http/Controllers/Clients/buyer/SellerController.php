@@ -25,12 +25,12 @@ class SellerController extends Controller
 
     public function detailSeller($slug, Request $request)
     {
-        $seller = User::where('seller_slug', $slug)->withCount('products')->first();
+        $seller = User::where('seller_slug', $slug)->withCount('products')->firstOrFail();
         $product = Product::when($request->filled('search'), function ($q) use ($request) {
             return $q->where('name', 'like', "%$request->search%");
         })->when($request->filled('category_id'), function ($q) use ($request) {
             return $q->where('category_id', $request->category_id);
-        })->where('seller_id', $seller->id)->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
+        })->where('seller_id', $seller->id)->whereNull('parent_id')->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
         $data['categories'] = $this->categories();
         $data['categories_product'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) use ($seller) {
             $q->where('seller_id', $seller->id);

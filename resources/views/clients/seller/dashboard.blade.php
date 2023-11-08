@@ -18,7 +18,9 @@
                                 class="text-primary material-icons md-monetization_on"></i></span>
                         <div class="text">
                             <h6 class="mb-1 card-title">Pendapatan</h6>
-                            <span>{{ numbFormat($data['achievement']) ?? 0 }}</span><span class="text-sm">Hanya
+                            {{-- <span>{{ numbFormat($data['achievement']) ?? 0 }}</span> --}}
+                            <span>{{ numbFormat(Auth::guard('web')->user()->balance) ?? 0 }}</span>
+                            <span class="text-sm">Hanya
                                 pesanan yang telah sampai kepada konsumen</span>
                         </div>
                     </article>
@@ -82,41 +84,13 @@
         </div> --}}
         <div class="card mb-4">
             <header class="card-header">
-                <h4 class="card-title">List Pesanan</h4>
+                <h4 class="card-title">Semua Transaksi Pesanan</h4>
                 <div class="row align-items-center">
                     <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
                         <form action="{{ route('dashboardSeller.dashboard') }}">
                             <input class="form-control" type="text" placeholder="Cari produk..." name="search"
                                 value="{{ request()->input('search') ?? '' }}">
                         </form>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <div class="custom_select">
-                            <select class="form-select select-nice">
-                                <option selected="">Kategori</option>
-                                <option>Women&apos;s Clothing</option>
-                                <option>Men&apos;s Clothing</option>
-                                <option>Cellphones</option>
-                                <option>Computer &amp; Office</option>
-                                <option>Consumer Electronics</option>
-                                <option>Jewelry &amp; Accessories</option>
-                                <option>Home &amp; Garden</option>
-                                <option>Luggage &amp; Bags</option>
-                                <option>Shoes</option>
-                                <option>Mother &amp; Kids</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <div class="custom_select">
-                            <select class="form-select select-nice">
-                                <option selected="">Status</option>
-                                <option>All</option>
-                                <option>Paid</option>
-                                <option>Chargeback</option>
-                                <option>Refund</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
             </header>
@@ -139,9 +113,11 @@
                                     @foreach ($orders as $key => $order)
                                         <tr>
                                             <td class="align-middle">{{ $key + 1 }}</td>
-                                            <td class="align-middle">{{ $order->order_items[0]->product ? $order->order_items[0]->product->name ?? '' : '' }}
+                                            <td class="align-middle">
+                                                {{ $order->order_items[0]->product ? $order->order_items[0]->product->name ?? '' : '' }}
                                             </td>
-                                            <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
+                                            <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}
+                                            </td>
                                             <td class="align-middle">
                                                 @if ($order->status == 'pending')
                                                     <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
@@ -155,8 +131,10 @@
                                             <td class="align-middle">
                                                 <a class="btn btn-xs"
                                                     href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
-                                                <a class="btn btn-xs-danger"
-                                                    href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboardSeller.dashboard']) }}">Batalkan</a>
+                                                <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteTransaction">
+                                                    Batalkan
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -171,6 +149,26 @@
                     </div>
                 </div>
                 <!-- table-responsive end//-->
+            </div>
+        </div>
+        <div class="modal fade" id="deleteTransaction" tabindex="-1" aria-labelledby="deleteTransactionLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <h1 class="modal-title fs-5 text-dark" id="deleteTransactionLabel">Batalkan Transaksi</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-dark">Apakah kamu yakin ingin membatalkan transaksi ini ?</h5>
+                    </div>
+                    <div class="modal-footer border-top-0">
+                        <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
+                        <a class="btn btn-xs-danger"
+                            href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboardSeller.allTransaction']) }}">
+                            Batalkan</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

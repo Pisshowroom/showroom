@@ -28,7 +28,7 @@ class ArticleController extends Controller
 
     public function detailArticle($id)
     {
-        $article = Article::where('id', $id)->first();
+        $article = Article::where('id', $id)->firstOrFail();
         $article->date = Carbon::parse($article->created_at)->format('d M, Y') ?? null;
         $data['categories'] = $this->categories();
 
