@@ -520,7 +520,7 @@
                         <h4 class="color-brand-3">Produk terkait</h4>
                         @if (count($data['related_products']) > 0)
                             <div class="list-products-5 mt-20">
-                                @foreach ($data['related_products'] as $product)
+                                @foreach ($data['related_products'] as $prd)
                                     @include('clients.buyer.components.list_product1')
                                 @endforeach
                             </div>
@@ -533,7 +533,7 @@
                         <h4 class="color-brand-3">Produk lainnya untukmu</h4>
                         @if (count($data['same_products']) > 0)
                             <div class="list-products-5 mt-20">
-                                @foreach ($data['same_products'] as $product)
+                                @foreach ($data['same_products'] as $prd)
                                     @include('clients.buyer.components.list_product1')
                                 @endforeach
                             </div>

@@ -129,7 +129,7 @@
                         </div>
                         <div class="row mt-20">
                             @if (count($products) > 0)
-                                @foreach ($products as $product)
+                                @foreach ($products as $prd)
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                         @include('clients.buyer.components.list_product1')
                                     </div>

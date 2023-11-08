@@ -86,7 +86,7 @@
 
                     <div class="row mt-20">
                         @if (count($data['limited_product']) > 0)
-                            @foreach ($data['limited_product'] as $product)
+                            @foreach ($data['limited_product'] as $prd)
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                     @include('clients.buyer.components.list_product1')
                                 </div>
@@ -128,7 +128,7 @@
                                     <div class="row">
                                         {{-- 8 --}}
                                         @if (count($data['latest_product']) > 0)
-                                            @foreach ($data['latest_product'] as $product)
+                                            @foreach ($data['latest_product'] as $prd)
                                                 <div class="col-xl-3 col-lg-6 col-md-6">
                                                     @include('clients.buyer.components.list_product1')
                                                 </div>
@@ -160,7 +160,7 @@
 
                     <div class="row mt-20">
                         @if (count($data['recommended_products']) > 0)
-                            @foreach ($data['recommended_products'] as $product)
+                            @foreach ($data['recommended_products'] as $prd)
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                     @include('clients.buyer.components.list_product1')
                                 </div>
@@ -191,7 +191,7 @@
                                 <div class="swiper-container swiper-tab-4">
                                     <div class="row mt-4">
                                         @if (count($data['articles']) > 0)
-                                            @foreach ($data['articles'] as $product)
+                                            @foreach ($data['articles'] as $prd)
                                                 <div class="col-xl-3 col-lg-6 col-md-6">
                                                     @include('clients.buyer.components.list_product1')
                                                 </div>
