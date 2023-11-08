@@ -18,6 +18,7 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::where('id', $id)->firstOrFail();
+        $article->increment('view');
         return new ArticleResource($article);
     }
 }
