@@ -92,7 +92,7 @@
                                                     <label for="image" class="form-label">Gambar</label>
                                                     <figure>
                                                         <img class="img-lg mb-3 img-avatar" id="previewImage"
-                                                            src="{{ Auth::guard('web')->user() ? asset(Auth::guard('web')->user()->image) ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                                            src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? asset(Auth::guard('web')->user()->image) ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                                             alt="User">
                                                         <figcaption>
                                                             <input class="form-control" type="file" id="image"
@@ -130,9 +130,11 @@
                                                                 @endif
 
                                                             </div>
-                                                            <p class="text-muted font-xs line-2">{!! $address->address_description !!}</p>
+                                                            <p class="text-muted font-xs line-2">{!! $address->address_description !!}
+                                                            </p>
                                                         </div>
-                                                        <a class="btn btn-xs" href="{{ route('dashboard.changeAddress', ['id'=>$address->id]) }}">Ubah</a>
+                                                        <a class="btn btn-xs"
+                                                            href="{{ route('dashboard.changeAddress', ['id' => $address->id]) }}">Ubah</a>
                                                     </div>
                                                     <hr>
                                                 @endif

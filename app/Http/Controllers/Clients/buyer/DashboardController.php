@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Clients\buyer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\RoCity;
 use App\Models\RoProvince;
@@ -19,11 +20,13 @@ class DashboardController extends Controller
     public function dashboard(Request $request)
     {
         $order = Order::where('user_id', Auth::guard('web')->user()->id)
-            ->with(['order_items:id,product_id,order_id', 'order_items:id,product_id,order_id,user_id', 'order_items.product:id,name'])
+            ->with(['order_items:id,product_id,order_id', 'order_items.product:id,name'])
             ->whereHas('order_items', function ($q) use ($request) {
                 $q->whereHas('product', function ($qq) use ($request) {
                     if ($request->filled('search'))
                         $qq->where('name', 'like', "%$request->search%");
+                    if ($request->filled('category_id'))
+                        $qq->where('category_id', $request->category_id);
                 });
             })->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'total')
             ->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
@@ -57,7 +60,11 @@ class DashboardController extends Controller
     }
     public function detailOrder($identifier)
     {
-        $order = Order::where('payment_identifier', $identifier)->with(['order_items', 'order_items.product:id,name,seller_id,images,slug', 'order_items.product.seller:id,name,seller_slug'])->first();
+        $order = Order::where('payment_identifier', $identifier)
+            ->with([
+                'order_items', 'order_items.product:id,name,seller_id,images,slug',
+                'order_items.product.seller:id,name,seller_slug'
+            ])->firstOrFail();
         $order->date = parseDates($order->created_at);
         return view('clients.dashboard.order.detail', ['order' => $order]);
     }
@@ -104,7 +111,7 @@ class DashboardController extends Controller
 
     public function changeAddress($id)
     {
-        $user = Address::where('id', $id)->first();
+        $user = Address::where('id', $id)->firstOrFail();
         if ($user->ro_province_id != null) {
             $user['cities'] = RoCity::where('ro_province_id', $user->ro_province_id)->select('id', 'city_name', 'postal_code', 'ro_province_id')->get();
         } else {
@@ -219,7 +226,7 @@ class DashboardController extends Controller
     }
     public function deleteAddress($id)
     {
-        $ad = Address::where('id', $id)->first();
+        $ad = Address::where('id', $id)->firstOrFail();
         $ad->delete();
         return redirect("/pembeli/pengaturan?param=alamat")->with('success', 'Alamat berhasil dihapus');
     }

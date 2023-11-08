@@ -201,54 +201,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="card-grid-style-2 card-none-border mb-30 pb-5 mh-auto">
-                                                    <div class="image-box mw-84"><a href="blog-single.html"><img
-                                                                src="{{ asset('ecom/imgs/page/blog/blog-2.jpg') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="color-brand-3 font-sm"
-                                                            href="blog-single.html">The fate of Elon Musks deal to buy
-                                                            Twitter</a>
-                                                        <div class="row mt-5">
-                                                            <div class="col-12"><span
-                                                                    class="color-gray-500 font-xs mr-20">August 30,
-                                                                    2022</span><span class="color-gray-500 font-xs">4<span
-                                                                        class="color-gray-500 font-xs">Mins
-                                                                        read</span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-grid-style-2 card-none-border mb-30 pb-5 mh-auto">
-                                                    <div class="image-box mw-84"><a href="blog-single.html"><img
-                                                                src="{{ asset('ecom/imgs/page/blog/blog-3.jpg') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="color-brand-3 font-sm"
-                                                            href="blog-single.html">Binance blockchain hit by $570 million
-                                                            crypto</a>
-                                                        <div class="row mt-5">
-                                                            <div class="col-12"><span
-                                                                    class="color-gray-500 font-xs mr-20">August 30,
-                                                                    2022</span><span class="color-gray-500 font-xs">5<span
-                                                                        class="color-gray-500 font-xs">Mins
-                                                                        read</span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-grid-style-2 card-none-border mb-30 pb-5 mh-auto">
-                                                    <div class="image-box mw-84"><a href="blog-single.html"><img
-                                                                src="{{ asset('ecom/imgs/page/blog/blog-4.jpg') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="color-brand-3 font-sm"
-                                                            href="blog-single.html">The Twitter-Musk trial is now on
-                                                            pause</a>
-                                                        <div class="row mt-5">
-                                                            <div class="col-12"><span
-                                                                    class="color-gray-500 font-xs mr-20">August 30,
-                                                                    2022</span><span class="color-gray-500 font-xs">6<span
-                                                                        class="color-gray-500 font-xs">Mins
-                                                                        read</span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div class="swiper-slide">
                                                 <div class="card-grid-style-2 card-none-border mb-30 pb-5 mh-auto">
@@ -262,53 +214,6 @@
                                                             <div class="col-12"><span
                                                                     class="color-gray-500 font-xs mr-20">August 30,
                                                                     2022</span><span class="color-gray-500 font-xs">3<span
-                                                                        class="color-gray-500 font-xs">Mins
-                                                                        read</span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-grid-style-2 card-none-border mb-30 pb-5 mh-auto">
-                                                    <div class="image-box mw-84"><a href="blog-single.html"><img
-                                                                src="{{ asset('ecom/imgs/page/blog/blog-6.jpg') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="color-brand-3 font-sm"
-                                                            href="blog-single.html">Walmart enters the metaverse with
-                                                            Roblox</a>
-                                                        <div class="row mt-5">
-                                                            <div class="col-12"><span
-                                                                    class="color-gray-500 font-xs mr-20">August 30,
-                                                                    2022</span><span class="color-gray-500 font-xs">4<span
-                                                                        class="color-gray-500 font-xs">Mins
-                                                                        read</span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-grid-style-2 card-none-border mb-30 pb-5 mh-auto">
-                                                    <div class="image-box mw-84"><a href="blog-single.html"><img
-                                                                src="{{ asset('ecom/imgs/page/blog/blog-7.jpg') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="color-brand-3 font-sm"
-                                                            href="blog-single.html">Take no prisoners: In the Feds
-                                                            inflation fight</a>
-                                                        <div class="row mt-5">
-                                                            <div class="col-12"><span
-                                                                    class="color-gray-500 font-xs mr-20">August 30,
-                                                                    2022</span><span class="color-gray-500 font-xs">5<span
-                                                                        class="color-gray-500 font-xs">Mins
-                                                                        read</span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-grid-style-2 card-none-border mb-30 pb-5 mh-auto">
-                                                    <div class="image-box mw-84"><a href="blog-single.html"><img
-                                                                src="{{ asset('ecom/imgs/page/blog/blog-8.jpg') }}"
-                                                                alt="Ecom"></a></div>
-                                                    <div class="info-right"><a class="color-brand-3 font-sm"
-                                                            href="blog-single.html">Who is who: Meet the Murdoch Family</a>
-                                                        <div class="row mt-5">
-                                                            <div class="col-12"><span
-                                                                    class="color-gray-500 font-xs mr-20">August 30,
-                                                                    2022</span><span class="color-gray-500 font-xs">6<span
                                                                         class="color-gray-500 font-xs">Mins
                                                                         read</span></span></div>
                                                         </div>

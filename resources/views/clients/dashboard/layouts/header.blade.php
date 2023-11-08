@@ -41,7 +41,7 @@
             <li class="dropdown nav-item">
                 <a class="dropdown-toggle" id="dropdownAccount" data-bs-toggle="dropdown" href="#"
                     aria-expanded="false"><img class="img-xs rounded-circle"
-                        src="{{ Auth::guard('web')->user() ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                        src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
                     <a class="dropdown-item" href="{{ route('dashboard.settings') }}"><i

@@ -77,7 +77,7 @@
                                                     <label for="image" class="form-label">Gambar</label>
                                                     <figure>
                                                         <img class="img-lg mb-3 img-avatar"
-                                                            src="{{ Auth::guard('web')->user() ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                                            src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                                             alt="User">
                                                         <figcaption>
                                                             <input class="form-control" type="file" id="image"
@@ -106,10 +106,10 @@
                                     <div class="col-12">
                                         <div class="row gx-3">
                                             <div class="col-12 mb-3">
-                                                <label class="form-label" for="name">Nama Toko</label>
-                                                <input class="form-control" id="name" name="name" type="text"
-                                                    placeholder="Masukkan nama"
-                                                    value="{{ Auth::guard('web')->user()->name }}" required>
+                                                <label class="form-label" for="seller_name">Nama Toko</label>
+                                                <input class="form-control" id="seller_name" name="seller_name"
+                                                    type="text" placeholder="Masukkan nama"
+                                                    value="{{ Auth::guard('web')->user()->seller_name }}" required>
                                             </div>
                                             <div class="col-12 mb-3">
                                                 <label class="form-label" for="seller_description">Deskripsi Toko</label>
@@ -138,11 +138,11 @@
                                             <label for="image" class="form-label">Gambar</label>
                                             <figure>
                                                 <img class="img-lg mb-3 img-avatar" id="previewImage"
-                                                    src="{{ Auth::guard('web')->user() ? asset(Auth::guard('web')->user()->image) ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                                    src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? asset(Auth::guard('web')->user()->seller_image) ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                                     alt="User">
                                                 <figcaption>
-                                                    <input class="form-control" type="file" id="image" name="image"
-                                                        accept="image/*">
+                                                    <input class="form-control" type="file" id="seller_image"
+                                                        name="seller_image" accept="image/*">
 
                                                 </figcaption>
                                             </figure>
@@ -165,7 +165,7 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
         $(document).ready(function() {
-            $('#image').change(function() {
+            $('#seller_image').change(function() {
                 var file = this.files[0];
                 var reader = new FileReader();
 

@@ -68,41 +68,13 @@
         </div> --}}
         <div class="card mb-4">
             <header class="card-header">
-                <h4 class="card-title">List Pesanan</h4>
+                <h4 class="card-title">Semua Pesanan</h4>
                 <div class="row align-items-center">
                     <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
                         <form action="{{ route('dashboard.dashboard') }}">
                             <input class="form-control" type="text" placeholder="Cari produk..." name="search"
                                 value="{{ request()->input('search') ?? '' }}">
                         </form>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <div class="custom_select">
-                            <select class="form-select select-nice">
-                                <option selected="">Kategori</option>
-                                <option>Women&apos;s Clothing</option>
-                                <option>Men&apos;s Clothing</option>
-                                <option>Cellphones</option>
-                                <option>Computer &amp; Office</option>
-                                <option>Consumer Electronics</option>
-                                <option>Jewelry &amp; Accessories</option>
-                                <option>Home &amp; Garden</option>
-                                <option>Luggage &amp; Bags</option>
-                                <option>Shoes</option>
-                                <option>Mother &amp; Kids</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2 col-6">
-                        <div class="custom_select">
-                            <select class="form-select select-nice">
-                                <option selected="">Status</option>
-                                <option>All</option>
-                                <option>Paid</option>
-                                <option>Chargeback</option>
-                                <option>Refund</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
             </header>
@@ -125,9 +97,11 @@
                                     @foreach ($orders as $key => $order)
                                         <tr>
                                             <td class="align-middle">{{ $key + 1 }}</td>
-                                            <td class="align-middle">{{ $order->order_items[0]->product ? $order->order_items[0]->product->name ?? '' : '' }}
+                                            <td class="align-middle">
+                                                {{ $order->order_items[0]->product ? $order->order_items[0]->product->name ?? '' : '' }}
                                             </td>
-                                            <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
+                                            <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}
+                                            </td>
                                             <td class="align-middle">
                                                 @if ($order->status == 'pending')
                                                     <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
@@ -141,8 +115,8 @@
                                             <td class="align-middle">
                                                 <a class="btn btn-xs"
                                                     href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
-                                                <a class="btn btn-xs-danger"
-                                                    href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a>
+                                                {{-- <a class="btn btn-xs-danger"
+                                                    href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                             </td>
                                         </tr>
                                     @endforeach

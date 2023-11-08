@@ -1,67 +1,100 @@
 @extends('clients.master-dashboard')
-@section('title', 'Tambah Produk')
+@section('title', $product == null ? 'Tambah Produk' : 'Ubah Produk')
 @section('product', 'active')
 @section('dashboard')
     <section class="content-main">
-        <div class="row">
+        <form class="row" action="{{ route('dashboardSeller.addUpdateProduct') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @if ($product != null && $product->id)
+                <input type="hidden" value="{{ $product->id }}">
+            @endif
             <div class="col-12">
                 <div class="content-header">
                     <h2 class="content-title">{{ $product == null ? 'Tambah Produk' : 'Ubah Produk' }}</h2>
                     <div>
                         {{-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> --}}
-                        <button
-                            class="btn btn-md rounded font-sm hover-up">{{ $product == null ? 'Tambah' : 'Ubah' }}</button>
+                        <button class="btn btn-md rounded font-sm hover-up">Simpan</button>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-12">
                 <div class="card mb-4">
                     <div class="card-header">
                         <h4>Detail Produk</h4>
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="mb-4">
-                                <label class="form-label" for="name">Nama Produk</label>
-                                <input class="form-control" id="name" name="name" type="text"
-                                    placeholder="Masukkan nama produk">
+                        <div class="mb-4">
+                            <label class="form-label" for="name">Nama Produk</label>
+                            <input class="form-control" id="name" name="name" type="text" required
+                                placeholder="Masukkan nama produk" value="{{ $product != null ? $product->name : '' }}">
+                        </div>
+                        <div class="mb-4">
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Kategori produk:</label>
+                                <select id="category_id" class="form-select category_id" name="category_id" required>
+                                    <option style="color:#232323;background:#f5f5f5 !important"
+                                        {{ $product == null || ($product != null && $product->category_id == null) ? 'selected' : '' }}
+                                        disabled>
+                                        Pilih Kategori
+                                    </option>
+                                    @foreach ($data['categories'] as $category)
+                                        <option value="{{ $category['id'] }}"
+                                            {{ $product && $product->category_id != null && $product->category_id == $category['id'] ? 'selected' : '' }}>
+                                            {{ $category['name'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="description">Deskripsi Produk</label>
-                                <textarea class="form-control" id="description" name="description" placeholder="Masukkan nama produk" rows="4"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="description">Deskripsi Produk</label>
+                            <textarea class="form-control" id="description" name="description" required placeholder="Masukkan keterangan produk"
+                                rows="4" value="{{ $product != null ? $product->description : '' }}"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="unit">Unit</label>
+                            <input class="form-control" id="unit" name="unit" type="text"
+                                placeholder="Masukkan tipe produk"
+                                value="{{ $product != null ? $product->unit : 'unit' }}">
+                        </div>
+                        {{-- <div class="mb-4">
+                            <label class="form-label" for="variant">Variasi</label>
+                            <input class="form-control" id="variant" name="variant" type="text"
+                                placeholder="Masukkan variasi produk"
+                                value="{{ $product != null ? $product->variant : '' }}">
+                        </div> --}}
+                        <div class="mb-4">
+                            <label class="form-label" for="stock">Jumlah Stok</label>
+                            <input class="form-control" id="stock" name="stock" required
+                                value="{{ $product != null ? $product->stock : '' }}"
+                                onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="weight">Berat barang (*kg)</label>
+                            <input class="form-control" id="weight" name="weight" required
+                                value="{{ $product != null ? $product->weight : '' }}"
+                                onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="price">Harga</label>
+                            <div class="row gx-2"></div>
+                            <input class="form-control" name="price" id="price" required
+                                onkeypress="return event.charCode>=48&&event.charCode<=57"
+                                value="{{ $product != null ? $product->price : '' }}" type="tel">
+                        </div>
+                        <div class="mb-4">
+                            <div class="form-check form-switch mx-3">
+                                <input class="form-check-input cursor-pointer" type="checkbox" role="switch"
+                                    id="discount">
+                                <label class="form-check-label cursor-pointer" for="discount">Diskon</label>
                             </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="variant">Variasi</label>
-                                <input class="form-control" id="variant" name="variant" type="text"
-                                    placeholder="Masukkan variasi produk">
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="stock">Jumlah Stok</label>
-                                <input class="form-control" id="stock" name="stock" onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="weight">Berat barang (*kg)</label>
-                                <input class="form-control" id="weight" name="weight" onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label">Harga</label>
-                                <div class="row gx-2"></div>
-                                <input class="form-control" onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
-                            </div>
-                            <div class="mb-4">
-                                <div class="form-check form-switch mx-3">
-                                    <input class="form-check-input cursor-pointer" type="checkbox" role="switch"
-                                        id="discount">
-                                    <label class="form-check-label cursor-pointer" for="discount">Diskon</label>
-                                </div>
-                            </div>
+                        </div>
 
-                            <div class="mb-4" id="discountInput" style="display: none;">
-                                <label class="form-label">Diskon</label>
-                                <input class="form-control" placeholder="Masukkan diskon dalam bentuk %" type="text"
-                                    id="myPercent" oninput="convertToDecimal(this)" />
-                            </div>
-                        </form>
+                        <div class="mb-4" id="discountInput" style="display: none;">
+                            <label class="form-label">Diskon</label>
+                            <input class="form-control" placeholder="Masukkan diskon dalam bentuk %" type="text"
+                                id="myPercent" oninput="convertToDecimal(this)" />
+                        </div>
                     </div>
                 </div>
                 {{-- <div class="card mb-4">
@@ -96,7 +129,7 @@
                     </div>
                 </div> --}}
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-12">
                 <div class="card mb-4">
                     <div class="card-header">
                         <h4>Gambar</h4>
@@ -104,45 +137,12 @@
                     <div class="card-body">
                         <div class="input-upload"><img src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
                                 alt="">
-                            <input class="form-control" type="file" multiple accept="image/*">
+                            <input class="form-control" type="file" name="images[]" multiple accept="image/*" required>
                         </div>
                     </div>
                 </div>
-                {{-- <div class="card mb-4">
-                    <div class="card-header">
-                        <h4>Organization</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row gx-2">
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Category</label>
-                                <select class="form-select">
-                                    <option> Automobiles</option>
-                                    <option> Home items</option>
-                                    <option> Electronics</option>
-                                    <option> Smartphones</option>
-                                    <option> Sport items</option>
-                                    <option> Baby and Tous</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-6 mb-3">
-                                <label class="form-label">Sub-category</label>
-                                <select class="form-select">
-                                    <option> Nissan</option>
-                                    <option> Honda</option>
-                                    <option> Mercedes</option>
-                                    <option> Chevrolet</option>
-                                </select>
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="product_name">Tag</label>
-                                <input class="form-control" type="text">
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
             </div>
-        </div>
+        </form>
     </section>
 
 @endsection
