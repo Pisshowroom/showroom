@@ -53,7 +53,6 @@ class ProductController extends Controller
     }
     public function detailProduct($slug)
     {
-        Log::error(request()->header('User-Agent'));
         $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
