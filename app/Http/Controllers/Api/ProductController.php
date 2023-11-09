@@ -86,6 +86,8 @@ class ProductController extends Controller
             }
         }
 
+        return ResponseAPI("Test 1");
+
         $product->total_images = $totalImages;
 
         // return ResponseAPI($product);
