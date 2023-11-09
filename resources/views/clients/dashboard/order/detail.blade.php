@@ -73,7 +73,9 @@
                                     class="text-primary material-icons md-person"></i></span>
                             <div class="text">
                                 <h6 class="mb-1">Pembeli</h6>
-                                <p class="mb-1">John Alexander<br> alex@example.com<br> +998 99 22123456</p>
+                                <p class="mb-1">{{ Auth::guard('web')->user()->name ?? '' }}<br>
+                                    {{ Auth::guard('web')->user()->email ?? '' }}<br>
+                                    {{ Auth::guard('web')->user()->phone_number ?? '' }}</p>
                             </div>
                         </article>
                     </div>
@@ -118,10 +120,12 @@
                                                     href="{{ route('buyer.detailProduct', ['slug' => $oi->product?->slug ?? '1234']) }}">
                                                     <div class="left">
                                                         <img class="img-xs"
-                                                            src="{{ asset('ecom_dashboard/imgs/items/1.jpg') }}"
+                                                            src="{{ $oi?->product?->images && count($oi?->product?->images) > 0 ? $product->images[0] : asset('ecom_dashboard/imgs/items/1.jpg') }}"
                                                             alt="Item" width="40" height="40">
                                                     </div>
-                                                    <div class="info"> {{ $oi->product?->name ?? '' }}</div>
+                                                    <div class="info">
+                                                        {{ substr($oi?->product?->name ?? '', 0, 12) . (strlen($oi?->product?->name ?? '') > 12 ? '..' : '') }}
+                                                    </div>
                                                 </a></td>
                                             <td> {{ numbFormat($oi->subtotal) ?? '' }}</td>
                                             <td> {{ $oi->quantity ?? '' }}</td>

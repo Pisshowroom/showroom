@@ -17,6 +17,8 @@
                 </div>
             </div>
         </div>
+        <div style="display:none" class="alert alert-warning" id="myDiv2">Minimal pembelian produk ini adalah 1 barang
+        </div>
         @if (session('error'))
             <div class="alert alert-warning" id="mydiv">
                 {{ session('error') }}
@@ -199,16 +201,41 @@
                             </div>
                         </div>
                         <div class="buy-product mt-30">
-                            <p class="font-sm mb-20">Kuantitas</p>
-                            <div class="box-quantity">
-                                <div class="input-quantity">
-                                    <input class="font-xl color-brand-3" type="text" name="quantity"
-                                        value="1"><span class="minus-cart"></span><span class="plus-cart"></span>
-                                </div>
-                                <div class="button-buy"><a class="btn btn-cart"
-                                        href="{{ route('buyer.cart') }}">Keranjang</a><a class="btn btn-buy"
-                                        href="{{ route('buyer.checkout') }}">Beli Sekarang</a></div>
+                            <div class="d-flex flex-row gap-sm-4 gap-2">
+                                <div class="">
 
+                                    <p class="font-sm mb-20 w-full">Kuantitas</p>
+                                    <div class="box-quantity">
+                                        <div class="input-quantity">
+                                            @if ($product->stock > 0)
+                                                <input class="font-xl color-brand-3"
+                                                    onkeypress="return event.charCode>=48&&event.charCode<=57"
+                                                    type="tel" name="quantity" min="1" value="1">
+                                                <span class="minus-cart"></span>
+                                                <span class="plus-cart"></span>
+                                            @else
+                                                <input class="font-xl color-brand-3"
+                                                    onkeypress="return event.charCode>=48&&event.charCode<=57"
+                                                    type="tel" name="quantity" disabled value="1"><span
+                                                    class="minus-cart2"></span><span class="plus-cart2"></span>
+                                            @endif
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <p class="font-sm mb-20  w-full">Stok</p>
+                                    <div class="box-quantity">
+                                        <p class="font-lg color-brand-3">
+                                            {{ $product->stock . ' barang' ?? 'Stok Kosong' }}</p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="button-buy mt-20 gap-2 gap-sm-5 d-flex flex-row">
+                                <button class="btn btn-cart">Keranjang</button>
+                                <button class="btn btn-buy">Beli Sekarang</button>
                             </div>
                         </div>
                         {{-- <div class="info-product mt-40">
@@ -443,7 +470,7 @@
                                                     <input type="hidden" name="order_id" value="1">
                                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                                     <input type="hidden" name="product_slug" value="{{ $product->slug }}">
-                                                    <p style="font-size: 18px">Rating barang ini menurut kamu</p>
+                                                    <p class="font-lg mb-2">Rating barang ini menurut kamu</p>
                                                     <div class="stars">
                                                         <input class="star star-5" id="star-5" type="radio"
                                                             name="rating" value="5" checked />
@@ -567,287 +594,6 @@
             </div>
         </section>
         @include('clients.buyer.layouts.benefit')
-        <div class="modal fade" id="ModalFiltersForm" tabindex="-1" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content apply-job-form">
-                    <div class="modal-header">
-                        <h5 class="modal-title color-gray-1000 filters-icon">Filter Tingkat Lanjut
-                        </h5>
-                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body p-30">
-                        <div class="row">
-                            {{-- <div class="col-w-1">
-                                <h6 class="color-gray-900 mb-0">Brands</h6>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span
-                                                class="text-small">Apple</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Samsung</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Baseus</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Remax</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Handtown</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Elecom</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Razer</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Auto Focus</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Nillkin</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Logitech</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">ChromeBook</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div> --}}
-                            <div class="col-w-1">
-                                <h6 class="color-gray-900 mb-0">Penawaran khusus</h6>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Di jual</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span class="text-small">Bebas
-                                                biaya kirim</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Big deals</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Shop Mall</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                                <h6 class="color-gray-900 mb-0 mt-40">Ready to ship in</h6>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">1 business day</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span class="text-small">1&ndash;3
-                                                business days</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">in 1 week</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Shipping now</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-w-1">
-                                {{-- <h6 class="color-gray-900 mb-0">Ordering options</h6>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Accepts gift
-                                                cards</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Customizable</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span class="text-small">Can be
-                                                gift-wrapped</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Installment 0%</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul> --}}
-                                <h6 class="color-gray-900 mb-0 mt-40">Rating</h6>
-                                <ul class="list-checkbox">
-                                    <li class="mb-5"><a href="#"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><span
-                                                class="ml-10 font-xs color-gray-500 d-inline-block align-top">(5
-                                                stars)</span></a></li>
-                                    <li class="mb-5"><a href="#"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><span
-                                                class="ml-10 font-xs color-gray-500 d-inline-block align-top">(4
-                                                stars)</span></a></li>
-                                    <li class="mb-5"><a href="#"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><span
-                                                class="ml-10 font-xs color-gray-500 d-inline-block align-top">(3
-                                                stars)</span></a></li>
-                                    <li class="mb-5"><a href="#"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><span
-                                                class="ml-10 font-xs color-gray-500 d-inline-block align-top">(2
-                                                stars)</span></a></li>
-                                    <li class="mb-5"><a href="#"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star-gray.svg') }}"
-                                                alt="Ecom"><span
-                                                class="ml-10 font-xs color-gray-500 d-inline-block align-top">(1
-                                                star)</span></a></li>
-                                </ul>
-                            </div>
-                            {{-- <div class="col-w-2">
-                                <h6 class="color-gray-900 mb-0">Material</h6>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Nylon (8)</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Tempered Glass
-                                                (5)</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span class="text-small">Liquid
-                                                Silicone Rubber (5)</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Aluminium Alloy
-                                                (3)</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                                <h6 class="color-gray-900 mb-20 mt-40">Product tags</h6>
-                                <div><a class="btn btn-border mr-5" href="#">Games</a><a
-                                        class="btn btn-border mr-5" href="#">Electronics</a><a
-                                        class="btn btn-border mr-5" href="#">Video</a><a
-                                        class="btn btn-border mr-5" href="#">Cellphone</a><a
-                                        class="btn btn-border mr-5" href="#">Indoor</a><a
-                                        class="btn btn-border mr-5" href="#">VGA Card</a><a
-                                        class="btn btn-border mr-5" href="#">USB</a><a
-                                        class="btn btn-border mr-5" href="#">Lightning</a><a
-                                        class="btn btn-border mr-5" href="#">Camera</a></div>
-                            </div> --}}
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-start pl-30"><a class="btn btn-buy w-auto"
-                            href="#">Terapkan Filter</a><a class="btn font-sm-bold color-gray-500"
-                            href="#">Setel Ulang Filter</a></div>
-                </div>
-            </div>
-        </div>
     </main>
 
 @endsection
@@ -904,5 +650,33 @@
         setTimeout(function() {
             $('#mydiv').fadeOut('fast');
         }, 2000);
+        $(document).ready(function() {
+            $('.btn-cart').on('click', function() {
+                // {{ route('buyer.cart') }}
+            })
+            $('.btn-buy').on('click', function() {
+                // {{ route('buyer.checkout') }}
+            })
+
+
+            $('.input-quantity input').on('input', function() {
+                var inputValue = $(this).val();
+                var numericValue = parseInt(inputValue);
+
+                if (numericValue < 1 || isNaN(numericValue)) {
+                    $('.btn-cart').prop('disabled', true);
+                    $('.btn-buy').prop('disabled', true);
+                } else {
+                    $('.btn-cart').prop('disabled', false);
+                    $('.btn-buy').prop('disabled', false);
+                }
+                if (numericValue === 0) {
+                    $('#myDiv2').css('display', 'block');
+                    setTimeout(function() {
+                        $('#myDiv2').fadeOut('fast');
+                    }, 2000);
+                }
+            });
+        });
     </script>
 @endpush

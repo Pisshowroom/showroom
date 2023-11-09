@@ -3,7 +3,8 @@
 @section('product', 'active')
 @section('dashboard')
     <section class="content-main">
-        <form class="row" action="{{ route('dashboardSeller.addUpdateProduct') }}" method="POST" enctype="multipart/form-data">
+        <form class="row" action="{{ route('dashboardSeller.addUpdateProduct') }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @if ($product != null && $product->id)
                 <input type="hidden" value="{{ $product->id }}">
@@ -24,13 +25,13 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-4">
-                            <label class="form-label" for="name">Nama Produk</label>
-                            <input class="form-control" id="name" name="name" type="text" required
+                            <label class="form-label" for="name">Nama Produk*</label>
+                            <input class="form-control" id="name" name="name" type="text" maxlength="70" required
                                 placeholder="Masukkan nama produk" value="{{ $product != null ? $product->name : '' }}">
                         </div>
                         <div class="mb-4">
                             <div class="mb-3">
-                                <label for="category_id" class="form-label">Kategori produk:</label>
+                                <label for="category_id" class="form-label">Kategori Produk*</label>
                                 <select id="category_id" class="form-select category_id" name="category_id" required>
                                     <option style="color:#232323;background:#f5f5f5 !important"
                                         {{ $product == null || ($product != null && $product->category_id == null) ? 'selected' : '' }}
@@ -47,15 +48,17 @@
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label class="form-label" for="description">Deskripsi Produk</label>
+                            <label class="form-label" for="description">Deskripsi Produk*</label>
                             <textarea class="form-control" id="description" name="description" required placeholder="Masukkan keterangan produk"
                                 rows="4" value="{{ $product != null ? $product->description : '' }}"></textarea>
                         </div>
                         <div class="mb-4">
-                            <label class="form-label" for="unit">Unit</label>
-                            <input class="form-control" id="unit" name="unit" type="text"
-                                placeholder="Masukkan tipe produk"
-                                value="{{ $product != null ? $product->unit : 'unit' }}">
+                            <label class="form-label" for="unit">Satuan*</label>
+                            <select id="unit" class="form-select unit" name="unit" required>
+                                <input class="form-control" id="unit" name="unit" type="text"
+                                    placeholder="pcs, buah, butir, dll"
+                                    value="{{ $product != null ? $product->unit : '' }}">
+                            </select>
                         </div>
                         {{-- <div class="mb-4">
                             <label class="form-label" for="variant">Variasi</label>
@@ -64,19 +67,19 @@
                                 value="{{ $product != null ? $product->variant : '' }}">
                         </div> --}}
                         <div class="mb-4">
-                            <label class="form-label" for="stock">Jumlah Stok</label>
+                            <label class="form-label" for="stock">Jumlah Stok*</label>
                             <input class="form-control" id="stock" name="stock" required
                                 value="{{ $product != null ? $product->stock : '' }}"
                                 onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                         </div>
                         <div class="mb-4">
-                            <label class="form-label" for="weight">Berat barang (*kg)</label>
+                            <label class="form-label" for="weight">Berat barang* (kg)</label>
                             <input class="form-control" id="weight" name="weight" required
                                 value="{{ $product != null ? $product->weight : '' }}"
                                 onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                         </div>
                         <div class="mb-4">
-                            <label class="form-label" for="price">Harga</label>
+                            <label class="form-label" for="price">Harga*</label>
                             <div class="row gx-2"></div>
                             <input class="form-control" name="price" id="price" required
                                 onkeypress="return event.charCode>=48&&event.charCode<=57"
@@ -92,7 +95,8 @@
 
                         <div class="mb-4" id="discountInput" style="display: none;">
                             <label class="form-label">Diskon</label>
-                            <input class="form-control" placeholder="Masukkan diskon dalam bentuk %" type="text"
+                            <input class="form-control" placeholder="Masukkan diskon dalam bentuk %" type="numeric"
+                                min="1" max="100" onkeypress="return event.charCode>=48&&event.charCode<=57"
                                 id="myPercent" oninput="convertToDecimal(this)" />
                         </div>
                     </div>
@@ -132,12 +136,13 @@
             <div class="col-lg-4 col-12">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h4>Gambar</h4>
+                        <h4>Gambar*</h4>
                     </div>
                     <div class="card-body">
                         <div class="input-upload"><img src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
                                 alt="">
-                            <input class="form-control" type="file" name="images[]" multiple accept="image/*" required>
+                            <input class="form-control" type="file" name="images[]" multiple accept="image/*"
+                                required>
                         </div>
                     </div>
                 </div>
@@ -171,7 +176,9 @@
 
             if (!isNaN(decimalValue) && decimalValue >= 0 && decimalValue <= 1) {
                 // Update the input field with the decimal value
-                inputElement.value = (decimalValue * 100).toFixed(2) + "%";
+                var data = decimalValue * 100 + "%";
+                inputElement.value = data.replace(/[^0-9]/g, '').substring(0, 3);
+                // inputElement.value.replace(/[^0-9]/g, '').substring(0, 3);
             } else {
                 // Handle invalid input, e.g., display an error message
             }

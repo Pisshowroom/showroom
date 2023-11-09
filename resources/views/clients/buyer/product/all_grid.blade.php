@@ -99,7 +99,8 @@
                                             <li class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"><a
                                                     class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
                                                     href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}">{{ $ct->name ?? '' }}<span
-                                                        class="number">{{ $ct->products_count ? moneyFormat($ct->products_count) ?? 0 : 0 }}</span></a></li>
+                                                        class="number">{{ $ct->products_count ? moneyFormat($ct->products_count) ?? 0 : 0 }}</span></a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 @else
@@ -414,63 +415,72 @@
                                 </ul>
                             </div> --}}
                             <div class="col-w-1">
-                                <h6 class="color-gray-900 mb-0">Penawaran khusus</h6>
+                                <h6 class="color-gray-900 mb-0">Harga</h6>
                                 <ul class="list-checkbox">
                                     <li>
                                         <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Di jual</span><span
-                                                class="checkmark"></span>
+                                            <input type="checkbox" name="price" value="tertinggi"
+                                                {{ request()->get('price') && request()->get('price') == 'tertinggi' ? 'checked' : '' }}><span
+                                                class="text-small">Harga Tertinggi</span>
+                                            <span class="checkmark"></span>
                                         </label>
                                     </li>
                                     <li>
                                         <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span class="text-small">Bebas
-                                                biaya kirim</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Big deals</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Shop Mall</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                                <h6 class="color-gray-900 mb-0 mt-40">Ready to ship in</h6>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">1 business day</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span class="text-small">1&ndash;3
-                                                business days</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">in 1 week</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Shipping now</span><span
-                                                class="checkmark"></span>
+                                            <input type="checkbox" name="price" value="terendah"
+                                                {{ request()->get('price') && request()->get('price') == 'terendah' ? 'checked' : '' }}><span
+                                                class="text-small">Harga
+                                                Terendah</span>
+                                            <span class="checkmark"></span>
                                         </label>
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-w-1">
-                                {{-- <h6 class="color-gray-900 mb-0">Ordering options</h6>
+                                <h6 class="color-gray-900 mb-0">Rating</h6>
+                                <ul class="list-checkbox">
+                                    <li>
+                                        <label class="cb-container">
+                                            <input type="checkbox" name="rating" value="tertinggi"
+                                                {{ request()->get('rating') && request()->get('rating') == 'tertinggi' ? 'checked' : '' }}><span
+                                                class="text-small">Rating Tertinggi</span>
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="cb-container">
+                                            <input type="checkbox" name="rating" value="terendah"
+                                                {{ request()->get('rating') && request()->get('rating') == 'terendah' ? 'checked' : '' }}><span
+                                                class="text-small">Rating
+                                                Terendah</span>
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-w-1">
+                                <h6 class="color-gray-900 mb-0">Berdasarkan</h6>
+                                <ul class="list-checkbox">
+                                    <li>
+                                        <label class="cb-container">
+                                            <input type="checkbox" name="orderBy" value="desc"
+                                                {{ !request()->get('orderBy') || (request()->get('orderBy') && request()->get('orderBy') == 'desc') ? 'checked' : '' }}><span
+                                                class="text-small">Produk Terbaru</span>
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="cb-container">
+                                            <input type="checkbox" name="orderBy" value="asc"
+                                                {{ request()->get('orderBy') && request()->get('orderBy') == 'asc' ? 'checked' : '' }}><span
+                                                class="text-small">Produk Terlama</span>
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                            {{-- <div class="col-w-1">
+                                <h6 class="color-gray-900 mb-0">Ordering options</h6>
                                 <ul class="list-checkbox">
                                     <li>
                                         <label class="cb-container">
@@ -496,7 +506,7 @@
                                                 class="checkmark"></span>
                                         </label>
                                     </li>
-                                </ul> --}}
+                                </ul>
                                 <h6 class="color-gray-900 mb-0 mt-40">Rating</h6>
                                 <ul class="list-checkbox">
                                     <li class="mb-5"><a href="#"><img
@@ -565,7 +575,7 @@
                                                 class="ml-10 font-xs color-gray-500 d-inline-block align-top">(1
                                                 star)</span></a></li>
                                 </ul>
-                            </div>
+                            </div> --}}
                             {{-- <div class="col-w-2">
                                 <h6 class="color-gray-900 mb-0">Material</h6>
                                 <ul class="list-checkbox">

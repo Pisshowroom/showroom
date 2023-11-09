@@ -152,6 +152,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::guard('web')->logout();
-        return redirect()->route('buyer.login')->with('success', 'Kamu berhasil logout');
+        return redirect()->route('buyer.home')->with('success', 'Kamu berhasil logout');
     }
 }

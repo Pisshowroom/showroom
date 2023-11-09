@@ -53,7 +53,8 @@
                                 @foreach ($orders as $key => $order)
                                     <tr>
                                         <td class="align-middle">{{ $key + 1 }}</td>
-                                        <td class="align-middle">{{ $order->order_items[0]->product ? $order->order_items[0]->product->name ?? '' : '' }}
+                                        <td class="align-middle">
+                                            {{ substr($order?->order_items[0]?->product?->name ?? '', 0, 12) . (strlen($order?->order_items[0]?->product?->name ?? '') > 12 ? '..' : '') }}
                                         </td>
                                         <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
                                         <td class="align-middle">
