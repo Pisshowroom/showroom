@@ -48,6 +48,7 @@ class ProductResource extends JsonResource
             'rating' => $this->reviews_avg_rating ? doubleval($this->reviews_avg_rating) : 0,
             'is_featured' => $this->is_featured,
             'category_id' => $this->category_id,
+            'seller_id' => $this->seller_id,
             // 'seller' => new UserResource($this->whenLoaded('seller')),
             'seller' => new SellerResource($this->whenLoaded('seller')),
             'category' => new CategoryResource($this->whenLoaded('category')),

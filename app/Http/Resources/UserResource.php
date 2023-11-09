@@ -25,6 +25,7 @@ class UserResource extends JsonResource
             'balance' => $this->balance,
             'is_seller' => $this->is_seller,
             'seller' => $this->when($this->is_seller == true, new SellerResource($this)),
+            // 'address' => $this->when($this->address != null, new AddressResource($this->address)),
         ];
     }
 }
