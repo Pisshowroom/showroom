@@ -86,7 +86,6 @@ class ProductController extends Controller
             }
         }
 
-        return ResponseAPI("Test 1");
 
         $product->total_images = $totalImages;
 
@@ -114,6 +113,9 @@ class ProductController extends Controller
             }
 
         }
+
+        return ResponseAPI("Test 2");
+
 
         $relatedProductsByCategory = Product::where('category_id', $product->category_id)
             ->whereNot('id', $product->id)
