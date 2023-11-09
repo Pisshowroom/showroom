@@ -4,21 +4,75 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\MasterAccount;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-// use Xendit\PaymentMethod\VirtualAccount;
-use Xendit\PaymentRequest\VirtualAccount;
+use Xendit\Configuration;
+use Xendit\PaymentRequest\PaymentRequestApi;
+use Xendit\PaymentRequest\PaymentRequestParameters;
+use Xendit\QRCode;
+use Xendit\Retail;
+use Xendit\VirtualAccounts;
+use Xendit\Xendit;
 
-// use Xendit\PaymentRequest\VirtualAccount;
-// use Xendit\VirtualAccounts;
+// use Xendit\Xendit;
 
 
 class OrderController extends Controller
 {
-    // create function preCheck Price from request order_items[product_id,qty], calculate total of order
+
+    public function createPaymentRequest($channelType, $channelCode, $amount, $paymentIdentifier, $paymentDue, User $user)
+    {
+        Xendit::setApiKey(env('XENDIT_KEY'));
+
+        $result = null;
+        // dd($amount);
+
+        if ($channelType == 'VIRTUAL_ACCOUNT') {
+            $result = VirtualAccounts::create([
+                'external_id' => $paymentIdentifier . strval(time()),
+                'bank_code' => $channelCode,
+                'is_closed' => true,
+                'name' => $user->name,
+                'expected_amount' => $amount,
+                'expiration_date' => $paymentDue,
+            ]);
+        } else if ($channelType == 'QR_CODE') {
+            $result = QRCode::create([
+                'api_version' => '2022-07-31',
+                'reference_id' => $paymentIdentifier . strval(time()),
+                'type' => 'DYNAMIC',
+                'webhook-url' => 'https://redirect.me',
+                'amount' => $amount,
+                'expires_at' => $paymentDue,
+                'currency' => 'IDR',
+            ]);
+        } else if ($channelType == 'OVER_THE_COUNTER') {
+            $result = Retail::create([
+                'external_id' => $paymentIdentifier . strval(time()),
+                'retail_outlet_name' => $channelCode,
+                'name' => $user->name,
+                'expected_amount' => $amount,
+                'expiration_date' => $paymentDue,
+            ]);
+        }
+
+
+        return $result;
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return ResponseAPI('Product berhasil dihapus.');
+    }
+
+
     public function preCheckEarly(Request $request)
     {
         $user = auth()->guard('api-client')->user();
@@ -78,7 +132,7 @@ class OrderController extends Controller
 
         return ResponseAPI($data);
     }
-    
+
     public function preCheck(Request $request)
     {
         $user = auth()->guard('api-client')->user();
@@ -155,6 +209,7 @@ class OrderController extends Controller
             'delivery_code' => 'required',
             'delivery_name' => 'required',
             'delivery_service' => 'required',
+            'delivery_estimation_day' => 'required',
         ]);
 
         $products = [];
@@ -176,7 +231,7 @@ class OrderController extends Controller
             }
 
             if ($product->stock < $order_item['qty']) {
-                return ResponseAPI(['error' => 'Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock], 40);
+                return ResponseAPI('Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock, 400);
             }
 
             if ($product->discount > 0) {
@@ -223,6 +278,10 @@ class OrderController extends Controller
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
         $data['products'] = $products;
+        $data['delivery_code'] = $request->input('delivery_code');
+        $data['delivery_name'] = $request->input('delivery_name');
+        $data['delivery_service'] = $request->input('delivery_service');
+        $data['delivery_estimation_day'] = $request->input('delivery_estimation_day');
 
         return ResponseAPI($data);
     }
@@ -236,18 +295,23 @@ class OrderController extends Controller
             'delivery_code' => 'required',
             'delivery_name' => 'required',
             'delivery_service' => 'required',
+            'master_account_id' => 'required',
         ]);
-        $user = auth()->user();
 
+        $user = auth()->guard('api-client')->user();
+
+        
         $products = [];
         $total = 0;
         $totalWithoutDiscount = 0;
         $countedPromoProduct = 0;
         $countedAmountPromo = 0;
         $deliveryCost = (int)$request->delivery_cost;
-        $paymentDue = now()->addDays(1)->format('Y-m-d H:i:s');
+        // $paymentDue = now()->addDays(1)->format('Y-m-d H:i:s');
+        // $paymentDue = now()->addHours(24)->format('Y-m-d H:i:s');
+        $paymentDue = now()->addHours(24);
         $countOrderToday = DB::table('orders')->whereDate('created_at', now())->count();
-        $identifier = str_pad(now()->day, 2, '0', STR_PAD_LEFT) . strtoupper(now()->format("M")) . now()->format('y') . 'ORD' . str_pad(($countOrderToday + 1), 3, '0', STR_PAD_LEFT) . env('XND_ID');
+        $identifier = str_pad(now()->day, 2, '0', STR_PAD_LEFT) . strtoupper(now()->format("M")) . now()->format('y') . 'ORD' . str_pad(($countOrderToday + 1), 3, '0', STR_PAD_LEFT) . env('XND_ID') . time();
 
 
         $orderItems = json_decode($request->order_items, true);
@@ -261,7 +325,7 @@ class OrderController extends Controller
             }
 
             if ($product->stock < $order_item['qty']) {
-                return ResponseAPI(['error' => 'Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock], 40);
+                return ResponseAPI('Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock, 400);
             }
 
             if ($product->discount > 0) {
@@ -295,14 +359,6 @@ class OrderController extends Controller
 
             $total += $additionFee;
             $totalWithoutDiscount += $additionFee;
-            $params = [
-                'external_id' => $identifier,
-                'bank_code' => $request->payment_provider_name,
-                'name' => ucwords(Str::slug(preg_replace('/\d+/u', '', $user->name),  ' ')),
-                'is_closed' => true,
-                'expected_amount' => $total,
-                'expiration_date' => $paymentDue,
-            ];
         } elseif ($type == 'QRIS') {
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
@@ -311,7 +367,55 @@ class OrderController extends Controller
         }
 
 
+        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
 
+        $channelType = lypsisConvertPaymentChannelType($masterAccount->type);
+        $channelCode = $channelType == 'QR_CODE' ? "DYNAMIC" : $masterAccount->provider_name;
+
+        $dataPaymentCreated = $this->createPaymentRequest($channelType, $channelCode, $total, $identifier, $paymentDue, $user);
+
+        // dd($dataPaymentCreated);
+        // return ResponseAPI($dataPaymentCreated);
+
+        $order = new Order();
+
+        $order->payment_identifier = $identifier;
+        $order->user_id = $user->id;
+        $order->discount_product = $countedAmountPromo;
+        $order->payment_status = Order::PAYMENT_PAID;
+        $order->status = Order::PENDING;
+        $order->address_id = $request->address_id;
+        $order->delivery_cost = $deliveryCost;
+        $order->service_fee = $serviceFee;
+        $order->delivery_estimation_day = $request->delivery_estimation_day;
+        $order->delivery_service_code = $request->delivery_code;
+        $order->delivery_service_name = $request->delivery_name;
+        $order->delivery_service_kind = $request->delivery_service;
+        if ($countedAmountPromo > 0) {
+            $order->total = $totalWithoutDiscount;
+            $order->total_final = $total;
+        } else {
+            $order->total = $total;
+        }
+
+        // $order->market_fee_buyer = '';
+        // $order->market_fee_seller = '';
+        $order->master_account_id = $request->master_account_id;
+        $order->payment_channel = $masterAccount->provider_name;
+        $order->payment_due = $paymentDue;
+
+        if ($channelType == 'VIRTUAL_ACCOUNT') {
+            $order->va_number = $dataPaymentCreated['account_number'];
+        } else if ($channelType == 'QR_CODE') {
+            $order->qr_id = $dataPaymentCreated['id'];
+            $order->qr_string = $dataPaymentCreated['qr_string'];
+        } else if ($channelType == 'OVER_THE_COUNTER') {
+            $order->outlet_payment_code = $dataPaymentCreated['payment_code'];
+        }
+
+        $order->save();
+
+        // * Remember To Save The MasterAccountId
 
         $data['delivery_cost'] = $deliveryCost;
         $data['payment_service_fee'] = $serviceFee;
@@ -325,7 +429,7 @@ class OrderController extends Controller
     }
 
 
-    
+
 
     public function waybillCheck(Request $request)
     {
