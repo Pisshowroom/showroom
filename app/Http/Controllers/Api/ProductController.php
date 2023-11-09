@@ -31,6 +31,12 @@ class ProductController extends Controller
             $filtered = true;
         }
 
+        // if request filled promo
+        if ($request->filled('promo')) {
+            $query->whereNotNull('discount');
+            $filtered = true;
+        }
+
         if ($request->filled('latest')) {
             $query->latest();
             $filtered = true;

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\MasterAccount;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 use GuzzleHttp\Client;
@@ -299,8 +300,8 @@ class OrderController extends Controller
         ]);
 
         $user = auth()->guard('api-client')->user();
+        DB::beginTransaction();
 
-        
         $products = [];
         $total = 0;
         $totalWithoutDiscount = 0;
@@ -316,16 +317,27 @@ class OrderController extends Controller
 
         $orderItems = json_decode($request->order_items, true);
 
+        $order = new Order();
+
+        $order->payment_identifier = $identifier;
+        $order->user_id = $user->id;
+        $order->save();
+
         foreach ($orderItems as $order_item) {
             $product_id = $order_item['product_id'];
             $product = \App\Models\Product::find($order_item['product_id']);
+            $itemTotal = 0;
+
             if ($product == null) {
                 $product = Product::withTrashed()->where('id', $product_id)->first();
+                DB::rollBack();
                 return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", false);
             }
 
             if ($product->stock < $order_item['qty']) {
+                DB::rollBack();
                 return ResponseAPI('Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock, 400);
+
             }
 
             if ($product->discount > 0) {
@@ -335,12 +347,26 @@ class OrderController extends Controller
                 $countedPromoProduct++;
                 $countedAmountPromo += $thePromoAmount * $order_item['qty'];
 
-                $total += $resultItemPriceAfterDiscount * $order_item['qty'];
+                $itemTotal = $resultItemPriceAfterDiscount * $order_item['qty'];
+                $total += $itemTotal;
                 $totalWithoutDiscount += $product->price * $order_item['qty'];
             } else {
-                $total += $product->price * $order_item['qty'];
+                $itemTotal = $product->price * $order_item['qty'];
+                $total += $itemTotal;
                 $totalWithoutDiscount += $product->price * $order_item['qty'];
             }
+            $orderItem = new OrderItem();
+            $orderItem->order_id = $order->id;
+            $orderItem->product_id = $product_id;
+            $orderItem->quantity = $order_item['qty'];
+            $orderItem->subtotal = $product->price * $order_item['qty'];
+            $orderItem->item_total = $itemTotal;
+            $orderItem->price = $product->price;
+            $orderItem->note = $order_item['note'];
+            // $orderItem->fee_seller = $product->fee_seller;
+            // $orderItem->fee_buyer = $product->fee_buyer;
+            $orderItem->save();
+
             array_push($products, $product);
         }
 
@@ -377,10 +403,7 @@ class OrderController extends Controller
         // dd($dataPaymentCreated);
         // return ResponseAPI($dataPaymentCreated);
 
-        $order = new Order();
-
-        $order->payment_identifier = $identifier;
-        $order->user_id = $user->id;
+        
         $order->discount_product = $countedAmountPromo;
         $order->payment_status = Order::PAYMENT_PAID;
         $order->status = Order::PENDING;
@@ -423,7 +446,9 @@ class OrderController extends Controller
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
-        $data['products'] = $products;
+        $data['order'] = $order;
+        // $data['products'] = $products;
+        DB::commit();
 
         return ResponseAPI($data);
     }
