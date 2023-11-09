@@ -144,7 +144,7 @@
                                                     <div class="form-check form-switch ps-5">
                                                         <label class="form-check-label" for="main">Atur
                                                             sebagai Alamat Utama</label>
-                                                        <input class="form-check-input" type="checkbox" id="main"
+                                                        <input class="form-check-input" type="checkbox" id="main" name="main"
                                                             checked>
                                                     </div>
                                                 </div>

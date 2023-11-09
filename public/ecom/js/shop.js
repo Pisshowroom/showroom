@@ -6,32 +6,55 @@
         if ($trigger !== event.target && !$trigger.has(event.target).length) {
             $(".dropdown-account").removeClass("dropdown-open");
             $(".dropdown-cart").removeClass("dropdown-open");
+            $(".dropdown-notification").removeClass("dropdown-open");
         }
     });
 
+    $(".icon-notification").on("click", function () {
+        if ($(".dropdown-account").hasClass("dropdown-open")) {
+            $(".dropdown-account").removeClass("dropdown-open");
+        }
+        if ($(".dropdown-cart").hasClass("dropdown-open")) {
+            $(".dropdown-cart").removeClass("dropdown-open");
+        }
+        $(".dropdown-notification").toggleClass("dropdown-open");
+    });
+
     $(".icon-account").on("click", function () {
+        if ($(".dropdown-notification").hasClass("dropdown-open")) {
+            $(".dropdown-notification").removeClass("dropdown-open");
+        }
+        if ($(".dropdown-cart").hasClass("dropdown-open")) {
+            $(".dropdown-cart").removeClass("dropdown-open");
+        }
         $(".dropdown-account").toggleClass("dropdown-open");
     });
 
     $(".icon-cart").on("click", function () {
+        if ($(".dropdown-notification").hasClass("dropdown-open")) {
+            $(".dropdown-notification").removeClass("dropdown-open");
+        }
+        if ($(".dropdown-account").hasClass("dropdown-open")) {
+            $(".dropdown-account").removeClass("dropdown-open");
+        }
         $(".dropdown-cart").toggleClass("dropdown-open");
     });
 
     /*-----Modal----*/
-     $(".btn-quickview").on("click", function () {
-         $(".modal").on("shown.bs.modal", function (e) {
-             $(".product-image-slider-2").slick("setPosition");
-             $(".slider-nav-thumbnails-2").slick("setPosition");
-             if ($(window).width() > 768) {
-                 $(".product-image-slider-2 .slick-active img").elevateZoom({
-                     zoomType: "inner",
-                     cursor: "crosshair",
-                     zoomWindowFadeIn: 500,
-                     zoomWindowFadeOut: 750
-                 });
-             }
-         });
-     });
+    $(".btn-quickview").on("click", function () {
+        $(".modal").on("shown.bs.modal", function (e) {
+            $(".product-image-slider-2").slick("setPosition");
+            $(".slider-nav-thumbnails-2").slick("setPosition");
+            if ($(window).width() > 768) {
+                $(".product-image-slider-2 .slick-active img").elevateZoom({
+                    zoomType: "inner",
+                    cursor: "crosshair",
+                    zoomWindowFadeIn: 500,
+                    zoomWindowFadeOut: 750,
+                });
+            }
+        });
+    });
 
     /*Fix Bootstrap 5 tab & slick slider*/
     $('button[data-bs-toggle="tab"]').on("shown.bs.tab", function (e) {
@@ -98,7 +121,7 @@
         slidesToScroll: 1,
         arrows: false,
         fade: false,
-        asNavFor: ".slider-nav-thumbnails"
+        asNavFor: ".slider-nav-thumbnails",
     });
 
     $(".slider-nav-thumbnails").slick({
@@ -108,18 +131,20 @@
         dots: false,
         focusOnSelect: true,
         vertical: true,
-        prevArrow: '<button type="button" class="slick-prev"><i class="fi-rs-arrow-small-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="fi-rs-arrow-small-right"></i></button>',
+        prevArrow:
+            '<button type="button" class="slick-prev"><i class="fi-rs-arrow-small-left"></i></button>',
+        nextArrow:
+            '<button type="button" class="slick-next"><i class="fi-rs-arrow-small-right"></i></button>',
         responsive: [
             {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                vertical: false,
-              }
-            }
-        ]
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    vertical: false,
+                },
+            },
+        ],
     });
 
     // Remove active class from all thumbnail slides
@@ -129,29 +154,39 @@
     $(".slider-nav-thumbnails .slick-slide").eq(0).addClass("slick-active");
 
     // On before slide change match active thumbnail to current slide
-    $(".product-image-slider").on("beforeChange", function (event, slick, currentSlide, nextSlide) {
-        var mySlideNumber = nextSlide;
-        $(".slider-nav-thumbnails .slick-slide").removeClass("slick-active");
-        $(".slider-nav-thumbnails .slick-slide").eq(mySlideNumber).addClass("slick-active");
-    });
+    $(".product-image-slider").on(
+        "beforeChange",
+        function (event, slick, currentSlide, nextSlide) {
+            var mySlideNumber = nextSlide;
+            $(".slider-nav-thumbnails .slick-slide").removeClass(
+                "slick-active"
+            );
+            $(".slider-nav-thumbnails .slick-slide")
+                .eq(mySlideNumber)
+                .addClass("slick-active");
+        }
+    );
 
-    $(".product-image-slider").on("beforeChange", function (event, slick, currentSlide, nextSlide) {
-        var img = $(slick.$slides[nextSlide]).find("img");
-        $(".zoomWindowContainer,.zoomContainer").remove();
-        $(img).elevateZoom({
-            zoomType: "inner",
-            cursor: "crosshair",
-            zoomWindowFadeIn: 500,
-            zoomWindowFadeOut: 750
-        });
-    });
+    $(".product-image-slider").on(
+        "beforeChange",
+        function (event, slick, currentSlide, nextSlide) {
+            var img = $(slick.$slides[nextSlide]).find("img");
+            $(".zoomWindowContainer,.zoomContainer").remove();
+            $(img).elevateZoom({
+                zoomType: "inner",
+                cursor: "crosshair",
+                zoomWindowFadeIn: 500,
+                zoomWindowFadeOut: 750,
+            });
+        }
+    );
     //Elevate Zoom
     if ($(".product-image-slider").length) {
         $(".product-image-slider .slick-active img").elevateZoom({
             zoomType: "inner",
             cursor: "crosshair",
             zoomWindowFadeIn: 500,
-            zoomWindowFadeOut: 750
+            zoomWindowFadeOut: 750,
         });
     }
     var productDetails = function () {
@@ -160,7 +195,7 @@
             slidesToScroll: 1,
             arrows: false,
             fade: false,
-            asNavFor: ".slider-nav-thumbnails-2"
+            asNavFor: ".slider-nav-thumbnails-2",
         });
         $slick_slider_2.slick({
             slidesToShow: 4,
@@ -170,47 +205,63 @@
             focusOnSelect: true,
             vertical: false,
             adaptiveHeight: false,
-            prevArrow: '<button type="button" class="slick-prev"><i class="fi-rs-arrow-small-left"></i></button>',
-            nextArrow: '<button type="button" class="slick-next"><i class="fi-rs-arrow-small-right"></i></button>'
+            prevArrow:
+                '<button type="button" class="slick-prev"><i class="fi-rs-arrow-small-left"></i></button>',
+            nextArrow:
+                '<button type="button" class="slick-next"><i class="fi-rs-arrow-small-right"></i></button>',
         });
 
         // Remove active class from all thumbnail slides
         $(".slider-nav-thumbnails-2 .slick-slide").removeClass("slick-active");
 
         // Set active class to first thumbnail slides
-        $(".slider-nav-thumbnails-2 .slick-slide").eq(0).addClass("slick-active");
+        $(".slider-nav-thumbnails-2 .slick-slide")
+            .eq(0)
+            .addClass("slick-active");
 
         // On before slide change match active thumbnail to current slide
-        $(".product-image-slider-2").on("beforeChange", function (event, slick, currentSlide, nextSlide) {
-            var mySlideNumber = nextSlide;
-            $(".slider-nav-thumbnails-2 .slick-slide").removeClass("slick-active");
-            $(".slider-nav-thumbnails-2 .slick-slide").eq(mySlideNumber).addClass("slick-active");
-        });
+        $(".product-image-slider-2").on(
+            "beforeChange",
+            function (event, slick, currentSlide, nextSlide) {
+                var mySlideNumber = nextSlide;
+                $(".slider-nav-thumbnails-2 .slick-slide").removeClass(
+                    "slick-active"
+                );
+                $(".slider-nav-thumbnails-2 .slick-slide")
+                    .eq(mySlideNumber)
+                    .addClass("slick-active");
+            }
+        );
 
-        $(".product-image-slider-2").on("beforeChange", function (event, slick, currentSlide, nextSlide) {
-            var img = $(slick.$slides[nextSlide]).find("img");
-            $(".zoomWindowContainer,.zoomContainer").remove();
-            $(img).elevateZoom({
-                zoomType: "inner",
-                cursor: "crosshair",
-                zoomWindowFadeIn: 500,
-                zoomWindowFadeOut: 750
-            });
-        });
+        $(".product-image-slider-2").on(
+            "beforeChange",
+            function (event, slick, currentSlide, nextSlide) {
+                var img = $(slick.$slides[nextSlide]).find("img");
+                $(".zoomWindowContainer,.zoomContainer").remove();
+                $(img).elevateZoom({
+                    zoomType: "inner",
+                    cursor: "crosshair",
+                    zoomWindowFadeIn: 500,
+                    zoomWindowFadeOut: 750,
+                });
+            }
+        );
         //Elevate Zoom
         if ($(".product-image-slider-2").length) {
             $(".product-image-slider-2 .slick-active img").elevateZoom({
                 zoomType: "inner",
                 cursor: "crosshair",
                 zoomWindowFadeIn: 500,
-                zoomWindowFadeOut: 750
+                zoomWindowFadeOut: 750,
             });
         }
     };
     // Slide 2
     $(document).on("show.bs.modal", "#ModalQuickview", function () {
-        if ($slick_slider_1.hasClass("slick-initialized")) $slick_slider_1.slick("unslick");
-        if ($slick_slider_2.hasClass("slick-initialized")) $slick_slider_2.slick("unslick");
+        if ($slick_slider_1.hasClass("slick-initialized"))
+            $slick_slider_1.slick("unslick");
+        if ($slick_slider_2.hasClass("slick-initialized"))
+            $slick_slider_2.slick("unslick");
         setTimeout(function () {
             productDetails();
         }, 10);
@@ -248,7 +299,7 @@ function initSlickQuickview() {
         slidesToScroll: 1,
         arrows: false,
         fade: false,
-        asNavFor: ".slider-nav-thumbnails-2"
+        asNavFor: ".slider-nav-thumbnails-2",
     });
     $slick_slider_2.slick({
         slidesToShow: 4,
@@ -258,8 +309,10 @@ function initSlickQuickview() {
         focusOnSelect: true,
         vertical: false,
         adaptiveHeight: false,
-        prevArrow: '<button type="button" class="slick-prev"><i class="fi-rs-arrow-small-left"></i></button>',
-        nextArrow: '<button type="button" class="slick-next"><i class="fi-rs-arrow-small-right"></i></button>'
+        prevArrow:
+            '<button type="button" class="slick-prev"><i class="fi-rs-arrow-small-left"></i></button>',
+        nextArrow:
+            '<button type="button" class="slick-next"><i class="fi-rs-arrow-small-right"></i></button>',
     });
 
     // Remove active class from all thumbnail slides
@@ -269,29 +322,39 @@ function initSlickQuickview() {
     $(".slider-nav-thumbnails-2 .slick-slide").eq(0).addClass("slick-active");
 
     // On before slide change match active thumbnail to current slide
-    $(".product-image-slider-2").on("beforeChange", function (event, slick, currentSlide, nextSlide) {
-        var mySlideNumber = nextSlide;
-        $(".slider-nav-thumbnails-2 .slick-slide").removeClass("slick-active");
-        $(".slider-nav-thumbnails-2 .slick-slide").eq(mySlideNumber).addClass("slick-active");
-    });
+    $(".product-image-slider-2").on(
+        "beforeChange",
+        function (event, slick, currentSlide, nextSlide) {
+            var mySlideNumber = nextSlide;
+            $(".slider-nav-thumbnails-2 .slick-slide").removeClass(
+                "slick-active"
+            );
+            $(".slider-nav-thumbnails-2 .slick-slide")
+                .eq(mySlideNumber)
+                .addClass("slick-active");
+        }
+    );
 
-    $(".product-image-slider-2").on("beforeChange", function (event, slick, currentSlide, nextSlide) {
-        var img = $(slick.$slides[nextSlide]).find("img");
-        $(".zoomWindowContainer,.zoomContainer").remove();
-        $(img).elevateZoom({
-            zoomType: "inner",
-            cursor: "crosshair",
-            zoomWindowFadeIn: 500,
-            zoomWindowFadeOut: 750
-        });
-    });
+    $(".product-image-slider-2").on(
+        "beforeChange",
+        function (event, slick, currentSlide, nextSlide) {
+            var img = $(slick.$slides[nextSlide]).find("img");
+            $(".zoomWindowContainer,.zoomContainer").remove();
+            $(img).elevateZoom({
+                zoomType: "inner",
+                cursor: "crosshair",
+                zoomWindowFadeIn: 500,
+                zoomWindowFadeOut: 750,
+            });
+        }
+    );
     //Elevate Zoom
     if ($(".product-image-slider-2").length) {
         $(".product-image-slider-2 .slick-active img").elevateZoom({
             zoomType: "inner",
             cursor: "crosshair",
             zoomWindowFadeIn: 500,
-            zoomWindowFadeOut: 750
+            zoomWindowFadeOut: 750,
         });
     }
 }

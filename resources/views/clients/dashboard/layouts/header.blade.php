@@ -57,7 +57,7 @@
                     @endif
                     <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Bantuan</a>
                     <div class="dropdown-divider"></div><a class="dropdown-item text-danger"
-                        href="{{ route('logout') }}"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                        href="{{ route('logout') }}"><i class="material-icons md-exit_to_app"></i>Keluar</a>
                 </div>
             </li>
         </ul>

@@ -111,7 +111,7 @@
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
                                 </ul>
                             </li> --}}
-                            <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
+                            {{-- <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
                                 <ul class="sub-menu">
                                     <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang Kami</a>
                                     </li>
@@ -121,7 +121,7 @@
                                     <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan
                                             Ketentuan</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             {{-- <li class="has-children"><a href="blog.html">Blog</a>
                                 <ul class="sub-menu">
                                     <li><a href="blog.html">Blog - No Sidebar</a></li>
@@ -138,30 +138,48 @@
                     <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
                             class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
                 </div>
-                <div class="header-shop">
-                    @auth
-                        {{-- <div class="d-inline-block box-dropdown-cart"><span
-                                class="font-lg icon-list icon-account"><span>Akun</span></span>
-                            <div class="dropdown-account">
-                                <ul>
-                                    <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
-                                    <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
-                                    <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
-                                    @if (Auth::guard('web')->user()->is_seller == 0)
-                                        <li><a href="{{ route('dashboard.settings') }}">Daftar Toko</a></li>
-                                    @else
-                                        <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
-                                    @endif
-                                    <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
-                                    <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
-                                </ul>
-                            </div>
-                        </div> --}}
-                        <a class="font-lg icon-list icon-wishlist"
-                            href="{{ route('buyer.wishlist') }}"><span>Wishlist</span><span
-                                class="number-item font-xs">5</span></a>
+                @auth
+                    <div class="header-shop">
+                        <div class="d-lg-inline-block d-none">
+                            <a class="font-lg btn btn-buy d-inline-block" href="{{ route('dashboardSeller.dashboard') }}">
+                                {{ substr(Auth::guard('web')->user()->seller_name ?? '', 0, 6) . (strlen(Auth::guard('web')->user()->seller_name ?? '') > 6 ? '..' : '') }}
+                            </a>
+                        </div>
                         <div class="d-inline-block box-dropdown-cart"><span
-                                class="font-lg icon-list icon-cart"><span>Cart</span><span
+                                class="font-lg icon-list icon-notification"><span>Notifikasi</span><span
+                                    class="number-item font-xs">2</span></span>
+                            <div class="dropdown-notification">
+                                <div class="item-cart mb-20">
+                                    <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
+                                            alt="Ecom">
+                                    </div>
+                                    <div class="cart-info"><a class="font-sm-bold color-brand-3"
+                                            href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">2022 Apple iMac
+                                            with
+                                            Retina 5K
+                                            Display 8GB RAM,
+                                            256GB SSD</a>
+                                        <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
+                                    </div>
+                                </div>
+                                <div class="item-cart mb-20">
+                                    <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
+                                            alt="Ecom">
+                                    </div>
+                                    <div class="cart-info"><a class="font-sm-bold color-brand-3"
+                                            href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">2022 Apple iMac
+                                            with
+                                            Retina 5K
+                                            Display 8GB
+                                            RAM, 256GB SSD</a>
+                                        <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-inline-block box-dropdown-cart"><span
+                                class="font-lg icon-list icon-cart"><span>Keranjang</span><span
                                     class="number-item font-xs">2</span></span>
                             <div class="dropdown-cart">
                                 <div class="item-cart mb-20">
@@ -193,7 +211,8 @@
                                 <div class="border-bottom pt-0 mb-15"></div>
                                 <div class="cart-total">
                                     <div class="row">
-                                        <div class="col-6 text-start"><span class="font-md-bold color-brand-3">Total</span>
+                                        <div class="col-6 text-start"><span
+                                                class="font-md-bold color-brand-3">Total</span>
                                         </div>
                                         <div class="col-6"><span class="font-md-bold color-brand-1">$2586.3</span></div>
                                     </div>
@@ -206,11 +225,29 @@
                                 </div>
                             </div>
                         </div>
-                    @endauth
-                    {{-- @guest
-                        <a class="font-lg icon-list icon-account" href="{{ route('buyer.login') }}"><span>Masuk</span></a>
-                    @endguest --}}
-                </div>
+                        <div class="d-inline-block box-dropdown-cart"><span
+                                class="font-lg icon-list icon-account"><span>Akun</span></span>
+                            <div class="dropdown-account">
+                                <ul>
+                                    <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                                    <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
+                                    <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
+                                    @if (Auth::guard('web')->user()->is_seller == 0)
+                                        <li><a href="{{ route('dashboard.settings') }}">Daftar Toko</a></li>
+                                    @else
+                                        <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                    @endif
+                                    <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
+                                    <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        {{-- @guest
+                            <a class="font-lg icon-list icon-account" href="{{ route('buyer.login') }}"><span>Masuk</span></a>
+                            @endguest --}}
+                    </div>
+                @endauth
             </div>
         </div>
 </header>
@@ -227,7 +264,7 @@
                             @guest
                                 <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
                             @endguest
-                            <li><a class="@yield('register')" href="{{ route('buyer.register') }}">Mendaftar</a></li>
+                            <li><a class="@yield('register')" href="{{ route('buyer.register') }}">Daftar</a></li>
                             <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}">Semua
                                     Produk</a></li>
                             <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}">Artikel</a>
@@ -249,7 +286,7 @@
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
                                 </ul>
                             </li> --}}
-                            <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
+                            {{-- <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
                                 <ul class="sub-menu">
                                     <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang
                                             Kami</a></li>
@@ -258,7 +295,7 @@
                                     <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan
                                             Ketentuan</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             {{-- <li class="has-children"><a href="blog.html">Blog</a>
                                 <ul class="sub-menu">
                                     <li><a href="blog.html">Blog Grid</a></li>
@@ -525,7 +562,7 @@
                             <li><a class="@yield('home')" href="{{ route('buyer.home') }}">Beranda</a></li>
                             @guest
                                 <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
-                                <li><a class="@yield('register')" href="{{ route('buyer.register') }}">Mendaftar</a>
+                                <li><a class="@yield('register')" href="{{ route('buyer.register') }}">Daftar</a>
                                 </li>
                             @endguest
                             <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}">Semua
@@ -548,7 +585,7 @@
                                     <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
                                 </ul>
                             </li> --}}
-                            <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
+                            {{-- <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
                                 <ul class="sub-menu">
                                     <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang
                                             Kami</a></li>
@@ -557,7 +594,7 @@
                                     <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan
                                             Ketentuan</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             {{-- <li class="has-children"><a href="blog.html">Blog</a>
                                 <ul class="sub-menu">
                                     <li><a href="blog.html">Blog Grid</a></li>
@@ -580,7 +617,10 @@
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
                                 <div class="content">
-                                    <h6 class="user-name">Halo, {{ Auth::guard('web')->user()->name ?? '' }}</h6>
+                                    <h6 class="user-name">
+                                        Halo,
+                                        {{ substr(Auth::guard('web')->user()->name ?? '', 0, 10) . (strlen(Auth::guard('web')->user()->name ?? '') > 6 ? '..' : '') }}
+                                    </h6>
                                 </div>
                             </div>
                         </div>

@@ -56,10 +56,13 @@
                                         <td class="align-middle"><a class="itemside"
                                                 href="{{ route('buyer.detailProduct', ['slug' => $product?->slug ?? '1234']) }}">
                                                 <div class="left">
-                                                    <img class="img-xs" src="{{ asset('ecom_dashboard/imgs/items/1.jpg') }}"
+                                                    <img class="img-xs"
+                                                        src="{{ $product->images && count($product->images) > 0 ? $product->images[0] : asset('ecom_dashboard/imgs/items/1.jpg') }}"
                                                         alt="Item" width="40" height="40">
                                                 </div>
-                                                <div class="info"> {{ $product?->name ?? '' }}</div>
+                                                <div class="info">
+                                                    {{ substr($product?->name ?? '', 0, 12) . (strlen($product?->name ?? '') > 12 ? '..' : '') }}
+                                                </div>
                                             </a></td>
                                         <td class="align-middle">
                                             {{ $product->category ? $product->category->name ?? '' : '' }}
