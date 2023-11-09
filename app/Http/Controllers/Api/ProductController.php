@@ -96,10 +96,10 @@ class ProductController extends Controller
             $query->where('status', 'done');
         })->sum('quantity'); */
 
-        $productIds = Product::where('seller_id', $product->seller_id)->pluck('id');
-        $averageRating = Review::whereIn('product_id', $productIds)->avg('rating');
+        // $productIds = Product::where('seller_id', $product->seller_id)->pluck('id');
+        // $averageRating = Review::whereIn('product_id', $productIds)->avg('rating');
 
-        $data['rating_seller'] = doubleVal($averageRating);
+        // $data['rating_seller'] = doubleVal($averageRating);
 
         $user = auth()->guard('api-client')->user();
         if ($user != null && $product->seller_id != null) {
