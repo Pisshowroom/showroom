@@ -20,6 +20,7 @@ class SellerResource extends JsonResource
             'seller_slug' => $this->seller_slug,
             'seller_image' => lypsisAsset($this->seller_image),
             'seller_description' => $this->seller_description,
+            'address' => $this->when($this->address != null, new AddressResource($this->address)),
         ];
         
     }

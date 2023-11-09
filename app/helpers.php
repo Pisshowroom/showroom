@@ -71,6 +71,44 @@ function lypsisAsset($path)
     return $path ? url($path) : null;
 }
 
+function lypsisConvertPaymentChannelType($channelType) {
+    if (!$channelType) return null;
+    
+    $result = null;
+    switch ($channelType) {
+        case 'E-Wallet':
+            $result = 'QR_CODE';
+            break;
+        case 'Virtual-Account':
+            $result = 'VIRTUAL_ACCOUNT';
+            break;
+        case 'Retail-Outlet':
+            $result = 'OVER_THE_COUNTER';
+            break;
+    }
+
+    return $result;
+}
+
+function lypsisConvertPaymentChannelTypeIntoParamRequest($channelType) {
+    if (!$channelType) return null;
+    
+    $result = null;
+    switch ($channelType) {
+        case 'E-Wallet':
+            $result = 'qr_code';
+            break;
+        case 'Virtual-Account':
+            $result = 'virtual_account';
+            break;
+        case 'Retail-Outlet':
+            $result = 'over_the_counter';
+            break;
+    }
+
+    return $result;
+}
+
 function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
 {
     $client = new Client();
