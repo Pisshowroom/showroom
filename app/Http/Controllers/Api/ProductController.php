@@ -8,6 +8,7 @@ use App\Models\MasterAccount;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -58,7 +59,7 @@ class ProductController extends Controller
 
         $product->load(['category', 'reviews', 'variants' => function ($query) {
             $query->withoutGlobalScope('hasParentRelation');
-        }, 'seller', 'reviews.user']);
+        }, 'seller.address', 'reviews.user']);
 
         $product->loadAvg('reviews', 'rating');
         $product->loadCount(['reviews']);
@@ -88,6 +89,11 @@ class ProductController extends Controller
         /* $data['total_sell'] = OrderItem::where('product_id', $product->id)->whereHas('order', function ($query) {
             $query->where('status', 'done');
         })->sum('quantity'); */
+
+        $productIds = Product::where('seller_id', $product->seller_id)->pluck('id');
+        $averageRating = Review::whereIn('product_id', $productIds)->avg('rating');
+
+        $data['rating_seller'] = doubleVal($averageRating);
 
         $user = auth()->guard('api-client')->user();
         if ($user != null && $product->seller_id != null) {

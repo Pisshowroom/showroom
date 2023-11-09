@@ -12,7 +12,9 @@ class AddressController extends Controller
     // all addresses
     public function index()
     {
-        $addresses = auth()->user()->addresses;
+        $user = auth()->user();
+
+        $addresses = Address::where('user_id', $user->id)->orderByDesc('main')->get();
         // return ResponseAPI($addresses);
         return AddressResource::collection($addresses);
     }
