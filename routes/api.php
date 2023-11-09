@@ -63,6 +63,7 @@ Route::group(['prefix' => 'order'], function () {
     Route::post('/precheck-early', [OrderController::class, 'preCheckEarly']);
     Route::post('/precheck', [OrderController::class, 'preCheck']);
     Route::post('/precheck-with-delivery', [OrderController::class, 'precheckWithDelivery']);
+    Route::post('/checkout', [OrderController::class, 'checkout']);
     Route::get('/check-shipping-price', [OrderController::class, 'checkShippingPrice']);
     Route::post('/waybill-check', [OrderController::class, 'waybillCheck']);
 });
