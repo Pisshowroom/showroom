@@ -99,7 +99,7 @@
                                             <li class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"><a
                                                     class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
                                                     href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}">{{ $ct->name ?? '' }}<span
-                                                        class="number">{{ $ct->products_count }}</span></a></li>
+                                                        class="number">{{ $ct->products_count ? moneyFormat($ct->products_count) ?? 0 : 0 }}</span></a></li>
                                         @endforeach
                                     </ul>
                                 @else

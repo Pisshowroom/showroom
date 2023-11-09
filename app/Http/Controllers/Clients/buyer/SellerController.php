@@ -30,7 +30,16 @@ class SellerController extends Controller
             return $q->where('name', 'like', "%$request->search%");
         })->when($request->filled('category_id'), function ($q) use ($request) {
             return $q->where('category_id', $request->category_id);
-        })->where('seller_id', $seller->id)->whereNull('parent_id')->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
+        })->where('seller_id', $seller->id)
+            ->with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])
+            ->whereNull('parent_id')->orderBy('id', $request->orderBy ?? 'desc')
+            ->withAvg('reviews', 'rating')
+            ->withSum(['order_items as total_sell' => function ($query) {
+                $query->whereHas('order', function ($query) {
+                    $query->where('status', 'done');
+                });
+            }], 'quantity')
+            ->paginate($request->per_page ?? 15);
         $data['categories'] = $this->categories();
         $data['categories_product'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) use ($seller) {
             $q->where('seller_id', $seller->id);

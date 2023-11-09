@@ -112,15 +112,13 @@
                             <div class="col-lg-4 col-md-4 col-sm-3 mb-mobile"><a
                                     class="byAUthor color-gray-900 font-xs font-medium"
                                     href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">
-                                    {{ $product->seller ? $product->seller->seller_name ?? '' : '' }}</a>
+                                    {{ $product->seller ? $product->seller->seller_name ?? '-' : '-' }}</a>
                                 <div class="rating mt-5"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                        alt="Ecom"><span class="font-xs color-gray-500 font-medium">
-                                        ({{ $product->reviews_count ? moneyFormat($product->reviews_count) ?? 0 : 0 }}
-                                        ulasan)</span>
+                                        alt="rating {{ $product->name ?? '' }}">
+                                    <span class="font-xs color-gray-500 font-medium">
+                                        {{ $product->reviews_avg_rating ? doubleval($product->reviews_avg_rating) : 0 }}
+                                        ({{ $product->total_sell ? moneyFormat($product->total_sell) ?? 0 : 0 }}
+                                        Terjual)</span>
                                 </div>
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-9 text-start text-sm-end"><a class="mr-20"
@@ -204,8 +202,8 @@
                             <p class="font-sm mb-20">Kuantitas</p>
                             <div class="box-quantity">
                                 <div class="input-quantity">
-                                    <input class="font-xl color-brand-3" type="text" value="1"><span
-                                        class="minus-cart"></span><span class="plus-cart"></span>
+                                    <input class="font-xl color-brand-3" type="text" name="quantity"
+                                        value="1"><span class="minus-cart"></span><span class="plus-cart"></span>
                                 </div>
                                 <div class="button-buy"><a class="btn btn-cart"
                                         href="{{ route('buyer.cart') }}">Keranjang</a><a class="btn btn-buy"
@@ -556,14 +554,6 @@
                                             href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">SAMSUNG
                                             Galaxy Tab A7 Lite, 8.7&quot; Tablet 32GB</a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img
-                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                 alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
                                         <div class="price-info mt-1"><strong
                                                 class="font-md-bold color-brand-3 price-main">$2556.3</strong><span
