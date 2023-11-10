@@ -40,6 +40,16 @@ Route::get('/forcing-auth/{id}', function (Request $request) {
     ]);
 });
 
+Route::get('/check-shipping-price', function (Illuminate\Http\Request $request) {
+    $originId = $request->query('origin_id');
+    $destinationId = $request->query('destination_id');
+    $weight = $request->query('weight');
+
+    $shippingCost = checkShippingPrice($originId, $destinationId, $weight);
+
+    return response()->json($shippingCost);
+});
+
 // Route get, authed, returnin auth()->user()\
 Route::get('/authed', function () {
     // $authUser = auth()->user();

@@ -129,9 +129,6 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     // $destination = 224; // Lampung Selatan
     // $originType = 'city';
 
-    $weight = 100;
-
-
 
     $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
         'headers' => [
@@ -144,14 +141,16 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
             'destinationType' => $destinationType,
             'weight' => $weight,
             'courier' => env('RO_SERVICES'),
-        ]
+        ],
+        'timeout' => 15, 
     ]);
 
     $rajaOngkirResponse = json_decode($res->getBody()->getContents());
     // dd($rajaOngkirResponse);
     // return $rajaOngkirResponse;
     $shippingCost = $rajaOngkirResponse->rajaongkir;
-    $data['origin_details'] = $shippingCost->origin_details;
+    $data['origin_details'] = $shippingCost;
+    // $data['origin_details'] = $shippingCost->origin_details;
     $data['destination_details'] = $shippingCost->destination_details;
     if ($earlierMode == false) {
         $data['results'] = $shippingCost->results;

@@ -156,7 +156,7 @@ class OrderController extends Controller
         $weight = 0;
 
         $orderItems = json_decode($request->order_items, true);
-
+// dd($orderItems);
         foreach ($orderItems as $order_item) {
             $product_id = $order_item['product_id'];
             $product = \App\Models\Product::find($order_item['product_id']);
@@ -177,23 +177,26 @@ class OrderController extends Controller
                 $thePromoAmount = ($product->price * $product->discount / 100);
                 $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
                 $countedPromoProduct++;
-                $countedAmountPromo += $thePromoAmount * $order_item['qty'];
+                $countedAmountPromo += ($thePromoAmount * $order_item['qty']);
 
-                $total += $resultItemPriceAfterDiscount * $order_item['qty'];
-                $totalWithoutDiscount += $product->price * $order_item['qty'];
+                $total += ($resultItemPriceAfterDiscount * $order_item['qty']);
+                $totalWithoutDiscount += ($product->price * $order_item['qty']);
             } else {
-                $total += $product->price * $order_item['qty'];
-                $totalWithoutDiscount += $product->price * $order_item['qty'];
+                $itemTotal = ($product->price * $order_item['qty']);
+                $total += $itemTotal;
+                $totalWithoutDiscount += $itemTotal;
             }
 
-            $weight += $product->weight * $order_item['qty'];
+            $weight += ($product->weight * $order_item['qty']);
             array_push($products, $product);
         }
+
 
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
+        $data['weight'] = $weight;
         $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
