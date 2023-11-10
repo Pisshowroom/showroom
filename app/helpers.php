@@ -130,35 +130,35 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     $destinationType = 'subdistrict';
 
     // checker originId, destinationId and weight if null or empty return responseApi error
-    if (!$originId || !$destinationId || !$weight) {
-        return ResponseAPI('Origin, destination and weight cannot be empty', false);
-    }
+    // if ($originId == null || $destinationId == null || $weight <= 0) {
+    //     return ResponseAPI('Origin, destination and weight cannot be empty', false);
+    // }
 
     // $destination = 224; // Lampung Selatan
     // $originType = 'city';
 
-    $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
-        'headers' => [
-            'key' => env('RO_KEY')
-        ],
-        'json' => [
-            'origin' => $originId,
-            'originType' => $originType,
-            'destination' => $destinationId,
-            'destinationType' => $destinationType,
-            'weight' => $weight,
-            'courier' => env('RO_SERVICES'),
-        ],
-        'timeout' => 15,
-    ]);
-    // try {
-    // } catch (\Exception $e) {
-    //     $message = $e->getMessage();
-    //     $code = $e->getCode();
-    //     Log::info('Kotoran');
+    try {
+        $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
+            'headers' => [
+                'key' => env('RO_KEY')
+            ],
+            'json' => [
+                'origin' => $originId,
+                'originType' => $originType,
+                'destination' => $destinationId,
+                'destinationType' => $destinationType,
+                'weight' => $weight,
+                'courier' => env('RO_SERVICES'),
+            ],
+            'timeout' => 15,
+        ]);
+    } catch (\Exception $e) {
+        $message = $e->getMessage();
+        $code = $e->getCode();
+        Log::info('Kotoran');
 
-    //     // throw new Exception($message, $code);
-    // }
+        throw new Exception($message, $code);
+    }
 
     $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
         'headers' => [
