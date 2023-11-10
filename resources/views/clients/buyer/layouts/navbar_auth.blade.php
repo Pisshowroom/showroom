@@ -140,11 +140,14 @@
                 </div>
                 @auth
                     <div class="header-shop">
-                        <div class="d-lg-inline-block d-none">
-                            <a class="font-lg btn btn-buy d-inline-block" href="{{ route('dashboardSeller.dashboard') }}">
-                                {{ substr(Auth::guard('web')->user()->seller_name ?? '', 0, 6) . (strlen(Auth::guard('web')->user()->seller_name ?? '') > 6 ? '..' : '') }}
-                            </a>
-                        </div>
+                        @if (Auth::guard('web')->user()->is_seller == 1)
+                            <div class="d-lg-inline-block d-none">
+                                <a class="font-lg btn btn-buy d-inline-block"
+                                    href="{{ route('dashboardSeller.dashboard') }}">
+                                    {{ substr(Auth::guard('web')->user()->seller_name ?? '', 0, 6) . (strlen(Auth::guard('web')->user()->seller_name ?? '') > 6 ? '..' : '') }}
+                                </a>
+                            </div>
+                        @endif
                         <div class="d-inline-block box-dropdown-cart"><span
                                 class="font-lg icon-list icon-notification"><span>Notifikasi</span><span
                                     class="number-item font-xs">2</span></span>

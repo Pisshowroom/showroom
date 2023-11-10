@@ -7,8 +7,8 @@
             <div>
                 <h2 class="content-title card-title">Dashboard</h2>
             </div>
-            <div><a class="btn btn-primary" href="{{ route('dashboardSeller.addWithdraw') }}"><i
-                        class="text-muted material-icons md-post_add"></i>Cairkan
+            <div><a class="btn btn-primary" href="{{ route('dashboardSeller.addWithdraw') }}">
+                    <i class="text-muted material-icons md-post_add"></i>Cairkan
                     Uang</a></div>
         </div>
         <div class="row">
@@ -19,7 +19,7 @@
                         <div class="text">
                             <h6 class="mb-1 card-title">Pendapatan</h6>
                             {{-- <span>{{ numbFormat($data['achievement']) ?? 0 }}</span> --}}
-                            <span>{{ numbFormat(Auth::guard('web')->user()->balance) ?? 0 }}</span>
+                            <span>{{ numbFormat(Auth::guard('web')->user()->balance) ?? 'Rp  0' }}</span>
                             <span class="text-sm">Hanya
                                 pesanan yang telah sampai kepada konsumen</span>
                         </div>
