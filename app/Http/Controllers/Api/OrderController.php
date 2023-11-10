@@ -211,7 +211,7 @@ class OrderController extends Controller
             $code = $e->getCode();
         
             error_log("Error checking shipping price: $message ($code)");
-            throw new Exception($message, $code);
+            throw new Exception($message);
         }
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
