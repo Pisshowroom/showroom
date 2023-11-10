@@ -206,11 +206,12 @@ class OrderController extends Controller
         ]);
         try {
             $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
-        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+        } catch (Exception $e) {
             $message = $e->getMessage();
             $code = $e->getCode();
         
             error_log("Error checking shipping price: $message ($code)");
+            Log::info('Kotoran');
             // throw new Exception($message);
             return ResponseAPI($message, $code);
         }
