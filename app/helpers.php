@@ -129,6 +129,11 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     // $destination = 55; // bekasi
     $destinationType = 'subdistrict';
 
+    // checker originId, destinationId and weight if null or empty return responseApi error
+    if (!$originId || !$destinationId || !$weight) {
+        return ResponseAPI('Origin, destination and weight cannot be empty', false);
+    }
+
     // $destination = 224; // Lampung Selatan
     // $originType = 'city';
 
