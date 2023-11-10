@@ -146,7 +146,7 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
             ],
             'timeout' => 15,
         ]);
-    } catch (\Exception $e) {
+    } catch (\Throwable $e) {
         $message = $e->getMessage();
         $code = $e->getCode();
 
