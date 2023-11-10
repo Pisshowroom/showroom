@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -203,7 +204,16 @@ class OrderController extends Controller
             'destination_id' => $sellerAddress->ro_city_id,
             'weight' => $weight,
         ]);
-        $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
+        try {
+            $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $code = $e->getCode();
+        
+            error_log("Error checking shipping price: $message ($code)");
+            throw new Exception($message, $code);
+        }
+        // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
 
