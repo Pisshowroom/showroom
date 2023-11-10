@@ -114,7 +114,6 @@ class ProductController extends Controller
 
         }
 
-        return ResponseAPI("Test 2");
 
 
         $relatedProductsByCategory = Product::where('category_id', $product->category_id)
