@@ -71,9 +71,10 @@ function lypsisAsset($path)
     return $path ? url($path) : null;
 }
 
-function lypsisConvertPaymentChannelType($channelType) {
+function lypsisConvertPaymentChannelType($channelType)
+{
     if (!$channelType) return null;
-    
+
     $result = null;
     switch ($channelType) {
         case 'E-Wallet':
@@ -90,9 +91,10 @@ function lypsisConvertPaymentChannelType($channelType) {
     return $result;
 }
 
-function lypsisConvertPaymentChannelTypeIntoParamRequest($channelType) {
+function lypsisConvertPaymentChannelTypeIntoParamRequest($channelType)
+{
     if (!$channelType) return null;
-    
+
     $result = null;
     switch ($channelType) {
         case 'E-Wallet':
@@ -129,21 +131,29 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     // $destination = 224; // Lampung Selatan
     // $originType = 'city';
 
+    try {
+        $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
+            'headers' => [
+                'key' => env('RO_KEY')
+            ],
+            'json' => [
+                'origin' => $originId,
+                'originType' => $originType,
+                'destination' => $destinationId,
+                'destinationType' => $destinationType,
+                'weight' => $weight,
+                'courier' => env('RO_SERVICES'),
+            ],
+            'timeout' => 15,
+        ]);
+    } catch (\Throwable $e) {
+        $message = $e->getMessage();
+        $code = $e->getCode();
 
-    $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
-        'headers' => [
-            'key' => env('RO_KEY')
-        ],
-        'json' => [
-            'origin' => $originId,
-            'originType' => $originType,
-            'destination' => $destinationId,
-            'destinationType' => $destinationType,
-            'weight' => $weight,
-            'courier' => env('RO_SERVICES'),
-        ],
-        'timeout' => 15, 
-    ]);
+        return ResponseAPI($message, $code);
+    }
+
+    
 
     $rajaOngkirResponse = json_decode($res->getBody()->getContents());
     // dd($rajaOngkirResponse);

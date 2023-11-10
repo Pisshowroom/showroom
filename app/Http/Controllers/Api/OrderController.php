@@ -12,6 +12,7 @@ use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Xendit\Configuration;
 use Xendit\PaymentRequest\PaymentRequestApi;
@@ -197,6 +198,11 @@ class OrderController extends Controller
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
         $data['weight'] = $weight;
+        Log::info('checkShippingPrice called with parameters:', [
+            'origin_id' => $addressBuyer->ro_subdistrict_id,
+            'destination_id' => $sellerAddress->ro_city_id,
+            'weight' => $weight,
+        ]);
         $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
