@@ -152,7 +152,7 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
         $code = $e->getCode();
         Log::info('Kotoran');
 
-        throw new Exception($message, $code);
+        // throw new Exception($message, $code);
     }
 
     $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
