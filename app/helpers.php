@@ -132,28 +132,28 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     // $destination = 224; // Lampung Selatan
     // $originType = 'city';
 
-    try {
-        $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
-            'headers' => [
-                'key' => env('RO_KEY')
-            ],
-            'json' => [
-                'origin' => $originId,
-                'originType' => $originType,
-                'destination' => $destinationId,
-                'destinationType' => $destinationType,
-                'weight' => $weight,
-                'courier' => env('RO_SERVICES'),
-            ],
-            'timeout' => 15,
-        ]);
-    } catch (\Exception $e) {
-        $message = $e->getMessage();
-        $code = $e->getCode();
-        Log::info('Kotoran');
+    $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
+        'headers' => [
+            'key' => env('RO_KEY')
+        ],
+        'json' => [
+            'origin' => $originId,
+            'originType' => $originType,
+            'destination' => $destinationId,
+            'destinationType' => $destinationType,
+            'weight' => $weight,
+            'courier' => env('RO_SERVICES'),
+        ],
+        'timeout' => 15,
+    ]);
+    // try {
+    // } catch (\Exception $e) {
+    //     $message = $e->getMessage();
+    //     $code = $e->getCode();
+    //     Log::info('Kotoran');
 
-        // throw new Exception($message, $code);
-    }
+    //     // throw new Exception($message, $code);
+    // }
 
     $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
         'headers' => [
