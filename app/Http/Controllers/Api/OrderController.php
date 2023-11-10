@@ -206,7 +206,7 @@ class OrderController extends Controller
         ]);
         try {
             $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
-        } catch (\Exception $e) {
+        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
             $message = $e->getMessage();
             $code = $e->getCode();
         
