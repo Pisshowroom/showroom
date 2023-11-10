@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
@@ -131,7 +132,7 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     // $destination = 224; // Lampung Selatan
     // $originType = 'city';
 
-    /* try {
+    try {
         $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
             'headers' => [
                 'key' => env('RO_KEY')
@@ -149,9 +150,10 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     } catch (\Exception $e) {
         $message = $e->getMessage();
         $code = $e->getCode();
+        Log::info('Kotoran');
 
         throw new Exception($message, $code);
-    } */
+    }
 
     $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
         'headers' => [

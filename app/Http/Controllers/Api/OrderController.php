@@ -204,17 +204,7 @@ class OrderController extends Controller
             'destination_id' => $sellerAddress->ro_city_id,
             'weight' => $weight,
         ]);
-        try {
-            $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
-        } catch (Exception $e) {
-            $message = $e->getMessage();
-            $code = $e->getCode();
-        
-            error_log("Error checking shipping price: $message ($code)");
-            Log::info('Kotoran');
-            // throw new Exception($message);
-            return ResponseAPI($message, $code);
-        }
+        $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         $data['delivery_services_info'] = $deliveryServicesInfo;
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
