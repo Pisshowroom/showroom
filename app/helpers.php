@@ -146,14 +146,14 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
             ],
             'timeout' => 15,
         ]);
-    } catch (\Throwable $e) {
+    } catch (\Exception $e) {
         $message = $e->getMessage();
         $code = $e->getCode();
 
-        return ResponseAPI($message, $code);
+        throw new Exception($message, $code);
     }
 
-    
+
 
     $rajaOngkirResponse = json_decode($res->getBody()->getContents());
     // dd($rajaOngkirResponse);
