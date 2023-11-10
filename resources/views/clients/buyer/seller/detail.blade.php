@@ -530,50 +530,11 @@
                                     </li>
                                 </ul>
                             </div>
-                            {{-- <div class="col-w-2">
-                                <h6 class="color-gray-900 mb-0">Material</h6>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Nylon (8)</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Tempered Glass
-                                                (5)</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span class="text-small">Liquid
-                                                Silicone Rubber (5)</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Aluminium Alloy
-                                                (3)</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                                <h6 class="color-gray-900 mb-20 mt-40">Product tags</h6>
-                                <div><a class="btn btn-border mr-5" href="#">Games</a><a
-                                        class="btn btn-border mr-5" href="#">Electronics</a><a
-                                        class="btn btn-border mr-5" href="#">Video</a><a
-                                        class="btn btn-border mr-5" href="#">Cellphone</a><a
-                                        class="btn btn-border mr-5" href="#">Indoor</a><a
-                                        class="btn btn-border mr-5" href="#">VGA Card</a><a
-                                        class="btn btn-border mr-5" href="#">USB</a><a
-                                        class="btn btn-border mr-5" href="#">Lightning</a><a
-                                        class="btn btn-border mr-5" href="#">Camera</a></div>
-                            </div> --}}
                         </div>
                     </div>
                     <div class="modal-footer justify-content-start pl-30"><a class="btn btn-buy w-auto"
                             href="#">Terapkan Filter</a><a class="btn font-sm-bold color-gray-500"
-                            href="#">Setel Ulang Filter</a></div>
+                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">Setel Ulang Filter</a></div>
                 </div>
             </div>
         </div>

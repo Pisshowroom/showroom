@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <div class="col-lg-7">
-                        <h3 class="color-brand-3 mb-25">{{ $product->name ?? '' }}</h3>
+                        <h3 class="color-brand-3 mb-25 line-2" style="overflow-wrap: break-word;">{{ $product->name ?? '' }}</h3>
                         <div class="row align-items-center">
                             <div class="col-lg-4 col-md-4 col-sm-3 mb-mobile"><a
                                     class="byAUthor color-gray-900 font-xs font-medium"
@@ -313,7 +313,7 @@
                                         <tr>
                                             <td>Nama</td>
                                             <td>
-                                                <p>{{ $product->name ?? '' }}</p>
+                                                <p class="line-2" style="overflow-wrap: break-word;">{{ $product->name ?? '' }}</p>
                                             </td>
                                         </tr>
                                         <tr>

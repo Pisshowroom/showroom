@@ -366,6 +366,7 @@
                             <li><a class="@yield('privacyPolicy')" href="{{ route('buyer.home') }}">Beranda</a></li>
                             @guest
                                 <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
+                                <li><a class="@yield('register')" href="{{ route('buyer.register') }}">Daftar</a></li>
                             @endguest
                             <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}">Semua
                                     Produk</a></li>
