@@ -155,7 +155,6 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     } catch (\Exception $e) {
         $message = $e->getMessage();
         $code = $e->getCode();
-        Log::info('Kotoran');
 
         throw new Exception($message, $code);
     }

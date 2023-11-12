@@ -158,7 +158,7 @@ class OrderController extends Controller
         $weight = 0;
 
         $orderItems = json_decode($request->order_items, true);
-// dd($orderItems);
+        // dd($orderItems);
         foreach ($orderItems as $order_item) {
             $product_id = $order_item['product_id'];
             $product = \App\Models\Product::find($order_item['product_id']);
@@ -204,13 +204,166 @@ class OrderController extends Controller
             'destination_id' => $sellerAddress->ro_city_id,
             'weight' => $weight,
         ]);
-        $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
+
+        // $weight = -2;
+        // $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
+        $dataRequest = [
+            'origin_id' => $addressBuyer->ro_subdistrict_id,
+            'destination_id' => $sellerAddress->ro_city_id,
+            'weight' => $weight,
+        ];
+        $requestForShippingPrice = new Request();
+        $requestForShippingPrice->merge($dataRequest);
+        $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
         $data['delivery_services_info'] = $deliveryServicesInfo;
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
 
         return ResponseAPI($data);
+    }
+
+    public function dummyDelivery(Request $request)
+    {
+        // return $request->type;
+        if ($request->type == 'a') {
+            $dataRequest = [
+                'origin_id' => 18,
+                'destination_id' => 16,
+                'weight' => 0,
+            ];
+            $requestForShippingPrice = new Request();
+            $requestForShippingPrice->merge($dataRequest);
+            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
+            return ResponseAPI($deliveryServicesInfo);
+            // $this->lypsisCheckShippingPrice();
+        } else if ($request->type == 'b') {
+            $dataRequest = [
+                'origin_id' => 18,
+                'destination_id' => 0,
+                'weight' => 100,
+            ];
+            $requestForShippingPrice = new Request();
+            $requestForShippingPrice->merge($dataRequest);
+            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
+            return ResponseAPI($deliveryServicesInfo);
+            // $this->lypsisCheckShippingPrice();
+        }
+    }
+
+    public function lypsisCheckShippingPrice(Request $request)
+    {
+        $request->validate([
+            'origin_id' => 'required|numeric',
+            'destination_id' => 'required|numeric',
+            'weight' => 'required|numeric|min:1',
+            'earlier_mode' => 'boolean|nullable',
+        ]);
+
+        // dd($request->all());
+
+        $originId = $request->input('origin_id');
+        $destinationId = $request->input('destination_id');
+        $weight = $request->input('weight');
+        $earlierMode = $request->earlier_mode ?? false;
+
+        $client = new Client();
+        // $city = 365; // pontianak
+        $originType = 'city';
+        // $destination = 55; // bekasi
+        $destinationType = 'subdistrict';
+
+        // $destination = 224; // Lampung Selatan
+        // $originType = 'city';
+
+        $client = new Client();
+        // $city = 365; // pontianak
+        $originType = 'city';
+        // $destination = 55; // bekasi
+        $destinationType = 'subdistrict';
+
+        // checker originId, destinationId and weight if null or empty return responseApi error
+        // if ($originId == null || $destinationId == null || $weight <= 0) {
+        //     return ResponseAPI('Origin, destination and weight cannot be empty', false);
+        // }
+
+        // $destination = 224; // Lampung Selatan
+        // $originType = 'city';
+
+        try {
+            // Log::info("Catched Exception 0");
+
+            $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
+                'headers' => [
+                    'key' => env('RO_KEY')
+                ],
+                'json' => [
+                    'origin' => $originId,
+                    'originType' => $originType,
+                    'destination' => $destinationId,
+                    'destinationType' => $destinationType,
+                    'weight' => $weight,
+                    'courier' => env('RO_SERVICES'),
+                ],
+                'timeout' => 15,
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $pattern = '/{.*}/';
+            preg_match($pattern, $message, $matches);
+            if (empty($matches)) {
+                $message = $e->getMessage();
+                $code = $e->getCode();
+
+                throw new Exception($message, $code);
+                // throw new Exception("Error getting shipping cost: no response from RajaOngkir API");
+            }
+
+            $body = json_decode($matches[0], true);
+            $errorCode = $body['rajaongkir']['status']['code'];
+            $errorDescription = $body['rajaongkir']['status']['description'];
+            throw new Exception("Error getting shipping cost: $errorCode $errorDescription", $errorCode);
+        }
+
+
+        // $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
+        //     'headers' => [
+        //         'key' => env('RO_KEY')
+        //     ],
+        //     'json' => [
+        //         'origin' => $originId,
+        //         'originType' => $originType,
+        //         'destination' => $destinationId,
+        //         'destinationType' => $destinationType,
+        //         'weight' => $weight,
+        //         'courier' => env('RO_SERVICES'),
+        //     ],
+        //     'timeout' => 15,
+        // ]);
+
+
+        $rajaOngkirResponse = json_decode($res->getBody()->getContents());
+        // dd($rajaOngkirResponse);
+        // return $rajaOngkirResponse;
+        $shippingCost = $rajaOngkirResponse->rajaongkir;
+        $data['origin_details'] = $shippingCost;
+        // $data['origin_details'] = $shippingCost->origin_details;
+        $data['destination_details'] = $shippingCost->destination_details;
+        if ($earlierMode == false) {
+            $data['results'] = $shippingCost->results;
+        } else {
+            $dataEarlier = null;
+            if (isset($shippingCost->results[0]->costs[1])) {
+                $dataEarlier = $shippingCost->results[0]->costs[1];
+            } else {
+                $dataEarlier = $shippingCost->results[0]->costs[0];
+            }
+
+            $data['results_earlier'] = $dataEarlier;
+        }
+        // $shippingCost->results[0]->costs[0]->cost[0]->value;
+        return $data;
+        // return  $shippingCost->results;
     }
 
     public function precheckWithDelivery(Request $request)
@@ -349,7 +502,6 @@ class OrderController extends Controller
             if ($product->stock < $order_item['qty']) {
                 DB::rollBack();
                 return ResponseAPI('Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock, 400);
-
             }
 
             if ($product->discount > 0) {
@@ -415,7 +567,7 @@ class OrderController extends Controller
         // dd($dataPaymentCreated);
         // return ResponseAPI($dataPaymentCreated);
 
-        
+
         $order->discount_product = $countedAmountPromo;
         $order->payment_status = Order::PAYMENT_PAID;
         $order->status = Order::PENDING;
