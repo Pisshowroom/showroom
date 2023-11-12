@@ -215,9 +215,9 @@ class OrderController extends Controller
         $requestForShippingPrice = new Request();
         $requestForShippingPrice->merge($dataRequest);
         // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
-        $deliveryServicesInfo = null;
-        $data['delivery_services_info'] = $deliveryServicesInfo;
-        // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
+        // $deliveryServicesInfo = null;
+        // $data['delivery_services_info'] = $deliveryServicesInfo;
+        $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
 

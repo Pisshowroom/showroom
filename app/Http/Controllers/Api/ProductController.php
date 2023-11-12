@@ -97,10 +97,10 @@ class ProductController extends Controller
             $query->where('status', 'done');
         })->sum('quantity'); */
 
-        // $productIds = Product::where('seller_id', $product->seller_id)->pluck('id');
-        // $averageRating = Review::whereIn('product_id', $productIds)->avg('rating');
+        $productIds = Product::where('seller_id', $product->seller_id)->pluck('id');
+        $averageRating = Review::whereIn('product_id', $productIds)->avg('rating');
 
-        // $data['rating_seller'] = doubleVal($averageRating);
+        $data['rating_seller'] = doubleVal($averageRating);
 
         $user = auth()->guard('api-client')->user();
         if ($user != null && $product->seller_id != null) {
@@ -154,11 +154,12 @@ class ProductController extends Controller
             'category_id' => 'required',
             'price' => 'required|integer',
             'stock' => 'required|integer',
+            'weight' => 'required|integer|min:1',
             'images' => 'required',
             'images.*.file' => 'required',
             'unit' => 'required|string|max:255',
             'description' => 'required|string',
-            '' => 'nullable|integer|min:1|max:100'
+            // '' => 'nullable|integer|min:1|max:100'
         ]);
 
         $images = [];
@@ -187,6 +188,7 @@ class ProductController extends Controller
         $product->slug = Str::slug($request->name);
         $product->price = $request->price;
         $product->stock = $request->stock;
+        $product->weight = $request->weight;
         $product->unit = $request->unit;
         $product->description = $request->description;
         $product->discount = $request->discount;
