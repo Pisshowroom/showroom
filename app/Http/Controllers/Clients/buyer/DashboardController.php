@@ -150,6 +150,9 @@ class DashboardController extends Controller
         if ($request->filled('birth_date')) {
             $user->birth_date = $request->birth_date;
         }
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
 
         $user->save();
 

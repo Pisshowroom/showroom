@@ -5,7 +5,9 @@
                 aria-label="Tambahkan ke Wishlist"></a>
         </div>
         <div class="image-box">
-            {{-- <span class="label bg-brand-2">-17%</span> --}}
+            @if ($prd->discount && $prd->discount > 0)
+                <span class="label bg-brand-2">{{ $prd->discount }}%</span>
+            @endif
             <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
                 <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}" alt="Ecom"></a>
         </div>
@@ -13,7 +15,7 @@
             <a class="font-xs color-gray-500 line-1 text-start"
                 href="{{ route('buyer.detailSeller', ['slug' => $prd->seller ? $prd->seller->seller_slug : 'bobsmith']) }}">
                 {{ $prd->seller ? $prd->seller->seller_name ?? '-' : '-' }}</a>
-            <a class="color-brand-3 font-sm-bold line-2"
+            <a class="color-brand-3 font-sm-bold line-2 text-start"
                 href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
                 <p class="text-start">{{ $prd->name ?? '' }}</p>
             </a>
@@ -34,9 +36,9 @@
             </div>
             <div class="mt-10 box-btn-cart">
                 @if (Route::currentRouteName() && in_array(Route::currentRouteName(), ['buyer.home', 'buyer.detailProduct']))
-                    <button class="btn btn-cart">Keranjang</button>
+                    <button class="btn btn-cart">Beli Sekarang</button>
                 @else
-                    <button class="btn btn-cart" id="cart">Keranjang</button>
+                    <button class="btn btn-cart" id="cart">Beli Sekarang</button>
                 @endif
 
             </div>
@@ -53,8 +55,6 @@
                 // Menghapus spasi ekstra dan memeriksa jumlah baris
                 if (text.trim().split(/\r\n|\r|\n/).length < 2) {
                     $(this).find('.color-brand-3.font-sm-bold p').css('height', '40px');
-                } else {
-                    console.log('Jumlah baris tidak kurang dari 2.');
                 }
             });
 

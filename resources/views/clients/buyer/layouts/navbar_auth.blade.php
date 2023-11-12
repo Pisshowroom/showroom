@@ -94,45 +94,6 @@
                             </li>
                             <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}">Artikel</a>
                             </li>
-
-                            {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
-                                <ul class="sub-menu two-col">
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid 2</a></li>
-                                    <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
-                                    <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
-                                    <li><a href="{{ route('buyer.checkout') }}">Shop Checkout</a></li>
-                                    <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
-                                <ul class="sub-menu">
-                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang Kami</a>
-                                    </li>
-                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak
-                                            Kami</a>
-                                    </li>
-                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan
-                                            Ketentuan</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a href="blog.html">Blog</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog.html">Blog - No Sidebar</a></li>
-                                    <li><a href="blog-2.html">Blog - Right Sidebar</a></li>
-                                    <li><a href="blog-list.html">Blog List</a></li>
-                                    <li><a href="blog-big.html">Blog category big</a></li>
-                                    <li><a href="blog-single.html">Blog Single - Left sidebar</a></li>
-                                    <li><a href="blog-single-2.html">Blog Single - Right sidebar</a></li>
-                                    <li><a href="blog-single-3.html">Blog Single - No sidebar</a></li>
-                                </ul>
-                            </li> --}}
                         </ul>
                     </nav>
                     <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
@@ -273,43 +234,6 @@
                             <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}">Artikel</a>
                             </li>
 
-                            {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
-                                <ul class="sub-menu two-col">
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid 2</a></li>
-                                    <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
-                                    <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
-                                    <li><a href="{{ route('buyer.checkout') }}">Shop Checkout</a></li>
-                                    <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
-                                <ul class="sub-menu">
-                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang
-                                            Kami</a></li>
-                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak
-                                            Kami</a></li>
-                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan
-                                            Ketentuan</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a href="blog.html">Blog</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog.html">Blog Grid</a></li>
-                                    <li><a href="blog-2.html">Blog Grid 2</a></li>
-                                    <li><a href="blog-list.html">Blog List</a></li>
-                                    <li><a href="blog-big.html">Blog Big</a></li>
-                                    <li><a href="blog-single.html">Blog Single - Left sidebar</a></li>
-                                    <li><a href="blog-single-2.html">Blog Single - Right sidebar</a></li>
-                                    <li><a href="blog-single-3.html">Blog Single - No sidebar</a></li>
-                                </ul>
-                            </li> --}}
                         </ul>
                     </nav>
                 </div>

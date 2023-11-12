@@ -130,7 +130,7 @@
                                                                 @endif
 
                                                             </div>
-                                                            <p class="text-muted font-xs line-2">{!! $address->address_description !!}
+                                                            <p class="text-muted font-xs line-2 text-start">{!! $address->address_description !!}
                                                             </p>
                                                         </div>
                                                         <a class="btn btn-xs"

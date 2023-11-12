@@ -56,13 +56,6 @@
                                 <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin">Masuk
                                     Menggunakan<img src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="masuk menggunakan akun google"></button>
-                                {{-- <a
-                                                        class="btn btn-login font-md-bold color-brand-3 mb-15">Sign up with<span
-                                                            class="color-blue font-md-bold">Facebook</span></a><a
-                                                        class="btn btn-login font-md-bold color-brand-3 mb-15">Sign up with<img
-                                                            src="{{ asset('ecom/imgs/page/account/amazon.svg') }}" alt="Ecom"></a></div>
-                                                <div class="mt-10 text-center"><span class="font-xs color-gray-900">Buying for work?</span><a
-                                                        class="color-brand-1 font-xs" href="#">Create a free business account</a> --}}
                             </div>
                         </div>
                     </div>
