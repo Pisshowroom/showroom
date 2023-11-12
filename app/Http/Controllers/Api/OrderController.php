@@ -214,7 +214,8 @@ class OrderController extends Controller
         ];
         $requestForShippingPrice = new Request();
         $requestForShippingPrice->merge($dataRequest);
-        $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
+        // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
+        $deliveryServicesInfo = null;
         $data['delivery_services_info'] = $deliveryServicesInfo;
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
@@ -234,7 +235,8 @@ class OrderController extends Controller
             ];
             $requestForShippingPrice = new Request();
             $requestForShippingPrice->merge($dataRequest);
-            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
+            // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
+            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight']);
             return ResponseAPI($deliveryServicesInfo);
             // $this->lypsisCheckShippingPrice();
         } else if ($request->type == 'b') {
@@ -245,129 +247,95 @@ class OrderController extends Controller
             ];
             $requestForShippingPrice = new Request();
             $requestForShippingPrice->merge($dataRequest);
-            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
+            // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
+            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight']);
+            return ResponseAPI($deliveryServicesInfo);
+            // $this->lypsisCheckShippingPrice();
+        } else if ($request->type == 'c') {
+            $dataRequest = [
+                'origin_id' => 18,
+                'destination_id' => 16,
+                'weight' => 100,
+            ];
+            $requestForShippingPrice = new Request();
+            $requestForShippingPrice->merge($dataRequest);
+            // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
+            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight']);
             return ResponseAPI($deliveryServicesInfo);
             // $this->lypsisCheckShippingPrice();
         }
     }
 
-    public function lypsisCheckShippingPrice(Request $request)
+    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
     {
-        $request->validate([
-            'origin_id' => 'required|numeric',
-            'destination_id' => 'required|numeric',
-            'weight' => 'required|numeric|min:1',
-            'earlier_mode' => 'boolean|nullable',
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/cost");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
+            'origin' => $originId,
+            'originType' => 'subdistrict',
+            'destination' => $destinationId,
+            'destinationType' => 'city',
+            'weight' => $weight,
+            'courier' => env('RO_SERVICES'),
+        ]));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+            'key: ' . env('RO_KEY'),
+            'Content-Type: application/json',
         ]);
-
-        // dd($request->all());
-
-        $originId = $request->input('origin_id');
-        $destinationId = $request->input('destination_id');
-        $weight = $request->input('weight');
-        $earlierMode = $request->earlier_mode ?? false;
-
-        // $client = new Client();
-        $client = new Client([
-            'debug' => true,
-        ]);
-        // $city = 365; // pontianak
-        $originType = 'city';
-        // $destination = 55; // bekasi
-        $destinationType = 'subdistrict';
-
-        // $destination = 224; // Lampung Selatan
-        // $originType = 'city';
-
-        $client = new Client();
-        // $city = 365; // pontianak
-        $originType = 'city';
-        // $destination = 55; // bekasi
-        $destinationType = 'subdistrict';
-
-        // checker originId, destinationId and weight if null or empty return responseApi error
-        // if ($originId == null || $destinationId == null || $weight <= 0) {
-        //     return ResponseAPI('Origin, destination and weight cannot be empty', false);
-        // }
-
-        // $destination = 224; // Lampung Selatan
-        // $originType = 'city';
+        curl_setopt($curl, CURLOPT_TIMEOUT, 15);
 
         try {
-            // Log::info("Catched Exception 0");
+            $res = curl_exec($curl);
 
-            $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
-                'headers' => [
-                    'key' => env('RO_KEY')
-                ],
-                'json' => [
-                    'origin' => $originId,
-                    'originType' => $originType,
-                    'destination' => $destinationId,
-                    'destinationType' => $destinationType,
-                    'weight' => $weight,
-                    'courier' => env('RO_SERVICES'),
-                ],
-                'timeout' => 15,
-            ]);
-        } catch (\Exception $e) {
-            Log::info("Catched Exception 2");
-            $message = $e->getMessage();
-            $pattern = '/{.*}/';
-            preg_match($pattern, $message, $matches);
-            if (empty($matches)) {
-                $message = $e->getMessage();
-                $code = $e->getCode();
-
-                throw new Exception($message, $code);
-                // throw new Exception("Error getting shipping cost: no response from RajaOngkir API");
+            if ($res === false) {
+                throw new Exception(curl_error($curl), curl_errno($curl));
             }
 
-            $body = json_decode($matches[0], true);
-            $errorCode = $body['rajaongkir']['status']['code'];
-            $errorDescription = $body['rajaongkir']['status']['description'];
-            throw new Exception("Error getting shipping cost: $errorCode $errorDescription", $errorCode);
-        }
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
+            if ($httpCode >= 400) {
+                // throw new Exception("Error getting shipping cost: HTTP $res");
+                // $rajaOngkirResponse = json_decode($res);
 
-        // $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
-        //     'headers' => [
-        //         'key' => env('RO_KEY')
-        //     ],
-        //     'json' => [
-        //         'origin' => $originId,
-        //         'originType' => $originType,
-        //         'destination' => $destinationId,
-        //         'destinationType' => $destinationType,
-        //         'weight' => $weight,
-        //         'courier' => env('RO_SERVICES'),
-        //     ],
-        //     'timeout' => 15,
-        // ]);
+                // return ResponseAPI("asdasdasd", 404);
+                
+                // return ResponseAPI($rajaOngkirResponse, 404);
 
+                $rajaOngkirResponse = json_decode($res);
+                $errorCode = $rajaOngkirResponse->rajaongkir->status->code;
+                $errorDescription = $rajaOngkirResponse->rajaongkir->status->description;
+                throw new Exception("Error getting shipping cost: $errorDescription", 404);
+            }
 
-        $rajaOngkirResponse = json_decode($res->getBody()->getContents());
-        // dd($rajaOngkirResponse);
-        // return $rajaOngkirResponse;
-        $shippingCost = $rajaOngkirResponse->rajaongkir;
-        $data['origin_details'] = $shippingCost;
-        // $data['origin_details'] = $shippingCost->origin_details;
-        $data['destination_details'] = $shippingCost->destination_details;
-        if ($earlierMode == false) {
-            $data['results'] = $shippingCost->results;
-        } else {
-            $dataEarlier = null;
-            if (isset($shippingCost->results[0]->costs[1])) {
-                $dataEarlier = $shippingCost->results[0]->costs[1];
+            $rajaOngkirResponse = json_decode($res);
+            $shippingCost = $rajaOngkirResponse->rajaongkir;
+
+            $data['origin_details'] = $shippingCost->origin_details;
+            $data['destination_details'] = $shippingCost->destination_details;
+
+            if ($earlierMode == false) {
+                $data['results'] = $shippingCost->results;
             } else {
-                $dataEarlier = $shippingCost->results[0]->costs[0];
+                $dataEarlier = null;
+
+                if (isset($shippingCost->results[0]->costs[1])) {
+                    $dataEarlier = $shippingCost->results[0]->costs[1];
+                } else {
+                    $dataEarlier = $shippingCost->results[0]->costs[0];
+                }
+
+                $data['results_earlier'] = $dataEarlier;
             }
 
-            $data['results_earlier'] = $dataEarlier;
+            return $data;
+        } catch (\Exception $e) {
+            throw $e;
+        } finally {
+            curl_close($curl);
         }
-        // $shippingCost->results[0]->costs[0]->cost[0]->value;
-        return $data;
-        // return  $shippingCost->results;
     }
 
     public function precheckWithDelivery(Request $request)
