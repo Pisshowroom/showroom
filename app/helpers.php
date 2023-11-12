@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
@@ -71,9 +72,10 @@ function lypsisAsset($path)
     return $path ? url($path) : null;
 }
 
-function lypsisConvertPaymentChannelType($channelType) {
+function lypsisConvertPaymentChannelType($channelType)
+{
     if (!$channelType) return null;
-    
+
     $result = null;
     switch ($channelType) {
         case 'E-Wallet':
@@ -90,9 +92,10 @@ function lypsisConvertPaymentChannelType($channelType) {
     return $result;
 }
 
-function lypsisConvertPaymentChannelTypeIntoParamRequest($channelType) {
+function lypsisConvertPaymentChannelTypeIntoParamRequest($channelType)
+{
     if (!$channelType) return null;
-    
+
     $result = null;
     switch ($channelType) {
         case 'E-Wallet':
@@ -126,9 +129,35 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     // $destination = 55; // bekasi
     $destinationType = 'subdistrict';
 
+    // checker originId, destinationId and weight if null or empty return responseApi error
+    // if ($originId == null || $destinationId == null || $weight <= 0) {
+    //     return ResponseAPI('Origin, destination and weight cannot be empty', false);
+    // }
+
     // $destination = 224; // Lampung Selatan
     // $originType = 'city';
 
+    try {
+        $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
+            'headers' => [
+                'key' => env('RO_KEY')
+            ],
+            'json' => [
+                'origin' => $originId,
+                'originType' => $originType,
+                'destination' => $destinationId,
+                'destinationType' => $destinationType,
+                'weight' => $weight,
+                'courier' => env('RO_SERVICES'),
+            ],
+            'timeout' => 15,
+        ]);
+    } catch (\Exception $e) {
+        $message = $e->getMessage();
+        $code = $e->getCode();
+
+        throw new Exception($message, $code);
+    }
 
     $res = $client->request('POST', "https://pro.rajaongkir.com/api/cost", [
         'headers' => [
@@ -142,8 +171,9 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
             'weight' => $weight,
             'courier' => env('RO_SERVICES'),
         ],
-        'timeout' => 15, 
+        'timeout' => 15,
     ]);
+
 
     $rajaOngkirResponse = json_decode($res->getBody()->getContents());
     // dd($rajaOngkirResponse);
