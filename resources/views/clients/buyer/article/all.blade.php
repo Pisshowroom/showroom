@@ -79,15 +79,12 @@
                                         <img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
                                             alt="artikel {{ $article->title ?? '' }}">
                                     </div>
-                                    {{-- <a class="tag-dot font-xs" href="#">Technology</a> --}}
                                     <a class="color-gray-1100"
                                         href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}">
                                         <h4>{{ $article->title ?? ' ' }}</h4>
                                     </a>
                                     <div class="mt-20 d-flex justify-content-between"><span
                                             class="color-gray-500 font-xs mr-30">{{ $article->date ?? '' }}</span>
-                                        {{-- <span
-                                            class="color-gray-500 font-xs">4<span>Mins read</span></span> --}}
                                     </div>
                                 </div>
                             </div>
@@ -99,21 +96,7 @@
                     @endif
                 </div>
                 @if (count($articles) > 0)
-                    {{-- <div class="nav-center"> --}}
                     {{ $articles->onEachSide(3)->links() }}
-                    {{-- <nav>
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link page-prev" href="#"></a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link active" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item"><a class="page-link" href="#">6</a></li>
-                            <li class="page-item"><a class="page-link page-next" href="#"></a></li>
-                        </ul>
-                    </nav> --}}
-                    {{-- </div> --}}
                 @endif
             </div>
         </section>

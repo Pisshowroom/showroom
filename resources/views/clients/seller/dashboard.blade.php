@@ -7,9 +7,18 @@
             <div>
                 <h2 class="content-title card-title">Dashboard</h2>
             </div>
-            <div><a class="btn btn-primary" href="{{ route('dashboardSeller.addWithdraw') }}">
-                    <i class="text-muted material-icons md-post_add"></i>Cairkan
-                    Uang</a></div>
+            <div>
+                @if (Auth::guard('web')->user()->balance != null && Auth::guard('web')->user()->balance > 0)
+                    <a class="btn btn-primary" href="{{ route('dashboardSeller.addWithdraw') }}"
+                        {{ Auth::guard('web')->user()->balance != null && Auth::guard('web')->user()->balance > 0 ? '' : 'disabled' }}>
+                        <i class="text-muted material-icons md-post_add"></i>Cairkan
+                        Uang</a>
+                @else
+                    <button class="btn btn-primary" disabled>
+                        <i class="text-muted material-icons md-post_add"></i>Cairkan
+                        Uang</button>
+                @endif
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-6">

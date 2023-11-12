@@ -176,208 +176,6 @@
                                 @endif
                             </div>
                         </div>
-                        {{-- <div class="sidebar-border mb-40">
-                            <div class="sidebar-head">
-                                <h6 class="color-gray-900">Filter Produk</h6>
-                            </div>
-                            <div class="sidebar-content">
-                                <h6 class="color-gray-900 mt-10 mb-10">Harga</h6>
-                                <div class="box-slider-range mt-20 mb-15">
-                                    <div class="row mb-20">
-                                        <div class="col-sm-12">
-                                            <div id="slider-range"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <label class="lb-slider font-sm color-gray-500">Price Range:</label><span
-                                                class="min-value-money font-sm color-gray-1000"></span>
-                                            <label class="lb-slider font-sm font-medium color-gray-1000"></label>-
-                                            <span class="max-value-money font-sm font-medium color-gray-1000"></span>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <input class="form-control min-value" type="hidden" name="min-value"
-                                                value="">
-                                            <input class="form-control max-value" type="hidden" name="max-value"
-                                                value="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span class="text-small">Free -
-                                                $100</span><span class="checkmark"></span>
-                                        </label><span class="number-item">145</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">$100 - $200</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">56</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">$200 - $400</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">23</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">$400 - $600</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">43</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">$600 - $800</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">65</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Over $1000</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">56</span>
-                                    </li>
-                                </ul>
-                                <h6 class="color-gray-900 mt-20 mb-10">Brands</h6>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span
-                                                class="text-small">Apple</span><span class="checkmark"></span>
-                                        </label><span class="number-item">12</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Sony</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">34</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Toshiba</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">56</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Assus</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">78</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Samsung</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">23</span>
-                                    </li>
-                                </ul>
-                                <h6 class="color-gray-900 mt-20 mb-10">Color</h6>
-                                <ul class="list-color">
-                                    <li><a class="color-red active" href="#"></a><span>Red</span></li>
-                                    <li><a class="color-green" href="#"></a><span>Green</span></li>
-                                    <li><a class="color-blue" href="#"></a><span>Blue</span></li>
-                                    <li><a class="color-purple" href="#"></a><span>Purple</span></li>
-                                    <li><a class="color-black" href="#"></a><span>Black</span></li>
-                                    <li><a class="color-gray" href="#"></a><span>Gray</span></li>
-                                    <li><a class="color-pink" href="#"></a><span>Pink</span></li>
-                                    <li><a class="color-brown" href="#"></a><span>Brown</span></li>
-                                    <li><a class="color-yellow" href="#"></a><span>Yellow</span></li>
-                                </ul><a class="btn btn-filter font-sm color-brand-3 font-medium mt-10"
-                                    href="#ModalFiltersForm" data-bs-toggle="modal">More Fillters</a>
-                            </div>
-                        </div> --}}
-                        {{-- <div class="box-slider-item mb-30">
-                            <div class="head pb-15 border-brand-2">
-                                <h5 class="color-gray-900">Best seller</h5>
-                            </div>
-                            <div class="content-slider">
-                                <div class="box-swiper slide-shop">
-                                    <div class="swiper-container swiper-best-seller">
-                                        <div class="swiper-wrapper pt-5">
-                                            <div class="swiper-slide">
-                                                <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
-                                                    <div class="image-box"><span class="label bg-brand-2">-17%</span><a
-                                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage2/camera.png') }}"
-                                                                alt="Ecom"></a>
-                                                    </div>
-                                                    <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">HP Slim Desktop, Intel
-                                                            Celeron J4025, 4GB RAM</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span class="font-xs color-gray-500">
-                                                                (65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-md-bold color-brand-3 price-main">$150</strong><span
-                                                                class="color-gray-500 font-sm price-line">$187</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
-                                                    <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
-                                                                src="{{ asset('ecom/imgs/page/homepage2/cat-img-8.png') }}"
-                                                                alt="Ecom"></a>
-                                                    </div>
-                                                    <div class="info-right"><a class="color-brand-3 font-xs-bold"
-                                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Lenovo Legion 5i 15.6&quot;
-                                                            Laptop, Intel Core i5</a>
-                                                        <div class="rating"><img
-                                                                src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span class="font-xs color-gray-500">
-                                                                (65)</span></div>
-                                                        <div class="price-info"><strong
-                                                                class="font-md-bold color-brand-3 price-main">$150</strong><span
-                                                                class="color-gray-500 font-sm price-line">$187</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="swiper-button-next swiper-button-next-style-2 swiper-button-next-bestseller">
-                                    </div>
-                                    <div
-                                        class="swiper-button-prev swiper-button-prev-style-2 swiper-button-prev-bestseller">
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-                        {{-- <div class="box-slider-item">
-                            <div class="head pb-15 border-brand-2">
-                                <h5 class="color-gray-900">Label Produk</h5>
-                            </div>
-                            <div class="content-slider mb-50"><a class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Games</a><a class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Electronics</a><a
-                                    class="btn btn-border mr-5" href="{{ route('buyer.allGridProduct') }}">Video</a><a
-                                    class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Cellphone</a><a
-                                    class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Indoor</a><a
-                                    class="btn btn-border mr-5" href="{{ route('buyer.allGridProduct') }}">VGA
-                                    Card</a><a class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">USB</a><a class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Lightning</a><a
-                                    class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Camera</a><a class="btn btn-border"
-                                    href="{{ route('buyer.allGridProduct') }}">Window</a><a
-                                    class="btn btn-border mr-5" href="{{ route('buyer.allGridProduct') }}">Air
-                                    Vent</a><a class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Bedroom</a><a
-                                    class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Laptop</a><a
-                                    class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Dashboard</a><a
-                                    class="btn btn-border mr-5"
-                                    href="{{ route('buyer.allGridProduct') }}">Keyboard</a></div>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -394,83 +192,12 @@
                     </div>
                     <div class="modal-body p-30">
                         <div class="row">
-                            {{-- <div class="col-w-1">
-                                <h6 class="color-gray-900 mb-0">Brands</h6>
-                                <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span
-                                                class="text-small">Apple</span><span class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Samsung</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Baseus</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Remax</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Handtown</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Elecom</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Razer</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Auto Focus</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Nillkin</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Logitech</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">ChromeBook</span><span
-                                                class="checkmark"></span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div> --}}
                             <div class="col-w-1">
                                 <h6 class="color-gray-900 mb-0">Harga</h6>
                                 <ul class="list-checkbox">
                                     <li>
                                         <label class="cb-container">
-                                            <input type="checkbox" name="price" value="tertinggi"
+                                            <input type="radio" name="price" value="tertinggi"
                                                 {{ request()->get('price') && request()->get('price') == 'tertinggi' ? 'checked' : '' }}><span
                                                 class="text-small">Harga Tertinggi</span>
                                             <span class="checkmark"></span>
@@ -478,7 +205,7 @@
                                     </li>
                                     <li>
                                         <label class="cb-container">
-                                            <input type="checkbox" name="price" value="terendah"
+                                            <input type="radio" name="price" value="terendah"
                                                 {{ request()->get('price') && request()->get('price') == 'terendah' ? 'checked' : '' }}><span
                                                 class="text-small">Harga
                                                 Terendah</span>
@@ -492,7 +219,7 @@
                                 <ul class="list-checkbox">
                                     <li>
                                         <label class="cb-container">
-                                            <input type="checkbox" name="rating" value="tertinggi"
+                                            <input type="radio" name="rating" value="tertinggi"
                                                 {{ request()->get('rating') && request()->get('rating') == 'tertinggi' ? 'checked' : '' }}><span
                                                 class="text-small">Rating Tertinggi</span>
                                             <span class="checkmark"></span>
@@ -500,7 +227,7 @@
                                     </li>
                                     <li>
                                         <label class="cb-container">
-                                            <input type="checkbox" name="rating" value="terendah"
+                                            <input type="radio" name="rating" value="terendah"
                                                 {{ request()->get('rating') && request()->get('rating') == 'terendah' ? 'checked' : '' }}><span
                                                 class="text-small">Rating
                                                 Terendah</span>
@@ -514,7 +241,7 @@
                                 <ul class="list-checkbox">
                                     <li>
                                         <label class="cb-container">
-                                            <input type="checkbox" name="orderBy" value="desc"
+                                            <input type="radio" name="orderBy" value="desc"
                                                 {{ !request()->get('orderBy') || (request()->get('orderBy') && request()->get('orderBy') == 'desc') ? 'checked' : '' }}><span
                                                 class="text-small">Produk Terbaru</span>
                                             <span class="checkmark"></span>
@@ -522,7 +249,7 @@
                                     </li>
                                     <li>
                                         <label class="cb-container">
-                                            <input type="checkbox" name="orderBy" value="asc"
+                                            <input type="radio" name="orderBy" value="asc"
                                                 {{ request()->get('orderBy') && request()->get('orderBy') == 'asc' ? 'checked' : '' }}><span
                                                 class="text-small">Produk Terlama</span>
                                             <span class="checkmark"></span>
