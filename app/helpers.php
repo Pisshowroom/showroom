@@ -175,7 +175,8 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     ]);
 
 
-    $rajaOngkirResponse = json_decode($res->getBody()->getContents());
+    // $rajaOngkirResponse = json_decode($res->getBody()->getContents());
+    $rajaOngkirResponse = json_decode($res->getBody());
     Log::info("Response Dari RO RO RO");
     Log::info(json_encode($rajaOngkirResponse));
     // dd($rajaOngkirResponse);
