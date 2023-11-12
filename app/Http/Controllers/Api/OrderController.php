@@ -267,7 +267,10 @@ class OrderController extends Controller
         $weight = $request->input('weight');
         $earlierMode = $request->earlier_mode ?? false;
 
-        $client = new Client();
+        // $client = new Client();
+        $client = new Client([
+            'debug' => true,
+        ]);
         // $city = 365; // pontianak
         $originType = 'city';
         // $destination = 55; // bekasi
@@ -308,6 +311,7 @@ class OrderController extends Controller
                 'timeout' => 15,
             ]);
         } catch (\Exception $e) {
+            Log::info("Catched Exception 2");
             $message = $e->getMessage();
             $pattern = '/{.*}/';
             preg_match($pattern, $message, $matches);
