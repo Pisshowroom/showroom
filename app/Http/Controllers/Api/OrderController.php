@@ -314,11 +314,13 @@ class OrderController extends Controller
             $rajaOngkirResponse = json_decode($res);
             $shippingCost = $rajaOngkirResponse->rajaongkir;
 
-            $data['origin_details'] = $shippingCost->origin_details;
-            $data['destination_details'] = $shippingCost->destination_details;
-
+            // $data['origin_details'] = $shippingCost->origin_details;
+            // $data['destination_details'] = $shippingCost->destination_details;
+            
+            $data = [];
             if ($earlierMode == false) {
-                $data['results'] = $shippingCost->results;
+                // $data['results'] = $shippingCost->results;
+                $data = $shippingCost;
             } else {
                 $dataEarlier = null;
 
