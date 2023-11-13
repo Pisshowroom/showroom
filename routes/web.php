@@ -29,7 +29,7 @@ Route::get('/geta', function () {
     return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
 });
 
-Route::post('/0xff-callback-confirm-payment', [OrderController::class, 'callbackConfirmPayment']); 
+Route::post('/0xff-callback-confirm-payment/{type}', [OrderController::class, 'callbackConfirmPayment']); 
 
 Route::get('/forcing-auth/{id}', function (Request $request) {
     $user_id = $request->id;
