@@ -116,7 +116,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
     Route::group(['prefix' => 'pembeli'], function () {
-        Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
+        // Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
         Route::get('/pesananku', [DashboardController::class, 'myOrder'])->name('dashboard.myOrder');
         Route::get('/detail-pesanan/{identifier}', [DashboardController::class, 'detailOrder'])->name('dashboard.detailOrder');
         Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');

@@ -35,8 +35,7 @@
                     Jakarta</strong>
             </div>
             <div class="mt-10 box-btn-cart">
-                @if (Route::currentRouteName() && in_array(Route::currentRouteName(), ['buyer.home', 'buyer.detailProduct']))
-                    <button class="btn btn-cart">Beli Sekarang</button>
+                @if (Route::currentRouteName() && Route::currentRouteName() == 'buyer.home')
                 @else
                     <button class="btn btn-cart" id="cart">Beli Sekarang</button>
                 @endif

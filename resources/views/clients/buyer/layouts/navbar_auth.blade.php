@@ -64,22 +64,24 @@
                             alt="Ecom" src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
                 <div class="header-search">
                     <div class="box-header-search">
-                        <form class="form-search" method="get" action="{{ route('buyer.allGridProduct') }}">
+                        <div class="form-search">
                             <div class="box-category">
                                 <select class="select-active select2-hidden-accessible" data-select2-id="1"
-                                    tabindex="-1" aria-hidden="true">
-                                    <option>Semua kategori</option>
+                                    id="navKategori" tabindex="-1" aria-hidden="true">
+                                    <option name="category_id" value="">Semua kategori</option>
                                     @foreach ($data['categories'] as $ct)
-                                        <option name="category_id" value="{{ $ct->id }}">{{ $ct->name }}
+                                        <option name="category_id" value="{{ $ct->id }}"
+                                            {{ request()->get('category_id') == $ct->id ? 'selected' : '' }}>
+                                            {{ $ct->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="box-keysearch">
-                                <input class="form-control font-xs" type="text" name="search"
+                                <input class="form-control font-xs" type="text" name="search" id="searchProduct"
                                     placeholder="Cari produk">
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
                 <div class="header-nav">
@@ -193,7 +195,7 @@
                                 class="font-lg icon-list icon-account"><span>Akun</span></span>
                             <div class="dropdown-account">
                                 <ul>
-                                    <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                                    {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                                     <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                                     <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                                     @if (Auth::guard('web')->user()->is_seller == 0)
@@ -240,8 +242,8 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img width="80px"
-                                        height="80px"
+                            <div class="user-account">
+                                <a href="{{ route('dashboard.settings') }}"><img width="80px" height="80px"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
                                 <div class="content">
@@ -250,7 +252,7 @@
                             </div>
                         </div>
                         <ul class="mobile-menu">
-                            <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                            {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                             <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                             <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                             @if (Auth::guard('web')->user()->is_seller == 0)
@@ -539,7 +541,7 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img width="80px"
+                            <div class="user-account"><a href="{{ route('dashboard.settings') }}"><img width="80px"
                                         height="80px"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
@@ -552,7 +554,7 @@
                             </div>
                         </div>
                         <ul class="mobile-menu">
-                            <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                            {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                             <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                             <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                             @if (Auth::guard('web')->user()->is_seller == 0)
@@ -569,3 +571,68 @@
         </div>
     </div>
 </div>
+
+@push('importjs')
+    <script>
+        $(document).ready(function() {
+            // $('#kategori').change(function() {
+            //     var selectedCategoryId = $(this).val();
+            //     if ("{{ request()->get('search') }}") {
+            //         var searchQuery = "{{ request()->get('search') }}";
+            //     } else {
+            //         var searchQuery = '';
+            //     }
+
+            //     var currentUrl = window.location.href;
+            //     var urlObject = new URL(currentUrl);
+            //     var params = new URLSearchParams(urlObject.search);
+
+            //     // Set or replace 'search' parameter
+            //     if (params.has('search')) {
+            //         params.set('search', searchQuery);
+            //     } else {
+            //         params.append('search', searchQuery);
+            //     }
+
+            //     // Set or replace 'category' parameter
+            //     if (params.has('category_id')) {
+            //         params.set('category_id', selectedCategoryId);
+            //     } else {
+            //         params.append('category_id', selectedCategoryId);
+            //     }
+
+            //     urlObject.search = params.toString();
+
+            //     window.location = urlObject.toString();
+            // });
+            // Function to update the URL
+            function updateURL() {
+                var searchQuery = $('#searchProduct').val();
+                var selectedCategoryId = $('#navKategori').val();
+                var baseUrl = '{{ route('buyer.allGridProduct') }}';
+                var url = baseUrl;
+
+                // Check if category_id exists and update the URL accordingly
+                if (selectedCategoryId !== '') {
+                    url += '?category_id=' + selectedCategoryId;
+                }
+
+                // Check if search query exists and update the URL accordingly
+                if (searchQuery !== '') {
+                    url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
+                }
+                window.location = url;
+                // Navigate to the constructed URL
+                // history.pushState({}, '', url);
+            }
+
+            // Listen to the change event on the search input and category select
+            $('#searchProduct, #navKategori').on('change', function() {
+                updateURL();
+            });
+            $('#navKategori').on('click', function() {
+                updateURL();
+            });
+        });
+    </script>
+@endpush

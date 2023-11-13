@@ -47,6 +47,14 @@ class ProductController extends Controller
                     $query->where('status', 'done');
                 });
             }], 'quantity')->orderBy('id', $request->orderBy ?? 'desc')->paginate(15);
+        if ($product && count($product) > 0) {
+            foreach ($product as $key => $value) {
+                $value->price_discount = null;
+                if ($value->discount != null) {
+                    $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+                }
+            }
+        }
         $data['categories'] = $this->categories();
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
@@ -74,6 +82,14 @@ class ProductController extends Controller
                     $query->where('status', 'done');
                 });
             }], 'quantity')->orderByDesc('total_sell')->take(8)->get();
+        if ($data['related_products'] && count($data['related_products']) > 0) {
+            foreach ($data['related_products'] as $key => $value) {
+                $value->price_discount = null;
+                if ($value->discount != null) {
+                    $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+                }
+            }
+        }
         $data['same_products'] = Product::whereNot('id', $product->id)->where('seller_id', $product->seller_id)
             ->with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])
             ->withAvg('reviews', 'rating')
@@ -82,6 +98,14 @@ class ProductController extends Controller
                     $query->where('status', 'done');
                 });
             }], 'quantity')->orderByDesc('total_sell')->take(8)->get();
+        if ($data['same_products'] && count($data['same_products']) > 0) {
+            foreach ($data['same_products'] as $key => $value) {
+                $value->price_discount = null;
+                if ($value->discount != null) {
+                    $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+                }
+            }
+        }
         $data['categories'] = $this->categories();
         return view('clients.buyer.product.detail', ['product' => $product, 'data' => $data]);
     }

@@ -185,7 +185,7 @@
                                 class="font-lg icon-list icon-account"><span>Akun</span></span>
                             <div class="dropdown-account">
                                 <ul>
-                                    <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                                    {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                                     <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                                     <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                                     @if (Auth::guard('web')->user()->is_seller == 0)
@@ -415,7 +415,7 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img width="80px"
+                            <div class="user-account"><a href="{{ route('dashboard.settings') }}"><img width="80px"
                                         height="80px"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
@@ -428,7 +428,7 @@
                             </div>
                         </div>
                         <ul class="mobile-menu">
-                            <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                            {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                             <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                             <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                             @if (Auth::guard('web')->user()->is_seller == 0)

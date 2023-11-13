@@ -71,7 +71,7 @@
                                                     <div class="col-lg-6 mb-3">
                                                         <label class="form-label">Email</label>
                                                         <input class="form-control" type="email"
-                                                            placeholder="andi@mail.com"
+                                                            placeholder="andi@mail.com" name="email"
                                                             value="{{ Auth::guard('web')->user()->email }}" required>
                                                     </div>
                                                     <!-- col .//-->

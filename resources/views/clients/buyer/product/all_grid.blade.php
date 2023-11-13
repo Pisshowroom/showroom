@@ -30,27 +30,17 @@
                                         <div class="dropdown dropdown-sort border-1-right">
                                             <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
                                                 id="dropdownSort" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">Produk Terbaru</button>
+                                                aria-expanded="false">{{ !request()->get('orderBy') || request()->get('orderBy') == 'desc' ? 'Produk Terbaru' : 'Produk Terlama' }}</button>
                                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort"
                                                 style="margin: 0px;">
-                                                <li><a class="dropdown-item active" href="#">Produk Terbaru</a></li>
-                                                <li><a class="dropdown-item" href="#">Produk Terlama</a></li>
+                                                <li order-by="desc"><a class="dropdown-item active"
+                                                        href="javascript:void(0)">Produk
+                                                        Terbaru</a></li>
+                                                <li order-by="asc"><a class="dropdown-item" href="javascript:void(0)">Produk
+                                                        Terlama</a></li>
                                             </ul>
                                         </div>
                                     </div>
-                                    {{-- <div class="d-inline-block"><span class="font-sm color-gray-500 font-medium">Show</span>
-                                        <div class="dropdown dropdown-sort border-1-right">
-                                            <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
-                                                id="dropdownSort2" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false" data-bs-display="static"><span>30
-                                                    items</span></button>
-                                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort2">
-                                                <li><a class="dropdown-item active" href="#">30 items</a></li>
-                                                <li><a class="dropdown-item" href="#">50 items</a></li>
-                                                <li><a class="dropdown-item" href="#">100 items</a></li>
-                                            </ul>
-                                        </div>
-                                    </div> --}}
                                     <div class="d-inline-block"><a class="view-type-grid mr-5 active"
                                             href="{{ route('buyer.allGridProduct') }}"></a><a class="view-type-list"
                                             href="{{ route('buyer.allListProduct') }}"></a>
@@ -96,10 +86,14 @@
                                 @if (count($data['categories']) > 0)
                                     <ul class="list-nav-arrow">
                                         @foreach ($data['categories'] as $ct)
-                                            <li class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"><a
-                                                    class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
-                                                    href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}">{{ $ct->name ?? '' }}<span
-                                                        class="number">{{ $ct->products_count ? moneyFormat($ct->products_count) ?? 0 : 0 }}</span></a>
+                                            <li data-category="{{ $ct->id }}"
+                                                class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}">
+                                                <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
+                                                    href="javascript:void(0)">
+                                                    {{ $ct->name ?? '' }}
+                                                    <span
+                                                        class="number">{{ $ct->products_count ? moneyFormat($ct->products_count) ?? 0 : 0 }}</span>
+                                                </a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -202,4 +196,44 @@
 
 @endsection
 @push('importjs')
+    <script>
+        $(document).ready(function() {
+            function updateURL() {
+                var searchQuery = $('#searchProduct').val();
+                var selectedOrderBy = $('#dropdownSort').parent().find('.active').attr('order-by');
+                var selectedCategoryId = $('.list-nav-arrow li.active').data('category');
+
+                var baseUrl = '{{ route('buyer.allGridProduct') }}';
+                var url = baseUrl;
+
+                // Check if category_id exists and update the URL accordingly
+                if (selectedCategoryId !== undefined && selectedCategoryId !== 'Semua kategori') {
+                    url += '?category_id=' + selectedCategoryId;
+                } else if (selectedOrderBy !== undefined) {
+                    url += '?orderBy=' + selectedOrderBy;
+                }
+
+                // Check if search query exists and update the URL accordingly
+                if (searchQuery !== '') {
+                    console.log(searchQuery);
+                    url += (selectedCategoryId !== undefined || selectedOrderBy !== undefined ? '&' : '?') +
+                        'search=' + searchQuery;
+                }
+
+                window.location = url;
+            }
+
+            // Listen to the change event on the search input, dropdown, and category select
+            // $('#searchProduct').on('change', function() {
+            //     updateURL();
+            // });
+            $('#dropdownSort,  #navKategori').on('click', function() {
+                updateURL();
+            });
+            $('.list-nav-arrow li').on('click', function() {
+                $(this).addClass('active');
+                updateURL();
+            });
+        });
+    </script>
 @endpush

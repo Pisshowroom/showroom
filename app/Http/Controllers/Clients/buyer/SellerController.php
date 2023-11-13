@@ -40,6 +40,14 @@ class SellerController extends Controller
                 });
             }], 'quantity')
             ->paginate($request->per_page ?? 15);
+        if ($product && count($product) > 0) {
+            foreach ($product as $key => $value) {
+                $value->price_discount = null;
+                if ($value->discount != null) {
+                    $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+                }
+            }
+        }
         $data['categories'] = $this->categories();
         $data['categories_product'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) use ($seller) {
             $q->where('seller_id', $seller->id);

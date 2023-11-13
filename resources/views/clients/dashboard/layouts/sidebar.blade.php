@@ -1,8 +1,8 @@
 <nav>
     <ul class="menu-aside">
         <li class="menu-item"><span class="text">Pembeli</span></li>
-        <li class="menu-item @yield('dashboardBuyer')"><a class="menu-link" href="{{ route('dashboard.dashboard') }}"><i
-                    class="icon material-icons md-home"></i><span class="text">Dashboard</span></a></li>
+        {{-- <li class="menu-item @yield('dashboardBuyer')"><a class="menu-link" href="{{ route('dashboard.dashboard') }}"><i
+                    class="icon material-icons md-home"></i><span class="text">Dashboard</span></a></li> --}}
         {{-- <li class="menu-item has-submenu"><a class="menu-link" href="page-products-list.html"><i
                     class="icon material-icons md-shopping_bag"></i><span class="text">Products</span></a>
             <div class="submenu"><a href="page-products-list.html">Product List</a><a
