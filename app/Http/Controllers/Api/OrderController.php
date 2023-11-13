@@ -29,6 +29,19 @@ use Xendit\Xendit;
 class OrderController extends Controller
 {
 
+    public function manualCreatePayReq(Request $request)
+    {
+        $channelType = $request->input('channelType');
+        $channelCode = $request->input('channelCode');
+        $amount = $request->input('amount');
+        $paymentIdentifier = $request->input('paymentIdentifier');
+        $paymentDue = $request->input('paymentDue');
+        $user = User::find(1);
+
+        $result = $this->createPaymentRequest($channelType, $channelCode, $amount, $paymentIdentifier, $paymentDue, $user);
+        return $result;
+    }
+
     public function createPaymentRequest($channelType, $channelCode, $amount, $paymentIdentifier, $paymentDue, User $user)
     {
         Xendit::setApiKey(env('XENDIT_KEY'));
@@ -50,7 +63,7 @@ class OrderController extends Controller
                 'api_version' => '2022-07-31',
                 'reference_id' => $paymentIdentifier . strval(time()),
                 'type' => 'DYNAMIC',
-                'webhook-url' => 'https://redirect.me',
+                'webhook-url' => 'https://662b-103-154-110-81.ngrok-free.app/0xff-callback-confirm-payment',
                 'amount' => $amount,
                 'expires_at' => $paymentDue,
                 'currency' => 'IDR',
@@ -225,6 +238,36 @@ class OrderController extends Controller
         return ResponseAPI($data);
     }
 
+    public function callbackConfirmPayment($type, Request $request)
+    {
+        // return "a";
+        if ($type == 'QR_CODE') {
+            $data = $request->data;
+            if ($data && in_array($data['status'], ['SUCCEEDED', 'COMPLETED'])) {
+                $external_id = $data['reference_id'];
+            }
+        } elseif ($type == 'VIRTUAL_ACCOUNT') {
+            $external_id = $request->external_id;
+            // $payment_id = $request->payment_id;
+        } elseif ($type == 'OVER_THE_COUNTER') {
+            $external_id = $request->external_id;
+            // $payment_id = $request->payment_id;
+        }
+
+        $order = Order::where('payment_identifier', $external_id)->first();
+        if ($order == null) {
+            return ResponseAPI("Maaf pesanan dengan id " . $external_id . " tidak ditemukan.", 200);
+        }
+
+        // dd($order);
+
+        $order->status = Order::PAID;
+        $order->payment_status = Order::PAYMENT_PAID;
+        $order->save();
+        // Log::info('callbackConfirmPayment called with parameters:', $request->all());
+        return ResponseAPI("Pembayaran berhasil dikonfirmasi.", 200);
+    }
+
     public function dummyDelivery(Request $request)
     {
         // return $request->type;
@@ -302,7 +345,7 @@ class OrderController extends Controller
                 // $rajaOngkirResponse = json_decode($res);
 
                 // return ResponseAPI("asdasdasd", 404);
-                
+
                 // return ResponseAPI($rajaOngkirResponse, 404);
 
                 $rajaOngkirResponse = json_decode($res);
@@ -316,7 +359,7 @@ class OrderController extends Controller
 
             // $data['origin_details'] = $shippingCost->origin_details;
             // $data['destination_details'] = $shippingCost->destination_details;
-            
+
             $data = [];
             if ($earlierMode == false) {
                 // $data['results'] = $shippingCost->results;
@@ -538,13 +581,14 @@ class OrderController extends Controller
         $channelCode = $channelType == 'QR_CODE' ? "DYNAMIC" : $masterAccount->provider_name;
 
         $dataPaymentCreated = $this->createPaymentRequest($channelType, $channelCode, $total, $identifier, $paymentDue, $user);
+        Log::info("created payReq - $identifier :", $dataPaymentCreated);
 
         // dd($dataPaymentCreated);
         // return ResponseAPI($dataPaymentCreated);
 
 
         $order->discount_product = $countedAmountPromo;
-        $order->payment_status = Order::PAYMENT_PAID;
+        $order->payment_status = Order::PAYMENT_PENDING;
         $order->status = Order::PENDING;
         $order->address_id = $request->address_id;
         $order->delivery_cost = $deliveryCost;
