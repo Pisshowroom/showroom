@@ -54,7 +54,7 @@
         </li> --}}
         @if (Auth::guard('web')->user()->is_seller == 0)
             <li class="menu-item @yield('out')"><a class="menu-link" disabled=""
-                    href="{{ route('dashboard.settings') }}"><i class="icon material-icons md-storefront"></i><span
+                    href="{{ route('dashboardSeller.profile') }}"><i class="icon material-icons md-storefront"></i><span
                         class="text">Daftar Toko</span></a>
             </li>
         @endif

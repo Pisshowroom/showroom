@@ -4,7 +4,7 @@
     ? 'Daftar Toko'
     : 'Profil
     Toko')
-@section('profile', 'active')
+@section(Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller == 0 ? 'out' : 'profile', 'active')
 @section('dashboard')
     <section class="content-main">
         <div class="content-header">
