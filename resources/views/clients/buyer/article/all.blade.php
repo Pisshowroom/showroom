@@ -91,12 +91,12 @@
                         @endforeach
                     @else
                         <div class="col-lg-12 text-center mt-40">
-                            <h4>Tidak ada data Artikel saat ini</h4>
+                            <h4>Tidak ada Artikel saat ini</h4>
                         </div>
                     @endif
                 </div>
                 @if (count($articles) > 0)
-                    {{ $articles->onEachSide(3)->links() }}
+                    {{ $articles->onEachSide(3)->appends(request()->except('page'))->links() }}
                 @endif
             </div>
         </section>

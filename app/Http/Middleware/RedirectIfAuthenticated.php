@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
             return $next($request);
         if (Auth::guard('web')->check()) {
             if (in_array(Route::currentRouteName(), ['buyer.login','buyer.register']))
-                return redirect()->route('dashboard.dashboard');
+                return redirect()->route('dashboard.settings');
             else
                 return $next($request);
         }

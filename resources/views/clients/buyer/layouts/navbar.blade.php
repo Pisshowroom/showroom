@@ -65,9 +65,9 @@
                             src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
                 <div class="header-search">
                     <div class="box-header-search">
-                        <form class="form-search" method="get" action="{{ route('buyer.allGridProduct') }}">
+                        <div class="form-search">
                             <div class="box-category">
-                                <select class="select-active select2-hidden-accessible" data-select2-id="1"
+                                <select id="navKategori" class="select-active select2-hidden-accessible" data-select2-id="1"
                                     tabindex="-1" aria-hidden="true">
                                     <option>Semua kategori</option>
                                     @foreach ($data['categories'] as $ct)
@@ -77,10 +77,10 @@
                                 </select>
                             </div>
                             <div class="box-keysearch">
-                                <input class="form-control font-xs" type="text" value="" name="search"
+                                <input class="form-control font-xs" type="text" name="search" id="searchProduct"
                                     placeholder="Cari produk">
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
                 <div class="header-nav text-start">
@@ -98,9 +98,9 @@
                     <div class="header-shop">
                         @if (Auth::guard('web')->user()->is_seller == 1)
                             <div class="d-lg-inline-block d-none">
-                                <a class="font-lg btn btn-buy d-inline-block"
+                                <a class="font-lg btn btn-buy d-inline-block" style="padding:7px 10px !important;"
                                     href="{{ route('dashboardSeller.dashboard') }}">
-                                    {{ substr(Auth::guard('web')->user()->seller_name ?? '', 0, 6) . (strlen(Auth::guard('web')->user()->seller_name ?? '') > 6 ? '..' : '') }}
+                                    Toko Saya
                                 </a>
                             </div>
                         @endif
@@ -185,13 +185,13 @@
                                 class="font-lg icon-list icon-account"><span>Akun</span></span>
                             <div class="dropdown-account">
                                 <ul>
-                                    <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                                    {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                                     <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                                     <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                                     @if (Auth::guard('web')->user()->is_seller == 0)
                                         <li><a href="{{ route('dashboard.settings') }}">Daftar Toko</a></li>
                                     @else
-                                        <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                        <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko Saya</a></li>
                                     @endif
                                     <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
                                     <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
@@ -415,7 +415,7 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img width="80px"
+                            <div class="user-account"><a href="{{ route('dashboard.settings') }}"><img width="80px"
                                         height="80px"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
@@ -428,13 +428,13 @@
                             </div>
                         </div>
                         <ul class="mobile-menu">
-                            <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                            {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                             <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                             <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                             @if (Auth::guard('web')->user()->is_seller == 0)
                                 <li><a href="{{ route('dashboardSeller.profile') }}">Daftar Toko</a></li>
                             @else
-                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko Saya</a></li>
                             @endif
                             <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
                             <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
@@ -445,4 +445,34 @@
         </div>
     </div>
 </div>
-</div>
+
+@push('importjs')
+    <script>
+        $(document).ready(function() {
+            function updateURL() {
+                var searchQuery = $('#searchProduct').val();
+                var selectedCategoryId = $('#navKategori').val();
+                var baseUrl = '{{ route('buyer.allGridProduct') }}';
+                var url = baseUrl;
+
+                // Check if category_id exists and update the URL accordingly
+                if (selectedCategoryId !== '') {
+                    url += '?category_id=' + selectedCategoryId;
+                }
+
+                // Check if search query exists and update the URL accordingly
+                if (searchQuery !== '') {
+                    url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
+                }
+                window.location = url;
+                // Navigate to the constructed URL
+                // history.pushState({}, '', url);
+            }
+
+            // Listen to the change event on the search input and category select
+            $('#searchProduct, #navKategori').on('change', function() {
+                updateURL();
+            });
+        });
+    </script>
+@endpush

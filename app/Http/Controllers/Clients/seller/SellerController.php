@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -119,6 +120,10 @@ class SellerController extends Controller
         if ($request->filled('seller_name')) {
             $user->seller_name = $request->seller_name;
             $user->seller_slug = Str::slug($request->seller_name);
+            $checkDuplicate = User::where('id', '!=', $user->id)->where('seller_slug', $user->seller_slug)->first();
+            if ($checkDuplicate) {
+                return redirect("/toko/profil")->with('error', 'Nama Toko sudah digunakan');
+            }
         }
 
         if ($request->filled('seller_description')) {

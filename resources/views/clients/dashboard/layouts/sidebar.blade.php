@@ -1,8 +1,8 @@
 <nav>
     <ul class="menu-aside">
         <li class="menu-item"><span class="text">Pembeli</span></li>
-        <li class="menu-item @yield('dashboardBuyer')"><a class="menu-link" href="{{ route('dashboard.dashboard') }}"><i
-                    class="icon material-icons md-home"></i><span class="text">Dashboard</span></a></li>
+        {{-- <li class="menu-item @yield('dashboardBuyer')"><a class="menu-link" href="{{ route('dashboard.dashboard') }}"><i
+                    class="icon material-icons md-home"></i><span class="text">Dashboard</span></a></li> --}}
         {{-- <li class="menu-item has-submenu"><a class="menu-link" href="page-products-list.html"><i
                     class="icon material-icons md-shopping_bag"></i><span class="text">Products</span></a>
             <div class="submenu"><a href="page-products-list.html">Product List</a><a
@@ -54,7 +54,7 @@
         </li> --}}
         @if (Auth::guard('web')->user()->is_seller == 0)
             <li class="menu-item @yield('out')"><a class="menu-link" disabled=""
-                    href="{{ route('dashboard.settings') }}"><i class="icon material-icons md-storefront"></i><span
+                    href="{{ route('dashboardSeller.profile') }}"><i class="icon material-icons md-storefront"></i><span
                         class="text">Daftar Toko</span></a>
             </li>
         @endif

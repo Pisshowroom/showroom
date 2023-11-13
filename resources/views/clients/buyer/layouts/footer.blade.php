@@ -51,11 +51,11 @@
                     <div>
                         <p class="font-md color-gray-900">Unduh Aplikasi kami di Appstore dan Playstore&mldr;!</p>
                         <div class="mt-20"><a class="mr-10" href="#"><img
-                                    src="{{ asset('ecom/imgs/template/appstore.png') }}" alt="Ecom"></a><a
+                                    src="{{ asset('ecom/imgs/template/appstore.png') }}" alt="appstore"></a><a
                                 href="#"><img src="{{ asset('ecom/imgs/template/google-play.png') }}"
-                                    alt="Ecom"></a></div>
+                                    alt="google play"></a></div>
                         <p class="font-md color-gray-900 mt-20 mb-10">Pembayaran Aman</p><img
-                            src="{{ asset('ecom/imgs/template/payment-method.png') }}" alt="Ecom">
+                            src="{{ asset('ecom/imgs/template/payment-method.png') }}" alt="Pembayaran Aman">
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
     <div class="footer-2">
         <div class="footer-bottom-1">
             <div class="container">
-                <div class="footer-2-top mb-20"><a href="{{ route('buyer.home') }}"><img alt="Ecom"
+                <div class="footer-2-top mb-20"><a href="{{ route('buyer.home') }}"><img alt="pisshop"
                             src="{{ asset('ecom/imgs/template/logo-2.svg') }}"></a><a class="font-xs color-gray-1000"
                         href="#">EcomMarket.com</a><a class="font-xs color-gray-1000" href="#">Ecom
                         Partners</a><a class="font-xs color-gray-1000" href="#">Ecom

@@ -79,7 +79,7 @@
                             @endforeach
                         @else
                             <div class="col-lg-12 text-center mt-40">
-                                <h4>Tidak ada data Produk saat ini</h4>
+                                <h4>Tidak ada Produk saat ini</h4>
                             </div>
                         @endif
                     </div>
@@ -110,7 +110,7 @@
                                             @endforeach
                                         @else
                                             <div class="col-lg-12 text-center mt-40">
-                                                <h4>Tidak ada data Produk terbaru saat ini</h4>
+                                                <h4>Tidak ada Produk terbaru saat ini</h4>
                                             </div>
                                         @endif
                                     </div>
@@ -142,7 +142,7 @@
                             @endforeach
                         @else
                             <div class="col-lg-12 text-center mt-40">
-                                <h4>Tidak ada data Produk saat ini</h4>
+                                <h4>Tidak ada Produk saat ini</h4>
                             </div>
                         @endif
                     </div>

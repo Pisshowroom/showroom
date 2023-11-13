@@ -61,25 +61,27 @@
         <div class="main-header">
             <div class="header-left">
                 <div class="header-logo logo-auth"><a class="d-flex" href="{{ route('buyer.home') }}"><img
-                            alt="Ecom" src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
+                            alt="logo pisshop" src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
                 <div class="header-search">
                     <div class="box-header-search">
-                        <form class="form-search" method="get" action="{{ route('buyer.allGridProduct') }}">
+                        <div class="form-search">
                             <div class="box-category">
                                 <select class="select-active select2-hidden-accessible" data-select2-id="1"
-                                    tabindex="-1" aria-hidden="true">
-                                    <option>Semua kategori</option>
+                                    id="navKategori" tabindex="-1" aria-hidden="true">
+                                    <option name="category_id" value="Semua kategori">Semua kategori</option>
                                     @foreach ($data['categories'] as $ct)
-                                        <option name="category_id" value="{{ $ct->id }}">{{ $ct->name }}
+                                        <option name="category_id" value="{{ $ct->id }}"
+                                            {{ request()->get('category_id') == $ct->id ? 'selected' : '' }}>
+                                            {{ $ct->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="box-keysearch">
-                                <input class="form-control font-xs" type="text" name="search"
+                                <input class="form-control font-xs" type="text" name="search" id="searchProduct"
                                     placeholder="Cari produk">
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
                 <div class="header-nav">
@@ -103,9 +105,9 @@
                     <div class="header-shop">
                         @if (Auth::guard('web')->user()->is_seller == 1)
                             <div class="d-lg-inline-block d-none">
-                                <a class="font-lg btn btn-buy d-inline-block"
+                                <a class="font-lg btn btn-buy d-inline-block" style="padding:7px 10px !important;"
                                     href="{{ route('dashboardSeller.dashboard') }}">
-                                    {{ substr(Auth::guard('web')->user()->seller_name ?? '', 0, 6) . (strlen(Auth::guard('web')->user()->seller_name ?? '') > 6 ? '..' : '') }}
+                                    Toko Saya
                                 </a>
                             </div>
                         @endif
@@ -193,13 +195,13 @@
                                 class="font-lg icon-list icon-account"><span>Akun</span></span>
                             <div class="dropdown-account">
                                 <ul>
-                                    <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                                    {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                                     <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                                     <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                                     @if (Auth::guard('web')->user()->is_seller == 0)
                                         <li><a href="{{ route('dashboard.settings') }}">Daftar Toko</a></li>
                                     @else
-                                        <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                        <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko Saya</a></li>
                                     @endif
                                     <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
                                     <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
@@ -240,8 +242,8 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img width="80px"
-                                        height="80px"
+                            <div class="user-account">
+                                <a href="{{ route('dashboard.settings') }}"><img width="80px" height="80px"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
                                 <div class="content">
@@ -250,13 +252,13 @@
                             </div>
                         </div>
                         <ul class="mobile-menu">
-                            <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                            {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                             <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                             <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                             @if (Auth::guard('web')->user()->is_seller == 0)
                                 <li><a href="{{ route('dashboardSeller.profile') }}">Daftar Toko</a></li>
                             @else
-                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko Saya</a></li>
                             @endif
                             <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
                             <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
@@ -539,7 +541,7 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.dashboard') }}"><img width="80px"
+                            <div class="user-account"><a href="{{ route('dashboard.settings') }}"><img width="80px"
                                         height="80px"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
@@ -552,13 +554,13 @@
                             </div>
                         </div>
                         <ul class="mobile-menu">
-                            <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li>
+                            {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
                             <li><a href="{{ route('dashboard.myOrder') }}">Pesanan ku</a></li>
                             <li><a href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
                             @if (Auth::guard('web')->user()->is_seller == 0)
                                 <li><a href="{{ route('dashboardSeller.profile') }}">Daftar Toko</a></li>
                             @else
-                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko Saya</a></li>
                             @endif
                             <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
                             <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
@@ -569,3 +571,4 @@
         </div>
     </div>
 </div>
+

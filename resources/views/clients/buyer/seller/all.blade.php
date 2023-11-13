@@ -36,7 +36,7 @@
                                     {{-- <a
                                         class="btn btn-filter font-sm color-brand-3 font-medium" href="#ModalFiltersForm"
                                         data-bs-toggle="modal">Filter</a> --}}
-                                    </div>
+                                </div>
                                 <div class="col-xl-10 col-lg-9 mb-10 text-lg-end"><span
                                         class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
                                         {{ count($sellers) > 0 ? count($sellers) : 0 }} hasil</span>
@@ -45,11 +45,15 @@
                                         <div class="dropdown dropdown-sort border-1-right">
                                             <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
                                                 id="dropdownSort" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">Rating Tertinggi</button>
+                                                aria-expanded="false">{{ !request()->get('rating') || (request()->get('rating') && request()->get('rating') == 'desc') ? 'Rating Tertinggi' : 'Rating Terendah' }}</button>
                                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort"
                                                 style="margin: 0px;">
-                                                <li><a class="dropdown-item active" href="#">Rating Tertinggi</a></li>
-                                                <li><a class="dropdown-item" href="#">Rating Terendah</a></li>
+                                                <li><a class="dropdown-item {{ !request()->get('rating') || (request()->get('rating') && request()->get('rating') == 'desc') ? 'active' : '' }}"
+                                                        href="{{ route('buyer.allSeller', ['rating' => 'desc']) }}">Rating
+                                                        Tertinggi</a></li>
+                                                <li><a class="dropdown-item {{ request()->get('rating') && request()->get('rating') == 'asc' ? 'active' : '' }}"
+                                                        href="{{ route('buyer.allSeller', ['rating' => 'asc']) }}">Rating
+                                                        Terendah</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -78,12 +82,13 @@
                                             <div class="card-vendor">
                                                 <div class="card-top-vendor mb-0 pb-0 border-0">
                                                     <div class="card-top-vendor-left"><img
-                                                            src="{{ asset('ecom/imgs/page/vendor/futur.png') }}"
-                                                            alt="Ecom">
+                                                            src="{{ $seller->seller_image ? asset($seller->seller_image) ?? asset('ecom/imgs/page/vendor/futur.png') : asset('ecom/imgs/page/vendor/futur.png') }}"
+                                                            alt="penjual {{ $seller->name ?? '' }}">
                                                         <div class="rating gap-1 d-flex align-items-center"><img
                                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                                alt="Ecom"><span class="font-xs color-gray-500">5
-                                                                    {{-- ({{ $prd->total_sell ? moneyFormat($prd->total_sell) ?? 0 : 0 }}) --}}
+                                                                alt="rating penjual {{ $seller->name ?? '' }}"><span
+                                                                class="font-xs color-gray-500">
+                                                                {{ $seller->rating_seller ?? 0 }}
                                                                 (65 Terjual)
                                                             </span>
                                                         </div>
@@ -111,12 +116,12 @@
                                 @endforeach
                             @else
                                 <div class="col-lg-12 text-center mt-40">
-                                    <h4>Tidak ada data Produk saat ini</h4>
+                                    <h4>Tidak ada Produk saat ini</h4>
                                 </div>
                             @endif
                         </div>
                         @if (count($sellers) > 0)
-                            {{ $sellers->onEachSide(3)->links() }}
+                            {{ $sellers->onEachSide(3)->appends(request()->except('page'))->links() }}
                         @endif
                         {{-- <nav>
                             <ul class="pagination">

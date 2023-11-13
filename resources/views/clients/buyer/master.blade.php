@@ -26,7 +26,7 @@
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
                 <div class="text-center"><img class="mb-10" src="{{ asset('ecom/imgs/template/favicon.svg') }}"
-                        alt="Ecom">
+                        alt="loading favicon">
                     <div class="preloader-dots"></div>
                 </div>
             </div>

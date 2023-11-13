@@ -14,7 +14,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6 col-md-6 mb-lg-0 mb-15"><span><i
                                 class="material-icons md-calendar_today me-1"></i><b>{{ $order->date . ' WIB' ?? '' }}</b></span><br><small
-                            class="text-muted">Kode Pesanan : {{ $order->payment_identifier ?? '' }}</small></div>
+                            class="text-muted">Nomor Resi : {{ $order->payment_identifier ?? '' }}</small></div>
                     {{-- <div class="col-lg-6 col-md-6 ms-auto text-md-end">
                         <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
                             <option>Change status</option>

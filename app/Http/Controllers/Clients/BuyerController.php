@@ -109,9 +109,4 @@ class BuyerController extends Controller
         return view('clients.buyer.user.wishlist', ['data' => $data]);
     }
 
-    //dashboard
-    public function dashboard()
-    {
-        return view('clients.buyer.dashboard.dashboard');
-    }
 }

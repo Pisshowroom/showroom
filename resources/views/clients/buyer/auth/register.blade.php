@@ -157,7 +157,7 @@
                                 setTimeout(function() {
                                     $('#myDiv4').fadeOut('fast');
                                 }, 2000);
-                                window.location.replace("{{ route('dashboard.dashboard') }}");
+                                window.location.replace("{{ route('dashboard.myOrder') }}");
                             }
                         },
                         error: function(error) {
@@ -209,7 +209,7 @@
                         setTimeout(function() {
                             $('#myDiv3').fadeOut('fast');
                         }, 2000);
-                        window.location.replace("{{ route('dashboard.dashboard') }}");
+                        window.location.replace("{{ route('dashboard.myOrder') }}");
 
                     } else {
                         var div = document.getElementById('myDiv2');
