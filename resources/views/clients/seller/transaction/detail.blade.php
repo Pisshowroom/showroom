@@ -17,7 +17,7 @@
                             <i class="material-icons md-calendar_today"></i>
                             <b>{{ $order->date . ' WIB' ?? '' }}</b>
                         </span><br>
-                        <small class="text-muted">Kode Pesanan :
+                        <small class="text-muted">Nomor Resi :
                             {{ $order->payment_identifier ?? '' }}</small>
                     </div>
                     {{-- <div class="col-lg-6 col-md-6 ms-auto text-md-end">

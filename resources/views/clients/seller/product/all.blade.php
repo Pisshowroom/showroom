@@ -82,7 +82,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                {{ $products->onEachSide(3)->links() }}
+                                {{ $products->onEachSide(3)->appends(request()->except('page'))->links() }}
                             @else
                                 <tr>
                                     <td colspan="8">No data Available</td>

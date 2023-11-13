@@ -30,14 +30,15 @@
                                         <div class="dropdown dropdown-sort border-1-right">
                                             <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
                                                 id="dropdownSort" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">{{ !request()->get('orderBy') || request()->get('orderBy') == 'desc' ? 'Produk Terbaru' : 'Produk Terlama' }}</button>
+                                                aria-expanded="false">{{ !request()->input('orderBy') || (request()->input('orderBy') && request()->input('orderBy') == 'desc') ? 'Produk Terbaru' : 'Produk Terlama' }}</button>
                                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort"
                                                 style="margin: 0px;">
-                                                <li order-by="desc"><a class="dropdown-item active"
-                                                        href="javascript:void(0)">Produk
-                                                        Terbaru</a></li>
-                                                <li order-by="asc"><a class="dropdown-item" href="javascript:void(0)">Produk
-                                                        Terlama</a></li>
+                                                <li><button order-by="desc"
+                                                        class="dropdown-item {{ !request()->input('orderBy') || (request()->input('orderBy') && request()->input('orderBy') == 'desc') ? 'active' : '' }}">Produk
+                                                        Terbaru</button></li>
+                                                <li><button order-by="asc"
+                                                        class="dropdown-item {{ request()->input('orderBy') && request()->input('orderBy') == 'asc' ? 'active' : '' }}">Produk
+                                                        Terlama</button></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -57,12 +58,12 @@
                                 @endforeach
                             @else
                                 <div class="col-lg-12 text-center mt-40">
-                                    <h4>Tidak ada data Produk saat ini</h4>
+                                    <h4>Tidak ada Produk saat ini</h4>
                                 </div>
                             @endif
                         </div>
                         @if (count($products) > 0)
-                            {{ $products->onEachSide(3)->links() }}
+                            {{ $products->onEachSide(3)->appends(request()->except('page'))->links() }}
                         @endif
                         {{-- <nav>
                             <ul class="pagination">
@@ -121,19 +122,19 @@
                         <div class="row">
                             <div class="col-w-1">
                                 <h6 class="color-gray-900 mb-0">Harga</h6>
-                                <ul class="list-checkbox">
+                                <ul class="list-checkbox setPrice">
                                     <li>
                                         <label class="cb-container">
-                                            <input type="radio" name="price" value="tertinggi"
-                                                {{ request()->get('price') && request()->get('price') == 'tertinggi' ? 'checked' : '' }}><span
+                                            <input type="radio" name="price" value="desc"
+                                                {{ request()->get('price') && request()->get('price') == 'desc' ? 'checked' : '' }}><span
                                                 class="text-small">Harga Tertinggi</span>
                                             <span class="checkmark"></span>
                                         </label>
                                     </li>
                                     <li>
                                         <label class="cb-container">
-                                            <input type="radio" name="price" value="terendah"
-                                                {{ request()->get('price') && request()->get('price') == 'terendah' ? 'checked' : '' }}><span
+                                            <input type="radio" name="price" value="asc"
+                                                {{ request()->get('price') && request()->get('price') == 'asc' ? 'checked' : '' }}><span
                                                 class="text-small">Harga
                                                 Terendah</span>
                                             <span class="checkmark"></span>
@@ -143,19 +144,19 @@
                             </div>
                             <div class="col-w-1">
                                 <h6 class="color-gray-900 mb-0">Rating</h6>
-                                <ul class="list-checkbox">
+                                <ul class="list-checkbox setRating">
                                     <li>
                                         <label class="cb-container">
-                                            <input type="radio" name="rating" value="tertinggi"
-                                                {{ request()->get('rating') && request()->get('rating') == 'tertinggi' ? 'checked' : '' }}><span
+                                            <input type="radio" name="rating" value="desc"
+                                                {{ request()->get('rating') && request()->get('rating') == 'desc' ? 'checked' : '' }}><span
                                                 class="text-small">Rating Tertinggi</span>
                                             <span class="checkmark"></span>
                                         </label>
                                     </li>
                                     <li>
                                         <label class="cb-container">
-                                            <input type="radio" name="rating" value="terendah"
-                                                {{ request()->get('rating') && request()->get('rating') == 'terendah' ? 'checked' : '' }}><span
+                                            <input type="radio" name="rating" value="asc"
+                                                {{ request()->get('rating') && request()->get('rating') == 'asc' ? 'checked' : '' }}><span
                                                 class="text-small">Rating
                                                 Terendah</span>
                                             <span class="checkmark"></span>
@@ -165,11 +166,11 @@
                             </div>
                             <div class="col-w-1">
                                 <h6 class="color-gray-900 mb-0">Berdasarkan</h6>
-                                <ul class="list-checkbox">
+                                <ul class="list-checkbox setOrderBy">
                                     <li>
                                         <label class="cb-container">
                                             <input type="radio" name="orderBy" value="desc"
-                                                {{ !request()->get('orderBy') || (request()->get('orderBy') && request()->get('orderBy') == 'desc') ? 'checked' : '' }}><span
+                                                {{ !request()->input('orderBy') || (request()->input('orderBy') && request()->input('orderBy') == 'desc') ? 'checked' : '' }}><span
                                                 class="text-small">Produk Terbaru</span>
                                             <span class="checkmark"></span>
                                         </label>
@@ -177,7 +178,7 @@
                                     <li>
                                         <label class="cb-container">
                                             <input type="radio" name="orderBy" value="asc"
-                                                {{ request()->get('orderBy') && request()->get('orderBy') == 'asc' ? 'checked' : '' }}><span
+                                                {{ request()->input('orderBy') && request()->input('orderBy') == 'asc' ? 'checked' : '' }}><span
                                                 class="text-small">Produk Terlama</span>
                                             <span class="checkmark"></span>
                                         </label>
@@ -186,8 +187,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer justify-content-start pl-30"><a class="btn btn-buy w-auto"
-                            href="#">Terapkan Filter</a><a class="btn font-sm-bold color-gray-500"
+                    <div class="modal-footer justify-content-start pl-30"><button class="btn btn-buy w-auto"
+                            id="setFilter">Terapkan Filter</button><a class="btn font-sm-bold color-gray-500"
                             href="{{ route('buyer.allGridProduct') }}">Setel Ulang Filter</a></div>
                 </div>
             </div>
@@ -201,39 +202,79 @@
             function updateURL() {
                 var searchQuery = $('#searchProduct').val();
                 var selectedOrderBy = $('#dropdownSort').parent().find('.active').attr('order-by');
-                var selectedCategoryId = $('.list-nav-arrow li.active').data('category');
-
+                var selectedCategoryId = $('#navKategori').val() || $('.list-nav-arrow li.active').data('category');
                 var baseUrl = '{{ route('buyer.allGridProduct') }}';
                 var url = baseUrl;
-
-                // Check if category_id exists and update the URL accordingly
-                if (selectedCategoryId !== undefined && selectedCategoryId !== 'Semua kategori') {
-                    url += '?category_id=' + selectedCategoryId;
-                } else if (selectedOrderBy !== undefined) {
-                    url += '?orderBy=' + selectedOrderBy;
+                if (selectedCategoryId !== undefined && selectedCategoryId !== 'Semua kategori' &&
+                    selectedOrderBy !== undefined) {
+                    url += '?category_id=' + selectedCategoryId + '&orderBy=' + selectedOrderBy;
+                } else if (selectedCategoryId === 'Semua kategori' &&
+                    selectedOrderBy !== undefined) {
+                    url += '?category_id=' + '&orderBy=' + selectedOrderBy;
                 }
 
-                // Check if search query exists and update the URL accordingly
                 if (searchQuery !== '') {
-                    console.log(searchQuery);
                     url += (selectedCategoryId !== undefined || selectedOrderBy !== undefined ? '&' : '?') +
                         'search=' + searchQuery;
                 }
-
                 window.location = url;
             }
 
-            // Listen to the change event on the search input, dropdown, and category select
-            // $('#searchProduct').on('change', function() {
-            //     updateURL();
-            // });
-            $('#dropdownSort,  #navKategori').on('click', function() {
+            $('#searchProduct, #navKategori').on('change', function() {
+                updateURL();
+            });
+            $('.dropdown-menu li button').on('click', function(e) {
+                e.preventDefault();
+                if ($('.dropdown-menu li button').hasClass('active')) {
+                    $('.dropdown-menu li button').removeClass('active');
+                }
+                $(this).addClass('active');
                 updateURL();
             });
             $('.list-nav-arrow li').on('click', function() {
                 $(this).addClass('active');
+                $('#navKategori').val('');
                 updateURL();
             });
+            $('#setFilter').on('click', function(e) {
+                e.preventDefault();
+                var setRating = $('ul.setRating input[name="rating"]:checked').val();
+                var setOrderBy = $('ul.setOrderBy input[name="orderBy"]:checked').val();
+                var setPrice = $('ul.setPrice input[name="price"]:checked').val();
+
+                updateFilter(setRating, setOrderBy, setPrice)
+            })
+
+            function updateFilter(rating, orderBy, price) {
+                var searchQuery = $('#searchProduct').val();
+                var selectedCategoryId = $('#navKategori').val() || $('.list-nav-arrow li.active').data('category');
+                var baseUrl = '{{ route('buyer.allGridProduct') }}';
+                var url = baseUrl;
+                if (rating == undefined) {
+                    rating = '';
+                }
+                if (orderBy == undefined) {
+                    orderBy = '';
+                }
+                if (price == undefined) {
+                    price = '';
+                }
+                if (selectedCategoryId !== undefined && selectedCategoryId !== 'Semua kategori') {
+                    url += '?category_id=' + selectedCategoryId + '&orderBy=' + orderBy + '&rating=' +
+                        rating + '&price=' + price;
+                } else if (selectedCategoryId === 'Semua kategori') {
+                    url += '?category_id=&orderBy=' + orderBy + '&rating=' +
+                        rating + '&price=' + price;
+                }
+                if (searchQuery !== '') {
+                    url += (selectedCategoryId !== undefined ? '?category_id=' + selectedCategoryId :
+                            '?category_id=') +
+                        '&orderBy=' + orderBy + '&rating=' +
+                        rating + '&price=' + price +
+                        '&search=' + searchQuery;
+                }
+                window.location = url;
+            }
         });
     </script>
 @endpush

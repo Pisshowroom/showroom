@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Clients\buyer;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -17,29 +18,46 @@ class SellerController extends Controller
     public function allSeller(Request $request)
     {
         $data['categories'] = $this->categories();
-        $seller = User::where('is_seller', true)->withCount('products')->when($request->filled('search'), function ($q) use ($request) {
-            return $q->where('name', 'like', "%$request->search%");
-        })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 30);
+        $seller = User::where('is_seller', true)->withCount('products')
+            ->whereHas('products', function ($q) use ($request) {
+                $q->withAvg('reviews', 'rating')
+                    ->withSum(['order_items as total_sell' => function ($query) {
+                        $query->whereHas('order', function ($query) {
+                            $query->where('status', 'done');
+                        });
+                    }], 'quantity');
+            })
+            // ->select('id', 'seller_name', 'image', 'seller_slug')
+            ->orderByDesc('id')->paginate(15);
+        foreach ($seller as $key => $value) {
+            $productIds = Product::where('seller_id', $value->id)->pluck('id');
+            $averageRating = Review::whereIn('product_id', $productIds)->avg('rating');
+        }
+
+        $seller->rating_seller = doubleVal($averageRating);
         return view('clients.buyer.seller.all', ['sellers' => $seller, 'data' => $data]);
     }
 
     public function detailSeller($slug, Request $request)
     {
         $seller = User::where('seller_slug', $slug)->withCount('products')->firstOrFail();
-        $product = Product::when($request->filled('search'), function ($q) use ($request) {
-            return $q->where('name', 'like', "%$request->search%");
-        })->when($request->filled('category_id'), function ($q) use ($request) {
-            return $q->where('category_id', $request->category_id);
-        })->where('seller_id', $seller->id)
-            ->with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])
-            ->whereNull('parent_id')->orderBy('id', $request->orderBy ?? 'desc')
+        $product = Product::where('seller_id', $seller->id)
+            ->with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])->whereNull('parent_id')
+            ->when($request->filled('search'), function ($q) use ($request) {
+                return $q->where('name', 'like', "%$request->search%");
+            })->when($request->filled('category_id'), function ($q) use ($request) {
+                return $q->where('category_id', $request->category_id);
+            })
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
                     $query->where('status', 'done');
                 });
             }], 'quantity')
-            ->paginate($request->per_page ?? 15);
+            ->orderBy('id', $request->filled('orderBy') ? $request->orderBy : 'desc')
+            ->orderBy('reviews_avg_rating', $request->filled('rating') ? $request->rating : 'desc')
+            ->orderBy('price', $request->filled('price') ? $request->price : 'desc')
+            ->paginate(15);
         if ($product && count($product) > 0) {
             foreach ($product as $key => $value) {
                 $value->price_discount = null;
@@ -48,6 +66,10 @@ class SellerController extends Controller
                 }
             }
         }
+        $productIds = Product::where('seller_id', $seller->id)->pluck('id');
+        $averageRating = Review::whereIn('product_id', $productIds)->avg('rating');
+
+        $seller->rating_seller = doubleVal($averageRating);
         $data['categories'] = $this->categories();
         $data['categories_product'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) use ($seller) {
             $q->where('seller_id', $seller->id);

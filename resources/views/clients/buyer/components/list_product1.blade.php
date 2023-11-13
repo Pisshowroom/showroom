@@ -9,7 +9,7 @@
                 <span class="label bg-brand-2">{{ $prd->discount }}%</span>
             @endif
             <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
-                <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}" alt="Ecom"></a>
+                <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}" alt="produk {{ $prd->name ?? '' }}"></a>
         </div>
         <div class="info-right">
             <a class="font-xs color-gray-500 line-1 text-start"

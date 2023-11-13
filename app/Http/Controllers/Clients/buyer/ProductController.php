@@ -30,7 +30,19 @@ class ProductController extends Controller
                     $query->where('status', 'done');
                 });
             }], 'quantity')
-            ->orderBy('id', $request->orderBy ?? 'desc')->paginate(15);
+            ->orderBy('id', $request->filled('orderBy') && $request->orderBy == 'asc' ? 'asc' : 'desc')
+            ->orderBy('reviews_avg_rating', $request->filled('rating') && $request->rating == 'asc' ? 'asc' : 'desc')
+            ->orderBy('price', $request->filled('price') && $request->price == 'asc' ? 'asc' : 'desc')
+            ->paginate(15);
+        if ($product && count($product) > 0) {
+            foreach ($product as $key => $value) {
+                $value->price_discount = null;
+                if ($value->discount != null) {
+                    $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+                }
+            }
+        }
+
         $data['categories'] = $this->categories();
         return view('clients.buyer.product.all_grid', ['products' => $product, 'data' => $data]);
     }
@@ -41,12 +53,17 @@ class ProductController extends Controller
                 return $q->where('name', 'like', "%$request->search%");
             })->when($request->filled('category_id'), function ($q) use ($request) {
                 return $q->where('category_id', $request->category_id);
-            })->withAvg('reviews', 'rating')
+            })
+            ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
                     $query->where('status', 'done');
                 });
-            }], 'quantity')->orderBy('id', $request->orderBy ?? 'desc')->paginate(15);
+            }], 'quantity')
+            ->orderBy('id', $request->filled('orderBy') ? $request->orderBy : 'desc')
+            ->orderBy('reviews_avg_rating', $request->filled('rating') ? $request->rating : 'desc')
+            ->orderBy('price', $request->filled('price') ? $request->price : 'desc')
+            ->paginate(15);
         if ($product && count($product) > 0) {
             foreach ($product as $key => $value) {
                 $value->price_discount = null;

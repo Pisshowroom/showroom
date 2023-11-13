@@ -61,14 +61,14 @@
         <div class="main-header">
             <div class="header-left">
                 <div class="header-logo logo-auth"><a class="d-flex" href="{{ route('buyer.home') }}"><img
-                            alt="Ecom" src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
+                            alt="logo pisshop" src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
                 <div class="header-search">
                     <div class="box-header-search">
                         <div class="form-search">
                             <div class="box-category">
                                 <select class="select-active select2-hidden-accessible" data-select2-id="1"
                                     id="navKategori" tabindex="-1" aria-hidden="true">
-                                    <option name="category_id" value="">Semua kategori</option>
+                                    <option name="category_id" value="Semua kategori">Semua kategori</option>
                                     @foreach ($data['categories'] as $ct)
                                         <option name="category_id" value="{{ $ct->id }}"
                                             {{ request()->get('category_id') == $ct->id ? 'selected' : '' }}>
@@ -105,9 +105,9 @@
                     <div class="header-shop">
                         @if (Auth::guard('web')->user()->is_seller == 1)
                             <div class="d-lg-inline-block d-none">
-                                <a class="font-lg btn btn-buy d-inline-block"
+                                <a class="font-lg btn btn-buy d-inline-block" style="padding:7px 10px !important;"
                                     href="{{ route('dashboardSeller.dashboard') }}">
-                                    {{ substr(Auth::guard('web')->user()->seller_name ?? '', 0, 6) . (strlen(Auth::guard('web')->user()->seller_name ?? '') > 6 ? '..' : '') }}
+                                    Toko Saya
                                 </a>
                             </div>
                         @endif
@@ -201,7 +201,7 @@
                                     @if (Auth::guard('web')->user()->is_seller == 0)
                                         <li><a href="{{ route('dashboard.settings') }}">Daftar Toko</a></li>
                                     @else
-                                        <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                        <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko Saya</a></li>
                                     @endif
                                     <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
                                     <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
@@ -258,7 +258,7 @@
                             @if (Auth::guard('web')->user()->is_seller == 0)
                                 <li><a href="{{ route('dashboardSeller.profile') }}">Daftar Toko</a></li>
                             @else
-                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko Saya</a></li>
                             @endif
                             <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
                             <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
@@ -560,7 +560,7 @@
                             @if (Auth::guard('web')->user()->is_seller == 0)
                                 <li><a href="{{ route('dashboardSeller.profile') }}">Daftar Toko</a></li>
                             @else
-                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko</a></li>
+                                <li><a href="{{ route('dashboardSeller.dashboard') }}">Toko Saya</a></li>
                             @endif
                             <li><a href="{{ route('dashboard.settings') }}">Pengaturan</a></li>
                             <li><a href="{{ route('logout') }}">Keluar Akun</a></li>
@@ -572,67 +572,3 @@
     </div>
 </div>
 
-@push('importjs')
-    <script>
-        $(document).ready(function() {
-            // $('#kategori').change(function() {
-            //     var selectedCategoryId = $(this).val();
-            //     if ("{{ request()->get('search') }}") {
-            //         var searchQuery = "{{ request()->get('search') }}";
-            //     } else {
-            //         var searchQuery = '';
-            //     }
-
-            //     var currentUrl = window.location.href;
-            //     var urlObject = new URL(currentUrl);
-            //     var params = new URLSearchParams(urlObject.search);
-
-            //     // Set or replace 'search' parameter
-            //     if (params.has('search')) {
-            //         params.set('search', searchQuery);
-            //     } else {
-            //         params.append('search', searchQuery);
-            //     }
-
-            //     // Set or replace 'category' parameter
-            //     if (params.has('category_id')) {
-            //         params.set('category_id', selectedCategoryId);
-            //     } else {
-            //         params.append('category_id', selectedCategoryId);
-            //     }
-
-            //     urlObject.search = params.toString();
-
-            //     window.location = urlObject.toString();
-            // });
-            // Function to update the URL
-            function updateURL() {
-                var searchQuery = $('#searchProduct').val();
-                var selectedCategoryId = $('#navKategori').val();
-                var baseUrl = '{{ route('buyer.allGridProduct') }}';
-                var url = baseUrl;
-
-                // Check if category_id exists and update the URL accordingly
-                if (selectedCategoryId !== '') {
-                    url += '?category_id=' + selectedCategoryId;
-                }
-
-                // Check if search query exists and update the URL accordingly
-                if (searchQuery !== '') {
-                    url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
-                }
-                window.location = url;
-                // Navigate to the constructed URL
-                // history.pushState({}, '', url);
-            }
-
-            // Listen to the change event on the search input and category select
-            $('#searchProduct, #navKategori').on('change', function() {
-                updateURL();
-            });
-            $('#navKategori').on('click', function() {
-                updateURL();
-            });
-        });
-    </script>
-@endpush
