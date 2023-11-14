@@ -638,8 +638,54 @@ class OrderController extends Controller
 
 
 
-
     public function waybillCheck(Request $request)
+    {
+        $request->validate([
+            'delivery_receipt_number' => 'required',
+            'delivery_service' => 'required',
+        ]);
+
+        $curl = curl_init();
+
+        curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/waybill");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query([
+            'waybill' => $request->delivery_receipt_number,
+            'courier' => $request->delivery_service,
+        ]));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+            'key: ' . env('RO_KEY'),
+        ]);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+
+        try {
+            $res = curl_exec($curl);
+
+            if ($res === false) {
+                throw new Exception(curl_error($curl), curl_errno($curl));
+            }
+
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            if ($httpCode >= 400) {
+                $rajaOngkirResponse = json_decode($res);
+                $errorCode = $rajaOngkirResponse->rajaongkir->status->code;
+                $errorDescription = $rajaOngkirResponse->rajaongkir->status->description;
+                throw new Exception("Error checking waybill: $errorDescription", 404);
+            }
+
+            $rajaOngkirResponse = json_decode($res)->rajaongkir->result;
+
+            return ResponseAPI($rajaOngkirResponse);
+        } catch (\Exception $e) {
+            throw $e;
+        } finally {
+            curl_close($curl);
+        }
+    }
+
+    public function waybillCheckOld(Request $request)
     {
         $request->validate([
             'delivery_receipt_number' => 'required',
