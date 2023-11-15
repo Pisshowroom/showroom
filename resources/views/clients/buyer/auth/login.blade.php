@@ -57,7 +57,7 @@
                                 <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin"><img
                                         src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="masuk menggunakan akun google"></button>
-                                <button class="btn btn-login font-md-bold color-brand-3 mb-15 " id="piBrowser"><img
+                                <button class="btn btn-login font-md-bold color-brand-3 mb-15 d-none" id="piBrowser"><img
                                         src="{{ asset('ecom/imgs/page/account/pi-network.svg') }}"
                                         alt="masuk menggunakan akun pi network"></button>
                             </div>
@@ -118,9 +118,10 @@
 
         $("#piBrowser").click(async function() {
             const scopes = ['username', 'payments'];
-            const authResult = await window.Pi.authenticate(scopes,
+            const authResults = await window.Pi.authenticate(scopes,
                 onIncompletePaymentFound);
-            return signInUser(authResult);
+            alert('ad'.authResults);
+            return signInUser(authResults);
         })
 
         function onIncompletePaymentFound(payment) {
@@ -128,21 +129,22 @@
         }
 
         function signInUser(authResult) {
+            alert(authResult);
             axios.post('/api/pi/signin', {
-                uid:authResult.user.uid,
-                username:authResult.user.username,
-                api_token:authResult.accessToken,
+                uid: authResult.user.uid,
+                username: authResult.user.username,
+                api_token: authResult.accessToken,
             }).then(data => {
-                    // window.location.href = URL + "/dashboard"
-                    var div = document.getElementById('myDiv3');
-                    $('#myDiv3').css('display', 'block');
-                    div.innerHTML = '';
-                    div.innerHTML += data.data.message;
-                    setTimeout(function() {
-                        $('#myDiv3').fadeOut('fast');
-                    }, 2000);
-                    window.location.replace(
-                        "{{ route('dashboard.settings') }}");
+                // window.location.href = URL + "/dashboard"
+                var div = document.getElementById('myDiv3');
+                $('#myDiv3').css('display', 'block');
+                div.innerHTML = '';
+                div.innerHTML += data.data.message;
+                setTimeout(function() {
+                    $('#myDiv3').fadeOut('fast');
+                }, 2000);
+                window.location.replace(
+                    "{{ route('dashboard.settings') }}");
 
             }).catch((error) => {
                 var div = document.getElementById('myDiv2');
