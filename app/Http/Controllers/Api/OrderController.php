@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Address;
 use App\Models\MasterAccount;
 use App\Models\Order;
@@ -116,27 +117,29 @@ class OrderController extends Controller
                 else
                     return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
+            $product->load('parent');
 
             if ($product->stock < $order_item['qty']) {
                 return ResponseAPI('Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock, 400);
             }
 
             if ($product->discount > 0) {
-                // minusing the product price with discount as percentage
                 $thePromoAmount = ($product->price * $product->discount / 100);
                 $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
                 $countedPromoProduct++;
-                $countedAmountPromo += $thePromoAmount * $order_item['qty'];
+                $countedAmountPromo += ($thePromoAmount * $order_item['qty']);
 
-                $total += $resultItemPriceAfterDiscount * $order_item['qty'];
-                $totalWithoutDiscount += $product->price * $order_item['qty'];
+                $total += ($resultItemPriceAfterDiscount * $order_item['qty']);
+                $totalWithoutDiscount += ($product->price * $order_item['qty']);
             } else {
-                $total += $product->price * $order_item['qty'];
-                $totalWithoutDiscount += $product->price * $order_item['qty'];
+                $itemTotal = ($product->price * $order_item['qty']);
+                $total += $itemTotal;
+                $totalWithoutDiscount += $itemTotal;
             }
 
             $weight += $product->weight * $order_item['qty'];
-            array_push($products, $product);
+            $productTransformed = new ProductResource($product);
+            array_push($products, $productTransformed);
         }
 
         $data['total'] = $total;
@@ -182,13 +185,13 @@ class OrderController extends Controller
                 else
                     return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
+            $product->load('parent');
 
             if ($product->stock < $order_item['qty']) {
                 return ResponseAPI('Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock, 400);
             }
 
             if ($product->discount > 0) {
-                // minusing the product price with discount as percentage
                 $thePromoAmount = ($product->price * $product->discount / 100);
                 $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
                 $countedPromoProduct++;
@@ -203,7 +206,8 @@ class OrderController extends Controller
             }
 
             $weight += ($product->weight * $order_item['qty']);
-            array_push($products, $product);
+            $productTransformed = new ProductResource($product);
+            array_push($products, $productTransformed);
         }
 
 
@@ -227,9 +231,6 @@ class OrderController extends Controller
         ];
         $requestForShippingPrice = new Request();
         $requestForShippingPrice->merge($dataRequest);
-        // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
-        // $deliveryServicesInfo = null;
-        // $data['delivery_services_info'] = $deliveryServicesInfo;
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
         // $aa = $this->checkShippingPrice();
@@ -411,8 +412,13 @@ class OrderController extends Controller
             $product = \App\Models\Product::find($order_item['product_id']);
             if ($product == null) {
                 $product = Product::withTrashed()->where('id', $product_id)->first();
-                return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", false);
+                if ($product == null)
+                    return ResponseAPI("Maaf produk dengan id tidak ditemukan.", 404);
+                else
+                    return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
+            $product->load('parent');
+
 
             if ($product->stock < $order_item['qty']) {
                 return ResponseAPI('Stock Produk ' . $product->name . " tidak cukup. stok yang tersisa sebanyak " . $product->stock, 400);
@@ -431,7 +437,8 @@ class OrderController extends Controller
                 $total += $product->price * $order_item['qty'];
                 $totalWithoutDiscount += $product->price * $order_item['qty'];
             }
-            array_push($products, $product);
+            $productTransformed = new ProductResource($product);
+            array_push($products, $productTransformed);
         }
 
         // create $identifier on Order::class i had getNextId() 
@@ -505,6 +512,7 @@ class OrderController extends Controller
         $order->payment_identifier = $identifier;
         $order->user_id = $user->id;
         $order->save();
+        $weight = 0;
 
         foreach ($orderItems as $order_item) {
             $product_id = $order_item['product_id'];
@@ -514,8 +522,13 @@ class OrderController extends Controller
             if ($product == null) {
                 $product = Product::withTrashed()->where('id', $product_id)->first();
                 DB::rollBack();
-                return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", false);
+
+                if ($product == null)
+                    return ResponseAPI("Maaf produk dengan id tidak ditemukan.", 404);
+                else
+                    return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
+            $product->load('parent');
 
             if ($product->stock < $order_item['qty']) {
                 DB::rollBack();
@@ -523,20 +536,20 @@ class OrderController extends Controller
             }
 
             if ($product->discount > 0) {
-                // minusing the product price with discount as percentage
                 $thePromoAmount = ($product->price * $product->discount / 100);
                 $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
                 $countedPromoProduct++;
-                $countedAmountPromo += $thePromoAmount * $order_item['qty'];
+                $countedAmountPromo += ($thePromoAmount * $order_item['qty']);
 
-                $itemTotal = $resultItemPriceAfterDiscount * $order_item['qty'];
-                $total += $itemTotal;
-                $totalWithoutDiscount += $product->price * $order_item['qty'];
+                $total += ($resultItemPriceAfterDiscount * $order_item['qty']);
+                $totalWithoutDiscount += ($product->price * $order_item['qty']);
             } else {
-                $itemTotal = $product->price * $order_item['qty'];
+                $itemTotal = ($product->price * $order_item['qty']);
                 $total += $itemTotal;
-                $totalWithoutDiscount += $product->price * $order_item['qty'];
+                $totalWithoutDiscount += $itemTotal;
             }
+            $thisItemWeight = ($product->weight * $order_item['qty']);
+            
             $orderItem = new OrderItem();
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $product_id;
@@ -545,11 +558,14 @@ class OrderController extends Controller
             $orderItem->item_total = $itemTotal;
             $orderItem->price = $product->price;
             $orderItem->note = $order_item['note'];
+            $orderItem->weight = $thisItemWeight;
             // $orderItem->fee_seller = $product->fee_seller;
             // $orderItem->fee_buyer = $product->fee_buyer;
             $orderItem->save();
 
-            array_push($products, $product);
+            $weight += $thisItemWeight;
+            $productTransformed = new ProductResource($product);
+            array_push($products, $productTransformed);
         }
 
         // create $identifier on Order::class i had getNextId() 
@@ -609,6 +625,7 @@ class OrderController extends Controller
         $order->master_account_id = $request->master_account_id;
         $order->payment_channel = $masterAccount->provider_name;
         $order->payment_due = $paymentDue;
+        $order->weight = $weight;
 
         if ($channelType == 'VIRTUAL_ACCOUNT') {
             $order->va_number = $dataPaymentCreated['account_number'];
