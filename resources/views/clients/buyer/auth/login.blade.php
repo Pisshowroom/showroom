@@ -57,7 +57,7 @@
                                 <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin"><img
                                         src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="masuk menggunakan akun google"></button>
-                                <button class="btn btn-login font-md-bold color-brand-3 mb-15 d-none" id="piBrowser"><img
+                                <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="piBrowser"><img
                                         src="{{ asset('ecom/imgs/page/account/pi-network.svg') }}"
                                         alt="masuk menggunakan akun pi network"></button>
                             </div>
@@ -82,6 +82,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
     <script>
         $(document).ready(function() {
+            alert(navigator.userAgent);
             let userAgentString = navigator.userAgent;
             let chromeAgent = userAgentString.indexOf("PiBrowser") > -1;
             if (chromeAgent) {
@@ -129,8 +130,9 @@
         })
 
         function signInUser(authResult) {
+            alert('authre' + authResult);
             axios.post('/api/pi/signin', {
-                uid: authResult
+                authResult
             }).then(res => {
                 if (data.status == "success") {
 
