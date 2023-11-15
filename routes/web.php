@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\Clients\AuthController;
 use App\Http\Controllers\Clients\buyer\ArticleController;
@@ -24,12 +25,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// dummy get
 Route::get('/geta', function () {
     return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
 });
 
-// route get, find user id 1, then laravel sanctum create token named lypsis-auth, then return the token result
+Route::post('/0xff-callback-confirm-payment/{type}', [OrderController::class, 'callbackConfirmPayment']); 
 
 Route::get('/forcing-auth/{id}', function (Request $request) {
     $user_id = $request->id;
@@ -50,7 +50,6 @@ Route::get('/check-shipping-price', function (Illuminate\Http\Request $request) 
     return response()->json($shippingCost);
 });
 
-// Route get, authed, returnin auth()->user()\
 Route::get('/authed', function () {
     // $authUser = auth()->user();
     // $authUser = Auth::guard('api-client')->user();

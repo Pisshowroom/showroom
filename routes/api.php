@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get("home", [HomeController::class, 'home']);
 Route::get("stats-count", [HomeController::class, 'statsCount']);
+Route::POST("manual-create-pay-req", [OrderController::class, 'manualCreatePayReq']);
 
 
 Route::group(['prefix' => 'article'], function () {

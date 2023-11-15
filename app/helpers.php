@@ -203,78 +203,78 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
 }
 
 function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
-    {
-        $curl = curl_init();
+{
+    $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/cost");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
-            'origin' => $originId,
-            'originType' => 'subdistrict',
-            'destination' => $destinationId,
-            'destinationType' => 'city',
-            'weight' => $weight,
-            'courier' => env('RO_SERVICES'),
-        ]));
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'key: ' . env('RO_KEY'),
-            'Content-Type: application/json',
-        ]);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+    curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/cost");
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
+        'origin' => $originId,
+        'originType' => 'subdistrict',
+        'destination' => $destinationId,
+        'destinationType' => 'city',
+        'weight' => $weight,
+        'courier' => env('RO_SERVICES'),
+    ]));
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        'key: ' . env('RO_KEY'),
+        'Content-Type: application/json',
+    ]);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 15);
 
-        try {
-            $res = curl_exec($curl);
+    try {
+        $res = curl_exec($curl);
 
-            if ($res === false) {
-                throw new Exception(curl_error($curl), curl_errno($curl));
-            }
+        if ($res === false) {
+            throw new Exception(curl_error($curl), curl_errno($curl));
+        }
 
-            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-            if ($httpCode >= 400) {
-                // throw new Exception("Error getting shipping cost: HTTP $res");
-                // $rajaOngkirResponse = json_decode($res);
+        if ($httpCode >= 400) {
+            // throw new Exception("Error getting shipping cost: HTTP $res");
+            // $rajaOngkirResponse = json_decode($res);
 
-                // return ResponseAPI("asdasdasd", 404);
-                
-                // return ResponseAPI($rajaOngkirResponse, 404);
+            // return ResponseAPI("asdasdasd", 404);
 
-                $rajaOngkirResponse = json_decode($res);
-                $errorCode = $rajaOngkirResponse->rajaongkir->status->code;
-                $errorDescription = $rajaOngkirResponse->rajaongkir->status->description;
-                throw new Exception("Error getting shipping cost: $errorDescription", 404);
-            }
+            // return ResponseAPI($rajaOngkirResponse, 404);
 
             $rajaOngkirResponse = json_decode($res);
-            $shippingCost = $rajaOngkirResponse->rajaongkir;
+            $errorCode = $rajaOngkirResponse->rajaongkir->status->code;
+            $errorDescription = $rajaOngkirResponse->rajaongkir->status->description;
+            throw new Exception("Error getting shipping cost: $errorDescription", 404);
+        }
 
-            // $data['origin_details'] = $shippingCost->origin_details;
-            // $data['destination_details'] = $shippingCost->destination_details;
-            
-            $data = [];
-            if ($earlierMode == false) {
-                // $data['results'] = $shippingCost->results;
-                $data = $shippingCost;
+        $rajaOngkirResponse = json_decode($res);
+        $shippingCost = $rajaOngkirResponse->rajaongkir;
+
+        // $data['origin_details'] = $shippingCost->origin_details;
+        // $data['destination_details'] = $shippingCost->destination_details;
+
+        $data = [];
+        if ($earlierMode == false) {
+            // $data['results'] = $shippingCost->results;
+            $data = $shippingCost;
+        } else {
+            $dataEarlier = null;
+
+            if (isset($shippingCost->results[0]->costs[1])) {
+                $dataEarlier = $shippingCost->results[0]->costs[1];
             } else {
-                $dataEarlier = null;
-
-                if (isset($shippingCost->results[0]->costs[1])) {
-                    $dataEarlier = $shippingCost->results[0]->costs[1];
-                } else {
-                    $dataEarlier = $shippingCost->results[0]->costs[0];
-                }
-
-                $data['results_earlier'] = $dataEarlier;
+                $dataEarlier = $shippingCost->results[0]->costs[0];
             }
 
-            return $data;
-        } catch (\Exception $e) {
-            throw $e;
-        } finally {
-            curl_close($curl);
+            $data['results_earlier'] = $dataEarlier;
         }
+
+        return $data;
+    } catch (\Exception $e) {
+        throw $e;
+    } finally {
+        curl_close($curl);
     }
+}
 
 function get_distance_between_points($latitude1, $longitude1, $latitude2, $longitude2)
 {
