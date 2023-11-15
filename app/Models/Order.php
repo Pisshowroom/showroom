@@ -12,7 +12,10 @@ class Order extends Model
     use HasFactory, SoftDeletes;
 
     // protected $guarded = [];
-    
+    protected $casts = [
+        'is_reviewed' => 'boolean'
+    ];
+
     public function getNextId()
     {
         $statement = DB::select("show table status like 'orders'");
