@@ -82,14 +82,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
     <script>
         $(document).ready(function() {
-            alert(navigator.userAgent);
-            let userAgentString = navigator.userAgent;
-            let chromeAgent = userAgentString.indexOf("PiBrowser") > -1;
-            if (chromeAgent) {
+            if (navigator.userAgent.includes('PiBrowser')) {
                 $('#piBrowser').addClass('d-block').removeClass('d-none');
-                console.log('tes');
+                alert('PiBrowser detected!');
             } else {
-                console.log('test');
+                alert('Not PiBrowser');
             }
             var $email = $('#email');
             var $password = $('#password');
@@ -126,7 +123,8 @@
             const scopes = ['username', 'payments'];
             const authResult = await window.Pi.authenticate(scopes,
                 onIncompletePaymentFound);
-            signInUser(authResult);
+            alert(authResult);
+            return signInUser(authResult);
         })
 
         function signInUser(authResult) {
