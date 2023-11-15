@@ -57,7 +57,7 @@
                                 <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin"><img
                                         src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="masuk menggunakan akun google"></button>
-                                <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="piBrowser"><img
+                                <button class="btn btn-login font-md-bold color-brand-3 mb-15 " id="piBrowser"><img
                                         src="{{ asset('ecom/imgs/page/account/pi-network.svg') }}"
                                         alt="masuk menggunakan akun pi network"></button>
                             </div>
@@ -84,10 +84,7 @@
         $(document).ready(function() {
             if (navigator.userAgent.includes('PiBrowser')) {
                 $('#piBrowser').addClass('d-block').removeClass('d-none');
-                alert('PiBrowser detected!');
-            } else {
-                alert('Not PiBrowser');
-            }
+            } else {}
             var $email = $('#email');
             var $password = $('#password');
             var $submitButton = $('#loginEmail');
@@ -120,12 +117,16 @@
 
 
         $("#piBrowser").click(async function() {
-            const scopes = ['username', 'payments'];
+            const scopes = [];
             const authResult = await window.Pi.authenticate(scopes,
                 onIncompletePaymentFound);
             alert(authResult);
             return signInUser(authResult);
         })
+
+        function onIncompletePaymentFound(payment) {
+            console.log(payment);
+        }
 
         function signInUser(authResult) {
             alert('authre' + authResult);
