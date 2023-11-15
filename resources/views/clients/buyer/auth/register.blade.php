@@ -37,13 +37,11 @@
                             </div>
                             <div class="form-group">
                                 <label class="mb-5 font-sm color-gray-700">Password *</label>
-                                <input class="form-control" type="password" id="password" name="password"
-                                    placeholder="******************" required>
+                                <input class="form-control" type="password" id="password" name="password" required>
                             </div>
                             <div class="form-group">
                                 <label class="mb-5 font-sm color-gray-700">Ulangi Password *</label>
-                                <input class="form-control" type="password" id="repassword" placeholder="******************"
-                                    required>
+                                <input class="form-control" type="password" id="repassword" required>
                             </div>
                             <div class="form-group">
                                 <label>
@@ -60,10 +58,9 @@
                                 akun?</span><a class="font-xs color-brand-3 font-medium" href="{{ route('buyer.login') }}">
                                 Masuk</a></div>
                         <div class="box-login-social pt-65">
-                            <h5 class="text-center">Gunakan Akun Sosmed</h5>
+                            <h5 class="text-center">Atau daftar dengan</h5>
                             <div class="box-button-login mt-25"><button
-                                    class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleRegister">Daftar
-                                    Menggunakan<img src="{{ asset('ecom/imgs/page/account/google.svg') }}"
+                                    class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleRegister"><img src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="daftar menggunakan akun google"></button>
                             </div>
                         </div>

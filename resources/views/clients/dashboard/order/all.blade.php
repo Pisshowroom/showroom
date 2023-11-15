@@ -20,10 +20,13 @@
                     </div>
                     <div class="col-lg-2 col-6 col-md-3">
                         <select class="form-select">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Disabled</option>
-                            <option>Show all</option>
+                            <option>Filter</option>
+                            <option>Semua</option>
+                            <option>Belum dibayar</option>
+                            <option>Sedang dikemas</option>
+                            <option>Dikirim</option>
+                            <option>Selesai</option>
+                            <option>Dibatalkan</option>
                         </select>
                     </div>
                     {{-- <div class="col-lg-2 col-6 col-md-3">
@@ -58,12 +61,14 @@
                                         </td>
                                         <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
                                         <td class="align-middle">
-                                            @if ($order->status == 'pending')
-                                                <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
-                                            @elseif ($order->status == 'done')
+                                            @if ($order->status == 'Pending')
+                                                <span class="badge rounded-pill alert-warning fw-normal">Menunggu
+                                                    Pembayaran</span>
+                                            @elseif ($order->status == 'Completed')
                                                 <span class="badge rounded-pill alert-success fw-normal">Selesai</span>
                                             @else
-                                                <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
+                                                <span class="badge rounded-pill alert-warning fw-normal">Menunggu
+                                                    Pembayaran</span>
                                             @endif
                                         </td>
                                         <td class="align-middle">{{ $order->date . ' WIB' }}</td>

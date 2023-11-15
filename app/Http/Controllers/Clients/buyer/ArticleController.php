@@ -3,16 +3,31 @@
 namespace App\Http\Controllers\Clients\buyer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\Article;
 use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
-    private function categories()
+    public function getCommonData()
     {
-        return Category::all();
+        $data['categories'] = Category::all();
+
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $data['addresses'] = $this->addresses();
+        } else {
+            $data['addresses'] = null;
+        }
+
+        return $data;
+    }
+
+    private function addresses()
+    {
+        return Address::where('user_id', Auth::guard('web')->user()->id)->where('main', true)->whereNull('deleted_at')->first();
     }
     public function allArticle(Request $request)
     {
@@ -22,7 +37,7 @@ class ArticleController extends Controller
         foreach ($article as $key => $value) {
             $value->date = Carbon::parse($value->created_at)->format('d M, Y') ?? null;
         }
-        $data['categories'] = $this->categories();
+        $data = $this->getCommonData();
         return view('clients.buyer.article.all', ['articles' => $article, 'data' => $data]);
     }
 
@@ -30,7 +45,7 @@ class ArticleController extends Controller
     {
         $article = Article::where('id', $id)->firstOrFail();
         $article->date = Carbon::parse($article->created_at)->format('d M, Y') ?? null;
-        $data['categories'] = $this->categories();
+        $data = $this->getCommonData();
 
         return view('clients.buyer.article.detail', ['article' => $article, 'data' => $data]);
     }

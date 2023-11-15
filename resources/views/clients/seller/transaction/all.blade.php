@@ -48,12 +48,14 @@
                                         </td>
                                         <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
                                         <td class="align-middle">
-                                            @if ($order->status == 'pending')
-                                                <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
-                                            @elseif ($order->status == 'done')
+                                            @if ($order->status == 'Pending')
+                                                <span class="badge rounded-pill alert-warning fw-normal">Menunggu
+                                                    Pembayaran</span>
+                                            @elseif ($order->status == 'Completed')
                                                 <span class="badge rounded-pill alert-success fw-normal">Selesai</span>
                                             @else
-                                                <span class="badge rounded-pill alert-warning fw-normal">Pending</span>
+                                                <span class="badge rounded-pill alert-warning fw-normal">Menunggu
+                                                    Pembayaran</span>
                                             @endif
                                         </td>
                                         <td class="align-middle">{{ $order->date . ' WIB' }}</td>
@@ -78,7 +80,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="deleteTransaction" tabindex="-1" aria-labelledby="deleteTransactionLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteTransaction" tabindex="-1" aria-labelledby="deleteTransactionLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header border-bottom-0">

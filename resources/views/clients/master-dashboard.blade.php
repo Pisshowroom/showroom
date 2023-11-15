@@ -14,7 +14,15 @@
     <link href="{{ asset('ecom_dashboard/css/style.css?v=1.0.0') }}" rel="stylesheet">
     @stack('importcss')
     @stack('css')
-
+    {{-- pi coin --}}
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <script>
+        // Init Pi SDK:
+        Pi.init({
+            version: "2.0",
+            sandbox: true
+        });
+    </script>
     <title>@yield('title')</title>
 </head>
 

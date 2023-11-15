@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <div style="display:none" class="alert alert-warning" id="myDiv2">Minimal pembelian produk ini adalah 1 barang
+        <div style="display:none" class="alert alert-warning" id="myDiv2">
         </div>
         @if (session('error'))
             <div class="alert alert-warning" id="mydiv">
@@ -124,8 +124,9 @@
                                         Terjual)</span>
                                 </div>
                             </div>
-                            <div class="col-lg-8 col-md-8 col-sm-9 text-start text-sm-end"><a class="mr-20"
-                                    href="{{ route('buyer.wishlist') }}"><span
+                            <div class="col-lg-8 col-md-8 col-sm-9 text-start text-sm-end">
+                                <a class="mr-20"
+                                    href="{{ Auth::guard('web')->user()?route('buyer.wishlist'):route('buyer.login') }}"><span
                                         class="btn btn-wishlist mr-5 opacity-100 transform-none"></span><span
                                         class="font-md color-gray-900">Tambahkan ke Wishlist</span></a>
                             </div>
@@ -209,7 +210,7 @@
                                     <div class="box-quantity">
                                         <div class="input-quantity">
                                             @if ($product->stock > 0)
-                                                <input class="font-xl color-brand-3"
+                                                <input class="font-xl color-brand-3" id="quantity"
                                                     onkeypress="return event.charCode>=48&&event.charCode<=57"
                                                     type="tel" name="quantity" min="1" value="1">
                                                 <span class="minus-cart"></span>
@@ -235,8 +236,11 @@
 
                             </div>
                             <div class="button-buy mt-20 gap-2 gap-sm-5 d-flex flex-row">
-                                <button class="btn btn-cart">Keranjang</button>
-                                <button class="btn btn-buy">Beli Sekarang</button>
+                                <button class="btn btn-cart btn-cart-detail" id="btn-cart"
+                                    {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $product->seller_id ? 'disabled' : '' }}>Keranjang</button>
+                                <button class="btn btn-buy btn-buy-detail" id="buy-now"
+                                    {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $product->seller_id ? 'disabled' : '' }}>Beli
+                                    Sekarang</button>
                             </div>
                         </div>
                         {{-- <div class="info-product mt-40">
@@ -653,31 +657,111 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
         $(document).ready(function() {
-            $('.btn-cart').on('click', function() {
-                // {{ route('buyer.cart') }}
-            })
-            $('.btn-buy').on('click', function() {
-                // {{ route('buyer.checkout') }}
-            })
-
 
             $('.input-quantity input').on('input', function() {
                 var inputValue = $(this).val();
                 var numericValue = parseInt(inputValue);
 
                 if (numericValue < 1 || isNaN(numericValue)) {
-                    $('.btn-cart').prop('disabled', true);
-                    $('.btn-buy').prop('disabled', true);
+                    $('.btn-cart-detail').prop('disabled', true);
+                    $('.btn-buy-detail').prop('disabled', true);
                 } else {
-                    $('.btn-cart').prop('disabled', false);
-                    $('.btn-buy').prop('disabled', false);
+                    $('.btn-cart-detail').prop('disabled', false);
+                    $('.btn-buy-detail').prop('disabled', false);
                 }
                 if (numericValue === 0) {
+                    $('#myDiv2').text('Minimal pembelian produk ini adalah 1 barang');
                     $('#myDiv2').css('display', 'block');
                     setTimeout(function() {
                         $('#myDiv2').fadeOut('fast');
                     }, 2000);
                 }
+            });
+
+            $('#btn-cart').on('click', function(e) {
+                e.preventDefault();
+                var cart = localStorage.getItem('cart');
+
+                var productData = {
+                    product_id: "{{ $product->id ?? '' }}",
+                    seller_id: "{{ $product->seller_id ?? '' }}",
+                    name: "{{ $product->name ?? '' }}",
+                    image: "{{ $product->images[0] ?? null }}",
+                    note: "Tolong ini hati-hati bawanya ",
+                    qty: $('#quantity').val(),
+                    stock: "{{ $product->stock ?? '' }}",
+                    price: "{{ $product->price ?? '' }}",
+                };
+
+                if (cart) {
+                    var existingCart = JSON.parse(cart);
+
+                    var existingProductIndex = existingCart.findIndex(function(item) {
+                        return item.product_id === productData.product_id;
+                    });
+                    if (existingProductIndex !== -1) {
+                        $('#myDiv2').text('barang sudah ada di keranjang');
+                        $('#myDiv2').css('display', 'block');
+                        setTimeout(function() {
+                            $('#myDiv2').fadeOut('fast');
+                        }, 2000);
+                        existingCart[existingProductIndex].qty = parseInt(existingCart[existingProductIndex]
+                            .qty) + parseInt(productData.qty);
+                    } else {
+                        existingCart.push(productData);
+                    }
+
+                    localStorage.setItem('cart', JSON.stringify(existingCart));
+                } else {
+                        localStorage.setItem('cart', JSON.stringify([productData]));
+                }
+            });
+            $('#buy-now').on('click', function(e) {
+                e.preventDefault();
+                if ("{{ $product->stock > 0 }}") {
+                    var productData = [{
+                        product_id: "{{ $product->id ?? '' }}",
+                        note: "Tolong ini hati-hati bawanya ",
+                        qty: $('#quantity').val(),
+                    }];
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: "post",
+                        url: "{{ route('buyer.preCheckEarly') }}",
+                        data: {
+                            order_items: JSON.stringify(productData)
+                        },
+                        xhr: function() {
+                            // get the native XmlHttpRequest object
+                            var xhr = $.ajaxSettings.xhr()
+                            // set the onprogress event handler
+                            xhr.upload.onprogress = function(evt) {}
+                            return xhr
+                        },
+                        success: function(response) {
+                            if (response) {
+                                localStorage.setItem('checkout', JSON.stringify(response));
+                                window.location.replace("{{ route('buyer.checkout') }}");
+
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            console.log(xhr.status);
+                            console.log(ajaxOptions);
+                            console.log(thrownError);
+                        }
+                    });
+                } else {
+                    $('#myDivCheckout').css('display', 'block');
+                    setTimeout(function() {
+                        $('#myDivCheckout').fadeOut('fast');
+                    }, 2000);
+                }
+
             });
         });
     </script>

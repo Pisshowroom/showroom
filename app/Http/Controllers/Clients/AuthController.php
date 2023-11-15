@@ -19,6 +19,45 @@ class AuthController extends Controller
         // $this->middleware('guest:api-admin')->except('logout');
         // $this->middleware('guest:user')->except('logout');
     }
+    public function piLogin(Request $request)
+    {
+        $request->validate([
+            'uid' => 'required',
+        ]);
+        if ($request->uid) {
+            $checkUser = User::where('uid', $request->uid)->first();
+            if ($checkUser) {
+                Auth::guard('web')->loginUsingId($checkUser->id, true);
+                return response()->json([
+                    "status" => "success",
+                    "message" => "Berhasil login"
+                ]);
+            } else {
+                $user = new User;
+                $user->uid = $request->uid;
+                $user->api_token = bcrypt($request->api_token);
+                $user->name = $request->username;
+                $user->email = $request->username . '@gmail.com';
+                // $user->image = $request->photoURL;
+                $user->save();
+                $address = new Address();
+                $address->user_id = $user->id;
+                $address->main = 1;
+                $address->save();
+                Auth::guard('web')->loginUsingId($user->id, true);
+                return response()->json([
+                    "status" => "success",
+                    "message" => "Berhasil Mendaftar"
+
+                ]);
+            }
+        } else {
+            return response()->json([
+                "status" => "error",
+                "message" => "Terjadi kesalahan pada pi auth"
+            ]);
+        }
+    }
     public function loginUsingGoogle(Request $request)
     {
         $request->validate([
@@ -33,10 +72,19 @@ class AuthController extends Controller
                     "message" => "Berhasil login"
                 ]);
             } else {
-                return response()->json([
-                    "status" => "error",
-                    "message" => "Kamu belum mempunyai akun,silahkan mendaftar terlebih dahulu"
-                ]);
+                $checkUser2 = User::where('email', $request->email)->first();
+                if ($checkUser2) {
+                    Auth::guard('web')->loginUsingId($checkUser->id, true);
+                    return response()->json([
+                        "status" => "success",
+                        "message" => "Berhasil login"
+                    ]);
+                } else {
+                    return response()->json([
+                        "status" => "error",
+                        "message" => "Kamu belum mempunyai akun,silahkan mendaftar terlebih dahulu"
+                    ]);
+                }
             }
         } else {
             return response()->json([
@@ -79,36 +127,43 @@ class AuthController extends Controller
                     "message" => "Kamu sudah punya akun"
                 ]);
             } else {
-
-                $user = new User;
-                $user->api_token = $request->api_token;
-                $user->uid = $request->uid;
-                $user->api_token = bcrypt($request->api_token);
-                $user->name = $request->displayName;
-                $user->email = $request->email;
-                if ($request->photoURL) {
-                    try {
-                        $contents = file_get_contents($request->photoURL);
-                        $name = '/' . substr($request->photoURL, strrpos($request->photoURL, '/') + 1);
-                        Storage::put($name, $contents);
-                        $user->image = "storage$name";
-                        $user->save();
-                    } catch (\Throwable $th) {
+                $checkUser2 = User::where('email', $request->email)->first();
+                if ($checkUser2) {
+                    Auth::guard('web')->loginUsingId($checkUser->id, true);
+                    return response()->json([
+                        "status" => "info",
+                        "message" => "Kamu sudah punya akun"
+                    ]);
+                } else {
+                    $user = new User;
+                    $user->uid = $request->uid;
+                    $user->api_token = bcrypt($request->api_token);
+                    $user->name = $request->displayName;
+                    $user->email = $request->email;
+                    if ($request->photoURL) {
+                        try {
+                            $contents = file_get_contents($request->photoURL);
+                            $name = '/' . substr($request->photoURL, strrpos($request->photoURL, '/') + 1);
+                            Storage::put($name, $contents);
+                            $user->image = "storage$name";
+                            $user->save();
+                        } catch (\Throwable $th) {
+                        }
                     }
-                }
-                // $user->image = $request->photoURL;
-                $user->save();
-                $address = new Address();
-                $address->user_id = $user->id;
-                $address->phone_number = $request->phoneNumber;
-                $address->main = 1;
-                $address->save();
-                Auth::guard('web')->loginUsingId($user->id, true);
-                return response()->json([
-                    "status" => "success",
-                    "message" => "Berhasil Mendaftar"
+                    // $user->image = $request->photoURL;
+                    $user->save();
+                    $address = new Address();
+                    $address->user_id = $user->id;
+                    $address->phone_number = $request->phoneNumber;
+                    $address->main = 1;
+                    $address->save();
+                    Auth::guard('web')->loginUsingId($user->id, true);
+                    return response()->json([
+                        "status" => "success",
+                        "message" => "Berhasil Mendaftar"
 
-                ]);
+                    ]);
+                }
             }
         } else {
             return response()->json([

@@ -8,6 +8,7 @@ use App\Http\Controllers\Clients\buyer\ProductController as BuyerProductControll
 use App\Http\Controllers\Clients\buyer\SellerController as BuyerSellerController;
 use App\Http\Controllers\Clients\BuyerController;
 use App\Http\Controllers\Clients\buyer\DashboardController;
+use App\Http\Controllers\Clients\buyer\OrderController as BuyerOrderController;
 use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
 use App\Http\Controllers\Clients\seller\SellerController;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +30,7 @@ Route::get('/geta', function () {
     return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
 });
 
-Route::post('/0xff-callback-confirm-payment/{type}', [OrderController::class, 'callbackConfirmPayment']); 
+Route::post('/0xff-callback-confirm-payment/{type}', [OrderController::class, 'callbackConfirmPayment']);
 
 Route::get('/forcing-auth/{id}', function (Request $request) {
     $user_id = $request->id;
@@ -122,6 +123,12 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/ubah-alamat/{id}', [DashboardController::class, 'changeAddress'])->name('dashboard.changeAddress');
         Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');
         Route::get('/checkout', [BuyerController::class, 'checkout'])->name('buyer.checkout');
+        Route::post('/precheck-early', [BuyerOrderController::class, 'preCheckEarly'])->name('buyer.preCheckEarly');
+        Route::post('/precheck', [BuyerOrderController::class, 'preCheck'])->name('buyer.preCheck');
+        Route::post('/precheck-with-delivery', [BuyerOrderController::class, 'precheckWithDelivery'])->name('buyer.precheckWithDelivery');
+        Route::post('/checkout', [BuyerOrderController::class, 'checkout'])->name('buyer.preCheckout');
+
+
         Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
     });
     Route::group(['prefix' => 'toko'], function () {

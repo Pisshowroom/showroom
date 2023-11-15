@@ -77,7 +77,7 @@
                                                 href="{{ route('dashboardSeller.editProduct', ['id' => $product->id ?? '1']) }}">Detail</a>
                                             <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
                                                 data-bs-target="#deleteProduct">
-                                                Batalkan
+                                                Hapus
                                             </button>
                                         </td>
                                     </tr>

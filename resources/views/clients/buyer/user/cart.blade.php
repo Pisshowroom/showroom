@@ -19,7 +19,7 @@
         <section class="section-box shop-template">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-9">
+                    <div class="col-lg-12">
                         <div class="box-carts">
                             <div class="head-wishlist">
                                 <div class="item-wishlist">
@@ -86,13 +86,12 @@
                                         href="{{ route('buyer.allGridProduct') }}">Lanjutkan Belanja</a></div>
                                 <div class="col-lg-6 col-md-6 col-sm-6-col-6 text-md-end"><a
                                         class="btn btn-buy w-auto update-cart mb-10"
-                                        href="{{ route('buyer.cart') }}">Perbarui
-                                        Keranjang</a>
+                                        href="{{ route('buyer.checkout') }}">Checkout</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    {{-- <div class="col-lg-3">
                         <div class="summary-cart">
                             <div class="border-bottom mb-10">
                                 <div class="row">
@@ -128,10 +127,10 @@
                                 </div>
                             </div>
                             <div class="box-button"><a class="btn btn-buy"
-                                    href="{{ route('buyer.checkout') }}">Lanjutkan ke
+                                    href="{{ route('buyer.cart') }}">Lanjutkan ke
                                     pembayaran</a></div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </section>

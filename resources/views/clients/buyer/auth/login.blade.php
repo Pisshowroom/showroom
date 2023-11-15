@@ -27,17 +27,18 @@
                         <form class="form-register mt-30 mb-30" id="submit" method="post">
                             <div class="form-group">
                                 <label class="mb-5 font-sm color-gray-700">Email *</label>
-                                <input class="form-control" type="text" id="email" placeholder="stevenjob@gmail.com" required>
+                                <input class="form-control" type="text" id="email" required>
                             </div>
                             <div class="form-group">
                                 <label class="mb-5 font-sm color-gray-700">Password *</label>
-                                <input class="form-control" type="password" id="password" placeholder="******************" required>
+                                <input class="form-control" type="password" id="password" required>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="color-gray-500 font-xs">
-                                            <input class="checkagree" type="checkbox">Ingat aku
+                                            <input class="checkagree" type="checkbox" name="remember" id="remember">Ingat
+                                            saya
                                         </label>
                                     </div>
                                 </div>
@@ -51,11 +52,14 @@
                                 class="font-xs color-brand-3 font-medium" href="{{ route('buyer.register') }}"> Daftar</a>
                         </div>
                         <div class="box-login-social pt-65">
-                            <h5 class="text-center">Gunakan Akun Sosmed</h5>
+                            <h5 class="text-center">Atau masuk dengan</h5>
                             <div class="box-button-login mt-25">
-                                <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin">Masuk
-                                    Menggunakan<img src="{{ asset('ecom/imgs/page/account/google.svg') }}"
+                                <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin"><img
+                                        src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="masuk menggunakan akun google"></button>
+                                <button class="btn btn-login font-md-bold color-brand-3 mb-15 d-none" id="piBrowser"><img
+                                        src="{{ asset('ecom/imgs/page/account/pi-network.svg') }}"
+                                        alt="masuk menggunakan akun pi network"></button>
                             </div>
                         </div>
                     </div>
@@ -75,11 +79,24 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
     <script>
         $(document).ready(function() {
+            if (navigator.userAgent.includes('PiBrowser')) {
+                $('#piBrowser').addClass('d-block').removeClass('d-none');
+            } else {}
             var $email = $('#email');
             var $password = $('#password');
             var $submitButton = $('#loginEmail');
+
+            var rememberCheckbox = $('#remember');
+
+            // Retrieve saved values from local storage
+            var savedEmail = localStorage.getItem('savedEmail');
+            var savedPassword = localStorage.getItem('savedPassword');
+
+            // Set values if saved values exist and checkbox is checked
+
             $submitButton.prop('disabled', true);
             $email.add($password).on('input', function() {
                 var email = $email.val().trim();
@@ -90,7 +107,54 @@
                     $submitButton.prop('disabled', true);
                 }
             });
+            if (savedEmail && savedPassword) {
+                rememberCheckbox.prop('checked', true);
+                $email.val(savedEmail);
+                $password.val(savedPassword);
+                $submitButton.prop('disabled', false);
+            }
         });
+
+
+        $("#piBrowser").click(async function() {
+            const scopes = ['username'];
+            const authResults = await window.Pi.authenticate(scopes,
+                onIncompletePaymentFound);
+            alert('ad'.authResults);
+            return signInUser(authResults);
+        })
+
+        function onIncompletePaymentFound(payment) {
+            console.log(payment);
+        }
+
+        function signInUser(authResult) {
+            alert(authResult);
+            axios.post('/api/pi/signin', {
+                uid: authResult.user.uid,
+                username: authResult.user.username,
+                api_token: authResult.accessToken,
+            }).then(data => {
+                // window.location.href = URL + "/dashboard"
+                var div = document.getElementById('myDiv3');
+                $('#myDiv3').css('display', 'block');
+                div.innerHTML = '';
+                div.innerHTML += data.data.message;
+                setTimeout(function() {
+                    $('#myDiv3').fadeOut('fast');
+                }, 2000);
+                window.location.replace(
+                    "{{ route('dashboard.settings') }}");
+
+            }).catch((error) => {
+                var div = document.getElementById('myDiv2');
+                $('#myDiv2').css('display', 'block');
+                div.innerHTML += error.data.message;
+                setTimeout(function() {
+                    $('#myDiv2').fadeOut('fast');
+                }, 2000);
+            });
+        }
 
         $("#googleLogin").click(function() {
             firebase
@@ -178,6 +242,15 @@
             e.preventDefault();
             var email = $('#email').val();
             var password = $('#password').val();
+            var rememberCheckbox = $('#remember');
+            if (rememberCheckbox.prop('checked')) {
+                localStorage.setItem('savedEmail', email);
+                localStorage.setItem('savedPassword', password);
+            } else {
+                localStorage.removeItem('savedEmail');
+                localStorage.removeItem('savedPassword');
+            }
+
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -222,6 +295,7 @@
                     }, 2000);
                 },
             });
+
         });
     </script>
 @endpush

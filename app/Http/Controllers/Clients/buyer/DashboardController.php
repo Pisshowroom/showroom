@@ -132,7 +132,6 @@ class DashboardController extends Controller
 
         if ($request->filled('name')) {
             $user->name = $request->name;
-            $user->seller_slug = Str::slug($request->name);
         }
 
         if ($request->filled('email')) {
