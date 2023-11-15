@@ -110,8 +110,6 @@ class ProductController extends Controller
             }
         }
 
-
-
         $relatedProductsByCategory = Product::where('category_id', $product->category_id)
             ->whereNot('id', $product->id)
             ->inRandomOrder()
