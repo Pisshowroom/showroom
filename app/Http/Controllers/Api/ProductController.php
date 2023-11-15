@@ -24,12 +24,23 @@ class ProductController extends Controller
                 });
             }], 'quantity');
 
-        $query->byNotVariant();
+        // $query->byNotVariant();
         $filtered = false;
 
         if ($request->filled('rating')) {
             // $query->having('reviews_avg_rating', '>=', $request->input('rating'));
             $query->orderByDesc('reviews_avg_rating');
+            $filtered = true;
+        }
+
+        if ($request->filled('seller_id')) {
+            $query->where('seller_id', $request->seller_id);
+            $filtered = true;
+        }
+
+        if ($request->filled('category_id')) {
+            // dd($request->category_id);
+            $query->where('category_id', (int)$request->category_id);
             $filtered = true;
         }
 

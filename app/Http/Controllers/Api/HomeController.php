@@ -71,4 +71,12 @@ class HomeController extends Controller
         }
         return ResponseAPI($data);
     }
+
+    // func categories
+    public function categories()
+    {
+        $categories = Category::all();
+        return CategoryResource::collection($categories);
+    }
+    
 }
