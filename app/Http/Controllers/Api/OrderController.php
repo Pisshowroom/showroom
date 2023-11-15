@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Xendit\Configuration;
 use Xendit\PaymentRequest\PaymentRequestApi;
 use Xendit\PaymentRequest\PaymentRequestParameters;
@@ -60,6 +61,11 @@ class OrderController extends Controller
                 'expiration_date' => $paymentDue,
             ]);
         } else if ($channelType == 'QR_CODE') {
+            // $amount check maximum 100000
+            if ($amount > 10000000) {
+                // return ResponseAPI('Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000', 400);
+                throw new HttpException(400, 'Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000');
+            } 
             $result = QRCode::create([
                 'api_version' => '2022-07-31',
                 'reference_id' => $paymentIdentifier . strval(time()),

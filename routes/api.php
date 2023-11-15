@@ -88,7 +88,8 @@ Route::prefix('regionals')->group(function () {
 
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login-firebase', [AuthController::class, 'loginFirebase']);
-
+    Route::get('/get-a-seller/{sellerId}', [UserController::class, 'getASeller']);
+    
     Route::middleware('auth:api-client')->group(function () {
         Route::get('/profile', [UserController::class, 'profile']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);

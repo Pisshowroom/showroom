@@ -95,9 +95,13 @@ class UserController extends Controller
     }
 
     // return single data of seller using SellerResource, get from param $sellerId 
-    public function getSeller($sellerId)
+    public function getASeller($sellerId)
     {
-        $seller = User::where('id', $sellerId)->first();
+        $seller = User::where('id', $sellerId)->where('is_seller', true)->first();
+        if (!$seller) {
+            return ResponseAPI("Seller tidak ditemukan", 404);
+        }
+
         return new SellerResource($seller);
     }
 
