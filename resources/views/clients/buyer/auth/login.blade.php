@@ -117,7 +117,8 @@
 
 
         $("#piBrowser").click(async function() {
-            const scopes = ['username', 'payments'];
+            alert('ads');
+            const scopes = ['username'];
             const authResults = await window.Pi.authenticate(scopes,
                 onIncompletePaymentFound);
             alert('ad'.authResults);
