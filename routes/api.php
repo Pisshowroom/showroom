@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RegionalController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,12 @@ Route::group(['prefix' => 'addresses', 'middleware' => 'auth:api-client'], funct
     Route::post('/store-or-update', [AddressController::class, 'storeOrUpdate']);
     Route::post('/set-main-address/{address}', [AddressController::class, 'setMainAddress']);
     Route::delete('delete/{address}', [AddressController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'reviews'], function () {
+    Route::post('store-or-update', [ReviewController::class, 'storeOrUpdate']);
+    Route::get('limited-of-product/{productId}', [ReviewController::class, 'getLimitedReviewsOfAProduct']);
+    Route::get('of-a-product/{productId}', [ReviewController::class, 'getAllReviewsOfAProduct']);
 });
 
 Route::group(['prefix' => 'order'], function () {
