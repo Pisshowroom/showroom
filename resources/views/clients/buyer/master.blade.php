@@ -22,7 +22,7 @@
         // Init Pi SDK:
         Pi.init({
             version: "2.0",
-            sandbox: true
+            sandbox: false
         });
     </script>
     <title>@yield('title')</title>
