@@ -37,7 +37,8 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="color-gray-500 font-xs">
-                                            <input class="checkagree" type="checkbox">Ingat saya
+                                            <input class="checkagree" type="checkbox" name="remember" id="remember">Ingat
+                                            saya
                                         </label>
                                     </div>
                                 </div>
@@ -53,7 +54,8 @@
                         <div class="box-login-social pt-65">
                             <h5 class="text-center">Atau masuk dengan</h5>
                             <div class="box-button-login mt-25">
-                                <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin"><img src="{{ asset('ecom/imgs/page/account/google.svg') }}"
+                                <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin"><img
+                                        src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="masuk menggunakan akun google"></button>
                             </div>
                         </div>
@@ -76,9 +78,25 @@
     </script>
     <script>
         $(document).ready(function() {
+            let userAgentString = navigator.userAgent;
+            let chromeAgent = userAgentString.indexOf("PiBrowser") > -1;
+            if (chromeAgent) {
+                console.log('tes');
+            } else {
+                console.log('test');
+            }
             var $email = $('#email');
             var $password = $('#password');
             var $submitButton = $('#loginEmail');
+
+            var rememberCheckbox = $('#remember');
+
+            // Retrieve saved values from local storage
+            var savedEmail = localStorage.getItem('savedEmail');
+            var savedPassword = localStorage.getItem('savedPassword');
+
+            // Set values if saved values exist and checkbox is checked
+
             $submitButton.prop('disabled', true);
             $email.add($password).on('input', function() {
                 var email = $email.val().trim();
@@ -89,6 +107,12 @@
                     $submitButton.prop('disabled', true);
                 }
             });
+            if (savedEmail && savedPassword) {
+                rememberCheckbox.prop('checked', true);
+                $email.val(savedEmail);
+                $password.val(savedPassword);
+                $submitButton.prop('disabled', false);
+            }
         });
 
         $("#googleLogin").click(function() {
@@ -177,6 +201,15 @@
             e.preventDefault();
             var email = $('#email').val();
             var password = $('#password').val();
+            var rememberCheckbox = $('#remember');
+            if (rememberCheckbox.prop('checked')) {
+                localStorage.setItem('savedEmail', email);
+                localStorage.setItem('savedPassword', password);
+            } else {
+                localStorage.removeItem('savedEmail');
+                localStorage.removeItem('savedPassword');
+            }
+
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -221,6 +254,7 @@
                     }, 2000);
                 },
             });
+
         });
     </script>
 @endpush

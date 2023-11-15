@@ -201,12 +201,17 @@
                         checkout.delivery_services_info.results.forEach(element => {
                             if (element.costs && element.costs.length > 0 && element.costs[0].cost.length) {
                                 result +=
-                                    `<option class="choose-packet packet-${element.code}" value="${element.code}">${element.name} | ${formatRupiah(element.costs[0].cost[0].value, 'Rp ')}</option>`;
+                                    `<option class="choose-packet packet-${element.code}" value="${element.code}">${element.name} | ${formatRupiah(element.costs[0].cost[0].value, 'Rp ')}
+                                        <input type="hidden" value="${element.name}" class="name">
+                                        <input type="hidden" value="${element.costs[0].cost[0].value}" class="cost">
+                                        <input type="hidden" value="${element.costs[0].cost[0].etd}" class="etd">
+                                        <input type="hidden" value="${element.costs[0].service}(${element.costs[0].description})" class="description">
+                                    </option>`;
                             }
                         });
                         $('#packet').append(result);
                     }
-                    checkout.delivery_services_info
+
                 } catch (error) {
                     console.error('Error parsing JSON:', error);
                 }
@@ -215,7 +220,12 @@
             }
 
             $('#packet').on('change', function() {
-                console.log($(this).text());
+                var selectedOption = $(this).find('option:selected');
+                console.log($(selectedOption).val());
+                console.log($(selectedOption).find('.name').val());
+                console.log($(selectedOption).find('.cost').val());
+                console.log($(selectedOption).find('.etd').val());
+                console.log($(selectedOption).find('.description').val());
             });
             $('.arrow-next').on('click', function() {
 

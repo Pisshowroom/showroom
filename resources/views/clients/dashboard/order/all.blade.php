@@ -20,10 +20,13 @@
                     </div>
                     <div class="col-lg-2 col-6 col-md-3">
                         <select class="form-select">
-                            <option>Status</option>
-                            <option>Active</option>
-                            <option>Disabled</option>
-                            <option>Show all</option>
+                            <option>Filter</option>
+                            <option>Semua</option>
+                            <option>Belum dibayar</option>
+                            <option>Sedang dikemas</option>
+                            <option>Dikirim</option>
+                            <option>Selesai</option>
+                            <option>Dibatalkan</option>
                         </select>
                     </div>
                     {{-- <div class="col-lg-2 col-6 col-md-3">
