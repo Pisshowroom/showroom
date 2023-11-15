@@ -10,6 +10,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -64,7 +65,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        $product->load(['category', 'reviews', 'variants', 'seller.address', 'reviews.user']);
+        $product->load(['category', 'variants', 'seller.address']);
 
         $product->loadAvg('reviews', 'rating');
         $product->loadCount(['reviews']);
@@ -76,17 +77,14 @@ class ProductController extends Controller
             });
         }], 'quantity');
 
-        $totalImages = 0;
-        foreach ($product->reviews as $review) {
-            // $images = json_decode($review->images, true);
-            $images = $review->images;
-            if ($images !== null) {
-                $totalImages += count($images);
-            }
-        }
 
+        $totalImages2 = DB::table('reviews')
+            ->selectRaw('SUM(JSON_LENGTH(images)) as total_images')
+            ->where('product_id', $product->id)
+            ->first()
+            ->total_images;
 
-        $product->total_images = $totalImages;
+        $product->total_images = (int)$totalImages2;
 
         // return ResponseAPI($product);
 
@@ -110,7 +108,6 @@ class ProductController extends Controller
             } else {
                 $data['delivery_service'] = null;
             }
-
         }
 
 
