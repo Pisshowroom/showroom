@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SellerResource;
 use App\Http\Resources\UserResource;
 use App\Models\Seller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -92,7 +94,12 @@ class UserController extends Controller
         return response()->json(['message' => 'Berhasil memperbarui data.']);
     }
 
-
+    // return single data of seller using SellerResource, get from param $sellerId 
+    public function getSeller($sellerId)
+    {
+        $seller = User::where('id', $sellerId)->first();
+        return new SellerResource($seller);
+    }
 
     public function logout()
     {

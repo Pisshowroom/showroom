@@ -15,8 +15,8 @@ class PaymentController extends Controller
         
         
         // $masterAccounts = MasterAccount::all();
-        // $masterAccounts = MasterAccount::whereIn('type', ['Virtual-Account', 'E-Wallet', 'Retail-Outlet'])
-        $masterAccounts = MasterAccount::whereIn('type', ['Retail-Outlet'])
+        $masterAccounts = MasterAccount::whereIn('type', ['Virtual-Account', 'E-Wallet', 'Retail-Outlet'])
+        // $masterAccounts = MasterAccount::whereIn('type', ['Retail-Outlet'])
         ->orderBy('type')
         ->get();
 
