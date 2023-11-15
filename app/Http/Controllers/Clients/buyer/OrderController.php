@@ -340,7 +340,7 @@ class OrderController extends Controller
             $orderItem->subtotal = $product->price * $qty;
             $orderItem->item_total = $itemTotal;
             $orderItem->price = $product->price;
-            $orderItem->note = isset($order_item['note']) ? $order_item['note'] : 'Tolong hati hati';
+            // $orderItem->note = isset($order_item['note']) ? $order_item['note'] : 'Tolong hati hati';
             $orderItem->weight = $thisItemWeight;
             // $orderItem->fee_seller = $product->fee_seller;
             // $orderItem->fee_buyer = $product->fee_buyer;
@@ -396,6 +396,7 @@ class OrderController extends Controller
         $order->delivery_service_code = $request->delivery_code;
         $order->delivery_service_name = $request->delivery_name;
         $order->delivery_service_kind = $request->delivery_service;
+        $order->note = 'Tolong hati hati';
         if ($countedAmountPromo > 0) {
             $order->total = $totalWithoutDiscount;
             $order->total_final = $total;

@@ -16,6 +16,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom/imgs/template/favicon.svg') }}">
     <link href="{{ asset('ecom/css/style.css?v=3.0.0') }}" rel="stylesheet">
+    {{-- pi coin --}}
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <script>
+        // Init Pi SDK:
+        Pi.init({
+            version: "2.0",
+            sandbox: true
+        });
+    </script>
     <title>@yield('title')</title>
 
     @stack('css')
@@ -38,6 +47,8 @@
     <div style="display:none" class="alert alert-warning" id="myDivCheckout">Stok saat ini tidak ada
     </div>
     <div style="display:none" class="alert alert-warning" id="myDivHandleError">
+    </div>
+    <div style="display:none" class="alert alert-success" id="myDivHandleSuccess">
     </div>
     @if (in_array(Route::currentRouteName(), ['buyer.home']))
         @include('clients.buyer.layouts.navbar')

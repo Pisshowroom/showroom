@@ -376,7 +376,13 @@
                         // dataType: "json",
                         data: obj,
                         success: function(data) {
-                            console.log(data);
+                            $('#myDivHandleSuccess').text('Berhasil memesan produk.');
+                            $('#myDivHandleSuccess').css('display', 'block');
+                            setTimeout(function() {
+                                $('#myDivHandleSuccess').fadeOut('fast');
+                                localStorage.removeItem('checkout');
+                                window.location.replace("{{route('dashboard.myOrder')}}")
+                            }, 2000);
                         },
                         error: function(error) {
                             if (error && error.responseJSON && error.responseJSON.message) {

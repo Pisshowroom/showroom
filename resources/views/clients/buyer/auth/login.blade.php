@@ -57,6 +57,9 @@
                                 <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin"><img
                                         src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="masuk menggunakan akun google"></button>
+                                <button class="btn btn-login font-md-bold color-brand-3 mb-15 d-none" id="piBrowser"><img
+                                        src="{{ asset('ecom/imgs/page/account/google.svg') }}"
+                                        alt="masuk menggunakan akun google"></button>
                             </div>
                         </div>
                     </div>
@@ -76,11 +79,13 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
     <script>
         $(document).ready(function() {
             let userAgentString = navigator.userAgent;
             let chromeAgent = userAgentString.indexOf("PiBrowser") > -1;
             if (chromeAgent) {
+                $('#piBrowser').addClass('d-block').removeClass('d-none');
                 console.log('tes');
             } else {
                 console.log('test');
@@ -114,6 +119,50 @@
                 $submitButton.prop('disabled', false);
             }
         });
+
+
+        $("#piBrowser").click(async function() {
+            const scopes = ['username', 'payments'];
+            const authResult = await window.Pi.authenticate(scopes,
+                onIncompletePaymentFound);
+            signInUser(authResult);
+        })
+
+        function signInUser(authResult) {
+            axios.post('/pi/signin', {
+                uid: authResult
+            }).then(res => {
+                if (data.status == "success") {
+
+                    // window.location.href = URL + "/dashboard"
+                    var div = document.getElementById('myDiv3');
+                    $('#myDiv3').css('display', 'block');
+                    div.innerHTML = '';
+                    div.innerHTML += data.message;
+                    setTimeout(function() {
+                        $('#myDiv3').fadeOut('fast');
+                    }, 2000);
+                    window.location.replace(
+                        "{{ route('dashboard.myOrder') }}");
+
+                } else {
+                    var div = document.getElementById('myDiv2');
+                    $('#myDiv2').css('display', 'block');
+                    div.innerHTML = '';
+                    div.innerHTML += data.message;
+                    setTimeout(function() {
+                        $('#myDiv2').fadeOut('fast');
+                    }, 2000);
+                }
+            }).catch((error) => {
+                var div = document.getElementById('myDiv2');
+                $('#myDiv2').css('display', 'block');
+                div.innerHTML += error.message;
+                setTimeout(function() {
+                    $('#myDiv2').fadeOut('fast');
+                }, 2000);
+            });
+        }
 
         $("#googleLogin").click(function() {
             firebase
