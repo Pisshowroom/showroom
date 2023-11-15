@@ -50,11 +50,16 @@ class Product extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    protected static function booted()
+    public function scopeByNotVariant($query)
     {
-        static::addGlobalScope('hasParentRelation', function (Builder $builder) {
-            $builder->whereNull('parent_id');
-        });
+        return $query->whereNull('parent_id');
     }
+    
+    // protected static function booted()
+    // {
+    //     static::addGlobalScope('hasParentRelation', function (Builder $builder) {
+    //         $builder->whereNull('parent_id');
+    //     });
+    // }
 
 }

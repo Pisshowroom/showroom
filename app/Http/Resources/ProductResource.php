@@ -41,9 +41,11 @@ class ProductResource extends JsonResource
             'weight' => $this->weight,
             'images' => $imagesData,
             'unit' => $this->unit,
+            'parent_id' => $this->parent_id,
             'reviews_count' => $this->reviews_count ?? 0,
             'total_sell' => $this->total_sell ?? 0,
             'total_images' => $this->when(isset($this->total_images), $this->total_images),
+
             // 'rating' => $this->when(isset($this->reviews_avg_rating), doubleval($this->reviews_avg_rating)),
             'rating' => $this->reviews_avg_rating ? doubleval($this->reviews_avg_rating) : 0,
             'is_featured' => $this->is_featured,

@@ -12,7 +12,10 @@ class Order extends Model
     use HasFactory, SoftDeletes;
 
     // protected $guarded = [];
-    
+    protected $casts = [
+        'is_reviewed' => 'boolean'
+    ];
+
     public function getNextId()
     {
         $statement = DB::select("show table status like 'orders'");
@@ -36,8 +39,12 @@ class Order extends Model
 
     /*  Status
     Pending, Paid, ExpiredPayment, Cancelled, ProcessedBySeller, Shipped, Delivered, 
-    RequestedRefund, RefundAccepted, RefundDone, RefundDecilned, RequestedReturn, ReturnDeclined, ReturnAccepted,
+    RequestedRefund, RefundAccepted, RefundDone, RefundDeclined, RequestedReturn, ReturnAccepted,
     ReturnShipped, ReturnDelivered, ReturnCompleted, Completed
+    */
+
+    /* Payment Status
+    PaymentPending, PaymentPaid, PaymentCancelled, PaymentExpired
     */
 
     const PENDING = 'Pending';

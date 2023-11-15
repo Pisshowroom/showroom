@@ -23,6 +23,7 @@ class ProductController extends Controller
                 });
             }], 'quantity');
 
+        $query->byNotVariant();
         $filtered = false;
 
         if ($request->filled('rating')) {
@@ -63,9 +64,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        $product->load(['category', 'reviews', 'variants' => function ($query) {
-            $query->withoutGlobalScope('hasParentRelation');
-        }, 'seller.address', 'reviews.user']);
+        $product->load(['category', 'reviews', 'variants', 'seller.address', 'reviews.user']);
 
         $product->loadAvg('reviews', 'rating');
         $product->loadCount(['reviews']);
@@ -140,7 +139,7 @@ class ProductController extends Controller
     public function sellerMyProducts()
     {
         $userAuthed = auth()->guard('api-client');
-        $products = Product::where('seller_id', $userAuthed->id())->paginate(15);
+        $products = Product::where('seller_id', $userAuthed->id())->byNotVariant()->paginate(15);
         return ProductResource::collection($products);
     }
 
