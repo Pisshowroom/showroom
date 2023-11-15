@@ -117,10 +117,9 @@
 
 
         $("#piBrowser").click(async function() {
-            const scopes = [];
+            const scopes = ['username', 'payments'];
             const authResult = await window.Pi.authenticate(scopes,
                 onIncompletePaymentFound);
-            alert(authResult);
             return signInUser(authResult);
         })
 
@@ -129,36 +128,26 @@
         }
 
         function signInUser(authResult) {
-            alert('authre' + authResult);
             axios.post('/api/pi/signin', {
-                authResult
-            }).then(res => {
-                if (data.status == "success") {
-
+                uid:authResult.user.uid,
+                username:authResult.user.username,
+                api_token:authResult.accessToken,
+            }).then(data => {
                     // window.location.href = URL + "/dashboard"
                     var div = document.getElementById('myDiv3');
                     $('#myDiv3').css('display', 'block');
                     div.innerHTML = '';
-                    div.innerHTML += data.message;
+                    div.innerHTML += data.data.message;
                     setTimeout(function() {
                         $('#myDiv3').fadeOut('fast');
                     }, 2000);
                     window.location.replace(
-                        "{{ route('dashboard.myOrder') }}");
+                        "{{ route('dashboard.settings') }}");
 
-                } else {
-                    var div = document.getElementById('myDiv2');
-                    $('#myDiv2').css('display', 'block');
-                    div.innerHTML = '';
-                    div.innerHTML += data.message;
-                    setTimeout(function() {
-                        $('#myDiv2').fadeOut('fast');
-                    }, 2000);
-                }
             }).catch((error) => {
                 var div = document.getElementById('myDiv2');
                 $('#myDiv2').css('display', 'block');
-                div.innerHTML += error.message;
+                div.innerHTML += error.data.message;
                 setTimeout(function() {
                     $('#myDiv2').fadeOut('fast');
                 }, 2000);

@@ -34,10 +34,10 @@ class AuthController extends Controller
                 ]);
             } else {
                 $user = new User;
-                $user->uid = $request->user->uid;
+                $user->uid = $request->uid;
                 $user->api_token = bcrypt($request->api_token);
-                $user->name = $request->user->username;
-                $user->email = $request->user->username . '@gmail.com';
+                $user->name = $request->username;
+                $user->email = $request->username . '@gmail.com';
                 // $user->image = $request->photoURL;
                 $user->save();
                 $address = new Address();
