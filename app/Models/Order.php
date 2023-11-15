@@ -36,8 +36,12 @@ class Order extends Model
 
     /*  Status
     Pending, Paid, ExpiredPayment, Cancelled, ProcessedBySeller, Shipped, Delivered, 
-    RequestedRefund, RefundAccepted, RefundDone, RefundDecilned, RequestedReturn, ReturnDeclined, ReturnAccepted,
+    RequestedRefund, RefundAccepted, RefundDone, RefundDeclined, RequestedReturn, ReturnAccepted,
     ReturnShipped, ReturnDelivered, ReturnCompleted, Completed
+    */
+
+    /* Payment Status
+    PaymentPending, PaymentPaid, PaymentCancelled, PaymentExpired
     */
 
     const PENDING = 'Pending';

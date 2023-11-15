@@ -9,4 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Setting extends Model
 {
     use HasFactory, SoftDeletes;
+
+    /* type :
+    number
+    richtext
+    textarea
+    date
+    */
 }
