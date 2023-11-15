@@ -1309,7 +1309,7 @@ a.text-brand-3:hover {
   transition-duration: 0.2s;
   transition-delay: 0.1s;
 }
-.btn.btn-wishlist:hover {
+.btn.btn-wishlist:hover,.btn.btn-wishlist.active {
   background: #ffffff url(../imgs/template/icons/wishlist-hover.svg) no-repeat center;
 }
 .btn.btn-compare {
@@ -1476,16 +1476,16 @@ a.text-brand-3:hover {
   padding-right: 45px;
 }
 .btn.arrow-next:hover {
-  background-image: url(../imgs/page/cart/arrow-next-hover.svg);
+  background-image: url(../imgs/page/checkout/arrow-next-hover.svg);
 }
 .btn.update-cart {
-  background-image: url(../imgs/page/cart/reload.svg);
+  /* background-image: url(../imgs/page/cart/reload.svg);
   background-position: left 20px center;
   background-repeat: no-repeat;
-  padding-left: 45px;
+  padding-left: 45px; */
 }
 .btn.update-cart:hover {
-  background-image: url(../imgs/page/cart/reload-hover.svg);
+  /* background-image: url(../imgs/page/cart/reload-hover.svg); */
 }
 .btn.btn-amazon {
   padding: 5px 10px;
@@ -8825,7 +8825,7 @@ a:hover span {
   margin-bottom: 10px;
 }
 .listCheckout .item-wishlist .wishlist-product {
-  width: 76%;
+  width: 100%;
 }
 
 .box-compare-products {
@@ -10145,7 +10145,7 @@ a:hover span {
     width: 8%;
   }
   .item-wishlist .wishlist-product {
-    width: 92%;
+    width: 92% !important;
   }
   .item-wishlist .wishlist-price {
     width: 20%;

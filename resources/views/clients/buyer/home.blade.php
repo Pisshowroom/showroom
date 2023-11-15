@@ -228,14 +228,6 @@
                     $(this).find('.article-desc').css('height', '54px');
                 }
             });
-            // Fungsi untuk menambahkan produk ke localStorage
-            function tambahkanKeLocalStorage(product) {
-                let existingProducts = JSON.parse(localStorage.getItem('produkKeranjang')) || [];
-
-                existingProducts.push(product);
-
-                localStorage.setItem('produkKeranjang', JSON.stringify(existingProducts));
-            }
 
             // Menangani klik tombol "Keranjang" menggunakan jQuery
             $('.btn-cart').on('click', function() {

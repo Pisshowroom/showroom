@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients\buyer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Review;
@@ -12,10 +13,24 @@ use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
-    private function categories()
+    public function getCommonData()
     {
-        return Category::whereNull('deleted_at')->withCount('products')->get();
+        $data['categories'] = Category::whereNull('deleted_at')->withCount('products')->get();
+
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $data['addresses'] = $this->addresses();
+        } else {
+            $data['addresses'] = null;
+        }
+
+        return $data;
     }
+
+    private function addresses()
+    {
+        return Address::where('user_id', Auth::guard('web')->user()->id)->where('main', true)->whereNull('deleted_at')->first();
+    }
+
     public function allGridProduct(Request $request)
     {
         $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])->whereNull('parent_id')
@@ -43,7 +58,7 @@ class ProductController extends Controller
             }
         }
 
-        $data['categories'] = $this->categories();
+        $data = $this->getCommonData();
         return view('clients.buyer.product.all_grid', ['products' => $product, 'data' => $data]);
     }
     public function allListProduct(Request $request)
@@ -72,7 +87,7 @@ class ProductController extends Controller
                 }
             }
         }
-        $data['categories'] = $this->categories();
+        $data = $this->getCommonData();
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
@@ -84,6 +99,7 @@ class ProductController extends Controller
                     $query->where('status', 'done');
                 });
             }], 'quantity')->where('slug', $slug)->firstOrFail();
+        $data = $this->getCommonData();
         $data['reviews'] = Review::whereNull('deleted_at')->with('user:id,name,image')->orderByDesc('id')->paginate(5);
         foreach ($data['reviews'] as $review) {
             if ($review->created_at)
@@ -123,7 +139,6 @@ class ProductController extends Controller
                 }
             }
         }
-        $data['categories'] = $this->categories();
         return view('clients.buyer.product.detail', ['product' => $product, 'data' => $data]);
     }
 

@@ -123,6 +123,9 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/ubah-alamat/{id}', [DashboardController::class, 'changeAddress'])->name('dashboard.changeAddress');
         Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');
         Route::get('/checkout', [BuyerController::class, 'checkout'])->name('buyer.checkout');
+        Route::post('/precheck-early', [BuyerController::class, 'preCheckEarly'])->name('buyer.preCheckEarly');
+        Route::post('/precheck', [BuyerController::class, 'preCheck'])->name('buyer.preCheck');
+
         Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
     });
     Route::group(['prefix' => 'toko'], function () {

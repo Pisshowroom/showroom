@@ -3,21 +3,37 @@
 namespace App\Http\Controllers\Clients\buyer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SellerController extends Controller
 {
-    private function categories()
+    public function getCommonData()
     {
-        return Category::whereNull('deleted_at')->withCount('products')->get();
+        $data['categories'] = Category::whereNull('deleted_at')->withCount('products')->get();
+
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $data['addresses'] = $this->addresses();
+        } else {
+            $data['addresses'] = null;
+        }
+
+        return $data;
     }
+
+    private function addresses()
+    {
+        return Address::where('user_id', Auth::guard('web')->user()->id)->where('main', true)->whereNull('deleted_at')->first();
+    }
+
     public function allSeller(Request $request)
     {
-        $data['categories'] = $this->categories();
+        $data = $this->getCommonData();
         $seller = User::where('is_seller', true)->withCount('products')
             ->whereHas('products', function ($q) use ($request) {
                 $q->withAvg('reviews', 'rating')
@@ -70,7 +86,7 @@ class SellerController extends Controller
         $averageRating = Review::whereIn('product_id', $productIds)->avg('rating');
 
         $seller->rating_seller = doubleVal($averageRating);
-        $data['categories'] = $this->categories();
+        $data = $this->getCommonData();
         $data['categories_product'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) use ($seller) {
             $q->where('seller_id', $seller->id);
         })->get();

@@ -27,17 +27,17 @@
                         <form class="form-register mt-30 mb-30" id="submit" method="post">
                             <div class="form-group">
                                 <label class="mb-5 font-sm color-gray-700">Email *</label>
-                                <input class="form-control" type="text" id="email" placeholder="stevenjob@gmail.com" required>
+                                <input class="form-control" type="text" id="email" required>
                             </div>
                             <div class="form-group">
                                 <label class="mb-5 font-sm color-gray-700">Password *</label>
-                                <input class="form-control" type="password" id="password" placeholder="******************" required>
+                                <input class="form-control" type="password" id="password" required>
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label class="color-gray-500 font-xs">
-                                            <input class="checkagree" type="checkbox">Ingat aku
+                                            <input class="checkagree" type="checkbox">Ingat saya
                                         </label>
                                     </div>
                                 </div>
@@ -51,10 +51,9 @@
                                 class="font-xs color-brand-3 font-medium" href="{{ route('buyer.register') }}"> Daftar</a>
                         </div>
                         <div class="box-login-social pt-65">
-                            <h5 class="text-center">Gunakan Akun Sosmed</h5>
+                            <h5 class="text-center">Atau masuk dengan</h5>
                             <div class="box-button-login mt-25">
-                                <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin">Masuk
-                                    Menggunakan<img src="{{ asset('ecom/imgs/page/account/google.svg') }}"
+                                <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin"><img src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="masuk menggunakan akun google"></button>
                             </div>
                         </div>

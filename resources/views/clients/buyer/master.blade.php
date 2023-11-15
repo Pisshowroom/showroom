@@ -32,6 +32,13 @@
             </div>
         </div>
     </div>
+
+    <div style="display:none" class="alert alert-warning" id="myDivAddress">Kamu belum memiliki alamat tujuan
+    </div>
+    <div style="display:none" class="alert alert-warning" id="myDivCheckout">Stok saat ini tidak ada
+    </div>
+    <div style="display:none" class="alert alert-warning" id="myDivHandleError">
+    </div>
     @if (in_array(Route::currentRouteName(), ['buyer.home']))
         @include('clients.buyer.layouts.navbar')
     @else

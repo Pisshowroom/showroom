@@ -1,7 +1,8 @@
 <div class="card-grid-style-3">
     <div class="card-grid-inner">
         <div class="tools">
-            <a class="btn btn-wishlist btn-tooltip mb-10" href="{{ route('buyer.wishlist') }}"
+            <a class="btn btn-wishlist btn-tooltip mb-10"
+                href="{{ Auth::guard('web')->user() ? route('buyer.wishlist') : route('buyer.login') }}"
                 aria-label="Tambahkan ke Wishlist"></a>
         </div>
         <div class="image-box">
@@ -37,7 +38,11 @@
             <div class="mt-10 box-btn-cart">
                 @if (Route::currentRouteName() && Route::currentRouteName() == 'buyer.home')
                 @else
-                    <button class="btn btn-cart" id="cart">Beli Sekarang</button>
+                    <button class="btn btn-cart checkout-{{ $prd->id }}"
+                        {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $prd->seller_id ? 'disabled' : '' }}
+                        onclick="checkout('{{ $prd->id }}','{{ $prd->stock }}')">Beli
+                        Sekarang
+                    </button>
                 @endif
 
             </div>
@@ -58,5 +63,51 @@
             });
 
         });
+
+        function checkout(productId, stock) {
+            if (stock > 0) {
+                var productData = [{
+                    product_id: productId,
+                    note: "Tolong ini hati-hati bawanya ",
+                    qty: 1,
+                }];
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: "post",
+                    url: "{{ route('buyer.preCheckEarly') }}",
+                    data: {
+                        order_items: JSON.stringify(productData)
+                    },
+                    xhr: function() {
+                        // get the native XmlHttpRequest object
+                        var xhr = $.ajaxSettings.xhr()
+                        // set the onprogress event handler
+                        xhr.upload.onprogress = function(evt) {}
+                        return xhr
+                    },
+                    success: function(response) {
+                        if (response) {
+                            localStorage.setItem('checkout', JSON.stringify(response));
+                            window.location.replace("{{ route('buyer.checkout') }}");
+                        }
+                    },
+
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(ajaxOptions);
+                        console.log(thrownError);
+                    }
+                });
+            } else {
+                $('#myDivCheckout').css('display', 'block');
+                setTimeout(function() {
+                    $('#myDivCheckout').fadeOut('fast');
+                }, 2000);
+            }
+        }
     </script>
 @endpush
