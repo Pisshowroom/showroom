@@ -13,5 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/0xff-callback-confirm-payment/*',
+        '/convert-to-pi',
+        '/login-pi'
     ];
 }

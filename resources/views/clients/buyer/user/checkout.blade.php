@@ -179,6 +179,8 @@
                     sisa = split[0].length % 3,
                     rupiah = split[0].substr(0, sisa),
                     ribuan = split[0].substr(sisa).match(/\d{3}/g);
+                let userAgent = navigator.userAgent;
+                let isPi = true
 
                 if (ribuan) {
                     separator = sisa ? '.' : '';
@@ -186,8 +188,25 @@
                 }
 
                 rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+
+                if(userAgent){
+                    if(userAgent.match(/PiBrowser/))
+                        isPi = true
+                }
+
+                if(isPi)
+                    return (convertPiToRupiah(angka)) + " π";
+            
                 return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
             }
+
+            function convertPiToRupiah(price)
+            {
+                var value = {{ $setting->value ?? 558647.95 }}
+
+                return (1 / value ) * (price);
+            }
+
             var checkouts = localStorage.getItem('checkout');
             if (checkouts) {
                 try {

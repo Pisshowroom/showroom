@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\MasterAccount;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -118,13 +119,22 @@ class BuyerController extends Controller
     public function checkout()
     {
         $data = $this->getCommonData();
-        $masterAccounts = MasterAccount::whereIn('type', ['Virtual-Account', 'E-Wallet', 'Retail-Outlet'])
+        $masterAccounts = MasterAccount::whereIn('type', ['Virtual-Account', 'E-Wallet', 'Retail-Outlet', 'PI'])
             ->orderBy('type')
             ->get();
         $data['address'] = Address::where('user_id', Auth::guard('web')->user()->id)->whereNull('deleted_at')
             ->select('id', 'user_id', 'main', 'place_name', 'person_name', 'phone_number', 'district', 'city')
             ->get();
         $data['master_account'] = MasterAccountResource::collection($masterAccounts);
+        
+        $setting = Setting::where("name", "pi")->first();
+        if (!$setting) {
+            $setting = new Setting();
+            $setting->name = "pi";
+            $setting->value = "558647.95";
+            $setting->save();
+        }
+        $data['setting'] = $setting;
 
         return view('clients.buyer.user.checkout', ['data' => $data]);
     }

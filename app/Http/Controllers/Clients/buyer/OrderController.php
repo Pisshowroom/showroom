@@ -514,7 +514,10 @@ class OrderController extends Controller
 
     public function createPaymentRequest($channelType, $channelCode, $amount, $paymentIdentifier, $paymentDue, User $user)
     {
-        Xendit  ::setApiKey(env('XENDIT_KEY'));
+        if ($channelType == 'PI') {
+        }
+
+        Xendit::setApiKey(env('XENDIT_KEY'));
 
         $result = null;
         // dd($amount);
