@@ -15,7 +15,7 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         $imagesData = [];
-        foreach(($this->images ?? []) as $img) {
+        foreach (($this->images ?? []) as $img) {
             $imagesData[] = lypsisAsset($img);
         }
 
@@ -27,8 +27,8 @@ class ProductResource extends JsonResource
         // if ($this->abc != null) {
         //     dd($this->abc);
         // }
-        
-        
+
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -52,11 +52,28 @@ class ProductResource extends JsonResource
             'category_id' => $this->category_id,
             'seller_id' => $this->seller_id,
             // 'seller' => new UserResource($this->whenLoaded('seller')),
-            'seller' => new SellerResource($this->whenLoaded('seller')),
-            'category' => new CategoryResource($this->whenLoaded('category')),
+            // 'seller' => new SellerResource($this->whenLoaded('seller')),
+            'seller' => $this->whenLoaded('seller', function () {
+                return new SellerResource($this->seller);
+            }),
+            'category' => $this->whenLoaded('category', function () {
+                return new CategoryResource($this->category);
+            }),
+            'variants' => $this->whenLoaded('variants', function () {
+                return self::collection($this->variants);
+            }),
+            'parent' => $this->whenLoaded('parent', function () {
+                return new self($this->parent);
+            }),
+            'reviews' => $this->whenLoaded('reviews', function () {
+                return ReviewResource::collection($this->reviews);
+            }),
+
+            /* 
             'variants' => self::collection($this->whenLoaded('variants')),
             'parent' => new self($this->whenLoaded('parent')),
             'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
+             */
         ];
     }
 }
