@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\OrderDataController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RegionalController;
@@ -79,6 +80,9 @@ Route::group(['prefix' => 'order'], function () {
     Route::post('/checkout', [OrderController::class, 'checkout']);
     Route::get('/check-shipping-price', [OrderController::class, 'checkShippingPrice']);
     Route::post('/waybill-check', [OrderController::class, 'waybillCheck']);
+
+    Route::get('/index', [OrderDataController::class, 'index']);
+    Route::get('/{order}', [OrderDataController::class, 'detail']);
 });
 
 Route::prefix('regionals')->group(function () {

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useAppStore } from '@/stores/index';
 import appSetting from '@/app-setting';
+import auth from "@/services/auth.service";
 
 import HomeView from '../views/index.vue';
 
@@ -554,14 +555,41 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const store = useAppStore();
-
-    if (to?.meta?.layout == 'auth') {
-        store.setMainLayout('auth');
+    if (to.meta.authRequired) {
+        appSetting.changeAnimation();
+        let user: any = auth.users();
+        if (user && auth.isAuthenticated()) {
+            const rule = to.meta.rule
+            return auth.authRoute(rule, next)
+        }
+        else if (!auth.isAuthenticated()) {
+            return next('/auth/login')
+        }
     } else {
-        store.setMainLayout('app');
+
+        if (auth.isAuthenticated() && to.meta.rule == 'guest') {
+            return next('/')
+        }
+        if (auth.isAuthenticated() && (to.path === "/auth/login" || to.path === "/pages/error404")) {
+            return next('/');
+        } else if (to.meta.authRequired == undefined && to.name == 'not-found') {
+            let user: any = auth.users();
+            if (user && user.permission == 'admin') {
+                return next('/');
+            } else if (user && user.permission == 'institution') {
+                return next('/institution/dashboard');
+            } else if (user && user.permission == 'mudabbir') {
+                return next('/institution/ustadz/dashboard');
+            }
+            else if (user && user.permission == 'mudabbir_qaraa') {
+                return next('/ustadz/mudabbir/uncorrected');
+            } else {
+                return next('/auth/login');
+            }
+        }
+        if (!auth.isAuthenticated())
+            return next();
     }
-    next(true);
 });
 router.afterEach((to, from, next) => {
     appSetting.changeAnimation();
