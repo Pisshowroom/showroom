@@ -18,9 +18,45 @@ use Xendit\QRCode;
 use Xendit\Retail;
 use Xendit\VirtualAccounts;
 use Xendit\Xendit;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+
+    public function payment($identifier)
+    {
+        $order = Order::where('payment_identifier', $identifier)->where('payment_status', 'PaymentPending')->with('master_account:id,provider_name,image,type')->firstOrFail();
+        $order->due = parseDates($order->payment_due);
+        return view('clients.dashboard.order.payment', ['order' => $order]);
+    }
+
+    public function myOrder(Request $request)
+    {
+        $order = Order::where('user_id', Auth::guard('web')->user()->id)
+            ->with(['order_items:id,product_id,order_id', 'order_items:id,product_id,order_id,user_id', 'order_items.product:id,name'])
+            ->whereHas('order_items', function ($q) use ($request) {
+                $q->whereHas('product', function ($qq) use ($request) {
+                    if ($request->filled('search'))
+                        $qq->where('name', 'like', "%$request->search%");
+                });
+            })->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total')
+            ->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
+        foreach ($order as $key => $value) {
+            $value->date = parseDates($value->created_at);
+        }
+        return view('clients.dashboard.order.all', ['orders' => $order]);
+    }
+    public function detailOrder($identifier)
+    {
+        $order = Order::where('payment_identifier', $identifier)
+            ->with([
+                'order_items', 'order_items.product:id,name,seller_id,images,slug',
+                'order_items.product.seller:id,name,seller_slug'
+            ])->firstOrFail();
+        $order->date = parseDates($order->created_at);
+        return view('clients.dashboard.order.detail', ['order' => $order]);
+    }
+
     public function preCheckEarly(Request $request)
     {
         // VirtualAccount::setters
@@ -514,7 +550,7 @@ class OrderController extends Controller
 
     public function createPaymentRequest($channelType, $channelCode, $amount, $paymentIdentifier, $paymentDue, User $user)
     {
-        Xendit  ::setApiKey(env('XENDIT_KEY'));
+        Xendit::setApiKey(env('XENDIT_KEY'));
 
         $result = null;
         // dd($amount);

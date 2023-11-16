@@ -13,6 +13,7 @@
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "simplesoftwareio/simple-qrcode": "~4",
         "xendit/xendit-php": "2.19.0"
     },
     "require-dev": {

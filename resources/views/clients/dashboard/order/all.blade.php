@@ -75,6 +75,10 @@
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
+                                            @if ($order->payment_status == 'PaymentPending')
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}">Bayar</a>
+                                            @endif
                                             {{-- <a class="btn btn-xs-danger"
                                                 href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                         </td>
