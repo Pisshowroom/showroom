@@ -11,9 +11,12 @@ class OrderDataController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->guard('api-client')->user();
+
+
         $status = $request->input('status');
 
-        $orders = Order::when($status, function ($query, $status) {
+        $orders = Order::where('user_id')->when($status, function ($query, $status) {
             return $query->where('status', $status);
         })->paginate(20);
 

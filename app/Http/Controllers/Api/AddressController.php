@@ -12,7 +12,7 @@ class AddressController extends Controller
     // all addresses
     public function index()
     {
-        $user = auth()->user();
+        $user = auth()->guard('api-client')->user();
 
         $addresses = Address::where('user_id', $user->id)->orderByDesc('main')->get();
         // return ResponseAPI($addresses);
@@ -23,7 +23,8 @@ class AddressController extends Controller
     public function storeOrUpdate(Request $request)
     {
         $id = $request->id ?? null;
-        $user = auth()->user();
+        $user = auth()->guard('api-client')->user();
+
         $data = $request->validate([
             'ro_province_id' => 'required|exists:ro_provinces,id',
             'ro_city_id' => 'required|exists:ro_cities,id',
@@ -58,7 +59,8 @@ class AddressController extends Controller
 
     public function setMainAddress(Address $address)
     {
-        $user = auth()->user();
+        $user = auth()->guard('api-client')->user();
+
         $user->addresses()->where('main', true)->update(['main' => false]);
         $address->update(['main' => true]);
         return new AddressResource($address);

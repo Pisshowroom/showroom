@@ -86,8 +86,11 @@ Route::group(['prefix' => 'order'], function () {
     Route::get('/check-shipping-price', [OrderController::class, 'checkShippingPrice']);
     Route::post('/waybill-check', [OrderController::class, 'waybillCheck']);
 
-    Route::get('/index', [OrderDataController::class, 'index']);
-    Route::get('/{order}', [OrderDataController::class, 'detail']);
+    Route::middleware('auth:api-client')->group(function () {
+        Route::get('/index', [OrderDataController::class, 'index']);
+        Route::get('/{order}', [OrderDataController::class, 'detail']);
+    });
+
 });
 
 Route::prefix('regionals')->group(function () {

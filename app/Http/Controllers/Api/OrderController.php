@@ -401,6 +401,7 @@ class OrderController extends Controller
             'delivery_name' => 'required',
             'delivery_service' => 'required',
             'delivery_estimation_day' => 'required',
+            'master_account_id' => 'required',
         ]);
 
         $products = [];
@@ -409,7 +410,7 @@ class OrderController extends Controller
         $countedPromoProduct = 0;
         $countedAmountPromo = 0;
         $deliveryCost = (int)$request->delivery_cost;
-
+        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
 
         $orderItems = json_decode($request->order_items, true);
 
@@ -453,13 +454,13 @@ class OrderController extends Controller
         // $type = 'QRIS';
         // $type = 'VirtualAccount';
         $serviceFee = 0;
-        $type = 'Retail';
-        if ($type == 'VirtualAccount') {
+        // $type = 'Retail';
+        if ($masterAccount->type == 'Virtual-Account') {
             $serviceFee = 4500;
-        } elseif ($type == 'QRIS') {
+        } elseif ($masterAccount->type == 'E-Wallet') { // * A.k.a QRIS
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
-        } elseif ($type == 'Retail') {
+        } elseif ($masterAccount->type == 'Retail-Outlet') {
             $serviceFee = 5550;
         }
 
@@ -496,6 +497,8 @@ class OrderController extends Controller
         ]);
 
         $user = auth()->guard('api-client')->user();
+        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
+
         DB::beginTransaction();
 
         $products = [];
@@ -581,14 +584,14 @@ class OrderController extends Controller
         // $type = 'VirtualAccount';
         $data['subtotal'] = $total;
 
+
         $serviceFee = 0;
-        $type = 'Retail';
-        if ($type == 'VirtualAccount') {
+        if ($masterAccount->type == 'Virtual-Account') {
             $serviceFee = 4500;
-        } elseif ($type == 'QRIS') {
+        } elseif ($masterAccount->type == 'E-Wallet') { // * A.k.a QRIS
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
-        } elseif ($type == 'Retail') {
+        } elseif ($masterAccount->type == 'Retail-Outlet') {
             $serviceFee = 5550;
         }
 
@@ -598,7 +601,6 @@ class OrderController extends Controller
         $totalWithoutDiscount += $additionFee;
 
 
-        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
 
         $channelType = lypsisConvertPaymentChannelType($masterAccount->type);
         $channelCode = $channelType == 'QR_CODE' ? "DYNAMIC" : $masterAccount->provider_name;
