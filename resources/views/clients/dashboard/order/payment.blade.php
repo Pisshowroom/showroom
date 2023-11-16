@@ -30,7 +30,7 @@
                                     <small class="text-muted">Nomor Resi : {{ $order->payment_identifier ?? '' }}</small>
 
                                     <p class="mt-15"><span>Status:</span>
-                                        <span class="badge rounded-pill alert-danger alert-link px-3 py-2">Menunggu
+                                        <span class="badge rounded-pill alert-warning alert-link px-3 py-2">Menunggu
                                             Pembayaran</span>
                                     </p>
                                 </div>
