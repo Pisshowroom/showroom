@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Request;
@@ -54,6 +55,26 @@ function phoneGeneralize($phone)
     if (substr($phone, 0, 1) == '8') $phone = '628' . substr($phone, 1);
     if (substr($phone, 0, 4) == '6208') $phone = '628' . substr($phone, 4);
     return '+' . $phone;
+}
+
+function lypsisGetSetting($name, $default = false, $multiple = false, $names = [])
+{
+    if ($multiple == false) {
+
+        $s = DB::table('settings')->where("name", $name)->first();
+        if ($s == null) return $default;
+        return $s->value;
+    } else {
+        $imploded_strings = implode("','", $names);
+        // $s = DB::table('settings')->whereNull('deleted_at')->whereIn("name", $names)->orderByRaw(DB::raw("FIELD(name, '$imploded_strings')"))->get();
+        $s = DB::table('settings')
+            ->whereNull('deleted_at')
+            ->whereIn("name", $names)
+            ->orderByRaw("FIELD(name, '$imploded_strings')")
+            ->get();
+        if ($s == null) return $default;
+        return $s->pluck('value');
+    }
 }
 
 function ResponseAPI($data, $status = 200)
