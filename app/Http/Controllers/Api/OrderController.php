@@ -65,7 +65,7 @@ class OrderController extends Controller
             if ($amount > 10000000) {
                 // return ResponseAPI('Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000', 400);
                 throw new HttpException(400, 'Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000');
-            } 
+            }
             $result = QRCode::create([
                 'api_version' => '2022-07-31',
                 'reference_id' => $paymentIdentifier . strval(time()),
@@ -555,11 +555,12 @@ class OrderController extends Controller
                 $totalWithoutDiscount += $itemTotal;
             }
             $thisItemWeight = ($product->weight * $order_item['qty']);
-            
+
             $orderItem = new OrderItem();
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $product_id;
             $orderItem->quantity = $order_item['qty'];
+            $orderItem->note = $order_item['note'] ?? null;
             $orderItem->subtotal = $product->price * $order_item['qty'];
             $orderItem->item_total = $itemTotal;
             $orderItem->price = $product->price;
@@ -618,7 +619,7 @@ class OrderController extends Controller
         $order->delivery_service_code = $request->delivery_code;
         $order->delivery_service_name = $request->delivery_name;
         $order->delivery_service_kind = $request->delivery_service;
-        $order->note = $request->note;
+        $order->note = $request->note ?? null;
         if ($countedAmountPromo > 0) {
             $order->total = $totalWithoutDiscount;
             $order->total_final = $total;
