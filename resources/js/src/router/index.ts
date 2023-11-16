@@ -9,6 +9,11 @@ const routes: RouteRecordRaw[] = [
     // dashboard
     { path: '/', name: 'home', component: HomeView },
     {
+        path: '/admin/db2',
+        name: 'dashboard2',
+        component: () => import( '../admin/Dashboard.vue'),
+    },
+    {
         path: '/analytics',
         name: 'analytics',
         component: () => import(/* webpackChunkName: "analytics" */ '../views/analytics.vue'),

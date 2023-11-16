@@ -585,16 +585,17 @@ class OrderController extends Controller
         $type = 'Retail';
         if ($type == 'VirtualAccount') {
             $serviceFee = 4500;
-            $additionFee = $deliveryCost + $serviceFee;
-
-            $total += $additionFee;
-            $totalWithoutDiscount += $additionFee;
         } elseif ($type == 'QRIS') {
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
         } elseif ($type == 'Retail') {
             $serviceFee = 5550;
         }
+
+        $additionFee = $deliveryCost + $serviceFee;
+
+        $total += $additionFee;
+        $totalWithoutDiscount += $additionFee;
 
 
         $masterAccount = MasterAccount::findOrFail($request->master_account_id);
