@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
@@ -37,6 +38,10 @@ Route::get("home", [HomeController::class, 'home']);
 Route::get("stats-count", [HomeController::class, 'statsCount']);
 Route::get("categories", [HomeController::class, 'categories']);
 Route::POST("manual-create-pay-req", [OrderController::class, 'manualCreatePayReq']);
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/dashboard2', [DashboardController::class, 'index']);
+});
 
 
 Route::group(['prefix' => 'article'], function () {
@@ -81,8 +86,11 @@ Route::group(['prefix' => 'order'], function () {
     Route::get('/check-shipping-price', [OrderController::class, 'checkShippingPrice']);
     Route::post('/waybill-check', [OrderController::class, 'waybillCheck']);
 
-    Route::get('/index', [OrderDataController::class, 'index']);
-    Route::get('/{order}', [OrderDataController::class, 'detail']);
+    Route::middleware('auth:api-client')->group(function () {
+        Route::get('/index', [OrderDataController::class, 'index']);
+        Route::get('/{order}', [OrderDataController::class, 'detail']);
+    });
+
 });
 
 Route::prefix('regionals')->group(function () {

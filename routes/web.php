@@ -133,8 +133,9 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
     Route::group(['prefix' => 'pembeli'], function () {
         // Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
-        Route::get('/pesananku', [DashboardController::class, 'myOrder'])->name('dashboard.myOrder');
-        Route::get('/detail-pesanan/{identifier}', [DashboardController::class, 'detailOrder'])->name('dashboard.detailOrder');
+        Route::get('/pembayaran/{identifier}', [BuyerOrderController::class, 'payment'])->name('dashboard.payment');
+        Route::get('/pesananku', [BuyerOrderController::class, 'myOrder'])->name('dashboard.myOrder');
+        Route::get('/detail-pesanan/{identifier}', [BuyerOrderController::class, 'detailOrder'])->name('dashboard.detailOrder');
         Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
         Route::get('/ubah-alamat/{id}', [DashboardController::class, 'changeAddress'])->name('dashboard.changeAddress');
         Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');

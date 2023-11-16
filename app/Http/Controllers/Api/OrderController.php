@@ -65,7 +65,7 @@ class OrderController extends Controller
             if ($amount > 10000000) {
                 // return ResponseAPI('Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000', 400);
                 throw new HttpException(400, 'Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000');
-            } 
+            }
             $result = QRCode::create([
                 'api_version' => '2022-07-31',
                 'reference_id' => $paymentIdentifier . strval(time()),
@@ -401,6 +401,7 @@ class OrderController extends Controller
             'delivery_name' => 'required',
             'delivery_service' => 'required',
             'delivery_estimation_day' => 'required',
+            'master_account_id' => 'required',
         ]);
 
         $products = [];
@@ -409,7 +410,7 @@ class OrderController extends Controller
         $countedPromoProduct = 0;
         $countedAmountPromo = 0;
         $deliveryCost = (int)$request->delivery_cost;
-
+        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
 
         $orderItems = json_decode($request->order_items, true);
 
@@ -453,13 +454,13 @@ class OrderController extends Controller
         // $type = 'QRIS';
         // $type = 'VirtualAccount';
         $serviceFee = 0;
-        $type = 'Retail';
-        if ($type == 'VirtualAccount') {
+        // $type = 'Retail';
+        if ($masterAccount->type == 'Virtual-Account') {
             $serviceFee = 4500;
-        } elseif ($type == 'QRIS') {
+        } elseif ($masterAccount->type == 'E-Wallet') { // * A.k.a QRIS
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
-        } elseif ($type == 'Retail') {
+        } elseif ($masterAccount->type == 'Retail-Outlet') {
             $serviceFee = 5550;
         }
 
@@ -496,6 +497,8 @@ class OrderController extends Controller
         ]);
 
         $user = auth()->guard('api-client')->user();
+        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
+
         DB::beginTransaction();
 
         $products = [];
@@ -555,11 +558,12 @@ class OrderController extends Controller
                 $totalWithoutDiscount += $itemTotal;
             }
             $thisItemWeight = ($product->weight * $order_item['qty']);
-            
+
             $orderItem = new OrderItem();
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $product_id;
             $orderItem->quantity = $order_item['qty'];
+            $orderItem->note = $order_item['note'] ?? null;
             $orderItem->subtotal = $product->price * $order_item['qty'];
             $orderItem->item_total = $itemTotal;
             $orderItem->price = $product->price;
@@ -580,23 +584,23 @@ class OrderController extends Controller
         // $type = 'VirtualAccount';
         $data['subtotal'] = $total;
 
-        $serviceFee = 0;
-        $type = 'Retail';
-        if ($type == 'VirtualAccount') {
-            $serviceFee = 4500;
-            $additionFee = $deliveryCost + $serviceFee;
 
-            $total += $additionFee;
-            $totalWithoutDiscount += $additionFee;
-        } elseif ($type == 'QRIS') {
+        $serviceFee = 0;
+        if ($masterAccount->type == 'Virtual-Account') {
+            $serviceFee = 4500;
+        } elseif ($masterAccount->type == 'E-Wallet') { // * A.k.a QRIS
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
-        } elseif ($type == 'Retail') {
+        } elseif ($masterAccount->type == 'Retail-Outlet') {
             $serviceFee = 5550;
         }
 
+        $additionFee = $deliveryCost + $serviceFee;
 
-        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
+        $total += $additionFee;
+        $totalWithoutDiscount += $additionFee;
+
+
 
         $channelType = lypsisConvertPaymentChannelType($masterAccount->type);
         $channelCode = $channelType == 'QR_CODE' ? "DYNAMIC" : $masterAccount->provider_name;
@@ -618,7 +622,7 @@ class OrderController extends Controller
         $order->delivery_service_code = $request->delivery_code;
         $order->delivery_service_name = $request->delivery_name;
         $order->delivery_service_kind = $request->delivery_service;
-        $order->note = $request->note;
+        $order->note = $request->note ?? null;
         if ($countedAmountPromo > 0) {
             $order->total = $totalWithoutDiscount;
             $order->total_final = $total;

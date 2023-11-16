@@ -13,29 +13,33 @@
             <header class="card-header">
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
-                        <form action="{{ route('dashboard.myOrder') }}">
-                            <input class="form-control" type="text" placeholder="Cari produk..." name="search"
-                                value="{{ request()->input('search') ?? '' }}">
-                        </form>
+                        <input class="form-control" id="searchOrder" type="text" placeholder="Cari berdasarkan Nomor Resi..." name="search"
+                            value="{{ request()->input('search') ?? '' }}">
                     </div>
                     <div class="col-lg-2 col-6 col-md-3">
-                        <select class="form-select">
-                            <option>Filter</option>
-                            <option>Semua</option>
-                            <option>Belum dibayar</option>
-                            <option>Sedang dikemas</option>
-                            <option>Dikirim</option>
-                            <option>Selesai</option>
-                            <option>Dibatalkan</option>
+                        <select name="status" id="filterStatus" class="form-select">
+                            <option {{ !request()->input('status') ? 'selected' : '' }} disabled>Filter</option>
+                            <option value="all"
+                                {{ request()->input('status') && request()->input('status') == 'all' ? 'selected' : '' }}>
+                                Semua
+                            </option>
+                            <option
+                                {{ request()->input('status') && request()->input('status') == 'Pending' ? 'selected' : '' }}
+                                value="Pending">Belum dibayar</option>
+                            <option
+                                {{ request()->input('status') && request()->input('status') == 'ProcessedBySeller' ? 'selected' : '' }}
+                                value="ProcessedBySeller">Sedang dikemas</option>
+                            <option
+                                {{ request()->input('status') && request()->input('status') == 'Shipped' ? 'selected' : '' }}
+                                value="Shipped">Dikirim</option>
+                            <option
+                                {{ request()->input('status') && request()->input('status') == 'Completed' ? 'selected' : '' }}
+                                value="Completed">Selesai</option>
+                            <option
+                                {{ request()->input('status') && request()->input('status') == 'Cancelled' ? 'selected' : '' }}
+                                value="Cancelled">Dibatalkan</option>
                         </select>
                     </div>
-                    {{-- <div class="col-lg-2 col-6 col-md-3">
-                        <select class="form-select">
-                            <option>Show 20</option>
-                            <option>Show 30</option>
-                            <option>Show 40</option>
-                        </select>
-                    </div> --}}
                 </div>
             </header>
             <div class="card-body">
@@ -44,10 +48,10 @@
                         <thead>
                             <tr>
                                 <th class="align-middle">No</th>
-                                <th class="align-middle" scope="col">Nama</th>
+                                <th class="align-middle" scope="col">Nomor Resi</th>
                                 <th class="align-middle" scope="col">Total</th>
                                 <th class="align-middle" scope="col">Status</th>
-                                <th class="align-middle" scope="col">Tanggal</th>
+                                <th class="align-middle" scope="col">Tanggal Pesanan</th>
                                 <th class="align-middle" scope="col">Aksi</th>
                             </tr>
                         </thead>
@@ -57,24 +61,20 @@
                                     <tr>
                                         <td class="align-middle">{{ $key + 1 }}</td>
                                         <td class="align-middle">
-                                            {{ substr($order?->order_items[0]?->product?->name ?? '', 0, 12) . (strlen($order?->order_items[0]?->product?->name ?? '') > 12 ? '..' : '') }}
+                                            {{ $order->payment_identifier ?? '' }}
                                         </td>
                                         <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
                                         <td class="align-middle">
-                                            @if ($order->status == 'Pending')
-                                                <span class="badge rounded-pill alert-warning fw-normal">Menunggu
-                                                    Pembayaran</span>
-                                            @elseif ($order->status == 'Completed')
-                                                <span class="badge rounded-pill alert-success fw-normal">Selesai</span>
-                                            @else
-                                                <span class="badge rounded-pill alert-warning fw-normal">Menunggu
-                                                    Pembayaran</span>
-                                            @endif
+                                            @include('clients.dashboard.order.status_order')
                                         </td>
                                         <td class="align-middle">{{ $order->date . ' WIB' }}</td>
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
+                                            @if ($order->status == 'Pending')
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}">Bayar</a>
+                                            @endif
                                             {{-- <a class="btn btn-xs-danger"
                                                 href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                         </td>
@@ -94,4 +94,28 @@
     </section>
 @endsection
 @push('importjs')
+    <script>
+        $(document).ready(function() {
+            function updateURL() {
+                var searchQuery = $('#searchOrder').val();
+                var selectedStatus = $('#filterStatus').val();
+                var baseUrl = '{{ route('dashboard.myOrder') }}';
+                var url = baseUrl;
+
+                if (selectedStatus !== '') {
+                    url += '?status=' + selectedStatus;
+                }
+
+                if (searchQuery !== '') {
+                    url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
+                }
+                window.location = url;
+            }
+
+            $('#searchOrder, #filterStatus').on('change', function() {
+                updateURL();
+            });
+
+        });
+    </script>
 @endpush

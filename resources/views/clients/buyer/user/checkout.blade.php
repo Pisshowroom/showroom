@@ -397,10 +397,19 @@
                         success: function(data) {
                             $('#myDivHandleSuccess').text('Berhasil memesan produk.');
                             $('#myDivHandleSuccess').css('display', 'block');
+                            console.log(data);
                             setTimeout(function() {
                                 $('#myDivHandleSuccess').fadeOut('fast');
                                 localStorage.removeItem('checkout');
-                                window.location.replace("{{route('dashboard.myOrder')}}")
+                                if (data && data.order) {
+                                    if (data.order.payment_identifier) {
+                                        var route =
+                                            "{{ route('dashboard.payment', ['identifier' => 'id']) }}";
+                                        window.location.replace(route.replace(
+                                                'id', data.order.payment_identifier
+                                                ));
+                                    }
+                                }
                             }, 2000);
                         },
                         error: function(error) {

@@ -11,6 +11,32 @@ app.use(pinia);
 import router from '@/router';
 app.use(router);
 
+
+import axios from 'axios';
+const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_BASE_URL
+    // baseURL: 'https://sahabatibadah.com/api'
+    // baseURL: 'https://qaraa.hotamadev.com/api'
+    // baseURL: 'http://127.0.0.1:8000/api'
+});
+
+axiosInstance.interceptors.request.use(config => {
+    // get token from localStorage every time to get fresh data
+    let userData = localStorage.getItem('api-token');
+
+    if (userData !== null) {
+        config.headers.Authorization = userData ? `Bearer ${userData}` : null;
+    }
+
+    return config;
+
+});
+
+app.provide('axios', axiosInstance);
+
+import './global-components'
+
+
 // main app css
 import '@/assets/css/app.css';
 

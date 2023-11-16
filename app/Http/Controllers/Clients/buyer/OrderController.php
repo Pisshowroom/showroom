@@ -18,9 +18,61 @@ use Xendit\QRCode;
 use Xendit\Retail;
 use Xendit\VirtualAccounts;
 use Xendit\Xendit;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+
+    public function payment($identifier)
+    {
+        $order = Order::where('payment_identifier', $identifier)->where('payment_status', 'PaymentPending')->with('master_account:id,provider_name,image,type')->firstOrFail();
+        $order->due = parseDates($order->payment_due);
+        return view('clients.dashboard.order.payment', ['order' => $order]);
+    }
+
+    public function myOrder(Request $request)
+    {
+        $status = $request->input('status');
+
+        $order = Order::where('user_id', Auth::guard('web')->user()->id)
+            ->with(['order_items:id,product_id,order_id', 'order_items:id,product_id,order_id,user_id', 'order_items.product:id,name'])
+            ->whereHas('order_items', function ($q) use ($request) {
+                $q->whereHas('product', function ($qq) use ($request) {
+                    if ($request->filled('search'))
+                        $qq->where('payment_identifier', 'like', "%$request->search%");
+                });
+            })->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'total')
+            ->when($status, function ($query, $status) {
+                if ($status != 'all')
+                    return $query->where('status', $status);
+            })->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
+        foreach ($order as $key => $value) {
+            if (now() > $value->payment_due)
+                $value->expired = true;
+            else
+                $value->expired = false;
+            $value->date = parseDates($value->created_at);
+        }
+        return view('clients.dashboard.order.all', ['orders' => $order]);
+    }
+    public function detailOrder($identifier)
+    {
+        $order = Order::where('payment_identifier', $identifier)
+            ->with([
+                'address:id,person_name,district,city,phone_number,lat,long',
+                'user:id,name,email',
+                'order_items', 'order_items.product:id,name,seller_id,images,slug',
+                'order_items.product.seller:id,seller_name,seller_slug,email',
+                'master_account:id,name,image,type'
+            ])->firstOrFail();
+        $order->date = parseDates($order->created_at);
+        $order->date_paid_at = $order->paid_at ? parseDates($order->paid_at) : '-';
+        $order->date_packing_due = $order->packing_due ? parseDates($order->packing_due) : '-';
+        $order->date_delivered_at = $order->delivered_at ? parseDates($order->delivered_at) : '-';
+        $order->date_arrived_at = $order->arrived_at ? parseDates($order->arrived_at) : '-';
+        return view('clients.dashboard.order.detail', ['order' => $order]);
+    }
+
     public function preCheckEarly(Request $request)
     {
         // VirtualAccount::setters

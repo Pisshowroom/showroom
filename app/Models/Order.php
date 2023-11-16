@@ -23,6 +23,11 @@ class Order extends Model
         return $statement[0]->Auto_increment;
     }
 
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -31,14 +36,14 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
-    
+
     public function master_account()
     {
         return $this->belongsTo(MasterAccount::class);
     }
 
     /*  Status
-    Pending, Paid, ExpiredPayment, Cancelled, ProcessedBySeller, Shipped, Delivered, 
+    Pending, Paid, ExpiredPayment, Cancelled, ProcessedBySeller, Shipped, Delivered,
     RequestedRefund, RefundAccepted, RefundDone, RefundDeclined, RequestedReturn, ReturnAccepted,
     ReturnShipped, ReturnDelivered, ReturnCompleted, Completed
     */
@@ -70,7 +75,7 @@ class Order extends Model
     PaymentPending, PaymentPaid, PaymentCancelled, PaymentExpired
     */
 
-    const PAYMENT_PENDING = 'PaymentPending'; 
+    const PAYMENT_PENDING = 'PaymentPending';
     const PAYMENT_PAID = 'PaymentPaid';
     const PAYMENT_CANCELLED = 'PaymentCancelled';
     const PAYMENT_EXPIRED = 'PaymentExpired';
