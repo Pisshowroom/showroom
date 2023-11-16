@@ -180,7 +180,7 @@
                     rupiah = split[0].substr(0, sisa),
                     ribuan = split[0].substr(sisa).match(/\d{3}/g);
                 let userAgent = navigator.userAgent;
-                let isPi = true
+                let isPi = false
 
                 if (ribuan) {
                     separator = sisa ? '.' : '';

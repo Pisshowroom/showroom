@@ -517,7 +517,7 @@ function numbFormat($price, $decimal = true)
         $price = 0;
     }
 
-    $isPi = true;
+    $isPi = false;
 
     $user_agent = request()->header('User-Agent');
 
