@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MasterAccountResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Address;
 use App\Models\MasterAccount;
@@ -480,6 +481,7 @@ class OrderController extends Controller
 
         $data['delivery_cost'] = $deliveryCost;
         $data['payment_service_fee'] = $serviceFee;
+        $data['master_account'] = new MasterAccountResource($masterAccount);
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
