@@ -27,8 +27,8 @@ class AuthController extends Controller
 
         if (!$user || $user == null) {
             $user = new User();
-            $user->name = $user->name;
-            $user->email = $user->email ?? $user->username;
+            $user->name = $payload->name ?? $payload->email;
+            $user->email = $payload->email ?? "";
 
             $user->save();
         }

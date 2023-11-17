@@ -39,6 +39,10 @@ class UserController extends Controller
         if ($request->filled('device_id')) {
             $user->device_id = $request->input('device_id');
         }
+        
+        if ($request->filled('phone_number')) {
+            $user->phone_number = $request->input('phone_number');
+        }
 
         if ($request->hasFile('image')) {
             $user->image = uploadFoto($request->image, 'uploads/users/');
