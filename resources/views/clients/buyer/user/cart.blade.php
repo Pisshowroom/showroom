@@ -160,16 +160,18 @@
                     var cart = JSON.parse(carts);
                     var html = '';
                     cart.forEach((element, i) => {
+                        var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
+                        url = url.replace(':slug', element.slug);
                         html += `<div class="item-wishlist">
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
                                             <div class="product-image"><a
-                                                    href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}"><img
+                                                    href="${url}"><img
                                                         src=" {{ asset('ecom/imgs/page/product/img-sub.png') }}"
                                                         alt="${element.name}"></a></div>
                                             <div class="product-info">
                                                 <a
-                                                    href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">
+                                                    href="${url}">
                                                     <h6 class="color-brand-3 line-2 text-start">${element.name}</h6>
                                                 </a>
                                                 <div class="rating"><img

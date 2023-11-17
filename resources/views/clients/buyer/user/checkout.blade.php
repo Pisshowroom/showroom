@@ -189,22 +189,21 @@
 
                 rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
 
-                if(userAgent){
-                    if(userAgent.match(/PiBrowser/))
+                if (userAgent) {
+                    if (userAgent.match(/PiBrowser/))
                         isPi = true
                 }
 
-                if(isPi)
-                    return (convertPiToRupiah(angka)) + " π";
+                if (isPi)
+                    return (convertRupiahToPi(angka)) + " π";
 
                 return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
             }
 
-            function convertPiToRupiah(price)
-            {
+            function convertRupiahToPi(price) {
                 var value = {{ $setting->value ?? 558647.95 }}
 
-                return (1 / value ) * (price);
+                return (1 / value) * (price);
             }
 
             var checkouts = localStorage.getItem('checkout');
@@ -213,16 +212,19 @@
                     var checkout = JSON.parse(checkouts);
                     var html = '';
                     checkout.products.forEach((element, i) => {
+                        var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
+                        url = url.replace(':slug', element.slug);
+
                         html += `<div class="item-wishlist">
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
                                             <div class="product-image"><a
-                                                    href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}"><img
+                                                    href="${url}"><img
                                                         src=" {{ asset('ecom/imgs/page/product/img-sub.png') }}"
                                                         alt="Ecom"></a></div>
                                             <div class="product-info">
                                                 <a
-                                                    href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">
+                                                    href="${url}">
                                                     <h6 class="color-brand-3 line-2 text-start">${element.name}</h6>
                                                 </a>
                                                 <div class="rating"><img
@@ -271,11 +273,10 @@
             }
 
             if ($('#address_id').find('option:selected')) {
-                console.log($(this).val());
                 if ($(this).val() != 0) {
                     $('#packet').prop('disabled', false);
                     $('p.text-danger').addClass('d-none').removeClass('d-block');
-                } else if ($(this).val() ==''){
+                } else if ($(this).val() == '') {
                     $('#packet').prop('disabled', false);
                     $('p.text-danger').addClass('d-none').removeClass('d-block');
                 } else {
@@ -298,6 +299,11 @@
                     .val() !=
                     0 && $('#packet').find('option:selected').val() != 0) {
                     $('.arrow-next').prop('disabled', false);
+                } else if ($('#address_id').find(
+                        'option:selected')
+                    .val() ==
+                    0) {
+                    $('.arrow-next').prop('disabled', true);
                 }
             });
             $('#master_account_id').on('change', function() {
@@ -306,62 +312,75 @@
                     .val() !=
                     0 && $('#packet').find('option:selected').val() != 0) {
                     $('.arrow-next').prop('disabled', false);
+                } else if ($('#master_account_id').find(
+                        'option:selected')
+                    .val() ==
+                    0) {
+                    $('.arrow-next').prop('disabled', true);
                 }
             })
             $('#packet').on('change', function() {
-                var selectedOption = $(this).find('option:selected');
-                var checkouts = localStorage.getItem('checkout');
-                var checkout = JSON.parse(checkouts);
-                if (checkout.products) {
+                if ($(this).find(
+                        'option:selected').val() != 0) {
+                    var selectedOption = $(this).find('option:selected');
+                    var checkouts = localStorage.getItem('checkout');
+                    var checkout = JSON.parse(checkouts);
+                    if (checkout.products) {
 
-                    const obj = {
-                        order_items: JSON.stringify(checkout.products),
-                        address_id: $('#address_id').find('option:selected').val(),
-                        delivery_cost: $(selectedOption).find('.cost').val(),
-                        delivery_code: $(selectedOption).val(),
-                        delivery_name: $(selectedOption).find('.name').val(),
-                        delivery_service: $(selectedOption).find('.description').val(),
-                        delivery_estimation_day: $(selectedOption).find('.etd').val()
+                        const obj = {
+                            order_items: JSON.stringify(checkout.products),
+                            address_id: $('#address_id').find('option:selected').val(),
+                            delivery_cost: $(selectedOption).find('.cost').val(),
+                            delivery_code: $(selectedOption).val(),
+                            delivery_name: $(selectedOption).find('.name').val(),
+                            delivery_service: $(selectedOption).find('.description').val(),
+                            delivery_estimation_day: $(selectedOption).find('.etd').val()
+                        }
+                        $.ajaxSetup({
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                    "content"
+                                ),
+                            },
+                        });
+
+                        $.ajax({
+                            url: "{{ route('buyer.precheckWithDelivery') }}",
+                            type: "POST",
+                            // dataType: "json",
+                            data: obj,
+                            success: function(data) {
+                                $('.subtotal').text(formatRupiah(data.subtotal, 'Rp '));
+                                $('.shipping').text(formatRupiah(data.delivery_cost, 'Rp '));
+                                $('.fee').text(formatRupiah(data.payment_service_fee, 'Rp '));
+                                $('.total').text(formatRupiah(data.total, 'Rp '));
+                                console.log(data);
+                            },
+                            error: function(error) {
+                                if (error && error.responseJSON && error.responseJSON.message) {
+                                    $('#myDivHandleError').text(error.responseJSON.message);
+                                    $('#myDivHandleError').css('display', 'block');
+                                    setTimeout(function() {
+                                        $('#myDivHandleError').fadeOut('fast');
+                                    }, 2000);
+                                }
+                                console.log('error');
+                                console.log(error);
+                            },
+                        });
+                    } else {
+                        console.log('error');
+                        $('#myDivHandleError').text('error.responseJSON.message');
+                        $('#myDivHandleError').css('display', 'block');
+                        setTimeout(function() {
+                            $('#myDivHandleError').fadeOut('fast');
+                        }, 2000);
                     }
-                    $.ajaxSetup({
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                                "content"
-                            ),
-                        },
-                    });
-
-                    $.ajax({
-                        url: "{{ route('buyer.precheckWithDelivery') }}",
-                        type: "POST",
-                        // dataType: "json",
-                        data: obj,
-                        success: function(data) {
-                            $('.subtotal').text(formatRupiah(data.subtotal, 'Rp '));
-                            $('.shipping').text(formatRupiah(data.delivery_cost, 'Rp '));
-                            $('.fee').text(formatRupiah(data.payment_service_fee, 'Rp '));
-                            $('.total').text(formatRupiah(data.total, 'Rp '));
-                            console.log(data);
-                        },
-                        error: function(error) {
-                            if (error && error.responseJSON && error.responseJSON.message) {
-                                $('#myDivHandleError').text(error.responseJSON.message);
-                                $('#myDivHandleError').css('display', 'block');
-                                setTimeout(function() {
-                                    $('#myDivHandleError').fadeOut('fast');
-                                }, 2000);
-                            }
-                            console.log('error');
-                            console.log(error);
-                        },
-                    });
-                } else {
-                    console.log('error');
-                    $('#myDivHandleError').text('error.responseJSON.message');
-                    $('#myDivHandleError').css('display', 'block');
-                    setTimeout(function() {
-                        $('#myDivHandleError').fadeOut('fast');
-                    }, 2000);
+                } else if ($(this).find(
+                        'option:selected')
+                    .val() ==
+                    0) {
+                    $('.arrow-next').prop('disabled', true);
                 }
                 if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id').find(
                         'option:selected')
@@ -410,8 +429,8 @@
                                         var route =
                                             "{{ route('dashboard.payment', ['identifier' => 'id']) }}";
                                         window.location.replace(route.replace(
-                                                'id', data.order.payment_identifier
-                                                ));
+                                            'id', data.order.payment_identifier
+                                        ));
                                     }
                                 }
                             }, 2000);

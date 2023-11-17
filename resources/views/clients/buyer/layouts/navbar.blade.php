@@ -425,6 +425,7 @@
 @push('importjs')
     <script>
         $(document).ready(function() {
+
             function updateURL() {
                 var searchQuery = $('#searchProduct').val();
                 var selectedCategoryId = $('#navKategori').val();
@@ -476,18 +477,20 @@
                 for (var i = 0; i < Math.min(2, cart.length); i++) {
                     var element = cart[i];
                     totalAmount += parseFloat(element.price);
-
+                    var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
+                    url = url.replace(':slug', element.slug);
                     html += `<div class="item-cart mb-20">
-                            <div class="cart-image"><img
-                                src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                alt="${element.name}">
-                            </div>
-                            <div class="cart-info"><a class="font-sm-bold color-brand-3 line-2 text-start"
-                                    href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">${element.name}</a>
-                                <p><span class="color-brand-2 font-sm-bold">${formatRupiah(element.price, 'Rp ')}</span></p>
-                            </div>
+                    <div class="cart-image">
+                        <img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}" alt="${element.name}">
+                    </div>
+                    <div class="cart-info">
+                        <a class="font-sm-bold color-brand-3 line-2 text-start"
+                            href="${url}">
+                            ${element.name}
+                        </a>
+                        <p><span class="color-brand-2 font-sm-bold">${formatRupiah(element.price, 'Rp ')}</span></p>
                         </div>
-                        `;
+                    </div>`;
                 };
                 // Update the total price element with the formatted totalAmount
                 $('.cart-data .cart-total').find('.price').text(formatRupiah(totalAmount.toString(), 'Rp '));
@@ -507,6 +510,7 @@
                 var carts = localStorage.getItem('cart');
                 var cart = JSON.parse(carts);
                 if ("{{ $data['addresses'] && $data['addresses'] != null && $data['addresses']->id }}") {
+                    $('.loading').removeClass('d-none').addClass('show-modal');
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -550,18 +554,81 @@
                                         return xhr
                                     },
                                     success: function(response) {
-                                        console.log(response);
                                         if (response) {
-                                            localStorage.setItem('checkout', JSON
-                                                .stringify(response));
-                                            window.location.replace(
-                                                "{{ route('buyer.checkout') }}"
-                                            );
+                                            if (response.delivery_services_info &&
+                                                response
+                                                .delivery_services_info.results &&
+                                                response
+                                                .delivery_services_info.results
+                                                .length > 0) {
+                                                var results = response
+                                                    .delivery_services_info.results;
+                                                var filteredResults = results
+                                                    .filter(function(item) {
+                                                        return (
+                                                            item.costs
+                                                            .length > 0 &&
+                                                            item.costs[0]
+                                                            .cost.length >
+                                                            0 &&
+                                                            typeof item
+                                                            .costs[0].cost[
+                                                                0]
+                                                            .value !==
+                                                            'undefined' &&
+                                                            typeof item
+                                                            .costs[0].cost[
+                                                                0].etd !==
+                                                            'undefined'
+                                                        );
+                                                    });
+                                                if (filteredResults) {
+                                                    localStorage.setItem(
+                                                        'seller_id',
+                                                        cart[
+                                                            0].seller_id);
+                                                    localStorage.setItem('checkout',
+                                                        JSON
+                                                        .stringify(response));
+                                                    window.location.replace(
+                                                        "{{ route('buyer.checkout') }}"
+                                                    );
+                                                } else {
+                                                    $('#myDivHandleError').text(
+                                                        'Paket Pengiriman tidak tersedia'
+                                                    );
+                                                    $('#myDivHandleError').css(
+                                                        'display',
+                                                        'block');
+                                                    setTimeout(function() {
+                                                        $('#myDivHandleError')
+                                                            .fadeOut(
+                                                                'fast');
+                                                    }, 2000);
+                                                }
+                                            } else {
+                                                $('#myDivHandleError').text(
+                                                    'Paket Pengiriman tidak tersedia'
+                                                );
+                                                $('#myDivHandleError').css(
+                                                    'display',
+                                                    'block');
+                                                setTimeout(function() {
+                                                    $('#myDivHandleError')
+                                                        .fadeOut(
+                                                            'fast');
+                                                }, 2000);
+                                            }
+                                            $('.loading').removeClass('show-modal')
+                                                .addClass('d-none');
+                                        } else {
+                                            $('.loading').removeClass('show-modal')
+                                                .addClass('d-none');
                                         }
+
                                     },
 
                                     error: function(error) {
-                                        alert(error);
                                         if (error && error.responseJSON && error
                                             .responseJSON.message) {
                                             $('#myDivHandleError').text(error
@@ -575,9 +642,16 @@
                                             }, 2000);
                                         }
                                         console.log(error);
+                                        $('.loading').removeClass('show-modal')
+                                            .addClass('d-none');
+
                                     }
                                 });
+                            } else {
+                                $('.loading').removeClass('show-modal')
+                                    .addClass('d-none');
                             }
+
                         },
 
                         error: function(error) {
@@ -595,7 +669,8 @@
                                             'fast');
                                 }, 2000);
                             }
-                            console.log(error);
+                            $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
 
                         }
                     });
