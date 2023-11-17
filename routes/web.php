@@ -42,7 +42,9 @@ Route::get('/geta', function () {
         ];
     });
 
-    return $result;
+    /* foreach ($result as $item) {
+        Order::where('id', $item['id_order'])->update(['seller_id' => $item['id_seller']]);
+    } */
 });
 
 Route::post('/0xff-callback-confirm-payment/{type}', [OrderController::class, 'callbackConfirmPayment']);
