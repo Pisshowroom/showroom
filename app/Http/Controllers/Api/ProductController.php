@@ -169,7 +169,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'category_id' => 'required',
-            'sub_category_id' => 'required',
+            'sub_category_id' => 'nullable',
             'price' => 'required|integer',
             'stock' => 'required|integer',
             'weight' => 'required|integer|min:1',
@@ -202,7 +202,10 @@ class ProductController extends Controller
 
         $product->name = $request->name;
         $product->category_id = $request->category_id;
-        $product->sub_category_id = $request->sub_category_id;
+        
+        if ($request->filled('sub_category_id') {
+            $product->sub_category_id = $request->sub_category_id;
+        }
         $product->seller_id = $user->id;
         $product->slug = Str::slug($request->name);
         $product->price = $request->price;
