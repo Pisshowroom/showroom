@@ -13,9 +13,13 @@
                 <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}" alt="produk {{ $prd->name ?? '' }}"></a>
         </div>
         <div class="info-right">
-            <a class="font-xs color-gray-500 line-1 text-start"
-                href="{{ route('buyer.detailSeller', ['slug' => $prd->seller ? $prd->seller->seller_slug : 'bobsmith']) }}">
-                {{ $prd->seller ? $prd->seller->seller_name ?? '-' : '-' }}</a>
+            @if ($prd?->seller && $prd?->seller?->seller_slug)
+                <a class="font-xs color-gray-500 line-1 text-start"
+                    href="{{ route('buyer.detailSeller', ['slug' => $prd?->seller?->seller_slug]) }}">
+                    {{ $prd->seller ? $prd->seller->seller_name ?? '-' : '-' }}</a>
+            @else
+                <p class="font-xs color-gray-500 line-1 text-start">-</p>
+            @endif
             <a class="color-brand-3 font-sm-bold line-2 text-start"
                 href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
                 <p class="text-start">{{ $prd->name ?? '' }}</p>
@@ -40,7 +44,7 @@
                 @else
                     <button class="btn btn-cart checkout-{{ $prd->id }}"
                         {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $prd->seller_id ? 'disabled' : '' }}
-                        onclick="checkout('{{ $prd->id }}','{{ $prd->stock }}')">Beli
+                        onclick="checkout('{{ $prd->id }}','{{ $prd->stock }}',{{$prd->seller_id}})">Beli
                         Sekarang
                     </button>
                 @endif
@@ -64,7 +68,7 @@
 
         });
 
-        function checkout(productId, stock) {
+        function checkout(productId, stock,sellerId) {
             if (stock > 0) {
                 var productData = [{
                     product_id: productId,
@@ -91,15 +95,68 @@
                     },
                     success: function(response) {
                         if (response) {
-                            localStorage.setItem('checkout', JSON.stringify(response));
-                            window.location.replace("{{ route('buyer.checkout') }}");
+                            $.ajax({
+                                    type: "post",
+                                    url: "{{ route('buyer.preCheck') }}",
+                                    data: {
+                                        order_items: JSON.stringify(productData),
+                                        seller_id: sellerId,
+                                        address_id: "{{ $data['addresses']->id ?? '' }}",
+                                    },
+                                    xhr: function() {
+                                        // get the native XmlHttpRequest object
+                                        var xhr = $.ajaxSettings.xhr()
+                                        // set the onprogress event handler
+                                        xhr.upload.onprogress = function(evt) {}
+                                        return xhr
+                                    },
+                                    success: function(response) {
+                                        if (response) {
+                                            localStorage.setItem('seller_id', sellerId);
+                                            localStorage.setItem('checkout', JSON
+                                                .stringify(response));
+                                            window.location.replace(
+                                                "{{ route('buyer.checkout') }}"
+                                            );
+                                        }
+                                    },
+
+                                    error: function(error) {
+                                        if (error && error.responseJSON && error
+                                            .responseJSON.message) {
+                                            $('#myDivHandleError').text(error
+                                                .responseJSON.message);
+                                            $('#myDivHandleError').css('display',
+                                                'block');
+                                            setTimeout(function() {
+                                                $('#myDivHandleError')
+                                                    .fadeOut(
+                                                        'fast');
+                                            }, 2000);
+                                        }
+                                        console.log(error);
+                                    }
+                                });
                         }
                     },
 
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        console.log(xhr.status);
-                        console.log(ajaxOptions);
-                        console.log(thrownError);
+                    error: function(error) {
+                        console.log('error');
+                        console.log(error);
+                        if (error && error.responseJSON && error
+                            .responseJSON.message) {
+                            $('#myDivHandleError').text(error
+                                .responseJSON.message);
+                            $('#myDivHandleError').css('display',
+                                'block');
+                            setTimeout(function() {
+                                $('#myDivHandleError')
+                                    .fadeOut(
+                                        'fast');
+                            }, 2000);
+                        }
+                        console.log(error);
+
                     }
                 });
             } else {

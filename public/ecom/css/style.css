@@ -2142,7 +2142,6 @@ a.text-brand-3:hover {
 .card-grid-style-1 .image-box {
   display: inline-block;
   width: 100%;
-  margin-bottom: 15px;
 }
 .card-grid-style-1 .image-box img {
   border-radius: 4px;
@@ -3236,7 +3235,8 @@ a.text-brand-3:hover {
   display: block;
 }
 .header .main-header .header-left .header-logo a img {
-  min-height: 37px;
+  /* min-height: 37px; */
+  max-width: 100px;
 }
 .header .main-header .header-left .header-nav {
   display: inline-block;
@@ -3893,9 +3893,12 @@ a.text-brand-3:hover {
   overflow-x: hidden;
 }
 .mobile-header-wrapper-style .mobile-header-wrapper-inner .mobile-logo {
-  position: relative;
-  border-bottom: 1px solid #D5DFE4;
-  padding-bottom: 15px;
+    position: relative;
+    border-bottom: 1px solid #D5DFE4;
+    padding-bottom: 15px;
+}
+.mobile-header-wrapper-style .mobile-header-wrapper-inner .mobile-logo img{
+    max-width: 100px;
 }
 .mobile-header-wrapper-style .mobile-header-wrapper-inner .mobile-header-top {
   display: flex;
@@ -8105,7 +8108,8 @@ a.text-brand-3:hover {
 .box-quantity .input-quantity {
   min-width: 99px;
   max-width: 99px;
-  margin-right: 20px;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
 }
 .box-quantity .input-quantity input {
@@ -8695,11 +8699,11 @@ a:hover span {
   width: 52%;
 }
 .item-wishlist .wishlist-price {
-  width: 12%;
+  width: 22%;
   text-align: center;
 }
 .item-wishlist .wishlist-status {
-  width: 12%;
+  width: 18%;
   text-align: center;
 }
 .item-wishlist .wishlist-status .btn.btn-gray {
@@ -10148,7 +10152,7 @@ a:hover span {
     width: 92% !important;
   }
   .item-wishlist .wishlist-price {
-    width: 20%;
+    width: 40%;
     margin-top: 15px;
   }
   .item-wishlist .wishlist-status {

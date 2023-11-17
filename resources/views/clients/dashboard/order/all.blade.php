@@ -13,7 +13,8 @@
             <header class="card-header">
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
-                        <input class="form-control" id="searchOrder" type="text" placeholder="Cari berdasarkan Nomor Resi..." name="search"
+                        <input class="form-control" id="searchOrder" type="text"
+                            placeholder="Cari berdasarkan Nomor Resi..." name="search"
                             value="{{ request()->input('search') ?? '' }}">
                     </div>
                     <div class="col-lg-2 col-6 col-md-3">
@@ -71,9 +72,9 @@
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
-                                            @if ($order->status == 'Pending')
+                                            @if ($order->status == 'Pending' && $order->expired == false)
                                                 <a class="btn btn-xs-success"
-                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}">Bayar</a>
+                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}">Cara Bayar</a>
                                             @endif
                                             {{-- <a class="btn btn-xs-danger"
                                                 href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}

@@ -90,8 +90,8 @@ class OrderController extends Controller
         $orderItems = json_decode($request->order_items, true);
 
         foreach ($orderItems as $order_item) {
-            $product_id = $order_item['product_id'];
-            $product = \App\Models\Product::find($order_item['product_id']);
+            $product_id = isset($order_item['product_id']) ? $order_item['product_id'] : $order_item['id'];
+            $product = \App\Models\Product::find($product_id);
             if ($product == null) {
                 $product = Product::withTrashed()->where('id', $product_id)->first();
                 if ($product == null)
@@ -157,8 +157,8 @@ class OrderController extends Controller
         $orderItems = json_decode($request->order_items, true);
         // dd($orderItems);
         foreach ($orderItems as $order_item) {
-            $product_id = $order_item['product_id'];
-            $product = \App\Models\Product::find($order_item['product_id']);
+            $product_id = isset($order_item['product_id']) ? $order_item['product_id'] : $order_item['id'];
+            $product = \App\Models\Product::find($product_id);
             if ($product == null) {
                 $product = Product::withTrashed()->where('id', $product_id)->first();
                 if ($product == null)

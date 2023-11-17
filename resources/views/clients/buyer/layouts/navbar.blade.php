@@ -60,8 +60,8 @@
     <div class="container">
         <div class="main-header">
             <div class="header-left">
-                <div class="header-logo"><a href="{{ route('buyer.home') }}"><img alt="Ecom"
-                            src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
+                <div class="header-logo"><a href="{{ route('buyer.home') }}"><img alt="Logo Pishop"
+                            src="{{ asset('ecom/imgs/pshop.png') }}"></a></div>
                 <div class="header-search">
                     <div class="box-header-search">
                         <div class="form-search">
@@ -336,8 +336,8 @@
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area position-absolute">
-            <div class="mobile-logo"><a class="d-flex" href="{{ route('buyer.home') }}"><img alt="Ecom"
-                        src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
+            <div class="mobile-logo"><a class="d-flex" href="{{ route('buyer.home') }}"><img alt="Logo Pishop"
+                        src="{{ asset('ecom/imgs/pshop.png') }}"></a></div>
             <div class="perfect-scroll" style="height:100% !important">
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
@@ -580,11 +580,23 @@
                             }
                         },
 
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr);
-                            console.log(xhr.status);
-                            console.log(ajaxOptions);
-                            console.log(thrownError);
+                        error: function(error) {
+                            console.log('error');
+                            console.log(error);
+                            if (error && error.responseJSON && error
+                                .responseJSON.message) {
+                                $('#myDivHandleError').text(error
+                                    .responseJSON.message);
+                                $('#myDivHandleError').css('display',
+                                    'block');
+                                setTimeout(function() {
+                                    $('#myDivHandleError')
+                                        .fadeOut(
+                                            'fast');
+                                }, 2000);
+                            }
+                            console.log(error);
+
                         }
                     });
                 } else {

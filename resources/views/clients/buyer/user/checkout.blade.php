@@ -196,7 +196,7 @@
 
                 if(isPi)
                     return (convertPiToRupiah(angka)) + " π";
-            
+
                 return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
             }
 
@@ -271,7 +271,11 @@
             }
 
             if ($('#address_id').find('option:selected')) {
+                console.log($(this).val());
                 if ($(this).val() != 0) {
+                    $('#packet').prop('disabled', false);
+                    $('p.text-danger').addClass('d-none').removeClass('d-block');
+                } else if ($(this).val() ==''){
                     $('#packet').prop('disabled', false);
                     $('p.text-danger').addClass('d-none').removeClass('d-block');
                 } else {

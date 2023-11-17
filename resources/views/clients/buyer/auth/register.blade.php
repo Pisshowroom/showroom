@@ -160,6 +160,7 @@
                         error: function(error) {
                             var div = document.getElementById('myDiv2');
                             $('#myDiv2').css('display', 'block');
+                            div.innerHTML='';
                             div.innerHTML += error.message;
                             setTimeout(function() {
                                 $('#myDiv2').fadeOut('fast');
@@ -171,6 +172,7 @@
                 .catch((error) => {
                     var div = document.getElementById('myDiv2');
                     $('#myDiv2').css('display', 'block');
+                    div.innerHTML='';
                     div.innerHTML += error.message;
                     setTimeout(function() {
                         $('#myDiv2').fadeOut('fast');
@@ -221,6 +223,7 @@
                 error: function(error) {
                     var div = document.getElementById('myDiv2');
                     $('#myDiv2').css('display', 'block');
+                    div.innerHTML='';
                     div.innerHTML += error.message;
                     setTimeout(function() {
                         $('#myDiv2').fadeOut('fast');
