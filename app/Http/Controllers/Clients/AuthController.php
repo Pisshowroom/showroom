@@ -8,6 +8,7 @@ use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
@@ -84,11 +85,18 @@ class AuthController extends Controller
 
     public function loginSession(Request $request)
     {
-        $session = Session::get('api_token');
+        $request->session()->put('api_token', $request->api_token);
+        $session = $request->session()->get('api_token');
+
         $user = User::where('api_token', $session)->first();
-        Auth::login($user, true);
         if ($user) {
-            return redirect()->route('buyer.home');
+            $request->session()->put('user', $user);
+        }
+
+        Auth::login($user, true);
+
+        if ($user) {
+            return redirect()->route('buyer.home')->header('api_token', 'token');
         }
     }
 
