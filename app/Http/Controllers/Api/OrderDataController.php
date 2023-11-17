@@ -13,7 +13,7 @@ class OrderDataController extends Controller
     {
         // validation for request status in Pending, Paid, Sending, Cancel, Returning, Completed
         $request->validate([
-            'status' => 'required|in:Pending,Paid,Sending,Cancel,Returning,Completed'
+            'status' => 'required|in:Pending,Paid,ProcessedBySeller,Sending,Cancel,Returning,Completed'
         ]);
         $user = auth()->guard('api-client')->user();
 
@@ -39,7 +39,7 @@ class OrderDataController extends Controller
     public function sellerListOrder(Request $request)
     {
         $request->validate([
-            'status' => 'required|in:Pending,Paid,Sending,Cancel,Returning,Completed'
+            'status' => 'required|in:Pending,Paid,ProcessedBySeller,Sending,Cancel,Returning,Completed'
         ]);
         $user = auth()->guard('api-client')->user();
 
