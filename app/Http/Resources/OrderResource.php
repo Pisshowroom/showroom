@@ -41,6 +41,9 @@ class OrderResource extends JsonResource
             'order_items' => $this->whenLoaded('order_items', function () {
                 return  OrderItemResource::collection($this->order_items);
             }),
+            'single_order_item_with_product' => $this->whenLoaded('single_order_item_with_product', function () {
+                return  new OrderItemResource($this->single_order_item_with_product);
+            }),
             'payment_channel' => $this->payment_channel,
             'va_number' => $this->va_number,
             'qr_id' => $this->qr_id,
@@ -57,6 +60,10 @@ class OrderResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+
+        if ($this->order_items_count) {
+            $data['order_items_count'] = $this->order_items_count;
+        }
 
         return $data;
     }

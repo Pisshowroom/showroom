@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MasterAccountResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Address;
 use App\Models\MasterAccount;
@@ -413,6 +414,7 @@ class OrderController extends Controller
         $masterAccount = MasterAccount::findOrFail($request->master_account_id);
 
         $orderItems = json_decode($request->order_items, true);
+        $sellerId = null;
 
         foreach ($orderItems as $order_item) {
             $product_id = $order_item['product_id'];
@@ -424,6 +426,14 @@ class OrderController extends Controller
                 else
                     return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
+            if($sellerId == null) {
+                $sellerId = $product->seller_id;
+            } else {
+                if($sellerId != $product->seller_id) {
+                    return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
+                }
+            }
+
             $product->load('parent');
 
 
@@ -471,6 +481,7 @@ class OrderController extends Controller
 
         $data['delivery_cost'] = $deliveryCost;
         $data['payment_service_fee'] = $serviceFee;
+        $data['master_account'] = new MasterAccountResource($masterAccount);
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
@@ -522,6 +533,8 @@ class OrderController extends Controller
         $order->user_id = $user->id;
         $order->save();
         $weight = 0;
+        $sellerId = null;
+
 
         foreach ($orderItems as $order_item) {
             $product_id = $order_item['product_id'];
@@ -537,6 +550,14 @@ class OrderController extends Controller
                 else
                     return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
+            if($sellerId == null) {
+                $sellerId = $product->seller_id;
+            } else {
+                if($sellerId != $product->seller_id) {
+                    return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
+                }
+            }
+
             $product->load('parent');
 
             if ($product->stock < $order_item['qty']) {
@@ -563,7 +584,7 @@ class OrderController extends Controller
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $product_id;
             $orderItem->quantity = $order_item['qty'];
-            $orderItem->note = $order_item['note'] ?? null;
+            // $orderItem->note = $order_item['note'] ?? null;
             $orderItem->subtotal = $product->price * $order_item['qty'];
             $orderItem->item_total = $itemTotal;
             $orderItem->price = $product->price;
@@ -616,6 +637,7 @@ class OrderController extends Controller
         $order->payment_status = Order::PAYMENT_PENDING;
         $order->status = Order::PENDING;
         $order->address_id = $request->address_id;
+        $order->seller_id = $sellerId;
         $order->delivery_cost = $deliveryCost;
         $order->service_fee = $serviceFee;
         $order->delivery_estimation_day = $request->delivery_estimation_day;

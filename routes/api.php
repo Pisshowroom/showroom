@@ -58,6 +58,7 @@ Route::group(['prefix' => 'product'], function () {
     });
 
     Route::get('/{product}', [ProductController::class, 'show']);
+    Route::get('/show-simple/{product}', [ProductController::class, 'showSimple']);
 });
 
 Route::prefix('payment')->group(function () {
@@ -88,6 +89,7 @@ Route::group(['prefix' => 'order'], function () {
 
     Route::middleware('auth:api-client')->group(function () {
         Route::get('/index', [OrderDataController::class, 'index']);
+        Route::get('/seller-list-order', [OrderDataController::class, 'sellerListOrder']);
         Route::get('/{order}', [OrderDataController::class, 'detail']);
     });
 
