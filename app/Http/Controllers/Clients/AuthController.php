@@ -22,6 +22,31 @@ class AuthController extends Controller
         // $this->middleware('guest:api-admin')->except('logout');
         // $this->middleware('guest:user')->except('logout');
     }
+
+    public function login(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+
+            $user = Auth::user();
+
+            $data = $user;
+            $token = $user->createToken('auth-pi-client');
+            $data['token'] = $token->plainTextToken;
+
+            return response()->json($data);
+        } else {
+            return response()->json([
+                "status" => "error",
+                "message" => "Email atau password kamu salah"
+            ]);
+        }
+    }
+
+
     public function piLogin(Request $request)
     {
         $request->validate([
@@ -45,16 +70,15 @@ class AuthController extends Controller
             ], 400);
         }
 
-
         if ($request->uid) {
             $checkUser = User::where('uid', $request->uid)->first();
             if ($checkUser) {
-                Auth::guard('web')->loginUsingId($checkUser->id, true);
-                return response()->json([
-                    "status" => "success",
-                    "api_token" => $checkUser->api_token,
-                    "message" => "Berhasil login"
-                ]);
+                Auth::login($checkUser);
+                $user = Auth::user();
+                $data = $user;
+                $token = $user->createToken('auth-pi-client');
+                $data['token'] = $token->plainTextToken;
+                return response()->json($data);
             } else {
                 $user = new User;
                 $user->uid = $request->uid;
@@ -67,13 +91,12 @@ class AuthController extends Controller
                 $address->user_id = $user->id;
                 $address->main = 1;
                 $address->save();
-                Auth::guard('web')->loginUsingId($user->id, true);
-                return response()->json([
-                    "status" => "success",
-                    "api_token" => $user->api_token,
-                    "message" => "Berhasil Mendaftar"
-
-                ]);
+                Auth::login($user);
+                $user = Auth::user();
+                $data = $user;
+                $token = $user->createToken('auth-pi-client');
+                $data['token'] = $token->plainTextToken;
+                return response()->json($data);
             }
         } else {
             return response()->json([
