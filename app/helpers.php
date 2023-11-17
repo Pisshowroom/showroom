@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Models\Critic;
 use App\Models\Role;
+use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use GuzzleHttp\Client;
@@ -108,6 +109,8 @@ function lypsisConvertPaymentChannelType($channelType)
         case 'Retail-Outlet':
             $result = 'OVER_THE_COUNTER';
             break;
+        default:
+            $result = 'PI';
     }
 
     return $result;
@@ -128,6 +131,8 @@ function lypsisConvertPaymentChannelTypeIntoParamRequest($channelType)
         case 'Retail-Outlet':
             $result = 'over_the_counter';
             break;
+        default:
+            $result = 'pi';
     }
 
     return $result;
@@ -512,10 +517,34 @@ function numbFormat($price, $decimal = true)
         $price = 0;
     }
 
+    $isPi = false;
+
+    $user_agent = request()->header('User-Agent');
+
+    if ($user_agent) {
+        if (preg_match("/PiBrowser/i", $user_agent))
+            $isPi = true;
+    }
+    if ($isPi)
+        return convertRupiahToPi($price) . " π";
+
     if ($decimal == true) {
         return "Rp " . \number_format($price, 0, ',', '.');
     }
     return "Rp " . \number_format($price);
+}
+
+function convertRupiahToPi($price)
+{
+    $setting = Setting::where("name", "pi")->first();
+    if (!$setting) {
+        $setting = new Setting();
+        $setting->name = "pi";
+        $setting->value = "558647.95";
+        $setting->save();
+    }
+
+    return (1 / (float) $setting->value) * ($price);
 }
 
 function numbFormatUSD($price, $decimal = true)

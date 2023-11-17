@@ -12,6 +12,7 @@ use App\Http\Controllers\Clients\buyer\OrderController as BuyerOrderController;
 use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
 use App\Http\Controllers\Clients\seller\SellerController;
 use App\Models\Order;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,19 @@ Route::get('/check-shipping-price', function (Illuminate\Http\Request $request) 
     return response()->json($shippingCost);
 });
 
+Route::post('convert-to-pi', function (Request $request) {
+    $setting = Setting::where("name", "pi")->first();
+
+    if (!$setting) {
+        $setting = new Setting();
+        $setting->name = "pi";
+        $setting->value = "558647.95";
+        $setting->save();
+    }
+
+    return response()->json(["price" => (1 / (float) $setting->value) * ($request->price)]);
+});
+
 Route::get('/authed', function () {
     // $authUser = auth()->user();
     // $authUser = Auth::guard('api-client')->user();
@@ -95,6 +109,8 @@ Route::get('/', [BuyerController::class, 'home'])->name('buyer.home');
 Route::get('/masuk', [BuyerController::class, 'login'])->name('buyer.login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'loginUsingGoogle'])->name('loginUsingGoogle');
 Route::post('/login-email', [AuthController::class, 'loginEmail'])->name('loginEmail');
+Route::post('/login-pi', [AuthController::class, 'piLogin'])->name('loginWithPI');
+Route::get('/login-session', [AuthController::class, 'loginSession'])->name('loginWithCookie');
 Route::get('/mendaftar', [BuyerController::class, 'register'])->name('buyer.register')->middleware('guest');
 Route::post('/register', [AuthController::class, 'registerUsingGoogle'])->name('registerUsingGoogle');
 Route::post('/register-email', [AuthController::class, 'registerEmail'])->name('registerEmail');
@@ -131,8 +147,9 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
     Route::group(['prefix' => 'pembeli'], function () {
         // Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
-        Route::get('/pesananku', [DashboardController::class, 'myOrder'])->name('dashboard.myOrder');
-        Route::get('/detail-pesanan/{identifier}', [DashboardController::class, 'detailOrder'])->name('dashboard.detailOrder');
+        Route::get('/pembayaran/{identifier}', [BuyerOrderController::class, 'payment'])->name('dashboard.payment');
+        Route::get('/pesananku', [BuyerOrderController::class, 'myOrder'])->name('dashboard.myOrder');
+        Route::get('/detail-pesanan/{identifier}', [BuyerOrderController::class, 'detailOrder'])->name('dashboard.detailOrder');
         Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
         Route::get('/ubah-alamat/{id}', [DashboardController::class, 'changeAddress'])->name('dashboard.changeAddress');
         Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');

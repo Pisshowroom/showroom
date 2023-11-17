@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Clients;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
@@ -24,12 +26,32 @@ class AuthController extends Controller
         $request->validate([
             'uid' => 'required',
         ]);
+
+        try {
+            $platformAPIClient = new Client([
+                'base_uri' => "https://api.minepi.com",
+                'timeout'  => 20000,
+                'headers'  => [
+                    'Authorization' => 'Bearer ' . $request->api_token
+                ],
+            ]);
+
+            $response = $platformAPIClient->get("v2/me");
+        } catch (\Throwable $th) {
+            return response()->json([
+                "status" => "error",
+                "message" => "Terjadi kesalahan pada pi auth"
+            ], 400);
+        }
+
+
         if ($request->uid) {
             $checkUser = User::where('uid', $request->uid)->first();
             if ($checkUser) {
                 Auth::guard('web')->loginUsingId($checkUser->id, true);
                 return response()->json([
                     "status" => "success",
+                    "api_token" => $checkUser->api_token,
                     "message" => "Berhasil login"
                 ]);
             } else {
@@ -47,6 +69,7 @@ class AuthController extends Controller
                 Auth::guard('web')->loginUsingId($user->id, true);
                 return response()->json([
                     "status" => "success",
+                    "api_token" => $user->api_token,
                     "message" => "Berhasil Mendaftar"
 
                 ]);
@@ -58,6 +81,18 @@ class AuthController extends Controller
             ]);
         }
     }
+
+    public function loginSession(Request $request)
+    {
+        $session = Session::get('api_token');
+        $user = User::where('api_token', $session)->first();
+        Auth::login($user, true);
+        if ($user) {
+            return redirect()->route('buyer.home');
+        }
+    }
+
+
     public function loginUsingGoogle(Request $request)
     {
         $request->validate([
