@@ -203,7 +203,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->category_id = $request->category_id;
         
-        if ($request->filled('sub_category_id') {
+        if ($request->filled('sub_category_id')) {
             $product->sub_category_id = $request->sub_category_id;
         }
         $product->seller_id = $user->id;

@@ -13,14 +13,14 @@ class OrderDataController extends Controller
     {
         // validation for request status in Pending, Paid, Sending, Cancel, Returning, Completed
         $request->validate([
-            'status' => 'in:Pending,Paid,Sending,Cancel,Returning,Completed'
+            'status' => 'required|in:Pending,Paid,Sending,Cancel,Returning,Completed'
         ]);
         $user = auth()->guard('api-client')->user();
 
         $status = $request->input('status');
         $status = lypsisGetOrderStatusValues($status);
         // $orders = Order::withCount('order_items')->when($status, function ($query, $status) {
-        $orders = Order::withCount('order_items')->where('user_id', $user->id)->when($status != null, function ($query) use ($status) {
+        $orders = Order::withCount('order_items')->where('user_id', $user->id)->when(empty($status) == false, function ($query) use ($status) {
             // return $query->where('status', $status);
             return $query->whereIn('status', $status);
         })
@@ -39,17 +39,20 @@ class OrderDataController extends Controller
     public function sellerListOrder(Request $request)
     {
         $request->validate([
-            'status' => 'in:Pending,Paid,Sending,Cancel,Returning,Completed'
+            'status' => 'required|in:Pending,Paid,Sending,Cancel,Returning,Completed'
         ]);
         $user = auth()->guard('api-client')->user();
 
         $status = $request->input('status');
         $status = lypsisGetOrderStatusValues($status);
 
-        $orders = Order::withCount('order_items')->where('seller_id', $user->id)->when($status != null, function ($query) use ($status) {
+        $orders = Order::withCount('order_items')->where('seller_id', $user->id)->when(empty($status) == false, function ($query) use ($status) {
             // return $query->where('status', $status);
             return $query->whereIn('status', $status);
         })
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $query->where('payment_identifier', 'like', "%$request->search%");
+            })
             ->with(['single_order_item_with_product.product.parent', 'single_order_item_with_product.product.seller'])->paginate(20);
 
         return OrderResource::collection($orders);
