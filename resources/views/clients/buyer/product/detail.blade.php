@@ -112,10 +112,14 @@
                         <h3 class="color-brand-3 mb-25 line-2 text-start" style="overflow-wrap: break-word;">
                             {{ $product->name ?? '' }}</h3>
                         <div class="row align-items-center">
-                            <div class="col-lg-4 col-md-4 col-sm-3 mb-mobile"><a
-                                    class="byAUthor color-gray-900 font-xs font-medium"
-                                    href="{{ route('buyer.detailSeller', ['slug' => $product->seller ? $product->seller->seller_slug : 'bobsmith']) }}">
-                                    {{ $product->seller ? $product->seller->seller_name ?? '-' : '-' }}</a>
+                            <div class="col-lg-4 col-md-4 col-sm-3 mb-mobile">
+                                @if ($product?->seller && $product?->seller?->seller_slug)
+                                    <a class="byAUthor color-gray-900 font-xs font-medium"
+                                        href="{{ route('buyer.detailSeller', ['slug' => $product?->seller?->seller_slug]) }}">
+                                        {{ $product->seller ? $product->seller->seller_name ?? '-' : '-' }}</a>
+                                @else
+                                    <p class="byAUthor color-gray-900 font-xs font-medium">-</p>
+                                @endif
                                 <div class="rating mt-5"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                         alt="rating {{ $product->name ?? '' }}">
                                     <span class="font-xs color-gray-500 font-medium">
@@ -126,7 +130,7 @@
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-9 text-start text-sm-end">
                                 <a class="mr-20"
-                                    href="{{ Auth::guard('web')->user()?route('buyer.wishlist'):route('buyer.login') }}"><span
+                                    href="{{ Auth::guard('web')->user() ? route('buyer.wishlist') : route('buyer.login') }}"><span
                                         class="btn btn-wishlist mr-5 opacity-100 transform-none"></span><span
                                         class="font-md color-gray-900">Tambahkan ke Wishlist</span></a>
                             </div>
@@ -657,7 +661,6 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
         $(document).ready(function() {
-
             $('.input-quantity input').on('input', function() {
                 var inputValue = $(this).val();
                 var numericValue = parseInt(inputValue);
@@ -691,6 +694,8 @@
                     qty: $('#quantity').val(),
                     stock: "{{ $product->stock ?? '' }}",
                     price: "{{ $product->price ?? '' }}",
+                    reviews_avg_rating: "{{ $product->reviews_avg_rating ?? '0' }}",
+                    total_sell: "{{ $product->total_sell ?? '0' }}",
                 };
 
                 if (cart) {
@@ -713,48 +718,69 @@
 
                     localStorage.setItem('cart', JSON.stringify(existingCart));
                 } else {
-                        localStorage.setItem('cart', JSON.stringify([productData]));
+                    localStorage.setItem('cart', JSON.stringify([productData]));
                 }
             });
             $('#buy-now').on('click', function(e) {
                 e.preventDefault();
                 if ("{{ $product->stock > 0 }}") {
-                    var productData = [{
-                        product_id: "{{ $product->id ?? '' }}",
-                        note: "Tolong ini hati-hati bawanya ",
-                        qty: $('#quantity').val(),
-                    }];
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        type: "post",
-                        url: "{{ route('buyer.preCheckEarly') }}",
-                        data: {
-                            order_items: JSON.stringify(productData)
-                        },
-                        xhr: function() {
-                            // get the native XmlHttpRequest object
-                            var xhr = $.ajaxSettings.xhr()
-                            // set the onprogress event handler
-                            xhr.upload.onprogress = function(evt) {}
-                            return xhr
-                        },
-                        success: function(response) {
-                            if (response) {
-                                localStorage.setItem('checkout', JSON.stringify(response));
-                                window.location.replace("{{ route('buyer.checkout') }}");
+                    if ("{{ $product->stock }}" >= $('#quantity').val()) {
+                        var productData = [{
+                            product_id: "{{ $product->id ?? '' }}",
+                            note: "Tolong ini hati-hati bawanya ",
+                            qty: $('#quantity').val(),
+                        }];
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            type: "post",
+                            url: "{{ route('buyer.preCheckEarly') }}",
+                            data: {
+                                order_items: JSON.stringify(productData)
+                            },
+                            xhr: function() {
+                                // get the native XmlHttpRequest object
+                                var xhr = $.ajaxSettings.xhr()
+                                // set the onprogress event handler
+                                xhr.upload.onprogress = function(evt) {}
+                                return xhr
+                            },
+                            success: function(response) {
+                                if (response) {
+                                    localStorage.setItem('checkout', JSON.stringify(response));
+                                    window.location.replace("{{ route('buyer.checkout') }}");
+
+                                }
+                            },
+                            error: function(error) {
+                                console.log('error');
+                                console.log(error);
+                                if (error && error.responseJSON && error
+                                    .responseJSON.message) {
+                                    $('#myDivHandleError').text(error
+                                        .responseJSON.message);
+                                    $('#myDivHandleError').css('display',
+                                        'block');
+                                    setTimeout(function() {
+                                        $('#myDivHandleError')
+                                            .fadeOut(
+                                                'fast');
+                                    }, 2000);
+                                }
+                                console.log(error);
 
                             }
-                        },
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            console.log(xhr.status);
-                            console.log(ajaxOptions);
-                            console.log(thrownError);
-                        }
-                    });
+                        });
+                    } else {
+                        $('#myDivHandleError').text('Pesananmu melebihi stok yang ada');
+                        $('#myDivHandleError').css('display', 'block');
+                        setTimeout(function() {
+                            $('#myDivHandleError').fadeOut('fast');
+                        }, 2000);
+                    }
                 } else {
                     $('#myDivCheckout').css('display', 'block');
                     setTimeout(function() {

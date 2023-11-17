@@ -81,10 +81,13 @@
                                     </div>
                                     <a class="color-gray-1100"
                                         href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}">
-                                        <h4>{{ $article->title ?? ' ' }}</h4>
+                                        <h6 class="line-2 text-start">{{ $article->title ?? ' ' }}</h6>
                                     </a>
-                                    <div class="mt-20 d-flex justify-content-between"><span
+                                    <div class="d-flex justify-content-between"><span
                                             class="color-gray-500 font-xs mr-30">{{ $article->date ?? '' }}</span>
+                                        <span
+                                            class="color-gray-500 font-xs">{{ $article->view ? moneyFormat($article->view) . 'x dilihat' : '0 dilihat' }}</span>
+
                                     </div>
                                 </div>
                             </div>
@@ -105,4 +108,19 @@
     </main>
 @endsection
 @push('importjs')
+    <script>
+        $(document).ready(function() {
+            $('.card-grid-style-1').each(function() {
+                var text = $(this).find('h6.line-2').text();
+                console.log('text');
+                console.log(text);
+
+                // Menghapus spasi ekstra dan memeriksa jumlah baris
+                if (text.trim().split(/\r\n|\r|\n/).length < 2) {
+                    $(this).find('h6.line-2').css('height', '40px');
+                }
+            });
+
+        });
+    </script>
 @endpush

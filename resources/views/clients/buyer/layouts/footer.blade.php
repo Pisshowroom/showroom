@@ -64,22 +64,30 @@
     <div class="footer-2">
         <div class="footer-bottom-1">
             <div class="container">
-                <div class="footer-2-top mb-20"><a href="{{ route('buyer.home') }}"><img alt="pisshop"
-                            src="{{ asset('ecom/imgs/template/logo-2.svg') }}"></a><a class="font-xs color-gray-1000"
-                        href="#">EcomMarket.com</a><a class="font-xs color-gray-1000" href="#">Ecom
+                <div class="footer-2-top mb-20"><a href="{{ route('buyer.home') }}"><img alt="Logo Pishop"
+                            src="{{ asset('ecom/imgs/pshop.png') }}" style="max-width:100px"></a>
+                    {{-- <a class="font-xs color-gray-1000" href="#">EcomMarket.com</a><a
+                        class="font-xs color-gray-1000" href="#">Ecom
                         Partners</a><a class="font-xs color-gray-1000" href="#">Ecom
-                        Bussiness</a><a class="font-xs color-gray-1000" href="#">Ecom Factory</a></div>
+                        Bussiness</a><a class="font-xs color-gray-1000" href="#">Ecom Factory</a> --}}
+                </div>
             </div>
         </div>
         <div class="container">
             <div class="footer-bottom mt-20">
                 <div class="row">
                     <div class="col-lg-6 col-md-12 text-center text-lg-start"><span
-                            class="color-gray-900 font-sm">Copyright &copy; <script>document.write(new Date().getFullYear())</script> <a href="https://hotama.co.id/" target="_blank" rel="noopener noreferrer">PT.Kreasi Putra Hotama.</a>  All rights
-                            reserved.</span></div>
+                            class="color-gray-900 font-sm">Copyright &copy;
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> <a href="https://hotama.co.id/" target="_blank"
+                                rel="noopener noreferrer">PT.Kreasi Putra Hotama.</a> All rights
+                            reserved.
+                        </span></div>
                     <div class="col-lg-6 col-md-12 text-center text-lg-end">
                         <ul class="menu-bottom">
-                            <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a>
+                            <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Syarat dan
+                                    Ketentuan</a>
                             </li>
                             {{-- <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Privacy Notice</a></li> --}}
                         </ul>

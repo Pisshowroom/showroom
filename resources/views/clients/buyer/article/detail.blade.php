@@ -24,11 +24,11 @@
                                 <h3 class="mt-15 mb-25">{{ $article->title ?? '' }}</h3>
                                 <div class="box-author mb-5">
                                     <div class="img-author mr-30"><img src="{{ asset('ecom/imgs/page/blog/author.png') }}"
-                                            alt="Ecom"><span class="font-md-bold">By Sugar Rosie</span></div><span
-                                        class="datepost color-gray-500 font-sm mr-30">{{ $article->date ?? '' }}</span>
+                                            alt="admin"><span class="font-md-bold">Admin</span></div>
+                                    <span class="datepost color-gray-500 font-sm mr-30">{{ $article->date ?? '' }}</span>
+                                    <span
+                                        class="datepost color-gray-500 font-sm mr-30">{{ $article->view ? moneyFormat($article->view) . 'x dilihat' : '0 dilihat' }}</span>
                                 </div>
-                                <div class="image-feature"><img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
-                                        alt="artikel {{ $article->title ?? '' }}"></div>
                                 <div class="content-text">
                                     {!! $article->content ?? '' !!}
                                 </div>

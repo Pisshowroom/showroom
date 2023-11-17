@@ -479,6 +479,12 @@ function parseDates($date, $format = 'j M Y, H:H')
 
     return \Carbon\Carbon::parse($date)->translatedFormat($format);
 }
+function parseDates2($date, $format = 'j M Y')
+{
+    \Carbon\Carbon::setLocale('id_ID');
+
+    return \Carbon\Carbon::parse($date)->translatedFormat($format);
+}
 function convertToIndonesianMonth($monthNumber)
 {
     switch ($monthNumber) {

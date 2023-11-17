@@ -20,38 +20,6 @@
         </div> --}}
         <div class="info-topbar w-100 text-center d-none d-xl-block"><a class="font-xs color-brand-3"
                 href="{{ route('buyer.home') }}" target="_blank">Download Aplikasi PIS Shop Global</a></div>
-        {{-- <div class="menu-topbar-right"><span class="font-xs color-brand-3">Butuh bantuan? Hubungi:</span><span
-                class="font-sm-bold color-success"> + 1800 900</span> --}}
-        {{-- <div class="dropdown dropdown-language">
-                <button class="btn dropdown-toggle" id="dropdownPage" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="true" data-bs-display="static"><span
-                        class="dropdown-right font-xs color-brand-3"><img src="{{ asset('ecom/imgs/template/en.svg') }}" alt="Ecom">
-                        English</span></button>
-                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownPage" data-bs-popper="static">
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-en.svg') }}" alt="Ecom">
-                            English</a></li>
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-fr.svg') }}" alt="Ecom">
-                            Français</a></li>
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-es.svg') }}" alt="Ecom">
-                            Español</a></li>
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-pt.svg') }}" alt="Ecom">
-                            Português</a></li>
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-cn.svg') }}" alt="Ecom">
-                            中国人</a></li>
-                </ul>
-            </div>
-            <div class="dropdown dropdown-language">
-                <button class="btn dropdown-toggle" id="dropdownPage2" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="true" data-bs-display="static"><span
-                        class="dropdown-right font-xs color-brand-3">USD</span></button>
-                <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownPage2"
-                    data-bs-popper="static">
-                    <li><a class="dropdown-item active" href="#">USD</a></li>
-                    <li><a class="dropdown-item" href="#">EUR</a></li>
-                    <li><a class="dropdown-item" href="#">AUD</a></li>
-                    <li><a class="dropdown-item" href="#">SGP</a></li>
-                </ul>
-            </div> --}}
     </div>
 </div>
 </div>
@@ -60,7 +28,7 @@
         <div class="main-header">
             <div class="header-left">
                 <div class="header-logo logo-auth"><a class="d-flex" href="{{ route('buyer.home') }}"><img
-                            alt="logo pisshop" src="{{ asset('ecom/imgs/template/logo.svg') }}"></a>
+                            alt="Logo Pishop" src="{{ asset('ecom/imgs/pshop.png') }}"></a>
                 </div>
                 <div class="header-search">
                     <div class="box-header-search">
@@ -202,8 +170,8 @@
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area position-absolute">
-            <div class="mobile-logo"><a class="d-flex" href="{{ route('buyer.home') }}"><img alt="Ecom"
-                        src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
+            <div class="mobile-logo"><a class="d-flex" href="{{ route('buyer.home') }}"><img alt="Logo Pishop"
+                        src="{{ asset('ecom/imgs/pshop.png') }}"></a></div>
             <div class="perfect-scroll" style="height:100% !important">
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
@@ -464,8 +432,8 @@
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area position-absolute">
-            <div class="mobile-logo"><a class="d-flex" href="{{ route('buyer.home') }}"><img alt="Ecom"
-                        src="{{ asset('ecom/imgs/template/logo.svg') }}"></a></div>
+            <div class="mobile-logo"><a class="d-flex" href="{{ route('buyer.home') }}"><img alt="Logo Pishop"
+                        src="{{ asset('ecom/imgs/pshop.png') }}"></a></div>
             <div class="perfect-scroll" style="height:100% !important">
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
@@ -670,7 +638,6 @@
                                     },
 
                                     error: function(error) {
-                                        alert(error);
                                         if (error && error.responseJSON && error
                                             .responseJSON.message) {
                                             $('#myDivHandleError').text(error
@@ -689,11 +656,23 @@
                             }
                         },
 
-                        error: function(xhr, ajaxOptions, thrownError) {
-                            alert(xhr);
-                            console.log(xhr.status);
-                            console.log(ajaxOptions);
-                            console.log(thrownError);
+                        error: function(error) {
+                            console.log('error');
+                            console.log(error);
+                            if (error && error.responseJSON && error
+                                .responseJSON.message) {
+                                $('#myDivHandleError').text(error
+                                    .responseJSON.message);
+                                $('#myDivHandleError').css('display',
+                                    'block');
+                                setTimeout(function() {
+                                    $('#myDivHandleError')
+                                        .fadeOut(
+                                            'fast');
+                                }, 2000);
+                            }
+                            console.log(error);
+
                         }
                     });
                 } else {
