@@ -53,9 +53,11 @@ class Order extends Model
     }
 
     /*  Status
-    Pending, Paid, ExpiredPayment, Cancelled, ProcessedBySeller, Shipped, Delivered,
-    RequestedRefund, RefundAccepted, RefundDone, RefundDeclined, RequestedReturn, ReturnAccepted,
-    ReturnShipped, ReturnDelivered, ReturnCompleted, Completed
+    Pending, Paid, 
+    ProcessedBySeller, Shipped, Delivered,
+    ExpiredPayment, Cancelled, RequestedRefund, RefundAccepted, RefundDone, RefundDeclined, 
+    RequestedReturn, ReturnAccepted, ReturnShipped, ReturnDelivered, ReturnCompleted, 
+    Completed
     */
 
     /* Payment Status

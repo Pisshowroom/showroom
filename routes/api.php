@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
@@ -37,10 +39,29 @@ Route::post('/pi/signin', [ClientsAuthController::class, 'piLogin']);
 Route::get("home", [HomeController::class, 'home']);
 Route::get("stats-count", [HomeController::class, 'statsCount']);
 Route::get("categories", [HomeController::class, 'categories']);
+Route::get("just-categories", [HomeController::class, 'justCategories']);
+Route::get("sub-categories", [HomeController::class, 'subCategories']);
 Route::POST("manual-create-pay-req", [OrderController::class, 'manualCreatePayReq']);
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard2', [DashboardController::class, 'index']);
+
+    Route::group(['prefix' => 'categories', 'middleware' => 'auth:api-client'], function () {
+        Route::get('/', [CategoryController::class, 'index']);
+        Route::post('/', [CategoryController::class, 'store']);
+        Route::get('/{category}', [CategoryController::class, 'show']);
+        Route::post('update/{category}', [CategoryController::class, 'update']);
+        Route::delete('/{category}', [CategoryController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'sub-categories', 'middleware' => 'auth:api-client'], function () {
+        Route::get('/', [SubCategoryController::class, 'index']);
+        Route::post('/', [SubCategoryController::class, 'store']);
+        Route::get('/{subCategory}', [SubCategoryController::class, 'show']);
+        Route::post('update/{subCategory}', [SubCategoryController::class, 'update']);
+        Route::delete('/{subCategory}', [SubCategoryController::class, 'destroy']);
+    });
+    
 });
 
 
