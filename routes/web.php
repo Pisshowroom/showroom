@@ -12,6 +12,7 @@ use App\Http\Controllers\Clients\buyer\OrderController as BuyerOrderController;
 use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
 use App\Http\Controllers\Clients\seller\SellerController;
 use App\Models\Order;
+use App\Models\Review;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -30,8 +31,8 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/geta', function () {
     // return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
-    $orders = Order::whereNull('seller_id')->get();
-
+   /*  $orders = Order::whereNull('seller_id')->get();
+    // 2
     $result = $orders->map(function ($order) {
         $product = $order->order_items()->first()->product;
 
@@ -40,11 +41,13 @@ Route::get('/geta', function () {
             'id_product' => $product->id,
             'id_seller' => $product->seller_id,
         ];
-    });
+    }); */
 
     /* foreach ($result as $item) {
         Order::where('id', $item['id_order'])->update(['seller_id' => $item['id_seller']]);
     } */
+    // 3
+    // return Review::whereNotNull('images')->where('images', '!=', '[]')->get();
 });
 
 Route::post('/0xff-callback-confirm-payment/{type}', [OrderController::class, 'callbackConfirmPayment']);

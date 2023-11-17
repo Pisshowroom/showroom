@@ -58,6 +58,7 @@ Route::group(['prefix' => 'product'], function () {
     });
 
     Route::get('/{product}', [ProductController::class, 'show']);
+    Route::get('/show-simple/{product}', [ProductController::class, 'showSimple']);
 });
 
 Route::prefix('payment')->group(function () {

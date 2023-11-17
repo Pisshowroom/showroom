@@ -15,9 +15,36 @@ class ReviewController extends Controller
         return ReviewResource::collection($reviews);
     }
 
-    public function getAllReviewsOfAProduct($productId)
+    public function getAllReviewsOfAProduct($productId, Request $request)
     {
-        $reviews = Review::where('product_id', $productId)->orderBy('created_at', 'desc')->paginate(10);
+        /* $reviews = Review::where('product_id', $productId);
+        
+        
+        $reviews->orderBy('created_at', 'desc')->paginate(10);
+        return ReviewResource::collection($reviews); */
+
+        $filtered = false;
+        $query = Review::where('product_id', $productId);
+
+        if ($request->sort_rating === 'asc') {
+            $query->orderBy('rating', 'asc');
+            $filtered = true;
+        } else if ($request->sort_rating === 'desc') {
+            $query->orderBy('rating', 'desc');
+            $filtered = true;
+        }
+
+        if ($request->filled('with_media')) {
+            $query->whereNotNull('images')->where('images', '!=', '[]');
+            $filtered = true;
+        }
+
+        if ($filtered == false) {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $reviews = $query->paginate(10);
+
         return ReviewResource::collection($reviews);
     }
 

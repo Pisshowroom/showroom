@@ -141,7 +141,14 @@ class ProductController extends Controller
         return $data;
     }
 
-    // create function sellerMyProducts
+    public function showSimple(Product $product)
+    {
+        $product->load(['variants.parent']);
+
+
+        return ResponseAPI($product);
+    }
+
     public function sellerMyProducts()
     {
         $userAuthed = auth()->guard('api-client');
