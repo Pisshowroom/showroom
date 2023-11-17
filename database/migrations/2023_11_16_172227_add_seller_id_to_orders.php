@@ -6,13 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('seller_id')->nullable()->after('is_seller')->constrained('sellers');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreignId('seller_id')->nullable()->after('is_reviewed')->constrained('sellers');
         });
     }
 
@@ -21,8 +18,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            if (Schema::hasColumn('users', 'seller_id')) {
+        Schema::table('orders', function (Blueprint $table) {
+            if (Schema::hasColumn('orders', 'seller_id')) {
                 $table->dropForeign(['seller_id']);
                 $table->dropColumn('seller_id');
             }
