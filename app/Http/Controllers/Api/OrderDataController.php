@@ -16,9 +16,11 @@ class OrderDataController extends Controller
 
         $status = $request->input('status');
 
-        $orders = Order::where('user_id')->when($status, function ($query, $status) {
+        // $orders = Order::withCount('order_items')->when($status, function ($query, $status) {
+        $orders = Order::withCount('order_items')->where('user_id')->when($status, function ($query, $status) {
             return $query->where('status', $status);
-        })->paginate(20);
+        })
+        ->with('single_order_item_with_product.product.parent')->paginate(20);
 
         return OrderResource::collection($orders);
     }

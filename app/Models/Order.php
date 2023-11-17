@@ -37,6 +37,16 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function product()
+    {
+        return $this->orderItems()->first()->product()->load('parent');
+    }
+
+    public function single_order_item_with_product()
+    {
+        return $this->hasOne(OrderItem::class);
+    }
+
     public function master_account()
     {
         return $this->belongsTo(MasterAccount::class);
