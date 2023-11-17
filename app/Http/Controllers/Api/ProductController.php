@@ -44,6 +44,11 @@ class ProductController extends Controller
             $filtered = true;
         }
 
+        if ($request->filled('sub_category_id')) {
+            $query->where('sub_category_id', (int)$request->sub_category_id);
+            $filtered = true;
+        }
+
         // if request filled promo
         if ($request->filled('promo')) {
             $query->whereNotNull('discount');
