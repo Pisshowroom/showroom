@@ -19,7 +19,7 @@ class OrderDataController extends Controller
         $orders = Order::withCount('order_items')->where('user_id', $user->id)->when($status, function ($query, $status) {
             return $query->where('status', $status);
         })
-        ->with('single_order_item_with_product.product.parent')->paginate(20);
+        ->with(['single_order_item_with_product.product.parent', 'single_order_item_with_product.product.seller'])->paginate(20);
 
         return OrderResource::collection($orders);
     }
@@ -40,7 +40,7 @@ class OrderDataController extends Controller
         $orders = Order::withCount('order_items')->where('seller_id', $user->id)->when($status, function ($query, $status) {
             return $query->where('status', $status);
         })
-        ->with('single_order_item_with_product.product.parent')->paginate(20);
+        ->with(['single_order_item_with_product.product.parent', 'single_order_item_with_product.product.seller'])->paginate(20);
 
         return OrderResource::collection($orders);
     }
