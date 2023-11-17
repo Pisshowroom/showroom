@@ -88,6 +88,7 @@ Route::group(['prefix' => 'order'], function () {
 
     Route::middleware('auth:api-client')->group(function () {
         Route::get('/index', [OrderDataController::class, 'index']);
+        Route::get('/seller-list-order', [OrderDataController::class, 'sellerListOrder']);
         Route::get('/{order}', [OrderDataController::class, 'detail']);
     });
 
