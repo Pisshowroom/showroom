@@ -35,6 +35,9 @@ class OrderResource extends JsonResource
             'refund' => $this->refund,
             // 'master_account_id' => $this->master_account_id,
             // 'master_account' => new MasterAccountResource($this->whenLoaded('masterAccount')),
+            'user' => $this->whenLoaded('user', function () {
+                return new MasterAccountResource($this->user);
+            }),
             'master_account' => $this->whenLoaded('master_account', function () {
                 return new MasterAccountResource($this->master_account);
             }),

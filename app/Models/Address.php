@@ -11,6 +11,9 @@ class Address extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+    protected $casts = [
+        'main' => 'boolean'
+    ];
 
     public function user()
     {

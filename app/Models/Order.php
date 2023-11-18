@@ -60,6 +60,9 @@ class Order extends Model
     Completed
     */
 
+    // Pending, Paid, Sending, Cancel, Returning, Completed
+    // FIMGA SELLER : Dalam Pengiriman, Dikomplain
+
     /* Payment Status
     PaymentPending, PaymentPaid, PaymentCancelled, PaymentExpired
     */

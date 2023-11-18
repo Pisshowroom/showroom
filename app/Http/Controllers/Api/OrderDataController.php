@@ -31,7 +31,7 @@ class OrderDataController extends Controller
 
     public function detail(Order $order)
     {
-        $order->load(['master_account', 'order_items.product.parent', 'user']);
+        $order->load(['master_account', 'order_items.product.parent', 'user.address.ro_city']);
 
         return new OrderResource($order);
     }
@@ -53,7 +53,7 @@ class OrderDataController extends Controller
             ->when($request->filled('search'), function ($query) use ($request) {
                 $query->where('payment_identifier', 'like', "%$request->search%");
             })
-            ->with(['single_order_item_with_product.product.parent', 'single_order_item_with_product.product.seller'])->paginate(20);
+            ->with(['single_order_item_with_product.product.parent', 'single_order_item_with_product.product.seller', 'user.address.ro_city'])->paginate(20);
 
         return OrderResource::collection($orders);
     }
