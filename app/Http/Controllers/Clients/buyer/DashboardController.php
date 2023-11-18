@@ -213,4 +213,14 @@ class DashboardController extends Controller
         else
             return redirect()->route($page)->with('success', 'Berhasil membatalkan pesanan');
     }
+    public function deleteOrder(Request $request)
+    {
+        $identifier = $request->identifier;
+        $page = $request->page;
+        Order::where('payment_identifier', $identifier)->delete();
+        if ($page == 'dashboardSeller.dashboard' or $page == 'dashboardSeller.allTransaction')
+            return redirect()->route($page)->with('success', 'Berhasil menghapus transaksi');
+        else
+            return redirect()->route($page)->with('success', 'Berhasil menghapus pesanan');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients\buyer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MasterAccountResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Address;
 use App\Models\MasterAccount;
@@ -133,7 +134,6 @@ class OrderController extends Controller
 
         return ResponseAPI($data);
     }
-
     public function preCheck(Request $request)
     {
         // VirtualAccount::setters
@@ -230,6 +230,7 @@ class OrderController extends Controller
             'delivery_name' => 'required',
             'delivery_service' => 'required',
             'delivery_estimation_day' => 'required',
+            'master_account_id' => 'required',
         ]);
 
         $products = [];
@@ -238,6 +239,7 @@ class OrderController extends Controller
         $countedPromoProduct = 0;
         $countedAmountPromo = 0;
         $deliveryCost = (int)$request->delivery_cost;
+        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
 
 
         $orderItems = json_decode($request->order_items, true);
@@ -282,13 +284,13 @@ class OrderController extends Controller
         // $type = 'QRIS';
         // $type = 'VirtualAccount';
         $serviceFee = 0;
-        $type = 'Retail';
-        if ($type == 'VirtualAccount') {
+        // $type = 'Retail';
+        if ($masterAccount->type == 'Virtual-Account') {
             $serviceFee = 4500;
-        } elseif ($type == 'QRIS') {
+        } elseif ($masterAccount->type == 'E-Wallet') { // * A.k.a QRIS
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
-        } elseif ($type == 'Retail') {
+        } elseif ($masterAccount->type == 'Retail-Outlet') {
             $serviceFee = 5550;
         }
 
@@ -299,6 +301,7 @@ class OrderController extends Controller
 
         $data['delivery_cost'] = $deliveryCost;
         $data['payment_service_fee'] = $serviceFee;
+        $data['master_account'] = new MasterAccountResource($masterAccount);
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
@@ -325,6 +328,8 @@ class OrderController extends Controller
         ]);
 
         $user = auth()->guard('web')->user();
+        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
+
         DB::beginTransaction();
 
         $products = [];
@@ -348,6 +353,7 @@ class OrderController extends Controller
         $order->user_id = $user->id;
         $order->save();
         $weight = 0;
+        $sellerId = null;
 
         foreach ($orderItems as $order_item) {
             $product_id = isset($order_item['product_id']) ? $order_item['product_id'] : $order_item['id'];
@@ -363,6 +369,14 @@ class OrderController extends Controller
                 else
                     return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
+            if ($sellerId == null) {
+                $sellerId = $product->seller_id;
+            } else {
+                if ($sellerId != $product->seller_id) {
+                    return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
+                }
+            }
+
             $product->load('parent');
             $qty = isset($order_item['qty']) ? $order_item['qty'] : 1;
             if ($product->stock < $qty) {
@@ -392,7 +406,6 @@ class OrderController extends Controller
             $orderItem->subtotal = $product->price * $qty;
             $orderItem->item_total = $itemTotal;
             $orderItem->price = $product->price;
-            // $orderItem->note = isset($order_item['note']) ? $order_item['note'] : 'Tolong hati hati';
             $orderItem->weight = $thisItemWeight;
             // $orderItem->fee_seller = $product->fee_seller;
             // $orderItem->fee_buyer = $product->fee_buyer;
@@ -411,22 +424,21 @@ class OrderController extends Controller
         $data['subtotal'] = $total;
 
         $serviceFee = 0;
-        $type = 'Retail';
-        if ($type == 'VirtualAccount') {
+        if ($masterAccount->type == 'Virtual-Account') {
             $serviceFee = 4500;
-            $additionFee = $deliveryCost + $serviceFee;
-
-            $total += $additionFee;
-            $totalWithoutDiscount += $additionFee;
-        } elseif ($type == 'QRIS') {
+        } elseif ($masterAccount->type == 'E-Wallet') { // * A.k.a QRIS
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
-        } elseif ($type == 'Retail') {
+        } elseif ($masterAccount->type == 'Retail-Outlet') {
             $serviceFee = 5550;
         }
 
+        $additionFee = $deliveryCost + $serviceFee;
 
-        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
+        $total += $additionFee;
+        $totalWithoutDiscount += $additionFee;
+
+
 
         $channelType = lypsisConvertPaymentChannelType($masterAccount->type);
         $channelCode = $channelType == 'QR_CODE' ? "DYNAMIC" : $masterAccount->provider_name;

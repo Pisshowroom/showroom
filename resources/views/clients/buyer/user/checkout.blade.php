@@ -135,16 +135,6 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="packet">Pilih Kurir</label>
-                                        <select class="form-control font-sm select-style1 color-gray-700" id="packet"
-                                            disabled name="packet">
-                                            <option value="0">Pilih salah satu</option>
-                                        </select>
-                                        <p class="font-xs text-danger d-none">Pilih alamat terlebih dahulu</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
                                         <label class="form-label" for="master_account_id">Pilih Pembayaran</label>
                                         <select class="form-control font-sm select-style1 color-gray-700"
                                             id="master_account_id" name="master_account_id">
@@ -153,6 +143,17 @@
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="packet">Pilih Kurir</label>
+                                        <select class="form-control font-sm select-style1 color-gray-700" id="packet"
+                                            disabled name="packet">
+                                            <option value="0">Pilih salah satu</option>
+                                        </select>
+                                        <p class="font-xs text-danger d-none">Pilih alamat dan pembayaran terlebih dahulu
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -230,7 +231,7 @@
                                                 <div class="rating"><img
                                                         src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                         alt="Ecom"><span class="font-xs color-gray-500">
-                                                        (65)
+                                                            ${element.rating} (${element.reviews_count} ulasan)
                                                     </span></div>
                                                         <h6 class="color-brand-3 font-md-bold">${formatRupiah(element.price, 'Rp ')}</h6>
                                             </div>
@@ -274,22 +275,35 @@
 
             if ($('#address_id').find('option:selected')) {
                 if ($(this).val() != 0) {
-                    $('#packet').prop('disabled', false);
-                    $('p.text-danger').addClass('d-none').removeClass('d-block');
+                    if ($('#master_account_id').find('option:selected').val() != 0) {
+                        $('#packet').prop('disabled', false);
+                        $('p.text-danger').addClass('d-none').removeClass('d-block');
+                    } else {
+                        $('#packet').prop('disabled', true);
+                        $('p.text-danger').addClass('d-block').removeClass('d-none');
+                    }
                 } else if ($(this).val() == '') {
-                    $('#packet').prop('disabled', false);
-                    $('p.text-danger').addClass('d-none').removeClass('d-block');
+                    if ($('#master_account_id').find('option:selected').val() != 0) {
+                        $('#packet').prop('disabled', false);
+                        $('p.text-danger').addClass('d-none').removeClass('d-block');
+                    } else {
+                        $('#packet').prop('disabled', true);
+                        $('p.text-danger').addClass('d-block').removeClass('d-none');
+                    }
                 } else {
                     $('p.text-danger').addClass('d-block').removeClass('d-none');
                 }
             } else {
                 $('p.text-danger').addClass('d-block').removeClass('d-none');
             }
+
             $('#address_id').on('change', function() {
                 var selectedOption = $(this).find('option:selected');
                 if (selectedOption.val() != 0) {
-                    $('p.text-danger').addClass('d-none').removeClass('d-block');
-                    $('#packet').prop('disabled', false);
+                    if ($('#master_account_id').find('option:selected').val() != 0) {
+                        $('p.text-danger').addClass('d-none').removeClass('d-block');
+                        $('#packet').prop('disabled', false);
+                    }
                 } else {
                     $('p.text-danger').addClass('d-block').removeClass('d-none');
                     $('#packet').prop('disabled', true);
@@ -306,8 +320,26 @@
                     $('.arrow-next').prop('disabled', true);
                 }
             });
+
             $('#master_account_id').on('change', function() {
+                console.log($('#master_account_id').find('option:selected').val() != 0);
                 if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id').find(
+                        'option:selected')
+                    .val() !=
+                    0 && $('#packet').find('option:selected').val() == 0) {
+                    console.log('asa');
+                    $('p.text-danger').addClass('d-none').removeClass('d-block');
+                    $('#packet').prop('disabled', false);
+                } else if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id')
+                    .find(
+                        'option:selected')
+                    .val() ==
+                    0) {
+                    console.log('asa');
+                    $('p.text-danger').addClass('d-block').removeClass('d-none');
+                    $('#packet').prop('disabled', true);
+                } else if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id')
+                    .find(
                         'option:selected')
                     .val() !=
                     0 && $('#packet').find('option:selected').val() != 0) {
@@ -334,7 +366,8 @@
                             delivery_code: $(selectedOption).val(),
                             delivery_name: $(selectedOption).find('.name').val(),
                             delivery_service: $(selectedOption).find('.description').val(),
-                            delivery_estimation_day: $(selectedOption).find('.etd').val()
+                            delivery_estimation_day: $(selectedOption).find('.etd').val(),
+                            master_account_id: $('#master_account_id').find('option:selected').val(),
                         }
                         $.ajaxSetup({
                             headers: {
@@ -343,6 +376,7 @@
                                 ),
                             },
                         });
+                        $('.loading').removeClass('d-none').addClass('show-modal');
 
                         $.ajax({
                             url: "{{ route('buyer.precheckWithDelivery') }}",
@@ -355,6 +389,9 @@
                                 $('.fee').text(formatRupiah(data.payment_service_fee, 'Rp '));
                                 $('.total').text(formatRupiah(data.total, 'Rp '));
                                 console.log(data);
+                                $('.loading').removeClass('show-modal')
+                                    .addClass('d-none');
+
                             },
                             error: function(error) {
                                 if (error && error.responseJSON && error.responseJSON.message) {
@@ -366,6 +403,9 @@
                                 }
                                 console.log('error');
                                 console.log(error);
+                                $('.loading').removeClass('show-modal')
+                                    .addClass('d-none');
+
                             },
                         });
                     } else {
@@ -411,6 +451,7 @@
                             ),
                         },
                     });
+                    $('.loading').removeClass('d-none').addClass('show-modal');
 
                     $.ajax({
                         url: "{{ route('buyer.preCheckout') }}",
@@ -420,7 +461,6 @@
                         success: function(data) {
                             $('#myDivHandleSuccess').text('Berhasil memesan produk.');
                             $('#myDivHandleSuccess').css('display', 'block');
-                            console.log(data);
                             setTimeout(function() {
                                 $('#myDivHandleSuccess').fadeOut('fast');
                                 localStorage.removeItem('checkout');
@@ -434,6 +474,9 @@
                                     }
                                 }
                             }, 2000);
+                            $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                         },
                         error: function(error) {
                             if (error && error.responseJSON && error.responseJSON.message) {
@@ -443,6 +486,9 @@
                                     $('#myDivHandleError').fadeOut('fast');
                                 }, 2000);
                             }
+                            $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                             console.log('error');
                             console.log(error);
                         },
