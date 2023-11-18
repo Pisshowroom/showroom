@@ -66,6 +66,10 @@
                                 <p class="textSecondary mb-1 fw-600 textCopy" role=button>Salin</p>
                             </div>
                         @elseif (isset($order->master_account) && $order->master_account?->type == 'E-Wallet')
+                        @elseif (isset($order->master_account) && $order->master_account?->type == 'PI')
+                                <button id="piButton" class="btn btn-md">
+                                    Proceed to PI Network
+                                </button>
                         @endif
                         @if (isset($order->qr_string))
                             <div class="py-4 text-center">
@@ -91,6 +95,46 @@
                 $("#mydiv2").fadeOut("fast")
             }), 2000);
         })
+
+        $("#piButton").click(function (e) { 
+            e.preventDefault();
+            const paymentData = { amount: {{ $order->total }}, memo: {{ $order->payment_identifier }}, metadata: paymentMetadata };
+            const callbacks = {
+                onReadyForServerApproval,
+                onReadyForServerCompletion,
+                onCancel,
+                onError
+            };
+            const payment = await window.Pi.createPayment(paymentData, callbacks);
+        });
+
+        function onIncompletePaymentFound(payment){
+            console.log("onIncompletePaymentFound", payment);
+            return axiosClient.post('/payments/incomplete', {payment});
+        }
+
+        function onReadyForServerApproval(paymentId){
+            console.log("onReadyForServerApproval", paymentId);
+            axiosClient.post('/payments/approve', {paymentId}, config);
+        }
+
+        function onReadyForServerCompletion(paymentId, txid){
+            console.log("onReadyForServerCompletion", paymentId, txid);
+            axiosClient.post('/payments/complete', {paymentId, txid}, config);
+        }
+
+        function onCancel(paymentId){
+            console.log("onCancel", paymentId);
+            return axiosClient.post('/payments/cancelled_payment', {paymentId});
+        }
+
+        function onError(error, payment){
+            console.log("onError", error);
+            if (payment) {
+                console.log(payment);
+                alert(payment)
+            }
+        }
 
         function copyToClipboard(a) {
             var e = $("<input>");

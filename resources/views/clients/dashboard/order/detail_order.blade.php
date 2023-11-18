@@ -124,7 +124,7 @@
                             @foreach ($order->order_items as $key => $oi)
                                 <tr>
                                     <td width="40%"> <a class="itemside"
-                                            href="{{ route('buyer.detailProduct', ['slug' => $oi->product?->slug ?? '1234']) }}">
+                                            href="{{ route('buyer.detailProduct', ['slug' => $oi->product?->slug ?? '1234']) }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">
                                             <div class="left">
                                                 <img class="img-xs"
                                                     src="{{ $oi?->product?->images && count($oi?->product?->images) > 0 ? $product->images[0] : asset('ecom_dashboard/imgs/items/1.jpg') }}"

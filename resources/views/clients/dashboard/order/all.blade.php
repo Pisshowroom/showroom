@@ -76,14 +76,14 @@
                                         <td class="align-middle">{{ $order->date . ' WIB' }}</td>
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
-                                                href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
+                                                href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                             @if ($order->status == 'Pending' && $order->expired == false)
                                                 <a class="btn btn-xs-success"
-                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}">Cara
+                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Cara
                                                     Bayar</a>
                                             @elseif ($order->status == 'Pending' && $order->expired == true)
                                                 <a class="btn btn-xs-danger"
-                                                    href="{{ route('deleteOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.myOrder']) }}">Hapus</a>
+                                                    href="{{ route('deleteOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.myOrder']) }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Hapus</a>
                                                 {{-- <a class="btn btn-xs-danger"
                                                     href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                             @endif

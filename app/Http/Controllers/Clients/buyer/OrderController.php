@@ -142,8 +142,10 @@ class OrderController extends Controller
             'address_id' => 'required',
         ]);
 
-        $addressBuyer = Address::findOrFail($request->address_id);
-        $seller = \App\Models\User::find($request->seller_id);
+        $addressBuyer = Address::findOrFail(4);
+        $seller = \App\Models\User::find(4);
+        // $addressBuyer = Address::findOrFail($request->address_id);
+        // $seller = \App\Models\User::find($request->seller_id);
         // dd($seller);
         $sellerAddress = Address::where('user_id', $seller->id)->where('main', true)->firstOrFail();
 
@@ -197,11 +199,11 @@ class OrderController extends Controller
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
         $data['weight'] = $weight;
-        Log::info('checkShippingPrice called with parameters:', [
-            'origin_id' => $addressBuyer->ro_subdistrict_id,
-            'destination_id' => $sellerAddress->ro_city_id,
-            'weight' => $weight,
-        ]);
+        // Log::info('checkShippingPrice called with parameters:', [
+        //     'origin_id' => $addressBuyer->ro_subdistrict_id,
+        //     'destination_id' => $sellerAddress->ro_city_id,
+        //     'weight' => $weight,
+        // ]);
 
         // $weight = -2;
         // $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
@@ -444,7 +446,7 @@ class OrderController extends Controller
         $channelCode = $channelType == 'QR_CODE' ? "DYNAMIC" : $masterAccount->provider_name;
 
         $dataPaymentCreated = $this->createPaymentRequest($channelType, $channelCode, $total, $identifier, $paymentDue, $user);
-        Log::info("created payReq - $identifier :", $dataPaymentCreated);
+        // Log::info("created payReq - $identifier :", $dataPaymentCreated);
 
         // dd($dataPaymentCreated);
         // return ResponseAPI($dataPaymentCreated);
@@ -482,6 +484,15 @@ class OrderController extends Controller
             $order->qr_string = $dataPaymentCreated['qr_string'];
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $order->outlet_payment_code = $dataPaymentCreated['payment_code'];
+        } else if ($channelType == 'PI') {
+            $order->pi_delivery_cost = convertRupiahToPi($order->delivery_cost);
+            $order->pi_service_fee = convertRupiahToPi($order->service_fee);
+            if ($countedAmountPromo > 0) {
+                $order->pi_total = convertRupiahToPi($order->total);
+                $order->pi_total_final = convertRupiahToPi($order->total_final);
+            } else {
+                $order->pi_total = convertRupiahToPi($order->total);
+            }
         }
 
         $order->save();
@@ -579,6 +590,7 @@ class OrderController extends Controller
     public function createPaymentRequest($channelType, $channelCode, $amount, $paymentIdentifier, $paymentDue, User $user)
     {
         if ($channelType == 'PI') {
+            return [];
         }
 
         Xendit::setApiKey(env('XENDIT_KEY'));

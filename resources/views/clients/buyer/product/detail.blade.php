@@ -7,11 +7,11 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allGridProduct') }}">Semua Produk</a>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allGridProduct') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua Produk</a>
                         </li>
                         <li><a class="font-xs color-gray-500"
-                                href="{{ route('buyer.detailProduct', ['slug' => $product->slug]) }}">Detail Produk</a>
+                                href="{{ route('buyer.detailProduct', ['slug' => $product->slug]) }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Detail Produk</a>
                         </li>
                     </ul>
                 </div>
@@ -115,7 +115,7 @@
                             <div class="col-lg-4 col-md-4 col-sm-3 mb-mobile">
                                 @if ($product?->seller && $product?->seller?->seller_slug)
                                     <a class="byAUthor color-gray-900 font-xs font-medium"
-                                        href="{{ route('buyer.detailSeller', ['slug' => $product?->seller?->seller_slug]) }}">
+                                        href="{{ route('buyer.detailSeller', ['slug' => $product?->seller?->seller_slug]) }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">
                                         {{ $product->seller ? $product->seller->seller_name ?? '-' : '-' }}</a>
                                 @else
                                     <p class="byAUthor color-gray-900 font-xs font-medium">-</p>
@@ -130,7 +130,7 @@
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-9 text-start text-sm-end">
                                 <a class="mr-20"
-                                    href="{{ Auth::guard('web')->user() ? route('buyer.wishlist') : route('buyer.login') }}"><span
+                                    href="{{ Auth::guard('web')->user() ? route('buyer.wishlist').'?auth='. base64_encode(Auth::user()->uid) : route('buyer.login') }}"><span
                                         class="btn btn-wishlist mr-5 opacity-100 transform-none"></span><span
                                         class="font-md color-gray-900">Tambahkan ke Wishlist</span></a>
                             </div>
@@ -488,7 +488,7 @@
                                 <div class="comments-area">
                                     <div class="row">
                                         <div class="col-lg-8">
-                                            <form class="form-comment" action="{{ route('buyer.addReview') }}"
+                                            <form class="form-comment" action="{{ route('buyer.addReview') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"
                                                 method="POST">
                                                 @csrf
                                                 <div class="row">
@@ -776,7 +776,7 @@
                         });
                         $.ajax({
                             type: "post",
-                            url: "{{ route('buyer.preCheckEarly') }}",
+                            url: "{{ route('buyer.preCheckEarly') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
                             data: {
                                 order_items: JSON.stringify(productData)
                             },
@@ -791,7 +791,7 @@
                                 if (response) {
                                     $.ajax({
                                         type: "post",
-                                        url: "{{ route('buyer.preCheck') }}",
+                                        url: "{{ route('buyer.preCheck') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
                                         data: {
                                             order_items: JSON.stringify(productData),
                                             seller_id: "{{ $product->seller_id ?? '' }}",
@@ -849,7 +849,7 @@
                                                             .stringify(response)
                                                         );
                                                         window.location.replace(
-                                                            "{{ route('buyer.checkout') }}"
+                                                            "{{ route('buyer.checkout') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"
                                                         );
                                                     } else {
                                                         $('#myDivHandleError').text(

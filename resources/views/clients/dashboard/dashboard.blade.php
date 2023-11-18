@@ -117,7 +117,7 @@
                                             <td class="align-middle">{{ $order->date . ' WIB' }}</td>
                                             <td class="align-middle">
                                                 <a class="btn btn-xs"
-                                                    href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
+                                                    href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                                 {{-- <a class="btn btn-xs-danger"
                                                     href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                             </td>
