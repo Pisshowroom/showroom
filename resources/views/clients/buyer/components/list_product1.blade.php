@@ -31,8 +31,20 @@
                     ({{ $prd->total_sell ? moneyFormat($prd->total_sell) ?? 0 : 0 }}
                     Terjual)</span>
             </div>
-            <div class="price-info mt-1"><strong class="font-md-bold color-brand-3 price-main">
-                    {{ $prd->price > 0 ? numbFormat($prd->price) : 'Rp 0' }}</strong>
+            <div class="price-info mt-1">
+                @if (isset($prd->price_discount) && $prd->price_discount > 0)
+                    <strong class="font-md-bold color-brand-3 price-main">
+                        {{ $prd->price_discount > 0 ? numbFormat($prd->price_discount) : 'Rp 0' }}</strong>
+                @else
+                    <strong class="font-md-bold color-brand-3 price-main">
+                        {{ $prd->price > 0 ? numbFormat($prd->price) : 'Rp 0' }}</strong>
+                @endif
+                @if (isset($prd->price_discount) && $prd->price_discount > 0)
+                    <span class="color-gray-500 font-sm price-line">
+                        {{ $prd->price > 0 ? numbFormat($prd->price) : 'Rp 0' }}
+                    </span>
+                @endif
+
             </div>
             <div class="price-info mt-0 d-flex flex-row gap-1 align-items-center">
                 {!! file_get_contents('ecom/imgs/page/product/icon-location.svg') !!}

@@ -233,7 +233,8 @@
                                                         alt="Ecom"><span class="font-xs color-gray-500">
                                                             ${element.rating} (${element.reviews_count} ulasan)
                                                     </span></div>
-                                                        <h6 class="color-brand-3 font-md-bold">${formatRupiah(element.price, 'Rp ')}</h6>
+                                                        <h6 class="color-brand-3 font-md-bold">${element.price_discount&&element.price_discount>0?formatRupiah(element.price_discount, 'Rp '):formatRupiah(element.price, 'Rp ')}</h6>
+                                                        <p class="color-brand-3 font-sm" style="text-decoration: line-through;">${element.price_discount&&element.price_discount>0?formatRupiah(element.price, 'Rp '):''}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -137,10 +137,18 @@
                         </div>
                         <div class="border-bottom pt-10 mb-20"></div>
                         <div class="box-product-price">
-                            <h3 class="color-brand-3 price-main d-inline-block mr-10">
-                                {{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}</h3>
-                            {{-- <span
-                                class="color-gray-500 price-line font-xl line-througt">$3225.6</span> --}}
+                            @if (isset($product->price_discount) && $product->price_discount > 0)
+                                <h3 class="color-brand-3 price-main d-inline-block mr-10">
+                                    {{ $product->price_discount > 0 ? numbFormat($product->price_discount) : 'Rp 0' }}</h3>
+                            @else
+                                <h3 class="color-brand-3 price-main d-inline-block mr-10">
+                                    {{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}</h3>
+                            @endif
+                            @if (isset($product->price_discount) && $product->price_discount > 0)
+                                <span class="color-gray-500 price-line font-xl line-througt">
+                                    {{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}
+                                </span>
+                            @endif
                         </div>
                         {{-- <div class="product-description mt-20 color-gray-900">
                             <div class="row">
@@ -354,6 +362,13 @@
                                             <td>Harga</td>
                                             <td>
                                                 <p>{{ $product->price > 0 ? numbFormat($product->price) : 'Rp 0' }}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Harga setelah diskon</td>
+                                            <td>
+                                                <p>{{ $product->price_discount > 0 ? numbFormat($product->price_discount) : '-' }}
+                                                </p>
                                             </td>
                                         </tr>
                                         <tr>

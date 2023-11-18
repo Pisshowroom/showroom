@@ -146,8 +146,8 @@ class DashboardController extends Controller
             // 'city' => 'nullable',
             // 'address_text' => 'nullable',
             // 'address_description' => 'nullable',
-            // 'lat' => 'required',
-            // 'long' => 'required',
+            'lat' => 'required',
+            'long' => 'required',
         ]);
         if ($request->id)
             $address = Address::findOrFail($request->id);
@@ -172,14 +172,13 @@ class DashboardController extends Controller
             $address->phone_number = $request->phone_number;
         if ($request->filled('address_description'))
             $address->address_description = $request->address_description;
-        $address->lat = 12.34;
-        $address->long = 12.34;
+        $address->lat = $request->lat;
+        $address->long = $request->long;
         if ($user->addresses->count() < 1) {
             $address->main = 1;
-        }
-        if (isset($request->main) && $request->main == 'on') {
+        } else if (isset($request->main) && $request->main == 'on') {
             $user->addresses()->where('main', true)->update(['main' => false]);
-            $address->main = 1;
+            $address->main = true;
         }
         // $address->ro_province_id = 6;
         // $address->ro_city_id = 16;
