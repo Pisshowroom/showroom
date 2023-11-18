@@ -19,18 +19,19 @@ class AutoLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-
         // Cek apakah session 'your_custom_session' ada di browser
-        if ($request->session()->has('api_token')) {
+        if ($request->filled('auth')) {
             // Ambil data pengguna dari session (sesuaikan dengan implementasi Anda)
-            $userData = User::where('api_token', $request->session()->get('api_token'))->first();
+            $userData = User::where('uid', base64_decode($request->auth))->first();
 
             // Login pengguna
-            Auth::loginUsingId($userData['user_id']);
+            Auth::loginUsingId($userData->id);
 
             // Lanjutkan ke tujuan awal
             return $next($request);
         }
+
+
         return $next($request);
     }
 }
