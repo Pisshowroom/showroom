@@ -10,7 +10,7 @@
             <div>
                 <h2 class="content-title">Detail Pembayaran</h2>
             </div>
-            <div> <a href="{{ route('dashboard.myOrder') }}" class="btn btn-xs">
+            <div> <a href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}" class="btn btn-xs">
                     Kembali ke Pesanan
                 </a>
             </div>

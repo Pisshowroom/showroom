@@ -7,8 +7,8 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allListProduct') }}">Semua Produk</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Produk</a></li>
                     </ul>
                 </div>
             </div>
@@ -44,8 +44,8 @@
                                     </div>
 
                                     <div class="d-inline-block">
-                                        <a class="view-type-grid mr-5 " href="{{ route('buyer.allGridProduct') }}"></a><a
-                                            class="view-type-list active" href="{{ route('buyer.allListProduct') }}"></a>
+                                        <a class="view-type-grid mr-5 " href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a><a
+                                            class="view-type-list active" href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@
                     </div>
                     <div class="modal-footer justify-content-start pl-30"><button class="btn btn-buy w-auto"
                             id="setFilter">Terapkan Filter</button><a class="btn font-sm-bold color-gray-500"
-                            href="{{ route('buyer.allListProduct') }}">Setel Ulang Filter</a></div>
+                            href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Setel Ulang Filter</a></div>
                 </div>
             </div>
         </div>
@@ -206,7 +206,7 @@
                     url += (selectedCategoryId !== undefined || selectedOrderBy !== undefined ? '&' : '?') +
                         'search=' + searchQuery;
                 }
-                window.location = url;
+                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
             }
 
             $('#searchProduct, #navKategori').on('change', function() {
@@ -262,7 +262,7 @@
                         rating + '&price=' + price +
                         '&search=' + searchQuery;
                 }
-                window.location = url;
+                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
             }
         });
     </script>

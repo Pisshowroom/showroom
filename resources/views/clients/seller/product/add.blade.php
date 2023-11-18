@@ -3,7 +3,7 @@
 @section('product', 'active')
 @section('dashboard')
     <section class="content-main">
-        <form class="row" action="{{ route('dashboardSeller.addUpdateProduct') }}" method="POST"
+        <form class="row" action="{{ route('dashboardSeller.addUpdateProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}" method="POST"
             enctype="multipart/form-data">
             @csrf
             @if ($product != null && $product->id)
