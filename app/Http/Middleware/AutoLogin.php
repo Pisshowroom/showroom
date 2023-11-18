@@ -25,7 +25,7 @@ class AutoLogin
             $userData = User::where('uid', base64_decode($request->auth))->first();
 
             // Login pengguna
-            Auth::loginUsingId($userData->id);
+            Auth::guard('web')->loginUsingId($userData->id);
 
             // Lanjutkan ke tujuan awal
             return $next($request);

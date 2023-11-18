@@ -8,8 +8,13 @@
         <div class="image-box">
             @if ($prd->discount && $prd->discount > 0)
                 <span class="label bg-brand-2">{{ $prd->discount }}%</span>
-            @endif
-            <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
+            @endif,
+            @auth
+                <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+            @endauth
+            @guest
+                <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
+            @endguest
                 <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}" alt="produk {{ $prd->name ?? '' }}"></a>
         </div>
         <div class="info-right">
@@ -93,6 +98,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
                 $.ajax({
                     type: "post",
                     url: "{{ route('buyer.preCheckEarly') }}",

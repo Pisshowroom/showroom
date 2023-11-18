@@ -12,10 +12,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-
-        if (preg_match('/PiBrowser/', $request->header('user_agent'), $matches)) {
-        }
-
         return $request->expectsJson() ? null : route('buyer.home');
     }
 }

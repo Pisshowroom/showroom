@@ -91,7 +91,7 @@ class ProductController extends Controller
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
-    public function detailProduct($slug)
+    public function detailProduct(Request $request, $slug)
     {
         $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])
             ->withAvg('reviews', 'rating')

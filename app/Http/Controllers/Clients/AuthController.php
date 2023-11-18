@@ -96,9 +96,9 @@ class AuthController extends Controller
         Auth::login($user, true);
 
         if ($user) {
-            if (preg_match('/PiBrowser/', $request->header('user_agent'), $matches)) {
-                return redirect()->route('buyer.home', ['auth' => base64_encode($user->uid)]);
-            }
+            // if (preg_match('/PiBrowser/', $request->header('user_agent'), $matches)) {
+            return redirect()->route('buyer.home', ['auth' => base64_encode($user->uid)]);
+            // }
             return redirect()->route('buyer.home');
         }
     }
