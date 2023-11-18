@@ -7,10 +7,10 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allGridProduct') }}">Produk</a>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Produk</a>
                         </li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.wishlist') }}">Wishlist</a></li>
+                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Wishlist</a></li>
                     </ul>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                             <div class="wishlist-product">
                                 <div class="product-wishlist">
                                     <div class="product-image"><a
-                                            href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}"><img
+                                            href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-sub.png') }}" alt="Ecom"></a>
                                     </div>
                                     <div class="product-info"><a href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">
@@ -54,7 +54,7 @@
                             <div class="wishlist-status"><span
                                     class="btn btn-gray font-md-bold color-brand-3">Persediaan</span></div>
                             <div class="wishlist-action"><a class="btn btn-cart font-sm-bold"
-                                    href="{{ route('buyer.cart') }}">Keranjang</a></div>
+                                    href="{{ route('buyer.cart') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Keranjang</a></div>
                             <div class="wishlist-remove"><a class="btn btn-delete" href="#"></a></div>
                         </div>
                     </div>

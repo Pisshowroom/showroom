@@ -7,10 +7,10 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allSeller') }}">Semua Penjual</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Penjual</a></li>
                         <li><a class="font-xs color-gray-500"
-                                href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">Detail
+                                href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail
                                 Penjual</a>
                         </li>
                     </ul>
@@ -27,7 +27,7 @@
                                 <div class="avarta"><img class="mb-5 object-fit-cover" width="100px" height="50px"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? asset(Auth::guard('web')->user()->seller_image) ?? asset('ecom/imgs/page/vendor/fasfox.png') : asset('ecom/imgs/page/vendor/fasfox.png') }}"
                                         alt="Ecom"><a class="btn btn-buy font-xs"
-                                        href="{{ route('buyer.allGridProduct') }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
+                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
                                         Produk</a></div>
                                 <div class="info-vendor">
                                     <h4 class="mb-5">{{ Auth::guard('web')->user()->seller_name ?? '' }}</h4><span
@@ -247,7 +247,7 @@
                     </div>
                     <div class="modal-footer justify-content-start pl-30"><button class="btn btn-buy w-auto"
                             id="setFilter">Terapkan Filter</button><a class="btn font-sm-bold color-gray-500"
-                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">Setel Ulang
+                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Setel Ulang
                             Filter</a></div>
                 </div>
             </div>
@@ -270,7 +270,7 @@
                     url += '?category_id=' + '&orderBy=' + selectedOrderBy;
                 }
 
-                window.location = url;
+                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
             }
 
             $('.dropdown-menu li button').on('click', function(e) {
@@ -314,7 +314,7 @@
                     url += '?category_id=&orderBy=' + orderBy + '&rating=' +
                         rating + '&price=' + price;
                 }
-                window.location = url;
+                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
             }
         });
     </script>

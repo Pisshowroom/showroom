@@ -59,7 +59,7 @@
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade {{ !request()->get('param') || request()->get('param') != 'alamat' ? 'show active' : '' }}"
                                     id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
-                                    <form method="POST" action="{{ route('dashboard.updateProfile') }}"
+                                    <form method="POST" action="{{ route('dashboard.updateProfile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
@@ -139,7 +139,7 @@
                                                             </p>
                                                         </div>
                                                         <a class="btn btn-xs"
-                                                            href="{{ route('dashboard.changeAddress', ['id' => $address->id]) }}">Ubah</a>
+                                                            href="{{ route('dashboard.changeAddress', ['id' => $address->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Ubah</a>
                                                     </div>
                                                     <hr>
                                                 @endif
@@ -154,7 +154,7 @@
                                 <div class="tab-pane fade" id="pills-add-address" role="tabpanel"
                                     aria-labelledby="pills-add-address-tab">
                                     <form method="POST" id="updateAddress"
-                                        action="{{ route('dashboard.updateAddress') }}">
+                                        action="{{ route('dashboard.updateAddress') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                         @csrf
                                         <div class="row">
                                             <div class="col-12">
@@ -434,7 +434,7 @@
             var id = this.value;
             $.ajax({
                 type: "GET",
-                url: "{{ route('getCity') }}" + '/' + id,
+                url: "{{ route('getCity') }}" + '/' + id + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                 dataType: "json",
                 success: function(data) {
                     var html = '';
@@ -461,7 +461,7 @@
             var id = this.value;
             $.ajax({
                 type: "GET",
-                url: "{{ route('getDistrict') }}" + '/' + id,
+                url: "{{ route('getDistrict') }}" + '/' + id + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                 dataType: "json",
                 success: function(data) {
                     var html = '';

@@ -7,8 +7,8 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allSeller') }}">Semua Penjual</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Penjual</a></li>
                     </ul>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                     </div>
                     @if (Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller == 0)
                         <div class="col-lg-6 mb-30 text-end"><a class="btn btn-buy w-auto font-sm-bold"
-                                href="{{ route('dashboard.settings') }}">Menjadi Penjual</a></div>
+                                href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Menjadi Penjual</a></div>
                     @endif
                 </div>
                 <div class="border-bottom pt-0 mb-30"></div>
@@ -49,10 +49,10 @@
                                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort"
                                                 style="margin: 0px;">
                                                 <li><a class="dropdown-item {{ !request()->get('rating') || (request()->get('rating') && request()->get('rating') == 'desc') ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allSeller', ['rating' => 'desc']) }}">Rating
+                                                        href="{{ route('buyer.allSeller', ['rating' => 'desc']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Rating
                                                         Tertinggi</a></li>
                                                 <li><a class="dropdown-item {{ request()->get('rating') && request()->get('rating') == 'asc' ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allSeller', ['rating' => 'asc']) }}">Rating
+                                                        href="{{ route('buyer.allSeller', ['rating' => 'asc']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Rating
                                                         Terendah</a></li>
                                             </ul>
                                         </div>
