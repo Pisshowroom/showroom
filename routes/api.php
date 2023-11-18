@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/pi/signin', [ClientsAuthController::class, 'piLogin']);
+Route::post('/login', [ClientsAuthController::class, 'login']);
 
 
 Route::get("home", [HomeController::class, 'home']);
@@ -61,7 +62,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('update/{subCategory}', [SubCategoryController::class, 'update']);
         Route::delete('/{subCategory}', [SubCategoryController::class, 'destroy']);
     });
-    
 });
 
 
@@ -113,7 +113,6 @@ Route::group(['prefix' => 'order'], function () {
         Route::get('/seller-list-order', [OrderDataController::class, 'sellerListOrder']);
         Route::get('/{order}', [OrderDataController::class, 'detail']);
     });
-
 });
 
 Route::prefix('regionals')->group(function () {
@@ -125,7 +124,7 @@ Route::prefix('regionals')->group(function () {
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login-firebase', [AuthController::class, 'loginFirebase']);
     Route::get('/get-a-seller/{sellerId}', [UserController::class, 'getASeller']);
-    
+
     Route::middleware('auth:api-client')->group(function () {
         Route::get('/profile', [UserController::class, 'profile']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
