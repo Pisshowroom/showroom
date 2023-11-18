@@ -113,7 +113,7 @@
                                 <div class="tab-pane fade {{ request()->get('param') == 'alamat' ? 'show active' : '' }}"
                                     id="pills-address" role="tabpanel" aria-labelledby="pills-address-tab">
                                     <div class="new-member-list">
-                                        @if ($data['addresses'])
+                                        @if ($data['addresses'] && count($data['addresses']) > 0)
                                             @foreach ($data['addresses'] as $address)
                                                 @if ($address->id)
                                                     <div

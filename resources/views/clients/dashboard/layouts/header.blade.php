@@ -17,9 +17,12 @@
         <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i
                 class="material-icons md-apps"></i></button>
         <ul class="nav">
-            <li class="nav-item"><a class="nav-link btn-icon" href="#"><i
-                        class="material-icons md-notifications animation-shake"></i><span
-                        class="badge rounded-pill">3</span></a></li>
+            <li class="nav-item">
+                <a class="nav-link btn-icon" href="#">
+                    <i class="material-icons md-notifications animation-shake"></i>
+                    {{-- <span class="badge rounded-pill">3</span> --}}
+                </a>
+            </li>
             <li class="nav-item"><a class="nav-link btn-icon darkmode" href="#"><i
                         class="material-icons md-nights_stay"></i></a></li>
             {{-- <li class="nav-item"><a class="requestfullscreen nav-link btn-icon" href="#"><i
