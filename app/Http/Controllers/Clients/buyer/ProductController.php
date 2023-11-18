@@ -93,7 +93,9 @@ class ProductController extends Controller
     }
     public function detailProduct($slug)
     {
-        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])->withAvg('reviews', 'rating')
+        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
                     $query->where('status', 'done');

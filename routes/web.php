@@ -150,6 +150,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/hapus-alamat/{id}', [DashboardController::class, 'deleteAddress'])->name('dashboard.deleteAddress');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
+    Route::get('/delete-order', [DashboardController::class, 'deleteOrder'])->name('deleteOrder');
     Route::group(['prefix' => 'pembeli'], function () {
         // Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
         Route::get('/pembayaran/{identifier}', [BuyerOrderController::class, 'payment'])->name('dashboard.payment');

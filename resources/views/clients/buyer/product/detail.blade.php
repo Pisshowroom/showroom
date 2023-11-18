@@ -124,8 +124,8 @@
                                         alt="rating {{ $product->name ?? '' }}">
                                     <span class="font-xs color-gray-500 font-medium">
                                         {{ $product->reviews_avg_rating ? doubleval($product->reviews_avg_rating) : 0 }}
-                                        ({{ $product->total_sell ? moneyFormat($product->total_sell) ?? 0 : 0 }}
-                                        Terjual)</span>
+                                        ({{ $product->reviews_count ? moneyFormat($product->reviews_count) ?? 0 : 0 }}
+                                        ulasan)</span>
                                 </div>
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-9 text-start text-sm-end">
@@ -661,11 +661,19 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
         $(document).ready(function() {
+            var inputValue2 = $('.input-quantity input').val();
+            var numericValue2 = parseInt(inputValue2);
+            if (numericValue2 < 1 || isNaN(numericValue2)) {
+                $('.btn-cart-detail').prop('disabled', true);
+                $('.btn-buy-detail').prop('disabled', true);
+            } else {
+                $('.btn-cart-detail').prop('disabled', false);
+                $('.btn-buy-detail').prop('disabled', false);
+            }
             $('.input-quantity input').on('input', function() {
                 var inputValue = $(this).val();
                 var numericValue = parseInt(inputValue);
-
-                if (numericValue < 1 || isNaN(numericValue)) {
+                if (numericValue < 1 || isNaN(numericValue) || inputValue == '') {
                     $('.btn-cart-detail').prop('disabled', true);
                     $('.btn-buy-detail').prop('disabled', true);
                 } else {
@@ -685,18 +693,22 @@
                 e.preventDefault();
                 var cart = localStorage.getItem('cart');
 
-                var productData = {
-                    product_id: "{{ $product->id ?? '' }}",
-                    seller_id: "{{ $product->seller_id ?? '' }}",
-                    name: "{{ $product->name ?? '' }}",
-                    image: "{{ $product->images[0] ?? null }}",
-                    note: "Tolong ini hati-hati bawanya ",
-                    qty: $('#quantity').val(),
-                    stock: "{{ $product->stock ?? '' }}",
-                    price: "{{ $product->price ?? '' }}",
-                    reviews_avg_rating: "{{ $product->reviews_avg_rating ?? '0' }}",
-                    total_sell: "{{ $product->total_sell ?? '0' }}",
-                };
+                var productData = @json($product);
+                productData.product_id = productData.id;
+                productData.note = "Tolong ini hati-hati bawanya ";
+                productData.qty = $('#quantity').val();
+                // {
+                //     product_id: "{{ $product->id ?? '' }}",
+                //     seller_id: "{{ $product->seller_id ?? '' }}",
+                //     name: "{{ $product->name ?? '' }}",
+                //     image: "{{ $product->images[0] ?? null }}",
+                //     note: "Tolong ini hati-hati bawanya ",
+                //     qty: $('#quantity').val(),
+                //     stock: "{{ $product->stock ?? '' }}",
+                //     price: "{{ $product->price ?? '' }}",
+                //     reviews_avg_rating: "{{ $product->reviews_avg_rating ?? '0' }}",
+                //     total_sell: "{{ $product->total_sell ?? '0' }}",
+                // };
 
                 if (cart) {
                     var existingCart = JSON.parse(cart);
@@ -713,11 +725,22 @@
                         existingCart[existingProductIndex].qty = parseInt(existingCart[existingProductIndex]
                             .qty) + parseInt(productData.qty);
                     } else {
+                        $('#myDivHandleSuccess').text('berhasil menambahkan barang kedalam keranjang');
+                        $('#myDivHandleSuccess').css('display', 'block');
+                        setTimeout(function() {
+                            $('#myDivHandleSuccess').fadeOut('fast');
+                        }, 2000);
                         existingCart.push(productData);
                     }
 
                     localStorage.setItem('cart', JSON.stringify(existingCart));
                 } else {
+                    $('#myDivHandleSuccess').text('berhasil menambahkan barang kedalam keranjang');
+                    $('#myDivHandleSuccess').css('display', 'block');
+                    setTimeout(function() {
+                        $('#myDivHandleSuccess').fadeOut('fast');
+                    }, 2000);
+
                     localStorage.setItem('cart', JSON.stringify([productData]));
                 }
             });
@@ -725,6 +748,7 @@
                 e.preventDefault();
                 if ("{{ $product->stock > 0 }}") {
                     if ("{{ $product->stock }}" >= $('#quantity').val()) {
+                        $('.loading').removeClass('d-none').addClass('show-modal');
                         var productData = [{
                             product_id: "{{ $product->id ?? '' }}",
                             note: "Tolong ini hati-hati bawanya ",
@@ -750,12 +774,132 @@
                             },
                             success: function(response) {
                                 if (response) {
-                                    localStorage.setItem('checkout', JSON.stringify(response));
-                                    window.location.replace("{{ route('buyer.checkout') }}");
+                                    $.ajax({
+                                        type: "post",
+                                        url: "{{ route('buyer.preCheck') }}",
+                                        data: {
+                                            order_items: JSON.stringify(productData),
+                                            seller_id: "{{ $product->seller_id ?? '' }}",
+                                            address_id: "{{ $data['addresses']->id ?? '' }}",
+                                        },
+                                        xhr: function() {
+                                            // get the native XmlHttpRequest object
+                                            var xhr = $.ajaxSettings.xhr()
+                                            // set the onprogress event handler
+                                            xhr.upload.onprogress = function(evt) {}
+                                            return xhr
+                                        },
+                                        success: function(response) {
+                                            if (response) {
+                                                if (response
+                                                    .delivery_services_info &&
+                                                    response
+                                                    .delivery_services_info
+                                                    .results && response
+                                                    .delivery_services_info.results
+                                                    .length > 0) {
+                                                    var results = response
+                                                        .delivery_services_info
+                                                        .results;
+                                                    var filteredResults = results
+                                                        .filter(function(item) {
+                                                            return (
+                                                                item.costs
+                                                                .length >
+                                                                0 &&
+                                                                item.costs[
+                                                                    0].cost
+                                                                .length >
+                                                                0 &&
+                                                                typeof item
+                                                                .costs[0]
+                                                                .cost[0]
+                                                                .value !==
+                                                                'undefined' &&
+                                                                typeof item
+                                                                .costs[0]
+                                                                .cost[0]
+                                                                .etd !==
+                                                                'undefined'
+                                                            );
+                                                        });
+                                                    if (filteredResults) {
+                                                        localStorage.setItem(
+                                                            'seller_id',
+                                                            "{{ $product->seller_id ?? '' }}"
+                                                        );
+                                                        localStorage.setItem(
+                                                            'checkout',
+                                                            JSON
+                                                            .stringify(response)
+                                                        );
+                                                        window.location.replace(
+                                                            "{{ route('buyer.checkout') }}"
+                                                        );
+                                                    } else {
+                                                        $('#myDivHandleError').text(
+                                                            'Paket Pengiriman tidak tersedia'
+                                                        );
+                                                        $('#myDivHandleError').css(
+                                                            'display',
+                                                            'block');
+                                                        setTimeout(function() {
+                                                            $('#myDivHandleError')
+                                                                .fadeOut(
+                                                                    'fast');
+                                                        }, 2000);
+                                                    }
+                                                } else {
+                                                    $('#myDivHandleError').text(
+                                                        'Paket Pengiriman tidak tersedia'
+                                                    );
+                                                    $('#myDivHandleError').css(
+                                                        'display',
+                                                        'block');
+                                                    setTimeout(function() {
+                                                        $('#myDivHandleError')
+                                                            .fadeOut(
+                                                                'fast');
+                                                    }, 2000);
+                                                }
+                                                $('.loading').removeClass(
+                                                        'show-modal')
+                                                    .addClass('d-none');
+                                            } else {
+                                                $('.loading').removeClass(
+                                                        'show-modal')
+                                                    .addClass('d-none');
+                                            }
+                                        },
+
+                                        error: function(error) {
+                                            if (error && error.responseJSON && error
+                                                .responseJSON.message) {
+                                                $('#myDivHandleError').text(error
+                                                    .responseJSON.message);
+                                                $('#myDivHandleError').css(
+                                                    'display',
+                                                    'block');
+                                                setTimeout(function() {
+                                                    $('#myDivHandleError')
+                                                        .fadeOut(
+                                                            'fast');
+                                                }, 2000);
+                                            }
+                                            $('.loading').removeClass('show-modal')
+                                                .addClass('d-none');
+                                            console.log(error);
+                                        }
+                                    });
+                                } else {
+                                    $('.loading').removeClass(
+                                            'show-modal')
+                                        .addClass('d-none');
 
                                 }
                             },
                             error: function(error) {
+                                $('.loading').removeClass('show-modal').addClass('d-none');
                                 console.log('error');
                                 console.log(error);
                                 if (error && error.responseJSON && error

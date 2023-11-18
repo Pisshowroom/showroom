@@ -9,6 +9,11 @@
                 <h2 class="content-title card-title">Semua Pesanan</h2>
             </div>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success" id="mydiv">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="card mb-4">
             <header class="card-header">
                 <div class="row gx-3">
@@ -74,10 +79,14 @@
                                                 href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
                                             @if ($order->status == 'Pending' && $order->expired == false)
                                                 <a class="btn btn-xs-success"
-                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}">Cara Bayar</a>
+                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}">Cara
+                                                    Bayar</a>
+                                            @elseif ($order->status == 'Pending' && $order->expired == true)
+                                                <a class="btn btn-xs-danger"
+                                                    href="{{ route('deleteOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.myOrder']) }}">Hapus</a>
+                                                {{-- <a class="btn btn-xs-danger"
+                                                    href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                             @endif
-                                            {{-- <a class="btn btn-xs-danger"
-                                                href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -96,6 +105,9 @@
 @endsection
 @push('importjs')
     <script>
+        setTimeout(function() {
+            $('#mydiv').fadeOut('fast');
+        }, 2000);
         $(document).ready(function() {
             function updateURL() {
                 var searchQuery = $('#searchOrder').val();
