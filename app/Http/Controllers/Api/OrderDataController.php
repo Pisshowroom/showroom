@@ -31,7 +31,7 @@ class OrderDataController extends Controller
 
     public function detail(Order $order)
     {
-        $order->load(['master_account', 'order_items.product.parent', 'user']);
+        $order->load(['master_account', 'order_items.product.parent', 'user.address.ro_city']);
 
         return new OrderResource($order);
     }
