@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/geta', function () {
     // return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
-   /*  $orders = Order::whereNull('seller_id')->get();
+    /*  $orders = Order::whereNull('seller_id')->get();
     // 2
     $result = $orders->map(function ($order) {
         $product = $order->order_items()->first()->product;
@@ -167,6 +167,12 @@ Route::group(['middleware' => ['auth:web']], function () {
 
 
         Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
+    });
+    Route::group(['prefix' => 'pi'], function () {
+        Route::post('incomplete', [BuyerOrderController::class, 'serverIncomplete']);
+        Route::post('approve', [BuyerOrderController::class, 'serverApprove']);
+        Route::post('complete', [BuyerOrderController::class, 'serverComplete']);
+        Route::post('cancelled_payment', [BuyerOrderController::class, 'serverCancel']);
     });
     Route::group(['prefix' => 'toko'], function () {
         Route::get('/', [SellerController::class, 'dashboard'])->name('dashboardSeller.dashboard');

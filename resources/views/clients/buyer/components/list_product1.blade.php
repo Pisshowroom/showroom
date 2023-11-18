@@ -10,7 +10,7 @@
                 <span class="label bg-brand-2">{{ $prd->discount }}%</span>
             @endif,
             @auth
-                <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}?auth={{ base64_encode(Auth::guard('web')->user()->uid) }}">
+                <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
             @endauth
             @guest
                 <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">

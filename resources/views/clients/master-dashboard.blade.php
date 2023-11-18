@@ -16,13 +16,7 @@
     @stack('css')
     {{-- pi coin --}}
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <script>
-        // Init Pi SDK:
-        Pi.init({
-            version: "2.0",
-            sandbox: true
-        });
-    </script>
+    <script>Pi.init({ version: "2.0", sandbox: true })</script>
     <title>@yield('title')</title>
 </head>
 

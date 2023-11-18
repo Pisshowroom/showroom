@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Xendit\QRCode;
 use Xendit\Retail;
@@ -512,6 +513,109 @@ class OrderController extends Controller
         return ResponseAPI($data);
     }
 
+    public function serverApprove(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'login terlebih dahulu'], 401);
+        }
+
+        $paymentId = $request->payment_id;
+        $currentPayment = $this->platformAPIClient("v2/payments/$paymentId");
+
+        $order = Order::find($currentPayment->metadata->order_id);
+        if ($order == null) {
+            return response()->json(['message' => 'order tidak ditemukan'], 400);
+        }
+        $order->pi_payment_id = $paymentId;
+        $order->pi_total_final = $currentPayment->amount;
+        $order->save();
+
+
+        // let Pi Servers know that you're ready
+        $this->platformAPIClient("v2/payments/$paymentId/approve", 'post');
+        return response()->json(["message" => "Approved the payment $paymentId"]);
+    }
+
+    public function serverComplete(Request $request)
+    {
+        $paymentId = $request->payment_id;
+        $txid = $request->txid;
+
+        $order = Order::where('pi_payment_id', $request->payment_id)->first();
+        if ($order) {
+            $order->status = Order::PAID;
+            $order->payment_status = Order::PAYMENT_PAID;
+            $order->txid = $txid;
+            $order->save();
+        }
+
+        // let Pi server know that the payment is completed
+        $this->platformAPIClient("/v2/payments/$paymentId/complete", "post", ['txid' => $txid]);
+        return response()->json(["message" => "Completed the payment $paymentId"]);
+    }
+
+    public function serverIncomplete(Request $request)
+    {
+        $payment = $request->payment;
+        $paymentId = $payment->identifier;
+        $txid = $payment->transaction && $payment->transaction->txid;
+        $txURL = $payment->transaction && $payment->transaction->_link;
+
+        // find the incomplete order
+        $order = Order::where('pi_payment_id', $paymentId)->first();
+
+        // order doesn't exist 
+        if (!$order) {
+            return response()->json([
+                'message' => "Order not found"
+            ], 400);
+        }
+
+        // check the transaction on the Pi blockchain
+        $horizonResponse = $this->platformAPIClient($txURL);
+        $paymentIdOnBlock = $horizonResponse->memo ?? null;
+
+        // and check other data as well e.g. amount
+        if ($paymentIdOnBlock !== $order->pi_payment_id) {
+            return response()->json(["message" => "Payment id doesn't match."]);
+        }
+
+        // mark the order as paid
+        $order->status = Order::PAID;
+        $order->payment_status = Order::PAYMENT_PAID;
+        $order->txid = $txid;
+        $order->save();
+
+        // let Pi Servers know that the payment is completed
+        $this->platformAPIClient("v2/payments/{$paymentId}/complete", 'post', ['txid' => $txid]);
+
+        return response()->json([
+            'message ' => `Handled the incomplete payment $paymentId`
+        ]);
+    }
+
+
+    public function serverCancel(Request $request)
+    {
+
+        $paymentId = $request->payment_id;
+
+        $orders = Order::where('pi_payment_id', $request->pi_payment_id)->where("status", '!=', Order::PAID)->get();
+
+        foreach ($orders as $order) {
+            $order->status = Order::CANCELLED;
+            $order->payment_status = Order::PAYMENT_CANCELLED;
+            $order->save();
+        }
+
+        return response()->json([
+            "message" => "Cancelled the payment $paymentId"
+        ]);
+    }
+
+
     private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
     {
         $curl = curl_init();
@@ -629,5 +733,27 @@ class OrderController extends Controller
 
 
         return $result;
+    }
+
+    private function platformAPIClient($url, $method = 'get', $json = [])
+    {
+        $platformAPIClient = new Client([
+            'base_uri' => "https://api.minepi.com",
+            'timeout'  => 20000,
+            'headers'  => [
+                'Authorization' => 'Key mtr9iaoqhkkqvqz4lgwcu8jrbkorcaf8u6qlrfytia1rzrzkwbapvlsagmdseajd'
+                // 'Authorization' => 'Key sfzgfudokxyf6urlin26hda1cmo0rgiui62dqslp2qqkib4rzohcbngosbppplbt'
+            ],
+        ]);
+
+        if ($method == 'post')
+            $response = $platformAPIClient->post($url, [
+                'json' => $json,
+            ]);
+        else
+            $response = $platformAPIClient->get($url);
+
+
+        return json_decode($response->getBody());
     }
 }

@@ -7,10 +7,10 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allGridProduct') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Produk</a>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Produk</a>
                         </li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.checkout') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Checkout</a>
+                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Checkout</a>
                         </li>
                     </ul>
                 </div>
@@ -126,7 +126,7 @@
                                         </select>
                                         @if (count($data['address']) < 1)
                                             <h6 class="font-xs text-danger">Input alamat terlebih dahulu di <a
-                                                    href="{{ route('dashboard.settings') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Halaman Profil</a> </h6>
+                                                    href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Halaman Profil</a> </h6>
                                         @endif
                                     </div>
                                 </div>
@@ -159,7 +159,7 @@
                             </div>
                             <div class="row mt-20">
                                 <div class="col-lg-6 col-5 mb-20"><a class="btn font-sm-bold color-brand-1 arrow-back-1"
-                                        href="{{ route('buyer.cart') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Kembali ke Keranjang</a></div>
+                                        href="{{ route('buyer.cart') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Kembali ke Keranjang</a></div>
                                 <div class="col-lg-6 col-7 mb-20 text-end">
                                     <button class="btn btn-buy w-auto arrow-next" disabled>Pesan Sekarang</button>
                                 </div>
@@ -213,7 +213,7 @@
                     var checkout = JSON.parse(checkouts);
                     var html = '';
                     checkout.products.forEach((element, i) => {
-                        var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}";
+                        var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}";
                         url = url.replace(':slug', element.slug);
 
                         html += `<div class="item-wishlist">
@@ -265,7 +265,7 @@
                     console.error('Error parsing JSON:', error);
                 }
             } else {
-                window.location.replace("{{ route('buyer.home') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}");
+                window.location.replace("{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}");
             }
             if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id').find(
                     'option:selected')
@@ -380,7 +380,7 @@
                         $('.loading').removeClass('d-none').addClass('show-modal');
 
                         $.ajax({
-                            url: "{{ route('buyer.precheckWithDelivery') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
+                            url: "{{ route('buyer.precheckWithDelivery') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
                             type: "POST",
                             // dataType: "json",
                             data: obj,
@@ -455,7 +455,7 @@
                     $('.loading').removeClass('d-none').addClass('show-modal');
 
                     $.ajax({
-                        url: "{{ route('buyer.preCheckout') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
+                        url: "{{ route('buyer.preCheckout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
                         type: "POST",
                         // dataType: "json",
                         data: obj,
@@ -471,7 +471,7 @@
                                             "{{ route('dashboard.payment', ['identifier' => 'id']) }}";
                                         window.location.replace(route.replace(
                                             'id', data.order.payment_identifier
-                                        )+"{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}");
+                                        )+"{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}");
                                     }
                                 }
                             }, 2000);

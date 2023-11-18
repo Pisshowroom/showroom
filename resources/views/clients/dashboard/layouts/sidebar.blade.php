@@ -32,13 +32,13 @@
                     href="page-transactions-details.html">Transaction Details</a></div>
         </li> --}}
         <li class="menu-item @yield('myOrder')"><a class="menu-link" disabled=""
-                href="{{ route('dashboard.myOrder') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i class="icon material-icons md-star"></i><span
+                href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i class="icon material-icons md-star"></i><span
                     class="text">Pesanan ku</span></a>
         </li>
-        <li class="menu-item"><a class="menu-link" disabled="" href="{{ route('buyer.wishlist') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
+        <li class="menu-item"><a class="menu-link" disabled="" href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
                     class="icon material-icons md-favorite"></i><span class="text">Wishlist</span></a>
         </li>
-        <li class="menu-item"><a class="menu-link" disabled="" href="{{ route('buyer.cart') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
+        <li class="menu-item"><a class="menu-link" disabled="" href="{{ route('buyer.cart') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
                     class="icon material-icons md-shopping_cart"></i><span class="text">Keranjang</span></a>
         </li>
         {{-- <li class="menu-item has-submenu"><a class="menu-link" href="#"><i
@@ -62,7 +62,7 @@
                 href="{{ route('dashboard.settings') }}"><i class="icon material-icons md-settings"></i><span
                     class="text">Pengaturan</span></a>
         </li>
-        <li class="menu-item"><a class="menu-link" disabled="" href="{{ route('logout') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
+        <li class="menu-item"><a class="menu-link" disabled="" href="{{ route('logout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
                     class="icon material-icons md-exit_to_app"></i><span class="text">Keluar</span></a>
         </li>
         @if (Auth::guard('web')->user()->is_seller == 1)
@@ -70,35 +70,35 @@
             <li class="menu-item"><span class="text">Toko</span></li>
 
             <li class="menu-item @yield('dashboardSeller')"><a class="menu-link"
-                    href="{{ route('dashboardSeller.dashboard') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i class="icon material-icons md-home"></i><span
+                    href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i class="icon material-icons md-home"></i><span
                         class="text">Dashboard</span></a></li>
             <li class="menu-item has-submenu @yield('product')">
-                <a class="menu-link" href="{{ route('dashboardSeller.allProduct') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
+                <a class="menu-link" href="{{ route('dashboardSeller.allProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
                         class="icon material-icons md-shopping_bag"></i><span class="text">Produk</span></a>
                 <div class="submenu">
-                    <a href="{{ route('dashboardSeller.allProduct') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua Produk</a>
-                    <a href="{{ route('dashboardSeller.addProduct') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Tambah Produk</a>
+                    <a href="{{ route('dashboardSeller.allProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua Produk</a>
+                    <a href="{{ route('dashboardSeller.addProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Tambah Produk</a>
                 </div>
             </li>
             {{-- <li class="menu-item"><a class="menu-link" disabled="" href="page-products-list.html"><i
                     class="icon material-icons md-shopping_bag"></i><span class="text">Produk</span></a>
         </li> --}}
             <li class="menu-item @yield('transaction')"><a class="menu-link" disabled=""
-                    href="{{ route('dashboardSeller.allTransaction') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
+                    href="{{ route('dashboardSeller.allTransaction') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
                         class="icon material-icons md-monetization_on"></i><span class="text">Transaksi
                         Produk</span></a>
             </li>
             <li class="menu-item @yield('profile')"><a class="menu-link" disabled=""
-                    href="{{ route('dashboardSeller.profile') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
+                    href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
                         class="icon material-icons md-storefront"></i><span class="text">Profil Toko</span></a>
             </li>
             <li class="menu-item has-submenu @yield('withdraw')">
-                <a class="menu-link" href="{{ route('dashboardSeller.allWithdraw') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
+                <a class="menu-link" href="{{ route('dashboardSeller.allWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
                         class="icon material-icons md-account_balance_wallet"></i><span class="text">Pencairan
                         Uang</span></a>
                 <div class="submenu">
-                    <a href="{{ route('dashboardSeller.addWithdraw') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Cairkan</a>
-                    <a href="{{ route('dashboardSeller.allWithdraw') }}{{ Auth::user() ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua Pencairan</a>
+                    <a href="{{ route('dashboardSeller.addWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Cairkan</a>
+                    <a href="{{ route('dashboardSeller.allWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua Pencairan</a>
                 </div>
             </li>
         @endif
