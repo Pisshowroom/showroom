@@ -80,10 +80,16 @@
                             </div>
                         @endif
                         <div class="d-inline-block box-dropdown-cart">
-                            <span class="font-lg icon-list icon-notification"><span>Notifikasi</span><span
-                                    class="number-item font-xs">2</span></span>
+                            <span class="font-lg icon-list icon-notification"><span>Notifikasi</span>
+                                {{-- <span
+                                    class="number-item font-xs">2</span> --}}
+                            </span>
                             <div class="dropdown-notification">
-                                <div class="item-cart mb-20">
+                                <div class="col-lg-12 text-center mt-10">
+                                    <h6>Tidak ada notifikasi saat ini</h6>
+                                </div>
+
+                                {{-- <div class="item-cart mb-20">
                                     <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
                                             alt="Ecom">
                                     </div>
@@ -108,7 +114,7 @@
                                             RAM, 256GB SSD</a>
                                         <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -763,7 +769,6 @@
                     setTimeout(function() {
                         $('#myDivAddress').fadeOut('fast');
                     }, 2000);
-
                 }
             })
         });
