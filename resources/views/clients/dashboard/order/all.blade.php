@@ -112,7 +112,7 @@
             function updateURL() {
                 var searchQuery = $('#searchOrder').val();
                 var selectedStatus = $('#filterStatus').val();
-                var baseUrl = "{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                var baseUrl = "{{ route('dashboard.myOrder') }}";
                 var url = baseUrl;
 
                 if (selectedStatus !== '') {
@@ -122,7 +122,7 @@
                 if (searchQuery !== '') {
                     url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location = url;
+                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
             }
 
             $('#searchOrder, #filterStatus').on('change', function() {

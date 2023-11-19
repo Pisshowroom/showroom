@@ -151,7 +151,7 @@
             function updateURL() {
                 var searchQuery = $('#searchInput').val();
                 var selectedCategoryId = $('#kategori').val();
-                var baseUrl = "{{ route('dashboardSeller.allProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '&auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                var baseUrl = "{{ route('dashboardSeller.allProduct') }}";
                 var url = baseUrl;
 
                 // Check if category_id exists and update the URL accordingly

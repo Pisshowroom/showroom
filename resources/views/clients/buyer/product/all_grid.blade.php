@@ -203,7 +203,7 @@
                 var searchQuery = $('#searchProduct').val();
                 var selectedOrderBy = $('#dropdownSort').parent().find('.active').attr('order-by');
                 var selectedCategoryId = $('#navKategori').val() || $('.list-nav-arrow li.active').data('category');
-                var baseUrl = "{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '&auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                var baseUrl = "{{ route('buyer.allGridProduct') }}";
                 var url = baseUrl;
                 if (selectedCategoryId !== undefined && selectedCategoryId !== 'Semua kategori' &&
                     selectedOrderBy !== undefined) {
@@ -248,7 +248,7 @@
             function updateFilter(rating, orderBy, price) {
                 var searchQuery = $('#searchProduct').val();
                 var selectedCategoryId = $('#navKategori').val() || $('.list-nav-arrow li.active').data('category');
-                var baseUrl = "{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '&auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                var baseUrl = "{{ route('buyer.allGridProduct') }}";
                 var url = baseUrl;
                 if (rating == undefined) {
                     rating = '';
