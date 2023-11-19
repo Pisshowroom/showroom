@@ -55,12 +55,14 @@
                             </div>
                         </form>
                         <div class="mt-20"><span class="font-xs color-gray-500 font-medium">Sudah memiliki
-                                akun?</span><a class="font-xs color-brand-3 font-medium" href="{{ route('buyer.login') }}">
+                                akun?</span><a class="font-xs color-brand-3 font-medium"
+                                href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                 Masuk</a></div>
                         <div class="box-login-social pt-65">
                             <h5 class="text-center">Atau daftar dengan</h5>
                             <div class="box-button-login mt-25"><button
-                                    class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleRegister"><img src="{{ asset('ecom/imgs/page/account/google.svg') }}"
+                                    class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleRegister"><img
+                                        src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                         alt="daftar menggunakan akun google"></button>
                             </div>
                         </div>
@@ -130,12 +132,16 @@
                             ),
                         },
                     });
+                    $('.loading').removeClass('d-none').addClass('show-modal');
 
                     $.ajax({
                         url: "{{ route('registerUsingGoogle') }}",
                         type: "POST",
                         data: obj,
                         success: function(data) {
+                            $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                             if (data.status == "success") {
                                 var div = document.getElementById('myDiv3');
                                 $('#myDiv3').css('display', 'block');
@@ -158,9 +164,12 @@
                             }
                         },
                         error: function(error) {
+                            $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                             var div = document.getElementById('myDiv2');
                             $('#myDiv2').css('display', 'block');
-                            div.innerHTML='';
+                            div.innerHTML = '';
                             div.innerHTML += error.message;
                             setTimeout(function() {
                                 $('#myDiv2').fadeOut('fast');
@@ -170,9 +179,12 @@
                     // ...
                 })
                 .catch((error) => {
+                    $('.loading').removeClass('show-modal')
+                        .addClass('d-none');
+
                     var div = document.getElementById('myDiv2');
                     $('#myDiv2').css('display', 'block');
-                    div.innerHTML='';
+                    div.innerHTML = '';
                     div.innerHTML += error.message;
                     setTimeout(function() {
                         $('#myDiv2').fadeOut('fast');
@@ -191,6 +203,8 @@
                     ),
                 },
             });
+            $('.loading').removeClass('d-none').addClass('show-modal');
+
             $.ajax({
                 type: "POST",
                 url: "{{ route('registerEmail') }}",
@@ -200,6 +214,9 @@
                     password: password,
                 },
                 success: function(data) {
+                    $('.loading').removeClass('show-modal')
+                        .addClass('d-none');
+
                     if (data.status == "success") {
                         var div = document.getElementById('myDiv3');
                         $('#myDiv3').css('display', 'block');
@@ -221,9 +238,12 @@
                     }
                 },
                 error: function(error) {
+                    $('.loading').removeClass('show-modal')
+                        .addClass('d-none');
+
                     var div = document.getElementById('myDiv2');
                     $('#myDiv2').css('display', 'block');
-                    div.innerHTML='';
+                    div.innerHTML = '';
                     div.innerHTML += error.message;
                     setTimeout(function() {
                         $('#myDiv2').fadeOut('fast');

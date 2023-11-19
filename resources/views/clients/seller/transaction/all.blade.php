@@ -119,7 +119,7 @@
             function updateURL() {
                 var searchQuery = $('#searchTransaction').val();
                 var selectedStatus = $('#filterStatus').val();
-                var baseUrl = '{{ route('dashboardSeller.allTransaction') }}';
+                var baseUrl = "{{ route('dashboardSeller.allTransaction') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '&auth=' . base64_encode(Auth::user()->uid) : '' }}";
                 var url = baseUrl;
 
                 if (selectedStatus !== '') {

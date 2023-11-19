@@ -49,7 +49,7 @@
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
                     <a class="dropdown-item" href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><i
                             class="material-icons md-settings"></i>Pengaturan</a>
-                    <a class="dropdown-item" href="{{ route('dashboard.myOrder') }}"><i
+                    <a class="dropdown-item" href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><i
                             class="material-icons md-star"></i>Pesanan ku</a>
                     @if (Auth::guard('web')->user()->is_seller == 0)
                         <a class="dropdown-item" href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><i

@@ -154,9 +154,15 @@
                 }
 
                 if (isPi)
-                    return (convertPiToRupiah(angka)) + " π";
+                    return (convertRupiahToPi(angka)) + " π";
 
                 return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+            }
+
+            function convertRupiahToPi(price) {
+                var value = {{ $setting->value ?? 558647.95 }}
+
+                return (1 / value) * (price);
             }
 
             var carts = localStorage.getItem('cart');
@@ -169,9 +175,11 @@
                         $('.content-wishlist').empty();
                         var html = '';
                         crt.forEach((element, i) => {
-                            var urlSeller = "{{ route('buyer.detailSeller', ['slug' => ':slug']) }}";
+                            var urlSeller =
+                                "{{ route('buyer.detailSeller', ['slug' => ':slug']) }}";
                             urlSeller = urlSeller.replace(':slug', element.seller?.seller_slug);
-                            var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
+                            var url =
+                                "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
                             url = url.replace(':slug', element.slug);
                             html += `<div class="item-wishlist" id="item-wishlist-${element.id}">
                                             <div class="wishlist-product">
@@ -182,12 +190,12 @@
                                                                 alt="${element.name}"></a></div>
                                                     <div class="product-info">
                                                         <a
-                                                            href="${url}">
-                                                            <h6 class="color-brand-3 line-2 text-start">${element.name}</h6>
+                                                            href="${url}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                            <h6 class="color-brand-3 line-2 text-start" style="word-wrap:break-word;">${element.name}</h6>
                                                         </a>
                                                         <a class="w-100"
-                                                            href="${urlSeller}">
-                                                            <p class="color-brand-3 line-2 text-start">${element.seller?.seller_name??'-'}</p>
+                                                            href="${urlSeller}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                            <p class="color-brand-3 line-2 text-start" style="word-wrap:break-word;">${element.seller?.seller_name??'-'}</p>
                                                         </a>
                                                         <div class="rating"><img
                                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -233,7 +241,7 @@
                                     localStorage.removeItem('cart');
                                     window.location.replace(
                                         "{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                                        );
+                                    );
                                 } else {
                                     // Membersihkan tampilan sebelum menambahkan kembali elemen-elemen yang diperbarui
 

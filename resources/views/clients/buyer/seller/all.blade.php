@@ -78,7 +78,7 @@
                             @if (count($sellers) > 0)
                                 @foreach ($sellers as $seller)
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                                        <a href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">
+                                        <a href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                             <div class="card-vendor">
                                                 <div class="card-top-vendor mb-0 pb-0 border-0">
                                                     <div class="card-top-vendor-left"><img
@@ -94,7 +94,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
+                                                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
                                                             Produk</a>
                                                         <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                                     </div>
@@ -145,41 +145,12 @@
                                 <ul class="list-nav-arrow">
                                     <li><a href="{{ route('buyer.allSeller') }}">Computers & Laptop<span
                                                 class="number">09</span></a></li>
-                                    <li><a href="{{ route('buyer.allSeller') }}">Electric accessories<span
-                                                class="number">12</span></a></li>
-                                    <li><a href="{{ route('buyer.allSeller') }}">Fashion & Beauty<span
-                                                class="number">24</span></a>
-                                    </li>
-                                    <li><a href="{{ route('buyer.allSeller') }}">Furniture & Appliances<span
-                                                class="number">34</span></a></li>
-                                    <li><a href="{{ route('buyer.allSeller') }}">Sports and Outdoors<span
-                                                class="number">65</span></a></li>
-                                    <li><a href="{{ route('buyer.allSeller') }}">Food, condiments<span
-                                                class="number">15</span></a>
-                                    </li>
-                                    <li><a href="{{ route('buyer.allSeller') }}">Book, Office supplies<span
-                                                class="number">76</span></a></li>
-                                    <li><a href="{{ route('buyer.allSeller') }}">Children and mothers<span
-                                                class="number">89</span></a></li>
-                                    <li><a href="{{ route('buyer.allSeller') }}">Cars, motorbikes<span
-                                                class="number">23</span></a>
-                                    </li>
-                                    <li><a href="{{ route('buyer.allSeller') }}">Other<span class="number">98</span></a>
-                                    </li>
                                 </ul>
                                 <div>
                                     <div class="collapse" id="moreMenu">
                                         <ul class="list-nav-arrow">
                                             <li><a href="{{ route('buyer.allSeller') }}">Home theater<span
                                                         class="number">98</span></a></li>
-                                            <li><a href="{{ route('buyer.allSeller') }}">Cameras & drones<span
-                                                        class="number">124</span></a></li>
-                                            <li><a href="{{ route('buyer.allSeller') }}">PC gaming<span
-                                                        class="number">56</span></a></li>
-                                            <li><a href="{{ route('buyer.allSeller') }}">Smart home<span
-                                                        class="number">87</span></a></li>
-                                            <li><a href="{{ route('buyer.allSeller') }}">Networking<span
-                                                        class="number">36</span></a></li>
                                         </ul>
                                     </div><a class="link-see-more mt-5" data-bs-toggle="collapse" href="#moreMenu"
                                         role="button" aria-expanded="false" aria-controls="moreMenu">Selengkapnya</a>

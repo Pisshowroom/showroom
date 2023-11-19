@@ -1,58 +1,7 @@
 <div class="topbar top-gray-1000">
     <div class="container-topbar w-100">
-        {{-- <div class="menu-topbar-left d-none d-xl-block">
-            <ul class="nav-small">
-                <li><a class="font-xs" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                <li>
-                    @auth
-                        @if (Auth::guard('web')->user()->is_seller == 1)
-                            <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Dashboard Toko</a>
-                        @else
-                            <a class="font-xs" href="{{ route('dashboardSeller.profile') }}">Daftar Toko</a>
-                        @endif
-                    @endauth
-                    @guest
-
-                        <a class="font-xs" href="{{ route('buyer.register') }}">Buka toko</a>
-                    @endguest
-                </li>
-
-            </ul>
-        </div> --}}
         <div class="info-topbar w-100 text-center d-none d-xl-block"><a class="font-xs color-brand-3"
                 href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}" target="_blank">Download Aplikasi PIS Shop Global</a></div>
-        {{-- <div class="menu-topbar-right"><span class="font-xs color-brand-3">Butuh bantuan? Hubungi:</span><span
-                class="font-sm-bold color-success"> + 1800 900</span> --}}
-        {{-- <div class="dropdown dropdown-language">
-                <button class="btn dropdown-toggle" id="dropdownPage" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="true" data-bs-display="static"><span
-                        class="dropdown-right font-xs color-brand-3"><img src="{{ asset('ecom/imgs/template/en.svg') }}"
-                            alt="Ecom"> English</span></button>
-                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownPage" data-bs-popper="static">
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-en.svg') }}"
-                                alt="Ecom"> English</a></li>
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-fr.svg') }}"
-                                alt="Ecom"> Français</a></li>
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-es.svg') }}"
-                                alt="Ecom"> Español</a></li>
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-pt.svg') }}"
-                                alt="Ecom"> Português</a></li>
-                    <li><a class="dropdown-item" href="#"><img src="{{ asset('ecom/imgs/template/flag-cn.svg') }}"
-                                alt="Ecom"> 中国人</a></li>
-                </ul>
-            </div>
-            <div class="dropdown dropdown-language">
-                <button class="btn dropdown-toggle" id="dropdownPage2" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="true" data-bs-display="static"><span
-                        class="dropdown-right font-xs color-brand-3">USD</span></button>
-                <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end" aria-labelledby="dropdownPage2"
-                    data-bs-popper="static">
-                    <li><a class="dropdown-item active" href="#">USD</a></li>
-                    <li><a class="dropdown-item" href="#">EUR</a></li>
-                    <li><a class="dropdown-item" href="#">AUD</a></li>
-                    <li><a class="dropdown-item" href="#">SGP</a></li>
-                </ul>
-            </div> --}}
     </div>
 </div>
 </div>
@@ -124,20 +73,7 @@
                                             256GB SSD</a>
                                         <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
                                     </div>
-                                </div>
-                                <div class="item-cart mb-20">
-                                    <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                            alt="Ecom">
-                                    </div>
-                                    <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                            href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">2022 Apple iMac
-                                            with
-                                            Retina 5K
-                                            Display 8GB
-                                            RAM, 256GB SSD</a>
-                                        <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
-                                    </div>
-                                </div> --}}
+                                </div>--}}
                             </div>
                         </div>
                         <div class="d-inline-block box-dropdown-cart"><span
@@ -214,19 +150,6 @@
                                             alt="Ecom"></span><span class="text-link">Cell Phones</span></a>
                                 <ul class="sub-menu">
                                     <li><a href="#">Phone Accessories</a></li>
-                                    <li><a href="#">Phone Cases</a></li>
-                                    <li><a href="#">Postpaid Phones</a></li>
-                                    <li><a href="#">Unlocked Phones</a></li>
-                                    <li><a href="#">Prepaid Phones</a></li>
-                                    <li><a href="#">Prepaid Plans</a></li>
-                                    <li><a href="#">Refurbished Phones</a></li>
-                                    <li><a href="#">Straight Talk</a></li>
-                                    <li><a href="#">iPhone</a></li>
-                                    <li><a href="#">Samsung Galaxy</a></li>
-                                    <li><a href="#">Samsung Galaxy</a></li>
-                                    <li><a href="#">Samsung Galaxy</a></li>
-                                    <li><a href="#">Samsung Galaxy</a></li>
-                                    <li><a href="#">Samsung Galaxy</a></li>
                                 </ul>
                             </li>
                             <li><a href="#"><span class="img-link"><img
@@ -292,40 +215,6 @@
                                     Produk</a></li>
                             <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
                             </li>
-                            {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
-                                <ul class="sub-menu two-col">
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid 2</a></li>
-                                    <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
-                                    <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
-                                    <li><a href="{{ route('buyer.cart') }}">Shop Checkout</a></li>
-                                    <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a href="#">Selengkapnya</a>
-                                <ul class="sub-menu">
-                                    <li><a href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                                    <li><a href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                                    <li><a href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a href="blog.html">Blog</a>
-                            <ul class="sub-menu">
-                                <li><a href="blog.html">Blog - No Sidebar</a></li>
-                                <li><a href="blog-2.html">Blog - Right Sidebar</a></li>
-                                <li><a href="blog-list.html">Blog List</a></li>
-                                <li><a href="blog-big.html">Blog category big</a></li>
-                                <li><a href="blog-single.html">Blog Single - Left sidebar</a></li>
-                                <li><a href="blog-single-2.html">Blog Single - Right sidebar</a></li>
-                                <li><a href="blog-single-3.html">Blog Single - No sidebar</a></li>
-                            </ul>
-                        </li> --}}
                         </ul>
                     </nav>
                 </div>
@@ -357,40 +246,6 @@
                                     Produk</a></li>
                             <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
                             </li>
-                            {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
-                                <ul class="sub-menu two-col">
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid 2</a></li>
-                                    <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
-                                    <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
-                                    <li><a href="{{ route('buyer.cart') }}">Shop Checkout</a></li>
-                                    <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a href="#">Selengkapnya</a>
-                                <ul class="sub-menu">
-                                    <li><a href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                                    <li><a href="{{ route('buyer.contact') }}">Kontak Kami</a></li>
-                                    <li><a href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a href="blog.html">Blog</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog.html">Blog Grid</a></li>
-                                    <li><a href="blog-2.html">Blog Grid 2</a></li>
-                                    <li><a href="blog-list.html">Blog List</a></li>
-                                    <li><a href="blog-big.html">Blog Big</a></li>
-                                    <li><a href="blog-single.html">Blog Single - Left sidebar</a></li>
-                                    <li><a href="blog-single-2.html">Blog Single - Right sidebar</a></li>
-                                    <li><a href="blog-single-3.html">Blog Single - No sidebar</a></li>
-                                </ul>
-                            </li> --}}
                         </ul>
                     </nav>
                 </div>
@@ -435,7 +290,7 @@
             function updateURL() {
                 var searchQuery = $('#searchProduct').val();
                 var selectedCategoryId = $('#navKategori').val();
-                var baseUrl = '{{ route('buyer.allGridProduct') }}';
+                var baseUrl = "{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '&auth=' . base64_encode(Auth::user()->uid) : '' }}";
                 var url = baseUrl;
 
                 // Check if category_id exists and update the URL accordingly

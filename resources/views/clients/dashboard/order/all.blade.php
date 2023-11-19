@@ -112,7 +112,7 @@
             function updateURL() {
                 var searchQuery = $('#searchOrder').val();
                 var selectedStatus = $('#filterStatus').val();
-                var baseUrl = '{{ route('dashboard.myOrder') }}';
+                var baseUrl = "{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
                 var url = baseUrl;
 
                 if (selectedStatus !== '') {
