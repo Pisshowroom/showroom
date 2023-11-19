@@ -133,6 +133,10 @@ Route::group(['prefix' => 'order'], function () {
         Route::get('/index', [OrderDataController::class, 'index']);
         Route::get('/seller-list-order', [OrderDataController::class, 'sellerListOrder']);
         Route::get('/{order}', [OrderDataController::class, 'detail']);
+        Route::post('/seller-accept/{order}', [OrderDataController::class, 'sellerAcceptOrder']);
+        Route::post('/seller-reject/{order}', [OrderDataController::class, 'sellerRejectOrder']);
+        Route::post('/seller-send/{order}', [OrderDataController::class, 'sellerSendOrder']);
+        Route::post('/check-status-delivered/{order}', [OrderDataController::class, 'checkStatusDeliveredOrder']);
     });
 });
 
@@ -141,5 +145,3 @@ Route::prefix('regionals')->group(function () {
     Route::get('/cities/{provinceId}', [RegionalController::class, 'citiesByProvince']);
     Route::get('/subdistricts/{cityId}', [RegionalController::class, 'subdistrictsByCity']);
 });
-
-
