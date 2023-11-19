@@ -49,7 +49,7 @@
                         </form>
 
                         <div class="mt-20"><span class="font-xs color-gray-500 font-medium">Belum punya akun?</span><a
-                                class="font-xs color-brand-3 font-medium" href="{{ route('buyer.register') }}"> Daftar</a>
+                                class="font-xs color-brand-3 font-medium" href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"> Daftar</a>
                         </div>
                         <div class="box-login-social pt-65">
                             <h5 class="text-center">Atau masuk dengan</h5>
@@ -143,6 +143,7 @@
                     ),
                 },
             });
+            $('.loading').removeClass('d-none').addClass('show-modal');
 
             $.ajax({
                 url: "{{ route('loginWithPI') }}",
@@ -150,6 +151,8 @@
                 // dataType: "json",
                 data: formData,
                 success: function(data) {
+                    $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
                     if (data.status == "success") {
                         // window.location.href = URL + "/dashboard"
                         var div = document.getElementById('myDiv3');
@@ -171,6 +174,8 @@
                     setTimeout(function() {
                         $('#myDiv2').fadeOut('fast');
                     }, 2000);
+                    $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
                 },
             });
         }
@@ -206,6 +211,7 @@
                             ),
                         },
                     });
+                    $('.loading').removeClass('d-none').addClass('show-modal');
 
                     $.ajax({
                         url: "{{ route('loginUsingGoogle') }}",
@@ -213,6 +219,9 @@
                         // dataType: "json",
                         data: obj,
                         success: function(data) {
+                            $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                             if (data.status == "success") {
 
                                 // window.location.href = URL + "/dashboard"
@@ -235,8 +244,12 @@
                                     $('#myDiv2').fadeOut('fast');
                                 }, 2000);
                             }
+
                         },
                         error: function(error) {
+                            $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                             var div = document.getElementById('myDiv2');
                             $('#myDiv2').css('display', 'block');
                             div.innerHTML = '';
@@ -249,6 +262,9 @@
                     // ...
                 })
                 .catch((error) => {
+                    $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                     var div = document.getElementById('myDiv2');
                     $('#myDiv2').css('display', 'block');
                     div.innerHTML = '';
@@ -279,6 +295,7 @@
                     ),
                 },
             });
+            $('.loading').removeClass('d-none').addClass('show-modal');
             $.ajax({
                 type: "POST",
                 url: "{{ route('loginEmail') }}",
@@ -287,6 +304,9 @@
                     password: password,
                 },
                 success: function(data) {
+                    $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                     if (data.status == "success") {
                         var div = document.getElementById('myDiv3');
                         $('#myDiv3').css('display', 'block');
@@ -308,6 +328,8 @@
                     }
                 },
                 error: function(error) {
+                    $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
                     var div = document.getElementById('myDiv2');
                     $('#myDiv2').css('display', 'block');
                     div.innerHTML = '';

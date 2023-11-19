@@ -35,7 +35,7 @@
                                             href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
                                                 src="{{ asset('ecom/imgs/page/product/img-sub.png') }}" alt="Ecom"></a>
                                     </div>
-                                    <div class="product-info"><a href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">
+                                    <div class="product-info"><a href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                             <h6 class="color-brand-3">Samsung 36&quot; French door 28 cu. ft. Smart Energy
                                                 Star Refrigerator </h6>
                                         </a>

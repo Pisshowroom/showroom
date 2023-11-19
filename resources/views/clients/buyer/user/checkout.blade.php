@@ -213,20 +213,20 @@
                     var checkout = JSON.parse(checkouts);
                     var html = '';
                     checkout.products.forEach((element, i) => {
-                        var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}";
+                        var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
                         url = url.replace(':slug', element.slug);
 
                         html += `<div class="item-wishlist">
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
                                             <div class="product-image"><a
-                                                    href="${url}"><img
+                                                    href="${url}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img
                                                         src=" {{ asset('ecom/imgs/page/product/img-sub.png') }}"
                                                         alt="Ecom"></a></div>
                                             <div class="product-info">
                                                 <a
-                                                    href="${url}">
-                                                    <h6 class="color-brand-3 line-2 text-start">${element.name}</h6>
+                                                    href="${url}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">
+                                                    <h6 class="color-brand-3 line-2 text-start" style="word-wrap:break-word;">${element.name}</h6>
                                                 </a>
                                                 <div class="rating"><img
                                                         src="{{ asset('ecom/imgs/template/icons/star.svg') }}"

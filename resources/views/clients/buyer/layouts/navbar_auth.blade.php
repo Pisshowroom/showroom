@@ -1,23 +1,5 @@
 <div class="topbar">
     <div class="container-topbar w-100">
-        {{-- <div class="menu-topbar-left d-none d-xl-block">
-            <ul class="nav-small">
-                <li><a class="font-xs" href="{{ route('buyer.about') }}">Tentang Kami</a></li>
-                <li>
-                    @auth
-                        @if (Auth::guard('web')->user()->is_seller == 1)
-                            <a class="font-xs" href="{{ route('dashboardSeller.dashboard') }}">Dashboard Toko</a>
-                        @else
-                            <a class="font-xs" href="{{ route('dashboardSeller.profile') }}">Daftar Toko</a>
-                        @endif
-                    @endauth
-                    @guest
-
-                        <a class="font-xs" href="{{ route('buyer.register') }}">Buka toko</a>
-                    @endguest
-                </li>
-            </ul>
-        </div> --}}
         <div class="info-topbar w-100 text-center d-none d-xl-block"><a class="font-xs color-brand-3"
                 href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}" target="_blank">Download Aplikasi PIS Shop Global</a></div>
     </div>
@@ -56,9 +38,6 @@
                     <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
                             <li><a class="@yield('home')" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
-                            {{-- @guest
-                                <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
-                            @endguest --}}
                             <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua
                                     Produk</a>
                             </li>
@@ -99,19 +78,6 @@
                                             Retina 5K
                                             Display 8GB RAM,
                                             256GB SSD</a>
-                                        <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
-                                    </div>
-                                </div>
-                                <div class="item-cart mb-20">
-                                    <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp4.png') }}"
-                                            alt="Ecom">
-                                    </div>
-                                    <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                            href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">2022 Apple iMac
-                                            with
-                                            Retina 5K
-                                            Display 8GB
-                                            RAM, 256GB SSD</a>
                                         <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
                                     </div>
                                 </div> --}}
@@ -259,180 +225,6 @@
                 <li><a href="{{ route('buyer.allGridProduct') }}">Headphone</a></li>
             </ul>
         </li>
-        <li class="has-children"><a href="#"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/mobile.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Cell Phones</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Phone Accessories</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Phone Cases</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Postpaid Phones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Unlocked Phones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Prepaid Phones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Prepaid Plans</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Refurbished Phones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Straight Talk</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">iPhone</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Samsung Galaxy</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Samsung Galaxy</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Samsung Galaxy</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Samsung Galaxy</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Samsung Galaxy</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/game.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Gaming
-                    Gatgets</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Wireless Routers</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Cool New Gadgets</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Tech and Gadgets</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Geek Gifts and Gadgets</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Xbox Accessories</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">PlayStation Accessories</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/clock.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Smart
-                    watches</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Smart Watches</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Fashion Smart Watches</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Smart Bracelets</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Pocket Watches</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Smart Rings</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Other Watches</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/airpods.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Wired
-                    Headphone</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">On-Ear Headphones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Earbud & In-Ear</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">DJ Headphones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">PC Accessories</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">PC Game Headsets</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/mouse.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Mouse &amp;
-                    Keyboard</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Logitech</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Redragon</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Amazon Basics</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Microsoft</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">MageGee</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/music-play.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Headphone</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Car Audio Systems</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Cellphones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Desktops</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Gaming Consoles</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Telephones</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/bluetooth.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Bluetooth
-                    devices</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Player Accessories</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Computer Accessories</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Speakers & Audio</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Computer Networking</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Movies & Films</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/clound.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Cloud
-                    Software</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Android</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Linux & Unix</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Macintosh</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Windows</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">iPhone & iOS</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/electricity.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Electric
-                    accessories</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Antenna Toppers</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Automotive Body Armor</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Power Inverter</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Gas Tank Doors</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Hood Scoops & Vents</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/cpu.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Mainboard &amp; CPU</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Computer CPU Processors</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Internal Fans & Cooling</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Graphics Cards</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Network I/O Port Cards</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Internal Memory Card</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/devices.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Desktop
-                    PC</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Graphic PC</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Office PC</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Gaming PC</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Server</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/driver.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Speaker</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">JBL</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Anker</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Pyle</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Bose</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Logitech</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/airpod.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Bluetooth
-                    Headphone</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">On-Ear Headphones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">In-Ear Headphones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Earbud</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Over-Ear Headphones</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Other</a></li>
-            </ul>
-        </li>
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/lamp.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Computer
-                    Decor</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Copyholders</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Office Bookends</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Business Card Holders</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Lap Desks</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Mouse Pads</a></li>
-            </ul>
-        </li>
     </ul>
 </div> --}}
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
@@ -454,43 +246,6 @@
                                     Produk</a></li>
                             <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
                             </li>
-                            {{-- <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}">Shop</a>
-                                <ul class="sub-menu two-col">
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Grid 2</a></li>
-                                    <li><a href="{{ route('buyer.allListProduct') }}">Shop list - Left sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop list - Right sidebar</a></li>
-                                    <li><a href="{{ route('buyer.allGridProduct') }}">Shop Fullwidth</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 2</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 3</a></li>
-                                    <li><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">Single Product 4</a></li>
-                                    <li><a href="{{ route('buyer.cart') }}">Shop Cart</a></li>
-                                    <li><a href="{{ route('buyer.cart') }}">Shop Checkout</a></li>
-                                    <li><a href="{{ route('buyer.wishlist') }}">Shop Wishlist</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a class="@yield('more')" href="#">Selengkapnya</a>
-                                <ul class="sub-menu">
-                                    <li><a class="@yield('about')" href="{{ route('buyer.about') }}">Tentang
-                                            Kami</a></li>
-                                    <li><a class="@yield('contact')" href="{{ route('buyer.contact') }}">Kontak
-                                            Kami</a></li>
-                                    <li><a class="@yield('term')" href="{{ route('buyer.term') }}">Syarat dan
-                                            Ketentuan</a></li>
-                                </ul>
-                            </li> --}}
-                            {{-- <li class="has-children"><a href="blog.html">Blog</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog.html">Blog Grid</a></li>
-                                    <li><a href="blog-2.html">Blog Grid 2</a></li>
-                                    <li><a href="blog-list.html">Blog List</a></li>
-                                    <li><a href="blog-big.html">Blog Big</a></li>
-                                    <li><a href="blog-single.html">Blog Single - Left sidebar</a></li>
-                                    <li><a href="blog-single-2.html">Blog Single - Right sidebar</a></li>
-                                    <li><a href="blog-single-3.html">Blog Single - No sidebar</a></li>
-                                </ul>
-                            </li> --}}
                         </ul>
                     </nav>
                 </div>
@@ -551,9 +306,22 @@
                     separator = sisa ? '.' : '';
                     rupiah += separator + ribuan.join('.');
                 }
-
                 rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+
+                if (userAgent) {
+                    if (userAgent.match(/PiBrowser/))
+                        isPi = true
+                }
+
+                if (isPi)
+                    return (convertRupiahToPi(angka)) + " π";
+
                 return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+            }
+            function convertRupiahToPi(price) {
+                var value = {{ $setting->value ?? 558647.95 }}
+
+                return (1 / value) * (price);
             }
             var carts = localStorage.getItem('cart');
             if (carts) {

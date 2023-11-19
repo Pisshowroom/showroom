@@ -119,7 +119,7 @@
             function updateURL() {
                 var searchQuery = $('#searchTransaction').val();
                 var selectedStatus = $('#filterStatus').val();
-                var baseUrl = '{{ route('dashboardSeller.allTransaction') }}';
+                var baseUrl = "{{ route('dashboardSeller.allTransaction') }}";
                 var url = baseUrl;
 
                 if (selectedStatus !== '') {

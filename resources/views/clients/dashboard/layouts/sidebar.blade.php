@@ -59,7 +59,7 @@
             </li>
         @endif
         <li class="menu-item @yield('settings')"><a class="menu-link" disabled=""
-                href="{{ route('dashboard.settings') }}"><i class="icon material-icons md-settings"></i><span
+                href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><i class="icon material-icons md-settings"></i><span
                     class="text">Pengaturan</span></a>
         </li>
         <li class="menu-item"><a class="menu-link" disabled="" href="{{ route('logout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i

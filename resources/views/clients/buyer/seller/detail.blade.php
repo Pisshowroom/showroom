@@ -260,7 +260,7 @@
             function updateURL() {
                 var selectedOrderBy = $('#dropdownSort').parent().find('.active').attr('order-by');
                 var selectedCategoryId = $('.list-nav-arrow li.active').data('category');
-                var baseUrl = '{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}';
+                var baseUrl = "{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}";
                 var url = baseUrl;
                 if (selectedCategoryId !== undefined &&
                     selectedOrderBy !== undefined) {
@@ -296,7 +296,7 @@
 
             function updateFilter(rating, orderBy, price) {
                 var selectedCategoryId = $('.list-nav-arrow li.active').data('category');
-                var baseUrl = '{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}';
+                var baseUrl = "{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}";
                 var url = baseUrl;
                 if (rating == undefined) {
                     rating = '';

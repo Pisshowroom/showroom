@@ -3,8 +3,9 @@
 @section('product', 'active')
 @section('dashboard')
     <section class="content-main">
-        <form class="row" action="{{ route('dashboardSeller.addUpdateProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}" method="POST"
-            enctype="multipart/form-data">
+        <form class="row"
+            action="{{ route('dashboardSeller.addUpdateProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+            method="POST" enctype="multipart/form-data">
             @csrf
             @if ($product != null && $product->id)
                 <input type="hidden" value="{{ $product->id }}">
@@ -159,7 +160,7 @@
                     // Create preview item
                     var previewItem = $('<div class="preview-item"><img src="' + e.target.result +
                         '" alt="Image Preview"><button class="remove-btn" type="button">Remove</button></div>'
-                        );
+                    );
 
                     // Append preview item to container
                     $('#imagePreviewContainer').append(previewItem);
@@ -250,19 +251,33 @@
         // });
 
         function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            var number_string = angka.toString(),
                 split = number_string.split(','),
                 sisa = split[0].length % 3,
                 rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                ribuan = split[0].substr(sisa).match(/\d{3}/g);
 
             if (ribuan) {
                 separator = sisa ? '.' : '';
                 rupiah += separator + ribuan.join('.');
             }
+            rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
 
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+            if (userAgent) {
+                if (userAgent.match(/PiBrowser/))
+                    isPi = true
+            }
+
+            if (isPi)
+                return (convertRupiahToPi(angka)) + " π";
+
+            return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+        }
+
+        function convertRupiahToPi(price) {
+            var value = {{ $setting->value ?? 558647.95 }}
+
+            return (1 / value) * (price);
         }
 
         function convertToDecimal(inputElement) {

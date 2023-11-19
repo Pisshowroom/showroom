@@ -151,7 +151,7 @@
             function updateURL() {
                 var searchQuery = $('#searchInput').val();
                 var selectedCategoryId = $('#kategori').val();
-                var baseUrl = '{{ route('dashboardSeller.allProduct') }}';
+                var baseUrl = "{{ route('dashboardSeller.allProduct') }}";
                 var url = baseUrl;
 
                 // Check if category_id exists and update the URL accordingly
