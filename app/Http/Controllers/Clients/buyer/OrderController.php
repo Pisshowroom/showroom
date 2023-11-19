@@ -21,6 +21,7 @@ use Xendit\Retail;
 use Xendit\VirtualAccounts;
 use Xendit\Xendit;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class OrderController extends Controller
 {
@@ -566,7 +567,7 @@ class OrderController extends Controller
         // find the incomplete order
         $order = Order::where('pi_payment_id', $paymentId)->first();
 
-        // order doesn't exist 
+        // order doesn't exist
         if (!$order) {
             return response()->json([
                 'message' => "Order not found"
@@ -704,7 +705,7 @@ class OrderController extends Controller
 
         if ($channelType == 'VIRTUAL_ACCOUNT') {
             $result = VirtualAccounts::create([
-                'external_id' => $paymentIdentifier . strval(time()),
+                'external_id' => $paymentIdentifier,
                 'bank_code' => $channelCode,
                 'is_closed' => true,
                 'name' => $user->name,
@@ -712,9 +713,14 @@ class OrderController extends Controller
                 'expiration_date' => $paymentDue,
             ]);
         } else if ($channelType == 'QR_CODE') {
+            // $amount check maximum 100000
+            if ($amount > 10000000) {
+                // return ResponseAPI('Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000', 400);
+                throw new HttpException(400, 'Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000');
+            }
             $result = QRCode::create([
                 'api_version' => '2022-07-31',
-                'reference_id' => $paymentIdentifier . strval(time()),
+                'reference_id' => $paymentIdentifier,
                 'type' => 'DYNAMIC',
                 'webhook-url' => 'https://662b-103-154-110-81.ngrok-free.app/0xff-callback-confirm-payment',
                 'amount' => $amount,
@@ -723,7 +729,7 @@ class OrderController extends Controller
             ]);
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $result = Retail::create([
-                'external_id' => $paymentIdentifier . strval(time()),
+                'external_id' => $paymentIdentifier,
                 'retail_outlet_name' => $channelCode,
                 'name' => $user->name,
                 'expected_amount' => $amount,
