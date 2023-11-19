@@ -22,6 +22,7 @@ class AddressResource extends JsonResource
             'ro_subdistrict_id' => $this->ro_subdistrict_id,
             'street' => $this->street,
             'main' => $this->main,
+            'for_seller' => $this->for_seller,
             'place_name' => $this->place_name,
             'person_name' => $this->person_name,
             'phone_number' => $this->phone_number,

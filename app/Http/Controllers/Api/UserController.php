@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AddressResource;
 use App\Http\Resources\SellerResource;
 use App\Http\Resources\UserResource;
+use App\Models\Address;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -39,7 +43,7 @@ class UserController extends Controller
         if ($request->filled('device_id')) {
             $user->device_id = $request->input('device_id');
         }
-        
+
         if ($request->filled('phone_number')) {
             $user->phone_number = $request->input('phone_number');
         }
@@ -66,10 +70,19 @@ class UserController extends Controller
     public function updateSeller(Request $request)
     {
         $seller = Auth::guard('api-client')->user();
-
-        if ($seller == null) {
-            $seller = new Seller();
+        if ($seller->is_seller == false) {
+            return ResponseAPI('Anda belum terdaftar sebagai seller', 400);
         }
+
+        // request validate unique on name and phone_number_seller, exept on edit mode checking
+        $request->validate([
+            'name' =>  ['required', 'string', Rule::unique('users')->ignore($seller->id)],
+            'phone_number_seller' =>  ['required', Rule::unique('users')->ignore($seller->id)],
+            'seller_description' => 'nullable|string',
+        ]);
+        // if ($seller == null) {
+        //     $seller = new Seller();
+        // }
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -98,7 +111,37 @@ class UserController extends Controller
         return response()->json(['message' => 'Berhasil memperbarui data.']);
     }
 
-    // return single data of seller using SellerResource, get from param $sellerId 
+    public function registerAsSeller(Request $request)
+    {
+        $user = Auth::guard('api-client')->user();
+        /* if ($user->is_seller == true) {
+            return ResponseAPI('Anda sudah terdaftar sebagai seller', 400);
+        } */
+
+        $request->validate([
+            'name' => 'required|string|unique:users,name',
+            'phone_number_seller' => 'required|unique:users,phone_number',
+            'seller_description' => 'nullable|string',
+        ]);
+
+        DB::beginTransaction();
+        $addressSellerController = new AddressSellerController();
+        $request->merge([
+            'for_seller' => true,
+        ]);
+
+        $address = $addressSellerController->storeOrUpdate($request);
+
+        $user->seller_name = $request->input('name');
+        $user->seller_slug = Str::slug($request->name);
+        $user->phone_number_seller = $request->phone_number_seller;
+        $user->is_seller = true;
+        $user->save();
+
+        DB::commit();
+        return ResponseAPI('Berhasil mendaftar sebagai seller', 200);
+    }
+
     public function getASeller($sellerId)
     {
         $seller = User::where('id', $sellerId)->where('is_seller', true)->first();

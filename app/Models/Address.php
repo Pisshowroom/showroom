@@ -12,7 +12,8 @@ class Address extends Model
 
     protected $guarded = [];
     protected $casts = [
-        'main' => 'boolean'
+        'main' => 'boolean',
+        'for_seller' => 'boolean',
     ];
 
     public function user()
