@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\AddressSellerController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
@@ -93,6 +94,26 @@ Route::group(['prefix' => 'addresses', 'middleware' => 'auth:api-client'], funct
     Route::delete('delete/{address}', [AddressController::class, 'destroy']);
 });
 
+Route::group(['prefix' => 'address-seller', 'middleware' => 'auth:api-client'], function () {
+    Route::get('/', [AddressSellerController::class, 'index']);
+    Route::post('/store-or-update', [AddressSellerController::class, 'storeOrUpdate']);
+    Route::post('/set-main-address/{address}', [AddressSellerController::class, 'setMainAddress']);
+    Route::delete('delete/{address}', [AddressSellerController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'user'], function () {
+    Route::post('/login-firebase', [AuthController::class, 'loginFirebase']);
+    Route::get('/get-a-seller/{sellerId}', [UserController::class, 'getASeller']);
+
+    Route::middleware('auth:api-client')->group(function () {
+        Route::get('/profile', [UserController::class, 'profile']);
+        Route::post('/update-profile', [UserController::class, 'updateProfile']);
+        Route::post('/update-seller', [UserController::class, 'updateSeller']);
+        Route::post('/register-as-seller', [UserController::class, 'registerAsSeller']);
+        Route::post('/logout', [UserController::class, 'logout']);
+    });
+});
+
 Route::group(['prefix' => 'reviews'], function () {
     Route::post('store-or-update', [ReviewController::class, 'storeOrUpdate']);
     Route::get('limited-of-product/{productId}', [ReviewController::class, 'getLimitedReviewsOfAProduct']);
@@ -121,14 +142,4 @@ Route::prefix('regionals')->group(function () {
     Route::get('/subdistricts/{cityId}', [RegionalController::class, 'subdistrictsByCity']);
 });
 
-Route::group(['prefix' => 'user'], function () {
-    Route::post('/login-firebase', [AuthController::class, 'loginFirebase']);
-    Route::get('/get-a-seller/{sellerId}', [UserController::class, 'getASeller']);
 
-    Route::middleware('auth:api-client')->group(function () {
-        Route::get('/profile', [UserController::class, 'profile']);
-        Route::post('/update-profile', [UserController::class, 'updateProfile']);
-        Route::post('/update-seller', [UserController::class, 'updateSeller']);
-        Route::post('/logout', [UserController::class, 'logout']);
-    });
-});

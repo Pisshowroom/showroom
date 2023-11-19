@@ -54,7 +54,8 @@ class OrderController extends Controller
 
         if ($channelType == 'VIRTUAL_ACCOUNT') {
             $result = VirtualAccounts::create([
-                'external_id' => $paymentIdentifier . strval(time()),
+                // . strval(time()),
+                'external_id' => $paymentIdentifier,
                 'bank_code' => $channelCode,
                 'is_closed' => true,
                 'name' => $user->name,
@@ -69,7 +70,7 @@ class OrderController extends Controller
             }
             $result = QRCode::create([
                 'api_version' => '2022-07-31',
-                'reference_id' => $paymentIdentifier . strval(time()),
+                'reference_id' => $paymentIdentifier,
                 'type' => 'DYNAMIC',
                 'webhook-url' => 'https://662b-103-154-110-81.ngrok-free.app/0xff-callback-confirm-payment',
                 'amount' => $amount,
@@ -78,7 +79,7 @@ class OrderController extends Controller
             ]);
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $result = Retail::create([
-                'external_id' => $paymentIdentifier . strval(time()),
+                'external_id' => $paymentIdentifier,
                 'retail_outlet_name' => $channelCode,
                 'name' => $user->name,
                 'expected_amount' => $amount,
