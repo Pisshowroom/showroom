@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Xendit\QRCode;
 use Xendit\Retail;
@@ -142,8 +143,10 @@ class OrderController extends Controller
             'address_id' => 'required',
         ]);
 
-        $addressBuyer = Address::findOrFail($request->address_id);
-        $seller = \App\Models\User::find($request->seller_id);
+        $addressBuyer = Address::findOrFail(4);
+        $seller = \App\Models\User::find(4);
+        // $addressBuyer = Address::findOrFail($request->address_id);
+        // $seller = \App\Models\User::find($request->seller_id);
         // dd($seller);
         $sellerAddress = Address::where('user_id', $seller->id)->where('main', true)->firstOrFail();
 
@@ -197,11 +200,11 @@ class OrderController extends Controller
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
         $data['weight'] = $weight;
-        Log::info('checkShippingPrice called with parameters:', [
-            'origin_id' => $addressBuyer->ro_subdistrict_id,
-            'destination_id' => $sellerAddress->ro_city_id,
-            'weight' => $weight,
-        ]);
+        // Log::info('checkShippingPrice called with parameters:', [
+        //     'origin_id' => $addressBuyer->ro_subdistrict_id,
+        //     'destination_id' => $sellerAddress->ro_city_id,
+        //     'weight' => $weight,
+        // ]);
 
         // $weight = -2;
         // $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
@@ -444,7 +447,7 @@ class OrderController extends Controller
         $channelCode = $channelType == 'QR_CODE' ? "DYNAMIC" : $masterAccount->provider_name;
 
         $dataPaymentCreated = $this->createPaymentRequest($channelType, $channelCode, $total, $identifier, $paymentDue, $user);
-        Log::info("created payReq - $identifier :", $dataPaymentCreated);
+        // Log::info("created payReq - $identifier :", $dataPaymentCreated);
 
         // dd($dataPaymentCreated);
         // return ResponseAPI($dataPaymentCreated);
@@ -482,6 +485,15 @@ class OrderController extends Controller
             $order->qr_string = $dataPaymentCreated['qr_string'];
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $order->outlet_payment_code = $dataPaymentCreated['payment_code'];
+        } else if ($channelType == 'PI') {
+            $order->pi_delivery_cost = convertRupiahToPi($order->delivery_cost);
+            $order->pi_service_fee = convertRupiahToPi($order->service_fee);
+            if ($countedAmountPromo > 0) {
+                $order->pi_total = convertRupiahToPi($order->total);
+                $order->pi_total_final = convertRupiahToPi($order->total_final);
+            } else {
+                $order->pi_total = convertRupiahToPi($order->total);
+            }
         }
 
         $order->save();
@@ -500,6 +512,109 @@ class OrderController extends Controller
 
         return ResponseAPI($data);
     }
+
+    public function serverApprove(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'login terlebih dahulu'], 401);
+        }
+
+        $paymentId = $request->payment_id;
+        $currentPayment = $this->platformAPIClient("v2/payments/$paymentId");
+
+        $order = Order::find($currentPayment->metadata->order_id);
+        if ($order == null) {
+            return response()->json(['message' => 'order tidak ditemukan'], 400);
+        }
+        $order->pi_payment_id = $paymentId;
+        $order->pi_total_final = $currentPayment->amount;
+        $order->save();
+
+
+        // let Pi Servers know that you're ready
+        $this->platformAPIClient("v2/payments/$paymentId/approve", 'post');
+        return response()->json(["message" => "Approved the payment $paymentId"]);
+    }
+
+    public function serverComplete(Request $request)
+    {
+        $paymentId = $request->payment_id;
+        $txid = $request->txid;
+
+        $order = Order::where('pi_payment_id', $request->payment_id)->first();
+        if ($order) {
+            $order->status = Order::PAID;
+            $order->payment_status = Order::PAYMENT_PAID;
+            $order->txid = $txid;
+            $order->save();
+        }
+
+        // let Pi server know that the payment is completed
+        $this->platformAPIClient("/v2/payments/$paymentId/complete", "post", ['txid' => $txid]);
+        return response()->json(["message" => "Completed the payment $paymentId"]);
+    }
+
+    public function serverIncomplete(Request $request)
+    {
+        $payment = $request->payment;
+        $paymentId = $payment->identifier;
+        $txid = $payment->transaction && $payment->transaction->txid;
+        $txURL = $payment->transaction && $payment->transaction->_link;
+
+        // find the incomplete order
+        $order = Order::where('pi_payment_id', $paymentId)->first();
+
+        // order doesn't exist 
+        if (!$order) {
+            return response()->json([
+                'message' => "Order not found"
+            ], 400);
+        }
+
+        // check the transaction on the Pi blockchain
+        $horizonResponse = $this->platformAPIClient($txURL);
+        $paymentIdOnBlock = $horizonResponse->memo ?? null;
+
+        // and check other data as well e.g. amount
+        if ($paymentIdOnBlock !== $order->pi_payment_id) {
+            return response()->json(["message" => "Payment id doesn't match."]);
+        }
+
+        // mark the order as paid
+        $order->status = Order::PAID;
+        $order->payment_status = Order::PAYMENT_PAID;
+        $order->txid = $txid;
+        $order->save();
+
+        // let Pi Servers know that the payment is completed
+        $this->platformAPIClient("v2/payments/{$paymentId}/complete", 'post', ['txid' => $txid]);
+
+        return response()->json([
+            'message ' => `Handled the incomplete payment $paymentId`
+        ]);
+    }
+
+
+    public function serverCancel(Request $request)
+    {
+
+        $paymentId = $request->payment_id;
+
+        $orders = Order::where('pi_payment_id', $request->pi_payment_id)->where("status", '!=', Order::PAID)->get();
+
+        foreach ($orders as $order) {
+            $order->status = Order::CANCELLED;
+            $order->payment_status = Order::PAYMENT_CANCELLED;
+            $order->save();
+        }
+
+        return response()->json([
+            "message" => "Cancelled the payment $paymentId"
+        ]);
+    }
+
 
     private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
     {
@@ -579,6 +694,7 @@ class OrderController extends Controller
     public function createPaymentRequest($channelType, $channelCode, $amount, $paymentIdentifier, $paymentDue, User $user)
     {
         if ($channelType == 'PI') {
+            return [];
         }
 
         Xendit::setApiKey(env('XENDIT_KEY'));
@@ -617,5 +733,27 @@ class OrderController extends Controller
 
 
         return $result;
+    }
+
+    private function platformAPIClient($url, $method = 'get', $json = [])
+    {
+        $platformAPIClient = new Client([
+            'base_uri' => "https://api.minepi.com",
+            'timeout'  => 20000,
+            'headers'  => [
+                'Authorization' => 'Key mtr9iaoqhkkqvqz4lgwcu8jrbkorcaf8u6qlrfytia1rzrzkwbapvlsagmdseajd'
+                // 'Authorization' => 'Key sfzgfudokxyf6urlin26hda1cmo0rgiui62dqslp2qqkib4rzohcbngosbppplbt'
+            ],
+        ]);
+
+        if ($method == 'post')
+            $response = $platformAPIClient->post($url, [
+                'json' => $json,
+            ]);
+        else
+            $response = $platformAPIClient->get($url);
+
+
+        return json_decode($response->getBody());
     }
 }

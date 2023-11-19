@@ -10,7 +10,7 @@
             <div>
                 <h2 class="content-title">Detail Pembayaran</h2>
             </div>
-            <div> <a href="{{ route('dashboard.myOrder') }}" class="btn btn-xs">
+            <div> <a href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}" class="btn btn-xs">
                     Kembali ke Pesanan
                 </a>
             </div>
@@ -66,6 +66,11 @@
                                 <p class="textSecondary mb-1 fw-600 textCopy" role=button>Salin</p>
                             </div>
                         @elseif (isset($order->master_account) && $order->master_account?->type == 'E-Wallet')
+
+                        @elseif (isset($order->master_account) && $order->master_account?->type == 'PI')
+                            <button id="piButton" class="btn btn-md">
+                                Proceed to PI Network
+                            </button>
                         @endif
                         @if (isset($order->qr_string))
                             <div class="py-4 text-center">
@@ -82,6 +87,95 @@
     </section>
 @endsection
 @push('importjs')
+    <script>
+        $(document).ready(function() {
+            $("#piButton").click(async function() {
+
+                const scopes = ['username', 'payments'];
+                const authResults = await Pi.authenticate(scopes, onIncompletePaymentFound);
+
+                const paymentData = {
+                    amount: {{ $order->pi_total }},
+                    memo: "{{ $order->payment_identifier }}",
+                    metadata: {
+                        order_id: {{ $order->id }},
+                        user_id: {{ Auth::guard('web')->user()->id }}
+                    }
+                }
+
+                console.log(paymentData);
+
+                const callbacks = {
+                    onReadyForServerApproval,
+                    onReadyForServerCompletion,
+                    onCancel,
+                    onError
+                }
+
+                const payment = await Pi.createPayment(paymentData, callbacks);
+            });
+
+            function onIncompletePaymentFound(payment) {
+                console.log(payment);
+                $.post("/pi/incomplete{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                        payment_id: paymentId,
+                    },
+                    function(data, textStatus, jqXHR) {
+                        console.log(data, 'approval');
+                    },
+                    "json"
+                );
+            }
+
+            function onReadyForServerApproval(paymentId) {
+                console.log("onReadyForServerApproval", paymentId);
+                $.post("/pi/approve{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                        payment_id: paymentId,
+                    },
+                    function(data, textStatus, jqXHR) {
+                        console.log(data, 'approval');
+                    },
+                    "json"
+                );
+            }
+
+            function onReadyForServerCompletion(paymentId, txid) {
+                console.log("onReadyForServerCompletion", paymentId, txid);
+                $.post("/pi/complete{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                        payment_id: paymentId,
+                        txid
+                    },
+                    function(data, textStatus, jqXHR) {
+                        console.log(data, 'complete');
+                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
+                    },
+                    "json"
+                );
+            }
+
+            function onCancel(paymentId) {
+                console.log("onCancel", paymentId);
+                return $.post(
+                    "/pi/cancelled_payment{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                        payment_id: paymentId,
+                    },
+                    function(data, textStatus, jqXHR) {
+                        console.log(data, 'cancel');
+                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
+                    },
+                    "json"
+                );
+            }
+
+            function onError(error, payment) {
+                console.log("onError", error);
+                if (payment) {
+                    console.log(payment);
+                    alert(payment)
+                }
+            }
+        });
+    </script>
     <script type="text/javascript">
         $(".textCopy").click(function(e) {
             e.preventDefault();

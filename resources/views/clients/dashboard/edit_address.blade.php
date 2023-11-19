@@ -27,7 +27,7 @@
                 <div class="row gx-5">
                     <div class="col-12">
                         <section class="content-body p-xl-4">
-                            <form method="POST" action="{{ route('dashboard.updateAddress') }}">
+                            <form id="updateAddresses" method="POST" action="{{ route('dashboard.updateAddress') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                 @csrf
                                 <input type="hidden" value="{{ $data->id }}" name="id">
                                 <div class="row">
@@ -132,20 +132,37 @@
                                                     </div>
                                                 </div>
                                             @endif
+                                            <div class="form-group mb-3">
+                                                <label for="address_address">Alamat</label>
+                                                <input type="text" id="address-input" name="address_address"
+                                                    {{ $data->lat && $data->long ? '' : 'required' }}
+                                                    class="form-control map-input">
+                                                <input type="hidden" name="lat" id="address-latitude"
+                                                    value="{{ $data->lat }}" value="0" />
+                                                <input type="hidden" name="long" id="address-longitude"
+                                                    value="{{ $data->long }}" value="0" />
+                                            </div>
+                                            <div class="mb-3" id="address-map-container"
+                                                style="width:100%;height:400px; ">
+                                                <div style="width: 100%; height: 100%" id="address-map"></div>
+                                            </div>
+
                                             <div class="col-12">
                                                 <div class="mb-3">
-                                                    <label class="form-label" for="address_description">Alamat</label>
+                                                    <label class="form-label" for="address_description">Deskripsi
+                                                        Alamat</label>
                                                     <textarea class="form-control" id="address_description" name="address_description"
                                                         placeholder="no bangunan atau keterangan lain" rows="4">{{ $data->address_description }}</textarea>
                                                 </div>
                                             </div>
+
                                             <div class="col-12">
                                                 <div class="mb-3">
                                                     <div class="form-check form-switch ps-5">
                                                         <label class="form-check-label" for="main">Atur
                                                             sebagai Alamat Utama</label>
-                                                        <input class="form-check-input" type="checkbox" id="main" name="main"
-                                                            checked>
+                                                        <input class="form-check-input" type="checkbox" id="main"
+                                                            name="main" checked>
                                                     </div>
                                                 </div>
                                             </div>
@@ -173,7 +190,7 @@
                     <div class="modal-footer border-top-0">
                         <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
                         <a class="btn btn-xs-danger" style="background-color:#dc3545 !important;"
-                            href="{{ route('dashboard.deleteAddress', ['id' => $data->id]) }}">Hapus
+                            href="{{ route('dashboard.deleteAddress', ['id' => $data->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Hapus
                         </a>
                     </div>
                 </div>
@@ -215,7 +232,118 @@
 
 @push('importjs')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.5/js/intlTelInput.min.js"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize"
+        async defer></script>
+    <script>
+        function initialize() {
+            $('#updateAddresses').on('keyup keypress', function(e) {
+                var keyCode = e.keyCode || e.which;
+                if (keyCode === 13) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
 
+            const locationInputs = document.getElementsByClassName("map-input");
+
+            const autocompletes = [];
+            const geocoder = new google.maps.Geocoder;
+            for (let i = 0; i < locationInputs.length; i++) {
+
+                const input = locationInputs[i];
+                const fieldKey = input.id.replace("-input", "");
+                const isEdit = document.getElementById(fieldKey + "-latitude").value != '' && document.getElementById(
+                    fieldKey +
+                    "-longitude").value != '';
+                let latitude;
+                let longitude;
+                if ("{{ $data->lat }}") {
+                    latitude = parseFloat("{{ $data->lat }}") || -6.2297209;
+                } else {
+                    latitude = parseFloat(document.getElementById(fieldKey + "-latitude").value) || -6.2297209;
+                }
+                if ("{{ $data->long }}") {
+                    longitude = parseFloat("{{ $data->long }}") || 106.664705;
+                } else {
+                    longitude = parseFloat(document.getElementById(fieldKey + "-longitude").value) || 106.664705;
+                }
+
+                const map = new google.maps.Map(document.getElementById(fieldKey + '-map'), {
+                    center: {
+                        lat: latitude || -6.2297209,
+                        lng: longitude || 106.664705
+                    },
+                    zoom: 13
+                });
+                const marker = new google.maps.Marker({
+                    map: map,
+                    position: {
+                        lat: latitude,
+                        lng: longitude
+                    },
+                });
+
+                marker.setVisible(isEdit);
+
+                const autocomplete = new google.maps.places.Autocomplete(input);
+                autocomplete.key = fieldKey;
+                autocompletes.push({
+                    input: input,
+                    map: map,
+                    marker: marker,
+                    autocomplete: autocomplete
+                });
+            }
+
+            for (let i = 0; i < autocompletes.length; i++) {
+                const input = autocompletes[i].input;
+                const autocomplete = autocompletes[i].autocomplete;
+                const map = autocompletes[i].map;
+                const marker = autocompletes[i].marker;
+
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    marker.setVisible(false);
+                    const place = autocomplete.getPlace();
+
+                    geocoder.geocode({
+                        'placeId': place.place_id
+                    }, function(results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            const lat = results[0].geometry.location.lat();
+                            const lng = results[0].geometry.location.lng();
+                            setLocationCoordinates(autocomplete.key, lat, lng);
+                        }
+                    });
+
+                    if (!place.geometry) {
+                        window.alert("No details available for input: '" + place.name + "'");
+                        input.value = "";
+                        return;
+                    }
+
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17);
+                    }
+                    marker.setPosition(place.geometry.location);
+                    marker.setVisible(true);
+
+                });
+            }
+        }
+
+        function setLocationCoordinates(key, lat, lng) {
+            const latitudeField = document.getElementById(key + "-" + "latitude");
+            const longitudeField = document.getElementById(key + "-" + "longitude");
+            console.log(lat, lng);
+            console.log('lat, lng');
+            latitudeField.value = lat;
+            longitudeField.value = lng;
+        }
+    </script>
     <script type="text/javascript">
         setTimeout(function() {
             $('#mydiv').fadeOut('fast');
@@ -239,7 +367,7 @@
             var id = this.value;
             $.ajax({
                 type: "GET",
-                url: "{{ route('getCity') }}" + '/' + id,
+                url: "{{ route('getCity') }}" + '/' + id+"{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                 dataType: "json",
                 success: function(data) {
                     var html = '';
@@ -266,7 +394,7 @@
             var id = this.value;
             $.ajax({
                 type: "GET",
-                url: "{{ route('getDistrict') }}" + '/' + id,
+                url: "{{ route('getDistrict') }}" + '/' + id + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                 dataType: "json",
                 success: function(data) {
                     var html = '';

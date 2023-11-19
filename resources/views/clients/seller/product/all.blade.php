@@ -11,7 +11,7 @@
             <div>
                 {{-- <a class="btn btn-light rounded font-md" href="#">Export</a><a class="btn btn-light rounded font-md"
                     href="#">Import</a> --}}
-                <a class="btn btn-primary btn-sm rounded" href="{{ route('dashboardSeller.addProduct') }}">Tambah Produk</a>
+                <a class="btn btn-primary btn-sm rounded" href="{{ route('dashboardSeller.addProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tambah Produk</a>
             </div>
         </div>
         <div class="card mb-4">
@@ -54,7 +54,7 @@
                                     <tr>
                                         <td class="align-middle">{{ $key + 1 }}</td>
                                         <td class="align-middle"><a class="itemside"
-                                                href="{{ route('buyer.detailProduct', ['slug' => $product?->slug ?? '1234']) }}">
+                                                href="{{ route('buyer.detailProduct', ['slug' => $product?->slug ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                 <div class="left">
                                                     <img class="img-xs"
                                                         src="{{ $product->images && count($product->images) > 0 ? $product->images[0] : asset('ecom_dashboard/imgs/items/1.jpg') }}"
@@ -74,7 +74,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
-                                                href="{{ route('dashboardSeller.editProduct', ['id' => $product->id ?? '1']) }}">Detail</a>
+                                                href="{{ route('dashboardSeller.editProduct', ['id' => $product->id ?? '1']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                             <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
                                                 data-bs-target="#deleteProduct">
                                                 Hapus
@@ -107,7 +107,7 @@
                     <div class="modal-footer border-top-0">
                         <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
                         <a class="btn btn-xs-danger"
-                            href="{{ route('dashboardSeller.deleteProduct', ['id' => $product->id ?? '1']) }}">Hapus</a>
+                            href="{{ route('dashboardSeller.deleteProduct', ['id' => $product->id ?? '1']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Hapus</a>
                     </div>
                 </div>
             </div>
@@ -163,7 +163,7 @@
                 if (searchQuery !== '') {
                     url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location = url;
+                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
                 // Navigate to the constructed URL
                 // history.pushState({}, '', url);
             }
