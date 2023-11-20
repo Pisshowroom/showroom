@@ -77,11 +77,6 @@
                                 {!! QrCode::size(300)->generate($order->qr_string) !!}
                             </div>
                         @endif
-                        @if ($order->master_account->type == 'PI')
-                            <a href="#" id="PiBtn" class="btn btn-md my-3">
-                                Proceed
-                            </a>
-                        @endif
                         <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis at.
                             Dolore facilis repellat numquam cum, id, iste sint libero odio atque a quam ducimus cumque quis
                             enim reiciendis repellendus?</p>
