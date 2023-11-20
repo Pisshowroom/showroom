@@ -156,13 +156,13 @@ class BuyerController extends Controller
     public function checkout()
     {
         $data = $this->getCommonData();
-        $masterAccounts = MasterAccount::whereIn('type', ['Virtual-Account', 'E-Wallet', 'Retail-Outlet', 'PI'])
+        $masterAccounts = MasterAccount::whereIn('type', ['Virtual-Account', 'E-Wallet', 'Retail-Outlet'])
             ->orderBy('type')
             ->get();
         $data['address'] = Address::where('user_id', Auth::guard('web')->user()->id)->whereNull('deleted_at')
             ->select('id', 'user_id', 'main', 'place_name', 'person_name', 'phone_number', 'district', 'city')
             ->get();
-        $data['master_account'] = MasterAccountResource::collection($masterAccounts);
+        $data['master_account'] = MasterAccountResource::collection(...MasterAccount::where('type', 'PI')->get(), ...$masterAccounts);
 
         $setting = Setting::where("name", "pi")->first();
         if (!$setting) {
