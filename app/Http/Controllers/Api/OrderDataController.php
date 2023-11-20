@@ -61,6 +61,14 @@ class OrderDataController extends Controller
         return OrderResource::collection($orders);
     }
 
+    public function buyerCancelOrder(Order $order)
+    {
+        $order->status = Order::CANCELLED;
+        $order->save();
+
+        return ResponseAPI('Pesanan berhasil dibatalkan', 200);
+    }
+
     public function sellerAcceptOrder(Order $order)
     {
         $order->status = Order::PROCESSED_BY_SELLER;

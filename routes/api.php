@@ -138,6 +138,7 @@ Route::group(['prefix' => 'order'], function () {
         Route::post('/seller-send/{order}', [OrderDataController::class, 'sellerSendOrder']);
         Route::post('/check-status-delivered/{order}', [OrderDataController::class, 'checkStatusDeliveredOrder']);
         Route::post('/completed-order/{order}', [OrderDataController::class, 'completedOrder']);
+        Route::post('/buyer-cancel-order/{order}', [OrderDataController::class, 'buyerCancelOrder']);
 
     });
 });
