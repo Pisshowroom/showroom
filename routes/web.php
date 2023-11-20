@@ -136,6 +136,8 @@ Route::get('/semua-produk-grid', [BuyerProductController::class, 'allGridProduct
 Route::get('/produk-{slug}', [BuyerProductController::class, 'detailProduct'])->name('buyer.detailProduct');
 Route::post('/tambah-ulasan', [BuyerProductController::class, 'addReview'])->name('buyer.addReview');
 
+Route::get('/pembeli/pembayaran-pi/{identifier}', [BuyerOrderController::class, 'piPayment'])->name('dashboard.pi_payment');
+
 Route::prefix('regionals')->group(function () {
     Route::get('/cities/{id?}', [DashboardController::class, 'citiesByProvince'])->name('getCity');
     Route::get('/subdistricts/{id?}', [DashboardController::class, 'subdistrictsByCity'])->name('getDistrict');

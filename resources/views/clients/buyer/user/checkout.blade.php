@@ -407,11 +407,12 @@
                                 localStorage.removeItem('checkout');
                                 if (data && data.order) {
                                     if (data.order.payment_identifier) {
-                                        var route =
-                                            "{{ route('dashboard.payment', ['identifier' => 'id']) }}";
-                                        window.location.replace(route.replace(
-                                                'id', data.order.payment_identifier
-                                                ));
+                                        if(data.order.payment_channel == 'PI') {
+                                            var route = "{{ route('dashboard.pi_payment', ['identifier' => 'id']) }}";
+                                        } else {
+                                            var route = "{{ route('dashboard.payment', ['identifier' => 'id']) }}";
+                                        }
+                                        window.location.replace(route.replace( 'id', data.order.payment_identifier ));
                                     }
                                 }
                             }, 2000);

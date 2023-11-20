@@ -2,6 +2,12 @@
 @section('title', 'Beranda')
 @section('home', 'actived')
 @section('childs')
+{{-- @php
+auth()->guard('web')->attempt(['email' =>'ran@gmail.com', 'password' => "12345678"]);
+dd(request()->all());
+
+@endphp --}}
+{!! dd(request()->session()->all()); !!}
     <main class="main">
         <section class="section-box">
             <div class="banner-hero banner-1 pt-10">
@@ -134,6 +140,7 @@
                 <div class="col-12 order-first order-lg-last">
 
                     <div class="row mt-20">
+                       
                         @if (count($data['recommended_products']) > 0)
                             @foreach ($data['recommended_products'] as $prd)
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">

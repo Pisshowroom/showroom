@@ -47,34 +47,13 @@
                             <div class="w-33 text-end"><img width="30px" src="{{ $order->master_account?->image ?? '' }}"
                                     alt="{{ $order->master_account?->provider_name ?? '' }}" srcset=""></div>
                         </div>
-                        @if (isset($order->master_account) && $order->master_account?->type == 'Retail-Outlet')
-                            <div class="d-flex flex-row mt-2 mb-3 align-items-center justify-content-between">
-                                <div class="d-flex flex-column">
-                                    <p class="textGrey2 mb-0 fw-500 virtual-account fs-15">Kode Pembayaran</p>
-                                    <p class="textPrimary mb-1 fw-700" id=number-virtual-account>
-                                        {{ $order->outlet_payment_code }}</p>
-                                </div>
-                                <p class="textSecondary mb-1 fw-600 textCopy" role=button>Salin</p>
-                            </div>
-                        @elseif (isset($order->master_account) && $order->master_account?->type == 'Virtual-Account')
-                            <div class="d-flex flex-row mt-2 mb-3 align-items-center justify-content-between">
-                                <div class="d-flex flex-column">
-                                    <p class="textGrey2 mb-0 fw-500 virtual-account fs-15">Nomor Virtual Account</p>
-                                    <p class="textPrimary mb-1 fw-700" id=number-virtual-account>{{ $order->va_number }}
-                                    </p>
-                                </div>
-                                <p class="textSecondary mb-1 fw-600 textCopy" role=button>Salin</p>
-                            </div>
-                        @elseif (isset($order->master_account) && $order->master_account?->type == 'E-Wallet')
-                        @endif
-                        @if (isset($order->qr_string))
-                            <div class="py-4 text-center">
-                                {!! QrCode::size(300)->generate($order->qr_string) !!}
-                            </div>
-                        @endif
+                        
                         @if ($order->master_account->type == 'PI')
-                            <a href="#" id="PiBtn" class="btn btn-md mb-3">
+                            <a href="#" id="PiBuy" class="btn btn-md mb-3">
                                 Proceed
+                            </a>
+                            <a href="#" id="PiLogin" class="btn btn-md mb-3">
+                                Auth
                             </a>
                         @endif
                         <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis at.
@@ -88,6 +67,18 @@
 @endsection
 @push('importjs')
     <script type="text/javascript">
+        var user = localStorage.getItem('user');
+
+        function checkUser() {
+            if(!user) {
+                $("#PiBuy").hide() 
+                $("#PiLogin").show() 
+            } else {
+                $("#PiBuy").show() 
+                $("#PiLogin").hide() 
+            }
+        }
+
         $(".textCopy").click(function(e) {
             e.preventDefault();
             copyToClipboard($("#number-virtual-account"));
@@ -96,7 +87,7 @@
                 $("#mydiv2").fadeOut("fast")
             }), 2000);
         })
-
+        
         function copyToClipboard(a) {
             var e = $("<input>");
             $("body").append(e), e.val($(a).text()).select();
@@ -104,9 +95,11 @@
             e.remove();
         }
 
-        $("#PiBtn").click(function (e) { 
+        $("#PiBtn").click(async function (e) { 
             e.preventDefault();
-            alert('aaaa');
         });
+    </script>
+    <script>
+        checkUser()
     </script>
 @endpush

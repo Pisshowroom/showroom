@@ -30,6 +30,13 @@ class OrderController extends Controller
         return view('clients.dashboard.order.payment', ['order' => $order]);
     }
 
+    public function piPayment($identifier)
+    {
+        $order = Order::where('payment_identifier', $identifier)->where('payment_status', 'PaymentPending')->with('master_account:id,provider_name,image,type')->firstOrFail();
+        $order->due = parseDates($order->payment_due);
+        return view('clients.dashboard.order.pi_payment', ['order' => $order]);
+    }
+
     public function myOrder(Request $request)
     {
         $status = $request->input('status');
@@ -470,6 +477,16 @@ class OrderController extends Controller
             $order->qr_string = $dataPaymentCreated['qr_string'];
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $order->outlet_payment_code = $dataPaymentCreated['payment_code'];
+        } else if ($channelType == 'PI') {
+            $order->pi_delivery_cost = convertRupiahToPi($deliveryCost);
+            $order->pi_service_fee = convertRupiahToPi($serviceFee);
+
+            if ($countedAmountPromo > 0) {
+                $order->pi_total = convertRupiahToPi($pi_WithoutDiscount);
+                $order->pi_total_final = convertRupiahToPi($total);
+            } else {
+                $order->pi_total = convertRupiahToPi($total);
+            }
         }
 
         $order->save();
@@ -567,6 +584,7 @@ class OrderController extends Controller
     public function createPaymentRequest($channelType, $channelCode, $amount, $paymentIdentifier, $paymentDue, User $user)
     {
         if ($channelType == 'PI') {
+            return [];
         }
 
         Xendit::setApiKey(env('XENDIT_KEY'));
