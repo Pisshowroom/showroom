@@ -91,7 +91,7 @@ class OrderDataController extends Controller
             'delivery_service' => $request->delivery_service,
             'delivery_receipt_number' => $request->delivery_receipt_number,
         ]);
-        $orderController->waybillCheck($requestNew);
+        // $orderController->waybillCheck($requestNew);
         
         $order->delivery_receipt_number = $request->delivery_receipt_number;
         $order->status = Order::SHIPPED;
@@ -107,7 +107,7 @@ class OrderDataController extends Controller
         
         if ($order->status == Order::SHIPPED) {
             $order->status = Order::DELIVERED;
-            $order->arrived_at = $dateFromDelivery;
+            $order->delivered_at = $dateFromDelivery;
             $order->save();
         }
         
@@ -123,6 +123,7 @@ class OrderDataController extends Controller
         $feeCommerce = 0;
         $feeGlobalAmount = lypsisGetSetting("", [], true, ['seller_fee_amount', 'seller_fee_percent'])->toArray();
         $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+            $dateFromDelivery = now();
 
 
         if ($seller->seller_fee_amount > 0) {
@@ -139,6 +140,7 @@ class OrderDataController extends Controller
         $totalIncome = $totalPrice - $feeCommerce;
 
         $order-> market_fee_seller = $feeCommerce;
+        $order->arrived_at = $dateFromDelivery;
         $order->save();
         
         $commerceBalance = Setting::where('name', 'commerce_balance')->firstOrFail();
