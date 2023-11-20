@@ -35,7 +35,7 @@
 @elseif ($order->status == 'ReturnDeclined')
     <span class="badge rounded-pill alert-danger fw-normal">Refund diminta</span>
 @elseif ($order->status == 'Cancelled')
-    <span class="badge rounded-pill alert-danger fw-normal">Dibatalkan</span>
+    <span class="badge rounded-pill alert-warning fw-normal">Dibatalkan</span>
 @else
     <span class="badge rounded-pill alert-warning fw-normal">Menunggu
         Pembayaran</span>

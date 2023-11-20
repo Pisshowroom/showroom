@@ -18,7 +18,7 @@
                             <div class="box-category">
                                 <select class="select-active select2-hidden-accessible" data-select2-id="1"
                                     id="navKategori" tabindex="-1" aria-hidden="true">
-                                    <option name="category_id" value="Semua kategori">Semua kategori</option>
+                                    <option name="category_id" value="Semua kategori">Pilih kategori</option>
                                     @foreach ($data['categories'] as $ct)
                                         <option name="category_id" value="{{ $ct->id }}"
                                             {{ request()->get('category_id') == $ct->id ? 'selected' : '' }}>
@@ -191,25 +191,13 @@
         </div>
     </div>
 </div>
-{{-- <div class="sidebar-left"><a class="btn btn-open" href="#"></a>
+<div class="sidebar-left"><a class="btn btn-open" href="#"></a>
     <ul class="menu-icons hidden">
         <li><a href="javascript:void(0)"><img src="{{ asset('ecom/imgs/template/monitor.svg') }}"
                     alt="Ecom"></a></li>
         <li><a href="javascript:void(0)"><img src="{{ asset('ecom/imgs/template/mobile.svg') }}" alt="Ecom"></a>
         </li>
         <li><a href="#"><img src="{{ asset('ecom/imgs/template/game.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/clock.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/airpod.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/airpods.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/mouse.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/music-play.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/bluetooth.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/clound.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/electricity.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/cpu.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/devices.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/driver.svg') }}" alt="Ecom"></a></li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/lamp.svg') }}" alt="Ecom"></a></li>
     </ul>
     <ul class="menu-texts menu-close">
         <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
@@ -218,15 +206,10 @@
                     Accessories</span></a>
             <ul class="sub-menu">
                 <li><a href="{{ route('buyer.allGridProduct') }}">Computer Accessories</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Computer Cases</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Laptop</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">HDD</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">RAM</a></li>
-                <li><a href="{{ route('buyer.allGridProduct') }}">Headphone</a></li>
             </ul>
         </li>
     </ul>
-</div> --}}
+</div>
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area position-absolute">

@@ -17,4 +17,4 @@ class VerifyCsrfToken extends Middleware
         '/login-pi',
         '/*'
     ];
-}
+}   

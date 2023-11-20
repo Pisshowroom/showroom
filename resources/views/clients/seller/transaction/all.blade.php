@@ -4,6 +4,16 @@
 @section('dashboard')
 
     <section class="content-main">
+        @if (session('error'))
+            <div class="alert alert-warning" id="mydiv">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success" id="mydiv">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="content-header">
             <div>
                 <h2 class="content-title card-title">Semua Transaksi</h2>
@@ -64,7 +74,13 @@
                                         <td class="align-middle">
                                             {{ $order->payment_identifier ?? '' }}
                                         </td>
-                                        <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
+                                        @if ($order->total_final)
+                                            <td class="align-middle">
+                                                {{ $order->total_final ? numbFormat($order->total_final) : '' }}</td>
+                                        @else
+                                            <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}
+                                            </td>
+                                        @endif
                                         <td class="align-middle">
                                             @include('clients.dashboard.order.status_order')
                                         </td>
@@ -72,17 +88,17 @@
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
-
-                                            @if ($order->status == '')
-                                                <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#cancelTransaction">
-                                                    Batalkan
-                                                </button>
-                                            @else
-                                                <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#cancelTransaction">
-                                                    Batalkan
-                                                </button>
+                                            @if ($order->status == 'Paid' && $order->payment_status == 'PaymentPaid')
+                                                <a class="btn btn-xs-danger"
+                                                    href="{{ route('dashboardSeller.sellerRejectOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Tolak</a>
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboardSeller.sellerAcceptOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Terima</a>
+                                            @elseif ($order->status == 'ProcessedBySeller' && $order->payment_status == 'PaymentPaid')
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboardSeller.sellerSendOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Siap diantar</a>
                                             @endif
                                         </td>
                                     </tr>
@@ -98,8 +114,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="cancelTransaction" tabindex="-1" aria-labelledby="cancelTransactionLabel"
-            aria-hidden="true">
+        {{-- <div class="modal fade" id="cancelTransaction{{ $order->id }}" tabindex="-1"
+            aria-labelledby="cancelTransactionLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header border-bottom-0">
@@ -112,17 +128,63 @@
                     <div class="modal-footer border-top-0">
                         <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
                         <a class="btn btn-xs-danger"
-                            href="{{ route('cancelOrder', ['order' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                            Batalkan</a>
+                            href="{{ route('dashboardSeller.sellerRejectOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            Tolak</a>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="acceptTransaction{{ $order->id }}" tabindex="-1"
+            aria-labelledby="acceptTransactionLabel{{ $order->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <h1 class="modal-title fs-5 text-dark" id="acceptTransactionLabel{{ $order->id }}">Terima
+                            Transaksi</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-dark">Apakah kamu yakin ingin menerima transaksi ini ?</h5>
+                    </div>
+                    <div class="modal-footer border-top-0">
+                        <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
+                        <a class="btn btn-xs-success"
+                            href="{{ route('dashboardSeller.sellerAcceptOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            Terima</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="sendProductBySeller{{ $order->id }}" tabindex="-1"
+            aria-labelledby="sendProductBySellerLabel{{ $order->id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <h1 class="modal-title fs-5 text-dark" id="sendProductBySellerLabel{{ $order->id }}">Produk
+                            siap diantar</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-dark">Apakah kamu yakin Produk ini siap diantar ?</h5>
+                    </div>
+                    <div class="modal-footer border-top-0">
+                        <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
+                        <a class="btn btn-xs-success"
+                            href="{{ route('dashboardSeller.sellerSendOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            Ya</a>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
     </section>
 @endsection
 @push('importjs')
     <script>
         $(document).ready(function() {
+            setTimeout(function() {
+                $('#mydiv').fadeOut('fast');
+            }, 2000);
+
             function updateURL() {
                 var searchQuery = $('#searchTransaction').val();
                 var selectedStatus = $('#filterStatus').val();
@@ -136,8 +198,9 @@
                 if (searchQuery !== '') {
                     url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location = url +
-                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
             }
 
             $('#searchTransaction, #filterStatus').on('change', function() {

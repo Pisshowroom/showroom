@@ -15,7 +15,8 @@ class SellerController extends Controller
 {
     public function getCommonData()
     {
-        $data['categories'] = Category::whereNull('deleted_at')->withCount('products')->get();
+        $data['categories'] = Category::withCount('products')->whereNull('deleted_at')->orderByDesc('products_count')->take(8)->get();
+        $data['sub_categories'] = Category::withCount('products')->with('sub_categories:id,name,category_id')->whereNull('deleted_at')->latest()->get();
 
         if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
             $data['addresses'] = $this->addresses();

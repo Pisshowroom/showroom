@@ -19,7 +19,7 @@
                             <div class="box-category">
                                 <select id="navKategori" class="select-active select2-hidden-accessible"
                                     data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                    <option>Semua kategori</option>
+                                    <option>Pilih kategori</option>
                                     @foreach ($data['categories'] as $ct)
                                         <option name="category_id" value="{{ $ct->id }}">{{ $ct->name }}
                                         </option>
@@ -140,85 +140,22 @@
         </div>
         <div class="header-bottom">
             <div class="container">
-                {{-- <div class="dropdown d-inline-block">
+                <div class="dropdown d-inline-block">
                     <button class="btn dropdown-toggle btn-category" id="dropdownCategory" type="button"
                         data-bs-toggle="dropdown" aria-expanded="true" data-bs-display="static"><span
                             class="dropdown-right font-sm-bold color-white">Berdasarkan Kategori</span></button>
                     <div class="sidebar-left dropdown-menu dropdown-menu-light" aria-labelledby="dropdownCategory"
                         data-bs-popper="static">
                         <ul class="menu-texts menu-close">
-                            <li class="has-children"><a href="javascript:;"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/monitor.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Computers &amp;
+                            <li class="has-children"><a href="javascript:;"><span class="text-link">Computers &amp;
                                         Accessories</span></a>
                                 <ul class="sub-menu">
                                     <li><a href="#">Computer Accessories</a></li>
-                                    <li><a href="#">Computer Cases</a></li>
-                                    <li><a href="#">Laptop</a></li>
-                                    <li><a href="#">HDD</a></li>
-                                    <li><a href="#">RAM</a></li>
-                                    <li><a href="#">Headphone</a></li>
                                 </ul>
-                            </li>
-                            <li class="has-children"><a class="active" href="javascript:;"><span
-                                        class="img-link"><img src="{{ asset('ecom/imgs/template/mobile.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Cell Phones</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="#">Phone Accessories</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/game.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Gaming Gatgets</span></a>
-                            </li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/clock.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Smart watches</span></a>
-                            </li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/airpod.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Airpod</span></a></li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/airpods.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Wired Headphone</span></a>
-                            </li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/mouse.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Mouse &amp;
-                                        Keyboard</span></a></li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/music-play.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Headphone</span></a></li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/bluetooth.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Bluetooth devices</span></a>
-                            </li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/clound.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Cloud Software</span></a>
-                            </li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/electricity.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Electric
-                                        accessories</span></a>
-                            </li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/cpu.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Mainboard &amp;
-                                        CPU</span></a></li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/devices.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Desktop</span></a></li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/driver.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Speaker</span></a></li>
-                            <li><a href="#"><span class="img-link"><img
-                                            src="{{ asset('ecom/imgs/template/lamp.svg') }}"
-                                            alt="Ecom"></span><span class="text-link">Computer Decor</span></a>
                             </li>
                         </ul>
                     </div>
-                </div> --}}
+                </div>
                 <div class="header-nav d-inline-block">
                     <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
@@ -346,8 +283,9 @@
                 if (searchQuery !== '') {
                     url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location = url +
-                    '{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}';
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
                 // Navigate to the constructed URL
                 // history.pushState({}, '', url);
             }

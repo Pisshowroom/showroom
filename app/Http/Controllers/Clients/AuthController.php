@@ -147,6 +147,7 @@ class AuthController extends Controller
         ]);
         if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
             // Authentication passed...
+
             return response()->json([
                 "status" => "success",
                 "message" => "Berhasil login"

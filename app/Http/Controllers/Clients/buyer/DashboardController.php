@@ -126,7 +126,7 @@ class DashboardController extends Controller
 
         $user->save();
 
-        return redirect("/pembeli/pengaturan")->with('success', 'Profil berhasil diperbarui');
+        return redirect("/pembeli/pengaturan")->with('success', 'Profil berhasil diperbarui')->with('auth', base64_encode($user->uid));
     }
 
     public function updateAddress(Request $request)
@@ -194,32 +194,35 @@ class DashboardController extends Controller
         // $address->main = 1;
         $address->user_id = $user->id;
         $address->save();
-        return redirect("/pembeli/pengaturan?param=alamat")->with('success', 'Alamat berhasil diperbarui');
+        return redirect("/pembeli/pengaturan?param=alamat")->with('success', 'Alamat berhasil diperbarui')->with('auth', base64_encode($user->uid));
     }
     public function deleteAddress($id)
     {
+        $user = Auth::guard('web')->user();
         $ad = Address::where('id', $id)->firstOrFail();
         $ad->delete();
-        return redirect("/pembeli/pengaturan?param=alamat")->with('success', 'Alamat berhasil dihapus');
+        return redirect("/pembeli/pengaturan?param=alamat")->with('success', 'Alamat berhasil dihapus')->with('auth', base64_encode($user->uid));
     }
     public function cancelOrder(Request $request)
     {
+        $user = Auth::guard('web')->user();
         $identifier = $request->identifier;
         $page = $request->page;
-        Order::where('payment_identifier', $identifier)->update(['status' => 'cancel']);
+        Order::where('payment_identifier', $identifier)->update(['status' => 'Cancelled']);
         if ($page == 'dashboardSeller.dashboard' or $page == 'dashboardSeller.allTransaction')
-            return redirect()->route($page)->with('success', 'Berhasil membatalkan transaksi');
+            return redirect()->route($page)->with('success', 'Berhasil membatalkan transaksi')->with('auth', base64_encode($user->uid));
         else
-            return redirect()->route($page)->with('success', 'Berhasil membatalkan pesanan');
+            return redirect()->route($page)->with('success', 'Berhasil membatalkan pesanan')->with('auth', base64_encode($user->uid));
     }
     public function deleteOrder(Request $request)
     {
+        $user = Auth::guard('web')->user();
         $identifier = $request->identifier;
         $page = $request->page;
         Order::where('payment_identifier', $identifier)->delete();
         if ($page == 'dashboardSeller.dashboard' or $page == 'dashboardSeller.allTransaction')
-            return redirect()->route($page)->with('success', 'Berhasil menghapus transaksi');
+            return redirect()->route($page)->with('success', 'Berhasil menghapus transaksi')->with('auth', base64_encode($user->uid));
         else
-            return redirect()->route($page)->with('success', 'Berhasil menghapus pesanan');
+            return redirect()->route($page)->with('success', 'Berhasil menghapus pesanan')->with('auth', base64_encode($user->uid));
     }
 }

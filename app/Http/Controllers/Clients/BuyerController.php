@@ -15,6 +15,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Slider;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +23,8 @@ class BuyerController extends Controller
 {
     public function getCommonData()
     {
-        $data['categories'] = Category::all();
+        $data['categories'] = Category::withCount('products')->whereNull('deleted_at')->orderByDesc('products_count')->take(8)->get();
+        $data['sub_categories'] = Category::withCount('products')->with('sub_categories:id,name,category_id')->whereNull('deleted_at')->latest()->get();
 
         if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
             $data['addresses'] = $this->addresses();
@@ -64,7 +66,7 @@ class BuyerController extends Controller
                     ->where('orders.status', 'done')
             ])->byNotVariant()
             ->orderByDesc('total_quantity')
-            ->take(10)
+            ->take(8)
             ->get();
         $data = $this->getCommonData();
         $data['sliders'] = SliderResource::collection($sliders);
