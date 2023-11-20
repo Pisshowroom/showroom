@@ -140,7 +140,7 @@
         </div>
         <div class="header-bottom">
             <div class="container">
-                <div class="dropdown d-inline-block">
+                <div class="dropdown d-lg-inline-block d-none">
                     <button class="btn dropdown-toggle btn-category" id="dropdownCategory" type="button"
                         data-bs-toggle="dropdown" aria-expanded="true" data-bs-display="static"><span
                             class="dropdown-right font-sm-bold color-white">Berdasarkan Kategori</span></button>
