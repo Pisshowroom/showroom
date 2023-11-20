@@ -523,7 +523,7 @@ class OrderController extends Controller
         // $paymentDue = now()->addHours(24)->format('Y-m-d H:i:s');
         $paymentDue = now()->addHours(24);
         $countOrderToday = DB::table('orders')->whereDate('created_at', now())->count();
-        $identifier = str_pad(now()->day, 2, '0', STR_PAD_LEFT) . strtoupper(now()->format("M")) . now()->format('y') . 'ORD' . str_pad(($countOrderToday + 1), 3, '0', STR_PAD_LEFT) . env('XND_ID') . time();
+        $identifier = str_pad(now()->day, 2, '0', STR_PAD_LEFT) . strtoupper(now()->format("M")) . now()->format('y') . 'ORD' . str_pad(($countOrderToday + 1), 3, '0', STR_PAD_LEFT) . env('XND_ID');
 
 
         $orderItems = json_decode($request->order_items, true);
