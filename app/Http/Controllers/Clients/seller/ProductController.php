@@ -100,6 +100,6 @@ class ProductController extends Controller
     {
         $ad = Product::where('id', $id)->firstOrFail();
         $ad->delete();
-        return redirect("/toko/semua-produk")->with('success', 'Produk berhasil dihapus');
+        return redirect()->route('dashboardSeller.allProduct')->with('success', 'Produk berhasil dihapus');
     }
 }

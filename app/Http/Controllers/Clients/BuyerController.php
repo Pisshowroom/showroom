@@ -64,7 +64,7 @@ class BuyerController extends Controller
                     ->where('orders.status', 'done')
             ])->byNotVariant()
             ->orderByDesc('total_quantity')
-            ->take(10)
+            ->take(8)
             ->get();
         $data = $this->getCommonData();
         $data['sliders'] = SliderResource::collection($sliders);

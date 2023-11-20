@@ -206,7 +206,7 @@ class DashboardController extends Controller
     {
         $identifier = $request->identifier;
         $page = $request->page;
-        Order::where('payment_identifier', $identifier)->update(['status' => 'cancel']);
+        Order::where('payment_identifier', $identifier)->update(['status' => 'Cancelled']);
         if ($page == 'dashboardSeller.dashboard' or $page == 'dashboardSeller.allTransaction')
             return redirect()->route($page)->with('success', 'Berhasil membatalkan transaksi');
         else

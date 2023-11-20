@@ -4,6 +4,11 @@
 @section('dashboard')
 
     <section class="content-main">
+        @if (session('success'))
+            <div class="alert alert-success" id="mydiv">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="content-header">
             <div>
                 <h2 class="content-title card-title">Semua Produk</h2>
@@ -11,7 +16,9 @@
             <div>
                 {{-- <a class="btn btn-light rounded font-md" href="#">Export</a><a class="btn btn-light rounded font-md"
                     href="#">Import</a> --}}
-                <a class="btn btn-primary btn-sm rounded" href="{{ route('dashboardSeller.addProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tambah Produk</a>
+                <a class="btn btn-primary btn-sm rounded"
+                    href="{{ route('dashboardSeller.addProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tambah
+                    Produk</a>
             </div>
         </div>
         <div class="card mb-4">
@@ -70,15 +77,13 @@
                                         <td class="align-middle">{{ numbFormat($product->price) ?? '' }}</td>
                                         <td class="align-middle">{{ 'Aktif' }}</td>
                                         <td class="align-middle">
-                                            1
+                                            {{ $product->stock && $product->stock > 0 ? moneyFormat($product->stock) : '0' }}
                                         </td>
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboardSeller.editProduct', ['id' => $product->id ?? '1']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
-                                            <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteProduct">
-                                                Hapus
-                                            </button>
+                                            <a href="{{ route('dashboardSeller.deleteProduct', ['id' => $product->id]) }}"
+                                                class="btn btn-xs-danger">Hapus</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -93,61 +98,40 @@
                 </div>
             </div>
         </div>
-
-        <div class="modal fade" id="deleteProduct" tabindex="-1" aria-labelledby="deleteProductLabel" aria-hidden="true">
+        {{-- <div class="modal fade" id="deleteProduct-{{ $product->id }}" tabindex="-1"
+            role="dialog" aria-labelledby="deleteProductLabel-{{ $product->id }}"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header border-bottom-0">
-                        <h1 class="modal-title fs-5 text-dark" id="deleteProductLabel">Hapus Produk</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header">
+                        <h5 class="modal-title"
+                            id="deleteProductLabel-{{ $product->id }}">Hapus Produk
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <h5 class="text-dark">Apakah kamu yakin ingin menghapus Produk ini ?</h5>
+                        <p>Apakah kamu yakin ingin menghapus produk ini?</p>
                     </div>
-                    <div class="modal-footer border-top-0">
-                        <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
-                        <a class="btn btn-xs-danger"
-                            href="{{ route('dashboardSeller.deleteProduct', ['id' => $product->id ?? '1']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Hapus</a>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Tutup</button>
+                        <a href="{{ route('dashboardSeller.deleteProduct', ['id' => $product->id]) }}"
+                            class="btn btn-danger">Hapus</a>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
+
     </section>
 @endsection
 @push('importjs')
     <script>
         $(document).ready(function() {
-            // $('#kategori').change(function() {
-            //     var selectedCategoryId = $(this).val();
-            //     if ("{{ request()->get('search') }}") {
-            //         var searchQuery = "{{ request()->get('search') }}";
-            //     } else {
-            //         var searchQuery = '';
-            //     }
+            setTimeout(function() {
+                $('#mydiv').fadeOut('fast');
+            }, 2000);
 
-            //     var currentUrl = window.location.href;
-            //     var urlObject = new URL(currentUrl);
-            //     var params = new URLSearchParams(urlObject.search);
-
-            //     // Set or replace 'search' parameter
-            //     if (params.has('search')) {
-            //         params.set('search', searchQuery);
-            //     } else {
-            //         params.append('search', searchQuery);
-            //     }
-
-            //     // Set or replace 'category' parameter
-            //     if (params.has('category_id')) {
-            //         params.set('category_id', selectedCategoryId);
-            //     } else {
-            //         params.append('category_id', selectedCategoryId);
-            //     }
-
-            //     urlObject.search = params.toString();
-
-            //     window.location = urlObject.toString();
-            // });
-            // Function to update the URL
             function updateURL() {
                 var searchQuery = $('#searchInput').val();
                 var selectedCategoryId = $('#kategori').val();
@@ -163,7 +147,8 @@
                 if (searchQuery !== '') {
                     url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                window.location = url +
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
                 // Navigate to the constructed URL
                 // history.pushState({}, '', url);
             }

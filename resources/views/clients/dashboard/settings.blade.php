@@ -15,10 +15,6 @@
             <div class="alert alert-success" id="mydiv">
                 {{ session('success') }}
             </div>
-        @elseif (request()->get('param') && request()->get('param') == 'alamat' && session('success'))
-            <div class="alert alert-success" id="mydiv">
-                {{ session('success') }}
-            </div>
         @endif
         <div class="card">
             <div class="card-body">

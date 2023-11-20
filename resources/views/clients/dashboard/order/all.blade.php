@@ -69,21 +69,26 @@
                                         <td class="align-middle">
                                             {{ $order->payment_identifier ?? '' }}
                                         </td>
+                                        @if ($order->total_final)
+                                        <td class="align-middle">{{ $order->total_final ? numbFormat($order->total_final) : '' }}</td>
+                                        @else
                                         <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
+                                        @endif
+
                                         <td class="align-middle">
                                             @include('clients.dashboard.order.status_order')
                                         </td>
                                         <td class="align-middle">{{ $order->date . ' WIB' }}</td>
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
-                                                href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Detail</a>
+                                                href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                             @if ($order->status == 'Pending' && $order->expired == false)
                                                 <a class="btn btn-xs-success"
-                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Cara
+                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Cara
                                                     Bayar</a>
                                             @elseif ($order->status == 'Pending' && $order->expired == true)
                                                 <a class="btn btn-xs-danger"
-                                                    href="{{ route('deleteOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.myOrder']) }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Hapus</a>
+                                                    href="{{ route('deleteOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.myOrder']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Batalkan</a>
                                                 {{-- <a class="btn btn-xs-danger"
                                                     href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                             @endif
@@ -122,7 +127,8 @@
                 if (searchQuery !== '') {
                     url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                window.location = url +
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
             }
 
             $('#searchOrder, #filterStatus').on('change', function() {

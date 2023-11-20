@@ -45,13 +45,18 @@ class OrderController extends Controller
         $status = $request->input('status');
 
         $order = Order::where('user_id', Auth::guard('web')->user()->id)
-            ->with(['order_items:id,product_id,order_id', 'order_items:id,product_id,order_id,user_id', 'order_items.product:id,name'])
+            ->with([
+                'order_items:id,product_id,order_id',
+                'seller:id,seller_name,seller_slug',
+                'order_items:id,product_id,order_id,user_id',
+                'order_items.product:id,name'
+            ])
             ->whereHas('order_items', function ($q) use ($request) {
                 $q->whereHas('product', function ($qq) use ($request) {
                     if ($request->filled('search'))
                         $qq->where('payment_identifier', 'like', "%$request->search%");
                 });
-            })->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'total')
+            })->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total','total_final')
             ->when($status, function ($query, $status) {
                 if ($status != 'all')
                     return $query->where('status', $status);
@@ -75,6 +80,10 @@ class OrderController extends Controller
                 'order_items.product.seller:id,seller_name,seller_slug,email',
                 'master_account:id,name,image,type'
             ])->firstOrFail();
+        if (now() > $order->payment_due)
+            $order->expired = true;
+        else
+            $order->expired = false;
         $order->date = parseDates($order->created_at);
         $order->date_paid_at = $order->paid_at ? parseDates($order->paid_at) : '-';
         $order->date_packing_due = $order->packing_due ? parseDates($order->packing_due) : '-';
@@ -465,6 +474,7 @@ class OrderController extends Controller
         $order->payment_status = Order::PAYMENT_PENDING;
         $order->status = Order::PENDING;
         $order->address_id = $request->address_id;
+        $order->seller_id = $sellerId;
         $order->delivery_cost = $deliveryCost;
         $order->service_fee = $serviceFee;
         $order->delivery_estimation_day = $request->delivery_estimation_day;
