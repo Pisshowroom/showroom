@@ -27,7 +27,7 @@
                                         </b>
                                     </span>
                                     <br>
-                                    <small class="text-muted">Nomor Identifikasi : {{ $order->payment_identifier ?? '' }}</small>
+                                    <small class="text-muted">Nomor Resi : {{ $order->payment_identifier ?? '' }}</small>
 
                                     <p class="mt-15"><span>Status:</span>
                                         <span class="badge rounded-pill alert-warning alert-link px-3 py-2">Menunggu
@@ -68,7 +68,7 @@
                         @elseif (isset($order->master_account) && $order->master_account?->type == 'E-Wallet')
 
                         @elseif (isset($order->master_account) && $order->master_account?->type == 'PI')
-                            <button id="piButton" class="btn btn-md">
+                            <button id="piButton" class="btn btn-md mb-3">
                                 Proceed to PI Network
                             </button>
                         @endif
@@ -77,12 +77,9 @@
                                 {!! QrCode::size(300)->generate($order->qr_string) !!}
                             </div>
                         @endif
-                        @if ($order->master_account->type == 'PI')
-                            <a href="#" id="PiBtn" class="btn btn-md mb-3">
-                                Proceed
-                            </a>
-                        @endif
-                        <p class="text-muted"></p>
+                        <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis at.
+                            Dolore facilis repellat numquam cum, id, iste sint libero odio atque a quam ducimus cumque quis
+                            enim reiciendis repellendus?</p>
                     </div>
                 </div>
             </div>
@@ -106,7 +103,7 @@
                     }
                 }
 
-                console.log(paymentData);
+                alert(paymentData);
 
                 const callbacks = {
                     onReadyForServerApproval,
@@ -195,10 +192,5 @@
             document.execCommand("copy");
             e.remove();
         }
-
-        $("#PiBtn").click(function (e) {
-            e.preventDefault();
-            alert('aaaa');
-        });
     </script>
 @endpush
