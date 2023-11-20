@@ -147,11 +147,24 @@
                     <div class="sidebar-left dropdown-menu dropdown-menu-light" aria-labelledby="dropdownCategory"
                         data-bs-popper="static">
                         <ul class="menu-texts menu-close">
-                            <li class="has-children"><a href="javascript:;"><span class="text-link">Computers &amp;
-                                        Accessories</span></a>
-                                <ul class="sub-menu">
-                                    <li><a href="#">Computer Accessories</a></li>
-                                </ul>
+                            <li class="has-children">
+                                @if ($data['sub_categories'] && count($data['sub_categories']) > 0)
+                                    @foreach ($data['sub_categories'] as $ct)
+                                        <a href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
+                                                class="text-link">{{ $ct->name ?? '' }}</span></a>
+                                        @if ($ct->sub_categories && count($ct->sub_categories) > 0)
+                                            @foreach ($ct->sub_categories as $sc)
+                                                <ul class="sub-menu">
+                                                    <li><a
+                                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
+                                                    </li>
+                                                </ul>
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <span class="text-link">Tidak ada kategori</span>
+                                @endif
                             </li>
                         </ul>
                     </div>

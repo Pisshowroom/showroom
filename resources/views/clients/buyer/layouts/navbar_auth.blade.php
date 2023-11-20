@@ -1,7 +1,8 @@
 <div class="topbar">
     <div class="container-topbar w-100">
         <div class="info-topbar w-100 text-center d-none d-xl-block"><a class="font-xs color-brand-3"
-                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}" target="_blank">Download Aplikasi PIS Shop Global</a></div>
+                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                target="_blank">Download Aplikasi PIS Shop Global</a></div>
     </div>
 </div>
 </div>
@@ -9,7 +10,8 @@
     <div class="container">
         <div class="main-header">
             <div class="header-left">
-                <div class="header-logo logo-auth"><a class="d-flex" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img
+                <div class="header-logo logo-auth"><a class="d-flex"
+                        href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
                             alt="Logo Pishop" src="{{ asset('ecom/imgs/pshop.png') }}"></a>
                 </div>
                 <div class="header-search">
@@ -37,11 +39,15 @@
                 <div class="header-nav">
                     <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
-                            <li><a class="@yield('home')" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
-                            <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua
+                            <li><a class="@yield('home')"
+                                    href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
+                            </li>
+                            <li><a class="@yield('allProduct')"
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
                                     Produk</a>
                             </li>
-                            <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
+                            <li><a class="@yield('article')"
+                                    href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
                             </li>
                         </ul>
                     </nav>
@@ -53,7 +59,7 @@
                         @if (Auth::guard('web')->user()->is_seller == 1)
                             <div class="d-lg-inline-block d-none">
                                 <a class="font-lg btn btn-buy d-inline-block" style="padding:7px 10px !important;"
-                                    href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">
+                                    href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                     Toko Saya
                                 </a>
                             </div>
@@ -99,7 +105,8 @@
                                     </div>
                                     <div class="row mt-15">
                                         <div class="col-6 text-start"><a class="btn btn-cart w-auto"
-                                                href="{{ route('buyer.cart') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Keranjang</a></div>
+                                                href="{{ route('buyer.cart') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Keranjang</a>
+                                        </div>
                                         <div class="col-6"><button
                                                 class="btn btn-buy btn-cart-buy w-auto">Checkout</button></div>
                                     </div>
@@ -111,15 +118,27 @@
                             <div class="dropdown-account">
                                 <ul>
                                     {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
-                                    <li><a href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Pesanan ku</a></li>
-                                    <li><a href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Wishlist</a></li>
+                                    <li><a
+                                            href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Pesanan
+                                            ku</a></li>
+                                    <li><a
+                                            href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Wishlist</a>
+                                    </li>
                                     @if (Auth::guard('web')->user()->is_seller == 0)
-                                        <li><a href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Daftar Toko</a></li>
+                                        <li><a
+                                                href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar
+                                                Toko</a></li>
                                     @else
-                                        <li><a href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Toko Saya</a></li>
+                                        <li><a
+                                                href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Toko
+                                                Saya</a></li>
                                     @endif
-                                    <li><a href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Pengaturan</a></li>
-                                    <li><a href="{{ route('logout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Keluar Akun</a></li>
+                                    <li><a
+                                            href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Pengaturan</a>
+                                    </li>
+                                    <li><a
+                                            href="{{ route('logout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Keluar
+                                            Akun</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -131,8 +150,10 @@
                 @endauth
                 @guest
                     <div class="discount d-xl-flex d-none gap-2">
-                        <a class="@yield('login') btn btn-buy" href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Masuk</a>
-                        <a class="@yield('register') btn btn-cart" href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Daftar</a>
+                        <a class="@yield('login') btn btn-buy"
+                            href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Masuk</a>
+                        <a class="@yield('register') btn btn-cart"
+                            href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar</a>
                     </div>
                 @endguest
             </div>
@@ -142,20 +163,29 @@
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area position-absolute">
-            <div class="mobile-logo"><a class="d-flex" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img alt="Logo Pishop"
-                        src="{{ asset('ecom/imgs/pshop.png') }}"></a></div>
+            <div class="mobile-logo"><a class="d-flex"
+                    href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                        alt="Logo Pishop" src="{{ asset('ecom/imgs/pshop.png') }}"></a></div>
             <div class="perfect-scroll" style="height:100% !important">
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
                         <ul class="mobile-menu font-heading">
-                            <li><a class="@yield('home')" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                            <li><a class="@yield('home')"
+                                    href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
+                            </li>
                             @guest
-                                <li><a class="@yield('login')" href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Masuk</a></li>
+                                <li><a class="@yield('login')"
+                                        href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Masuk</a>
+                                </li>
                             @endguest
-                            <li><a class="@yield('register')" href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Daftar</a></li>
-                            <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua
+                            <li><a class="@yield('register')"
+                                    href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar</a>
+                            </li>
+                            <li><a class="@yield('allProduct')"
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
                                     Produk</a></li>
-                            <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
+                            <li><a class="@yield('article')"
+                                    href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
                             </li>
 
                         </ul>
@@ -165,7 +195,9 @@
                     <div class="mobile-account">
                         <div class="mobile-header-top">
                             <div class="user-account">
-                                <a href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img width="80px" height="80px"
+                                <a
+                                    href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                        width="80px" height="80px"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
                                 <div class="content">
@@ -175,15 +207,27 @@
                         </div>
                         <ul class="mobile-menu">
                             {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
-                            <li><a href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Pesanan ku</a></li>
-                            <li><a href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Wishlist</a></li>
+                            <li><a
+                                    href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Pesanan
+                                    ku</a></li>
+                            <li><a
+                                    href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Wishlist</a>
+                            </li>
                             @if (Auth::guard('web')->user()->is_seller == 0)
-                                <li><a href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Daftar Toko</a></li>
+                                <li><a
+                                        href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar
+                                        Toko</a></li>
                             @else
-                                <li><a href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Toko Saya</a></li>
+                                <li><a
+                                        href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Toko
+                                        Saya</a></li>
                             @endif
-                            <li><a href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Pengaturan</a></li>
-                            <li><a href="{{ route('logout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Keluar Akun</a></li>
+                            <li><a
+                                    href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Pengaturan</a>
+                            </li>
+                            <li><a
+                                    href="{{ route('logout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Keluar
+                                    Akun</a></li>
                         </ul>
                     </div>
                 @endauth
@@ -192,42 +236,67 @@
     </div>
 </div>
 <div class="sidebar-left"><a class="btn btn-open" href="#"></a>
-    <ul class="menu-icons hidden">
-        <li><a href="javascript:void(0)"><img src="{{ asset('ecom/imgs/template/monitor.svg') }}"
-                    alt="Ecom"></a></li>
-        <li><a href="javascript:void(0)"><img src="{{ asset('ecom/imgs/template/mobile.svg') }}" alt="Ecom"></a>
-        </li>
-        <li><a href="#"><img src="{{ asset('ecom/imgs/template/game.svg') }}" alt="Ecom"></a></li>
-    </ul>
-    <ul class="menu-texts menu-close">
-        <li class="has-children"><a href="{{ route('buyer.allGridProduct') }}"><span class="img-link"><img
-                        src="{{ asset('ecom/imgs/template/monitor.svg') }}" alt="Ecom"></span><span
-                    class="text-link">Computers &amp;
-                    Accessories</span></a>
-            <ul class="sub-menu">
-                <li><a href="{{ route('buyer.allGridProduct') }}">Computer Accessories</a></li>
-            </ul>
+    <ul class="menu-texts menu-close" style="left:50% !important;">
+        <li class="has-children">
+            @if ($data['sub_categories'] && count($data['sub_categories']) > 0)
+                @foreach ($data['sub_categories'] as $ct)
+                    @if (Route::currentRouteName() == 'buyer.allListProduct')
+                        <a
+                            href="{{ route('buyer.allListProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
+                                class="text-link">{{ $ct->name ?? '' }}</span></a>
+                    @else
+                        <a
+                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
+                                class="text-link">{{ $ct->name ?? '' }}</span></a>
+                    @endif
+                    @if ($ct->sub_categories && count($ct->sub_categories) > 0)
+                        @foreach ($ct->sub_categories as $sc)
+                            <ul class="sub-menu">
+                                @if (Route::currentRouteName() == 'buyer.allListProduct')
+                                    <li><a
+                                            href="{{ route('buyer.allListProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
+                                    </li>
+                                @else
+                                    <li><a
+                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        @endforeach
+                    @endif
+                @endforeach
+            @else
+                <span class="text-link">Tidak ada kategori</span>
+            @endif
         </li>
     </ul>
 </div>
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area position-absolute">
-            <div class="mobile-logo"><a class="d-flex" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img alt="Logo Pishop"
-                        src="{{ asset('ecom/imgs/pshop.png') }}"></a></div>
+            <div class="mobile-logo"><a class="d-flex"
+                    href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                        alt="Logo Pishop" src="{{ asset('ecom/imgs/pshop.png') }}"></a></div>
             <div class="perfect-scroll" style="height:100% !important">
                 <div class="mobile-menu-wrap mobile-header-border">
                     <nav class="mt-15">
                         <ul class="mobile-menu font-heading">
-                            <li><a class="@yield('home')" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                            <li><a class="@yield('home')"
+                                    href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
+                            </li>
                             @guest
-                                <li><a class="@yield('login')" href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Masuk</a></li>
-                                <li><a class="@yield('register')" href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Daftar</a>
+                                <li><a class="@yield('login')"
+                                        href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Masuk</a>
+                                </li>
+                                <li><a class="@yield('register')"
+                                        href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar</a>
                                 </li>
                             @endguest
-                            <li><a class="@yield('allProduct')" href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua
+                            <li><a class="@yield('allProduct')"
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
                                     Produk</a></li>
-                            <li><a class="@yield('article')" href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
+                            <li><a class="@yield('article')"
+                                    href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
                             </li>
                         </ul>
                     </nav>
@@ -235,8 +304,9 @@
                 @auth
                     <div class="mobile-account">
                         <div class="mobile-header-top">
-                            <div class="user-account"><a href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img width="80px"
-                                        height="80px"
+                            <div class="user-account"><a
+                                    href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                        width="80px" height="80px"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->image ? Auth::guard('web')->user()->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="akun {{ Auth::guard('web')->user()->name ?? '' }}"></a>
                                 <div class="content">
@@ -249,15 +319,27 @@
                         </div>
                         <ul class="mobile-menu">
                             {{-- <li><a href="{{ route('dashboard.dashboard') }}">Dashboard</a></li> --}}
-                            <li><a href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Pesanan ku</a></li>
-                            <li><a href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Wishlist</a></li>
+                            <li><a
+                                    href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Pesanan
+                                    ku</a></li>
+                            <li><a
+                                    href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Wishlist</a>
+                            </li>
                             @if (Auth::guard('web')->user()->is_seller == 0)
-                                <li><a href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Daftar Toko</a></li>
+                                <li><a
+                                        href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar
+                                        Toko</a></li>
                             @else
-                                <li><a href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Toko Saya</a></li>
+                                <li><a
+                                        href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Toko
+                                        Saya</a></li>
                             @endif
-                            <li><a href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Pengaturan</a></li>
-                            <li><a href="{{ route('logout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Keluar Akun</a></li>
+                            <li><a
+                                    href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Pengaturan</a>
+                            </li>
+                            <li><a
+                                    href="{{ route('logout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Keluar
+                                    Akun</a></li>
                         </ul>
                     </div>
                 @endauth
@@ -274,7 +356,8 @@
 
     <script>
         // Set the base URL in JavaScript
-        var baseDetailProductUrl = "{{ $baseDetailProductUrl }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}";
+        var baseDetailProductUrl =
+            "{{ $baseDetailProductUrl }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
     </script>
     <script>
         $(document).ready(function() {
@@ -329,7 +412,7 @@
                     </div>
                     <div class="cart-info">
                         <a class="font-sm-bold color-brand-3 line-2 text-start"
-                        href="${url}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">
+                        href="${url}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                             ${element.name}
                         </a>
                         <p><span class="color-brand-2 font-sm-bold">${formatRupiah(element.price, 'Rp ')}</span></p>
@@ -363,7 +446,7 @@
                     });
                     $.ajax({
                         type: "post",
-                        url: "{{ route('buyer.preCheckEarly') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
+                        url: "{{ route('buyer.preCheckEarly') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                         data: {
                             order_items: JSON.stringify(cart)
                         },
@@ -385,7 +468,7 @@
                                 });
                                 $.ajax({
                                     type: "post",
-                                    url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
+                                    url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                                     data: {
                                         order_items: JSON.stringify(cart),
                                         seller_id: cart[0].seller_id,
@@ -436,7 +519,7 @@
                                                         JSON
                                                         .stringify(response));
                                                     window.location.replace(
-                                                        "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"
+                                                        "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                                                     );
                                                 } else {
                                                     $('#myDivHandleError').text(

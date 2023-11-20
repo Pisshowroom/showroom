@@ -203,7 +203,7 @@ dd(request()->all());
                 <div class="col-12 order-first order-lg-last">
 
                     <div class="row mt-20">
-                       
+
                         @if (count($data['recommended_products']) > 0)
                             @foreach ($data['recommended_products'] as $prd)
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -293,9 +293,9 @@ dd(request()->all());
                 if (text.trim().split(/\r\n|\r|\n/).length < 2) {
                     $(this).find('.color-brand-3.font-sm-bold').css('height', '40px');
                 }
-                var text = $(this).find('.article-desc').text();
-                if (text.trim().split(/\r\n|\r|\n/).length < 3) {
-                    $(this).find('.article-desc').css('height', '54px');
+                var text2 = $(this).find('.article-desc span').text();
+                if (text2.trim().split(/\r\n|\r|\n/).length < 3) {
+                    $(this).find('.article-desc span').css('height', '54px');
                 }
             });
 

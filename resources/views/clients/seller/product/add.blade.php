@@ -120,14 +120,24 @@
                                     <img src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}" alt="Upload Icon">
                                 </label>
                                 <input id="imageInput" class="form-control" type="file" name="images[]"
-                                    accept="image/*">
+                                    accept="image/*" multiple>
                             </div>
 
                             <div class="preview-container" id="imagePreviewContainer">
+                                @if ($product != null && $product->images && count($product->images) > 0)
+                                    @foreach ($product->images as $image)
+                                        <div class="preview-item">
+                                            <img src="{{ asset($image) }}" alt="Image Preview">
+                                            <button class="remove-btn" type="button"><i
+                                                class="icon material-icons md-delete"></i></button>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </form>
     </section>
@@ -158,8 +168,10 @@
 
                 reader.onload = function(e) {
                     // Create preview item
-                    var previewItem = $('<div class="preview-item"><img src="' + e.target.result +
-                        '" alt="Image Preview"><button class="remove-btn" type="button">Remove</button></div>'
+                    var previewItem = $(
+                        '<div class="preview-item"><img src="' + e.target.result +
+                        '" alt="Image Preview">' +
+                        '<button class="remove-btn" type="button"><i class="icon material-icons md-delete"></i></button></div>'
                     );
 
                     // Append preview item to container
