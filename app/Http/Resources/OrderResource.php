@@ -30,6 +30,7 @@ class OrderResource extends JsonResource
             'delivery_service_name' => $this->delivery_service_name,
             'delivery_service_kind' => $this->delivery_service_kind,
             'delivery_service_kind_description' => $this->delivery_service_kind_description,
+            'subtotal' => $this->subtotal,
             'total' => $this->total,
             'total_final' => $this->total_final,
             'refund' => $this->refund,
