@@ -2315,11 +2315,10 @@ a.text-brand-3:hover {
   margin-bottom: 10px;
 }
 .card-grid-style-3 .card-grid-inner .image-box img {
-  max-height: 100%;
-  aspect-ratio: 181/210;
-  max-height:252px;
-  object-fit: cover;
-  max-width: 95%;
+  /* aspect-ratio: 181/210; */
+  height:252px;
+  object-fit: contain;
+  max-width: 100%;
   vertical-align: middle;
 }
 .card-grid-style-3 .card-grid-inner .image-box .label {
