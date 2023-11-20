@@ -241,7 +241,8 @@ dd(request()->all());
                                         @if (count($data['articles']) > 0)
                                             @foreach ($data['articles'] as $article)
                                                 <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
+                                                    <div class="card-grid-style-3"
+                                                        style="max-height: none !important;aspect-ratio: auto !important;object-fit: cover !important;max-width: 100% !important;">
                                                         <div class="card-grid-inner">
                                                             <div class="image-box">
                                                                 <a
