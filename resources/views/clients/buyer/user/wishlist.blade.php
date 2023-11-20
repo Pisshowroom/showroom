@@ -40,16 +40,12 @@
                                                 Star Refrigerator </h6>
                                         </a>
                                         <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
+                                                alt="Ecom"><span class="font-xs color-gray-500">4 (65)</span></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="wishlist-price">
-                                <h4 class="color-brand-3">$2.51</h4>
+                                <h4 class="color-brand-3">Rp251.000</h4>
                             </div>
                             <div class="wishlist-status"><span
                                     class="btn btn-gray font-md-bold color-brand-3">Persediaan</span></div>

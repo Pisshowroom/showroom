@@ -27,9 +27,14 @@
                 <div class="row gx-5">
                     <div class="col-12">
                         <section class="content-body p-xl-4">
-                            <form id="updateAddresses" method="POST" action="{{ route('dashboard.updateAddress') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            <form id="updateAddresses" method="POST"
+                                action="{{ route('dashboard.updateAddress') }}">
                                 @csrf
                                 <input type="hidden" value="{{ $data->id }}" name="id">
+                                @if (Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')))
+                                    <input type="hidden" name="auth" value="{{ base64_encode(Auth::user()->uid) }}">
+                                @endif
+
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="row gx-3">
@@ -367,7 +372,8 @@
             var id = this.value;
             $.ajax({
                 type: "GET",
-                url: "{{ route('getCity') }}" + '/' + id+"{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                url: "{{ route('getCity') }}" + '/' + id +
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                 dataType: "json",
                 success: function(data) {
                     var html = '';
@@ -394,7 +400,8 @@
             var id = this.value;
             $.ajax({
                 type: "GET",
-                url: "{{ route('getDistrict') }}" + '/' + id + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                url: "{{ route('getDistrict') }}" + '/' + id +
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                 dataType: "json",
                 success: function(data) {
                     var html = '';
