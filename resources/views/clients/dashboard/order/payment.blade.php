@@ -27,7 +27,7 @@
                                         </b>
                                     </span>
                                     <br>
-                                    <small class="text-muted">Nomor Resi : {{ $order->payment_identifier ?? '' }}</small>
+                                    <small class="text-muted">Nomor Identifikasi : {{ $order->payment_identifier ?? '' }}</small>
 
                                     <p class="mt-15"><span>Status:</span>
                                         <span class="badge rounded-pill alert-warning alert-link px-3 py-2">Menunggu
