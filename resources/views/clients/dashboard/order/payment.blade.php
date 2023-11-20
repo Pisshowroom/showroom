@@ -68,7 +68,7 @@
                         @elseif (isset($order->master_account) && $order->master_account?->type == 'E-Wallet')
 
                         @elseif (isset($order->master_account) && $order->master_account?->type == 'PI')
-                            <button id="piButton" class="btn btn-md">
+                            <button id="piButton" class="btn btn-md mb-3">
                                 Proceed to PI Network
                             </button>
                         @endif
@@ -103,7 +103,7 @@
                     }
                 }
 
-                console.log(paymentData);
+                alert(paymentData);
 
                 const callbacks = {
                     onReadyForServerApproval,
