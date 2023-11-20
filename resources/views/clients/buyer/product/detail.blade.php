@@ -41,73 +41,41 @@
                         <div class="gallery-image">
                             <div class="galleries">
                                 <div class="detail-gallery">
-                                    {{-- <label class="label">-17%</label> --}}
+                                    @if ($product->discount && $product->discount > 0)
+                                        <label class="label">{{ $product->discount ?? '' }}%</label>
+                                    @endif
+
+
                                     <div class="product-image-slider">
-                                        <figure class="border-radius-10"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
-                                                alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-2.jpg') }}"
-                                                alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-3.jpg') }}"
-                                                alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-4.jpg') }}"
-                                                alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-5.jpg') }}"
-                                                alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-6.jpg') }}"
-                                                alt="product image">
-                                        </figure>
-                                        <figure class="border-radius-10"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-7.jpg') }}"
-                                                alt="product image">
-                                        </figure>
+                                        @if ($product && $product->images && count($product->images) > 0)
+                                            @foreach ($product->images as $item)
+                                                <figure class="border-radius-10"><img
+                                                        src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                        alt="produk {{ $product->name ?? '' }}">
+                                                </figure>
+                                            @endforeach
+                                        @else
+                                            <figure class="border-radius-10"><img
+                                                    src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                    alt="produk {{ $product->name ?? '' }}">
+                                            </figure>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="slider-nav-thumbnails">
                                     <div>
-                                        <div class="item-thumb"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
-                                                alt="product image"></div>
-                                    </div>
-                                    <div>
-                                        <div class="item-thumb"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-2.jpg') }}"
-                                                alt="product image"></div>
-                                    </div>
-                                    <div>
-                                        <div class="item-thumb"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-3.jpg') }}"
-                                                alt="product image"></div>
-                                    </div>
-                                    <div>
-                                        <div class="item-thumb"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-4.jpg') }}"
-                                                alt="product image"></div>
-                                    </div>
-                                    <div>
-                                        <div class="item-thumb"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-5.jpg') }}"
-                                                alt="product image"></div>
-                                    </div>
-                                    <div>
-                                        <div class="item-thumb"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-6.jpg') }}"
-                                                alt="product image"></div>
-                                    </div>
-                                    <div>
-                                        <div class="item-thumb"><img
-                                                src="{{ asset('ecom/imgs/page/product/img-gallery-7.jpg') }}"
-                                                alt="product image"></div>
+                                        @if ($product && $product->images && count($product->images) > 0)
+                                            @foreach ($product->images as $item)
+                                                <div class="item-thumb"><img
+                                                        src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                        alt="produk {{ $product->name ?? '' }}"></div>
+                                            @endforeach
+                                        @else
+                                            <div class="item-thumb"><img
+                                                    src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                    alt="produk {{ $product->name ?? '' }}"></div>
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>
@@ -177,29 +145,26 @@
                             <p class="font-sm color-gray-900">Color:<span class="color-brand-2 nameColor">Pink Gold</span>
                             </p>
                             <ul class="list-colors">
-                                <li class="disabled"><img src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
-                                        alt="Ecom" title="Pink"></li>
-                                <li><img src="{{ asset('ecom/imgs/page/product/img-gallery-2.jpg') }}" alt="Ecom"
-                                        title="Gold">
-                                </li>
-                                <li><img src="{{ asset('ecom/imgs/page/product/img-gallery-3.jpg') }}" alt="Ecom"
-                                        title="Pink Gold"></li>
-                                <li><img src="{{ asset('ecom/imgs/page/product/img-gallery-4.jpg') }}" alt="Ecom"
-                                        title="Silver">
-                                </li>
-                                <li class="active"><img src="{{ asset('ecom/imgs/page/product/img-gallery-5.jpg') }}"
-                                        alt="Ecom" title="Pink Gold"></li>
-                                <li class="disabled"><img src="{{ asset('ecom/imgs/page/product/img-gallery-6.jpg') }}"
-                                        alt="Ecom" title="Black"></li>
-                                <li class="disabled"><img src="{{ asset('ecom/imgs/page/product/img-gallery-7.jpg') }}"
-                                        alt="Ecom" title="Red"></li>
+                                @if ($product && $product->images && count($product->images) > 0)
+                                    @foreach ($product->images as $item)
+                                        <li class="disabled" style="max-width: 100px !important"><img
+                                                src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                alt="produk {{ $product->name ?? '' }}"></li>
+                                    @endforeach
+                                @else
+                                    <li class="disabled" style="max-width: 100px !important"><img src="{{ asset('ecom/imgs/page/product/img-gallery-6.jpg') }}"
+                                            alt="produk {{ $product->name ?? '' }}" title="Black"></li>
+                                    <li class="disabled" style="max-width: 100px !important"><img src="{{ asset('ecom/imgs/page/product/img-gallery-7.jpg') }}"
+                                            alt="produk {{ $product->name ?? '' }}" title="Red"></li>
+                                @endif
+
                             </ul>
                         </div>
                         <div class="box-product-style-size mt-20">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 mb-20">
-                                    <p class="font-sm color-gray-900">Style:<span
-                                            class="color-brand-2 nameStyle">S22</span></p>
+                                    <p class="font-sm color-gray-900">Style:<span class="color-brand-2 nameStyle">S22</span>
+                                    </p>
                                     <ul class="list-styles">
                                         <li class="disabled" title="S22 Ultra">S22 Ultra</li>
                                         <li class="active" title="S22">S22</li>
@@ -207,8 +172,8 @@
                                     </ul>
                                 </div>
                                 <div class="col-lg-6 col-md-6 mb-20">
-                                    <p class="font-sm color-gray-900">Size:<span
-                                            class="color-brand-2 nameSize">512GB</span></p>
+                                    <p class="font-sm color-gray-900">Size:<span class="color-brand-2 nameSize">512GB</span>
+                                    </p>
                                     <ul class="list-sizes">
                                         <li class="disabled" title="1GB">1GB</li>
                                         <li class="active" title="512 GB">512 GB</li>

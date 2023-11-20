@@ -215,13 +215,14 @@
                     checkout.products.forEach((element, i) => {
                         var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
                         url = url.replace(':slug', element.slug);
+                        var imageUrl = element.images && element.images[0] ? element.images[0] : "{{ asset('ecom/imgs/page/product/img-sub.png') }}";
 
                         html += `<div class="item-wishlist">
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
                                             <div class="product-image"><a
                                                     href="${url}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img
-                                                        src=" {{ asset('ecom/imgs/page/product/img-sub.png') }}"
+                                                        src="${imageUrl}"
                                                         alt="Ecom"></a></div>
                                             <div class="product-info">
                                                 <a
