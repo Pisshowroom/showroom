@@ -10,7 +10,7 @@
             <div>
                 <h2 class="content-title">Detail Pembayaran</h2>
             </div>
-            <div> <a href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}" class="btn btn-xs">
+            <div> <a href="{{ route('dashboard.myOrder') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}" class="btn btn-xs">
                     Kembali ke Pesanan
                 </a>
             </div>
@@ -122,7 +122,7 @@
 
             function onIncompletePaymentFound(payment) {
                 console.log(payment);
-                $.post("/pi/incomplete{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                $.post("/pi/incomplete{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
                         payment_id: paymentId,
                     },
                     function(data, textStatus, jqXHR) {
@@ -134,7 +134,7 @@
 
             function onReadyForServerApproval(paymentId) {
                 console.log("onReadyForServerApproval", paymentId);
-                $.post("/pi/approve{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                $.post("/pi/approve{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
                         payment_id: paymentId,
                     },
                     function(data, textStatus, jqXHR) {
@@ -146,13 +146,13 @@
 
             function onReadyForServerCompletion(paymentId, txid) {
                 console.log("onReadyForServerCompletion", paymentId, txid);
-                $.post("/pi/complete{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                $.post("/pi/complete{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
                         payment_id: paymentId,
                         txid
                     },
                     function(data, textStatus, jqXHR) {
                         console.log(data, 'complete');
-                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
+                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
                     },
                     "json"
                 );
@@ -161,12 +161,12 @@
             function onCancel(paymentId) {
                 console.log("onCancel", paymentId);
                 return $.post(
-                    "/pi/cancelled_payment{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                    "/pi/cancelled_payment{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
                         payment_id: paymentId,
                     },
                     function(data, textStatus, jqXHR) {
                         console.log(data, 'cancel');
-                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
+                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
                     },
                     "json"
                 );

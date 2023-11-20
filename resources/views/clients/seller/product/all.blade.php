@@ -17,7 +17,7 @@
                 {{-- <a class="btn btn-light rounded font-md" href="#">Export</a><a class="btn btn-light rounded font-md"
                     href="#">Import</a> --}}
                 <a class="btn btn-primary btn-sm rounded"
-                    href="{{ route('dashboardSeller.addProduct') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tambah
+                    href="{{ route('dashboardSeller.addProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tambah
                     Produk</a>
             </div>
         </div>
@@ -61,7 +61,7 @@
                                     <tr>
                                         <td class="align-middle">{{ $key + 1 }}</td>
                                         <td class="align-middle"><a class="itemside"
-                                                href="{{ route('buyer.detailProduct', ['slug' => $product?->slug ?? '1234']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                href="{{ route('buyer.detailProduct', ['slug' => $product?->slug ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                 <div class="left">
                                                     <img class="img-xs"
                                                         src="{{ $product->images && count($product->images) > 0 ? $product->images[0] : asset('ecom_dashboard/imgs/items/1.jpg') }}"
@@ -81,7 +81,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
-                                                href="{{ route('dashboardSeller.editProduct', ['id' => $product->id ?? '1']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
+                                                href="{{ route('dashboardSeller.editProduct', ['id' => $product->id ?? '1']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                             <a href="{{ route('dashboardSeller.deleteProduct', ['id' => $product->id]) }}"
                                                 class="btn btn-xs-danger">Hapus</a>
                                         </td>
@@ -147,7 +147,7 @@
                 if (searchQuery !== '') {
                     url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                auth = "{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
                 window.location = url + (url.includes('?') ? '&' : '?') + auth ;
                 // Navigate to the constructed URL
                 // history.pushState({}, '', url);

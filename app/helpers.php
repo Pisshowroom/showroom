@@ -544,7 +544,7 @@ function numbFormat($price, $decimal = true)
     $user_agent = request()->header('User-Agent');
 
     if ($user_agent) {
-        if (preg_match("/Chrome/i", $user_agent))
+        if (preg_match("/PiBrowser/i", $user_agent))
             $isPi = true;
     }
     if ($isPi)

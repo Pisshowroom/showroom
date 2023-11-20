@@ -23,7 +23,7 @@
 <body>
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top"><a class="brand-wrap" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img class="logo"
+        <div class="aside-top"><a class="brand-wrap" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img class="logo"
                     src="{{ asset('ecom_dashboard/imgs/theme/logo.svg') }}" alt="Dashboard"></a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"><i

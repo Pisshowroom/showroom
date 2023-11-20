@@ -7,8 +7,8 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Artikel</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Artikel</a></li>
                     </ul>
                 </div>
             </div>
@@ -34,11 +34,11 @@
                                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort"
                                                 style="margin: 0px;">
                                                 <li><a class="dropdown-item {{ request()->get('orderBy') == 'desc' ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allArticle', ['orderBy' => 'desc']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel
+                                                        href="{{ route('buyer.allArticle', ['orderBy' => 'desc']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel
                                                         Terbaru</a>
                                                 </li>
                                                 <li><a class="dropdown-item {{ request()->get('orderBy') == 'asc' ? 'active' : '' }}""
-                                                        href="{{ route('buyer.allArticle', ['orderBy' => 'asc']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel
+                                                        href="{{ route('buyer.allArticle', ['orderBy' => 'asc']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel
                                                         Terlama</a></li>
                                             </ul>
                                         </div>
@@ -53,13 +53,13 @@
                                                     items</span></button>
                                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort2">
                                                 <li><a class="dropdown-item {{ request()->get('per_page') == 30 ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allArticle', ['per_page' => 30]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">30
+                                                        href="{{ route('buyer.allArticle', ['per_page' => 30]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">30
                                                         items</a></li>
                                                 <li><a class="dropdown-item {{ request()->get('per_page') == 50 ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allArticle', ['per_page' => 50]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">50
+                                                        href="{{ route('buyer.allArticle', ['per_page' => 50]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">50
                                                         items</a></li>
                                                 <li><a class="dropdown-item {{ request()->get('per_page') == 100 ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allArticle', ['per_page' => 100]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">100
+                                                        href="{{ route('buyer.allArticle', ['per_page' => 100]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">100
                                                         items</a></li>
                                             </ul>
                                         </div>
@@ -75,12 +75,12 @@
                             <div class="col-lg-3 col-md-4 col-sm-6 mb-40">
                                 <div class="card-grid-style-1">
                                     <div class="image-box"><a
-                                            href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a>
+                                            href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a>
                                         <img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
                                             alt="artikel {{ $article->title ?? '' }}">
                                     </div>
                                     <a class="color-gray-1100"
-                                        href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                        href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                         <h6 class="line-2 text-start">{{ $article->title ?? ' ' }}</h6>
                                     </a>
                                     <div class="d-flex justify-content-between"><span

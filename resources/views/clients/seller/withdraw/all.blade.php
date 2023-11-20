@@ -49,7 +49,7 @@
                                         </td>
                                         <td class="align-middle">16.12.2022, 14:21</td>
                                         <td class="text-end align-middle"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a></td>
+                                                href="{{ route('dashboardSeller.detailWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a></td>
                                     </tr>
                                 </tbody>
                             </table>

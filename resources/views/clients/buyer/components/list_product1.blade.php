@@ -11,7 +11,7 @@
             @endif,
             @auth
                 <a
-                    href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                    href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                 @endauth
                 @guest
                     <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
@@ -22,13 +22,13 @@
         <div class="info-right">
             @if ($prd?->seller && $prd?->seller?->seller_slug)
                 <a class="font-xs color-gray-500 line-1 text-start"
-                    href="{{ route('buyer.detailSeller', ['slug' => $prd?->seller?->seller_slug]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                    href="{{ route('buyer.detailSeller', ['slug' => $prd?->seller?->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                     {{ $prd->seller ? $prd->seller->seller_name ?? '-' : '-' }}</a>
             @else
                 <p class="font-xs color-gray-500 line-1 text-start">-</p>
             @endif
             <a class="color-brand-3 font-sm-bold line-2 text-start"
-                href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                 <p class="text-start">{{ $prd->name ?? '' }}</p>
             </a>
             <div class="rating">
@@ -110,7 +110,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "{{ route('buyer.preCheckEarly') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                    url: "{{ route('buyer.preCheckEarly') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                     data: {
                         order_items: JSON.stringify(productData)
                     },
@@ -125,7 +125,7 @@
                         if (response) {
                             $.ajax({
                                 type: "post",
-                                url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                                url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                                 data: {
                                     order_items: JSON.stringify(productData),
                                     seller_id: sellerId,
@@ -159,7 +159,7 @@
                                                 localStorage.setItem('checkout', JSON
                                                     .stringify(response));
                                                 window.location.replace(
-                                                    "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                                                    "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                                                 );
                                             } else {
                                                 $('#myDivHandleError').text(

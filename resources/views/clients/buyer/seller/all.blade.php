@@ -7,8 +7,8 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allSeller') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Penjual</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Penjual</a></li>
                     </ul>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                     </div>
                     @if (Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller == 0)
                         <div class="col-lg-6 mb-30 text-end"><a class="btn btn-buy w-auto font-sm-bold"
-                                href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Menjadi Penjual</a></div>
+                                href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Menjadi Penjual</a></div>
                     @endif
                 </div>
                 <div class="border-bottom pt-0 mb-30"></div>
@@ -49,10 +49,10 @@
                                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort"
                                                 style="margin: 0px;">
                                                 <li><a class="dropdown-item {{ !request()->get('rating') || (request()->get('rating') && request()->get('rating') == 'desc') ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allSeller', ['rating' => 'desc']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Rating
+                                                        href="{{ route('buyer.allSeller', ['rating' => 'desc']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Rating
                                                         Tertinggi</a></li>
                                                 <li><a class="dropdown-item {{ request()->get('rating') && request()->get('rating') == 'asc' ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allSeller', ['rating' => 'asc']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Rating
+                                                        href="{{ route('buyer.allSeller', ['rating' => 'asc']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Rating
                                                         Terendah</a></li>
                                             </ul>
                                         </div>
@@ -78,7 +78,7 @@
                             @if (count($sellers) > 0)
                                 @foreach ($sellers as $seller)
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                                        <a href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                        <a href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                             <div class="card-vendor">
                                                 <div class="card-top-vendor mb-0 pb-0 border-0">
                                                     <div class="card-top-vendor-left"><img
@@ -94,7 +94,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-top-vendor-right"><a class="btn btn-gray"
-                                                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
+                                                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
                                                             Produk</a>
                                                         <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                                     </div>

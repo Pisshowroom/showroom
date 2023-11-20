@@ -36,7 +36,7 @@ dd(request()->all());
                                                     </div>
                                                 </div> --}}
                                                         <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja</a>
+                                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja</a>
                                                             {{-- <a
                                                         class="btn btn-link text-underline" href="{{route('buyer.allGridProduct')}}">Learn
                                                         more</a> --}}
@@ -51,7 +51,7 @@ dd(request()->all());
                                                     <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
                                                             class="d-none d-lg-block"> The Music</h1>
                                                     <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja</a>
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -242,13 +242,13 @@ dd(request()->all());
                                                         <div class="card-grid-inner">
                                                             <div class="image-box">
                                                                 <a
-                                                                    href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                                    href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                                     <img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
                                                                         alt="produk {{ $article->title ?? '' }}"></a>
                                                             </div>
                                                             <div class="info-right">
                                                                 <a class="color-brand-3 font-sm-bold line-2 text-start"
-                                                                    href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $article->title ?? '' }}</a>
+                                                                    href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $article->title ?? '' }}</a>
                                                                 <div class="price-info article-desc">
                                                                     <span
                                                                         class="color-gray-500 line-3 text-start">{!! $article->content !!}</span>
