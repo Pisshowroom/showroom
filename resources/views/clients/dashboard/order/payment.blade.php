@@ -78,7 +78,7 @@
                             </div>
                         @endif
                         @if ($order->master_account->type == 'PI')
-                            <a href="#" id="PiBtn" class="btn btn-md mb-3">
+                            <a href="#" id="PiBtn" class="btn btn-md my-3">
                                 Proceed
                             </a>
                         @endif
