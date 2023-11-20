@@ -270,7 +270,7 @@ class OrderController extends Controller
 
         // dd($order);
 
-        $order->status = Order::PAID;
+        $order->status = Order::PROCESSED_BY_SELLER;
         $order->payment_status = Order::PAYMENT_PAID;
         $order->save();
         // Log::info('callbackConfirmPayment called with parameters:', $request->all());
