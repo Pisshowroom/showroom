@@ -192,6 +192,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/penjual-tolak/{id}', [TransactionOrderController::class, 'sellerRejectOrder'])->name('dashboardSeller.sellerRejectOrder');
         Route::post('/penjual-kirim', [TransactionOrderController::class, 'sellerSendOrder'])->name('dashboardSeller.sellerSendOrder');
         Route::get('/penjual-cek-status-diantar/{id}', [TransactionOrderController::class, 'checkStatusDeliveredOrder'])->name('dashboardSeller.checkStatusDeliveredOrder');
+        Route::get('/completed-order/{id}', [TransactionOrderController::class, 'completedOrder'])->name('dashboardSeller.completedOrder');
         Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
         Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
         Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');

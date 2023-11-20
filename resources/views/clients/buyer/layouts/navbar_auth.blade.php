@@ -251,8 +251,8 @@
                                     class="text-link">{{ $ct->name ?? '' }}</span></a>
                         @endif
                         @if ($ct->sub_categories && count($ct->sub_categories) > 0)
-                            @foreach ($ct->sub_categories as $sc)
-                                <ul class="sub-menu">
+                            <ul class="sub-menu">
+                                @foreach ($ct->sub_categories as $sc)
                                     @if (Route::currentRouteName() == 'buyer.allListProduct')
                                         <li><a
                                                 href="{{ route('buyer.allListProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
@@ -262,8 +262,8 @@
                                                 href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
                                         </li>
                                     @endif
-                                </ul>
-                            @endforeach
+                                @endforeach
+                            </ul>
                         @endif
                     </li>
                 @endforeach

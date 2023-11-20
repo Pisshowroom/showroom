@@ -95,6 +95,10 @@
                                                 <a class="btn btn-xs-success"
                                                     href="{{ route('dashboardSeller.sendResi', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Siap diantar</a>
+                                            @elseif ($order->status == 'Shipped' || $order->status == 'Delivered')
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboardSeller.completedOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Selesai</a>
                                             @endif
                                         </td>
                                     </tr>

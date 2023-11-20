@@ -272,7 +272,8 @@
             $('form').on('submit', function() {
                 // Check if at least one image has been uploaded
                 if ($('#imageInput')[0].files.length === 0) {
-                    if ("{{ $product != null && count($product->images) < 1 }}") {
+                    if (
+                        "{{ $product && $product != null && $product->images && count($product->images) < 1 }}") {
                         alert('Please upload at least one image.');
                         return false; // Prevent form submission
                     }

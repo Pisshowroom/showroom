@@ -111,7 +111,7 @@ class TransactionOrderController extends Controller
             'delivery_receipt_number' => 'required|string',
         ]);
 
-        $order=Order::findOrFail($request->id);
+        $order = Order::findOrFail($request->id);
         $orderController = new OrderController();
         $requestNew = new Request();
         $requestNew->replace([
@@ -143,13 +143,14 @@ class TransactionOrderController extends Controller
         return redirect("/toko/semua-transaksi")->with('success', 'Pesanan telah sampai ketujuan')->with('auth', base64_encode($user->uid));
     }
 
-    public function completedOrder(Order $order)
+    public function completedOrder($id)
     {
-
+        $user = Auth::guard('web')->user();
+        $order = Order::findOrFail($id);
         if (in_array($order->status, [Order::SHIPPED, Order::DELIVERED])) {
             $order->status = Order::COMPLETED;
         } else {
-            return ResponseAPI('Status Pesanan Belum memenuhi syarat untuk selesai', 400);
+            return redirect("/toko/semua-transaksi")->with('error', 'Status Pesanan Belum memenuhi syarat untuk selesai')->with('auth', base64_encode($user->uid));
         }
 
         $seller = $order->seller;
@@ -186,6 +187,7 @@ class TransactionOrderController extends Controller
         $seller->save();
 
         DB::commit();
-        return ResponseAPI('Pesanan berhasil diselesaikan', 200);
+        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil diselesaikan')->with('auth', base64_encode($user->uid));
+
     }
 }
