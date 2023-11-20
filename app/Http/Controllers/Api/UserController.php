@@ -99,9 +99,9 @@ class UserController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $seller->seller_name = uploadFoto($request->image, 'uploads/sellers/');
+            $seller->seller_image = uploadFoto($request->image, 'uploads/sellers/');
         } else if ($request->filled('image')) {
-            $seller->seller_name = $request->image;
+            $seller->seller_image = $request->image;
         }
 
 
