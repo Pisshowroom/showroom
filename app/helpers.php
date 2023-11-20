@@ -61,6 +61,8 @@ function phoneGeneralize($phone)
 function lypsisGetOrderStatusValues($paramStatus)
 {
     switch ($paramStatus) {
+        case 'Processing':
+            return ['Paid', 'ProcessedBySeller'];
         case 'Sending':
             return ['Shipped', 'Delivered'];
         case 'Cancel':
