@@ -10,8 +10,8 @@
     <meta property="og:type" content="">
     <meta property="og:url" content="">
     <meta property="og:image" content="">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom_dashboard/imgs/theme/favicon.svg') }}">
-    <link href="{{ asset('ecom_dashboard/css/style.css?v=1.0.0') }}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom/imgs/favicon.png') }}">
+    <link href="{{ asset('ecom_dashboard/css/style.css?v=1.0.1') }}" rel="stylesheet">
     @stack('importcss')
     @stack('css')
     {{-- pi coin --}}

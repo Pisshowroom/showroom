@@ -14,8 +14,8 @@
     <meta name="keywords" content="index, page">
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}" id="metaToken" />
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom/imgs/template/favicon.svg') }}">
-    <link href="{{ asset('ecom/css/style.css?v=3.0.0') }}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom/imgs/favicon.png') }}">
+    <link href="{{ asset('ecom/css/style.css?v=3.0.1') }}" rel="stylesheet">
     {{-- pi coin --}}
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <script>Pi.init({ version: "2.0", sandbox: false })</script>
@@ -29,7 +29,7 @@
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
-                <div class="text-center"><img class="mb-10" src="{{ asset('ecom/imgs/template/favicon.svg') }}"
+                <div class="text-center"><img class="mb-10" style="max-width: 25px" src="{{ asset('ecom/imgs/favicon.png') }}"
                         alt="loading favicon">
                     <div class="preloader-dots"></div>
                 </div>

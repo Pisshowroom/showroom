@@ -2316,6 +2316,8 @@ a.text-brand-3:hover {
 }
 .card-grid-style-3 .card-grid-inner .image-box img {
   max-height: 100%;
+  aspect-ratio: 181/210;
+  object-fit: cover;
   max-width: 95%;
   vertical-align: middle;
 }
