@@ -491,6 +491,7 @@ class OrderController extends Controller
         $totalWithoutDiscount += $additionFee;
 
         $data['delivery_cost'] = $deliveryCost;
+        $data['market_fee_buyer'] = $buyerFee;
         $data['payment_service_fee'] = $serviceFee;
         $data['master_account'] = new MasterAccountResource($masterAccount);
         $data['total'] = $total;
@@ -661,6 +662,7 @@ class OrderController extends Controller
         $order->delivery_cost = $deliveryCost;
         $order->service_fee = $serviceFee;
         $order->subtotal = $subTotal;
+        $order->market_fee_buyer = $buyerFee;
         $order->delivery_estimation_day = $request->delivery_estimation_day;
         $order->delivery_service_code = $request->delivery_code;
         $order->delivery_service_name = $request->delivery_name;
@@ -695,6 +697,7 @@ class OrderController extends Controller
 
         $data['delivery_cost'] = $deliveryCost;
         $data['payment_service_fee'] = $serviceFee;
+        $data['market_fee_buyer'] = $buyerFee;
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
