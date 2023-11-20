@@ -56,7 +56,7 @@
                         </form>
                         <div class="mt-20"><span class="font-xs color-gray-500 font-medium">Sudah memiliki
                                 akun?</span><a class="font-xs color-brand-3 font-medium"
-                                href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                 Masuk</a></div>
                         <div class="box-login-social pt-65">
                             <h5 class="text-center">Atau daftar dengan</h5>

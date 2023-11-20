@@ -10,7 +10,7 @@
             <div>
                 @if (Auth::guard('web')->user()->balance != null && Auth::guard('web')->user()->balance > 0)
                     <a class="btn btn-primary"
-                        href="{{ route('dashboardSeller.addWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                        href="{{ route('dashboardSeller.addWithdraw') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                         {{ Auth::guard('web')->user()->balance != null && Auth::guard('web')->user()->balance > 0 ? '' : 'disabled' }}>
                         <i class="text-muted material-icons md-post_add"></i>Cairkan
                         Uang</a>
@@ -98,7 +98,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
                         <form method="GET"
-                            action="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            action="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                             <input class="form-control" type="text" placeholder="Cari berdasarkan Nomor Resi..."
                                 name="search" value="{{ request()->input('search') ?? '' }}">
                         </form>
@@ -140,10 +140,10 @@
                                             <td class="align-middle">{{ $order->date . ' WIB' }}</td>
                                             <td class="align-middle">
                                                 <a class="btn btn-xs"
-                                                    href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
+                                                    href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                                 @if ($order->status == 'Paid' && $order->payment_status == 'PaymentPaid')
                                                     <a class="btn btn-xs-danger"
-                                                        href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboardSeller.allTransaction']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                        href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboardSeller.allTransaction']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                         Batalkan</a>
                                                 @endif
                                             </td>

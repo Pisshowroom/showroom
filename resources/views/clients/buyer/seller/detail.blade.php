@@ -8,13 +8,13 @@
                 <div class="container">
                     <ul class="breadcrumb">
                         <li><a class="font-xs color-gray-1000"
-                                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
+                                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
                         </li>
                         <li><a class="font-xs color-gray-500"
-                                href="{{ route('buyer.allSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
+                                href="{{ route('buyer.allSeller') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
                                 Penjual</a></li>
                         <li><a class="font-xs color-gray-500"
-                                href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail
+                                href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail
                                 Penjual</a>
                         </li>
                     </ul>
@@ -33,7 +33,7 @@
                                         style="border-radius: 50%"
                                         src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? Auth::guard('web')->user()->seller_image ?? asset('ecom/imgs/page/vendor/fasfox.png') : asset('ecom/imgs/page/vendor/fasfox.png') }}"
                                         alt="Ecom"><a class="btn btn-buy font-xs"
-                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
+                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
                                         Produk</a>
                                 </div>
                                 <div class="info-vendor">
@@ -257,7 +257,7 @@
                     </div>
                     <div class="modal-footer justify-content-start pl-30"><button class="btn btn-buy w-auto"
                             id="setFilter">Terapkan Filter</button><a class="btn font-sm-bold color-gray-500"
-                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Setel
+                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Setel
                             Ulang
                             Filter</a></div>
                 </div>
@@ -281,7 +281,7 @@
                     url += '?category_id=' + '&orderBy=' + selectedOrderBy;
                 }
 
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                auth = "{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
                 window.location = url + (url.includes('?') ? '&' : '?') + auth ;
             }
 
@@ -326,7 +326,7 @@
                     url += '?category_id=&orderBy=' + orderBy + '&rating=' +
                         rating + '&price=' + price;
                 }
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                auth = "{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
                 window.location = url + (url.includes('?') ? '&' : '?') + auth ;
             }
         });

@@ -99,7 +99,7 @@
 
                     <div class="col-12">
                         <section class="content-body p-xl-4">
-                            <form method="POST" action="{{ route('dashboardSeller.updateProfile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                            <form method="POST" action="{{ route('dashboardSeller.updateProfile') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                                 enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">

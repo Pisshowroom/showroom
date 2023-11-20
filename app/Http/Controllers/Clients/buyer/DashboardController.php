@@ -194,7 +194,7 @@ class DashboardController extends Controller
         // $address->main = 1;
         $address->user_id = $user->id;
         $address->save();
-        return redirect("/pembeli/pengaturan?param=alamat")->with('success', 'Alamat berhasil diperbarui');
+        return redirect("/pembeli/pengaturan?param=alamat")->with('success', 'Alamat berhasil diperbarui')->with('auth', base64_encode($user->uid));
     }
     public function deleteAddress($id)
     {

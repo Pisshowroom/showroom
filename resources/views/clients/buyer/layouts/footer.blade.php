@@ -41,9 +41,9 @@
                     <h4 class="mb-30 color-gray-1000">Selengkapnya</h4>
                     <ul class="menu-footer">
                         <li><a href="#">FAQs</a></li>
-                        <li><a href="{{ route('buyer.contact') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kontak Kami</a></li>
-                        <li><a href="{{ route('buyer.about') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tentang Kami</a></li>
-                        <li><a href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat & Ketentuan</a></li>
+                        <li><a href="{{ route('buyer.contact') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kontak Kami</a></li>
+                        <li><a href="{{ route('buyer.about') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tentang Kami</a></li>
+                        <li><a href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat & Ketentuan</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
@@ -64,7 +64,7 @@
     <div class="footer-2">
         <div class="footer-bottom-1">
             <div class="container">
-                <div class="footer-2-top mb-20"><a href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img alt="Logo Pishop"
+                <div class="footer-2-top mb-20"><a href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img alt="Logo Pishop"
                             src="{{ asset('ecom/imgs/pshop.png') }}" style="max-width:100px"></a>
                     {{-- <a class="font-xs color-gray-1000" href="#">EcomMarket.com</a><a
                         class="font-xs color-gray-1000" href="#">Ecom
@@ -86,7 +86,7 @@
                         </span></div>
                     <div class="col-lg-6 col-md-12 text-center text-lg-end">
                         <ul class="menu-bottom">
-                            <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat dan
+                            <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat dan
                                     Ketentuan</a>
                             </li>
                             {{-- <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Privacy Notice</a></li> --}}

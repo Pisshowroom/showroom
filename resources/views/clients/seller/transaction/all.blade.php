@@ -87,7 +87,7 @@
                                         <td class="align-middle">{{ $order->date . ' WIB' }}</td>
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
-                                                href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
+                                                href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                             @if ($order->status == 'Paid' && $order->payment_status == 'PaymentPaid')
                                                 <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
                                                     data-bs-target="#cancelTransaction{{ $order->id }}">
@@ -131,7 +131,7 @@
                     <div class="modal-footer border-top-0">
                         <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
                         <a class="btn btn-xs-danger"
-                            href="{{ route('dashboardSeller.sellerRejectOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            href="{{ route('dashboardSeller.sellerRejectOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                             Tolak</a>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
                     <div class="modal-footer border-top-0">
                         <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
                         <a class="btn btn-xs-success"
-                            href="{{ route('dashboardSeller.sellerAcceptOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            href="{{ route('dashboardSeller.sellerAcceptOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                             Terima</a>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                     <div class="modal-footer border-top-0">
                         <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
                         <a class="btn btn-xs-success"
-                            href="{{ route('dashboardSeller.sellerSendOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            href="{{ route('dashboardSeller.sellerSendOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                             Ya</a>
                     </div>
                 </div>
@@ -201,7 +201,7 @@
                 if (searchQuery !== '') {
                     url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                auth = "{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
                 window.location = url + (url.includes('?') ? '&' : '?') + auth ;
             }
 

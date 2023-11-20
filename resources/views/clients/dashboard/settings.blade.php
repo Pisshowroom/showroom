@@ -58,7 +58,7 @@
                                     <form method="POST" action="{{ route('dashboard.updateProfile') }}"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        @if (Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')))
+                                        @if (Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')))
                                             <input type="hidden" name="auth"
                                                 value="{{ base64_encode(Auth::user()->uid) }}">
                                         @endif
@@ -139,7 +139,7 @@
                                                             </p>
                                                         </div>
                                                         <a class="btn btn-xs"
-                                                            href="{{ route('dashboard.changeAddress', ['id' => $address->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Ubah</a>
+                                                            href="{{ route('dashboard.changeAddress', ['id' => $address->id]) }}{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Ubah</a>
                                                     </div>
                                                     <hr>
                                                 @endif
@@ -156,7 +156,7 @@
                                     <form method="POST" id="updateAddress"
                                         action="{{ route('dashboard.updateAddress') }}">
                                         @csrf
-                                        @if (Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')))
+                                        @if (Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')))
                                             <input type="hidden" name="auth"
                                                 value="{{ base64_encode(Auth::user()->uid) }}">
                                         @endif
@@ -439,7 +439,7 @@
             $.ajax({
                 type: "GET",
                 url: "{{ route('getCity') }}" + '/' + id +
-                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                    "{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                 dataType: "json",
                 success: function(data) {
                     var html = '';
@@ -467,7 +467,7 @@
             $.ajax({
                 type: "GET",
                 url: "{{ route('getDistrict') }}" + '/' + id +
-                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                    "{{ Auth::check() && preg_match('/Chrome/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                 dataType: "json",
                 success: function(data) {
                     var html = '';
