@@ -82,7 +82,9 @@
                                 Proceed
                             </a>
                         @endif
-                        <p class="text-muted"></p>
+                        <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis at.
+                            Dolore facilis repellat numquam cum, id, iste sint libero odio atque a quam ducimus cumque quis
+                            enim reiciendis repellendus?</p>
                     </div>
                 </div>
             </div>
