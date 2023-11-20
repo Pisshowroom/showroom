@@ -281,8 +281,8 @@
                     url += '?category_id=' + '&orderBy=' + selectedOrderBy;
                 }
 
-                window.location = url +
-                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
             }
 
             $('.dropdown-menu li button').on('click', function(e) {
@@ -326,8 +326,8 @@
                     url += '?category_id=&orderBy=' + orderBy + '&rating=' +
                         rating + '&price=' + price;
                 }
-                window.location = url +
-                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
             }
         });
     </script>

@@ -346,8 +346,8 @@
                 if (searchQuery !== '') {
                     url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location = url +
-                    '{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}';
+                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
                 // Navigate to the constructed URL
                 // history.pushState({}, '', url);
             }

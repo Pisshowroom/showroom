@@ -7,7 +7,7 @@ auth()->guard('web')->attempt(['email' =>'ran@gmail.com', 'password' => "1234567
 dd(request()->all());
 
 @endphp --}}
-{!! dd(request()->session()->all()); !!}
+{{-- {!! dd(request()->session()->all()); !!} --}}
     <main class="main">
         <section class="section-box">
             <div class="banner-hero banner-1 pt-10">
