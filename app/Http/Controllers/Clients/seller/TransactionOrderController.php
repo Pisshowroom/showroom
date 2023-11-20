@@ -31,7 +31,7 @@ class TransactionOrderController extends Controller
                     $qq->where('seller_id', Auth::guard('web')->user()->id);
                 });
             })
-            ->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total', 'total_final', 'seller_id')
+            ->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total', 'total_final', 'seller_id', 'payment_due')
             ->when($status, function ($query, $status) {
                 if ($status != 'all')
                     return $query->where('status', $status);

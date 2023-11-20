@@ -56,7 +56,7 @@ class OrderController extends Controller
                     if ($request->filled('search'))
                         $qq->where('payment_identifier', 'like', "%$request->search%");
                 });
-            })->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total','total_final')
+            })->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total', 'total_final', 'payment_due')
             ->when($status, function ($query, $status) {
                 if ($status != 'all')
                     return $query->where('status', $status);

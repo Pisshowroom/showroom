@@ -32,7 +32,7 @@ class SellerController extends Controller
                     $qq->where('seller_id', Auth::guard('web')->user()->id);
                 });
             })
-            ->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total', 'total_final', 'seller_id')
+            ->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total', 'total_final', 'seller_id', 'payment_due')
             ->with(['user:id,name', 'order_items:id,product_id,order_id', 'order_items.product:id,name'])
             ->orderBy('id', $request->orderBy ?? 'desc')->paginate($request->per_page ?? 10);
         foreach ($order as $key => $value) {
