@@ -7,10 +7,10 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allGridProduct') }}">Produk</a>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Produk</a>
                         </li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.checkout') }}">Checkout</a>
+                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Checkout</a>
                         </li>
                     </ul>
                 </div>
@@ -113,7 +113,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label" for="address_id">Pilih Alamat</label>
-                                        <select class="form-control font-sm select-style1 color-gray-700" id="address_id"
+                                        <select class="form-control font-sm select-style1" id="address_id"
                                             name="address_id">
                                             <option value="0">Pilih salah satu</option>
                                             @foreach ($data['address'] as $item)
@@ -126,7 +126,7 @@
                                         </select>
                                         @if (count($data['address']) < 1)
                                             <h6 class="font-xs text-danger">Input alamat terlebih dahulu di <a
-                                                    href="{{ route('dashboard.settings') }}">Halaman Profil</a> </h6>
+                                                    href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Halaman Profil</a> </h6>
                                         @endif
                                     </div>
                                 </div>
@@ -135,18 +135,8 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label class="form-label" for="packet">Pilih Kurir</label>
-                                        <select class="form-control font-sm select-style1 color-gray-700" id="packet"
-                                            disabled name="packet">
-                                            <option value="0">Pilih salah satu</option>
-                                        </select>
-                                        <p class="font-xs text-danger d-none">Pilih alamat terlebih dahulu</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
                                         <label class="form-label" for="master_account_id">Pilih Pembayaran</label>
-                                        <select class="form-control font-sm select-style1 color-gray-700"
+                                        <select class="form-control font-sm select-style1"
                                             id="master_account_id" name="master_account_id">
                                             <option value="0">Pilih salah satu</option>
                                             @foreach ($data['master_account'] as $item)
@@ -155,10 +145,21 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-label" for="packet">Pilih Kurir</label>
+                                        <select class="form-control font-sm select-style1" id="packet"
+                                            disabled name="packet">
+                                            <option value="0">Pilih salah satu</option>
+                                        </select>
+                                        <p class="font-xs text-danger d-none">Pilih alamat dan pembayaran terlebih dahulu
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row mt-20">
                                 <div class="col-lg-6 col-5 mb-20"><a class="btn font-sm-bold color-brand-1 arrow-back-1"
-                                        href="{{ route('buyer.cart') }}">Kembali ke Keranjang</a></div>
+                                        href="{{ route('buyer.cart') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Kembali ke Keranjang</a></div>
                                 <div class="col-lg-6 col-7 mb-20 text-end">
                                     <button class="btn btn-buy w-auto arrow-next" disabled>Pesan Sekarang</button>
                                 </div>
@@ -189,22 +190,21 @@
 
                 rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
 
-                if(userAgent){
-                    if(userAgent.match(/PiBrowser/))
+                if (userAgent) {
+                    if (userAgent.match(/PiBrowser/))
                         isPi = true
                 }
 
-                if(isPi)
-                    return (convertPiToRupiah(angka)) + " π";
+                if (isPi)
+                    return (convertRupiahToPi(angka)) + " π";
 
                 return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
             }
 
-            function convertPiToRupiah(price)
-            {
+            function convertRupiahToPi(price) {
                 var value = {{ $setting->value ?? 558647.95 }}
 
-                return (1 / value ) * (price);
+                return (1 / value) * (price);
             }
 
             var checkouts = localStorage.getItem('checkout');
@@ -213,24 +213,28 @@
                     var checkout = JSON.parse(checkouts);
                     var html = '';
                     checkout.products.forEach((element, i) => {
+                        var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
+                        url = url.replace(':slug', element.slug);
+
                         html += `<div class="item-wishlist">
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
                                             <div class="product-image"><a
-                                                    href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}"><img
+                                                    href="${url}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img
                                                         src=" {{ asset('ecom/imgs/page/product/img-sub.png') }}"
                                                         alt="Ecom"></a></div>
                                             <div class="product-info">
                                                 <a
-                                                    href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">
-                                                    <h6 class="color-brand-3 line-2 text-start">${element.name}</h6>
+                                                    href="${url}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">
+                                                    <h6 class="color-brand-3 line-2 text-start" style="word-wrap:break-word;">${element.name}</h6>
                                                 </a>
                                                 <div class="rating"><img
                                                         src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                         alt="Ecom"><span class="font-xs color-gray-500">
-                                                        (65)
+                                                            ${element.rating} (${element.reviews_count} ulasan)
                                                     </span></div>
-                                                        <h6 class="color-brand-3 font-md-bold">${formatRupiah(element.price, 'Rp ')}</h6>
+                                                        <h6 class="color-brand-3 font-md-bold">${element.price_discount&&element.price_discount>0?formatRupiah(element.price_discount, 'Rp '):formatRupiah(element.price, 'Rp ')}</h6>
+                                                        <p class="color-brand-3 font-sm" style="text-decoration: line-through;">${element.price_discount&&element.price_discount>0?formatRupiah(element.price, 'Rp '):''}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -261,7 +265,7 @@
                     console.error('Error parsing JSON:', error);
                 }
             } else {
-                window.location.replace("{{ route('buyer.home') }}");
+                window.location.replace("{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}");
             }
             if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id').find(
                     'option:selected')
@@ -271,24 +275,36 @@
             }
 
             if ($('#address_id').find('option:selected')) {
-                console.log($(this).val());
                 if ($(this).val() != 0) {
-                    $('#packet').prop('disabled', false);
-                    $('p.text-danger').addClass('d-none').removeClass('d-block');
-                } else if ($(this).val() ==''){
-                    $('#packet').prop('disabled', false);
-                    $('p.text-danger').addClass('d-none').removeClass('d-block');
+                    if ($('#master_account_id').find('option:selected').val() != 0) {
+                        $('#packet').prop('disabled', false);
+                        $('p.text-danger').addClass('d-none').removeClass('d-block');
+                    } else {
+                        $('#packet').prop('disabled', true);
+                        $('p.text-danger').addClass('d-block').removeClass('d-none');
+                    }
+                } else if ($(this).val() == '') {
+                    if ($('#master_account_id').find('option:selected').val() != 0) {
+                        $('#packet').prop('disabled', false);
+                        $('p.text-danger').addClass('d-none').removeClass('d-block');
+                    } else {
+                        $('#packet').prop('disabled', true);
+                        $('p.text-danger').addClass('d-block').removeClass('d-none');
+                    }
                 } else {
                     $('p.text-danger').addClass('d-block').removeClass('d-none');
                 }
             } else {
                 $('p.text-danger').addClass('d-block').removeClass('d-none');
             }
+
             $('#address_id').on('change', function() {
                 var selectedOption = $(this).find('option:selected');
                 if (selectedOption.val() != 0) {
-                    $('p.text-danger').addClass('d-none').removeClass('d-block');
-                    $('#packet').prop('disabled', false);
+                    if ($('#master_account_id').find('option:selected').val() != 0) {
+                        $('p.text-danger').addClass('d-none').removeClass('d-block');
+                        $('#packet').prop('disabled', false);
+                    }
                 } else {
                     $('p.text-danger').addClass('d-block').removeClass('d-none');
                     $('#packet').prop('disabled', true);
@@ -298,70 +314,114 @@
                     .val() !=
                     0 && $('#packet').find('option:selected').val() != 0) {
                     $('.arrow-next').prop('disabled', false);
+                } else if ($('#address_id').find(
+                        'option:selected')
+                    .val() ==
+                    0) {
+                    $('.arrow-next').prop('disabled', true);
                 }
             });
+
             $('#master_account_id').on('change', function() {
+                console.log($('#master_account_id').find('option:selected').val() != 0);
                 if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id').find(
+                        'option:selected')
+                    .val() !=
+                    0 && $('#packet').find('option:selected').val() == 0) {
+                    console.log('asa');
+                    $('p.text-danger').addClass('d-none').removeClass('d-block');
+                    $('#packet').prop('disabled', false);
+                } else if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id')
+                    .find(
+                        'option:selected')
+                    .val() ==
+                    0) {
+                    console.log('asa');
+                    $('p.text-danger').addClass('d-block').removeClass('d-none');
+                    $('#packet').prop('disabled', true);
+                } else if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id')
+                    .find(
                         'option:selected')
                     .val() !=
                     0 && $('#packet').find('option:selected').val() != 0) {
                     $('.arrow-next').prop('disabled', false);
+                } else if ($('#master_account_id').find(
+                        'option:selected')
+                    .val() ==
+                    0) {
+                    $('.arrow-next').prop('disabled', true);
                 }
             })
             $('#packet').on('change', function() {
-                var selectedOption = $(this).find('option:selected');
-                var checkouts = localStorage.getItem('checkout');
-                var checkout = JSON.parse(checkouts);
-                if (checkout.products) {
+                if ($(this).find(
+                        'option:selected').val() != 0) {
+                    var selectedOption = $(this).find('option:selected');
+                    var checkouts = localStorage.getItem('checkout');
+                    var checkout = JSON.parse(checkouts);
+                    if (checkout.products) {
 
-                    const obj = {
-                        order_items: JSON.stringify(checkout.products),
-                        address_id: $('#address_id').find('option:selected').val(),
-                        delivery_cost: $(selectedOption).find('.cost').val(),
-                        delivery_code: $(selectedOption).val(),
-                        delivery_name: $(selectedOption).find('.name').val(),
-                        delivery_service: $(selectedOption).find('.description').val(),
-                        delivery_estimation_day: $(selectedOption).find('.etd').val()
+                        const obj = {
+                            order_items: JSON.stringify(checkout.products),
+                            address_id: $('#address_id').find('option:selected').val(),
+                            delivery_cost: $(selectedOption).find('.cost').val(),
+                            delivery_code: $(selectedOption).val(),
+                            delivery_name: $(selectedOption).find('.name').val(),
+                            delivery_service: $(selectedOption).find('.description').val(),
+                            delivery_estimation_day: $(selectedOption).find('.etd').val(),
+                            master_account_id: $('#master_account_id').find('option:selected').val(),
+                        }
+                        $.ajaxSetup({
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                    "content"
+                                ),
+                            },
+                        });
+                        $('.loading').removeClass('d-none').addClass('show-modal');
+
+                        $.ajax({
+                            url: "{{ route('buyer.precheckWithDelivery') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
+                            type: "POST",
+                            // dataType: "json",
+                            data: obj,
+                            success: function(data) {
+                                $('.subtotal').text(formatRupiah(data.subtotal, 'Rp '));
+                                $('.shipping').text(formatRupiah(data.delivery_cost, 'Rp '));
+                                $('.fee').text(formatRupiah(data.payment_service_fee, 'Rp '));
+                                $('.total').text(formatRupiah(data.total, 'Rp '));
+                                console.log(data);
+                                $('.loading').removeClass('show-modal')
+                                    .addClass('d-none');
+
+                            },
+                            error: function(error) {
+                                if (error && error.responseJSON && error.responseJSON.message) {
+                                    $('#myDivHandleError').text(error.responseJSON.message);
+                                    $('#myDivHandleError').css('display', 'block');
+                                    setTimeout(function() {
+                                        $('#myDivHandleError').fadeOut('fast');
+                                    }, 2000);
+                                }
+                                console.log('error');
+                                console.log(error);
+                                $('.loading').removeClass('show-modal')
+                                    .addClass('d-none');
+
+                            },
+                        });
+                    } else {
+                        console.log('error');
+                        $('#myDivHandleError').text('error.responseJSON.message');
+                        $('#myDivHandleError').css('display', 'block');
+                        setTimeout(function() {
+                            $('#myDivHandleError').fadeOut('fast');
+                        }, 2000);
                     }
-                    $.ajaxSetup({
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                                "content"
-                            ),
-                        },
-                    });
-
-                    $.ajax({
-                        url: "{{ route('buyer.precheckWithDelivery') }}",
-                        type: "POST",
-                        // dataType: "json",
-                        data: obj,
-                        success: function(data) {
-                            $('.subtotal').text(formatRupiah(data.subtotal, 'Rp '));
-                            $('.shipping').text(formatRupiah(data.delivery_cost, 'Rp '));
-                            $('.fee').text(formatRupiah(data.payment_service_fee, 'Rp '));
-                            $('.total').text(formatRupiah(data.total, 'Rp '));
-                            console.log(data);
-                        },
-                        error: function(error) {
-                            if (error && error.responseJSON && error.responseJSON.message) {
-                                $('#myDivHandleError').text(error.responseJSON.message);
-                                $('#myDivHandleError').css('display', 'block');
-                                setTimeout(function() {
-                                    $('#myDivHandleError').fadeOut('fast');
-                                }, 2000);
-                            }
-                            console.log('error');
-                            console.log(error);
-                        },
-                    });
-                } else {
-                    console.log('error');
-                    $('#myDivHandleError').text('error.responseJSON.message');
-                    $('#myDivHandleError').css('display', 'block');
-                    setTimeout(function() {
-                        $('#myDivHandleError').fadeOut('fast');
-                    }, 2000);
+                } else if ($(this).find(
+                        'option:selected')
+                    .val() ==
+                    0) {
+                    $('.arrow-next').prop('disabled', true);
                 }
                 if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id').find(
                         'option:selected')
@@ -392,30 +452,32 @@
                             ),
                         },
                     });
+                    $('.loading').removeClass('d-none').addClass('show-modal');
 
                     $.ajax({
-                        url: "{{ route('buyer.preCheckout') }}",
+                        url: "{{ route('buyer.preCheckout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
                         type: "POST",
                         // dataType: "json",
                         data: obj,
                         success: function(data) {
                             $('#myDivHandleSuccess').text('Berhasil memesan produk.');
                             $('#myDivHandleSuccess').css('display', 'block');
-                            console.log(data);
                             setTimeout(function() {
                                 $('#myDivHandleSuccess').fadeOut('fast');
                                 localStorage.removeItem('checkout');
                                 if (data && data.order) {
                                     if (data.order.payment_identifier) {
-                                        if(data.order.payment_channel == 'PI') {
-                                            var route = "{{ route('dashboard.pi_payment', ['identifier' => 'id']) }}";
-                                        } else {
-                                            var route = "{{ route('dashboard.payment', ['identifier' => 'id']) }}";
-                                        }
-                                        window.location.replace(route.replace( 'id', data.order.payment_identifier ));
+                                        var route =
+                                            "{{ route('dashboard.payment', ['identifier' => 'id']) }}";
+                                        window.location.replace(route.replace(
+                                            'id', data.order.payment_identifier
+                                        )+"{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}");
                                     }
                                 }
                             }, 2000);
+                            $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                         },
                         error: function(error) {
                             if (error && error.responseJSON && error.responseJSON.message) {
@@ -425,6 +487,9 @@
                                     $('#myDivHandleError').fadeOut('fast');
                                 }, 2000);
                             }
+                            $('.loading').removeClass('show-modal')
+                                .addClass('d-none');
+
                             console.log('error');
                             console.log(error);
                         },

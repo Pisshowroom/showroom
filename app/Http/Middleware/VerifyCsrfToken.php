@@ -15,6 +15,6 @@ class VerifyCsrfToken extends Middleware
         '/0xff-callback-confirm-payment/*',
         '/convert-to-pi',
         '/login-pi',
-        '/login-email'
+        '/*'
     ];
 }   

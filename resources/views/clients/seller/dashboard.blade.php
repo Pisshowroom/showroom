@@ -9,7 +9,7 @@
             </div>
             <div>
                 @if (Auth::guard('web')->user()->balance != null && Auth::guard('web')->user()->balance > 0)
-                    <a class="btn btn-primary" href="{{ route('dashboardSeller.addWithdraw') }}"
+                    <a class="btn btn-primary" href="{{ route('dashboardSeller.addWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                         {{ Auth::guard('web')->user()->balance != null && Auth::guard('web')->user()->balance > 0 ? '' : 'disabled' }}>
                         <i class="text-muted material-icons md-post_add"></i>Cairkan
                         Uang</a>
@@ -96,7 +96,7 @@
                 <h4 class="card-title">Semua Transaksi Pesanan</h4>
                 <div class="row align-items-center">
                     <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                        <form action="{{ route('dashboardSeller.dashboard') }}">
+                        <form action="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                             <input class="form-control" type="text" placeholder="Cari produk..." name="search"
                                 value="{{ request()->input('search') ?? '' }}">
                         </form>
@@ -141,7 +141,7 @@
                                             <td class="align-middle">{{ $order->date . ' WIB' }}</td>
                                             <td class="align-middle">
                                                 <a class="btn btn-xs"
-                                                    href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
+                                                    href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                                 <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
                                                     data-bs-target="#deleteTransaction">
                                                     Batalkan
@@ -176,7 +176,7 @@
                     <div class="modal-footer border-top-0">
                         <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
                         <a class="btn btn-xs-danger"
-                            href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboardSeller.allTransaction']) }}">
+                            href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboardSeller.allTransaction']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                             Batalkan</a>
                     </div>
                 </div>

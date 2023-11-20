@@ -9,6 +9,11 @@
                 <h2 class="content-title card-title">Semua Pesanan</h2>
             </div>
         </div>
+        @if (session('success'))
+            <div class="alert alert-success" id="mydiv">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="card mb-4">
             <header class="card-header">
                 <div class="row gx-3">
@@ -71,13 +76,17 @@
                                         <td class="align-middle">{{ $order->date . ' WIB' }}</td>
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
-                                                href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}">Detail</a>
+                                                href="{{ route('dashboard.detailOrder', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                             @if ($order->status == 'Pending' && $order->expired == false)
                                                 <a class="btn btn-xs-success"
-                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}">Cara Bayar</a>
+                                                    href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Cara
+                                                    Bayar</a>
+                                            @elseif ($order->status == 'Pending' && $order->expired == true)
+                                                <a class="btn btn-xs-danger"
+                                                    href="{{ route('deleteOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.myOrder']) }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Hapus</a>
+                                                {{-- <a class="btn btn-xs-danger"
+                                                    href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                             @endif
-                                            {{-- <a class="btn btn-xs-danger"
-                                                href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -96,11 +105,14 @@
 @endsection
 @push('importjs')
     <script>
+        setTimeout(function() {
+            $('#mydiv').fadeOut('fast');
+        }, 2000);
         $(document).ready(function() {
             function updateURL() {
                 var searchQuery = $('#searchOrder').val();
                 var selectedStatus = $('#filterStatus').val();
-                var baseUrl = '{{ route('dashboard.myOrder') }}';
+                var baseUrl = "{{ route('dashboard.myOrder') }}";
                 var url = baseUrl;
 
                 if (selectedStatus !== '') {
@@ -110,7 +122,7 @@
                 if (searchQuery !== '') {
                     url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location = url;
+                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
             }
 
             $('#searchOrder, #filterStatus').on('change', function() {

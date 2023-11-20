@@ -73,8 +73,43 @@ class BuyerController extends Controller
         $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
         $data['recommended_products'] = ProductResource::collection($limitedProducts);
         $data['promo_products'] = ProductResource::collection($promoProducts);
-        $data['articles'] = ArticleResource::collection($articles);
+        foreach ($data['latest_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        foreach ($data['limited_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        foreach ($data['recommended_products'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        foreach ($data['promo_products'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
 
+        $data['articles'] = ArticleResource::collection($articles);
         return view('clients.buyer.home', ['data' => $data]);
     }
 
@@ -126,7 +161,7 @@ class BuyerController extends Controller
             ->select('id', 'user_id', 'main', 'place_name', 'person_name', 'phone_number', 'district', 'city')
             ->get();
         $data['master_account'] = MasterAccountResource::collection($masterAccounts);
-        
+
         $setting = Setting::where("name", "pi")->first();
         if (!$setting) {
             $setting = new Setting();

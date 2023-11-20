@@ -54,7 +54,8 @@ class OrderController extends Controller
 
         if ($channelType == 'VIRTUAL_ACCOUNT') {
             $result = VirtualAccounts::create([
-                'external_id' => $paymentIdentifier . strval(time()),
+                // . strval(time()),
+                'external_id' => $paymentIdentifier,
                 'bank_code' => $channelCode,
                 'is_closed' => true,
                 'name' => $user->name,
@@ -69,7 +70,7 @@ class OrderController extends Controller
             }
             $result = QRCode::create([
                 'api_version' => '2022-07-31',
-                'reference_id' => $paymentIdentifier . strval(time()),
+                'reference_id' => $paymentIdentifier,
                 'type' => 'DYNAMIC',
                 'webhook-url' => 'https://662b-103-154-110-81.ngrok-free.app/0xff-callback-confirm-payment',
                 'amount' => $amount,
@@ -78,7 +79,7 @@ class OrderController extends Controller
             ]);
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $result = Retail::create([
-                'external_id' => $paymentIdentifier . strval(time()),
+                'external_id' => $paymentIdentifier,
                 'retail_outlet_name' => $channelCode,
                 'name' => $user->name,
                 'expected_amount' => $amount,
@@ -269,7 +270,7 @@ class OrderController extends Controller
 
         // dd($order);
 
-        $order->status = Order::PAID;
+        $order->status = Order::PROCESSED_BY_SELLER;
         $order->payment_status = Order::PAYMENT_PAID;
         $order->save();
         // Log::info('callbackConfirmPayment called with parameters:', $request->all());
@@ -474,12 +475,23 @@ class OrderController extends Controller
             $serviceFee = 5550;
         }
 
-        $data['subtotal'] = $total;
+        $subTotal = $total;
+        $data['subtotal'] = $subTotal;
         $additionFee = $deliveryCost + $serviceFee;
+        $feeGlobalAmount = lypsisGetSetting("", [], true, ['buyer_fee_amount', 'buyer_fee_percent'])->toArray();
+        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+        if ($feeGlobalAmount[0] > 0) {
+            $buyerFee = $feeGlobalAmount[0];
+        } else {
+            $buyerFee = ($total * $feeGlobalAmount[1] / 100);
+        }
+        $additionFee += $buyerFee;
+
         $total += $additionFee;
         $totalWithoutDiscount += $additionFee;
 
         $data['delivery_cost'] = $deliveryCost;
+        $data['market_fee_buyer'] = $buyerFee;
         $data['payment_service_fee'] = $serviceFee;
         $data['master_account'] = new MasterAccountResource($masterAccount);
         $data['total'] = $total;
@@ -522,7 +534,7 @@ class OrderController extends Controller
         // $paymentDue = now()->addHours(24)->format('Y-m-d H:i:s');
         $paymentDue = now()->addHours(24);
         $countOrderToday = DB::table('orders')->whereDate('created_at', now())->count();
-        $identifier = str_pad(now()->day, 2, '0', STR_PAD_LEFT) . strtoupper(now()->format("M")) . now()->format('y') . 'ORD' . str_pad(($countOrderToday + 1), 3, '0', STR_PAD_LEFT) . env('XND_ID') . time();
+        $identifier = str_pad(now()->day, 2, '0', STR_PAD_LEFT) . strtoupper(now()->format("M")) . now()->format('y') . 'ORD' . str_pad(($countOrderToday + 1), 3, '0', STR_PAD_LEFT) . env('XND_ID');
 
 
         $orderItems = json_decode($request->order_items, true);
@@ -598,12 +610,12 @@ class OrderController extends Controller
             array_push($products, $productTransformed);
         }
 
-        // create $identifier on Order::class i had getNextId() 
 
 
         // $type = 'QRIS';
         // $type = 'VirtualAccount';
-        $data['subtotal'] = $total;
+        $subTotal = $total;
+        $data['subtotal'] = $subTotal;
 
 
         $serviceFee = 0;
@@ -617,6 +629,15 @@ class OrderController extends Controller
         }
 
         $additionFee = $deliveryCost + $serviceFee;
+        
+        $feeGlobalAmount = lypsisGetSetting("", [], true, ['buyer_fee_amount', 'buyer_fee_percent'])->toArray();
+        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+        if ($feeGlobalAmount[0] > 0) {
+            $buyerFee = $feeGlobalAmount[0];
+        } else {
+            $buyerFee = ($total * $feeGlobalAmount[1] / 100);
+        }
+        $additionFee += $buyerFee;
 
         $total += $additionFee;
         $totalWithoutDiscount += $additionFee;
@@ -640,6 +661,8 @@ class OrderController extends Controller
         $order->seller_id = $sellerId;
         $order->delivery_cost = $deliveryCost;
         $order->service_fee = $serviceFee;
+        $order->subtotal = $subTotal;
+        $order->market_fee_buyer = $buyerFee;
         $order->delivery_estimation_day = $request->delivery_estimation_day;
         $order->delivery_service_code = $request->delivery_code;
         $order->delivery_service_name = $request->delivery_name;
@@ -674,6 +697,7 @@ class OrderController extends Controller
 
         $data['delivery_cost'] = $deliveryCost;
         $data['payment_service_fee'] = $serviceFee;
+        $data['market_fee_buyer'] = $buyerFee;
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;

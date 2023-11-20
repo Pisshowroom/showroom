@@ -7,12 +7,14 @@ use App\Http\Resources\ArticleResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\SliderResource;
+use App\Http\Resources\SubCategoryResource;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Notification;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -75,8 +77,20 @@ class HomeController extends Controller
     // func categories
     public function categories()
     {
+        $categories = Category::with('sub_categories')->get();
+        return CategoryResource::collection($categories);
+    }
+
+    public function justCategories()
+    {
         $categories = Category::all();
         return CategoryResource::collection($categories);
+    }
+
+    public function subCategories()
+    {
+        $subCategories = SubCategory::all();
+        return SubCategoryResource::collection($subCategories);
     }
     
 }

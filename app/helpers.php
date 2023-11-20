@@ -58,6 +58,22 @@ function phoneGeneralize($phone)
     return '+' . $phone;
 }
 
+function lypsisGetOrderStatusValues($paramStatus)
+{
+    switch ($paramStatus) {
+        case 'Processing':
+            return ['Paid', 'ProcessedBySeller'];
+        case 'Sending':
+            return ['Shipped', 'Delivered'];
+        case 'Cancel':
+            return ['ExpiredPayment', 'Cancelled'];
+        case 'Returning':
+            return ['RequestedRefund', 'RefundAccepted', 'RefundDone', 'RefundDeclined', 'RequestedReturn', 'ReturnAccepted', 'ReturnShipped', 'ReturnDelivered', 'ReturnCompleted'];
+        default:
+            return [$paramStatus];
+    }
+}
+
 function lypsisGetSetting($name, $default = false, $multiple = false, $names = [])
 {
     if ($multiple == false) {

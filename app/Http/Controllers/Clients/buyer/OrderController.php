@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients\buyer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MasterAccountResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Address;
 use App\Models\MasterAccount;
@@ -13,12 +14,14 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Xendit\QRCode;
 use Xendit\Retail;
 use Xendit\VirtualAccounts;
 use Xendit\Xendit;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class OrderController extends Controller
 {
@@ -140,7 +143,6 @@ class OrderController extends Controller
 
         return ResponseAPI($data);
     }
-
     public function preCheck(Request $request)
     {
         // VirtualAccount::setters
@@ -149,8 +151,10 @@ class OrderController extends Controller
             'address_id' => 'required',
         ]);
 
-        $addressBuyer = Address::findOrFail($request->address_id);
-        $seller = \App\Models\User::find($request->seller_id);
+        $addressBuyer = Address::findOrFail(4);
+        $seller = \App\Models\User::find(4);
+        // $addressBuyer = Address::findOrFail($request->address_id);
+        // $seller = \App\Models\User::find($request->seller_id);
         // dd($seller);
         $sellerAddress = Address::where('user_id', $seller->id)->where('main', true)->firstOrFail();
 
@@ -204,11 +208,11 @@ class OrderController extends Controller
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
         $data['weight'] = $weight;
-        Log::info('checkShippingPrice called with parameters:', [
-            'origin_id' => $addressBuyer->ro_subdistrict_id,
-            'destination_id' => $sellerAddress->ro_city_id,
-            'weight' => $weight,
-        ]);
+        // Log::info('checkShippingPrice called with parameters:', [
+        //     'origin_id' => $addressBuyer->ro_subdistrict_id,
+        //     'destination_id' => $sellerAddress->ro_city_id,
+        //     'weight' => $weight,
+        // ]);
 
         // $weight = -2;
         // $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
@@ -237,6 +241,7 @@ class OrderController extends Controller
             'delivery_name' => 'required',
             'delivery_service' => 'required',
             'delivery_estimation_day' => 'required',
+            'master_account_id' => 'required',
         ]);
 
         $products = [];
@@ -245,6 +250,7 @@ class OrderController extends Controller
         $countedPromoProduct = 0;
         $countedAmountPromo = 0;
         $deliveryCost = (int)$request->delivery_cost;
+        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
 
 
         $orderItems = json_decode($request->order_items, true);
@@ -289,13 +295,13 @@ class OrderController extends Controller
         // $type = 'QRIS';
         // $type = 'VirtualAccount';
         $serviceFee = 0;
-        $type = 'Retail';
-        if ($type == 'VirtualAccount') {
+        // $type = 'Retail';
+        if ($masterAccount->type == 'Virtual-Account') {
             $serviceFee = 4500;
-        } elseif ($type == 'QRIS') {
+        } elseif ($masterAccount->type == 'E-Wallet') { // * A.k.a QRIS
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
-        } elseif ($type == 'Retail') {
+        } elseif ($masterAccount->type == 'Retail-Outlet') {
             $serviceFee = 5550;
         }
 
@@ -306,6 +312,7 @@ class OrderController extends Controller
 
         $data['delivery_cost'] = $deliveryCost;
         $data['payment_service_fee'] = $serviceFee;
+        $data['master_account'] = new MasterAccountResource($masterAccount);
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
@@ -332,6 +339,8 @@ class OrderController extends Controller
         ]);
 
         $user = auth()->guard('web')->user();
+        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
+
         DB::beginTransaction();
 
         $products = [];
@@ -355,6 +364,7 @@ class OrderController extends Controller
         $order->user_id = $user->id;
         $order->save();
         $weight = 0;
+        $sellerId = null;
 
         foreach ($orderItems as $order_item) {
             $product_id = isset($order_item['product_id']) ? $order_item['product_id'] : $order_item['id'];
@@ -370,6 +380,14 @@ class OrderController extends Controller
                 else
                     return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
+            if ($sellerId == null) {
+                $sellerId = $product->seller_id;
+            } else {
+                if ($sellerId != $product->seller_id) {
+                    return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
+                }
+            }
+
             $product->load('parent');
             $qty = isset($order_item['qty']) ? $order_item['qty'] : 1;
             if ($product->stock < $qty) {
@@ -399,7 +417,6 @@ class OrderController extends Controller
             $orderItem->subtotal = $product->price * $qty;
             $orderItem->item_total = $itemTotal;
             $orderItem->price = $product->price;
-            // $orderItem->note = isset($order_item['note']) ? $order_item['note'] : 'Tolong hati hati';
             $orderItem->weight = $thisItemWeight;
             // $orderItem->fee_seller = $product->fee_seller;
             // $orderItem->fee_buyer = $product->fee_buyer;
@@ -418,28 +435,27 @@ class OrderController extends Controller
         $data['subtotal'] = $total;
 
         $serviceFee = 0;
-        $type = 'Retail';
-        if ($type == 'VirtualAccount') {
+        if ($masterAccount->type == 'Virtual-Account') {
             $serviceFee = 4500;
-            $additionFee = $deliveryCost + $serviceFee;
-
-            $total += $additionFee;
-            $totalWithoutDiscount += $additionFee;
-        } elseif ($type == 'QRIS') {
+        } elseif ($masterAccount->type == 'E-Wallet') { // * A.k.a QRIS
             // $serviceFee = floor($total * 0.00699);
             $serviceFee = floor($total * 0.007);
-        } elseif ($type == 'Retail') {
+        } elseif ($masterAccount->type == 'Retail-Outlet') {
             $serviceFee = 5550;
         }
 
+        $additionFee = $deliveryCost + $serviceFee;
 
-        $masterAccount = MasterAccount::findOrFail($request->master_account_id);
+        $total += $additionFee;
+        $totalWithoutDiscount += $additionFee;
+
+
 
         $channelType = lypsisConvertPaymentChannelType($masterAccount->type);
         $channelCode = $channelType == 'QR_CODE' ? "DYNAMIC" : $masterAccount->provider_name;
 
         $dataPaymentCreated = $this->createPaymentRequest($channelType, $channelCode, $total, $identifier, $paymentDue, $user);
-        Log::info("created payReq - $identifier :", $dataPaymentCreated);
+        // Log::info("created payReq - $identifier :", $dataPaymentCreated);
 
         // dd($dataPaymentCreated);
         // return ResponseAPI($dataPaymentCreated);
@@ -478,14 +494,13 @@ class OrderController extends Controller
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $order->outlet_payment_code = $dataPaymentCreated['payment_code'];
         } else if ($channelType == 'PI') {
-            $order->pi_delivery_cost = convertRupiahToPi($deliveryCost);
-            $order->pi_service_fee = convertRupiahToPi($serviceFee);
-
+            $order->pi_delivery_cost = convertRupiahToPi($order->delivery_cost);
+            $order->pi_service_fee = convertRupiahToPi($order->service_fee);
             if ($countedAmountPromo > 0) {
-                $order->pi_total = convertRupiahToPi($pi_WithoutDiscount);
-                $order->pi_total_final = convertRupiahToPi($total);
+                $order->pi_total = convertRupiahToPi($order->total);
+                $order->pi_total_final = convertRupiahToPi($order->total_final);
             } else {
-                $order->pi_total = convertRupiahToPi($total);
+                $order->pi_total = convertRupiahToPi($order->total);
             }
         }
 
@@ -505,6 +520,109 @@ class OrderController extends Controller
 
         return ResponseAPI($data);
     }
+
+    public function serverApprove(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['message' => 'login terlebih dahulu'], 401);
+        }
+
+        $paymentId = $request->payment_id;
+        $currentPayment = $this->platformAPIClient("v2/payments/$paymentId");
+
+        $order = Order::find($currentPayment->metadata->order_id);
+        if ($order == null) {
+            return response()->json(['message' => 'order tidak ditemukan'], 400);
+        }
+        $order->pi_payment_id = $paymentId;
+        $order->pi_total_final = $currentPayment->amount;
+        $order->save();
+
+
+        // let Pi Servers know that you're ready
+        $this->platformAPIClient("v2/payments/$paymentId/approve", 'post');
+        return response()->json(["message" => "Approved the payment $paymentId"]);
+    }
+
+    public function serverComplete(Request $request)
+    {
+        $paymentId = $request->payment_id;
+        $txid = $request->txid;
+
+        $order = Order::where('pi_payment_id', $request->payment_id)->first();
+        if ($order) {
+            $order->status = Order::PAID;
+            $order->payment_status = Order::PAYMENT_PAID;
+            $order->txid = $txid;
+            $order->save();
+        }
+
+        // let Pi server know that the payment is completed
+        $this->platformAPIClient("/v2/payments/$paymentId/complete", "post", ['txid' => $txid]);
+        return response()->json(["message" => "Completed the payment $paymentId"]);
+    }
+
+    public function serverIncomplete(Request $request)
+    {
+        $payment = $request->payment;
+        $paymentId = $payment->identifier;
+        $txid = $payment->transaction && $payment->transaction->txid;
+        $txURL = $payment->transaction && $payment->transaction->_link;
+
+        // find the incomplete order
+        $order = Order::where('pi_payment_id', $paymentId)->first();
+
+        // order doesn't exist
+        if (!$order) {
+            return response()->json([
+                'message' => "Order not found"
+            ], 400);
+        }
+
+        // check the transaction on the Pi blockchain
+        $horizonResponse = $this->platformAPIClient($txURL);
+        $paymentIdOnBlock = $horizonResponse->memo ?? null;
+
+        // and check other data as well e.g. amount
+        if ($paymentIdOnBlock !== $order->pi_payment_id) {
+            return response()->json(["message" => "Payment id doesn't match."]);
+        }
+
+        // mark the order as paid
+        $order->status = Order::PAID;
+        $order->payment_status = Order::PAYMENT_PAID;
+        $order->txid = $txid;
+        $order->save();
+
+        // let Pi Servers know that the payment is completed
+        $this->platformAPIClient("v2/payments/{$paymentId}/complete", 'post', ['txid' => $txid]);
+
+        return response()->json([
+            'message ' => `Handled the incomplete payment $paymentId`
+        ]);
+    }
+
+
+    public function serverCancel(Request $request)
+    {
+
+        $paymentId = $request->payment_id;
+
+        $orders = Order::where('pi_payment_id', $request->pi_payment_id)->where("status", '!=', Order::PAID)->get();
+
+        foreach ($orders as $order) {
+            $order->status = Order::CANCELLED;
+            $order->payment_status = Order::PAYMENT_CANCELLED;
+            $order->save();
+        }
+
+        return response()->json([
+            "message" => "Cancelled the payment $paymentId"
+        ]);
+    }
+
 
     private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
     {
@@ -594,7 +712,7 @@ class OrderController extends Controller
 
         if ($channelType == 'VIRTUAL_ACCOUNT') {
             $result = VirtualAccounts::create([
-                'external_id' => $paymentIdentifier . strval(time()),
+                'external_id' => $paymentIdentifier,
                 'bank_code' => $channelCode,
                 'is_closed' => true,
                 'name' => $user->name,
@@ -602,9 +720,14 @@ class OrderController extends Controller
                 'expiration_date' => $paymentDue,
             ]);
         } else if ($channelType == 'QR_CODE') {
+            // $amount check maximum 100000
+            if ($amount > 10000000) {
+                // return ResponseAPI('Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000', 400);
+                throw new HttpException(400, 'Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000');
+            }
             $result = QRCode::create([
                 'api_version' => '2022-07-31',
-                'reference_id' => $paymentIdentifier . strval(time()),
+                'reference_id' => $paymentIdentifier,
                 'type' => 'DYNAMIC',
                 'webhook-url' => 'https://662b-103-154-110-81.ngrok-free.app/0xff-callback-confirm-payment',
                 'amount' => $amount,
@@ -613,7 +736,7 @@ class OrderController extends Controller
             ]);
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $result = Retail::create([
-                'external_id' => $paymentIdentifier . strval(time()),
+                'external_id' => $paymentIdentifier,
                 'retail_outlet_name' => $channelCode,
                 'name' => $user->name,
                 'expected_amount' => $amount,
@@ -623,5 +746,27 @@ class OrderController extends Controller
 
 
         return $result;
+    }
+
+    private function platformAPIClient($url, $method = 'get', $json = [])
+    {
+        $platformAPIClient = new Client([
+            'base_uri' => "https://api.minepi.com",
+            'timeout'  => 20000,
+            'headers'  => [
+                'Authorization' => 'Key mtr9iaoqhkkqvqz4lgwcu8jrbkorcaf8u6qlrfytia1rzrzkwbapvlsagmdseajd'
+                // 'Authorization' => 'Key sfzgfudokxyf6urlin26hda1cmo0rgiui62dqslp2qqkib4rzohcbngosbppplbt'
+            ],
+        ]);
+
+        if ($method == 'post')
+            $response = $platformAPIClient->post($url, [
+                'json' => $json,
+            ]);
+        else
+            $response = $platformAPIClient->get($url);
+
+
+        return json_decode($response->getBody());
     }
 }

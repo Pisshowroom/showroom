@@ -91,14 +91,21 @@ class ProductController extends Controller
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
-    public function detailProduct($slug)
+    public function detailProduct(Request $request, $slug)
     {
-        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])->withAvg('reviews', 'rating')
+        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
                     $query->where('status', 'done');
                 });
             }], 'quantity')->where('slug', $slug)->firstOrFail();
+        if ($product->discount && $product->discount > 0) {
+            $product->price_discount = $product->price - ($product->price * ($product->discount / 100));
+        } else {
+            $product->price_discount = null;
+        }
         $data = $this->getCommonData();
         $data['reviews'] = Review::whereNull('deleted_at')->with('user:id,name,image')->orderByDesc('id')->paginate(5);
         foreach ($data['reviews'] as $review) {

@@ -14,11 +14,25 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = parent::toArray($request);
+        // $data = parent::toArray($request);
+        // $data['sub_categories'] = $this->whenLoaded('sub_categories', function () {
+        //     return new SubCategoryResource($this->sub_categories);
+        // });
         
-        // Replace the image key with your custom image URL
-        $data['image'] = lypsisAsset($this->image);
+        // $data['image'] = lypsisAsset($this->image);
         
-        return $data;
+        // return $data;
+
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'image' => lypsisAsset($this->image),
+            'sub_categories' => $this->whenLoaded('sub_categories', function () {
+                return SubCategoryResource::collection($this->sub_categories);
+            }),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
+        ];
     }
 }

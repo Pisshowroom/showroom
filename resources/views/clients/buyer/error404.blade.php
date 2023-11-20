@@ -11,7 +11,7 @@
                     </div>
                     <h3>404 halaman tidak ditemukan</h3>
                     <p class="font-md-bold color-gray-600">Sepertinya, halaman tidak ada</p>
-                    <div class="mt-15"> <a class="btn btn-buy w-auto arrow-back" href="{{ route('buyer.home') }}">Kembali ke Beranda</a></div>
+                    <div class="mt-15"> <a class="btn btn-buy w-auto arrow-back" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kembali ke Beranda</a></div>
                 </div>
             </div>
         </section>

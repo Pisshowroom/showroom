@@ -152,6 +152,9 @@ class SellerController extends Controller
         if ($request->filled('is_seller')) {
             $user->is_seller = true;
         }
+        if ($request->filled('phone_number_seller')) {
+            $user->phone_number_seller = $request->phone_number_seller;
+        }
 
         if ($request->hasFile('seller_image')) {
             $user->seller_image = uploadFoto($request->seller_image, 'uploads/seller/');

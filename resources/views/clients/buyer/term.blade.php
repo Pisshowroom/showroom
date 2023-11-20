@@ -8,8 +8,8 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.term') }}">Syarat dan Ketentuan</a></li>
+                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
+                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat dan Ketentuan</a></li>
                     </ul>
                 </div>
             </div>

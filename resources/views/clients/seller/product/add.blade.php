@@ -3,7 +3,9 @@
 @section('product', 'active')
 @section('dashboard')
     <section class="content-main">
-        <div class="row">
+        <form class="row"
+            action="{{ route('dashboardSeller.addUpdateProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+            method="POST" enctype="multipart/form-data">
             @csrf
             @if ($product != null && $product->id)
                 <input type="hidden" value="{{ $product->id }}">
@@ -62,6 +64,12 @@
                                     placeholder="pcs, buah, butir, dll"
                                     value="{{ $product != null ? $product->unit : '' }}">
                             </div>
+                            {{-- <div class="mb-4">
+                            <label class="form-label" for="variant">Variasi</label>
+                            <input class="form-control" id="variant" name="variant" type="text"
+                                placeholder="Masukkan variasi produk"
+                                value="{{ $product != null ? $product->variant : '' }}">
+                        </div> --}}
                             <div class="mb-4">
                                 <label class="form-label" for="stock">Jumlah Stok*</label>
                                 <input class="form-control" id="stock" name="stock" required
@@ -80,9 +88,8 @@
                                 <input class="form-control" name="price" id="price" required
                                     onkeypress="return event.charCode>=48&&event.charCode<=57"
                                     value="{{ $product != null ? $product->price : '' }}" type="tel">
-                                <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi nominal infaq minimal Rp 50.000
+                                <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp 50.000
                                 </p>
-
                             </div>
                             <div class="mb-4">
                                 <div class="form-check form-switch mx-3">
@@ -95,18 +102,10 @@
                             <div class="mb-4" id="discountInput" style="display: none;">
                                 <label class="form-label">Diskon</label>
                                 <input class="form-control" placeholder="Masukkan diskon dalam bentuk %" type="numeric"
-                                    min="1" max="100" onkeypress="return event.charCode>=48&&event.charCode<=57"
-                                    id="myPercent" oninput="convertToDecimal(this)" />
+                                    min="1" max="100"
+                                    onkeypress="return event.charCode>=48&&event.charCode<=57" id="myPercent"
+                                    oninput="convertToDecimal(this)" />
                             </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="variant">Variasi</label>
-                                <input class="form-control variant-input" name="variant[]" type="text"
-                                    placeholder="Masukkan variasi produk"
-                                    value="{{ $product != null ? $product->variant : '' }}">
-                            </div>
-
-                            <button type="button" id="addVariantBtn" class="btn btn-primary">Tambah Variasi</button>
-
                         </div>
                     </div>
                 </div>
@@ -124,16 +123,13 @@
                                     accept="image/*">
                             </div>
 
-                            <!-- Image Preview Container -->
                             <div class="preview-container" id="imagePreviewContainer">
-                                <!-- Existing image previews will be displayed here -->
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
+        </form>
     </section>
 
 @endsection
@@ -141,36 +137,37 @@
     <script>
         $(document).ready(function() {
 
-            $('#imageInput').on('change', function (e) {
-            var files = e.target.files;
+            $('#imageInput').on('change', function(e) {
+                var files = e.target.files;
 
-            // Display new previews
-            for (var i = 0; i < files.length; i++) {
-                displayImagePreview(files[i]);
+                // Display new previews
+                for (var i = 0; i < files.length; i++) {
+                    displayImagePreview(files[i]);
+                }
+            });
+
+            // Event listener for remove button click
+            $(document).on('click', '.remove-btn', function() {
+                // Remove the corresponding preview item
+                $(this).parent().remove();
+            });
+
+            // Function to display image previews
+            function displayImagePreview(file) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Create preview item
+                    var previewItem = $('<div class="preview-item"><img src="' + e.target.result +
+                        '" alt="Image Preview"><button class="remove-btn" type="button">Remove</button></div>'
+                    );
+
+                    // Append preview item to container
+                    $('#imagePreviewContainer').append(previewItem);
+                };
+
+                reader.readAsDataURL(file);
             }
-        });
-
-        // Event listener for remove button click
-        $(document).on('click', '.remove-btn', function () {
-            // Remove the corresponding preview item
-            $(this).parent().remove();
-        });
-
-        // Function to display image previews
-        function displayImagePreview(file) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                // Create preview item
-                var previewItem = $('<div class="preview-item"><img src="' + e.target.result +
-                    '" alt="Image Preview"><button class="remove-btn" type="button">Remove</button></div>');
-
-                // Append preview item to container
-                $('#imagePreviewContainer').append(previewItem);
-            };
-
-            reader.readAsDataURL(file);
-        }
 
 
             $('#discount').change(function() {
@@ -186,30 +183,30 @@
 
                 $('.max-name').text('Maksimal panjang nama ' + currentLength + '/70');
             });
-            $('#addVariantBtn').on('click', function() {
-                // Clone the last variant container
-                var clone = $('.all:last').clone(true);
+            // $('#addVariantBtn').on('click', function() {
+            //     // Clone the last variant container
+            //     var clone = $('.all:last').clone(true);
 
-                // Generate a unique identifier (timestamp in milliseconds)
-                var uniqueId = new Date().getTime();
+            //     // Generate a unique identifier (timestamp in milliseconds)
+            //     var uniqueId = new Date().getTime();
 
-                // Update IDs and names for the cloned elements
-                clone.find('.variant-input').val(''); // Clear the value for the new input
-                clone.find('.max-name').text('maksimal panjang nama 0/70'); // Reset character count
-                clone.find('.variant-input').attr('id', 'variant_' + uniqueId);
-                clone.find('.variant-input').attr('name', 'variant_' + uniqueId + '[]');
-                clone.find('.max-name').attr('id', 'max-name_' + uniqueId);
+            //     // Update IDs and names for the cloned elements
+            //     clone.find('.variant-input').val(''); // Clear the value for the new input
+            //     clone.find('.max-name').text('maksimal panjang nama 0/70'); // Reset character count
+            //     clone.find('.variant-input').attr('id', 'variant_' + uniqueId);
+            //     clone.find('.variant-input').attr('name', 'variant_' + uniqueId + '[]');
+            //     clone.find('.max-name').attr('id', 'max-name_' + uniqueId);
 
-                // Insert the cloned variant container
-                $('.all:last').after(clone);
-            });
+            //     // Insert the cloned variant container
+            //     $('.all:last').after(clone);
+            // });
 
-            // Update character count for each variant input
-            $(document).on('input', '.variant-input', function() {
-                var currentLength = $(this).val().length;
-                var uniqueId = $(this).attr('id').split('_')[1]; // Extract the unique identifier
-                $('#max-name_' + uniqueId).text('Maksimal panjang nama ' + currentLength + '/70');
-            });
+            // // Update character count for each variant input
+            // $(document).on('input', '.variant-input', function() {
+            //     var currentLength = $(this).val().length;
+            //     var uniqueId = $(this).attr('id').split('_')[1]; // Extract the unique identifier
+            //     $('#max-name_' + uniqueId).text('Maksimal panjang nama ' + currentLength + '/70');
+            // });
 
         });
         var tanpa_rupiah = document.getElementById('price');
@@ -229,44 +226,44 @@
             }
         });
 
-        $('#btn-product').click(function(e) {
-            e.preventDefault();
-            var data = $('#price').val();
-            data = data.toString().replace(/\Rp /g, '');
-            var datas = data.toString().replace(/\./g, '');
-            console.log(datas);
-            if (datas.length == 0) {
-                if ($('.list-infaq').hasClass('activeNominal')) {
-                    var nominal = $('.list-infaq.activeNominal').find('p').text();
-                    nominal = nominal.toString().replace(/\Rp /g, '');
-                    localStorage.setItem("nominalRupiah", nominal.toString().replace(/\./g, ''));
-                }
-                // $('.info-maraton2 h4').text(formatRupiah(localStorage.getItem('nominalRupiah'), 'Rp '));
-            } else if (datas < 0) {
-                $('.textCancel').removeClass('d-none').addClass('d-block');
-            } else {
-                if (datas.length != 0 && data > 0) {
-                    localStorage.setItem('nominalRupiah', datas);
-                }
-                // $('.info-maraton2 h4').text(formatRupiah(localStorage.getItem('nominalRupiah'), 'Rp '));
+        // $('#btn-product').click(function(e) {
+        //     e.preventDefault();
+        //     var data = $('#price').val();
+        //     data = data.toString().replace(/\Rp /g, '');
+        //     var datas = data.toString().replace(/\./g, '');
+        //     console.log(datas);
+        //     if (datas.length == 0) {
+        //         if ($('.list-infaq').hasClass('activeNominal')) {
+        //             var nominal = $('.list-infaq.activeNominal').find('p').text();
+        //             nominal = nominal.toString().replace(/\Rp /g, '');
+        //             localStorage.setItem("nominalRupiah", nominal.toString().replace(/\./g, ''));
+        //         }
+        //         // $('.info-maraton2 h4').text(formatRupiah(localStorage.getItem('nominalRupiah'), 'Rp '));
+        //     } else if (datas < 0) {
+        //         $('.textCancel').removeClass('d-none').addClass('d-block');
+        //     } else {
+        //         if (datas.length != 0 && data > 0) {
+        //             localStorage.setItem('nominalRupiah', datas);
+        //         }
+        //         // $('.info-maraton2 h4').text(formatRupiah(localStorage.getItem('nominalRupiah'), 'Rp '));
 
-            }
-        });
+        //     }
+        // });
 
         function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            var number_string = angka.toString(),
                 split = number_string.split(','),
                 sisa = split[0].length % 3,
                 rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+                ribuan = split[0].substr(sisa).match(/\d{3}/g);
 
             if (ribuan) {
                 separator = sisa ? '.' : '';
                 rupiah += separator + ribuan.join('.');
             }
+            rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
 
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+            return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
         }
 
         function convertToDecimal(inputElement) {

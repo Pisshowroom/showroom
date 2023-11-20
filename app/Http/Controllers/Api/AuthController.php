@@ -20,6 +20,7 @@ class AuthController extends Controller
         $payload = $firebase->verify("pis-ecommerce");
 
         $user = User::where('uid', $payload->user_id)->first();
+        $data['new_account'] = false;
 
         if (!$user) {
             $user = User::where('email', $payload->email)->first();
@@ -27,10 +28,11 @@ class AuthController extends Controller
 
         if (!$user || $user == null) {
             $user = new User();
-            $user->name = $user->name;
-            $user->email = $user->email ?? $user->username;
+            $user->name = $payload->name ?? $payload->email;
+            $user->email = $payload->email ?? "";
 
             $user->save();
+            $data['new_account'] = true;
         }
 
         $token = $user->createToken('auth-pi-client');

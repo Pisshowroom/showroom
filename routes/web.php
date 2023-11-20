@@ -11,6 +11,7 @@ use App\Http\Controllers\Clients\buyer\DashboardController;
 use App\Http\Controllers\Clients\buyer\OrderController as BuyerOrderController;
 use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
 use App\Http\Controllers\Clients\seller\SellerController;
+use App\Http\Controllers\Clients\seller\TransactionOrderController;
 use App\Models\Order;
 use App\Models\Review;
 use App\Models\Setting;
@@ -31,7 +32,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/geta', function () {
     // return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
-   /*  $orders = Order::whereNull('seller_id')->get();
+    /*  $orders = Order::whereNull('seller_id')->get();
     // 2
     $result = $orders->map(function ($order) {
         $product = $order->order_items()->first()->product;
@@ -152,6 +153,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/hapus-alamat/{id}', [DashboardController::class, 'deleteAddress'])->name('dashboard.deleteAddress');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
+    Route::get('/delete-order', [DashboardController::class, 'deleteOrder'])->name('deleteOrder');
     Route::group(['prefix' => 'pembeli'], function () {
         // Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
         Route::get('/pembayaran/{identifier}', [BuyerOrderController::class, 'payment'])->name('dashboard.payment');
@@ -169,6 +171,12 @@ Route::group(['middleware' => ['auth:web']], function () {
 
         Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
     });
+    Route::group(['prefix' => 'pi'], function () {
+        Route::post('incomplete', [BuyerOrderController::class, 'serverIncomplete']);
+        Route::post('approve', [BuyerOrderController::class, 'serverApprove']);
+        Route::post('complete', [BuyerOrderController::class, 'serverComplete']);
+        Route::post('cancelled_payment', [BuyerOrderController::class, 'serverCancel']);
+    });
     Route::group(['prefix' => 'toko'], function () {
         Route::get('/', [SellerController::class, 'dashboard'])->name('dashboardSeller.dashboard');
         Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
@@ -179,6 +187,9 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/hapus-produk/{id}', [SellerProductController::class, 'deleteProduct'])->name('dashboardSeller.deleteProduct');
         Route::get('/semua-transaksi', [SellerController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
         Route::get('/detail-transaksi/{identifier}', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
+        Route::get('/penjual-terima/{order}', [TransactionOrderController::class, 'sellerAcceptOrder'])->name('dashboardSeller.sellerAcceptOrder');
+        Route::get('/penjual-tolak/{order}', [TransactionOrderController::class, 'sellerRejectOrder'])->name('dashboardSeller.sellerRejectOrder');
+        Route::get('/penjual-cek-status-diantar/{order}', [TransactionOrderController::class, 'checkStatusDeliveredOrder'])->name('dashboardSeller.checkStatusDeliveredOrder');
         Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
         Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
         Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');

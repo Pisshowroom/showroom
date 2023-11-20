@@ -30,11 +30,15 @@ class OrderResource extends JsonResource
             'delivery_service_name' => $this->delivery_service_name,
             'delivery_service_kind' => $this->delivery_service_kind,
             'delivery_service_kind_description' => $this->delivery_service_kind_description,
+            'subtotal' => $this->subtotal,
             'total' => $this->total,
             'total_final' => $this->total_final,
             'refund' => $this->refund,
             // 'master_account_id' => $this->master_account_id,
             // 'master_account' => new MasterAccountResource($this->whenLoaded('masterAccount')),
+            'user' => $this->whenLoaded('user', function () {
+                return new MasterAccountResource($this->user);
+            }),
             'master_account' => $this->whenLoaded('master_account', function () {
                 return new MasterAccountResource($this->master_account);
             }),
