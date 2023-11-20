@@ -11,6 +11,7 @@ use App\Http\Controllers\Clients\buyer\DashboardController;
 use App\Http\Controllers\Clients\buyer\OrderController as BuyerOrderController;
 use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
 use App\Http\Controllers\Clients\seller\SellerController;
+use App\Http\Controllers\Clients\seller\TransactionOrderController;
 use App\Models\Order;
 use App\Models\Review;
 use App\Models\Setting;
@@ -184,6 +185,9 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/hapus-produk/{id}', [SellerProductController::class, 'deleteProduct'])->name('dashboardSeller.deleteProduct');
         Route::get('/semua-transaksi', [SellerController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
         Route::get('/detail-transaksi/{identifier}', [SellerController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
+        Route::get('/penjual-terima/{order}', [TransactionOrderController::class, 'sellerAcceptOrder'])->name('dashboardSeller.sellerAcceptOrder');
+        Route::get('/penjual-tolak/{order}', [TransactionOrderController::class, 'sellerRejectOrder'])->name('dashboardSeller.sellerRejectOrder');
+        Route::get('/penjual-cek-status-diantar/{order}', [TransactionOrderController::class, 'checkStatusDeliveredOrder'])->name('dashboardSeller.checkStatusDeliveredOrder');
         Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
         Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
         Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');

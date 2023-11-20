@@ -73,7 +73,7 @@
                                 </div> --}}
                             </div>
                             <div class="row mb-40">
-                                <div class="col-lg-6 col-md-6 col-sm-6-col-6"><a class="btn btn-buy w-auto arrow-back mb-10"
+                                <div class="col-lg-6 col-md-6 col-sm-6-col-6"><a class="btn btn-cart w-auto mb-10"
                                         href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Lanjutkan
                                         Belanja</a></div>
                                 <div class="col-lg-6 col-md-6 col-sm-6-col-6 text-md-end">

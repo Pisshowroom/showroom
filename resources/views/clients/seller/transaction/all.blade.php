@@ -19,8 +19,7 @@
                     </div>
                     <div class="col-lg-2 col-6 col-md-3">
                         <select name="status" id="filterStatus" class="form-select">
-                            <option {{ !request()->input('status') ? 'selected' : '' }}
-                                disabled>Filter</option>
+                            <option {{ !request()->input('status') ? 'selected' : '' }} disabled>Filter</option>
                             <option value="all"
                                 {{ request()->input('status') && request()->input('status') == 'all' ? 'selected' : '' }}>
                                 Semua
@@ -73,10 +72,18 @@
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
-                                            <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
-                                                data-bs-target="#deleteTransaction">
-                                                Batalkan
-                                            </button>
+
+                                            @if ($order->status == '')
+                                                <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#cancelTransaction">
+                                                    Batalkan
+                                                </button>
+                                            @else
+                                                <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#cancelTransaction">
+                                                    Batalkan
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -91,12 +98,12 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="deleteTransaction" tabindex="-1" aria-labelledby="deleteTransactionLabel"
+        <div class="modal fade" id="cancelTransaction" tabindex="-1" aria-labelledby="cancelTransactionLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header border-bottom-0">
-                        <h1 class="modal-title fs-5 text-dark" id="deleteTransactionLabel">Batalkan Transaksi</h1>
+                        <h1 class="modal-title fs-5 text-dark" id="cancelTransactionLabel">Batalkan Transaksi</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -105,7 +112,7 @@
                     <div class="modal-footer border-top-0">
                         <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
                         <a class="btn btn-xs-danger"
-                            href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboardSeller.allTransaction']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            href="{{ route('cancelOrder', ['order' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                             Batalkan</a>
                     </div>
                 </div>
@@ -129,7 +136,8 @@
                 if (searchQuery !== '') {
                     url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                window.location = url + "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
+                window.location = url +
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}";
             }
 
             $('#searchTransaction, #filterStatus').on('change', function() {
