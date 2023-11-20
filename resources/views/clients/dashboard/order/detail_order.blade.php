@@ -1,13 +1,16 @@
 <div class="card">
     <header class="card-header">
         <div class="row align-items-center">
-            <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+            <div class="col-12 mb-lg-0 mb-15">
                 <span>
                     <i class="material-icons md-calendar_today"></i>
                     <b>Tanggal Pesanan : {{ $order->date . ' WIB' ?? '' }}</b>
                 </span><br>
                 <small class="text-muted">Nomor Resi :
                     {{ $order->payment_identifier ?? '' }}</small>
+                <p class="mt-15"><span>Status:</span>
+                    @include('clients.dashboard.order.status_order')
+                </p>
             </div>
         </div>
     </header>
@@ -52,7 +55,7 @@
             </div>
         </div>
         <div class="row mb-50 order-info-wrap">
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <article class="icontext align-items-start"><span
                         class="icon icon-sm rounded-circle bg-primary-light"><i
                             class="text-primary material-icons md-person"></i></span>
@@ -64,13 +67,13 @@
                             <p class="mb-1">{{ $order->user?->name ?? 'Nama : -' }}<br>
                                 {{ $order->user?->email ?? 'Email : -' }}<br></p>
                         @else
-                            <p class="mb-1">{{ $order->product?->seller?->seller_name ?? 'Nama : -' }}<br>
-                                {{ $order->product?->seller?->email ?? 'Email : -' }}<br></p>
+                            <p class="mb-1">{{ $order?->seller?->seller_name ?? 'Nama : -' }}<br>
+                                {{ $order?->seller?->email ?? 'Email : -' }}<br></p>
                         @endif
                     </div>
                 </article>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <article class="icontext align-items-start"><span
                         class="icon icon-sm rounded-circle bg-primary-light"><i
                             class="text-primary material-icons md-local_shipping"></i></span>
@@ -82,7 +85,7 @@
                     </div>
                 </article>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <article class="icontext align-items-start"><span
                         class="icon icon-sm rounded-circle bg-primary-light"><i
                             class="text-primary material-icons md-place"></i></span>
@@ -124,7 +127,7 @@
                             @foreach ($order->order_items as $key => $oi)
                                 <tr>
                                     <td width="40%"> <a class="itemside"
-                                            href="{{ route('buyer.detailProduct', ['slug' => $oi->product?->slug ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">
+                                            href="{{ route('buyer.detailProduct', ['slug' => $oi->product?->slug ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                             <div class="left">
                                                 <img class="img-xs"
                                                     src="{{ $oi?->product?->images && count($oi?->product?->images) > 0 ? $product->images[0] : asset('ecom_dashboard/imgs/items/1.jpg') }}"

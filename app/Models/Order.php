@@ -28,6 +28,11 @@ class Order extends Model
         return $this->belongsTo(Address::class);
     }
 
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -53,10 +58,10 @@ class Order extends Model
     }
 
     /*  Status
-    Pending, Paid, 
+    Pending, Paid,
     ProcessedBySeller, Shipped, Delivered,
-    ExpiredPayment, Cancelled, RequestedRefund, RefundAccepted, RefundDone, RefundDeclined, 
-    RequestedReturn, ReturnAccepted, ReturnShipped, ReturnDelivered, ReturnCompleted, 
+    ExpiredPayment, Cancelled, RequestedRefund, RefundAccepted, RefundDone, RefundDeclined,
+    RequestedReturn, ReturnAccepted, ReturnShipped, ReturnDelivered, ReturnCompleted,
     Completed
     */
 

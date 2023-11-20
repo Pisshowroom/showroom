@@ -28,14 +28,18 @@
                         <div class="banner-vendor"><img src="{{ asset('ecom/imgs/page/vendor/featured.png') }}"
                                 alt="Ecom">
                             <div class="d-flex box-info-vendor">
-                                <div class="avarta"><img class="mb-5 object-fit-cover" width="100px" height="50px"
-                                        src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? asset(Auth::guard('web')->user()->seller_image) ?? asset('ecom/imgs/page/vendor/fasfox.png') : asset('ecom/imgs/page/vendor/fasfox.png') }}"
+                                <div class="avarta">
+                                    <img class="mb-5 object-fit-cover" width="50px" height="50px"
+                                        style="border-radius: 50%"
+                                        src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? Auth::guard('web')->user()->seller_image ?? asset('ecom/imgs/page/vendor/fasfox.png') : asset('ecom/imgs/page/vendor/fasfox.png') }}"
                                         alt="Ecom"><a class="btn btn-buy font-xs"
                                         href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
-                                        Produk</a></div>
+                                        Produk</a>
+                                </div>
                                 <div class="info-vendor">
-                                    <h4 class="mb-5">{{ Auth::guard('web')->user()->seller_name ?? '' }}</h4><span
-                                        class="font-xs color-gray-500 mr-20">sejak 2012</span>
+                                    <h4 class="mb-5">{{ Auth::guard('web')->user()->seller_name ?? '' }}</h4>
+                                    {{-- <span
+                                        class="font-xs color-gray-500 mr-20">sejak 2012</span> --}}
                                     <div class="rating d-inline-block"><img
                                             src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                             alt="rating penjual {{ Auth::guard('web')->user()->seller_name ?? '' }}"><span

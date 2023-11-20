@@ -9,7 +9,8 @@
             </div>
             <div>
                 @if (Auth::guard('web')->user()->balance != null && Auth::guard('web')->user()->balance > 0)
-                    <a class="btn btn-primary" href="{{ route('dashboardSeller.addWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                    <a class="btn btn-primary"
+                        href="{{ route('dashboardSeller.addWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                         {{ Auth::guard('web')->user()->balance != null && Auth::guard('web')->user()->balance > 0 ? '' : 'disabled' }}>
                         <i class="text-muted material-icons md-post_add"></i>Cairkan
                         Uang</a>
@@ -96,9 +97,10 @@
                 <h4 class="card-title">Semua Transaksi Pesanan</h4>
                 <div class="row align-items-center">
                     <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                        <form action="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                            <input class="form-control" type="text" placeholder="Cari produk..." name="search"
-                                value="{{ request()->input('search') ?? '' }}">
+                        <form method="GET"
+                            action="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            <input class="form-control" type="text" placeholder="Cari berdasarkan Nomor Resi..."
+                                name="search" value="{{ request()->input('search') ?? '' }}">
                         </form>
                     </div>
                 </div>
@@ -109,11 +111,11 @@
                         <table class="table align-middle table-nowrap mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="align-middle" scope="col">No</th>
-                                    <th class="align-middle" scope="col">Nama</th>
+                                    <th class="align-middle">No</th>
+                                    <th class="align-middle" scope="col">Nomor Resi</th>
                                     <th class="align-middle" scope="col">Total</th>
                                     <th class="align-middle" scope="col">Status</th>
-                                    <th class="align-middle" scope="col">Tanggal</th>
+                                    <th class="align-middle" scope="col">Tanggal Pesanan</th>
                                     <th class="align-middle" scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -123,29 +125,27 @@
                                         <tr>
                                             <td class="align-middle">{{ $key + 1 }}</td>
                                             <td class="align-middle">
-                                                {{ substr($order?->order_items[0]?->product?->name ?? '', 0, 12) . (strlen($order?->order_items[0]?->product?->name ?? '') > 12 ? '..' : '') }}
+                                                {{ $order->payment_identifier ?? '' }}
                                             </td>
-                                            <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}
-                                            </td>
+                                            @if ($order->total_final)
+                                                <td class="align-middle">
+                                                    {{ $order->total_final ? numbFormat($order->total_final) : '' }}</td>
+                                            @else
+                                                <td class="align-middle">
+                                                    {{ $order->total ? numbFormat($order->total) : '' }}</td>
+                                            @endif
                                             <td class="align-middle">
-                                                @if ($order->status == 'Pending')
-                                                    <span class="badge rounded-pill alert-warning fw-normal">Menunggu
-                                                        Pembayaran</span>
-                                                @elseif ($order->status == 'Completed')
-                                                    <span class="badge rounded-pill alert-success fw-normal">Selesai</span>
-                                                @else
-                                                    <span class="badge rounded-pill alert-warning fw-normal">Menunggu
-                                                        Pembayaran</span>
-                                                @endif
+                                                @include('clients.dashboard.order.status_order')
                                             </td>
                                             <td class="align-middle">{{ $order->date . ' WIB' }}</td>
                                             <td class="align-middle">
                                                 <a class="btn btn-xs"
                                                     href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
-                                                <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteTransaction">
-                                                    Batalkan
-                                                </button>
+                                                @if ($order->status == 'Paid' && $order->payment_status == 'PaymentPaid')
+                                                    <a class="btn btn-xs-danger"
+                                                        href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboardSeller.allTransaction']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                        Batalkan</a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -160,26 +160,6 @@
                     </div>
                 </div>
                 <!-- table-responsive end//-->
-            </div>
-        </div>
-        <div class="modal fade" id="deleteTransaction" tabindex="-1" aria-labelledby="deleteTransactionLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header border-bottom-0">
-                        <h1 class="modal-title fs-5 text-dark" id="deleteTransactionLabel">Batalkan Transaksi</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h5 class="text-dark">Apakah kamu yakin ingin membatalkan transaksi ini ?</h5>
-                    </div>
-                    <div class="modal-footer border-top-0">
-                        <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
-                        <a class="btn btn-xs-danger"
-                            href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboardSeller.allTransaction']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                            Batalkan</a>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
