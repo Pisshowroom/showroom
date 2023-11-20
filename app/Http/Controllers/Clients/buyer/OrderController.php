@@ -160,9 +160,8 @@ class OrderController extends Controller
             'address_id' => 'required',
         ]);
 
-        $addressBuyer = Address::findOrFail(4);
-        $seller = \App\Models\User::find(4);
-        // $addressBuyer = Address::findOrFail($request->address_id);
+        $addressBuyer = Address::findOrFail($request->address_id);
+        $seller = \App\Models\User::find($request->seller_id);        // $addressBuyer = Address::findOrFail($request->address_id);
         // $seller = \App\Models\User::find($request->seller_id);
         // dd($seller);
         $sellerAddress = Address::where('user_id', $seller->id)->where('main', true)->firstOrFail();
@@ -217,11 +216,11 @@ class OrderController extends Controller
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
         $data['weight'] = $weight;
-        // Log::info('checkShippingPrice called with parameters:', [
-        //     'origin_id' => $addressBuyer->ro_subdistrict_id,
-        //     'destination_id' => $sellerAddress->ro_city_id,
-        //     'weight' => $weight,
-        // ]);
+        Log::info('checkShippingPrice called with parameters:', [
+            'origin_id' => $addressBuyer->ro_subdistrict_id,
+            'destination_id' => $sellerAddress->ro_city_id,
+            'weight' => $weight,
+        ]);
 
         // $weight = -2;
         // $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
@@ -263,6 +262,7 @@ class OrderController extends Controller
 
 
         $orderItems = json_decode($request->order_items, true);
+        $sellerId = null;
 
         foreach ($orderItems as $order_item) {
             $product_id = isset($order_item['product_id']) ? $order_item['product_id'] : $order_item['id'];
@@ -274,6 +274,14 @@ class OrderController extends Controller
                 else
                     return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
+            if ($sellerId == null) {
+                $sellerId = $product->seller_id;
+            } else {
+                if ($sellerId != $product->seller_id) {
+                    return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
+                }
+            }
+
             $product->load('parent');
 
             $qty = isset($order_item['qty']) ? $order_item['qty'] : 1;
@@ -314,12 +322,23 @@ class OrderController extends Controller
             $serviceFee = 5550;
         }
 
-        $data['subtotal'] = $total;
+        $subTotal = $total;
+        $data['subtotal'] = $subTotal;
         $additionFee = $deliveryCost + $serviceFee;
+        $feeGlobalAmount = lypsisGetSetting("", [], true, ['buyer_fee_amount', 'buyer_fee_percent'])->toArray();
+        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+        if ($feeGlobalAmount[0] > 0) {
+            $buyerFee = $feeGlobalAmount[0];
+        } else {
+            $buyerFee = ($total * $feeGlobalAmount[1] / 100);
+        }
+        $additionFee += $buyerFee;
+
         $total += $additionFee;
         $totalWithoutDiscount += $additionFee;
 
         $data['delivery_cost'] = $deliveryCost;
+        $data['market_fee_buyer'] = $buyerFee;
         $data['payment_service_fee'] = $serviceFee;
         $data['master_account'] = new MasterAccountResource($masterAccount);
         $data['total'] = $total;
@@ -441,7 +460,9 @@ class OrderController extends Controller
 
         // $type = 'QRIS';
         // $type = 'VirtualAccount';
-        $data['subtotal'] = $total;
+        $subTotal = $total;
+        $data['subtotal'] = $subTotal;
+
 
         $serviceFee = 0;
         if ($masterAccount->type == 'Virtual-Account') {
@@ -455,6 +476,15 @@ class OrderController extends Controller
 
         $additionFee = $deliveryCost + $serviceFee;
 
+        $feeGlobalAmount = lypsisGetSetting("", [], true, ['buyer_fee_amount', 'buyer_fee_percent'])->toArray();
+        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+        if ($feeGlobalAmount[0] > 0) {
+            $buyerFee = $feeGlobalAmount[0];
+        } else {
+            $buyerFee = ($total * $feeGlobalAmount[1] / 100);
+        }
+        $additionFee += $buyerFee;
+
         $total += $additionFee;
         $totalWithoutDiscount += $additionFee;
 
@@ -464,7 +494,7 @@ class OrderController extends Controller
         $channelCode = $channelType == 'QR_CODE' ? "DYNAMIC" : $masterAccount->provider_name;
 
         $dataPaymentCreated = $this->createPaymentRequest($channelType, $channelCode, $total, $identifier, $paymentDue, $user);
-        // Log::info("created payReq - $identifier :", $dataPaymentCreated);
+        Log::info("created payReq - $identifier :", $dataPaymentCreated);
 
         // dd($dataPaymentCreated);
         // return ResponseAPI($dataPaymentCreated);
@@ -477,6 +507,8 @@ class OrderController extends Controller
         $order->seller_id = $sellerId;
         $order->delivery_cost = $deliveryCost;
         $order->service_fee = $serviceFee;
+        $order->subtotal = $subTotal;
+        $order->market_fee_buyer = $buyerFee;
         $order->delivery_estimation_day = $request->delivery_estimation_day;
         $order->delivery_service_code = $request->delivery_code;
         $order->delivery_service_name = $request->delivery_name;
@@ -503,23 +535,14 @@ class OrderController extends Controller
             $order->qr_string = $dataPaymentCreated['qr_string'];
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $order->outlet_payment_code = $dataPaymentCreated['payment_code'];
-        } else if ($channelType == 'PI') {
-            $order->pi_delivery_cost = convertRupiahToPi($order->delivery_cost);
-            $order->pi_service_fee = convertRupiahToPi($order->service_fee);
-            if ($countedAmountPromo > 0) {
-                $order->pi_total = convertRupiahToPi($order->total);
-                $order->pi_total_final = convertRupiahToPi($order->total_final);
-            } else {
-                $order->pi_total = convertRupiahToPi($order->total);
-            }
         }
 
         $order->save();
-
         // * Remember To Save The MasterAccountId
 
         $data['delivery_cost'] = $deliveryCost;
         $data['payment_service_fee'] = $serviceFee;
+        $data['market_fee_buyer'] = $buyerFee;
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
         $data['counted_promo_product'] = $countedPromoProduct;
