@@ -77,10 +77,11 @@
                                     onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                             </div>
                             <div class="mb-4">
-                                <label class="form-label" for="weight">Berat barang* (kg)</label>
+                                <label class="form-label" for="weight">Berat barang* (gram)</label>
                                 <input class="form-control" id="weight" name="weight" required
                                     value="{{ $product != null ? moneyFormat($product->weight) : '' }}"
-                                    onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
+                                    onkeypress="return event.charCode>=48&&event.charCode<=57" type="text"
+                                    pattern="[0-9]+([,.][0-9]+)?">
                             </div>
                             <div class="mb-4">
                                 <label class="form-label" for="price">Harga*</label>
@@ -273,7 +274,8 @@
                 // Check if at least one image has been uploaded
                 if ($('#imageInput')[0].files.length === 0) {
                     if (
-                        "{{ $product && $product != null && $product->images && count($product->images) < 1 }}") {
+                        "{{ $product && $product != null && $product->images && count($product->images) < 1 }}"
+                        ) {
                         alert('Please upload at least one image.');
                         return false; // Prevent form submission
                     }
