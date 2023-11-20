@@ -90,40 +90,47 @@ class OrderDataController extends Controller
         $requestNew->replace([
             'delivery_service' => $request->delivery_service,
             'delivery_receipt_number' => $request->delivery_receipt_number,
+            'just_json' => true,
         ]);
+        // TODOS : Uncomment This
         // $orderController->waybillCheck($requestNew);
-        
         $order->delivery_receipt_number = $request->delivery_receipt_number;
         $order->status = Order::SHIPPED;
         $order->save();
 
         return ResponseAPI('Pesanan berhasil dikirim', 200);
     }
-    
+
     public function checkStatusDeliveredOrder(Order $order)
     {
 
+        // TODOS : Call Waybill check if not error property delivered == true
         $dateFromDelivery = now();
-        
+
         if ($order->status == Order::SHIPPED) {
             $order->status = Order::DELIVERED;
             $order->delivered_at = $dateFromDelivery;
             $order->save();
         }
-        
+
         return ResponseAPI('Pesanan telah sampai ketujuan', 200);
     }
 
     public function completedOrder(Order $order)
     {
-        $order->status = Order::COMPLETED;
+
+        if (in_array($order->status, [Order::SHIPPED, Order::DELIVERED])) {
+            $order->status = Order::COMPLETED;
+        } else {
+            return ResponseAPI('Status Pesanan Belum memenuhi syarat untuk selesai', 400);
+        }
 
         $seller = $order->seller;
         $totalPrice = $order->total_final ? $order->total_final : $order->total;
         $feeCommerce = 0;
         $feeGlobalAmount = lypsisGetSetting("", [], true, ['seller_fee_amount', 'seller_fee_percent'])->toArray();
         $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
-            $dateFromDelivery = now();
+        $dateFromDelivery = now();
 
 
         if ($seller->seller_fee_amount > 0) {
@@ -134,15 +141,15 @@ class OrderDataController extends Controller
             $feeCommerce = $feeGlobalAmount[0];
         } else if ($feeGlobalAmount[1] > 0) {
             $feeCommerce = $totalPrice * ($feeGlobalAmount[1] / 100);
-        } 
-        
+        }
+
         DB::beginTransaction();
         $totalIncome = $totalPrice - $feeCommerce;
 
-        $order-> market_fee_seller = $feeCommerce;
+        $order->market_fee_seller = $feeCommerce;
         $order->arrived_at = $dateFromDelivery;
         $order->save();
-        
+
         $commerceBalance = Setting::where('name', 'commerce_balance')->firstOrFail();
         $theCommerceBalance = intval($commerceBalance->value);
         $commerceBalance->value = $theCommerceBalance + $feeCommerce;
