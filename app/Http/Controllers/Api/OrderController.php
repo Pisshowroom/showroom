@@ -709,13 +709,12 @@ class OrderController extends Controller
         return ResponseAPI($data);
     }
 
-
-
     public function waybillCheck(Request $request)
     {
         $request->validate([
             'delivery_receipt_number' => 'required',
             'delivery_service' => 'required',
+            'just_json' => 'nullable',
         ]);
 
         $curl = curl_init();
@@ -730,7 +729,7 @@ class OrderController extends Controller
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'key: ' . env('RO_KEY'),
         ]);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
 
         try {
             $res = curl_exec($curl);
@@ -750,6 +749,9 @@ class OrderController extends Controller
 
             $rajaOngkirResponse = json_decode($res)->rajaongkir->result;
 
+            if ($request->just_json == true) {
+                return $rajaOngkirResponse;
+            }
             return ResponseAPI($rajaOngkirResponse);
         } catch (\Exception $e) {
             throw $e;
