@@ -101,7 +101,7 @@ class BuyerController extends Controller
                 $value->price_discount = null;
             }
         }
-        foreach ($data['promoProducts'] as $value) {
+        foreach ($data['promo_products'] as $value) {
             if ($value->discount && $value->discount > 0) {
                 $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
             } else {
