@@ -207,7 +207,9 @@
                                                 </div>
                                             </div>
                                             <div class="wishlist-price">
-                                                <h5 class="color-brand-3">${formatRupiah(element.price, 'Rp ')}</h5>
+                                                <h6 class="color-brand-3 font-md-bold">${element.price_discount&&element.price_discount>0?formatRupiah(element.price_discount, 'Rp '):formatRupiah(element.price, 'Rp ')}</h6>
+                                                        <p class="color-brand-3 font-sm" style="text-decoration: line-through;">${element.price_discount&&element.price_discount>0?formatRupiah(element.price, 'Rp '):''}</p>
+
                                             </div>
                                             <div class="wishlist-status">
                                                 <div class="box-quantity">

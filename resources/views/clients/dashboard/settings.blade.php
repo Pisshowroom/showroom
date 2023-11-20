@@ -55,13 +55,9 @@
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade {{ !request()->get('param') || request()->get('param') != 'alamat' ? 'show active' : '' }}"
                                     id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
-                                    <form method="POST" action="{{ route('dashboard.updateProfile') }}"
+                                    <form method="POST" action="{{ route('dashboard.updateProfile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        @if (Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')))
-                                            <input type="hidden" name="auth"
-                                                value="{{ base64_encode(Auth::user()->uid) }}">
-                                        @endif
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="row gx-3">
@@ -154,12 +150,8 @@
                                 <div class="tab-pane fade" id="pills-add-address" role="tabpanel"
                                     aria-labelledby="pills-add-address-tab">
                                     <form method="POST" id="updateAddress"
-                                        action="{{ route('dashboard.updateAddress') }}">
+                                        action="{{ route('dashboard.updateAddress') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                         @csrf
-                                        @if (Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')))
-                                            <input type="hidden" name="auth"
-                                                value="{{ base64_encode(Auth::user()->uid) }}">
-                                        @endif
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="row gx-3">

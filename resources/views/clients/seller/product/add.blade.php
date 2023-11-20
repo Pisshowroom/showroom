@@ -88,8 +88,7 @@
                                 <input class="form-control" name="price" id="price" required
                                     onkeypress="return event.charCode>=48&&event.charCode<=57"
                                     value="{{ $product != null ? $product->price : '' }}" type="tel">
-                                <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp 50.000
-                                </p>
+                                <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp 50.000</p>
                             </div>
                             <div class="mb-4">
                                 <div class="form-check form-switch mx-3">
@@ -120,14 +119,24 @@
                                     <img src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}" alt="Upload Icon">
                                 </label>
                                 <input id="imageInput" class="form-control" type="file" name="images[]"
-                                    accept="image/*">
+                                    accept="image/*" multiple>
                             </div>
 
                             <div class="preview-container" id="imagePreviewContainer">
+                                @if ($product != null && $product->images && count($product->images) > 0)
+                                    @foreach ($product->images as $image)
+                                        <div class="preview-item">
+                                            <img src="{{ asset($image) }}" alt="Image Preview">
+                                            <button class="remove-btn" type="button"><i
+                                                    class="icon material-icons md-delete"></i></button>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </form>
     </section>
@@ -158,8 +167,10 @@
 
                 reader.onload = function(e) {
                     // Create preview item
-                    var previewItem = $('<div class="preview-item"><img src="' + e.target.result +
-                        '" alt="Image Preview"><button class="remove-btn" type="button">Remove</button></div>'
+                    var previewItem = $(
+                        '<div class="preview-item"><img src="' + e.target.result +
+                        '" alt="Image Preview">' +
+                        '<button class="remove-btn" type="button"><i class="icon material-icons md-delete"></i></button></div>'
                     );
 
                     // Append preview item to container
@@ -207,24 +218,64 @@
             //     var uniqueId = $(this).attr('id').split('_')[1]; // Extract the unique identifier
             //     $('#max-name_' + uniqueId).text('Maksimal panjang nama ' + currentLength + '/70');
             // });
+            var tanpa_rupiah = $('#price');
 
-        });
-        var tanpa_rupiah = document.getElementById('price');
+            // Set the initial value if product->price is available
+            var initialPrice = "{{ $product != null ? $product->price : '' }}";
+            tanpa_rupiah.val(initialPrice);
 
-        tanpa_rupiah.addEventListener('keyup', function(e) {
-            if (this.value.length || this.value == 0) {}
-            tanpa_rupiah.value = formatRupiah(this.value, 'Rp ');
-            if (this.value > 1000) {
-                if ($('.textCancel').hasClass('d-block')) {
+            tanpa_rupiah.on('keyup', function() {
+                // Apply any formatting logic here
+                tanpa_rupiah.val(formatRupiah(this.value, 'Rp '));
+
+                // Check if the entered price is less than 50,000
+                if (parseFloat(this.value.replace(/[^\d]/g, '')) < 50000) {
+                    $('.textCancel').addClass('d-block').removeClass('d-none');
+                } else {
                     $('.textCancel').addClass('d-none').removeClass('d-block');
                 }
+            });
+
+            function formatRupiah(angka, prefix) {
+                var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                    split = number_string.split(','),
+                    sisa = split[0].length % 3,
+                    rupiah = split[0].substr(0, sisa),
+                    ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+                if (ribuan) {
+                    separator = sisa ? '.' : '';
+                    rupiah += separator + ribuan.join('.');
+                }
+
+                rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
             }
-            if (this.value >= 50.000) {
-                if ($('.textCancel').hasClass('d-block')) {
-                    $('.textCancel').addClass('d-none').removeClass('d-block');
+
+            function convertToDecimal(inputElement) {
+                var inputValue = inputElement.value.trim();
+
+                // Remove any percentage sign (%) if present
+                if (inputValue.endsWith("%")) {
+                    inputValue = inputValue.slice(0, -1);
+                }
+
+                // Convert the input to a decimal (e.g., 50% to 0.5)
+                var decimalValue = parseFloat(inputValue) / 100;
+
+                if (!isNaN(decimalValue) && decimalValue >= 0 && decimalValue <= 1) {
+                    // Update the input field with the decimal value
+                    var data = decimalValue * 100 + "%";
+                    inputElement.value = data.replace(/[^0-9]/g, '').substring(0, 3);
+                    // inputElement.value.replace(/[^0-9]/g, '').substring(0, 3);
+                } else {
+                    // Handle invalid input, e.g., display an error message
                 }
             }
+
         });
+
+
 
         // $('#btn-product').click(function(e) {
         //     e.preventDefault();
@@ -251,19 +302,19 @@
         // });
 
         function formatRupiah(angka, prefix) {
-            var number_string = angka.toString(),
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
                 split = number_string.split(','),
                 sisa = split[0].length % 3,
                 rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/g);
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
             if (ribuan) {
                 separator = sisa ? '.' : '';
                 rupiah += separator + ribuan.join('.');
             }
-            rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
 
-            return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
         }
 
         function convertToDecimal(inputElement) {

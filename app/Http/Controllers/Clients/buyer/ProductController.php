@@ -39,6 +39,8 @@ class ProductController extends Controller
                 return $q->where('name', 'like', "%$request->search%");
             })->when($request->filled('category_id'), function ($q) use ($request) {
                 return $q->where('category_id', $request->category_id);
+            })->when($request->filled('sub_category_id'), function ($q) use ($request) {
+                return $q->where('sub_category_id', $request->sub_category_id);
             })
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
@@ -69,6 +71,8 @@ class ProductController extends Controller
                 return $q->where('name', 'like', "%$request->search%");
             })->when($request->filled('category_id'), function ($q) use ($request) {
                 return $q->where('category_id', $request->category_id);
+            })->when($request->filled('sub_category_id'), function ($q) use ($request) {
+                return $q->where('sub_category_id', $request->sub_category_id);
             })
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
