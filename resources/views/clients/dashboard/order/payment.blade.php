@@ -90,6 +90,7 @@
     <script>
         $(document).ready(function() {
             $("#piButton").click(async function() {
+                $('.loading').removeClass('d-none').addClass('show-modal');
 
                 const scopes = ['username', 'payments'];
                 const authResults = await Pi.authenticate(scopes, onIncompletePaymentFound);
@@ -103,15 +104,13 @@
                     }
                 }
 
-                alert(paymentData);
-
                 const callbacks = {
                     onReadyForServerApproval,
                     onReadyForServerCompletion,
                     onCancel,
                     onError
                 }
-
+                $('.loading').removeClass('show-modal').addClass('d-none');
                 const payment = await Pi.createPayment(paymentData, callbacks);
             });
 
