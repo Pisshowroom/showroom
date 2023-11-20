@@ -17,7 +17,8 @@ class TransactionOrderController extends Controller
     public function allTransaction(Request $request)
     {
         if (!$this->isSeller()) {
-            return redirect('/pembeli');
+            $user = Auth::guard('web')->user();
+            return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
         $status = $request->input('status');
 
@@ -30,7 +31,7 @@ class TransactionOrderController extends Controller
                     $qq->where('seller_id', Auth::guard('web')->user()->id);
                 });
             })
-            ->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total','total_final', 'seller_id')
+            ->select('id', 'payment_identifier', 'user_id', 'created_at', 'status', 'payment_status', 'total', 'total_final', 'seller_id')
             ->when($status, function ($query, $status) {
                 if ($status != 'all')
                     return $query->where('status', $status);
@@ -47,7 +48,8 @@ class TransactionOrderController extends Controller
     public function detailTransaction($identifier)
     {
         if (!$this->isSeller()) {
-            return redirect('/pembeli');
+            $user = Auth::guard('web')->user();
+            return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
         $order = Order::where('payment_identifier', $identifier)
             ->with([
@@ -71,23 +73,29 @@ class TransactionOrderController extends Controller
     // seller approve / reject
     public function sellerAcceptOrder($id)
     {
+        $user = Auth::guard('web')->user();
+
         $order = Order::findOrFail($id);
         $order->status = Order::PROCESSED_BY_SELLER;
         $order->save();
-        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil diterima');
+        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil diterima')->with('auth', base64_encode($user->uid));
     }
 
     public function sellerRejectOrder($id)
     {
+        $user = Auth::guard('web')->user();
+
         $order = Order::findOrFail($id);
         $order->status = Order::CANCELLED;
         $order->save();
 
-        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil ditolak');
+        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil ditolak')->with('auth', base64_encode($user->uid));
     }
 
     public function sellerSendOrder($id, Request $request)
     {
+        $user = Auth::guard('web')->user();
+
         $order = Order::findOrFail($id);
         $request->validate([
             'delivery_service' => 'required|in:jne,jnt,sicepat,anteraja',
@@ -106,11 +114,12 @@ class TransactionOrderController extends Controller
         $order->status = Order::SHIPPED;
         $order->save();
 
-        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil dikirim');
+        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil dikirim')->with('auth', base64_encode($user->uid));
     }
 
     public function checkStatusDeliveredOrder($id)
     {
+        $user = Auth::guard('web')->user();
         $order = Order::findOrFail($id);
         $dateFromDelivery = now();
 
@@ -120,6 +129,6 @@ class TransactionOrderController extends Controller
             $order->save();
         }
 
-        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan telah sampai ketujuan');
+        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan telah sampai ketujuan')->with('auth', base64_encode($user->uid));
     }
 }

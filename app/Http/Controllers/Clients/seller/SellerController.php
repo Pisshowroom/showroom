@@ -21,7 +21,8 @@ class SellerController extends Controller
     public function dashboard(Request $request)
     {
         if (!$this->isSeller()) {
-            return redirect('/pembeli');
+            $user = Auth::guard('web')->user();
+            return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
         $order = Order::where('seller_id', Auth::guard('web')->user()->id)
             ->whereHas('order_items', function ($q) use ($request) {
@@ -69,21 +70,24 @@ class SellerController extends Controller
     public function addWithdraw(Request $request)
     {
         if (!$this->isSeller()) {
-            return redirect('/pembeli');
+            $user = Auth::guard('web')->user();
+            return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
         return view('clients.seller.withdraw.add');
     }
     public function allWithdraw(Request $request)
     {
         if (!$this->isSeller()) {
-            return redirect('/pembeli');
+            $user = Auth::guard('web')->user();
+            return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
         return view('clients.seller.withdraw.all');
     }
     public function detailWithdraw(Request $request)
     {
         if (!$this->isSeller()) {
-            return redirect('/pembeli');
+            $user = Auth::guard('web')->user();
+            return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
         return view('clients.seller.withdraw.detail');
     }
@@ -97,7 +101,7 @@ class SellerController extends Controller
             $user->seller_slug = Str::slug($request->seller_name);
             $checkDuplicate = User::where('id', '!=', $user->id)->where('seller_slug', $user->seller_slug)->first();
             if ($checkDuplicate) {
-                return redirect("/toko/profil")->with('error', 'Nama Toko sudah digunakan');
+                return redirect("/toko/profil")->with('error', 'Nama Toko sudah digunakan')->with('auth', base64_encode($user->uid));
             }
         }
 
@@ -117,9 +121,9 @@ class SellerController extends Controller
 
         $user->save();
         if ($request->filled('is_seller')) {
-            return redirect("/toko/profil")->with('success', 'berhasil membuat toko');
+            return redirect("/toko/profil")->with('success', 'berhasil membuat toko')->with('auth', base64_encode($user->uid));
         } else {
-            return redirect("/toko/profil")->with('success', 'Profil toko berhasil diperbarui');
+            return redirect("/toko/profil")->with('success', 'Profil toko berhasil diperbarui')->with('auth', base64_encode($user->uid));
         }
     }
 }

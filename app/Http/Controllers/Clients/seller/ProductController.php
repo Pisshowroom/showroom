@@ -76,7 +76,7 @@ class ProductController extends Controller
             $product->slug = Str::slug($request->name);
         }
         if ($request->filled('category_id'))
-            $product->category_id = $request->category_id;
+        $product->category_id = $request->category_id;
         if ($request->filled('price'))
             $product->price = $request->price;
         if ($request->filled('stock'))
@@ -84,22 +84,23 @@ class ProductController extends Controller
         if ($request->filled('unit'))
             $product->unit = $request->unit;
         if ($request->filled('description'))
-            $product->description = $request->description;
+        $product->description = $request->description;
         if ($request->filled('discount'))
             $product->discount = $request->discount;
         $product->seller_id = $user->id;
         $product->save();
 
         if ($isCreate) {
-            return redirect("/toko/semua-produk")->with('success', 'Produk berhasil disimpan.');
+            return redirect("/toko/semua-produk")->with('success', 'Produk berhasil disimpan.')->with('auth', base64_encode($user->uid));
         } else {
-            return redirect("/toko/semua-produk")->with('success', 'Produk berhasil diperbarui.');
+            return redirect("/toko/semua-produk")->with('success', 'Produk berhasil diperbarui.')->with('auth', base64_encode($user->uid));
         }
     }
     public function deleteProduct($id)
     {
+        $user = Auth::guard('web')->user();
         $ad = Product::where('id', $id)->firstOrFail();
         $ad->delete();
-        return redirect()->route('dashboardSeller.allProduct')->with('success', 'Produk berhasil dihapus');
+        return redirect()->route('dashboardSeller.allProduct')->with('success', 'Produk berhasil dihapus')->with('auth', base64_encode($user->uid));
     }
 }

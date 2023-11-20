@@ -89,19 +89,16 @@
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                             @if ($order->status == 'Paid' && $order->payment_status == 'PaymentPaid')
-                                                <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#cancelTransaction{{ $order->id }}">
-                                                    Tolak
-                                                </button>
-                                                <button type="button" class="btn btn-xs-success" data-bs-toggle="modal"
-                                                    data-bs-target="#acceptTransaction{{ $order->id }}">
-                                                    Terima
-                                                </button>
+                                                <a class="btn btn-xs-danger"
+                                                    href="{{ route('dashboardSeller.sellerRejectOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Tolak</a>
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboardSeller.sellerAcceptOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Terima</a>
                                             @elseif ($order->status == 'ProcessedBySeller' && $order->payment_status == 'PaymentPaid')
-                                                <button type="button" class="btn btn-xs-success" data-bs-toggle="modal"
-                                                    data-bs-target="#sendProductBySeller{{ $order->id }}">
-                                                    Siap diantar
-                                                </button>
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboardSeller.sellerSendOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Siap diantar</a>
                                             @endif
                                         </td>
                                     </tr>
@@ -117,7 +114,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="cancelTransaction{{ $order->id }}" tabindex="-1"
+        {{-- <div class="modal fade" id="cancelTransaction{{ $order->id }}" tabindex="-1"
             aria-labelledby="cancelTransactionLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -178,7 +175,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </section>
 @endsection
 @push('importjs')
@@ -201,8 +198,9 @@
                 if (searchQuery !== '') {
                     url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
             }
 
             $('#searchTransaction, #filterStatus').on('change', function() {
