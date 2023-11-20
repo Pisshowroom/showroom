@@ -16,7 +16,7 @@
                 @guest
                     <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
                     @endguest
-                    <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
+                    <img src="{{ $prd?->images && count($prd?->images) > 0 ? $prd->images[0] : asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
                         alt="produk {{ $prd->name ?? '' }}"></a>
         </div>
         <div class="info-right">
@@ -52,7 +52,7 @@
                     <span class="color-gray-500 font-sm price-line">
                         {{ $prd->price > 0 ? numbFormat($prd->price) : 'Rp 0' }}
                     </span>
-                    @else
+                @else
                     <br>
                     <span class="color-gray-500 font-sm price-line">
                     </span>

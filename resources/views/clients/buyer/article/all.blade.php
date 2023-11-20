@@ -7,8 +7,12 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Artikel</a></li>
+                        <li><a class="font-xs color-gray-1000"
+                                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
+                        </li>
+                        <li><a class="font-xs color-gray-500"
+                                href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
+                                Artikel</a></li>
                     </ul>
                 </div>
             </div>
@@ -76,7 +80,7 @@
                                 <div class="card-grid-style-1">
                                     <div class="image-box"><a
                                             href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a>
-                                        <img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
+                                        <img src="{{ $article?->image ? $article->image : asset('ecom/imgs/page/blog/blog-1.jpg') }}"
                                             alt="artikel {{ $article->title ?? '' }}">
                                     </div>
                                     <a class="color-gray-1100"

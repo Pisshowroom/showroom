@@ -406,10 +406,11 @@
                     var element = cart[i];
                     totalAmount += parseFloat(element.price);
                     var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
+                    var imageUrl = element.images && element.images[0] ? element.images[0] : "{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}";
                     url = url.replace(':slug', element.slug);
                     html += `<div class="item-cart mb-20">
                     <div class="cart-image">
-                        <img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}" alt="${element.name}">
+                        <img src="${imageUrl}" alt="${element.name}">
                     </div>
                     <div class="cart-info">
                         <a class="font-sm-bold color-brand-3 line-2 text-start"

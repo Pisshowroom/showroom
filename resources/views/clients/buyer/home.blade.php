@@ -248,7 +248,7 @@ dd(request()->all());
                                                             <div class="image-box">
                                                                 <a
                                                                     href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                                    <img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
+                                                                    <img src="{{ $article?->image ? $article->image : asset('ecom/imgs/page/blog/blog-1.jpg') }}"
                                                                         alt="produk {{ $article->title ?? '' }}"></a>
                                                             </div>
                                                             <div class="info-right">
