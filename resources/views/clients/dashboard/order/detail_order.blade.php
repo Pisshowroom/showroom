@@ -92,13 +92,13 @@
                     <div class="text">
                         <h6 class="mb-1">Dikirim ke</h6>
                         @if ($order->address && $order->address->id)
-                            <p class="mb-1">{{ $order->disctrict ?? 'Kecamatan : -' }},
-                                {{ $order->city ?? 'Kota : -' }}<br>{{ $order->person_name ?? 'Nama : -' }}<br>
+                            <p class="mb-1">{{ $order->address->disctrict ?? 'Kecamatan : -' }},
+                                {{ $order->address->city ?? 'Kota : -' }}<br>{{ $order->address->person_name ?? 'Nama : -' }}<br>
                                 @if ($order->address->lat && $order->address->long)
                                     <a
-                                        href="{{ 'https://www.google.com/maps/@' . $order->lat . ',' . $order->long ?? '' . '?entry=ttu' }}">gmaps
+                                        href="{{ 'https://www.google.com/maps/@' . $order->address->lat . ',' . $order->address->long ?? '' . '?entry=ttu' }}">gmaps
                                         :
-                                        {{ 'https://www.google.com/maps/@' . $order->lat . ',' . $order->long ?? '' . '?entry=ttu' }}</a>
+                                        {{ 'https://www.google.com/maps/@' . $order->address->lat . ',' . $order->address->long ?? '' . '?entry=ttu' }}</a>
                                 @else
                                     Tidak ada gmaps
                                 @endif
