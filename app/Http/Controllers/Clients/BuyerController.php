@@ -72,6 +72,7 @@ class BuyerController extends Controller
         $data['limited_product'] = ProductResource::collection($limitedProducts);
         $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
         $data['recommended_products'] = ProductResource::collection($limitedProducts);
+        $data['promo_products'] = ProductResource::collection($promoProducts);
         foreach ($data['latest_product'] as $value) {
             if ($value->discount && $value->discount > 0) {
                 $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
@@ -108,7 +109,6 @@ class BuyerController extends Controller
             }
         }
 
-        $data['promo_products'] = ProductResource::collection($promoProducts);
         $data['articles'] = ArticleResource::collection($articles);
         return view('clients.buyer.home', ['data' => $data]);
     }
