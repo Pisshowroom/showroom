@@ -263,21 +263,7 @@
             }
             rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
 
-            if (userAgent) {
-                if (userAgent.match(/PiBrowser/))
-                    isPi = true
-            }
-
-            if (isPi)
-                return (convertRupiahToPi(angka)) + " π";
-
             return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
-        }
-
-        function convertRupiahToPi(price) {
-            var value = {{ $setting->value ?? 558647.95 }}
-
-            return (1 / value) * (price);
         }
 
         function convertToDecimal(inputElement) {

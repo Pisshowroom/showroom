@@ -55,7 +55,7 @@ class BuyerController extends Controller
         $articles  = Article::latest()->take(4)->get();
         $latestProducts = Product::with(['category', 'seller'])->byNotVariant()->latest()->take(8)->get();
         $limitedProducts = Product::with(['category', 'seller'])->byNotVariant()->inRandomOrder()->take(8)->get();
-        // $promoProducts = Product::with(['category', 'seller'])->byNotVariant()->whereNotNull('discount')->inRandomOrder()->take(8)->get();
+        $promoProducts = Product::with(['category', 'seller'])->byNotVariant()->whereNotNull('discount')->inRandomOrder()->take(8)->get();
         $bestSellerProducts = Product::with(['category', 'seller'])
             ->addSelect([
                 'total_quantity' => OrderItem::selectRaw('sum(quantity)')
@@ -100,8 +100,15 @@ class BuyerController extends Controller
                 $value->price_discount = null;
             }
         }
+        foreach ($data['promoProducts'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
 
-        // $data['promo_products'] = ProductResource::collection($promoProducts);
+        $data['promo_products'] = ProductResource::collection($promoProducts);
         $data['articles'] = ArticleResource::collection($articles);
         return view('clients.buyer.home', ['data' => $data]);
     }

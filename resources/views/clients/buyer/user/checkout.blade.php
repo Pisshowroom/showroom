@@ -113,7 +113,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label" for="address_id">Pilih Alamat</label>
-                                        <select class="form-control font-sm select-style1 color-gray-700" id="address_id"
+                                        <select class="form-control font-sm select-style1" id="address_id"
                                             name="address_id">
                                             <option value="0">Pilih salah satu</option>
                                             @foreach ($data['address'] as $item)
@@ -136,7 +136,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label" for="master_account_id">Pilih Pembayaran</label>
-                                        <select class="form-control font-sm select-style1 color-gray-700"
+                                        <select class="form-control font-sm select-style1"
                                             id="master_account_id" name="master_account_id">
                                             <option value="0">Pilih salah satu</option>
                                             @foreach ($data['master_account'] as $item)
@@ -148,7 +148,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label" for="packet">Pilih Kurir</label>
-                                        <select class="form-control font-sm select-style1 color-gray-700" id="packet"
+                                        <select class="form-control font-sm select-style1" id="packet"
                                             disabled name="packet">
                                             <option value="0">Pilih salah satu</option>
                                         </select>

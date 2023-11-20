@@ -301,11 +301,14 @@
                     sisa = split[0].length % 3,
                     rupiah = split[0].substr(0, sisa),
                     ribuan = split[0].substr(sisa).match(/\d{3}/g);
+                let userAgent = navigator.userAgent;
+                let isPi = false
 
                 if (ribuan) {
                     separator = sisa ? '.' : '';
                     rupiah += separator + ribuan.join('.');
                 }
+
                 rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
 
                 if (userAgent) {
@@ -318,6 +321,7 @@
 
                 return prefix === undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
             }
+
             function convertRupiahToPi(price) {
                 var value = {{ $setting->value ?? 558647.95 }}
 
