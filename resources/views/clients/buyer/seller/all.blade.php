@@ -7,8 +7,12 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Penjual</a></li>
+                        <li><a class="font-xs color-gray-1000"
+                                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
+                        </li>
+                        <li><a class="font-xs color-gray-500"
+                                href="{{ route('buyer.allSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
+                                Penjual</a></li>
                     </ul>
                 </div>
             </div>
@@ -24,7 +28,8 @@
                     </div>
                     @if (Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller == 0)
                         <div class="col-lg-6 mb-30 text-end"><a class="btn btn-buy w-auto font-sm-bold"
-                                href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Menjadi Penjual</a></div>
+                                href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Menjadi
+                                Penjual</a></div>
                     @endif
                 </div>
                 <div class="border-bottom pt-0 mb-30"></div>
@@ -78,13 +83,15 @@
                             @if (count($sellers) > 0)
                                 @foreach ($sellers as $seller)
                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                                        <a href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                        <a
+                                            href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                             <div class="card-vendor">
                                                 <div class="card-top-vendor mb-0 pb-0 border-0">
-                                                    <div class="card-top-vendor-left"><img
+                                                    <div class="card-top-vendor-left"><img class="seller-img"
                                                             src="{{ $seller->seller_image ? asset($seller->seller_image) ?? asset('ecom/imgs/page/vendor/futur.png') : asset('ecom/imgs/page/vendor/futur.png') }}"
                                                             alt="penjual {{ $seller->name ?? '' }}">
                                                         <div class="rating gap-1 d-flex align-items-center"><img
+                                                                class="img"
                                                                 src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                                                 alt="rating penjual {{ $seller->name ?? '' }}"><span
                                                                 class="font-xs color-gray-500">
@@ -99,10 +106,22 @@
                                                         <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                                     </div>
                                                 </div>
+                                                <div class="price-info mt-1">
+                                                    <a class="color-brand-3 font-sm-bold line-1 text-start"
+                                                        href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                        <p class="text-start">{{ $seller->seller_name ?? '' }}</p>
+                                                    </a>
+                                                </div>
                                                 <div class="price-info mt-1 d-flex flex-row gap-1 align-items-center">
                                                     {!! file_get_contents('ecom/imgs/page/product/icon-location.svg') !!}
-                                                    <strong class="font-md color-gray-500 price-main">
-                                                        Jakarta</strong>
+                                                    @if ($seller && $seller?->address_seller)
+                                                        <strong class="font-md color-gray-500 price-main">
+                                                            {{ $seller?->address_seller?->city }}</strong>
+                                                    @else
+                                                        <strong class="font-md color-gray-500 price-main">
+                                                            Jakarta</strong>
+                                                    @endif
+
                                                 </div>
                                                 {{-- <div class="card-bottom-vendor">
                                                     <p class="font-sm color-gray-500 location mb-10">5171 W Campbell Ave

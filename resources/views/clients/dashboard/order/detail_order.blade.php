@@ -130,7 +130,7 @@
                                             href="{{ route('buyer.detailProduct', ['slug' => $oi->product?->slug ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                             <div class="left">
                                                 <img class="img-xs"
-                                                    src="{{ $oi?->product?->images && count($oi?->product?->images) > 0 ? $product->images[0] : asset('ecom_dashboard/imgs/items/1.jpg') }}"
+                                                    src="{{ $oi?->product?->images && count($oi?->product?->images) > 0 ? $oi?->product?->images[0] : asset('ecom_dashboard/imgs/items/1.jpg') }}"
                                                     alt="Item" width="40" height="40">
                                             </div>
                                             <div class="info">

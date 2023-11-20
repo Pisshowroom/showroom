@@ -180,7 +180,8 @@
                             urlSeller = urlSeller.replace(':slug', element.seller?.seller_slug);
                             var url =
                                 "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
-                                var imageUrl = element.images && element.images[0] ? element.images[0] : "{{ asset('ecom/imgs/page/product/img-sub.png') }}";
+                            var imageUrl = element.images && element.images[0] ? element.images[0] :
+                                "{{ asset('ecom/imgs/page/product/img-sub.png') }}";
                             url = url.replace(':slug', element.slug);
                             html += `<div class="item-wishlist" id="item-wishlist-${element.id}">
                                             <div class="wishlist-product">
@@ -582,10 +583,11 @@
             } else {
                 var html = '';
                 html += `<div class="col-lg-12 text-center mt-40">
-                        <img width="50%" src="{{ asset('ecom/imgs/page/blog/blog-15.jpg') }}" alt="Tidak ada keranjang saat ini"></div>
+                        <img width="300px" src="{{ asset('ecom/imgs/page/account/404.png') }}" alt="Tidak ada keranjang saat ini"></div>
                             <h4 class="mt-20 mb-30 text-center">Tidak ada Produk saat ini</h4>
                         </div>`
                 $('.content-wishlist').html(html);
+                $('#update-cart').prop('disabled', true);
             }
         });
     </script>

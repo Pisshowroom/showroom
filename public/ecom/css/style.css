@@ -2317,6 +2317,7 @@ a.text-brand-3:hover {
 .card-grid-style-3 .card-grid-inner .image-box img {
   max-height: 100%;
   aspect-ratio: 181/210;
+  max-height:252px;
   object-fit: cover;
   max-width: 95%;
   vertical-align: middle;
@@ -2724,7 +2725,12 @@ a.text-brand-3:hover {
   max-width: 115px;
   min-width: 115px;
 }
-.card-vendor .card-top-vendor .card-top-vendor-left img {
+.card-vendor .card-top-vendor .card-top-vendor-left .seller-img {
+    width: 50px;
+    border-radius: 50%;
+    height: 50px;
+}
+.card-vendor .card-top-vendor .card-top-vendor-left .img {
   max-height: 40px;
 }
 .card-vendor .card-top-vendor .card-top-vendor-right {
@@ -6920,10 +6926,10 @@ a.text-brand-3:hover {
   background: url(../imgs/page/homepage4/arrow-prev-white.svg) no-repeat center right;
 }
 
-.box-content .card-grid-style-3 .card-grid-inner .image-box {
+/* .box-content .card-grid-style-3 .card-grid-inner .image-box {
   height: 133px;
   line-height: 135px;
-}
+} */
 
 .block-charge {
   background-image: url(../imgs/page/homepage4/quick-charge.png);
