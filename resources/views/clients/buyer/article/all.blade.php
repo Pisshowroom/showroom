@@ -29,7 +29,7 @@
                                 <div class="col-xl-10 col-lg-9 mb-0 text-lg-end text-center"><span
                                         class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
                                         {{ count($articles) > 0 ? count($articles) : 0 }} hasil</span>
-                                    <div class="d-inline-block"><span
+                                    {{-- <div class="d-inline-block"><span
                                             class="font-sm color-gray-500 font-medium">Berdasarkan:</span>
                                         <div class="dropdown dropdown-sort border-1-right">
                                             <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
@@ -41,13 +41,13 @@
                                                         href="{{ route('buyer.allArticle', ['orderBy' => 'desc']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel
                                                         Terbaru</a>
                                                 </li>
-                                                <li><a class="dropdown-item {{ request()->get('orderBy') == 'asc' ? 'active' : '' }}""
+                                                <li><a class="dropdown-item {{ request()->get('orderBy') == 'asc' ? 'active' : '' }}"
                                                         href="{{ route('buyer.allArticle', ['orderBy' => 'asc']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel
                                                         Terlama</a></li>
                                             </ul>
                                         </div>
-                                    </div>
-                                    <div class="d-inline-block"><span
+                                    </div> --}}
+                                    {{-- <div class="d-inline-block"><span
                                             class="font-sm color-gray-500 font-medium">Munculkan</span>
                                         <div class="dropdown dropdown-sort border-1-right">
                                             <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
@@ -67,7 +67,7 @@
                                                         items</a></li>
                                             </ul>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                     <div class="d-flex justify-content-between"><span
                                             class="color-gray-500 font-xs mr-30">{{ $article->date ?? '' }}</span>
                                         <span
-                                            class="color-gray-500 font-xs">{{ $article->view ? moneyFormat($article->view) . 'x dilihat' : '0 dilihat' }}</span>
+                                            class="color-gray-500 font-xs">{{ $article->view && $article->view>0 ? moneyFormat($article->view) . 'x dilihat' : 'belum dilihat' }}</span>
 
                                     </div>
                                 </div>
