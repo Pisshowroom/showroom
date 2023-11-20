@@ -6,7 +6,7 @@
                     <i class="material-icons md-calendar_today"></i>
                     <b>Tanggal Pesanan : {{ $order->date . ' WIB' ?? '' }}</b>
                 </span><br>
-                <small class="text-muted">Nomor Resi :
+                <small class="text-muted">Nomor Identifikasi :
                     {{ $order->payment_identifier ?? '' }}</small>
                 <p class="mt-15"><span>Status:</span>
                     @include('clients.dashboard.order.status_order')
@@ -95,7 +95,7 @@
                             <p class="mb-1">{{ $order->address->disctrict ?? 'Kecamatan : -' }},
                                 {{ $order->address->city ?? 'Kota : -' }}<br>{{ $order->address->person_name ?? 'Nama : -' }}<br>
                                 @if ($order->address->lat && $order->address->long)
-                                    <a
+                                    <a target="_blank"
                                         href="{{ 'https://www.google.com/maps/@' . $order->address->lat . ',' . $order->address->long ?? '' . '?entry=ttu' }}">gmaps
                                         :
                                         {{ 'https://www.google.com/maps/@' . $order->address->lat . ',' . $order->address->long ?? '' . '?entry=ttu' }}</a>

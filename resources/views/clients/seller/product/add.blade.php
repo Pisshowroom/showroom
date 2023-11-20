@@ -8,14 +8,14 @@
             method="POST" enctype="multipart/form-data">
             @csrf
             @if ($product != null && $product->id)
-                <input type="hidden" value="{{ $product->id }}">
+                <input type="hidden" name="id" value="{{ $product->id }}">
             @endif
             <div class="col-12">
                 <div class="content-header">
                     <h2 class="content-title">{{ $product == null ? 'Tambah Produk' : 'Ubah Produk' }}</h2>
                     <div>
                         {{-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> --}}
-                        <button class="btn btn-md rounded font-sm hover-up" id="btn-product">Simpan</button>
+                        <button type="submit" class="btn btn-md rounded font-sm hover-up" id="btn-product">Simpan</button>
                     </div>
                 </div>
             </div>
@@ -56,11 +56,11 @@
                             <div class="mb-4">
                                 <label class="form-label" for="description">Deskripsi Produk*</label>
                                 <textarea class="form-control" id="description" name="description" required placeholder="Masukkan keterangan produk"
-                                    rows="4" value="{{ $product != null ? $product->description : '' }}"></textarea>
+                                    rows="4">{{ $product != null ? $product->description : '' }}</textarea>
                             </div>
                             <div class="mb-4">
                                 <label class="form-label" for="unit">Satuan*</label>
-                                <input class="form-control" id="unit" name="unit" type="text"
+                                <input class="form-control" id="unit" name="unit" type="text" required
                                     placeholder="pcs, buah, butir, dll"
                                     value="{{ $product != null ? $product->unit : '' }}">
                             </div>
@@ -73,13 +73,13 @@
                             <div class="mb-4">
                                 <label class="form-label" for="stock">Jumlah Stok*</label>
                                 <input class="form-control" id="stock" name="stock" required
-                                    value="{{ $product != null ? $product->stock : '' }}"
+                                    value="{{ $product != null ? moneyFormat($product->stock) : '' }}"
                                     onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                             </div>
                             <div class="mb-4">
                                 <label class="form-label" for="weight">Berat barang* (kg)</label>
                                 <input class="form-control" id="weight" name="weight" required
-                                    value="{{ $product != null ? $product->weight : '' }}"
+                                    value="{{ $product != null ? moneyFormat($product->weight) : '' }}"
                                     onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                             </div>
                             <div class="mb-4">
@@ -87,24 +87,33 @@
                                 <div class="row gx-2"></div>
                                 <input class="form-control" name="price" id="price" required
                                     onkeypress="return event.charCode>=48&&event.charCode<=57"
-                                    value="{{ $product != null ? $product->price : '' }}" type="tel">
+                                    value="{{ $product != null ? numbFormat($product->price) : '' }}" type="tel">
                                 <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp 50.000</p>
                             </div>
                             <div class="mb-4">
                                 <div class="form-check form-switch mx-3">
                                     <input class="form-check-input cursor-pointer" type="checkbox" role="switch"
+                                        {{ $product != null && $product->discount && $product->discount > 0 ? 'checked' : '' }}
                                         id="discount">
                                     <label class="form-check-label cursor-pointer" for="discount">Diskon</label>
                                 </div>
                             </div>
 
-                            <div class="mb-4" id="discountInput" style="display: none;">
+                            <div class="mb-4" id="discountInput"
+                                style="{{ $product != null && $product->discount && $product->discount > 0 ? '' : 'display: none;' }}">
                                 <label class="form-label">Diskon</label>
-                                <input class="form-control" placeholder="Masukkan diskon dalam bentuk %" type="numeric"
-                                    min="1" max="100"
-                                    onkeypress="return event.charCode>=48&&event.charCode<=57" id="myPercent"
-                                    oninput="convertToDecimal(this)" />
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="Masukkan diskon dalam bentuk %"
+                                        type="numeric" min="0.1" max="100"
+                                        value="{{ $product != null ? $product->discount : '' }}"
+                                        onkeypress="return event.charCode>=48&&event.charCode<=57" id="myPercent"
+                                        oninput="convertToDecimal(this)" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -119,7 +128,7 @@
                                     <img src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}" alt="Upload Icon">
                                 </label>
                                 <input id="imageInput" class="form-control" type="file" name="images[]"
-                                    accept="image/*" multiple>
+                                    {{ $product == null ? 'required' : '' }} accept="image/*" multiple>
                             </div>
 
                             <div class="preview-container" id="imagePreviewContainer">
@@ -127,8 +136,9 @@
                                     @foreach ($product->images as $image)
                                         <div class="preview-item">
                                             <img src="{{ asset($image) }}" alt="Image Preview">
-                                            <button class="remove-btn" type="button"><i
-                                                    class="icon material-icons md-delete"></i></button>
+                                            <button class="remove-btn" style="background: white !important"
+                                                type="button"><i
+                                                    class="icon material-icons md-delete text-danger"></i></button>
                                         </div>
                                     @endforeach
                                 @endif
@@ -155,30 +165,34 @@
                 }
             });
 
-            // Event listener for remove button click
             $(document).on('click', '.remove-btn', function() {
-                // Remove the corresponding preview item
+                var removedIndex = $(this).parent().index();
                 $(this).parent().remove();
+                // Remove the corresponding array item
+                if (removedIndex !== -1) {
+                    // Assuming you have an array called imageArray
+                    imageArray.splice(removedIndex, 1);
+                }
             });
 
-            // Function to display image previews
             function displayImagePreview(file) {
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
-                    // Create preview item
                     var previewItem = $(
                         '<div class="preview-item"><img src="' + e.target.result +
                         '" alt="Image Preview">' +
-                        '<button class="remove-btn" type="button"><i class="icon material-icons md-delete"></i></button></div>'
+                        '<button class="remove-btn" style="background:white !important;" type="button"><i class="icon material-icons md-delete text-danger"></i></button></div>'
                     );
 
-                    // Append preview item to container
                     $('#imagePreviewContainer').append(previewItem);
+                    // Assuming you have an array called imageArray
+                    imageArray.push(file);
                 };
 
                 reader.readAsDataURL(file);
             }
+
 
 
             $('#discount').change(function() {
@@ -221,8 +235,12 @@
             var tanpa_rupiah = $('#price');
 
             // Set the initial value if product->price is available
-            var initialPrice = "{{ $product != null ? $product->price : '' }}";
-            tanpa_rupiah.val(initialPrice);
+            var stock = $('#stock');
+
+            stock.on('keyup', function() {
+                // Apply any formatting logic here
+                stock.val(formatRupiah(this.value));
+            });
 
             tanpa_rupiah.on('keyup', function() {
                 // Apply any formatting logic here
@@ -251,30 +269,39 @@
                 rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
                 return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
             }
-
-            function convertToDecimal(inputElement) {
-                var inputValue = inputElement.value.trim();
-
-                // Remove any percentage sign (%) if present
-                if (inputValue.endsWith("%")) {
-                    inputValue = inputValue.slice(0, -1);
+            $('form').on('submit', function() {
+                // Check if at least one image has been uploaded
+                if ($('#imageInput')[0].files.length === 0) {
+                    if ("{{ $product != null && count($product->images) < 1 }}") {
+                        alert('Please upload at least one image.');
+                        return false; // Prevent form submission
+                    }
                 }
+            });
 
-                // Convert the input to a decimal (e.g., 50% to 0.5)
-                var decimalValue = parseFloat(inputValue) / 100;
-
-                if (!isNaN(decimalValue) && decimalValue >= 0 && decimalValue <= 1) {
-                    // Update the input field with the decimal value
-                    var data = decimalValue * 100 + "%";
-                    inputElement.value = data.replace(/[^0-9]/g, '').substring(0, 3);
-                    // inputElement.value.replace(/[^0-9]/g, '').substring(0, 3);
-                } else {
-                    // Handle invalid input, e.g., display an error message
-                }
-            }
 
         });
 
+        function convertToDecimal(inputElement) {
+            var inputValue = inputElement.value.trim();
+
+            // Remove any percentage sign (%) if present
+            if (inputValue.endsWith("%")) {
+                inputValue = inputValue.slice(0, -1);
+            }
+
+            // Convert the input to a decimal (e.g., 50% to 0.5)
+            var decimalValue = parseFloat(inputValue) / 100;
+
+            if (!isNaN(decimalValue) && decimalValue >= 0 && decimalValue <= 1) {
+                // Update the input field with the decimal value
+                var data = decimalValue * 100 + "%";
+                inputElement.value = data.replace(/[^0-9]/g, '').substring(0, 3);
+                // inputElement.value.replace(/[^0-9]/g, '').substring(0, 3);
+            } else {
+                // Handle invalid input, e.g., display an error message
+            }
+        }
 
 
         // $('#btn-product').click(function(e) {
@@ -300,43 +327,6 @@
 
         //     }
         // });
-
-        function formatRupiah(angka, prefix) {
-            var number_string = angka.replace(/[^,\d]/g, '').toString(),
-                split = number_string.split(','),
-                sisa = split[0].length % 3,
-                rupiah = split[0].substr(0, sisa),
-                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-            if (ribuan) {
-                separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
-        }
-
-        function convertToDecimal(inputElement) {
-            var inputValue = inputElement.value.trim();
-
-            // Remove any percentage sign (%) if present
-            if (inputValue.endsWith("%")) {
-                inputValue = inputValue.slice(0, -1);
-            }
-
-            // Convert the input to a decimal (e.g., 50% to 0.5)
-            var decimalValue = parseFloat(inputValue) / 100;
-
-            if (!isNaN(decimalValue) && decimalValue >= 0 && decimalValue <= 1) {
-                // Update the input field with the decimal value
-                var data = decimalValue * 100 + "%";
-                inputElement.value = data.replace(/[^0-9]/g, '').substring(0, 3);
-                // inputElement.value.replace(/[^0-9]/g, '').substring(0, 3);
-            } else {
-                // Handle invalid input, e.g., display an error message
-            }
-        }
     </script>
 @endpush
 

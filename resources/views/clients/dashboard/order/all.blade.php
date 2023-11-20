@@ -19,7 +19,7 @@
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
                         <input class="form-control" id="searchOrder" type="text"
-                            placeholder="Cari berdasarkan Nomor Resi..." name="search"
+                            placeholder="Cari berdasarkan Identifikasi..." name="search"
                             value="{{ request()->input('search') ?? '' }}">
                     </div>
                     <div class="col-lg-2 col-6 col-md-3">
@@ -54,7 +54,7 @@
                         <thead>
                             <tr>
                                 <th class="align-middle">No</th>
-                                <th class="align-middle" scope="col">Nomor Resi</th>
+                                <th class="align-middle" scope="col">Identifikasi</th>
                                 <th class="align-middle" scope="col">Total</th>
                                 <th class="align-middle" scope="col">Status</th>
                                 <th class="align-middle" scope="col">Tanggal Pesanan</th>

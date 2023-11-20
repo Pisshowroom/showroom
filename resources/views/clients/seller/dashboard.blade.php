@@ -99,7 +99,7 @@
                     <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
                         <form method="GET"
                             action="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                            <input class="form-control" type="text" placeholder="Cari berdasarkan Nomor Resi..."
+                            <input class="form-control" type="text" placeholder="Cari berdasarkan Identifikasi..."
                                 name="search" value="{{ request()->input('search') ?? '' }}">
                         </form>
                     </div>
@@ -112,7 +112,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th class="align-middle">No</th>
-                                    <th class="align-middle" scope="col">Nomor Resi</th>
+                                    <th class="align-middle" scope="col">Identifikasi</th>
                                     <th class="align-middle" scope="col">Total</th>
                                     <th class="align-middle" scope="col">Status</th>
                                     <th class="align-middle" scope="col">Tanggal Pesanan</th>

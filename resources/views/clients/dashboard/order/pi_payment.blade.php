@@ -27,7 +27,7 @@
                                         </b>
                                     </span>
                                     <br>
-                                    <small class="text-muted">Nomor Resi : {{ $order->payment_identifier ?? '' }}</small>
+                                    <small class="text-muted">Nomor Identifikasi : {{ $order->payment_identifier ?? '' }}</small>
 
                                     <p class="mt-15"><span>Status:</span>
                                         <span class="badge rounded-pill alert-warning alert-link px-3 py-2">Menunggu
@@ -47,7 +47,7 @@
                             <div class="w-33 text-end"><img width="30px" src="{{ $order->master_account?->image ?? '' }}"
                                     alt="{{ $order->master_account?->provider_name ?? '' }}" srcset=""></div>
                         </div>
-                        
+
                         @if ($order->master_account->type == 'PI')
                             <a href="#" id="PiBuy" class="btn btn-md mb-3">
                                 Proceed
@@ -71,11 +71,11 @@
 
         function checkUser() {
             if(!user) {
-                $("#PiBuy").hide() 
-                $("#PiLogin").show() 
+                $("#PiBuy").hide()
+                $("#PiLogin").show()
             } else {
-                $("#PiBuy").show() 
-                $("#PiLogin").hide() 
+                $("#PiBuy").show()
+                $("#PiLogin").hide()
             }
         }
 
@@ -87,7 +87,7 @@
                 $("#mydiv2").fadeOut("fast")
             }), 2000);
         })
-        
+
         function copyToClipboard(a) {
             var e = $("<input>");
             $("body").append(e), e.val($(a).text()).select();
@@ -95,7 +95,7 @@
             e.remove();
         }
 
-        $("#PiBtn").click(async function (e) { 
+        $("#PiBtn").click(async function (e) {
             e.preventDefault();
         });
     </script>

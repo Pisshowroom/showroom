@@ -9,6 +9,11 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if (session('danger'))
+            <div class="alert alert-warning" id="mydiv">
+                {{ session('danger') }}
+            </div>
+        @endif
         <div class="content-header">
             <div>
                 <h2 class="content-title card-title">Semua Produk</h2>
@@ -50,7 +55,6 @@
                                 <th class="align-middle" scope="col">Produk</th>
                                 <th class="align-middle" scope="col">Kategori</th>
                                 <th class="align-middle" scope="col">Harga</th>
-                                <th class="align-middle" scope="col">Status</th>
                                 <th class="align-middle" scope="col">Stok</th>
                                 <th class="align-middle" scope="col">Aksi</th>
                             </tr>
@@ -75,7 +79,6 @@
                                             {{ $product->category ? $product->category->name ?? '' : '' }}
                                         </td>
                                         <td class="align-middle">{{ numbFormat($product->price) ?? '' }}</td>
-                                        <td class="align-middle">{{ 'Aktif' }}</td>
                                         <td class="align-middle">
                                             {{ $product->stock && $product->stock > 0 ? moneyFormat($product->stock) : '0' }}
                                         </td>

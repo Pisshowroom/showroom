@@ -59,7 +59,13 @@ class Product extends Model
     {
         return $query->whereNull('parent_id');
     }
-    
+
+    public function getPriceAttribute($value)
+    {
+        // Remove non-numeric characters and convert to integer
+        return (int) preg_replace("/[^0-9]/", "", $value);
+    }
+
     // protected static function booted()
     // {
     //     static::addGlobalScope('hasParentRelation', function (Builder $builder) {
