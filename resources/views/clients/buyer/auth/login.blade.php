@@ -129,6 +129,7 @@
         }
 
         function signInUser(authResult) {
+            $('.loading').removeClass('d-none').addClass('show-modal');
 
             var formData = {
                 uid: authResult.user.uid,
@@ -143,7 +144,6 @@
                     ),
                 },
             });
-            $('.loading').removeClass('d-none').addClass('show-modal');
 
             $.ajax({
                 url: "{{ route('loginWithPI') }}",

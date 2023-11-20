@@ -119,20 +119,14 @@
                                             @if (Auth::guard('web')->user()->is_seller == 0)
                                                 <input type="hidden" name="is_seller" value="1">
                                             @endif
-                                            {{-- <div class="col-lg-6 mb-3">
-                                                <label class="form-label">Email</label>
-                                                <input class="form-control" type="email" placeholder="andi@mail.com"
-                                                    value="{{ Auth::guard('web')->user()->email }}" required>
-                                            </div>
-                                            <div class="col-lg-6 mb-3">
-                                                <label class="form-label" for="password">Password</label>
-                                                <input class="form-control" type="password" id="password"
-                                                    placeholder="*****">
-                                            </div>
                                             <div class="col-12 mb-3">
-                                                <label class="form-label" for="birthdate">Tanggal Lahir</label>
-                                                <input class="form-control" type="date" id="birthdate">
-                                            </div> --}}
+                                                <label class="form-label" for="phone_number_seller">Nomor
+                                                    Handphone</label>
+                                                <input type="tel" name="phone_number_seller" class="w-100" required
+                                                    value="{{ Auth::guard('web')->user()->phone_number_seller }}" pattern="[0-9]*" inputmode="numeric"
+                                                    id="phone_number_seller"
+                                                    onkeypress="return event.charCode>=48&&event.charCode<=57">
+                                            </div>
                                         </div>
                                         <aside>
                                             <label for="image" class="form-label">Gambar</label>
@@ -159,11 +153,49 @@
     </section>
 
 @endsection
+@push('importcss')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .select2-selection {
+            height: 48px !important;
+            border: 1px solid rgba(0, 0, 0, 0.125) !important;
+            padding: 10px 20px !important;
+            font-size: 15px !important;
+            font-weight: 400 !important;
+            color: #1a1668 !important;
+            transition: all 0.3s ease-in-out !important;
+            background-color: #f5f5f5 !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff !important;
+            border: 1px solid #aaa !important;
+            border-radius: 4px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            top: 10px !important;
+        }
+    </style>
+@endpush
+
 @push('importjs')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.1.5/js/intlTelInput.min.js"></script>
+
     <script type="text/javascript">
         setTimeout(function() {
             $('#mydiv').fadeOut('fast');
         }, 2000);
+        var input = document.querySelector("#phone_number_seller");
+        window.intlTelInput(input, {
+            initialCountry: "ID",
+            separateDialCode: true
+        });
         $(document).ready(function() {
             $('#seller_image').change(function() {
                 var file = this.files[0];
