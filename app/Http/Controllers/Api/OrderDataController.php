@@ -117,7 +117,6 @@ class OrderDataController extends Controller
     public function completedOrder(Order $order)
     {
         $order->status = Order::COMPLETED;
-        $order->save();
 
         $seller = $order->seller;
         $totalPrice = $order->total_final ? $order->total_final : $order->total;
@@ -139,6 +138,9 @@ class OrderDataController extends Controller
         DB::beginTransaction();
         $totalIncome = $totalPrice - $feeCommerce;
 
+        $order-> market_fee_seller = $feeCommerce;
+        $order->save();
+        
         $commerceBalance = Setting::where('name', 'commerce_balance')->firstOrFail();
         $theCommerceBalance = intval($commerceBalance->value);
         $commerceBalance->value = $theCommerceBalance + $feeCommerce;
