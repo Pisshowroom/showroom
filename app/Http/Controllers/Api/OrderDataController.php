@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Models\Setting;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderDataController extends Controller
 {
@@ -110,5 +112,42 @@ class OrderDataController extends Controller
         }
         
         return ResponseAPI('Pesanan telah sampai ketujuan', 200);
+    }
+
+    public function completedOrder(Order $order)
+    {
+        $order->status = Order::COMPLETED;
+        $order->save();
+
+        $seller = $order->seller;
+        $totalPrice = $order->total_final ? $order->total_final : $order->total;
+        $feeCommerce = 0;
+        $feeGlobalAmount = lypsisGetSetting("", [], true, ['seller_fee_amount', 'seller_fee_percent'])->toArray();
+        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+
+
+        if ($seller->seller_fee_amount > 0) {
+            $feeCommerce = $seller->seller_fee_amount;
+        } else if ($seller->seller_fee_percentage > 0) {
+            $feeCommerce = $totalPrice * ($seller->seller_fee_percentage / 100);
+        } else if ($feeGlobalAmount[0] > 0) {
+            $feeCommerce = $feeGlobalAmount[0];
+        } else if ($feeGlobalAmount[1] > 0) {
+            $feeCommerce = $totalPrice * ($feeGlobalAmount[1] / 100);
+        } 
+        
+        DB::beginTransaction();
+        $totalIncome = $totalPrice - $feeCommerce;
+
+        $commerceBalance = Setting::where('name', 'commerce_balance')->firstOrFail();
+        $theCommerceBalance = intval($commerceBalance->value);
+        $commerceBalance->value = $theCommerceBalance + $feeCommerce;
+        $commerceBalance->save();
+
+        $seller->balance += $totalIncome;
+        $seller->save();
+
+        DB::commit();
+        return ResponseAPI('Pesanan berhasil diselesaikan', 200);
     }
 }

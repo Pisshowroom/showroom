@@ -475,8 +475,18 @@ class OrderController extends Controller
             $serviceFee = 5550;
         }
 
-        $data['subtotal'] = $total;
+        $subTotal = $total;
+        $data['subtotal'] = $subTotal;
         $additionFee = $deliveryCost + $serviceFee;
+        $feeGlobalAmount = lypsisGetSetting("", [], true, ['buyer_fee_amount', 'buyer_fee_percent'])->toArray();
+        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+        if ($feeGlobalAmount[0] > 0) {
+            $buyerFee = $feeGlobalAmount[0];
+        } else {
+            $buyerFee = ($total * $feeGlobalAmount[1] / 100);
+        }
+        $additionFee += $buyerFee;
+
         $total += $additionFee;
         $totalWithoutDiscount += $additionFee;
 
@@ -599,12 +609,12 @@ class OrderController extends Controller
             array_push($products, $productTransformed);
         }
 
-        // create $identifier on Order::class i had getNextId() 
 
 
         // $type = 'QRIS';
         // $type = 'VirtualAccount';
-        $data['subtotal'] = $total;
+        $subTotal = $total;
+        $data['subtotal'] = $subTotal;
 
 
         $serviceFee = 0;
@@ -618,6 +628,15 @@ class OrderController extends Controller
         }
 
         $additionFee = $deliveryCost + $serviceFee;
+        
+        $feeGlobalAmount = lypsisGetSetting("", [], true, ['buyer_fee_amount', 'buyer_fee_percent'])->toArray();
+        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+        if ($feeGlobalAmount[0] > 0) {
+            $buyerFee = $feeGlobalAmount[0];
+        } else {
+            $buyerFee = ($total * $feeGlobalAmount[1] / 100);
+        }
+        $additionFee += $buyerFee;
 
         $total += $additionFee;
         $totalWithoutDiscount += $additionFee;
@@ -641,6 +660,7 @@ class OrderController extends Controller
         $order->seller_id = $sellerId;
         $order->delivery_cost = $deliveryCost;
         $order->service_fee = $serviceFee;
+        $order->subtotal = $subTotal;
         $order->delivery_estimation_day = $request->delivery_estimation_day;
         $order->delivery_service_code = $request->delivery_code;
         $order->delivery_service_name = $request->delivery_name;
