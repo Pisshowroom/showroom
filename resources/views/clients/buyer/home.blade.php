@@ -328,7 +328,7 @@ dd(request()->all());
                     <div class="col-xl-3 col-lg-4">
                         <div class="box-slider-item box-sidebar">
                             <div class="head">
-                                <h4 class="d-inline-block">Penjualan Terbaik</h4>
+                                <h4 class="d-inline-block">Produk Diskon</h4>
                                 <div class="box-button-control">
                                     <div
                                         class="swiper-button-prev swiper-button-prev-style-2 swiper-button-prev-bestseller">
@@ -343,7 +343,7 @@ dd(request()->all());
                                     <div class="swiper-container swiper-best-seller">
                                         <div class="swiper-wrapper pt-5">
                                             <div class="swiper-slide">
-                                                @foreach ($data['best_seller_product'] as $prd)
+                                                @foreach ($data['promo_products'] as $prd)
                                                     @include('clients.buyer.components.list_product2')
                                                 @endforeach
                                             </div>
