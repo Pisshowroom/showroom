@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\RoCity;
 use App\Models\RoProvince;
 use App\Models\RoSubdistrict;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +46,12 @@ class DashboardController extends Controller
         $cities = RoCity::where('ro_province_id', $id)->select('id', 'city_name', 'postal_code', 'ro_province_id')->get();
 
         return ResponseAPI($cities);
+    }
+    public function subCategory($id)
+    {
+        $sc = SubCategory::where('category_id', $id)->select('id', 'name', 'category_id')->get();
+
+        return ResponseAPI($sc);
     }
 
     public function subdistrictsByCity($id)

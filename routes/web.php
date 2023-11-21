@@ -139,6 +139,7 @@ Route::post('/tambah-ulasan', [BuyerProductController::class, 'addReview'])->nam
 
 Route::get('/pembeli/pembayaran-pi/{identifier}', [BuyerOrderController::class, 'piPayment'])->name('dashboard.pi_payment');
 
+Route::get('/subcategories/{id?}', [DashboardController::class, 'subCategory'])->name('getSubCategory');
 Route::prefix('regionals')->group(function () {
     Route::get('/cities/{id?}', [DashboardController::class, 'citiesByProvince'])->name('getCity');
     Route::get('/subdistricts/{id?}', [DashboardController::class, 'subdistrictsByCity'])->name('getDistrict');

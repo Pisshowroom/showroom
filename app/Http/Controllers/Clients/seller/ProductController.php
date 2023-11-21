@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Clients\seller;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -26,12 +27,20 @@ class ProductController extends Controller
     public function addProduct(Request $request)
     {
         $data['categories'] = Category::whereNull('deleted_at')->get();
+        $data['sub_category'] = '';
+
         return view('clients.seller.product.add', ['product' => null, 'data' => $data]);
     }
     public function editProduct(Request $request)
     {
         $data['categories'] = Category::whereNull('deleted_at')->get();
         $product = Product::where('id', $request->id)->firstOrFail();
+        if ($product->category_id != null) {
+            $data['sub_category'] = SubCategory::where('category_id', $product->category_id)->select('id', 'name', 'category_id')->get();
+        } else {
+            $data['sub_category'] = '';
+        }
+
         return view('clients.seller.product.add', ['product' => $product, 'data' => $data]);
     }
     public function addUpdateProduct(Request $request)

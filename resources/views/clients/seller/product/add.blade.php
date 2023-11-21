@@ -53,6 +53,34 @@
                                     </select>
                                 </div>
                             </div>
+                            @if (strlen($product != null && $product->category_id) > 0)
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label for="sub_category_id" class="form-label w-100">Sub kategori:</label>
+                                        <select id="sub_category_id" class="form-select sub_category_id"
+                                            name="sub_category_id">
+                                            <option style="color:#232323;background:#f5f5f5 !important" selected disabled>
+                                                Pilih
+                                                Sub kategori</option>
+                                            @foreach ($data['sub_category'] as $sc)
+                                                <option value="{{ $sc['id'] }}"
+                                                    {{ $sc['id'] == $product->sub_category_id ? 'selected' : '' }}>
+                                                    {{ $sc['name'] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="col-12 div_sub_category_id dnone">
+                                    <div class="mb-3">
+                                        <label for="sub_category_id" class="form-label w-100">Sub kategori:</label>
+                                        <select id="sub_category_id" class="form-select sub_category_id"
+                                            name="sub_category_id">
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="mb-4">
                                 <label class="form-label" for="description">Deskripsi Produk*</label>
                                 <textarea class="form-control" id="description" name="description" required placeholder="Masukkan keterangan produk"
@@ -153,6 +181,35 @@
     </section>
 
 @endsection
+@push('importcss')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .select2-selection {
+            height: 48px !important;
+            border: 1px solid rgba(0, 0, 0, 0.125) !important;
+            padding: 10px 20px !important;
+            font-size: 15px !important;
+            font-weight: 400 !important;
+            color: #1a1668 !important;
+            transition: all 0.3s ease-in-out !important;
+            background-color: #f5f5f5 !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff !important;
+            border: 1px solid #aaa !important;
+            border-radius: 4px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            top: 10px !important;
+        }
+    </style>
+@endpush
 @push('importjs')
     <script>
         $(document).ready(function() {
@@ -174,6 +231,33 @@
                     // Assuming you have an array called imageArray
                     imageArray.splice(removedIndex, 1);
                 }
+            });
+            //province
+
+            $('.category_id').change(function() {
+                $('.div_sub_category_id').css('display', 'block');
+                var id = this.value;
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('getSubCategory') }}" + '/' + id +
+                        "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                    dataType: "json",
+                    success: function(data) {
+                        var html = '';
+                        html +=
+                            `<option style="color:#232323;background:#f5f5f5 !important" selected disabled>Pilih Sub kategori</option>`;
+                        data.forEach((element, i) => {
+
+                            html += `<option value="${element['id']}">${element['name']}
+                                </option>`;
+                        })
+                        $(`.sub_category_id`).html(html);
+                    }
+                });
+            });
+            $("#sub_category_id").select2({
+                placeholder: "Pilih Kota / Kabupaten Kamu",
+                allowClear: true
             });
 
             function displayImagePreview(file) {
@@ -275,7 +359,7 @@
                 if ($('#imageInput')[0].files.length === 0) {
                     if (
                         "{{ $product && $product != null && $product->images && count($product->images) < 1 }}"
-                        ) {
+                    ) {
                         alert('Please upload at least one image.');
                         return false; // Prevent form submission
                     }
