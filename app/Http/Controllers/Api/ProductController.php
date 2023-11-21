@@ -166,6 +166,8 @@ class ProductController extends Controller
     {
         $user = auth()->guard('api-client')->user();
 
+
+
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'category_id' => 'required',
@@ -186,6 +188,11 @@ class ProductController extends Controller
         if ($request->filled('id')) {
             $product = Product::find($request->id);
         } else {
+            $user->load('address_seller');
+
+            if ($user->address_seller == null) {
+                return ResponseAPI('Penjual wajib mengisi data alamat toko terlebih dahulu', 422);
+            }
             $product = new Product();
             $isCreate = true;
         }
