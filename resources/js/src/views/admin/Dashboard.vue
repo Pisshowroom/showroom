@@ -44,8 +44,43 @@
                 </div>
             </div>
         </div>
+        <div class="grid xl:grid-cols-3 gap-6 mb-6">
+            <div class="panel h-full xl:col-span-2">
+                <div class="flex items-center justify-between dark:text-white-light mb-5">
+                    <h5 class="font-semibold text-lg">
+                       Aktivitas Pesanan
+                    </h5>
+                    <div class="dropdown ltr:ml-auto rtl:mr-auto">
+                        <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'" offsetDistance="0" class="align-middle">
+                            <button type="button" class="btn btn-white dropdown-toggle shadow-none">
+                                {{ titleActivity }}
+                                <svg class="ml-1" width="16" height="16" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.60235 4.59668L6.24576 7.47376L2.88916 4.59668" stroke="#0E1726" stroke-width="0.719271" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                            <template #content="{ close }">
+                                <ul @click="close()" class="whitespace-nowrap">
+                                    <!-- <li><button @click="getActivity('monthly')">Mingguan</button></li>
+                                    <li><button @click="getActivity('yearly')">Bulanan</button></li> -->
+                                </ul>
+                            </template>
+                        </Popper>
+                    </div>
+                </div>
+                <!-- <p class="text-lg dark:text-white-light/90">Total Profit <span class="text-primary ml-2">$10,840</span></p> -->
+                <div class="relative">
+                    <apexchart v-if="activityChart.xaxis.categories.length > 0" height="400" :options="activityChart" :series="activitySeries" class="bg-white dark:bg-black rounded-lg overflow-hidden">
+                    </apexchart>
+                    <!-- loader -->
+                    <div v-else class="min-h-[325px] grid place-content-center">
+                        <span class="animate-spin border-2 border-black dark:border-white !border-l-transparent rounded-full w-5 h-5 inline-flex"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div :style="{height: '70vh'}">
+
+        <div :style="{ height: '70vh' }">
         </div>
 
     </div>
@@ -96,6 +131,26 @@ useHead({
 
 const isDark = store.theme === 'dark' || store.isDarkMode ? true : false;
 const isRtl = store.rtlClass === 'rtl' ? true : false;
+
+const getActivity = async (value) => {
+  if (
+    (value == 'weekly' && titleActivity.value != 'Harian') ||
+    (value == 'monthly' && titleActivity.value != 'Mingguan') ||
+    (value == 'yearly' && titleActivity.value != 'Bulanan')
+  ) {
+    if (value == 'weekly') titleActivity.value = 'Harian';
+    else if (value == 'monthly') titleActivity.value = 'Mingguan';
+    else if (value == 'yearly') titleActivity.value = 'Bulanan';
+    store.isShowMainLoader = true;
+    activitySeries.value = [];
+    activityChart.xaxis.categories = [];
+    const response = (await axios.get(`/admin/educational-institution/activity-users?type=${value}`)).data;
+    store.isShowMainLoader = false;
+    activitySeries.value = response.series;
+    activityChart.xaxis.categories = response.categories;
+    // activityChart.colors = response.colors;
+  }
+};
 
 const activityChart = reactive({
     chart: {

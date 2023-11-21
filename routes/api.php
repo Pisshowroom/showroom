@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AddressSellerController;
@@ -47,6 +48,10 @@ Route::POST("manual-create-pay-req", [OrderController::class, 'manualCreatePayRe
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard2', [DashboardController::class, 'index']);
+    // Route::get('/order', [AdminOrderController::class, 'index']);
+    Route::group(['prefix' => 'order'], function () {
+        Route::get('/index', [AdminOrderController::class, 'index']);
+    });
 
     Route::group(['prefix' => 'categories', 'middleware' => 'auth:api-client'], function () {
         Route::get('/', [CategoryController::class, 'index']);

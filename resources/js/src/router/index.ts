@@ -2,17 +2,21 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useAppStore } from '@/stores/index';
 import appSetting from '@/app-setting';
 import auth from "@/services/auth.service";
+import admin_routes from './routes/admin_routes'
+
 
 import HomeView from '../views/index.vue';
 
 const routes: RouteRecordRaw[] = [
     // dashboard
     { path: '/', name: 'home', component: HomeView },
-    {
-        path: '/admin/db2',
-        name: 'dashboard2',
-        component: () => import( '../admin/Dashboard.vue'),
-    },
+    // {
+    //     path: '/admin/db2',
+    //     name: 'dashboard2',
+    //     component: () => import( '../admin/Dashboard.vue'),
+    // },
+
+    ...admin_routes,
     {
         path: '/analytics',
         name: 'analytics',
