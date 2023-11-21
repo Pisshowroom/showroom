@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid xl:grid-cols-3 gap-6 mb-6">
+        <div class="grid xl:grid-cols-1 gap-6 mb-6">
             <div class="panel h-full xl:col-span-2">
                 <div class="flex items-center justify-between dark:text-white-light mb-5">
                     <h5 class="font-semibold text-lg">
@@ -60,8 +60,9 @@
                             </button>
                             <template #content="{ close }">
                                 <ul @click="close()" class="whitespace-nowrap">
-                                    <!-- <li><button @click="getActivity('monthly')">Mingguan</button></li>
-                                    <li><button @click="getActivity('yearly')">Bulanan</button></li> -->
+                                    <li><button @click="getActivity('daily')">Harian</button></li>
+                                    <li><button @click="getActivity('monthly')">Mingguan</button></li>
+                                    <li><button @click="getActivity('yearly')">Bulanan</button></li>
                                 </ul>
                             </template>
                         </Popper>
@@ -80,7 +81,7 @@
         </div>
 
 
-        <div :style="{ height: '70vh' }">
+        <div :style="{ height: '20vh' }">
         </div>
 
     </div>
@@ -104,25 +105,6 @@ const titleActivity: any = ref('Harian');
 const titleActivity2: any = ref('Harian');
 let user: any = auth.users();
 const type: any = user?.educational_institution?.type;
-const cols =
-    ref([
-        { field: 'number', title: 'Rank', slot: true, sort: false },
-        { field: 'nameWithRoundedImage2', title: 'Nama Lengkap', sort: false },
-        {
-            field: 'faculty',
-            title: type == 'campus' ? 'Fakultas' : type == 'school' ? 'Kelas' : type == 'business_organization' ? 'Divisi' : '',
-            sort: false
-        },
-        {
-            field: 'fasih_user_items_count',
-            title: 'Total Murajaah',
-            sort: false,
-            cellRenderer: (item) => {
-                return `${item.fasih_user_items_count} Ayat`;
-            },
-        },
-        { field: 'validity', title: 'Rata-Rata Bintang', sort: false },
-    ]) || [];
 
 useHead({
     title: 'Dashboard',
@@ -133,23 +115,19 @@ const isDark = store.theme === 'dark' || store.isDarkMode ? true : false;
 const isRtl = store.rtlClass === 'rtl' ? true : false;
 
 const getActivity = async (value) => {
-  if (
-    (value == 'weekly' && titleActivity.value != 'Harian') ||
-    (value == 'monthly' && titleActivity.value != 'Mingguan') ||
-    (value == 'yearly' && titleActivity.value != 'Bulanan')
-  ) {
+
     if (value == 'weekly') titleActivity.value = 'Harian';
     else if (value == 'monthly') titleActivity.value = 'Mingguan';
     else if (value == 'yearly') titleActivity.value = 'Bulanan';
     store.isShowMainLoader = true;
     activitySeries.value = [];
     activityChart.xaxis.categories = [];
-    const response = (await axios.get(`/admin/educational-institution/activity-users?type=${value}`)).data;
+    const response = (await axios.get(`/admin/activity-orders?type=${value}`)).data;
     store.isShowMainLoader = false;
     activitySeries.value = response.series;
     activityChart.xaxis.categories = response.categories;
     // activityChart.colors = response.colors;
-  }
+
 };
 
 const activityChart = reactive({
@@ -209,8 +187,9 @@ const activityChart = reactive({
         },
         y: {
             formatter(number) {
-                if (number > 0) return number + ' Murajaah';
-                else return number;
+                // if (number > 0) return number + ' Murajaah';
+                // else return number;
+                return globalComponents.formatThousand(number);
             },
         },
     },
@@ -372,7 +351,7 @@ const getChart = async (type = 'weekly') => {
     }
 
     const response = (
-        await axios.get('/admin/educational-institution/teacher/murajaah/chart1', {
+        await axios.get('/admin/activity-orders', {
             params: {
                 type: type,
             },
@@ -411,6 +390,7 @@ onMounted(async () => {
     if (auth.isAuthenticated() && auth.getToken() != false) {
         await getChart();
     }
+    getActivity('weekly');
     await getData();
 });
 </script>

@@ -49,6 +49,7 @@ Route::POST("manual-create-pay-req", [OrderController::class, 'manualCreatePayRe
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard2', [DashboardController::class, 'index']);
+    Route::get('/activity-orders', [DashboardController::class, 'activityOrders']);
     // Route::get('/order', [AdminOrderController::class, 'index']);
     Route::group(['prefix' => 'order'], function () {
         Route::get('/index', [AdminOrderController::class, 'index']);
