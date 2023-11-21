@@ -24,7 +24,7 @@ class SubCategoryController extends Controller
         $request->validate([
             'name' => 'required',
             'category_id' => 'required|integer',
-            'image' => 'required|file',
+            'image' => 'nullable|file',
         ]);
 
         $subCategory = new SubCategory();
