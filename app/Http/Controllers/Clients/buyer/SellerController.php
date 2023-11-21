@@ -35,7 +35,8 @@ class SellerController extends Controller
     public function allSeller(Request $request)
     {
         $data = $this->getCommonData();
-        $seller = User::where('is_seller', true)->withCount('products')
+        $seller = User::where('is_seller', true)->with('address_seller:id,user_id,for_seller,main,city,district')
+            ->withCount('products')
             ->whereHas('products', function ($q) use ($request) {
                 $q->withAvg('reviews', 'rating')
                     ->withSum(['order_items as total_sell' => function ($query) {
@@ -57,9 +58,14 @@ class SellerController extends Controller
 
     public function detailSeller($slug, Request $request)
     {
-        $seller = User::where('seller_slug', $slug)->withCount('products')->firstOrFail();
+        $seller = User::where('seller_slug', $slug)->with('address_seller:id,user_id,for_seller,main,city,district')
+            ->withCount('products')->firstOrFail();
         $product = Product::where('seller_id', $seller->id)
-            ->with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])->whereNull('parent_id')
+            ->with([
+                'seller:id,name,seller_slug,seller_name',
+                'seller.address:id,user_id,for_seller,main,city',
+                'category:id,name'
+            ])->whereNull('parent_id')
             ->when($request->filled('search'), function ($q) use ($request) {
                 return $q->where('name', 'like', "%$request->search%");
             })->when($request->filled('category_id'), function ($q) use ($request) {

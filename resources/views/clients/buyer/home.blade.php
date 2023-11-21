@@ -2,12 +2,12 @@
 @section('title', 'Beranda')
 @section('home', 'actived')
 @section('childs')
-{{-- @php
+    {{-- @php
 auth()->guard('web')->attempt(['email' =>'ran@gmail.com', 'password' => "12345678"]);
 dd(request()->all());
 
 @endphp --}}
-{{-- {!! dd(request()->session()->all()); !!} --}}
+    {{-- {!! dd(request()->session()->all()); !!} --}}
     <main class="main">
         <section class="section-box">
             <div class="banner-hero banner-1 pt-10">
@@ -17,45 +17,43 @@ dd(request()->all());
                             <div class="box-swiper">
                                 <div class="swiper-container swiper-group-1">
                                     <div class="swiper-wrapper">
-                                        @if (count($data['sliders']) > 0)
+                                        {{-- @if (count($data['sliders']) > 0)
                                             @foreach ($data['sliders'] as $slider)
                                                 <div class="swiper-slide">
                                                     <div class="banner-big banner-big-3 bg-22"
                                                         style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner.png') }})">
                                                         <h1 class="color-gray-100 w-50 text-uppercase text-shadow">
                                                             {!! $slider->description ?? '' !!}</h1>
-                                                        {{-- <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <ul class="list-disc">
-                                                            <li class="font-lg color-brand-3">Free Shipping. Secure
-                                                                Payment</li>
-                                                            <li class="font-lg color-brand-3">Kontak Kami 24hrs a day
-                                                            </li>
-                                                            <li class="font-lg color-brand-3">Support gift service</li>
-                                                        </ul>
-                                                    </div>
-                                                </div> --}}
                                                         <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
                                                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja</a>
-                                                            {{-- <a
-                                                        class="btn btn-link text-underline" href="{{route('buyer.allGridProduct')}}">Learn
-                                                        more</a> --}}
                                                         </div>
                                                     </div>
                                                 </div>
                                             @endforeach
-                                        @else
-                                            <div class="swiper-slide">
-                                                <div class="banner-big banner-big-3 bg-22"
-                                                    style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner.png') }})">
-                                                    <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
-                                                            class="d-none d-lg-block"> The Music</h1>
-                                                    <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
+                                        @else --}}
+                                        <div class="swiper-slide">
+                                            <a
+                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-1.jpg') }}"
+                                                    alt="slider pertama beranda">
+                                            </a>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <a
+                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-2.jpg') }}"
+                                                    alt="slider kedua beranda">
+                                            </a>
+
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <a
+                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-3.jpg') }}"
+                                                    alt="slider ketiga beranda">
+                                            </a>
+                                        </div>
+                                        {{-- @endif --}}
                                     </div>
                                     <div class="swiper-pagination swiper-pagination-1"></div>
                                 </div>
@@ -65,62 +63,67 @@ dd(request()->all());
                 </div>
             </div>
         </section>
-        <div class="container mt-20">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="head-main">
-                        <h3 class="mb-5">Produk promo</h3>
+        @if (count($data['promo_products']) > 0)
+            <div class="container mt-20">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="head-main">
+                            <h3 class="mb-5">Produk promo</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 order-first order-lg-last">
+                <div class="row">
+                    <div class="col-12 order-first order-lg-last">
 
-                    <div class="row mt-20">
-                        @if (count($data['promo_products']) > 0)
-                            @foreach ($data['promo_products'] as $prd)
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    @include('clients.buyer.components.list_product1')
+                        <div class="row mt-20">
+                            @if (count($data['promo_products']) > 0)
+                                @foreach ($data['promo_products'] as $prd)
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        @include('clients.buyer.components.list_product1')
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="col-lg-12 text-center mt-40">
+                                    <h4>Tidak ada Produk saat ini</h4>
                                 </div>
-                            @endforeach
-                        @else
-                            <div class="col-lg-12 text-center mt-40">
-                                <h4>Tidak ada Produk saat ini</h4>
-                            </div>
-                        @endif
+                            @endif
+                        </div>
                     </div>
-                </div>
 
-            </div>
-        </div>
-        <div class="container mt-20">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="head-main">
-                        <h3 class="mb-5">Produk terbatas</h3>
-                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 order-first order-lg-last">
+        @endif
+        @if (count($data['limited_product']) > 0)
+            <div class="container mt-20">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="head-main">
+                            <h3 class="mb-5">Produk terbatas</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 order-first order-lg-last">
 
-                    <div class="row mt-20">
-                        @if (count($data['limited_product']) > 0)
-                            @foreach ($data['limited_product'] as $prd)
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    @include('clients.buyer.components.list_product1')
+                        <div class="row mt-20">
+                            @if (count($data['limited_product']) > 0)
+                                @foreach ($data['limited_product'] as $prd)
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        @include('clients.buyer.components.list_product1')
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="col-lg-12 text-center mt-40">
+                                    <h4>Tidak ada Produk saat ini</h4>
                                 </div>
-                            @endforeach
-                        @else
-                            <div class="col-lg-12 text-center mt-40">
-                                <h4>Tidak ada Produk saat ini</h4>
-                            </div>
-                        @endif
+                            @endif
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
+        @endif
+
         <div class="section-box pt-30 bg-gray-50 mt-50">
             <div class="container">
                 <div class="row">
@@ -238,12 +241,13 @@ dd(request()->all());
                                         @if (count($data['articles']) > 0)
                                             @foreach ($data['articles'] as $article)
                                                 <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    <div class="card-grid-style-3">
+                                                    <div class="card-grid-style-3"
+                                                        style="max-height: none !important;aspect-ratio: auto !important;object-fit: cover !important;max-width: 100% !important;">
                                                         <div class="card-grid-inner">
                                                             <div class="image-box">
                                                                 <a
                                                                     href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                                    <img src="{{ asset('ecom/imgs/page/blog/blog-1.jpg') }}"
+                                                                    <img style="height:auto;" src="{{ $article?->image ? $article->image : asset('ecom/imgs/page/blog/blog-1.jpg') }}"
                                                                         alt="produk {{ $article->title ?? '' }}"></a>
                                                             </div>
                                                             <div class="info-right">
@@ -257,8 +261,8 @@ dd(request()->all());
                                                                     class="price-info mt-0 d-flex flex-row gap-1 align-items-center">
                                                                     {!! file_get_contents('ecom/imgs/page/product/icon-eye.svg') !!}
                                                                     <strong class="font-sm color-gray-500 price-main">
-                                                                        {{ $article->view ? moneyFormat($article->view) : 0 }}
-                                                                        dilihat</strong>
+                                                                        {{ $article->view ? moneyFormat($article->view) . ' dilihat' : 'belum dilihat' }}
+                                                                    </strong>
                                                                 </div>
                                                             </div>
                                                         </div>

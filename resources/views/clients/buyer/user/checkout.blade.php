@@ -140,7 +140,11 @@
                                             id="master_account_id" name="master_account_id">
                                             <option value="0">Pilih salah satu</option>
                                             @foreach ($data['master_account'] as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @if (Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')))
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @else
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
@@ -215,13 +219,14 @@
                     checkout.products.forEach((element, i) => {
                         var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
                         url = url.replace(':slug', element.slug);
+                        var imageUrl = element.images && element.images[0] ? element.images[0] : "{{ asset('ecom/imgs/page/product/img-sub.png') }}";
 
                         html += `<div class="item-wishlist">
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
                                             <div class="product-image"><a
                                                     href="${url}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img
-                                                        src=" {{ asset('ecom/imgs/page/product/img-sub.png') }}"
+                                                        src="${imageUrl}"
                                                         alt="Ecom"></a></div>
                                             <div class="product-info">
                                                 <a

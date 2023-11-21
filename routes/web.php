@@ -139,6 +139,7 @@ Route::post('/tambah-ulasan', [BuyerProductController::class, 'addReview'])->nam
 
 Route::get('/pembeli/pembayaran-pi/{identifier}', [BuyerOrderController::class, 'piPayment'])->name('dashboard.pi_payment');
 
+Route::get('/subcategories/{id?}', [DashboardController::class, 'subCategory'])->name('getSubCategory');
 Route::prefix('regionals')->group(function () {
     Route::get('/cities/{id?}', [DashboardController::class, 'citiesByProvince'])->name('getCity');
     Route::get('/subdistricts/{id?}', [DashboardController::class, 'subdistrictsByCity'])->name('getDistrict');
@@ -187,10 +188,12 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/hapus-produk/{id}', [SellerProductController::class, 'deleteProduct'])->name('dashboardSeller.deleteProduct');
         Route::get('/semua-transaksi', [TransactionOrderController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
         Route::get('/detail-transaksi/{identifier}', [TransactionOrderController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
+        Route::get('/penjual-kirim-nomor-resi/{identifier}', [TransactionOrderController::class, 'sendResi'])->name('dashboardSeller.sendResi');
         Route::get('/penjual-terima/{id}', [TransactionOrderController::class, 'sellerAcceptOrder'])->name('dashboardSeller.sellerAcceptOrder');
         Route::get('/penjual-tolak/{id}', [TransactionOrderController::class, 'sellerRejectOrder'])->name('dashboardSeller.sellerRejectOrder');
-        Route::get('/penjual-kirim/{id}', [TransactionOrderController::class, 'sellerSendOrder'])->name('dashboardSeller.sellerSendOrder');
+        Route::post('/penjual-kirim', [TransactionOrderController::class, 'sellerSendOrder'])->name('dashboardSeller.sellerSendOrder');
         Route::get('/penjual-cek-status-diantar/{id}', [TransactionOrderController::class, 'checkStatusDeliveredOrder'])->name('dashboardSeller.checkStatusDeliveredOrder');
+        Route::get('/completed-order/{id}', [TransactionOrderController::class, 'completedOrder'])->name('dashboardSeller.completedOrder');
         Route::get('/cairkan-uang', [SellerController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
         Route::get('/semua-pencairan-uang', [SellerController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
         Route::get('/detail-pencairan-uang', [SellerController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');

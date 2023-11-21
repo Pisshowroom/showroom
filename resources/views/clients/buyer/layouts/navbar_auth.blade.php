@@ -235,42 +235,43 @@
         </div>
     </div>
 </div>
-<div class="sidebar-left"><a class="btn btn-open" href="#"></a>
-    <ul class="menu-texts menu-close" style="left:50% !important;">
-        <li class="has-children">
+@if ($data['sub_categories'] && count($data['sub_categories']) > 0)
+    <div class="sidebar-left"><a class="btn btn-open" href="#"></a>
+        <ul class="menu-texts menu-close" style="left:50% !important;">
             @if ($data['sub_categories'] && count($data['sub_categories']) > 0)
                 @foreach ($data['sub_categories'] as $ct)
-                    @if (Route::currentRouteName() == 'buyer.allListProduct')
-                        <a
-                            href="{{ route('buyer.allListProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
-                                class="text-link">{{ $ct->name ?? '' }}</span></a>
-                    @else
-                        <a
-                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
-                                class="text-link">{{ $ct->name ?? '' }}</span></a>
-                    @endif
-                    @if ($ct->sub_categories && count($ct->sub_categories) > 0)
-                        @foreach ($ct->sub_categories as $sc)
+                    <li class="has-children">
+                        @if (Route::currentRouteName() == 'buyer.allListProduct')
+                            <a
+                                href="{{ route('buyer.allListProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
+                                    class="text-link">{{ $ct->name ?? '' }}</span></a>
+                        @else
+                            <a
+                                href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
+                                    class="text-link">{{ $ct->name ?? '' }}</span></a>
+                        @endif
+                        @if ($ct->sub_categories && count($ct->sub_categories) > 0)
                             <ul class="sub-menu">
-                                @if (Route::currentRouteName() == 'buyer.allListProduct')
-                                    <li><a
-                                            href="{{ route('buyer.allListProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
-                                    </li>
-                                @else
-                                    <li><a
-                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
-                                    </li>
-                                @endif
+                                @foreach ($ct->sub_categories as $sc)
+                                    @if (Route::currentRouteName() == 'buyer.allListProduct')
+                                        <li><a
+                                                href="{{ route('buyer.allListProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
+                                        </li>
+                                    @else
+                                        <li><a
+                                                href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
                             </ul>
-                        @endforeach
-                    @endif
+                        @endif
+                    </li>
                 @endforeach
-            @else
-                <span class="text-link">Tidak ada kategori</span>
             @endif
-        </li>
-    </ul>
-</div>
+        </ul>
+    </div>
+@endif
+
 <div class="mobile-header-active mobile-header-wrapper-style perfect-scrollbar">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-content-area position-absolute">
@@ -405,10 +406,11 @@
                     var element = cart[i];
                     totalAmount += parseFloat(element.price);
                     var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
+                    var imageUrl = element.images && element.images[0] ? element.images[0] : "{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}";
                     url = url.replace(':slug', element.slug);
                     html += `<div class="item-cart mb-20">
                     <div class="cart-image">
-                        <img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}" alt="${element.name}">
+                        <img src="${imageUrl}" alt="${element.name}">
                     </div>
                     <div class="cart-info">
                         <a class="font-sm-bold color-brand-3 line-2 text-start"

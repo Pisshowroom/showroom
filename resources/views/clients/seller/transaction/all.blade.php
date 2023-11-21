@@ -24,7 +24,7 @@
                 <div class="row gx-3">
                     <div class="col-lg-4 col-md-6 me-auto">
                         <input class="form-control" id="searchTransaction" type="text"
-                            placeholder="Cari berdasarkan Nomor Resi..." name="search"
+                            placeholder="Cari berdasarkan Identifikasi..." name="search"
                             value="{{ request()->input('search') ?? '' }}">
                     </div>
                     <div class="col-lg-2 col-6 col-md-3">
@@ -59,7 +59,7 @@
                         <thead>
                             <tr>
                                 <th class="align-middle">No</th>
-                                <th class="align-middle" scope="col">Nomor Resi</th>
+                                <th class="align-middle" scope="col">Identifikasi</th>
                                 <th class="align-middle" scope="col">Total</th>
                                 <th class="align-middle" scope="col">Status</th>
                                 <th class="align-middle" scope="col">Tanggal Pesanan</th>
@@ -88,17 +88,17 @@
                                         <td class="align-middle">
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
-                                            @if ($order->status == 'Paid' && $order->payment_status == 'PaymentPaid')
+                                            @if ($order->status == 'ProcessedBySeller' && $order->payment_status == 'PaymentPaid')
                                                 <a class="btn btn-xs-danger"
                                                     href="{{ route('dashboardSeller.sellerRejectOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Tolak</a>
                                                 <a class="btn btn-xs-success"
-                                                    href="{{ route('dashboardSeller.sellerAcceptOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                    Terima</a>
-                                            @elseif ($order->status == 'ProcessedBySeller' && $order->payment_status == 'PaymentPaid')
-                                                <a class="btn btn-xs-success"
-                                                    href="{{ route('dashboardSeller.sellerSendOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    href="{{ route('dashboardSeller.sendResi', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Siap diantar</a>
+                                            @elseif ($order->status == 'Shipped' || $order->status == 'Delivered')
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboardSeller.completedOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Selesai</a>
                                             @endif
                                         </td>
                                     </tr>

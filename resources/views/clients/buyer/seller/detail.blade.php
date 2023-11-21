@@ -44,14 +44,20 @@
                                             src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
                                             alt="rating penjual {{ Auth::guard('web')->user()->seller_name ?? '' }}"><span
                                             class="font-xs color-gray-500">
-                                            ({{ $seller->rating_seller ? doubleval($seller->rating_seller) : 0 }})</span>
+                                            {{ $seller->rating_seller ? doubleval($seller->rating_seller) : 0 }}</span>
                                     </div>
                                 </div>
                                 <div class="vendor-contact">
                                     <div class="row">
                                         <div class="col-xl-7 col-lg-12">
-                                            <div class="d-inline-block font-md color-gray-500 location mb-10">5171 W
-                                                Campbell Ave undefined Kent, Utah 53127 United States</div>
+                                            @if ($seller && $seller?->address_seller && $seller?->address_seller)
+                                                <div class="d-inline-block font-md color-gray-500 location mb-10">
+                                                    {{ $seller?->address_seller?->district ? $seller?->address_seller?->district . ', ' : '' }}
+                                                    {{ $seller?->address_seller?->city }}</div>
+                                            @else
+                                                <div class="d-inline-block font-md color-gray-500 location mb-10">Jakarta
+                                                </div>
+                                            @endif
                                         </div>
                                         @if (Auth::guard('web')->user() && Auth::guard('web')->user()->phone_number_seller)
                                             <div class="col-xl-5 col-lg-12">
@@ -131,7 +137,7 @@
                         <div class="row mt-20">
                             @if (count($products) > 0)
                                 @foreach ($products as $prd)
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="col-2xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                         @include('clients.buyer.components.list_product1')
                                     </div>
                                 @endforeach
@@ -281,8 +287,9 @@
                     url += '?category_id=' + '&orderBy=' + selectedOrderBy;
                 }
 
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
             }
 
             $('.dropdown-menu li button').on('click', function(e) {
@@ -326,8 +333,9 @@
                     url += '?category_id=&orderBy=' + orderBy + '&rating=' +
                         rating + '&price=' + price;
                 }
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
             }
         });
     </script>

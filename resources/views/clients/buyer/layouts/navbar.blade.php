@@ -140,35 +140,34 @@
         </div>
         <div class="header-bottom">
             <div class="container">
-                <div class="dropdown d-lg-inline-block d-none">
-                    <button class="btn dropdown-toggle btn-category" id="dropdownCategory" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="true" data-bs-display="static"><span
-                            class="dropdown-right font-sm-bold color-white">Berdasarkan Kategori</span></button>
-                    <div class="sidebar-left dropdown-menu dropdown-menu-light" aria-labelledby="dropdownCategory"
-                        data-bs-popper="static">
-                        <ul class="menu-texts menu-close">
-                            <li class="has-children">
-                                @if ($data['sub_categories'] && count($data['sub_categories']) > 0)
-                                    @foreach ($data['sub_categories'] as $ct)
-                                        <a href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
+                @if ($data['sub_categories'] && count($data['sub_categories']) > 0)
+                    <div class="dropdown d-lg-inline-block d-none">
+                        <button class="btn dropdown-toggle btn-category" id="dropdownCategory" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="true" data-bs-display="static"><span
+                                class="dropdown-right font-sm-bold color-white">Berdasarkan Kategori</span></button>
+                        <div class="sidebar-left dropdown-menu dropdown-menu-light" aria-labelledby="dropdownCategory"
+                            data-bs-popper="static">
+                            <ul class="menu-texts menu-close">
+                                @foreach ($data['sub_categories'] as $ct)
+                                    <li class="has-children">
+                                        <a
+                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
                                                 class="text-link">{{ $ct->name ?? '' }}</span></a>
                                         @if ($ct->sub_categories && count($ct->sub_categories) > 0)
-                                            @foreach ($ct->sub_categories as $sc)
-                                                <ul class="sub-menu">
+                                            <ul class="sub-menu {{ $ct->id }}">
+                                                @foreach ($ct->sub_categories as $sc)
                                                     <li><a
                                                             href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
                                                     </li>
-                                                </ul>
-                                            @endforeach
+                                                @endforeach
+                                            </ul>
                                         @endif
-                                    @endforeach
-                                @else
-                                    <span class="text-link">Tidak ada kategori</span>
-                                @endif
-                            </li>
-                        </ul>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                @endif
                 <div class="header-nav d-inline-block">
                     <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
@@ -352,10 +351,11 @@
                     var element = cart[i];
                     totalAmount += parseFloat(element.price);
                     var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
+                    var imageUrl = element.images && element.images[0] ? element.images[0] : "{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}";
                     url = url.replace(':slug', element.slug);
                     html += `<div class="item-cart mb-20">
                     <div class="cart-image">
-                        <img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}" alt="${element.name}">
+                        <img src="${imageUrl}" alt="${element.name}">
                     </div>
                     <div class="cart-info">
                         <a class="font-sm-bold color-brand-3 line-2 text-start"

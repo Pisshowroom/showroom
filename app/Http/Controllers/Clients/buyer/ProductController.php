@@ -34,7 +34,11 @@ class ProductController extends Controller
 
     public function allGridProduct(Request $request)
     {
-        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])->whereNull('parent_id')
+        $product = Product::with([
+            'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+            'category:id,name'
+        ])->whereNull('parent_id')
             ->when($request->filled('search'), function ($q) use ($request) {
                 return $q->where('name', 'like', "%$request->search%");
             })->when($request->filled('category_id'), function ($q) use ($request) {
@@ -66,7 +70,11 @@ class ProductController extends Controller
     }
     public function allListProduct(Request $request)
     {
-        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])->whereNull('parent_id')
+        $product = Product::with([
+            'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+            'category:id,name'
+        ])->whereNull('parent_id')
             ->when($request->filled('search'), function ($q) use ($request) {
                 return $q->where('name', 'like', "%$request->search%");
             })->when($request->filled('category_id'), function ($q) use ($request) {
@@ -98,7 +106,11 @@ class ProductController extends Controller
     }
     public function detailProduct(Request $request, $slug)
     {
-        $product = Product::with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])
+        $product = Product::with([
+            'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+            'category:id,name'
+        ])
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
             ->withSum(['order_items as total_sell' => function ($query) {
@@ -120,7 +132,11 @@ class ProductController extends Controller
                 $review->date = null;
         }
         $data['related_products'] = Product::whereNot('id', $product->id)->where('category_id', $product->category_id)
-            ->with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])
+            ->with([
+                'seller:id,name,seller_slug,seller_name',
+                'seller.address:id,user_id,for_seller,main,city',
+                'category:id,name'
+            ])
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
@@ -136,7 +152,11 @@ class ProductController extends Controller
             }
         }
         $data['same_products'] = Product::whereNot('id', $product->id)->where('seller_id', $product->seller_id)
-            ->with(['seller:id,name,seller_slug,seller_name', 'category:id,name'])
+            ->with([
+                'seller:id,name,seller_slug,seller_name',
+                'seller.address:id,user_id,for_seller,main,city',
+                'category:id,name'
+            ])
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {

@@ -535,7 +535,17 @@ class OrderController extends Controller
             $order->qr_string = $dataPaymentCreated['qr_string'];
         } else if ($channelType == 'OVER_THE_COUNTER') {
             $order->outlet_payment_code = $dataPaymentCreated['payment_code'];
+        } else if ($channelType == 'PI') {
+            $order->pi_delivery_cost = convertRupiahToPi($order->delivery_cost);
+            $order->pi_service_fee = convertRupiahToPi($order->service_fee);
+            if ($countedAmountPromo > 0) {
+                $order->pi_total = convertRupiahToPi($order->total);
+                $order->pi_total_final = convertRupiahToPi($order->total_final);
+            } else {
+                $order->pi_total = convertRupiahToPi($order->total);
+            }
         }
+
 
         $order->save();
         // * Remember To Save The MasterAccountId

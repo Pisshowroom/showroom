@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasOne(Address::class)->where('main', true);
     }
 
+    public function address_seller()
+    {
+        return $this->hasOne(Address::class)->where('for_seller', true);
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class, 'seller_id', 'id');

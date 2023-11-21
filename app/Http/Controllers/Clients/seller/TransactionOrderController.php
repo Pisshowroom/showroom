@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Clients\seller;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TransactionOrderController extends Controller
 {
@@ -44,6 +46,15 @@ class TransactionOrderController extends Controller
             $value->date = parseDates($value->created_at);
         }
         return view('clients.seller.transaction.all', ['orders' => $order]);
+    }
+    public function sendResi($identifier)
+    {
+        if (!$this->isSeller()) {
+            $user = Auth::guard('web')->user();
+            return redirect('/pembeli')->with('auth', base64_encode($user->uid));
+        }
+        $order = Order::where('payment_identifier', $identifier)->firstOrFail();
+        return view('clients.seller.transaction.send_resi', ['order' => $order]);
     }
     public function detailTransaction($identifier)
     {
@@ -92,23 +103,23 @@ class TransactionOrderController extends Controller
         return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil ditolak')->with('auth', base64_encode($user->uid));
     }
 
-    public function sellerSendOrder($id, Request $request)
+    public function sellerSendOrder(Request $request)
     {
         $user = Auth::guard('web')->user();
-
-        $order = Order::findOrFail($id);
         $request->validate([
             'delivery_service' => 'required|in:jne,jnt,sicepat,anteraja',
             'delivery_receipt_number' => 'required|string',
         ]);
 
+        $order = Order::findOrFail($request->id);
         $orderController = new OrderController();
         $requestNew = new Request();
         $requestNew->replace([
             'delivery_service' => $request->delivery_service,
             'delivery_receipt_number' => $request->delivery_receipt_number,
+            'just_json' => true,
         ]);
-        $orderController->waybillCheck($requestNew);
+        // $orderController->waybillCheck($requestNew);
 
         $order->delivery_receipt_number = $request->delivery_receipt_number;
         $order->status = Order::SHIPPED;
@@ -130,5 +141,53 @@ class TransactionOrderController extends Controller
         }
 
         return redirect("/toko/semua-transaksi")->with('success', 'Pesanan telah sampai ketujuan')->with('auth', base64_encode($user->uid));
+    }
+
+    public function completedOrder($id)
+    {
+        $user = Auth::guard('web')->user();
+        $order = Order::findOrFail($id);
+        if (in_array($order->status, [Order::SHIPPED, Order::DELIVERED])) {
+            $order->status = Order::COMPLETED;
+        } else {
+            return redirect("/toko/semua-transaksi")->with('error', 'Status Pesanan Belum memenuhi syarat untuk selesai')->with('auth', base64_encode($user->uid));
+        }
+
+        $seller = $order->seller;
+        $totalPrice = $order->total_final ? $order->total_final : $order->total;
+        $feeCommerce = 0;
+        $feeGlobalAmount = lypsisGetSetting("", [], true, ['seller_fee_amount', 'seller_fee_percent'])->toArray();
+        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+        $dateFromDelivery = now();
+
+
+        if ($seller->seller_fee_amount > 0) {
+            $feeCommerce = $seller->seller_fee_amount;
+        } else if ($seller->seller_fee_percentage > 0) {
+            $feeCommerce = $totalPrice * ($seller->seller_fee_percentage / 100);
+        } else if ($feeGlobalAmount[0] > 0) {
+            $feeCommerce = $feeGlobalAmount[0];
+        } else if ($feeGlobalAmount[1] > 0) {
+            $feeCommerce = $totalPrice * ($feeGlobalAmount[1] / 100);
+        }
+
+        DB::beginTransaction();
+        $totalIncome = $totalPrice - $feeCommerce;
+
+        $order->market_fee_seller = $feeCommerce;
+        $order->arrived_at = $dateFromDelivery;
+        $order->save();
+
+        $commerceBalance = Setting::where('name', 'commerce_balance')->firstOrFail();
+        $theCommerceBalance = intval($commerceBalance->value);
+        $commerceBalance->value = $theCommerceBalance + $feeCommerce;
+        $commerceBalance->save();
+
+        $seller->balance += $totalIncome;
+        $seller->save();
+
+        DB::commit();
+        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil diselesaikan')->with('auth', base64_encode($user->uid));
+
     }
 }

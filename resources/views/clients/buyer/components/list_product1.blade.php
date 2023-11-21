@@ -16,7 +16,7 @@
                 @guest
                     <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
                     @endguest
-                    <img src="{{ asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
+                    <img src="{{ $prd?->images && count($prd?->images) > 0 ? $prd->images[0] : asset('ecom/imgs/page/homepage1/imgsp3.png') }}"
                         alt="produk {{ $prd->name ?? '' }}"></a>
         </div>
         <div class="info-right">
@@ -52,7 +52,7 @@
                     <span class="color-gray-500 font-sm price-line">
                         {{ $prd->price > 0 ? numbFormat($prd->price) : 'Rp 0' }}
                     </span>
-                    @else
+                @else
                     <br>
                     <span class="color-gray-500 font-sm price-line">
                     </span>
@@ -60,10 +60,15 @@
                 @endif
 
             </div>
-            <div class="price-info mt-0 d-flex flex-row gap-1 align-items-center">
+            <div class="price-info price-info2 mt-0 d-flex flex-row gap-1 align-items-center">
                 {!! file_get_contents('ecom/imgs/page/product/icon-location.svg') !!}
-                <strong class="font-md color-gray-500 price-main">
-                    Jakarta</strong>
+                @if ($prd?->seller && $prd?->seller->address && $prd?->seller->address?->city)
+                    <strong class="font-sm color-gray-500 price-main locations">
+                        {{ $prd?->seller->address?->city }}</strong>
+                @else
+                    <strong class="font-sm color-gray-500 price-main locations">
+                        Jakarta</strong>
+                @endif
             </div>
             <div class="mt-10 box-btn-cart">
                 @if (Route::currentRouteName() && Route::currentRouteName() == 'buyer.home')
@@ -85,11 +90,15 @@
         $(document).ready(function() {
             $('.info-right').each(function() {
                 var text = $(this).find('.color-brand-3.font-sm-bold p').text();
+                var text2 = $(this).find('.price-info2 .locations').text();
 
                 // Menghapus spasi ekstra dan memeriksa jumlah baris
                 if (text.trim().split(/\r\n|\r|\n/).length < 2) {
                     $(this).find('.color-brand-3.font-sm-bold p').css('height', '40px');
                 }
+                // if (text2.trim().split(/\r\n|\r|\n/).length < 2) {
+                //     $(this).find('.price-info2').css('height', '40px');
+                // }
             });
 
         });
