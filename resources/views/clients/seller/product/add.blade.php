@@ -133,10 +133,9 @@
                                 <label class="form-label">Diskon</label>
                                 <div class="input-group">
                                     <input class="form-control" placeholder="Masukkan diskon dalam bentuk %"
-                                        type="numeric" min="0.1" max="100"
+                                        type="numeric" min="0.1" max="100" name="discount"
                                         value="{{ $product != null ? $product->discount : '' }}"
-                                        onkeypress="return event.charCode>=48&&event.charCode<=57" id="myPercent"
-                                        oninput="convertToDecimal(this)" />
+                                        onkeypress="return event.charCode>=48&&event.charCode<=57" id="myPercent" />
                                     <div class="input-group-append">
                                         <span class="input-group-text">%</span>
                                     </div>
