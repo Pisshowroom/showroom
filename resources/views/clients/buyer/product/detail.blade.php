@@ -220,11 +220,16 @@
 
                             </div>
                             <div class="button-buy mt-20 gap-2 gap-sm-5 d-flex flex-row">
-                                <button class="btn btn-cart btn-cart-detail" id="btn-cart"
-                                    {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $product->seller_id ? 'disabled' : '' }}>Keranjang</button>
-                                <button class="btn btn-buy btn-buy-detail" id="buy-now"
-                                    {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $product->seller_id ? 'disabled' : '' }}>Beli
-                                    Sekarang</button>
+                                @if (Auth::guard('web')->user() && Auth::guard('web')->user()->id)
+                                    <button class="btn btn-cart btn-cart-detail" id="btn-cart"
+                                        {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $product->seller_id ? 'disabled' : '' }}>Keranjang</button>
+                                    <button class="btn btn-buy btn-buy-detail" id="buy-now"
+                                        {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $product->seller_id ? 'disabled' : '' }}>Beli
+                                        Sekarang</button>
+                                @else
+                                    <a href="{{ route('buyer.login') }}" class="btn btn-cart">Keranjang</a>
+                                    <a href="{{ route('buyer.login') }}" class="btn btn-buy">Beli Sekarang</a>
+                                @endif
                             </div>
                         </div>
                         {{-- <div class="info-product mt-40">
@@ -263,10 +268,10 @@
                                 aria-selected="true">Informasi tambahan</a></li>
                         <li><a href="#tab-reviews" data-bs-toggle="tab" role="tab" aria-controls="tab-reviews"
                                 aria-selected="true">Ulasan ({{ $data['reviews']->total() ?? 0 }})</a></li>
-                        @auth
+                        @if (Auth::guard('web')->user() && Auth::guard('web')->user()->id && $product->reviews && count($product->reviews) > 0)
                             <li><a href="#tab-create-reviews" data-bs-toggle="tab" role="tab"
                                     aria-controls="tab-create-reviews" aria-selected="true">Tulis Ulasan</a></li>
-                        @endauth
+                        @endif
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="tab-description" role="tabpanel"
@@ -454,7 +459,7 @@
                                 </div>
                             </div>
                         </div>
-                        @auth
+                        @if (Auth::guard('web')->user() && Auth::guard('web')->user()->id && $product->reviews && count($product->reviews) > 0)
                             <div class="tab-pane fade" id="tab-create-reviews" role="tabpanel"
                                 aria-labelledby="tab-create-reviews">
                                 <div class="comments-area">
@@ -465,9 +470,9 @@
                                                 method="POST">
                                                 @csrf
                                                 <div class="row">
-                                                    <input type="hidden" name="order_id" value="1">
                                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                    <input type="hidden" name="product_slug" value="{{ $product->slug }}">
+                                                    <input type="hidden" name="product_slug"
+                                                        value="{{ $product->slug }}">
                                                     <p class="font-lg mb-2">Rating barang ini menurut kamu</p>
                                                     <div class="stars">
                                                         <input class="star star-5" id="star-5" type="radio"
@@ -500,7 +505,8 @@
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
-                                                            <button class="btn btn-buy w-auto" type="submit">Kirim</button>
+                                                            <button class="btn btn-buy w-auto"
+                                                                type="submit">Kirim</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -538,7 +544,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @endauth
+                        @endif
                         <div class="border-bottom pt-30 mb-50"></div>
                         <h4 class="color-brand-3">Produk terkait</h4>
                         @if (count($data['related_products']) > 0)
@@ -557,9 +563,9 @@
                         @if (count($data['same_products']) > 0)
                             <div class="list-products-5 mt-20">
 
-                                    @foreach ($data['same_products'] as $prd)
-                                        @include('clients.buyer.components.list_product1')
-                                    @endforeach
+                                @foreach ($data['same_products'] as $prd)
+                                    @include('clients.buyer.components.list_product1')
+                                @endforeach
                             </div>
                         @else
                             <div class="col-lg-12 text-center mt-40">

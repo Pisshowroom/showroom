@@ -44,8 +44,8 @@
                                 <p class="line-1 text-start font-md fw-700">
                                     {{ $order->master_account?->provider_name ?? '' }}</p>
                             </div>
-                            <div class="w-33 text-end"><img width="30px" src="{{ $order->master_account?->image ?? '' }}"
-                                    alt="{{ $order->master_account?->provider_name ?? '' }}" srcset=""></div>
+                            {{-- <div class="w-33 text-end"><img width="30px" src="{{ $order->master_account?->image ?? '' }}"
+                                    alt="{{ $order->master_account?->provider_name ?? '' }}" srcset=""></div> --}}
                         </div>
                         @if (isset($order->master_account) && $order->master_account?->type == 'Retail-Outlet')
                             <div class="d-flex flex-row mt-2 mb-3 align-items-center justify-content-between">
@@ -77,9 +77,9 @@
                                 {!! QrCode::size(300)->generate($order->qr_string) !!}
                             </div>
                         @endif
-                        <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis at.
+                        {{-- <p class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, veritatis at.
                             Dolore facilis repellat numquam cum, id, iste sint libero odio atque a quam ducimus cumque quis
-                            enim reiciendis repellendus?</p>
+                            enim reiciendis repellendus?</p> --}}
                     </div>
                 </div>
             </div>

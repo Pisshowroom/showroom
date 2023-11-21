@@ -261,7 +261,7 @@ dd(request()->all());
                                                                     class="price-info mt-0 d-flex flex-row gap-1 align-items-center">
                                                                     {!! file_get_contents('ecom/imgs/page/product/icon-eye.svg') !!}
                                                                     <strong class="font-sm color-gray-500 price-main">
-                                                                        {{ $article->view ? moneyFormat($article->view) . ' dilihat' : 'belum dilihat' }}
+                                                                        {{ $article->view ? moneyFormat($article->view) . 'x dilihat' : 'belum dilihat' }}
                                                                     </strong>
                                                                 </div>
                                                             </div>

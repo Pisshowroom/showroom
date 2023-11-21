@@ -109,7 +109,12 @@ class ProductController extends Controller
         $product = Product::with([
             'seller:id,name,seller_slug,seller_name',
             'seller.address:id,user_id,for_seller,main,city',
-            'category:id,name'
+            'category:id,name',
+            'reviews' => function ($q) {
+                $q->select('id', 'product_id', 'user_id');
+                if (Auth::guard('web')->user() && Auth::guard('web')->user()->id)
+                    $q->where('user_id', Auth::guard('web')->user()->id);
+            }
         ])
             ->withAvg('reviews', 'rating')
             ->withCount('reviews')
@@ -117,7 +122,10 @@ class ProductController extends Controller
                 $query->whereHas('order', function ($query) {
                     $query->where('status', 'done');
                 });
-            }], 'quantity')->where('slug', $slug)->firstOrFail();
+            }], 'quantity')
+            ->where('slug', $slug)
+            ->whereNull('deleted_at')  // Assuming products table has a 'deleted_at' column
+            ->firstOrFail();
         if ($product->discount && $product->discount > 0) {
             $product->price_discount = $product->price - ($product->price * ($product->discount / 100));
         } else {
@@ -136,7 +144,7 @@ class ProductController extends Controller
                 'seller:id,name,seller_slug,seller_name',
                 'seller.address:id,user_id,for_seller,main,city',
                 'category:id,name'
-            ])
+            ])->whereNull('parent_id')
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
@@ -156,7 +164,7 @@ class ProductController extends Controller
                 'seller:id,name,seller_slug,seller_name',
                 'seller.address:id,user_id,for_seller,main,city',
                 'category:id,name'
-            ])
+            ])->whereNull('parent_id')
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
