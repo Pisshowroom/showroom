@@ -20,7 +20,8 @@ class UserController extends Controller
     public function profile()
     {
         $user = Auth::guard('api-client')->user();
-        $user->load('seller');
+        // * Seller Not Using Other Model
+        // $user->load('address_seller');
 
         // return ResponseAPI($user, 'Profile berhasil diambil');
         return new UserResource($user);
