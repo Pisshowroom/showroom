@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AddressSellerController;
@@ -51,6 +52,14 @@ Route::group(['prefix' => 'admin'], function () {
     // Route::get('/order', [AdminOrderController::class, 'index']);
     Route::group(['prefix' => 'order'], function () {
         Route::get('/index', [AdminOrderController::class, 'index']);
+    });
+
+    Route::group(['prefix' => 'sliders', 'middleware' => 'auth:api-client'], function () {
+        Route::get('/', [SliderController::class, 'index']);
+        Route::post('/', [SliderController::class, 'store']);
+        Route::get('/{slider}', [SliderController::class, 'show']);
+        Route::post('update/{slider}', [SliderController::class, 'update']);
+        Route::delete('/{slider}', [SliderController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'categories', 'middleware' => 'auth:api-client'], function () {
@@ -144,7 +153,6 @@ Route::group(['prefix' => 'order'], function () {
         Route::post('/check-status-delivered/{order}', [OrderDataController::class, 'checkStatusDeliveredOrder']);
         Route::post('/completed-order/{order}', [OrderDataController::class, 'completedOrder']);
         Route::post('/buyer-cancel-order/{order}', [OrderDataController::class, 'buyerCancelOrder']);
-
     });
 });
 

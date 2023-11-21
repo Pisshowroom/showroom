@@ -172,7 +172,7 @@ class OrderController extends Controller
         $addressBuyer = Address::findOrFail($request->address_id);
         $seller = \App\Models\User::find($request->seller_id);
         // dd($seller);
-        $sellerAddress = Address::where('user_id', $seller->id)->where('main', true)->firstOrFail();
+        $sellerAddress = Address::where('user_id', $seller->id)->where('for_seller', true)->firstOrFail();
 
         $products = [];
         $total = 0;
@@ -263,6 +263,7 @@ class OrderController extends Controller
             // $payment_id = $request->payment_id;
         }
 
+        DB::beginTransaction();
         $order = Order::where('payment_identifier', $external_id)->first();
         if ($order == null) {
             return ResponseAPI("Maaf pesanan dengan id " . $external_id . " tidak ditemukan.", 200);
@@ -273,6 +274,30 @@ class OrderController extends Controller
         $order->status = Order::PROCESSED_BY_SELLER;
         $order->payment_status = Order::PAYMENT_PAID;
         $order->save();
+
+        $order->load('order_items');
+        if (count($order->order_items) > 0) {
+            foreach ($order->order_items as $order_item) {
+                $product = Product::find($order_item->product_id);
+                if (empty($product)) {
+                    try {
+                        $product = Product::withTrashed()->where('id', $order_item->product_id)->firstOrFail();
+                    } catch (\Exception $e) {
+                        $user = User::find($order->user_id);
+                        $total = $order->total_item ? $order->total_item : $order->total;
+                        $user->balance += $total;
+                        DB::rollBack();
+                        return ResponseAPI("Maaf produk " . $product->name . " sudah tidak dijual lagi.", 404);
+                    }
+                }
+
+
+                $product->stock -= $order_item->qty;
+                $product->save();
+            }
+        }
+
+        DB::commit();
         // Log::info('callbackConfirmPayment called with parameters:', $request->all());
         return ResponseAPI("Pembayaran berhasil dikonfirmasi.", 200);
     }
@@ -427,10 +452,10 @@ class OrderController extends Controller
                 else
                     return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
-            if($sellerId == null) {
+            if ($sellerId == null) {
                 $sellerId = $product->seller_id;
             } else {
-                if($sellerId != $product->seller_id) {
+                if ($sellerId != $product->seller_id) {
                     return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
                 }
             }
@@ -562,10 +587,10 @@ class OrderController extends Controller
                 else
                     return ResponseAPI("Maaf kami sudah tidak menjual produk " . $product->name . " lagi.", 404);
             }
-            if($sellerId == null) {
+            if ($sellerId == null) {
                 $sellerId = $product->seller_id;
             } else {
-                if($sellerId != $product->seller_id) {
+                if ($sellerId != $product->seller_id) {
                     return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
                 }
             }
@@ -629,7 +654,7 @@ class OrderController extends Controller
         }
 
         $additionFee = $deliveryCost + $serviceFee;
-        
+
         $feeGlobalAmount = lypsisGetSetting("", [], true, ['buyer_fee_amount', 'buyer_fee_percent'])->toArray();
         $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
         if ($feeGlobalAmount[0] > 0) {
