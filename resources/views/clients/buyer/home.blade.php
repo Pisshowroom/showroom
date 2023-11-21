@@ -34,14 +34,14 @@ dd(request()->all());
                                         <div class="swiper-slide">
                                             <a
                                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-1.jpg') }}" style="height: 100%;object-fit:fill !important;"
+                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-1.jpg') }}" style="height: 100%;object-fit:contain !important;"
                                                     alt="slider pertama beranda">
                                             </a>
                                         </div>
                                         <div class="swiper-slide">
                                             <a
                                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-2.jpg') }}" style="height: 100%;object-fit:fill !important;"
+                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-2.jpg') }}" style="height: 100%;object-fit:contain !important;"
                                                     alt="slider kedua beranda">
                                             </a>
 
@@ -49,7 +49,7 @@ dd(request()->all());
                                         <div class="swiper-slide">
                                             <a
                                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-3.jpg') }}" style="height: 100%;object-fit:fill !important;"
+                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-3.jpg') }}" style="height: 100%;object-fit:contain !important;"
                                                     alt="slider ketiga beranda">
                                             </a>
                                         </div>

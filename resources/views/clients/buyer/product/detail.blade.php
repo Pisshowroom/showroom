@@ -142,7 +142,7 @@
                             </div>
                         </div> --}}
                         <div class="box-product-color mt-20">
-                            <p class="font-sm color-gray-900">Color:<span class="color-brand-2 nameColor">Default</span>
+                            <p class="font-sm color-gray-900">Warna:<span class="color-brand-2 nameColor">Default</span>
                             </p>
                             <ul class="list-colors">
                                 @if ($product && $product->images && count($product->images) > 0)
