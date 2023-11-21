@@ -371,7 +371,7 @@
                                                         <div class="user w-100 d-flex">
                                                             <div class="thumb text-center"><img width="80px"
                                                                     height="80px"
-                                                                    src="{{ $review->user ? $review->user->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                                                    src="{{ $review->user&& $review->user->image ? $review->user->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                                                     alt="ulasan dari {{ $review->user->name }}">
                                                                 <p class="font-heading text-brand">
                                                                     {{ $review->user ? $review->user->name ?? '' : '' }}
