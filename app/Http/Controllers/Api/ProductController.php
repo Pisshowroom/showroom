@@ -202,7 +202,7 @@ class ProductController extends Controller
 
         $product->name = $request->name;
         $product->category_id = $request->category_id;
-        
+
         if ($request->filled('sub_category_id')) {
             $product->sub_category_id = $request->sub_category_id;
         }
@@ -223,6 +223,38 @@ class ProductController extends Controller
             return ResponseAPI("Product berhasil diperbarui.");
         }
     }
+
+    public function storeOrUpdateProductVariant(Request $request)
+    {
+        $productParentId = $request->input('parent_id');
+        $productParent = Product::findOrFail($productParentId);
+
+        $variants = json_decode($request->variants, true);
+
+        foreach ($variants as $variant) {
+            if (empty($variant['id'])) {
+                $theVariant = $productParent->replicate();
+
+                $theVariant->update([
+                    'name' => $variant['name'],
+                    'price' => $variant['price'],
+                    'stock' => $variant['stock'],
+                    'discount' => $variant['discount'],
+                ]);
+            } else {
+                $theVariant = Product::findOrFail($variant['id']);
+                $theVariant->update([
+                    'name' => $variant['name'],
+                    'price' => $variant['price'],
+                    'stock' => $variant['stock'],
+                    'discount' => $variant['discount'],
+                ]);
+            }
+        }
+
+        return ResponseAPI("Manajemen variasi produk telah berhasil.", 200);
+    }
+
     public function destroy(Product $product)
     {
         $product->delete();
