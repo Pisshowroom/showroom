@@ -63,10 +63,6 @@ class AuthController extends Controller
                 $user->email = $request->username . '@gmail.com';
                 // $user->image = $request->photoURL;
                 $user->save();
-                $address = new Address();
-                $address->user_id = $user->id;
-                $address->main = 1;
-                $address->save();
                 Auth::guard('web')->loginUsingId($user->id, true);
                 return response()->json([
                     "status" => "success",
@@ -199,11 +195,6 @@ class AuthController extends Controller
                     }
                     // $user->image = $request->photoURL;
                     $user->save();
-                    $address = new Address();
-                    $address->user_id = $user->id;
-                    $address->phone_number = $request->phoneNumber;
-                    $address->main = 1;
-                    $address->save();
                     Auth::guard('web')->loginUsingId($user->id, true);
                     return response()->json([
                         "status" => "success",
@@ -239,10 +230,6 @@ class AuthController extends Controller
             $user->password = bcrypt($request->password);
             $user->save();
 
-            $address = new Address();
-            $address->user_id = $user->id;
-            $address->main = 1;
-            $address->save();
             Auth::guard('web')->loginUsingId($user->id, true);
             return response()->json([
                 "status" => "success",

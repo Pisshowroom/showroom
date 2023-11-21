@@ -2525,10 +2525,13 @@ a.text-brand-3:hover {
   padding: 10px;
   margin-bottom: 0px;
   flex: 0 0 auto;
-  width: 20%;
+  width: 25%;
 }
 .list-products-5.list-products-3 .card-grid-style-3 {
-  width: 21.666%;
+    width: 21.666%;
+}
+.list-products-5 .card-grid-style-3 .card-grid-inner .image-box img {
+    height:200px;
 }
 .list-products-5.list-products-3 .hurry-up {
   width: 35%;

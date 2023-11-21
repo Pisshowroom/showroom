@@ -155,6 +155,9 @@ class BuyerController extends Controller
 
     public function checkout()
     {
+        if (!Auth::guard('web')->user()) {
+            return redirect()->route('buyer.home');
+        }
         $data = $this->getCommonData();
         $masterAccounts = MasterAccount::where('type', 'PI')->union(MasterAccount::whereIn('type', ['PI', 'Virtual-Account', 'E-Wallet', 'Retail-Outlet'])
             ->orderBy('type'))
@@ -177,12 +180,18 @@ class BuyerController extends Controller
     }
     public function cart()
     {
+        if (!Auth::guard('web')->user()) {
+            return redirect()->route('buyer.home');
+        }
         $data = $this->getCommonData();
         return view('clients.buyer.user.cart', ['data' => $data]);
     }
 
     public function wishlist()
     {
+        if (!Auth::guard('web')->user()) {
+            return redirect()->route('buyer.home');
+        }
         $data = $this->getCommonData();
         return view('clients.buyer.user.wishlist', ['data' => $data]);
     }

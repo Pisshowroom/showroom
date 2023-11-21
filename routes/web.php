@@ -208,6 +208,9 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::group(['prefix' => 'toko'], function () {
         Route::get('/', [SellerController::class, 'dashboard'])->name('dashboardSeller.dashboard');
         Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
+        Route::get('/ubah-alamat/{id}', [SellerController::class, 'addressSeller'])->name('dashboardSeller.addressSeller');
+        Route::post('/tambah-alamat', [SellerController::class, 'updateAddressSeller'])->name('dashboardSeller.updateAddressSeller');
+        Route::get('/hapus-alamat/{id}', [SellerController::class, 'deleteAddressSeller'])->name('dashboardSeller.deleteAddressSeller');
         Route::get('/tambah-produk', [SellerProductController::class, 'addProduct'])->name('dashboardSeller.addProduct');
         Route::post('/tambah-ubah-produk', [SellerProductController::class, 'addUpdateProduct'])->name('dashboardSeller.addUpdateProduct');
         Route::get('/semua-produk', [SellerProductController::class, 'allProduct'])->name('dashboardSeller.allProduct');

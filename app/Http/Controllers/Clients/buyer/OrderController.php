@@ -161,10 +161,14 @@ class OrderController extends Controller
         ]);
 
         $addressBuyer = Address::findOrFail($request->address_id);
+        if (!$addressBuyer)  return ResponseAPI("Kamu belum menginput alamat.", 404);
+        if (!$request->seller_id)  return ResponseAPI("Penjual belum menginput alamat.", 404);
         $seller = \App\Models\User::find($request->seller_id);        // $addressBuyer = Address::findOrFail($request->address_id);
+        if (!$seller)  return ResponseAPI("Penjual belum menginput alamat.", 404);
         // $seller = \App\Models\User::find($request->seller_id);
         // dd($seller);
-        $sellerAddress = Address::where('user_id', $seller->id)->where('main', true)->firstOrFail();
+        $sellerAddress = Address::where('user_id', $seller->id)->where('for_seller', true)->firstOrFail();
+        if (!$sellerAddress)  return ResponseAPI("Penjual belum menginput alamat.", 404);
 
         $products = [];
         $total = 0;
