@@ -73,11 +73,15 @@
             <div class="mt-10 box-btn-cart">
                 @if (Route::currentRouteName() && Route::currentRouteName() == 'buyer.home')
                 @else
-                    <button class="btn btn-cart checkout-{{ $prd->id }}"
-                        {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $prd->seller_id ? 'disabled' : '' }}
-                        onclick="checkout('{{ $prd->id }}','{{ $prd->stock }}',{{ $prd->seller_id }})">Beli
-                        Sekarang
-                    </button>
+                    @if (Auth::guard('web')->user() && Auth::guard('web')->user()->id)
+                        <button class="btn btn-cart checkout-{{ $prd->id }}"
+                            {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $prd->seller_id ? 'disabled' : '' }}
+                            onclick="checkout('{{ $prd->id }}','{{ $prd->stock }}',{{ $prd->seller_id }})">Beli
+                            Sekarang
+                        </button>
+                    @else
+                        <a href="{{ route('buyer.login') }}" class="btn btn-cart">Beli Sekarang</a>
+                    @endif
                 @endif
 
             </div>
