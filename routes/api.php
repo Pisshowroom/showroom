@@ -57,17 +57,17 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['prefix' => 'sliders', 'middleware' => 'auth:api-client'], function () {
         Route::get('/', [SliderController::class, 'index']);
         Route::post('/', [SliderController::class, 'store']);
-        Route::get('/{category}', [SliderController::class, 'show']);
-        Route::post('update/{category}', [SliderController::class, 'update']);
-        Route::delete('/{category}', [SliderController::class, 'destroy']);
+        Route::get('/{slider}', [SliderController::class, 'show']);
+        Route::post('update/{slider}', [SliderController::class, 'update']);
+        Route::delete('/{slider}', [SliderController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'categories', 'middleware' => 'auth:api-client'], function () {
         Route::get('/', [CategoryController::class, 'index']);
         Route::post('/', [CategoryController::class, 'store']);
-        Route::get('/{slider}', [CategoryController::class, 'show']);
-        Route::post('update/{slider}', [CategoryController::class, 'update']);
-        Route::delete('/{slider}', [CategoryController::class, 'destroy']);
+        Route::get('/{category}', [CategoryController::class, 'show']);
+        Route::post('update/{category}', [CategoryController::class, 'update']);
+        Route::delete('/{category}', [CategoryController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'sub-categories', 'middleware' => 'auth:api-client'], function () {
