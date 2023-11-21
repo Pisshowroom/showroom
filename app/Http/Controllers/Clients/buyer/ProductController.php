@@ -142,7 +142,7 @@ class ProductController extends Controller
                 $query->whereHas('order', function ($query) {
                     $query->where('status', 'done');
                 });
-            }], 'quantity')->orderByDesc('total_sell')->take(8)->get();
+            }], 'quantity')->orderByDesc('total_sell')->take(5)->get();
         if ($data['related_products'] && count($data['related_products']) > 0) {
             foreach ($data['related_products'] as $key => $value) {
                 $value->price_discount = null;
@@ -162,7 +162,7 @@ class ProductController extends Controller
                 $query->whereHas('order', function ($query) {
                     $query->where('status', 'done');
                 });
-            }], 'quantity')->orderByDesc('total_sell')->take(8)->get();
+            }], 'quantity')->orderByDesc('total_sell')->take(5)->get();
         if ($data['same_products'] && count($data['same_products']) > 0) {
             foreach ($data['same_products'] as $key => $value) {
                 $value->price_discount = null;

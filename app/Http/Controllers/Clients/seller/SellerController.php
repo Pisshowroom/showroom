@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Clients\seller;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\RoCity;
+use App\Models\RoProvince;
+use App\Models\RoSubdistrict;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,9 +68,107 @@ class SellerController extends Controller
     }
     public function profile()
     {
-        return view('clients.seller.profile');
-    }
+        $user['addresses'] = Address::where('user_id', Auth::guard('web')->user()->id)->whereNull('deleted_at')
+            ->select([
+                'id', 'user_id', 'place_name', 'person_name', 'phone_number', 'main', 'for_seller',
+                'ro_province_id', 'district', 'city', 'address_description'
+            ])
+            ->with('ro_province:id,province_name')->orderByDesc('for_seller')
+            ->get();
+        $user['provinces'] = RoProvince::select('id', 'province_name')->get();
 
+        return view('clients.seller.profile', ['data' => $user]);
+    }
+    public function addressSeller($id)
+    {
+        $user = Address::where('id', $id)->firstOrFail();
+        if ($user->ro_province_id != null) {
+            $user['cities'] = RoCity::where('ro_province_id', $user->ro_province_id)->select('id', 'city_name', 'postal_code', 'ro_province_id')->get();
+        } else {
+            $user['cities'] = '';
+        }
+        if ($user->ro_province_id != null && $user->ro_city_id != null) {
+            $user['districts'] = RoSubdistrict::where('ro_city_id', $user->ro_city_id)->select('id', 'ro_city_id', 'subdistrict_name')->get();
+        } else {
+            $user['districts'] = '';
+        }
+        $user['provinces'] = RoProvince::select('id', 'province_name')->get();
+        return view('clients.seller.address_seller', ['data' => $user]);
+    }
+    public function updateAddressSeller(Request $request)
+    {
+        $user = Auth::guard('web')->user();
+
+        $request->validate([
+            'ro_province_id' => 'required',
+            'ro_city_id' => 'required',
+            'ro_subdistrict_id' => 'required',
+            // 'street' => 'nullable',
+            // 'place_name' => 'nullable',
+            // 'person_name' => 'nullable',
+            // 'phone_number' => 'required',
+            // 'village' => 'nullable',
+            // 'district' => 'nullable',
+            // 'city' => 'nullable',
+            // 'address_text' => 'nullable',
+            // 'address_description' => 'nullable',
+            'lat' => 'required',
+            'long' => 'required',
+        ]);
+        if ($request->id)
+            $address = Address::findOrFail($request->id);
+        else
+            $address = new Address();
+        $address->ro_province_id = $request->ro_province_id;
+        $address->ro_city_id = $request->ro_city_id;
+        $address->ro_subdistrict_id = $request->ro_subdistrict_id;
+        if ($request->ro_city_id) {
+            $city = RoCity::where('id', $request->ro_city_id)->first();
+            $address->city = $city->city_name;
+        }
+        if ($request->ro_subdistrict_id) {
+            $sb = RoSubdistrict::where('id', $request->ro_subdistrict_id)->first();
+            $address->district = $sb->subdistrict_name;
+        }
+        if ($request->filled('place_name'))
+            $address->place_name = $request->place_name;
+        if ($request->filled('person_name'))
+            $address->person_name = $request->person_name;
+        if ($request->filled('phone_number'))
+            $address->phone_number = $request->phone_number;
+        if ($request->filled('address_description'))
+            $address->address_description = $request->address_description;
+        $address->lat = $request->lat;
+        $address->long = $request->long;
+        if ($user->addresses->count() < 1) {
+            $address->for_seller = 1;
+        } else if (isset($request->for_seller) && $request->for_seller == 'on') {
+            $user->addresses()->where('for_seller', true)->update(['for_seller' => false]);
+            $address->for_seller = true;
+        }
+        // $address->ro_province_id = 6;
+        // $address->ro_city_id = 16;
+        // $address->ro_subdistrict_id = 18;
+        // $address->city = RoCity::where('id', 16)->pluck('city_name');
+        // $address->district = RoSubdistrict::where('id', 18)->pluck('subdistrict_name');
+        // $address->place_name = 'Rumah';
+        // $address->person_name = 'Uri';
+        // $address->phone_number =  (int) '085212739231';
+        // $address->address_description = 'ABCD nomor B17';
+        // $address->lat = -0.06640807407910417;
+        // $address->long = 109.38475276537;
+        // $address->main = 1;
+        $address->user_id = $user->id;
+        $address->save();
+        return redirect("/toko/profil?param=alamat")->with('success', 'Alamat berhasil diperbarui')->with('auth', base64_encode($user->uid));
+    }
+    public function deleteAddressSeller($id)
+    {
+        $user = Auth::guard('web')->user();
+        $ad = Address::where('id', $id)->firstOrFail();
+        $ad->delete();
+        return redirect("/toko/profil?param=alamat")->with('success', 'Alamat berhasil dihapus')->with('auth', base64_encode($user->uid));
+    }
     public function addWithdraw(Request $request)
     {
         if (!$this->isSeller()) {

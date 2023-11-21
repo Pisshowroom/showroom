@@ -142,7 +142,7 @@
                             </div>
                         </div> --}}
                         <div class="box-product-color mt-20">
-                            <p class="font-sm color-gray-900">Color:<span class="color-brand-2 nameColor">Pink Gold</span>
+                            <p class="font-sm color-gray-900">Color:<span class="color-brand-2 nameColor">Default</span>
                             </p>
                             <ul class="list-colors">
                                 @if ($product && $product->images && count($product->images) > 0)
@@ -152,15 +152,17 @@
                                                 alt="produk {{ $product->name ?? '' }}"></li>
                                     @endforeach
                                 @else
-                                    <li class="disabled" style="max-width: 100px !important"><img src="{{ asset('ecom/imgs/page/product/img-gallery-6.jpg') }}"
+                                    <li class="disabled" style="max-width: 100px !important"><img
+                                            src="{{ asset('ecom/imgs/page/product/img-gallery-6.jpg') }}"
                                             alt="produk {{ $product->name ?? '' }}" title="Black"></li>
-                                    <li class="disabled" style="max-width: 100px !important"><img src="{{ asset('ecom/imgs/page/product/img-gallery-7.jpg') }}"
+                                    <li class="disabled" style="max-width: 100px !important"><img
+                                            src="{{ asset('ecom/imgs/page/product/img-gallery-7.jpg') }}"
                                             alt="produk {{ $product->name ?? '' }}" title="Red"></li>
                                 @endif
 
                             </ul>
                         </div>
-                        <div class="box-product-style-size mt-20">
+                        {{-- <div class="box-product-style-size mt-20">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 mb-20">
                                     <p class="font-sm color-gray-900">Style:<span class="color-brand-2 nameStyle">S22</span>
@@ -183,7 +185,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="buy-product mt-30">
                             <div class="d-flex flex-row gap-sm-4 gap-2">
                                 <div class="">
@@ -554,9 +556,10 @@
                         <h4 class="color-brand-3">Produk lainnya untukmu</h4>
                         @if (count($data['same_products']) > 0)
                             <div class="list-products-5 mt-20">
-                                @foreach ($data['same_products'] as $prd)
-                                    @include('clients.buyer.components.list_product1')
-                                @endforeach
+
+                                    @foreach ($data['same_products'] as $prd)
+                                        @include('clients.buyer.components.list_product1')
+                                    @endforeach
                             </div>
                         @else
                             <div class="col-lg-12 text-center mt-40">

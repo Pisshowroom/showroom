@@ -20,15 +20,6 @@
             <div class="card-body">
                 <div class="row gx-5">
                     <aside class="col-lg-3 border-end">
-                        {{-- <nav class="nav nav-pills flex-lg-column mb-4">
-                            <a class="nav-link active" aria-current="page" href="#">Umum</a>
-                            <a class="nav-link" href="#">Alamat</a>
-                            <a class="nav-link" href="#">Admin account</a>
-                            <a class="nav-link" href="#">SEO
-                                settings</a>
-                            <a class="nav-link" href="#">Mail settings</a><a class="nav-link"
-                                href="#">Newsletter</a>
-                        </nav> --}}
                         <ul class="nav nav-pills flex-lg-column mb-4" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link {{ !request()->get('param') || request()->get('param') != 'alamat' ? 'active' : '' }}"
