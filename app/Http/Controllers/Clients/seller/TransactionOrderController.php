@@ -54,6 +54,7 @@ class TransactionOrderController extends Controller
             return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
         $order = Order::where('payment_identifier', $identifier)->firstOrFail();
+        // $order = Order::where('payment_identifier', $identifier)->where('status', 'ProcessedBySeller')->firstOrFail();
         return view('clients.seller.transaction.send_resi', ['order' => $order]);
     }
     public function detailTransaction($identifier)
@@ -188,6 +189,5 @@ class TransactionOrderController extends Controller
 
         DB::commit();
         return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil diselesaikan')->with('auth', base64_encode($user->uid));
-
     }
 }

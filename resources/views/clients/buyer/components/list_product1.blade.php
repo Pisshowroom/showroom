@@ -8,7 +8,7 @@
         <div class="image-box">
             @if ($prd->discount && $prd->discount > 0)
                 <span class="label bg-brand-2">{{ $prd->discount }}%</span>
-            @endif,
+            @endif
             @auth
                 <a
                     href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
@@ -73,11 +73,15 @@
             <div class="mt-10 box-btn-cart">
                 @if (Route::currentRouteName() && Route::currentRouteName() == 'buyer.home')
                 @else
-                    <button class="btn btn-cart checkout-{{ $prd->id }}"
-                        {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $prd->seller_id ? 'disabled' : '' }}
-                        onclick="checkout('{{ $prd->id }}','{{ $prd->stock }}',{{ $prd->seller_id }})">Beli
-                        Sekarang
-                    </button>
+                    @if (Auth::guard('web')->user() && Auth::guard('web')->user()->id)
+                        <button class="btn btn-cart checkout-{{ $prd->id }}"
+                            {{ Auth::guard('web')->user() && Auth::guard('web')->user()->id == $prd->seller_id ? 'disabled' : '' }}
+                            onclick="checkout('{{ $prd->id }}','{{ $prd->stock }}',{{ $prd->seller_id }})">Beli
+                            Sekarang
+                        </button>
+                    @else
+                        <a href="{{ route('buyer.login') }}" class="btn btn-cart">Beli Sekarang</a>
+                    @endif
                 @endif
 
             </div>

@@ -155,6 +155,9 @@ class BuyerController extends Controller
 
     public function checkout()
     {
+        if (!Auth::guard('web')->user()) {
+            return redirect()->route('buyer.home');
+        }
         $data = $this->getCommonData();
         $masterAccounts = MasterAccount::where('type', 'PI')->union(MasterAccount::whereIn('type', ['PI', 'Virtual-Account', 'E-Wallet', 'Retail-Outlet'])
             ->orderBy('type'))
@@ -177,13 +180,78 @@ class BuyerController extends Controller
     }
     public function cart()
     {
+        if (!Auth::guard('web')->user()) {
+            return redirect()->route('buyer.home');
+        }
         $data = $this->getCommonData();
+        $bestSellerProducts = Product::with(['category', 'seller'])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])->byNotVariant()
+            ->orderByDesc('total_quantity')
+            ->take(8)
+            ->get();
+        $limitedProducts = Product::with(['category', 'seller'])->byNotVariant()->inRandomOrder()->take(8)->get();
+
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        $data['recommended_products'] = ProductResource::collection($limitedProducts);
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        foreach ($data['recommended_products'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+
         return view('clients.buyer.user.cart', ['data' => $data]);
     }
 
     public function wishlist()
     {
+        if (!Auth::guard('web')->user()) {
+            return redirect()->route('buyer.home');
+        }
         $data = $this->getCommonData();
+        $data = $this->getCommonData();
+        $bestSellerProducts = Product::with(['category', 'seller'])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])->byNotVariant()
+            ->orderByDesc('total_quantity')
+            ->take(8)
+            ->get();
+        $limitedProducts = Product::with(['category', 'seller'])->byNotVariant()->inRandomOrder()->take(8)->get();
+
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        $data['recommended_products'] = ProductResource::collection($limitedProducts);
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        foreach ($data['recommended_products'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+
         return view('clients.buyer.user.wishlist', ['data' => $data]);
     }
 }

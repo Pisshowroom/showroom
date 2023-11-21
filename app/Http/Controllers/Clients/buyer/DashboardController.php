@@ -81,7 +81,7 @@ class DashboardController extends Controller
                 'id', 'user_id', 'place_name', 'person_name', 'phone_number', 'main',
                 'ro_province_id', 'district', 'city', 'address_description'
             ])
-            ->with('ro_province:id,province_name')->orderByDesc('id')
+            ->with('ro_province:id,province_name')->orderByDesc('main')
             ->get();
         $user['provinces'] = RoProvince::select('id', 'province_name')->get();
         return view('clients.dashboard.settings', ['data' => $user]);

@@ -23,7 +23,7 @@
         <section class="section-box shop-template">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-10">
                         <div class="box-carts">
                             <div class="head-wishlist">
                                 <div class="item-wishlist">
@@ -122,6 +122,18 @@
                                     pembayaran</a></div>
                         </div>
                     </div> --}}
+                </div>
+                <h4 class="color-brand-3">Kamu mungkin suka</h4>
+                <div class="list-products-5 mt-20 mb-40">
+                    @foreach ($data['best_seller_product'] as $prd)
+                        @include('clients.buyer.components.list_product1')
+                    @endforeach
+                </div>
+                <h4 class="color-brand-3">Barang yang direkomendasikan</h4>
+                <div class="list-products-5 mt-20 mb-40">
+                    @foreach ($data['recommended_products'] as $prd)
+                        @include('clients.buyer.components.list_product1')
+                    @endforeach
                 </div>
             </div>
         </section>

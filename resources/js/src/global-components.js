@@ -28,6 +28,9 @@ class GlobalComponents {
         });
         return formatter.format(price);
     }
+    formatThousand(angka) {
+        return angka.toLocaleString('en-US').replace(/,/g, '.') ?? '';
+    }
     dateFormat(datetime, format = null) {
         return moment(datetime).format(format || 'D MMMM YYYY, HH:mm');
     }
@@ -196,12 +199,12 @@ class GlobalComponents {
                                                                     if (dddddddd.constructor === File) {
                                                                         formData.append(
                                                                             `${key}[${k}]` +
-                                                                                `[${kk}]` +
-                                                                                `[${kkk}]` +
-                                                                                `[${kkkk}]` +
-                                                                                `[${kkkkk}]` +
-                                                                                `[${kkkkkk}]` +
-                                                                                `[${kkkkkkk}]`,
+                                                                            `[${kk}]` +
+                                                                            `[${kkk}]` +
+                                                                            `[${kkkk}]` +
+                                                                            `[${kkkkk}]` +
+                                                                            `[${kkkkkk}]` +
+                                                                            `[${kkkkkkk}]`,
                                                                             dddddddd,
                                                                             dddddddd.name
                                                                         );
@@ -209,12 +212,12 @@ class GlobalComponents {
                                                                     }
                                                                     formData.append(
                                                                         `${key}[${k}]` +
-                                                                            `[${kk}]` +
-                                                                            `[${kkk}]` +
-                                                                            `[${kkkk}]` +
-                                                                            `[${kkkkk}]` +
-                                                                            `[${kkkkkk}]` +
-                                                                            `[${kkkkkkk}]`,
+                                                                        `[${kk}]` +
+                                                                        `[${kkk}]` +
+                                                                        `[${kkkk}]` +
+                                                                        `[${kkkkk}]` +
+                                                                        `[${kkkkkk}]` +
+                                                                        `[${kkkkkkk}]`,
                                                                         dddddddd
                                                                     );
                                                                 });

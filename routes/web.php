@@ -49,6 +49,33 @@ Route::get('/geta', function () {
     } */
     // 3
     // return Review::whereNotNull('images')->where('images', '!=', '[]')->get();
+    // 4
+    $array1 = [1, 4, 7, 10];
+    $array2 = [2, 5, 8, 11];
+    $array3 = [3, 6, 9, 12];
+
+    $arraysData = array_merge($array1, $array2);
+    $arraysData = array_merge($arraysData, $array3);
+    // * Approaches 1
+    // asort($arraysData);
+    // * Approaches 2
+    $arraysSorted = [];
+    // Get the length of the array
+    $arrayLength = count($arraysData);
+
+    // Implementing Bubble Sort (Ascending Order)
+    for ($i = 0; $i < $arrayLength - 1; $i++) {
+        for ($j = 0; $j < $arrayLength - $i - 1; $j++) {
+            // Swap if the element found is greater than the next element
+            if ($arraysData[$j] > $arraysData[$j + 1]) {
+                $temp = $arraysData[$j];
+                $arraysData[$j] = $arraysData[$j + 1];
+                $arraysData[$j + 1] = $temp;
+            }
+        }
+    }
+
+    dd($arraysData);
 });
 
 Route::post('/0xff-callback-confirm-payment/{type}', [OrderController::class, 'callbackConfirmPayment']);
@@ -181,6 +208,9 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::group(['prefix' => 'toko'], function () {
         Route::get('/', [SellerController::class, 'dashboard'])->name('dashboardSeller.dashboard');
         Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
+        Route::get('/ubah-alamat/{id}', [SellerController::class, 'addressSeller'])->name('dashboardSeller.addressSeller');
+        Route::post('/tambah-alamat', [SellerController::class, 'updateAddressSeller'])->name('dashboardSeller.updateAddressSeller');
+        Route::get('/hapus-alamat/{id}', [SellerController::class, 'deleteAddressSeller'])->name('dashboardSeller.deleteAddressSeller');
         Route::get('/tambah-produk', [SellerProductController::class, 'addProduct'])->name('dashboardSeller.addProduct');
         Route::post('/tambah-ubah-produk', [SellerProductController::class, 'addUpdateProduct'])->name('dashboardSeller.addUpdateProduct');
         Route::get('/semua-produk', [SellerProductController::class, 'allProduct'])->name('dashboardSeller.allProduct');

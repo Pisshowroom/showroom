@@ -11,7 +11,7 @@
     <meta property="og:url" content="">
     <meta property="og:image" content="">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom/imgs/favicon.png') }}">
-    <link href="{{ asset('ecom_dashboard/css/style.css?v=1.0.2') }}" rel="stylesheet">
+    <link href="{{ asset('ecom_dashboard/css/style.css?v=1.0.3') }}" rel="stylesheet">
     @stack('importcss')
     @stack('css')
     {{-- pi coin --}}
