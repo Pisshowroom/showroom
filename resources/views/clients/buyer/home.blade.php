@@ -17,43 +17,72 @@ dd(request()->all());
                             <div class="box-swiper">
                                 <div class="swiper-container swiper-group-1">
                                     <div class="swiper-wrapper">
-                                        {{-- @if (count($data['sliders']) > 0)
-                                            @foreach ($data['sliders'] as $slider)
-                                                <div class="swiper-slide">
-                                                    <div class="banner-big banner-big-3 bg-22"
-                                                        style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner.png') }})">
-                                                        <h1 class="color-gray-100 w-50 text-uppercase text-shadow">
-                                                            {!! $slider->description ?? '' !!}</h1>
-                                                        <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja</a>
-                                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="banner-big banner-big-3 bg-22"
+                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner.png') }})">
+                                                <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
+                                                        class="d-none d-lg-block"> The Music</h1>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <ul class="list-disc">
+                                                            <li class="font-lg color-brand-3">Free Shipping. Secure Payment
+                                                            </li>
+                                                            <li class="font-lg color-brand-3">Contact us 24hrs a day</li>
+                                                            <li class="font-lg color-brand-3">Support gift service</li>
+                                                        </ul>
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                        @else --}}
-                                        <div class="swiper-slide">
-                                            <a
-                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-1.jpg') }}" style="height: 100%;object-fit:contain !important;"
-                                                    alt="slider pertama beranda">
-                                            </a>
+                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
+                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
+                                                        now</a><a class="btn btn-link text-underline"
+                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
+                                                        more</a></div>
+                                            </div>
                                         </div>
                                         <div class="swiper-slide">
-                                            <a
-                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-2.jpg') }}" style="height: 100%;object-fit:contain !important;"
-                                                    alt="slider kedua beranda">
-                                            </a>
-
+                                            <div class="banner-big banner-big-3 bg-22"
+                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-2.png') }})">
+                                                <h1 class="color-gray-100 text-uppercase text-shadow">360 DEGREE<br
+                                                        class="d-none d-lg-block"> VIRTUAL REALITY</h1>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <ul class="list-disc">
+                                                            <li class="font-lg color-brand-3">Free Shipping. Secure Payment
+                                                            </li>
+                                                            <li class="font-lg color-brand-3">Contact us 24hrs a day</li>
+                                                            <li class="font-lg color-brand-3">Support gift service</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
+                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
+                                                        now</a><a class="btn btn-link text-underline"
+                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
+                                                        more</a></div>
+                                            </div>
                                         </div>
                                         <div class="swiper-slide">
-                                            <a
-                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                <img src="{{ asset('ecom/imgs/page/homepage4/slider-3.jpg') }}" style="height: 100%;object-fit:contain !important;"
-                                                    alt="slider ketiga beranda">
-                                            </a>
+                                            <div class="banner-big banner-big-3 bg-22"
+                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-3.png') }})">
+                                                <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
+                                                        class="d-none d-lg-block"> The Music</h1>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                        <ul class="list-disc">
+                                                            <li class="font-lg color-brand-3">Free Shipping. Secure Payment
+                                                            </li>
+                                                            <li class="font-lg color-brand-3">Contact us 24hrs a day</li>
+                                                            <li class="font-lg color-brand-3">Support gift service</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
+                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
+                                                        now</a><a class="btn btn-link text-underline"
+                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
+                                                        more</a></div>
+                                            </div>
                                         </div>
-                                        {{-- @endif --}}
                                     </div>
                                     <div class="swiper-pagination swiper-pagination-1"></div>
                                 </div>
@@ -66,8 +95,8 @@ dd(request()->all());
                                         <h3 class="mb-10 font-32">Metaverse</h3>
                                         <p class="font-16">The Future of Creativity</p>
                                         <div class="mt-10"><a class="btn btn-link-brand-2 btn-arrow-brand-2"
-                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">learn
-                                                more</a></div>
+                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                Selengkapnya</a></div>
                                     </div>
                                     <div class="bg-4 box-bdrd-4 bg-headphone pt-20 mh-307"><span
                                             class="font-md color-brand-3">Headphone</span>
@@ -75,8 +104,8 @@ dd(request()->all());
                                         <p class="color-brand-1 font-sm">MUSIC EVERYWHERE<br
                                                 class="d-none d-lg-block">ANYTIME</p>
                                         <div class="mt-35"><a class="btn btn-brand-2 btn-arrow-right"
-                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
-                                                Now</a></div>
+                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja
+                                                Sekarang</a></div>
                                     </div>
                                 </div>
                                 <div class="col-xl-5 col-lg-3 col-md-4 col-sm-12">
@@ -169,7 +198,8 @@ dd(request()->all());
                         <div class="col-xl-12 col-lg-12">
                             <ul class="nav nav-tabs text-start" role="tablist">
                                 <li class="pl-0"><a class="active pl-0" href="#tab-1-featured" data-bs-toggle="tab"
-                                        role="tab" aria-controls="tab-1-featured" aria-selected="true" data-index="1">
+                                        role="tab" aria-controls="tab-1-featured" aria-selected="true"
+                                        data-index="1">
                                         <h4>Produk Terbaru</h4>
                                     </a></li>
                                 <li><a href="#tab-1-bestseller" data-bs-toggle="tab" role="tab"
@@ -373,7 +403,7 @@ dd(request()->all());
                                         <div class="swiper-wrapper pt-5">
                                             <div class="swiper-slide">
                                                 @foreach ($data['latest_product'] as $key => $prd)
-                                                        @include('clients.buyer.components.list_product2')
+                                                    @include('clients.buyer.components.list_product2')
                                                 @endforeach
                                             </div>
                                         </div>
@@ -391,19 +421,17 @@ dd(request()->all());
                     <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 mb-30">
                         <div class="bg-5 block-iphone"><span class="color-brand-3 font-sm-lh32">Starting from
                                 $899</span>
-                            <h3 class="font-xl mb-10">iPhone 12 Pro 128Gb</h3>
+                            <h3 class="font-lg mb-10">iPhone 12 Pro 128Gb</h3>
                             <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">learn
-                                more</a>
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-7 col-md-7 col-sm-12 mb-30">
                         <div class="bg-4 block-samsung"><span class="color-brand-3 font-sm-lh32">New Arrivals</span>
-                            <h3 class="font-xl mb-10">Samsung 2022 Led TV</h3>
+                            <h3 class="font-lg mb-10">Samsung 2022 Led TV</h3>
                             <p class="font-base color-brand-3 mb-20">Special Sale</p><a
                                 class="btn btn-brand-2 btn-arrow-right"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">learn
-                                more</a>
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
                         </div>
                     </div>
                     <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
@@ -411,8 +439,7 @@ dd(request()->all());
                             <h3 class="font-33 mb-20">Drone Quadcopter UAV - DJI Air 2S</h3>
                             <div class="mb-30"><strong class="font-18">Gimbal Camera, 5.4K Video</strong></div><a
                                 class="btn btn-brand-2 btn-arrow-right"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">learn
-                                more</a>
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
                         </div>
                     </div>
                 </div>
@@ -443,30 +470,27 @@ dd(request()->all());
                 <div class="row">
                     <div class="col-xl-4 col-lg-7 col-md-7 col-sm-12 mb-30">
                         <div class="bg-4 block-charge"><span class="color-brand-3 font-sm-lh32">Power Bank</span>
-                            <h3 class="font-xl mb-10">Quick Charge</h3>
-                            <p class="font-base color-brand-3 mb-20">Lightweight and Portable<br
-                                    class="d-none d-lg-block"> Dual port fast charge</p><a
+                            <h4 class="font-lg-bold mb-10">Quick Charge</h4>
+                            <p class="font-base color-brand-3 mb-10">Lightweight and Portable</p><a
                                 class="btn btn-brand-2 btn-arrow-right"
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja
-                                Sekarang</a>
+                            </a>
                         </div>
                     </div>
                     <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 mb-30">
                         <div class="bg-6 block-player">
-                            <h3 class="font-33 mb-20">Xbox Series XS Game Controller</h3>
-                            <div class="mb-30"><strong class="font-16">Replacement Kit D-pad ABXY Keys</strong></div><a
+                            <h4 class="font-33 mb-10">Xbox Series XS Game Controller</h4>
+                            <div class="mb-10"><strong class="font-16">Replacement Kit D-pad ABXY Keys</strong></div><a
                                 class="btn btn-brand-3 btn-arrow-right"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">learn
-                                more</a>
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 mb-30">
                         <div class="bg-5 block-iphone"><span class="color-brand-3 font-sm-lh32">Starting from
                                 $899</span>
-                            <h3 class="font-xl mb-10">iPhone 12 Pro 128Gb</h3>
+                            <h4 class="font-lg mb-10">iPhone 12 Pro 128Gb</h4>
                             <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">learn
-                                more</a>
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
                         </div>
                     </div>
                 </div>
