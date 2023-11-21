@@ -22,7 +22,7 @@
             <p class="font-xs color-gray-500 line-1 text-start">-</p>
         @endif
         <a class="color-brand-3 font-xs-bold line-2 text-start"
-            href="{{ route('buyer.detailSeller', ['slug' => $prd?->seller?->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+            href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
             <p class="text-start">{{ $prd->name ?? '' }}</p>
         </a>
         <div class="rating">
