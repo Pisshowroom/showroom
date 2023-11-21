@@ -184,6 +184,35 @@ class BuyerController extends Controller
             return redirect()->route('buyer.home');
         }
         $data = $this->getCommonData();
+        $bestSellerProducts = Product::with(['category', 'seller'])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])->byNotVariant()
+            ->orderByDesc('total_quantity')
+            ->take(8)
+            ->get();
+        $limitedProducts = Product::with(['category', 'seller'])->byNotVariant()->inRandomOrder()->take(8)->get();
+
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        $data['recommended_products'] = ProductResource::collection($limitedProducts);
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        foreach ($data['recommended_products'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+
         return view('clients.buyer.user.cart', ['data' => $data]);
     }
 
@@ -193,6 +222,36 @@ class BuyerController extends Controller
             return redirect()->route('buyer.home');
         }
         $data = $this->getCommonData();
+        $data = $this->getCommonData();
+        $bestSellerProducts = Product::with(['category', 'seller'])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])->byNotVariant()
+            ->orderByDesc('total_quantity')
+            ->take(8)
+            ->get();
+        $limitedProducts = Product::with(['category', 'seller'])->byNotVariant()->inRandomOrder()->take(8)->get();
+
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        $data['recommended_products'] = ProductResource::collection($limitedProducts);
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        foreach ($data['recommended_products'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+
         return view('clients.buyer.user.wishlist', ['data' => $data]);
     }
 }

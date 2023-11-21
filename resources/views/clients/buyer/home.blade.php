@@ -276,7 +276,7 @@ dd(request()->all());
                                         <div class="swiper-slide">
                                             <div class="row">
                                                 @foreach ($data['recommended_products'] as $prd)
-                                                    <div class="col-xl-3 col-lg-6 col-md-6">
+                                                    <div class="col-xl-4 col-lg-6 col-md-6">
                                                         @include('clients.buyer.components.list_product1')
                                                     </div>
                                                 @endforeach
@@ -314,7 +314,7 @@ dd(request()->all());
                                         <div class="swiper-slide">
                                             <div class="row">
                                                 @foreach ($data['recommended_products'] as $prd)
-                                                    <div class="col-xl-3 col-lg-6 col-md-6">
+                                                    <div class="col-xl-4 col-lg-6 col-md-6">
                                                         @include('clients.buyer.components.list_product1')
                                                     </div>
                                                 @endforeach
@@ -373,9 +373,7 @@ dd(request()->all());
                                         <div class="swiper-wrapper pt-5">
                                             <div class="swiper-slide">
                                                 @foreach ($data['latest_product'] as $key => $prd)
-                                                    @if ($key <= 4)
                                                         @include('clients.buyer.components.list_product2')
-                                                    @endif
                                                 @endforeach
                                             </div>
                                         </div>
