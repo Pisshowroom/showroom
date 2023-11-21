@@ -15,10 +15,10 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}" id="metaToken" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom/imgs/favicon.png') }}">
-    <link href="{{ asset('ecom/css/style.css?v=3.0.4') }}" rel="stylesheet">
+    <link href="{{ asset('ecom/css/style.css?v=3.0.5') }}" rel="stylesheet">
     {{-- pi coin --}}
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <script>Pi.init({ version: "2.0", sandbox: true })</script>
+    <script>Pi.init({ version: "2.0", sandbox: false })</script>
     <title>@yield('title')</title>
 
     @stack('css')

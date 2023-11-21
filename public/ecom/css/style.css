@@ -2241,7 +2241,10 @@ a.text-brand-3:hover {
   padding-right: 10px;
 }
 .card-grid-style-2.card-grid-none-border .image-box img {
-  max-width: 90%;
+    height:80px;
+    object-fit: contain;
+    max-width: 100%;
+    vertical-align: middle;
 }
 
 .card-grid-style-2-small {
@@ -2316,7 +2319,7 @@ a.text-brand-3:hover {
 }
 .card-grid-style-3 .card-grid-inner .image-box img {
   /* aspect-ratio: 181/210; */
-  height:252px;
+  height:200px;
   object-fit: contain;
   max-width: 100%;
   vertical-align: middle;
