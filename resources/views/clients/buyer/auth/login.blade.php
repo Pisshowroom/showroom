@@ -59,7 +59,7 @@
                             <button class="btn btn-login font-md-bold color-brand-3 mb-15" id="googleLogin"><img
                                     src="{{ asset('ecom/imgs/page/account/google.svg') }}"
                                     alt="masuk menggunakan akun google"></button>
-                            <button class="btn btn-login font-md-bold color-brand-3 mb-15 " id="piBrowser"><img
+                            <button class="btn btn-login font-md-bold color-brand-3 mb-15 d-none" id="piBrowser"><img
                                     src="{{ asset('ecom/imgs/page/account/pi-network.svg') }}"
                                     alt="masuk menggunakan akun pi network"></button>
                         </div>
@@ -121,7 +121,7 @@
         $("#piBrowser").click(async function() {
             $('.loading').removeClass('d-none').addClass('show-modal');
             try {
-                
+
                 const scopes = ['username', 'payments'];
                 const authResults = await Pi.authenticate(scopes,
                     onIncompletePaymentFound);
@@ -130,7 +130,7 @@
             } catch (error) {
                 $('.loading').removeClass('show-modal')
                                 .addClass('d-none');
-                
+
             }
         })
 
