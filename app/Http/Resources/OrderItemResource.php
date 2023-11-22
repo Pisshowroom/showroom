@@ -27,7 +27,7 @@ class OrderItemResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'product' => $this->whenLoaded('product', function () {
-                return new MasterAccountResource($this->product);
+                return new ProductResource($this->product);
             }),
         ];
     }
