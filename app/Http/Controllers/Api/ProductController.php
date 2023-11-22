@@ -80,8 +80,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-
-        $product->load(['category', 'variants', 'seller.address']);
+        $product->load(['category', 'sub_category', 'variants', 'seller.address']);
 
         $product->loadAvg('reviews', 'rating');
         $product->loadCount(['reviews']);
@@ -201,8 +200,9 @@ class ProductController extends Controller
             foreach ($request->images as $img) {
                 if (isset($img) && is_uploaded_file($img)) {
                     $images[] = uploadFoto($img, 'uploads/products/' . $user->id);
-                } else if (isset($img)) {
-                    $images[] = $img;
+                } else if (!empty($img)) {
+                    $dirImage = lypsisRemoveHost($img);
+                    $images[] = $dirImage;
                 }
             }
         }
