@@ -7,8 +7,12 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua Produk</a></li>
+                        <li><a class="font-xs color-gray-1000"
+                                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
+                        </li>
+                        <li><a class="font-xs color-gray-500"
+                                href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
+                                Produk</a></li>
                     </ul>
                 </div>
             </div>
@@ -17,6 +21,9 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-9 order-first order-lg-last">
+                        <div class="banner-ads-top mb-30"><a
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                    src="{{ asset('ecom/imgs/page/shop/banner.png') }}" alt="semua produk"></a></div>
                         <div class="box-filters mt-0 pb-5 border-bottom">
                             <div class="row">
                                 <div class="col-xl-2 col-lg-3 mb-10 text-lg-start text-center"><a
@@ -44,8 +51,10 @@
                                     </div>
 
                                     <div class="d-inline-block">
-                                        <a class="view-type-grid mr-5 " href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a><a
-                                            class="view-type-list active" href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a>
+                                        <a class="view-type-grid mr-5 "
+                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a><a
+                                            class="view-type-list active"
+                                            href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a>
                                     </div>
                                 </div>
                             </div>
@@ -93,6 +102,79 @@
                                     </div>
                                 @endif
                             </div>
+                        </div>
+                        <div class="sidebar-border mb-40">
+                            <div class="sidebar-head">
+                                <h6 class="color-gray-900">Filter Produk</h6>
+                            </div>
+                            <div class="sidebar-content">
+                                <h6 class="color-gray-900 mt-20 mb-10">Penjual</h6>
+                                <ul class="list-checkbox">
+                                    <li>
+                                        <label class="cb-container">
+                                            <input type="checkbox" checked="checked"><span
+                                                class="text-small">Apple</span><span class="checkmark"></span>
+                                        </label><span class="number-item">12</span>
+                                    </li>
+                                    <li>
+                                        <label class="cb-container">
+                                            <input type="checkbox"><span class="text-small">Sony</span><span
+                                                class="checkmark"></span>
+                                        </label><span class="number-item">34</span>
+                                    </li>
+                                    <li>
+                                        <label class="cb-container">
+                                            <input type="checkbox"><span class="text-small">Toshiba</span><span
+                                                class="checkmark"></span>
+                                        </label><span class="number-item">56</span>
+                                    </li>
+                                    <li>
+                                        <label class="cb-container">
+                                            <input type="checkbox"><span class="text-small">Assus</span><span
+                                                class="checkmark"></span>
+                                        </label><span class="number-item">78</span>
+                                    </li>
+                                    <li>
+                                        <label class="cb-container">
+                                            <input type="checkbox"><span class="text-small">Samsung</span><span
+                                                class="checkmark"></span>
+                                        </label><span class="number-item">23</span>
+                                    </li>
+                                </ul>
+                                <a class="btn btn-filter font-sm color-brand-3 font-medium mt-10" href="#ModalFiltersForm"
+                                    data-bs-toggle="modal">Semua Filter</a>
+                            </div>
+                        </div>
+                        <div class="box-slider-item mb-30">
+                            <div class="head pb-15 border-brand-2">
+                                <h5 class="color-gray-900">Best seller</h5>
+                            </div>
+                            <div class="content-slider">
+                                <div class="box-swiper slide-shop">
+                                    <div class="swiper-container swiper-best-seller">
+                                        <div class="swiper-wrapper pt-5">
+                                            <div class="swiper-slide">
+                                                @foreach ($data['best_seller_product'] as $key => $prd)
+                                                    @include('clients.buyer.components.list_product2')
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="swiper-button-next swiper-button-next-style-2 swiper-button-next-bestseller">
+                                    </div>
+                                    <div
+                                        class="swiper-button-prev swiper-button-prev-style-2 swiper-button-prev-bestseller">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="banner-right h-500 text-center mb-30"><span class="text-no font-11">No.9</span>
+                            <h5 class="font-23 mt-20">Sensitive Touch<br class="d-none d-lg-block">without fingerprint
+                            </h5>
+                            <p class="text-desc font-16 mt-15">Smooth handle and accurate click</p><a
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">View
+                                Details</a>
                         </div>
                     </div>
                 </div>
@@ -178,7 +260,8 @@
                     </div>
                     <div class="modal-footer justify-content-start pl-30"><button class="btn btn-buy w-auto"
                             id="setFilter">Terapkan Filter</button><a class="btn font-sm-bold color-gray-500"
-                            href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Setel Ulang Filter</a></div>
+                            href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Setel
+                            Ulang Filter</a></div>
                 </div>
             </div>
         </div>
@@ -206,8 +289,9 @@
                     url += (selectedCategoryId !== undefined || selectedOrderBy !== undefined ? '&' : '?') +
                         'search=' + searchQuery;
                 }
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
             }
 
             $('#searchProduct, #navKategori').on('change', function() {
@@ -263,8 +347,9 @@
                         rating + '&price=' + price +
                         '&search=' + searchQuery;
                 }
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
             }
         });
     </script>

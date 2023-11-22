@@ -106,13 +106,13 @@
                                                         <p class="font-xs color-gray-500 mt-10">sejak 2012</p>
                                                     </div>
                                                 </div>
-                                                <div class="price-info mt-1">
+                                                <div class="price-info mt-0">
                                                     <a class="color-brand-3 font-sm-bold line-1 text-start"
                                                         href="{{ route('buyer.detailSeller', ['slug' => $seller->seller_slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                         <p class="text-start">{{ $seller->seller_name ?? '' }}</p>
                                                     </a>
                                                 </div>
-                                                <div class="price-info mt-1 d-flex flex-row gap-1 align-items-center">
+                                                <div class="price-info mt-0 d-flex flex-row gap-1 align-items-center">
                                                     {!! file_get_contents('ecom/imgs/page/product/icon-location.svg') !!}
                                                     @if ($seller && $seller?->address_seller)
                                                         <strong class="font-md color-gray-500 price-main">

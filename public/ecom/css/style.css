@@ -2260,6 +2260,8 @@ a.text-brand-3:hover {
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+    word-wrap: break-word;
+    text-wrap:balance;
     display: -webkit-box
 }
 .line-2{
@@ -2268,6 +2270,8 @@ a.text-brand-3:hover {
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    word-wrap: break-word;
+    text-wrap:balance;
     display: -webkit-box
 }
 .line-3{
@@ -2276,6 +2280,8 @@ a.text-brand-3:hover {
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    word-wrap: break-word;
+    text-wrap:balance;
     display: -webkit-box
 }
 .card-grid-style-3 {

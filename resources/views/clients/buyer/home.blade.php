@@ -161,36 +161,47 @@ dd(request()->all());
                 </div>
             </div>
         </section>
-        {{-- @if (count($data['promo_products']) > 0)
-            <div class="container mt-20">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="head-main">
-                            <h3 class="mb-5">Produk promo</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 order-first order-lg-last">
-
-                        <div class="row mt-20">
-                            @if (count($data['promo_products']) > 0)
-                                @foreach ($data['promo_products'] as $prd)
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        @include('clients.buyer.components.list_product1')
+        <div class="section-box">
+            <div class="container">
+                <div class="row mt-60">
+                    @foreach ($data['sub_categories'] as $key => $ct)
+                        @if ($key < 4)
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
+                                <div class="card-grid-style-2 card-grid-style-2-small">
+                                    <div class="image-box">
+                                        <a style="width:85px;height:85px;"
+                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                src="{{ $ct->image ?? asset('ecom/imgs/page/homepage1/smartphone.png') }}"
+                                                alt="kategori {{ $ct->name ?? '' }}">
+                                        </a>
+                                        <div class="mt-10 text-center">
+                                            <a class="btn btn-gray"
+                                                href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Lihat</a>
+                                        </div>
                                     </div>
-                                @endforeach
-                            @else
-                                <div class="col-lg-12 text-center mt-40">
-                                    <h4>Tidak ada Produk saat ini</h4>
+                                    <div class="info-right"><a class="color-brand-3 font-sm-bold"
+                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                            <h6>{{ $ct->name ?? '' }}</h6>
+                                        </a>
+                                        @if ($ct->sub_categories && count($ct->sub_categories) > 0)
+                                            <ul class="list-links-disc">
+                                                @foreach ($ct->sub_categories as $k => $sc)
+                                                    @if ($k < 4)
+                                                        <li><a class="font-sm"
+                                                                href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </div>
                                 </div>
-                            @endif
-                        </div>
-                    </div>
-
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
             </div>
-        @endif --}}
+        </div>
         <section class="section-box mt-30">
             <div class="container">
                 <div class="head-main bd-gray-200">
@@ -457,8 +468,8 @@ dd(request()->all());
                 </div>
                 <div class="row">
                     @foreach ($data['recommended_products'] as $prd)
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                            @include('clients.buyer.components.list_product1')
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                            @include('clients.buyer.components.list_product3')
                         </div>
                     @endforeach
 
@@ -496,136 +507,6 @@ dd(request()->all());
                 </div>
             </div>
         </section>
-        {{-- @if (count($data['limited_product']) > 0)
-            <div class="container mt-20">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="head-main">
-                            <h3 class="mb-5">Produk terbatas</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 order-first order-lg-last">
-
-                        <div class="row mt-20">
-                            @if (count($data['limited_product']) > 0)
-                                @foreach ($data['limited_product'] as $prd)
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        @include('clients.buyer.components.list_product1')
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="col-lg-12 text-center mt-40">
-                                    <h4>Tidak ada Produk saat ini</h4>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        @endif
-
-        <div class="section-box pt-30 bg-gray-50 mt-50">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="box-content">
-                            <div class="head-main bd-gray-200">
-                                <div class="row">
-                                    <div class="col-xl-7 col-lg-6">
-                                        <h3 class="mb-5">Produk Terlaris</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-swiper">
-                                <div class="swiper-container swiper-tab-4">
-                                    <div class="row">
-                                        @if (count($data['best_seller_product']) > 0)
-                                            @foreach ($data['best_seller_product'] as $prd)
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    @include('clients.buyer.components.list_product1')
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <div class="col-lg-12 text-center mt-40">
-                                                <h4>Tidak ada Produk terbaru saat ini</h4>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="section-box pt-30 pb-60 bg-gray-50">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="box-content">
-                            <div class="head-main bd-gray-200">
-                                <div class="row">
-                                    <div class="col-xl-7 col-lg-6">
-                                        <h3 class="mb-5">Produk Terbaru</h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box-swiper">
-                                <div class="swiper-container swiper-tab-4">
-                                    <div class="row">
-                                        @if (count($data['latest_product']) > 0)
-                                            @foreach ($data['latest_product'] as $prd)
-                                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                                    @include('clients.buyer.components.list_product1')
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <div class="col-lg-12 text-center mt-40">
-                                                <h4>Tidak ada Produk terbaru saat ini</h4>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container mt-20">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="head-main">
-                        <h3 class="mb-5">Produk yang direkomendasikan</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 order-first order-lg-last">
-
-                    <div class="row mt-20">
-
-                        @if (count($data['recommended_products']) > 0)
-                            @foreach ($data['recommended_products'] as $prd)
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    @include('clients.buyer.components.list_product1')
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="col-lg-12 text-center mt-40">
-                                <h4>Tidak ada Produk saat ini</h4>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-            </div>
-        </div> --}}
         <div class="section-box pt-30 pb-60 bg-gray-50 mt-50">
             <div class="container">
                 <div class="row">
