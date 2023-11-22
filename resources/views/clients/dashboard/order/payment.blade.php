@@ -97,39 +97,31 @@
             $("#piButton").click(async function() {
                 $('.loading').removeClass('d-none').addClass('show-modal');
 
-                try {
-                    const scopes = ['username', 'payments'];
-                    const authResults = await Pi.authenticate(scopes, onIncompletePaymentFound);
+                const scopes = ['username', 'payments'];
+                const authResults = await Pi.authenticate(scopes, onIncompletePaymentFound);
 
-                    const paymentData = {
-                        amount: {{ $order->pi_total }},
-                        memo: "{{ $order->payment_identifier }}",
-                        metadata: {
-                            order_id: {{ $order->id }},
-                            user_id: {{ Auth::guard('web')->user()->id }}
-                        }
+                const paymentData = {
+                    amount: {{ $order->pi_total }},
+                    memo: "{{ $order->payment_identifier }}",
+                    metadata: {
+                        order_id: {{ $order->id }},
+                        user_id: {{ Auth::guard('web')->user()->id }}
                     }
-
-                    const callbacks = {
-                        onReadyForServerApproval,
-                        onReadyForServerCompletion,
-                        onCancel,
-                        onError
-                    }    
-                    const payment = await Pi.createPayment(paymentData, callbacks);
-
-                } catch (error) {
-                    
-                    $('.loading').removeClass('show-modal').addClass('d-none');
                 }
 
-                
+                const callbacks = {
+                    onReadyForServerApproval,
+                    onReadyForServerCompletion,
+                    onCancel,
+                    onError
+                }
+                $('.loading').removeClass('show-modal').addClass('d-none');
+                const payment = await Pi.createPayment(paymentData, callbacks);
             });
 
             function onIncompletePaymentFound(payment) {
                 console.log(payment);
-                $('.loading').removeClass('show-modal').addClass('d-none');
-                $.post("/pi/incomplete{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                $.post("/pi/incomplete{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
                         payment_id: paymentId,
                     },
                     function(data, textStatus, jqXHR) {
@@ -141,8 +133,7 @@
 
             function onReadyForServerApproval(paymentId) {
                 console.log("onReadyForServerApproval", paymentId);
-                $('.loading').removeClass('show-modal').addClass('d-none');
-                $.post("/pi/approve{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                $.post("/pi/approve{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
                         payment_id: paymentId,
                     },
                     function(data, textStatus, jqXHR) {
@@ -154,13 +145,13 @@
 
             function onReadyForServerCompletion(paymentId, txid) {
                 console.log("onReadyForServerCompletion", paymentId, txid);
-                $.post("/pi/complete{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                $.post("/pi/complete{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
                         payment_id: paymentId,
                         txid
                     },
                     function(data, textStatus, jqXHR) {
                         console.log(data, 'complete');
-                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
+                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
                     },
                     "json"
                 );
@@ -169,12 +160,12 @@
             function onCancel(paymentId) {
                 console.log("onCancel", paymentId);
                 return $.post(
-                    "/pi/cancelled_payment{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                    "/pi/cancelled_payment{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
                         payment_id: paymentId,
                     },
                     function(data, textStatus, jqXHR) {
                         console.log(data, 'cancel');
-                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
+                        window.location.replace("/pembeli/pesananku{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}");
                     },
                     "json"
                 );
@@ -182,7 +173,6 @@
 
             function onError(error, payment) {
                 console.log("onError", error);
-                $('.loading').removeClass('show-modal').addClass('d-none');
                 if (payment) {
                     console.log(payment);
                     alert(payment)
