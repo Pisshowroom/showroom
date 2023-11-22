@@ -167,7 +167,7 @@ class OrderController extends Controller
         if (!$seller)  return ResponseAPI("Penjual belum menginput alamat.", 404);
         // $seller = \App\Models\User::find($request->seller_id);
         // dd($seller);
-        $sellerAddress = Address::where('user_id', $seller->id)->where('for_seller', true)->firstOrFail();
+        $sellerAddress = Address::where('user_id', $seller->id)->where('for_seller', true)->first();
         if (!$sellerAddress)  return ResponseAPI("Penjual belum menginput alamat.", 404);
 
         $products = [];
