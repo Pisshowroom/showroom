@@ -106,6 +106,10 @@ class OrderDataController extends Controller
         $order->status = Order::SHIPPED;
         $order->save();
 
+
+        // receipt image
+        // exec("wkhtmltoimage --format png $html $output");
+
         return ResponseAPI('Pesanan berhasil dikirim', 200);
     }
 
@@ -168,5 +172,10 @@ class OrderDataController extends Controller
 
         DB::commit();
         return ResponseAPI('Pesanan berhasil diselesaikan', 200);
+    }
+
+    private function viewReceipt(Order $order)
+    {
+        return view('receipt_image', ['order' => $order]);
     }
 }
