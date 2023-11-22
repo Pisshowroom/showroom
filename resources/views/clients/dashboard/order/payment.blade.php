@@ -129,7 +129,7 @@
             function onIncompletePaymentFound(payment) {
                 console.log(payment);
                 $('.loading').removeClass('show-modal').addClass('d-none');
-                return $.post("/pi/incomplete{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
+                $.post("/pi/incomplete{{ Auth::check() && preg_match('/Chrome/i',request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}", {
                         payment_id: paymentId,
                     },
                     function(data, textStatus, jqXHR) {
