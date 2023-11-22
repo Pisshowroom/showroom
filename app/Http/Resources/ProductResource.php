@@ -50,6 +50,7 @@ class ProductResource extends JsonResource
             'rating' => $this->reviews_avg_rating ? doubleval($this->reviews_avg_rating) : 0,
             'is_featured' => $this->is_featured,
             'category_id' => $this->category_id,
+            'sub_category_id' => $this->sub_category_id,
             'seller_id' => $this->seller_id,
             // 'seller' => new UserResource($this->whenLoaded('seller')),
             // 'seller' => new SellerResource($this->whenLoaded('seller')),
@@ -58,6 +59,9 @@ class ProductResource extends JsonResource
             }),
             'category' => $this->whenLoaded('category', function () {
                 return new CategoryResource($this->category);
+            }),
+            'sub_category' => $this->whenLoaded('sub_category', function () {
+                return new SubCategoryResource($this->sub_category);
             }),
             'variants' => $this->whenLoaded('variants', function () {
                 return self::collection($this->variants);

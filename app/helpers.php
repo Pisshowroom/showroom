@@ -74,6 +74,10 @@ function lypsisGetOrderStatusValues($paramStatus)
     }
 }
 
+function lypsisRemoveHost($url) {
+    return parse_url($url, PHP_URL_PATH);
+}
+
 function lypsisGetSetting($name, $default = false, $multiple = false, $names = [])
 {
     if ($multiple == false) {

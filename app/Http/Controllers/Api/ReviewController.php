@@ -76,8 +76,9 @@ class ReviewController extends Controller
             foreach ($request->images as $img) {
                 if (isset($img) && is_uploaded_file($img)) {
                     $images[] = uploadFoto($img, 'uploads/reviews/' . $user->id);
-                } else if (isset($img)) {
-                    $images[] = $img;
+                } else if (!empty($img)) {
+                    $dirImage = lypsisRemoveHost($img);
+                    $images[] = $dirImage;
                 }
             }
         }
