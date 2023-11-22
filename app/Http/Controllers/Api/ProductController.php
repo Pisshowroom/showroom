@@ -175,8 +175,8 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'weight' => 'required|integer|min:1',
             'images' => 'required',
-            'images.*.file' => 'required',
-            'unit' => 'required|string|max:255',
+            // 'images.*.file' => 'required',
+            // 'unit' => 'required|string|max:255',
             'description' => 'required|string',
             // '' => 'nullable|integer|min:1|max:100'
         ]);
