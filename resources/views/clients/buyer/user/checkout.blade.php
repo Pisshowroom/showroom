@@ -140,7 +140,7 @@
                                             id="master_account_id" name="master_account_id">
                                             <option value="0">Pilih salah satu</option>
                                             @foreach ($data['master_account'] as $item)
-                                                @if (Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')))
+                                                @if (Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) && $item->type == 'PI')
                                                     <option value="{{ $item->id }}">{{ $item->name }} (Recommended)</option>
                                                 @else
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
