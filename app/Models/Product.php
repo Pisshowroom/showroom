@@ -15,6 +15,9 @@ class Product extends Model
         'images' => 'array'
     ];
 
+    protected $fillable = ['name', 'price', 'images', 'discount', 'slug', 'parent_id', 'stock'];    
+    // protected $fillable = ['name', 'description', 'price', 'quantity', 'images', 'discount', 'category_id', 'sub_category_id', 'seller_id', 'parent_id'];    
+
     public function category()
     {
         return $this->belongsTo(Category::class);

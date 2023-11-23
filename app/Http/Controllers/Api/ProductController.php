@@ -231,33 +231,71 @@ class ProductController extends Controller
         }
     }
 
-    public function storeOrUpdateProductVariant(Request $request)
+    public function storeOrUpdateProductVariant(Product $productParent, Request $request)
     {
-        $productParentId = $request->input('parent_id');
-        $productParent = Product::findOrFail($productParentId);
+        $user = auth()->guard('api-client')->user();
+
+        $this->validate($request, [
+            'variants.*.name' => 'required',
+            'variants.*.price' => 'required',
+            'variants.*.stock' => 'required',
+        ]);
 
         $variants = json_decode($request->variants, true);
+        DB::beginTransaction();
 
+        // dd($variants);
         foreach ($variants as $variant) {
+            $productName = $variant['name'];
+            $image = null;
             if (empty($variant['id'])) {
                 $theVariant = $productParent->replicate();
+                $productName .= " AA";
+                if (isset($variant['image']) && is_uploaded_file($variant['image'])) {
+                    $image = uploadFoto($variant['image'], 'uploads/products/' . $user->id);
+                    $image = [$image];
+                }
+
+                $theVariant->parent_id = $productParent->id;
+                $theVariant->name = $productName;
+                $theVariant->slug = null;
+                $theVariant->images = $image;
+                $theVariant->price = $variant['price'];
+                $theVariant->stock = $variant['stock'];
+                $theVariant->discount = $variant['discount'] ?? null;
+                $theVariant->save();
+            } else {
+                $theVariant = Product::where('parent_id', $productParent->id)->where('id', $variant['id'])
+                    ->firstOrFail();
+                $productName .= " BB";
+                if (isset($variant['image']) && is_uploaded_file($variant['image'])) {
+                    $image = uploadFoto($variant['image'], 'uploads/products/' . $user->id);
+                    $image = [$image];
+                } else if (!empty($variant['image'])) {
+                    $image = $theVariant->images;
+                }
 
                 $theVariant->update([
-                    'name' => $variant['name'],
+                    'name' => $productName,
+                    'slug' => null,
+                    'images' => $image ?? null,
                     'price' => $variant['price'],
                     'stock' => $variant['stock'],
-                    'discount' => $variant['discount'],
-                ]);
-            } else {
-                $theVariant = Product::findOrFail($variant['id']);
-                $theVariant->update([
-                    'name' => $variant['name'],
-                    'price' => $variant['price'],
-                    'stock' => $variant['stock'],
-                    'discount' => $variant['discount'],
+                    'discount' => $variant['discount'] ?? null,
                 ]);
             }
         }
+
+        // $deletedItemsIds = $request->deletedItemsIds;
+        $deletedItemsIds = json_decode($request->deletedItemsIds, true);
+        // dd($deletedItemsIds);
+        if (!empty($deletedItemsIds) && count($deletedItemsIds) > 0) {
+            /* $a = Product::whereIn('id', $deletedItemsIds)->get()->toArray();
+            dd($a); */
+            Product::whereIn('id', $deletedItemsIds)->delete();
+        }
+
+        DB::commit();
 
         return ResponseAPI("Manajemen variasi produk telah berhasil.", 200);
     }
