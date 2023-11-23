@@ -95,7 +95,7 @@
                             <p class="mb-1">{{ $order->address->disctrict ?? 'Kecamatan : -' }},
                                 {{ $order->address->city ?? 'Kota : -' }}<br>{{ $order->address->person_name ?? 'Nama : -' }}<br>
                                 @if ($order->address->lat && $order->address->long)
-                                    <a target="_blank"
+                                    <a target="_blank" style="word-break:break-all"
                                         href="{{ 'https://www.google.com/maps/@' . $order->address->lat . ',' . $order->address->long ?? '' . '?entry=ttu' }}">gmaps
                                         :
                                         {{ 'https://www.google.com/maps/@' . $order->address->lat . ',' . $order->address->long ?? '' . '?entry=ttu' }}</a>

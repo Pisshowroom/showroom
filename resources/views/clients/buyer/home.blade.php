@@ -186,7 +186,7 @@ dd(request()->all());
                                         @if ($ct->sub_categories && count($ct->sub_categories) > 0)
                                             <ul class="list-links-disc">
                                                 @foreach ($ct->sub_categories as $k => $sc)
-                                                    @if ($k < 4)
+                                                    @if ($k < 3)
                                                         <li><a class="font-sm"
                                                                 href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
                                                         </li>
