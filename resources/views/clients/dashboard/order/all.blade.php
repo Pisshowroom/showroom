@@ -70,9 +70,11 @@
                                             {{ $order->payment_identifier ?? '' }}
                                         </td>
                                         @if ($order->total_final)
-                                        <td class="align-middle">{{ $order->total_final ? numbFormat($order->total_final) : '' }}</td>
+                                            <td class="align-middle">
+                                                {{ $order->total_final ? numbFormat($order->total_final) : '' }}</td>
                                         @else
-                                        <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}</td>
+                                            <td class="align-middle">{{ $order->total ? numbFormat($order->total) : '' }}
+                                            </td>
                                         @endif
 
                                         <td class="align-middle">
@@ -95,7 +97,6 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                {{ $orders->onEachSide(3)->appends(request()->except('page'))->links() }}
                             @else
                                 <tr>
                                     <td colspan="8">No data Available</td>
@@ -103,6 +104,9 @@
                             @endif
                         </tbody>
                     </table>
+                    @if (count($orders) > 0)
+                        {{ $orders->onEachSide(3)->appends(request()->except('page'))->links() }}
+                    @endif
                 </div>
             </div>
         </div>
@@ -127,8 +131,9 @@
                 if (searchQuery !== '') {
                     url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
             }
 
             $('#searchOrder, #filterStatus').on('change', function() {

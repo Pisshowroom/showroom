@@ -371,7 +371,7 @@
                                                         <div class="user w-100 d-flex">
                                                             <div class="thumb text-center"><img width="80px"
                                                                     height="80px"
-                                                                    src="{{ $review->user&& $review->user->image ? $review->user->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                                                    src="{{ $review->user && $review->user->image ? $review->user->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                                                     alt="ulasan dari {{ $review->user->name }}">
                                                                 <p class="font-heading text-brand">
                                                                     {{ $review->user ? $review->user->name ?? '' : '' }}
@@ -572,32 +572,28 @@
                                 <h4>Tidak ada Produk saat ini</h4>
                             </div>
                         @endif
-                        {{-- <div class="border-bottom pt-20 mb-40"></div>
+                        <div class="border-bottom pt-20 mb-40"></div>
                         <h4 class="color-brand-3">Barang yang baru-baru ini dilihat</h4>
                         <div class="row mt-40">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <div class="card-grid-style-2 card-grid-none-border hover-up">
-                                    <div class="image-box"><a href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}"><img
-                                                src="{{ asset('ecom/imgs/page/homepage1/imgsp1.png') }}"
-                                                alt="Ecom"></a>
-                                    </div>
-                                    <div class="info-right"><span class="font-xs color-gray-500">Apple</span><br><a
-                                            class="color-brand-3 font-xs-bold"
-                                            href="{{ route('buyer.detailProduct',['slug'=>'sd']) }}">SAMSUNG
-                                            Galaxy Tab A7 Lite, 8.7&quot; Tablet 32GB</a>
-                                        <div class="rating"><img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                                alt="Ecom"><span class="font-xs color-gray-500"> (65)</span></div>
-                                        <div class="price-info mt-1"><strong
-                                                class="font-md-bold color-brand-3 price-main">$2556.3</strong><span
-                                                class="color-gray-500 price-line">$3225.6</span></div>
-                                    </div>
+                            @foreach ($data['best_seller_product'] as $prd)
+                                <div class="col-xl-4 col-md-6 col-sm-12">
+                                    @include('clients.buyer.components.list_product3')
                                 </div>
-                            </div>
-                        </div>  --}}
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+        <div class="mt-20">
+            <div class="text-center">
+                <a
+                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                        src="{{ asset('ecom/imgs/page/product/banner-ads.png') }}" alt="banner produk">
+                </a>
+            </div>
+        </div>
+
         @include('clients.buyer.layouts.benefit')
     </main>
 

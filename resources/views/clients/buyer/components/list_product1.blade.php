@@ -1,5 +1,5 @@
 <div class="card-grid-style-3">
-    <div class="card-grid-inner">
+    <div class="card-grid-inner {{ Route::currentRouteName() == 'buyer.allListProduct' ? 'gap-3' : '' }}">
         <div class="tools">
             <a class="btn btn-wishlist btn-tooltip mb-10"
                 href="{{ Auth::guard('web')->user() ? route('buyer.wishlist') : route('buyer.login') }}"
@@ -27,9 +27,9 @@
             @else
                 <p class="font-xs color-gray-500 line-1 text-start">-</p>
             @endif
-            <a class="color-brand-3 font-sm-bold line-2 text-start"
+            <a class="color-brand-3 font-sm-bold"
                 href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                <p class="text-start">{{ $prd->name ?? '' }}</p>
+                <p class="line-2 text-start">{{ $prd->name ?? '' }}</p>
             </a>
             <div class="rating">
                 <img src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
@@ -39,7 +39,7 @@
                     ({{ $prd->total_sell ? moneyFormat($prd->total_sell) ?? 0 : 0 }}
                     Terjual)</span>
             </div>
-            <div class="price-info mt-1">
+            <div class="price-info mt-0">
                 @if (isset($prd->price_discount) && $prd->price_discount > 0)
                     <strong class="font-md-bold color-brand-3 price-main">
                         {{ $prd->price_discount > 0 ? numbFormat($prd->price_discount) : 'Rp 0' }}</strong>

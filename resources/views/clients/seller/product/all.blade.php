@@ -90,7 +90,6 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                {{ $products->onEachSide(3)->appends(request()->except('page'))->links() }}
                             @else
                                 <tr>
                                     <td colspan="8">No data Available</td>
@@ -98,6 +97,9 @@
                             @endif
                         </tbody>
                     </table>
+                    @if (count($products) > 0)
+                        {{ $products->onEachSide(3)->appends(request()->except('page'))->links() }}
+                    @endif
                 </div>
             </div>
         </div>
@@ -150,8 +152,9 @@
                 if (searchQuery !== '') {
                     url += (selectedCategoryId !== '' ? '&' : '?') + 'search=' + searchQuery;
                 }
-                auth = "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                window.location = url + (url.includes('?') ? '&' : '?') + auth ;
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
                 // Navigate to the constructed URL
                 // history.pushState({}, '', url);
             }

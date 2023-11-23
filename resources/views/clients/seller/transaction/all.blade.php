@@ -103,7 +103,6 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                {{ $orders->onEachSide(3)->appends(request()->except('page'))->links() }}
                             @else
                                 <tr>
                                     <td colspan="8">No data Available</td>
@@ -111,6 +110,9 @@
                             @endif
                         </tbody>
                     </table>
+                    @if (count($orders) > 0)
+                        {{ $orders->onEachSide(3)->appends(request()->except('page'))->links() }}
+                    @endif
                 </div>
             </div>
         </div>

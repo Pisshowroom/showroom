@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Clients\buyer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
@@ -64,8 +66,28 @@ class ProductController extends Controller
                 }
             }
         }
-
+        $bestSellerProducts = Product::with([
+            'category', 'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+        ])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])->byNotVariant()
+            ->orderByDesc('total_quantity')
+            ->take(8)
+            ->get();
         $data = $this->getCommonData();
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
         return view('clients.buyer.product.all_grid', ['products' => $product, 'data' => $data]);
     }
     public function allListProduct(Request $request)
@@ -100,7 +122,28 @@ class ProductController extends Controller
                 }
             }
         }
+        $bestSellerProducts = Product::with([
+            'category', 'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+        ])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])->byNotVariant()
+            ->orderByDesc('total_quantity')
+            ->take(8)
+            ->get();
         $data = $this->getCommonData();
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
@@ -131,7 +174,28 @@ class ProductController extends Controller
         } else {
             $product->price_discount = null;
         }
+        $bestSellerProducts = Product::with([
+            'category', 'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+        ])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])->byNotVariant()
+            ->orderByDesc('total_quantity')
+            ->take(3)
+            ->get();
         $data = $this->getCommonData();
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
         $data['reviews'] = Review::whereNull('deleted_at')->with('user:id,name,image')->orderByDesc('id')->paginate(5);
         foreach ($data['reviews'] as $review) {
             if ($review->created_at)

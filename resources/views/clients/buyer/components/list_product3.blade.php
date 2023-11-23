@@ -1,27 +1,22 @@
-<div class="card-grid-style-2 card-grid-none-border border-bottom mb-10">
-    <div class="image-box">
-        @if ($prd->discount && $prd->discount > 0)
-            <span class="label bg-brand-2">{{ $prd->discount }}%</span>
-        @endif
-        @auth
-            <a
-                href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-            @endauth
-            @guest
-                <a href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}">
-                @endguest
-                <img src="{{ $prd?->images && count($prd?->images) > 0 ? $prd->images[0] : asset('ecom/imgs/page/homepage2/camera.png') }}"
-                    alt="produk {{ $prd->name ?? '' }}"></a>
+<div
+    class="card-grid-style-2  {{ in_array(Route::currentRouteName(), ['buyer.detailProduct']) ? 'card-grid-none-border hover-up' : '' }}">
+    <div class="image-box" style="width:120px !important;height:126px !important;">
+        <a
+            href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+            <img style="object-fit:cover;width:120px;height:126px;"
+                src="{{ $prd?->images && count($prd?->images) > 0 ? $prd->images[0] : asset('ecom/imgs/page/homepage1/imgsp1.png') }}"
+                alt="produk {{ $prd->name ?? '' }}">
+        </a>
     </div>
-    <div class="info-right">
+    <div class="info-right" style="width:80% !important">
         @if ($prd?->seller && $prd?->seller?->seller_slug)
-            <a class="font-xs color-gray-500 line-1 text-start"
-                href="{{ route('buyer.detailSeller', ['slug' => $prd?->seller?->seller_slug]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                {{ $prd->seller ? $prd->seller->seller_name ?? '-' : '-' }}</a>
+            <span
+                class="font-xs color-gray-500 line-1 text-start">{{ $prd->seller ? $prd->seller->seller_name ?? '-' : '-' }}</span>
         @else
-            <p class="font-xs color-gray-500 line-1 text-start">-</p>
+            <span class="font-xs color-gray-500 line-1 text-start">-</span>
         @endif
-        <a class="color-brand-3 font-xs-bold"
+
+        <a class="color-brand-3 font-sm-bold"
             href="{{ route('buyer.detailProduct', ['slug' => $prd->slug ?? 'sd']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
             <p class="line-2 text-start">{{ $prd->name ?? '' }}</p>
         </a>
@@ -52,6 +47,16 @@
                 <br>
             @endif
 
+        </div>
+        <div class="price-info price-info2 mt-0 d-flex flex-row gap-1 align-items-center">
+            {!! file_get_contents('ecom/imgs/page/product/icon-location.svg') !!}
+            @if ($prd?->seller && $prd?->seller->address && $prd?->seller->address?->city)
+                <strong class="font-sm color-gray-500 price-main locations">
+                    {{ $prd?->seller->address?->city }}</strong>
+            @else
+                <strong class="font-sm color-gray-500 price-main locations">
+                    Jakarta</strong>
+            @endif
         </div>
     </div>
 </div>

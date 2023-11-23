@@ -130,9 +130,11 @@
                     @endforeach
                 </div>
                 <h4 class="color-brand-3">Barang yang direkomendasikan</h4>
-                <div class="list-products-5 mt-20 mb-40">
+                <div class="row mt-40">
                     @foreach ($data['recommended_products'] as $prd)
-                        @include('clients.buyer.components.list_product1')
+                        <div class="col-xl-4 col-md-6 col-sm-12">
+                            @include('clients.buyer.components.list_product3')
+                        </div>
                     @endforeach
                 </div>
             </div>
