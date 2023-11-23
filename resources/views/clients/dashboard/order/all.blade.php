@@ -103,10 +103,10 @@
                                 </tr>
                             @endif
                         </tbody>
-                        @if (count($orders) > 0)
-                            {{ $orders->onEachSide(3)->appends(request()->except('page'))->links() }}
-                        @endif
                     </table>
+                    @if (count($orders) > 0)
+                        {{ $orders->onEachSide(3)->appends(request()->except('page'))->links() }}
+                    @endif
                 </div>
             </div>
         </div>

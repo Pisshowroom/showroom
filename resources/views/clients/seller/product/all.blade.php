@@ -96,11 +96,10 @@
                                 </tr>
                             @endif
                         </tbody>
-                        @if (count($products) > 0)
-                            {{ $products->onEachSide(3)->appends(request()->except('page'))->links() }}
-                        @endif
-
                     </table>
+                    @if (count($products) > 0)
+                        {{ $products->onEachSide(3)->appends(request()->except('page'))->links() }}
+                    @endif
                 </div>
             </div>
         </div>
