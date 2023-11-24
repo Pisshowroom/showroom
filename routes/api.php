@@ -127,6 +127,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('/update-seller', [UserController::class, 'updateSeller']);
         Route::post('/register-as-seller', [UserController::class, 'registerAsSeller']);
         Route::post('/logout', [UserController::class, 'logout']);
+        Route::post('/set-seller-active-status', [UserController::class, 'setSellerActiveStatus']);
     });
 });
 

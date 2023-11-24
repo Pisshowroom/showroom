@@ -454,6 +454,11 @@ class OrderController extends Controller
             }
             if ($sellerId == null) {
                 $sellerId = $product->seller_id;
+                $product->load('seller');
+                $seller = $product->seller;
+                if ($seller != null && $seller->is_seller_active != true) {
+                    return ResponseAPI("Maaf, toko " . $seller->seller_name . " tidak aktif. Maka tidak bisa beli barang disini", 400);
+                }
             } else {
                 if ($sellerId != $product->seller_id) {
                     return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
@@ -589,6 +594,11 @@ class OrderController extends Controller
             }
             if ($sellerId == null) {
                 $sellerId = $product->seller_id;
+                $product->load('seller');
+                $seller = $product->seller;
+                if ($seller != null && $seller->is_seller_active != true) {
+                    return ResponseAPI("Maaf, toko " . $seller->seller_name . " tidak aktif. Maka tidak bisa beli barang disini", 400);
+                }
             } else {
                 if ($sellerId != $product->seller_id) {
                     return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);

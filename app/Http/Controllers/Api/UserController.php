@@ -160,4 +160,21 @@ class UserController extends Controller
 
         return ResponseAPI('Logout berhasil');
     }
+
+    // func setSellerActiveStatus
+    public function setSellerActiveStatus(Request $request)
+    {
+        $request->validate([
+            'is_seller_active' => 'required|boolean',
+        ]);
+        $user = Auth::guard('api-client')->user();
+        if ($user->is_seller == false) {
+            return ResponseAPI('Anda belum terdaftar sebagai seller', 400);
+        }
+        
+        $user->is_seller_active = (bool)$request->is_seller_active;
+        $user->save();
+
+        return ResponseAPI('Berhasil mengubah status seller', 200);
+    }
 }
