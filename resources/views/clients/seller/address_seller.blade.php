@@ -1,6 +1,6 @@
 @extends('clients.master-dashboard')
 @section('title', 'Ubah Alamat')
-@section('settings', 'active')
+@section('profile', 'active')
 @section('dashboard')
     <section class="content-main">
         <div class="content-header">
@@ -163,6 +163,8 @@
                                                     <div class="form-check form-switch ps-5">
                                                         <label class="form-check-label" for="for_seller">Atur
                                                             sebagai Alamat Utama</label>
+                                                        <i class="icon material-icons md-home" style="color: #E9A92E"></i>
+
                                                         <input class="form-check-input" type="checkbox" id="for_seller"
                                                             name="for_seller" checked>
                                                     </div>

@@ -2144,6 +2144,8 @@ a.text-brand-3:hover {
   width: 100%;
 }
 .card-grid-style-1 .image-box img {
+  aspect-ratio:1/0.8;
+  width: 100%;
   border-radius: 4px;
 }
 .card-grid-style-1 .tag-dot {

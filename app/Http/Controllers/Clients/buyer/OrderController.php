@@ -125,7 +125,7 @@ class OrderController extends Controller
             }
 
             if ($product->discount > 0) {
-                $thePromoAmount = ($product->price * $product->discount / 100);
+                $thePromoAmount = $product->price * ($product->discount / 100);
                 $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
                 $countedPromoProduct++;
                 $countedAmountPromo += ($thePromoAmount * $order_item['qty']);
@@ -196,7 +196,7 @@ class OrderController extends Controller
             }
 
             if ($product->discount > 0) {
-                $thePromoAmount = ($product->price * $product->discount / 100);
+                $thePromoAmount = $product->price * ($product->discount / 100);
                 $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
                 $countedPromoProduct++;
                 $countedAmountPromo += ($thePromoAmount * $order_item['qty']);
@@ -295,7 +295,7 @@ class OrderController extends Controller
 
             if ($product->discount > 0) {
                 // minusing the product price with discount as percentage
-                $thePromoAmount = ($product->price * $product->discount / 100);
+                $thePromoAmount = $product->price * ($product->discount / 100);
                 $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
                 $countedPromoProduct++;
                 $countedAmountPromo += $thePromoAmount * $qty;
@@ -428,7 +428,7 @@ class OrderController extends Controller
             }
 
             if ($product->discount > 0) {
-                $thePromoAmount = ($product->price * $product->discount / 100);
+                $thePromoAmount = $product->price * ($product->discount / 100);
                 $resultItemPriceAfterDiscount = $product->price - $thePromoAmount;
                 $countedPromoProduct++;
                 $countedAmountPromo += ($thePromoAmount * $qty);
