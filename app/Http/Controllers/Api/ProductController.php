@@ -239,20 +239,25 @@ class ProductController extends Controller
             'variants.*.name' => 'required',
             'variants.*.price' => 'required',
             'variants.*.stock' => 'required',
+            'variant_images.*' => 'required',
         ]);
 
+
         $variants = json_decode($request->variants, true);
+        $variantImages = $request->variant_images;
         DB::beginTransaction();
 
         // dd($variants);
-        foreach ($variants as $variant) {
+        foreach ($variants as $key => $variant) {
             $productName = $variant['name'];
             $image = null;
+            $theImageItem = $variantImages[$key] ?? null;
+
             if (empty($variant['id'])) {
                 $theVariant = $productParent->replicate();
                 $productName .= " AA";
-                if (isset($variant['image']) && is_uploaded_file($variant['image'])) {
-                    $image = uploadFoto($variant['image'], 'uploads/products/' . $user->id);
+                if (isset($theImageItem) && is_uploaded_file($theImageItem)) {
+                    $image = uploadFoto($theImageItem, 'uploads/products/' . $user->id);
                     $image = [$image];
                 }
 
@@ -268,10 +273,10 @@ class ProductController extends Controller
                 $theVariant = Product::where('parent_id', $productParent->id)->where('id', $variant['id'])
                     ->firstOrFail();
                 $productName .= " BB";
-                if (isset($variant['image']) && is_uploaded_file($variant['image'])) {
-                    $image = uploadFoto($variant['image'], 'uploads/products/' . $user->id);
+                if (isset($theImageItem) && is_uploaded_file($theImageItem)) {
+                    $image = uploadFoto($theImageItem, 'uploads/products/' . $user->id);
                     $image = [$image];
-                } else if (!empty($variant['image'])) {
+                } else if (!empty($theImageItem)) {
                     $image = $theVariant->images;
                 }
 

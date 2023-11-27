@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RegionalController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WithdrawController;
 use App\Http\Controllers\Clients\AuthController as ClientsAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -99,8 +100,15 @@ Route::group(['prefix' => 'product'], function () {
     Route::get('/show-simple/{product}', [ProductController::class, 'showSimple']);
 });
 
+Route::group(['prefix' => 'withdraw'], function () {
+    Route::get('/', [WithdrawController::class, 'index']);
+    Route::post('/store-or-update', [WithdrawController::class, 'storeOrUpdate']);
+    Route::delete('/{withdraw}', [WithdrawController::class, 'destroy']);
+});
+
 Route::prefix('payment')->group(function () {
     Route::get('payment-list', [PaymentController::class, 'index']);
+    Route::get('pay-list-bank', [PaymentController::class, 'payListBank']);
 });
 
 Route::group(['prefix' => 'addresses', 'middleware' => 'auth:api-client'], function () {

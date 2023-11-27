@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MasterAccountResource;
+use App\Http\Resources\MasterAccountWithoutVAWordResource;
 use App\Models\MasterAccount;
 use Illuminate\Http\Request;
 use Xendit\Xendit;
@@ -19,6 +20,13 @@ class PaymentController extends Controller
         // $masterAccounts = MasterAccount::whereIn('type', ['Retail-Outlet'])
         ->orderBy('type')
         ->get();
+
+        return MasterAccountResource::collection($masterAccounts);
+    }
+
+    public function payListBank()
+    {
+        $masterAccounts = MasterAccount::where('type', 'Virtual-Account')->get();
 
         return MasterAccountResource::collection($masterAccounts);
     }
