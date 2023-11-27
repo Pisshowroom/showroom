@@ -34,7 +34,7 @@
                                     type="button" role="tab" aria-controls="pills-address"
                                     aria-selected="{{ request()->get('param') == 'alamat' ? 'true' : 'false' }}">Alamat</a>
                             </li>
-                            <li class="nav-item" role="presentation">
+                            <li class="nav-item d-none" role="presentation">
                                 <a class="nav-link" href="#" id="pills-add-address-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-add-address" type="button" role="tab"
                                     aria-controls="pills-add-address" aria-selected="false">Tambah Alamat</a>
@@ -46,7 +46,8 @@
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade {{ !request()->get('param') || request()->get('param') != 'alamat' ? 'show active' : '' }}"
                                     id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
-                                    <form method="POST" action="{{ route('dashboard.updateProfile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                                    <form method="POST"
+                                        action="{{ route('dashboard.updateProfile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
@@ -101,6 +102,11 @@
                                     id="pills-address" role="tabpanel" aria-labelledby="pills-address-tab">
                                     <div class="new-member-list">
                                         @if ($data['addresses'] && count($data['addresses']) > 0)
+                                            <div class="mb-4" style="text-align: -webkit-right;">
+                                                <button class="nav-link btn btn-primary" id="pills-add-address-tabs"
+                                                    style="width:fit-content;" type="button">Tambah
+                                                    Alamat</button>
+                                            </div>
                                             @foreach ($data['addresses'] as $address)
                                                 @if ($address->id)
                                                     <div
@@ -117,7 +123,7 @@
                                                                 @if ($address->main == 1)
                                                                     <button class="btn btn-xs"
                                                                         style="background-color: #E9A92E !important;border-radius:5px !important"
-                                                                        disabled>Utama</button>
+                                                                        >Utama</button>
                                                                 @endif
 
                                                             </div>
@@ -133,7 +139,13 @@
                                             @endforeach
                                         @else
                                             <div class="col-lg-12 text-center mt-40">
-                                                <h4>Tidak ada data Alamat utama saat ini</h4>
+                                                <h4>Kamu belum menyimpan alamat. Yuk, simpan alamat dulu biar ga ribet pas
+                                                    belanja</h4>
+                                                <div class="w-100 mt-20" style="text-align:-webkit-center">
+                                                    <button class="nav-link btn btn-primary" id="pills-add-address-tabs"
+                                                        type="button">Tambah
+                                                        Alamat</button>
+                                                </div>
                                             </div>
                                         @endif
                                     </div>
@@ -388,7 +400,9 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
         $(document).ready(function() {
-
+            $("#pills-add-address-tabs").on("click", function() {
+                $("#pills-add-address-tab").tab("show");
+            });
             $('#image').change(function() {
                 var file = this.files[0];
                 var reader = new FileReader();

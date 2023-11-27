@@ -43,7 +43,7 @@
                                     aria-selected="{{ request()->get('param') == 'alamat' ? 'true' : 'false' }}">Alamat</a>
                             </li>
                             @if (Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller == 1)
-                                <li class="nav-item" role="presentation">
+                                <li class="nav-item d-none" role="presentation">
                                     <a class="nav-link" href="#" id="pills-add-address-tab" data-bs-toggle="pill"
                                         data-bs-target="#pills-add-address" type="button" role="tab"
                                         aria-controls="pills-add-address" aria-selected="false">Tambah Alamat</a>
@@ -112,6 +112,11 @@
                                     <div class="new-member-list">
                                         @if (Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller == 1)
                                             @if ($data['addresses'] && count($data['addresses']) > 0)
+                                                <div class="mb-4" style="text-align: -webkit-right;">
+                                                    <button class="nav-link btn btn-primary" id="pills-add-address-tabs"
+                                                        style="width:fit-content;" type="button">Tambah
+                                                        Alamat</button>
+                                                </div>
                                                 @foreach ($data['addresses'] as $address)
                                                     @if ($address->id)
                                                         <div
@@ -128,7 +133,7 @@
                                                                     @if ($address->for_seller == 1)
                                                                         <button class="btn btn-xs"
                                                                             style="background-color: #E9A92E !important;border-radius:5px !important"
-                                                                            disabled>Utama</button>
+                                                                        >Utama</button>
                                                                     @endif
 
                                                                 </div>
@@ -144,7 +149,14 @@
                                                 @endforeach
                                             @else
                                                 <div class="col-lg-12 text-center mt-40">
-                                                    <h4>Tidak ada data Alamat utama saat ini</h4>
+                                                    <h4>Kamu belum menyimpan alamat. Yuk, simpan alamat dulu biar ga ribet
+                                                        pas
+                                                        menjual produk</h4>
+                                                    <div class="w-100 mt-20" style="text-align:-webkit-center">
+                                                        <button class="nav-link btn btn-primary"
+                                                            id="pills-add-address-tabs" type="button">Tambah
+                                                            Alamat</button>
+                                                    </div>
                                                 </div>
                                             @endif
                                         @else
@@ -254,6 +266,8 @@
                                                                 <div class="form-check form-switch ps-5">
                                                                     <label class="form-check-label" for="for_seller">Atur
                                                                         sebagai Alamat Utama</label>
+                                                                        <i class="icon material-icons md-home"
+                                                                            style="color: #E9A92E"></i>
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="for_seller" id="for_seller" checked>
                                                                 </div>
@@ -421,6 +435,10 @@
             separateDialCode: true
         });
         $(document).ready(function() {
+            $("#pills-add-address-tabs").on("click", function() {
+                $("#pills-add-address-tab").tab("show");
+            });
+
             $('#seller_image').change(function() {
                 var file = this.files[0];
                 var reader = new FileReader();

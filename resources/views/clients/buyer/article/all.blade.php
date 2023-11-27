@@ -29,7 +29,7 @@
                                 <div class="col-xl-10 col-lg-9 mb-0 text-lg-end text-center"><span
                                         class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
                                         {{ count($articles) > 0 ? count($articles) : 0 }} hasil</span>
-                                    {{-- <div class="d-inline-block"><span
+                                    <div class="d-inline-block"><span
                                             class="font-sm color-gray-500 font-medium">Berdasarkan:</span>
                                         <div class="dropdown dropdown-sort border-1-right">
                                             <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
@@ -46,28 +46,7 @@
                                                         Terlama</a></li>
                                             </ul>
                                         </div>
-                                    </div> --}}
-                                    {{-- <div class="d-inline-block"><span
-                                            class="font-sm color-gray-500 font-medium">Munculkan</span>
-                                        <div class="dropdown dropdown-sort border-1-right">
-                                            <button class="btn dropdown-toggle font-sm color-gray-900 font-medium"
-                                                id="dropdownSort2" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false"
-                                                data-bs-display="static"><span>{{ request()->get('per_page') ?? 30 }}
-                                                    items</span></button>
-                                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort2">
-                                                <li><a class="dropdown-item {{ request()->get('per_page') == 30 ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allArticle', ['per_page' => 30]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">30
-                                                        items</a></li>
-                                                <li><a class="dropdown-item {{ request()->get('per_page') == 50 ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allArticle', ['per_page' => 50]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">50
-                                                        items</a></li>
-                                                <li><a class="dropdown-item {{ request()->get('per_page') == 100 ? 'active' : '' }}"
-                                                        href="{{ route('buyer.allArticle', ['per_page' => 100]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">100
-                                                        items</a></li>
-                                            </ul>
-                                        </div>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -78,10 +57,12 @@
                         @foreach ($articles as $article)
                             <div class="col-lg-3 col-md-4 col-sm-6 mb-40">
                                 <div class="card-grid-style-1">
-                                    <div class="image-box"><a
-                                            href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"></a>
-                                        <img src="{{ $article?->image ? $article->image : asset('ecom/imgs/page/blog/blog-1.jpg') }}"
-                                            alt="artikel {{ $article->title ?? '' }}">
+                                    <div class="image-box">
+                                        <a
+                                            href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                        <img
+                                            src="{{ $article?->image ? $article->image : asset('ecom/imgs/page/blog/blog-1.jpg') }}"
+                                            alt="artikel {{ $article->title ?? '' }}"></a>
                                     </div>
                                     <a class="color-gray-1100"
                                         href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
@@ -90,7 +71,7 @@
                                     <div class="d-flex justify-content-between"><span
                                             class="color-gray-500 font-xs mr-30">{{ $article->date ?? '' }}</span>
                                         <span
-                                            class="color-gray-500 font-xs">{{ $article->view && $article->view>0 ? moneyFormat($article->view) . 'x dilihat' : 'belum dilihat' }}</span>
+                                            class="color-gray-500 font-xs">{{ $article->view && $article->view > 0 ? moneyFormat($article->view) . 'x dilihat' : 'belum dilihat' }}</span>
 
                                     </div>
                                 </div>

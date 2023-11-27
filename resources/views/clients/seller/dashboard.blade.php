@@ -42,8 +42,7 @@
                                 class="text-success material-icons md-local_shipping"></i></span>
                         <div class="text">
                             <h6 class="mb-1 card-title">Pesanan</h6><span>{{ $data['orders_done'] ?? 0 }}</span><span
-                                class="text-sm">Tidak termasuk
-                                pesanan dalam perjalanan</span>
+                                class="text-sm">hanya pesanan yang telah selesai</span>
                         </div>
                     </article>
                 </div>

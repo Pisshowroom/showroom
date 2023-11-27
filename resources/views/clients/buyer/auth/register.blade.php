@@ -37,15 +37,21 @@
                             </div>
                             <div class="form-group">
                                 <label class="mb-5 font-sm color-gray-700">Password *</label>
-                                <input class="form-control" type="password" id="password" name="password" required>
+                                <div class="d-flex flex-row align-items-center">
+                                    <input class="form-control" type="password" id="password" name="password" required>
+                                    <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="mb-5 font-sm color-gray-700">Ulangi Password *</label>
-                                <input class="form-control" type="password" id="repassword" required>
+                                <div class="d-flex flex-row align-items-center">
+                                    <input class="form-control" type="password" id="repassword" required>
+                                    <span toggle="#repassword" class="fa fa-fw fa-eye field-icon toggle-repassword"></span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>
-                                    <input class="checkagree" type="checkbox" checked disabled>Dengan mengklik tombol
+                                    <input class="checkagree" type="checkbox">Dengan mengklik tombol
                                     Daftar, Anda menyetujui
                                     syarat dan kebijakan kami,
                                 </label>
@@ -73,6 +79,25 @@
     </main>
 
 @endsection
+@push('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        label {
+            margin-right: 10px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 5px;
+        }
+
+        .field-icon {
+            cursor: pointer;
+            margin-left: -40px;
+            user-select: none;
+        }
+    </style>
+@endpush
 @push('importjs')
     <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-analytics.js"></script>
@@ -98,6 +123,24 @@
                     }
                 } else {
                     $submitButton.prop('disabled', true);
+                }
+            });
+            $(".toggle-password").click(function() {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
+            });
+            $(".toggle-repassword").click(function() {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $($(this).attr("toggle"));
+                if (input.attr("type") == "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
                 }
             });
         });
@@ -196,60 +239,71 @@
             var name = $('#name').val();
             var email = $('#email').val();
             var password = $('#password').val();
-            $.ajaxSetup({
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-            });
-            $('.loading').removeClass('d-none').addClass('show-modal');
+            if ($('.checkagree').is(":checked")) {
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                });
+                $('.loading').removeClass('d-none').addClass('show-modal');
 
-            $.ajax({
-                type: "POST",
-                url: "{{ route('registerEmail') }}",
-                data: {
-                    name: name,
-                    email: email,
-                    password: password,
-                },
-                success: function(data) {
-                    $('.loading').removeClass('show-modal')
-                        .addClass('d-none');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('registerEmail') }}",
+                    data: {
+                        name: name,
+                        email: email,
+                        password: password,
+                    },
+                    success: function(data) {
+                        $('.loading').removeClass('show-modal')
+                            .addClass('d-none');
 
-                    if (data.status == "success") {
-                        var div = document.getElementById('myDiv3');
-                        $('#myDiv3').css('display', 'block');
-                        div.innerHTML = '';
-                        div.innerHTML += data.message;
-                        setTimeout(function() {
-                            $('#myDiv3').fadeOut('fast');
-                        }, 2000);
-                        window.location.replace("{{ route('dashboard.myOrder') }}");
+                        if (data.status == "success") {
+                            var div = document.getElementById('myDiv3');
+                            $('#myDiv3').css('display', 'block');
+                            div.innerHTML = '';
+                            div.innerHTML += data.message;
+                            setTimeout(function() {
+                                $('#myDiv3').fadeOut('fast');
+                            }, 2000);
+                            window.location.replace("{{ route('dashboard.myOrder') }}");
 
-                    } else {
+                        } else {
+                            var div = document.getElementById('myDiv2');
+                            $('#myDiv2').css('display', 'block');
+                            div.innerHTML = '';
+                            div.innerHTML += data.message;
+                            setTimeout(function() {
+                                $('#myDiv2').fadeOut('fast');
+                            }, 2000);
+                        }
+                    },
+                    error: function(error) {
+                        $('.loading').removeClass('show-modal')
+                            .addClass('d-none');
+
                         var div = document.getElementById('myDiv2');
                         $('#myDiv2').css('display', 'block');
                         div.innerHTML = '';
-                        div.innerHTML += data.message;
+                        div.innerHTML += error.message;
                         setTimeout(function() {
                             $('#myDiv2').fadeOut('fast');
                         }, 2000);
-                    }
-                },
-                error: function(error) {
-                    $('.loading').removeClass('show-modal')
-                        .addClass('d-none');
+                    },
+                });
+            } else {
+                var div = document.getElementById('myDiv2');
+                $('#myDiv2').css('display', 'block');
+                div.innerHTML = '';
+                div.innerHTML += 'Kamu belum menyetujui syarat & kebijakan kami';
+                setTimeout(function() {
+                    $('#myDiv2').fadeOut('fast');
+                }, 2000);
 
-                    var div = document.getElementById('myDiv2');
-                    $('#myDiv2').css('display', 'block');
-                    div.innerHTML = '';
-                    div.innerHTML += error.message;
-                    setTimeout(function() {
-                        $('#myDiv2').fadeOut('fast');
-                    }, 2000);
-                },
-            });
+            }
         });
     </script>
 @endpush
