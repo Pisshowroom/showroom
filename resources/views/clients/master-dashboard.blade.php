@@ -21,6 +21,7 @@
 </head>
 
 <body>
+    <div class="loading d-none"><span class="loaders"><span class="loader-inner"></span></span></div>
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top"><a class="brand-wrap" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img class="logo"
