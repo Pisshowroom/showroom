@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RegionalController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\WithdrawController;
 use App\Http\Controllers\Clients\AuthController as ClientsAuthController;
 use Illuminate\Http\Request;
@@ -85,6 +86,12 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'article'], function () {
     Route::get('/', [ArticleController::class, 'index']);
     Route::get('/{id}', [ArticleController::class, 'show']);
+});
+
+Route::group(['prefix' => 'wishlist', 'middleware' => 'auth:api-client'], function () {
+    Route::get('/', [WishlistController::class, 'index']);
+    Route::post('/{product}', [WishlistController::class, 'store']);
+    Route::delete('/{product}', [WishlistController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'product'], function () {

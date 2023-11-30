@@ -16,4 +16,11 @@ class OrderController extends Controller
 
         return $orders;
     }
+
+    public function detail(Order $order)
+    {
+        $order->load(['master_account', 'order_items.product.parent', 'user.address.ro_city']);
+
+        return $order;
+    }
 }

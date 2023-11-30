@@ -33,6 +33,11 @@ class Product extends Model
         return $this->belongsTo(User::class, 'seller_id');
     }
 
+    public function usersWishlisted()
+    {
+        return $this->belongsToMany(User::class, 'wishlists', 'product_id', 'user_id');
+    }
+
     /* public function seller()
     {
         return $this->belongsTo(Seller::class);
