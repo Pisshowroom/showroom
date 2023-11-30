@@ -4,6 +4,16 @@
 @section('dashboard')
 
     <section class="content-main">
+        @if (session('error'))
+            <div class="alert alert-warning" id="mydiv">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success" id="mydiv">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="content-header">
             <h2 class="content-title">Semua Pencairan Uang</h2>
         </div>
@@ -13,15 +23,25 @@
                     <div class="col-12">
                         <header class="border-bottom mb-4 pb-4">
                             <div class="row">
-                                <div class="col-lg-5 col-6 me-auto">
-                                    <input class="form-control" type="text" placeholder="Cari...">
+                                <div class="col-lg-4 col-md-6 me-auto">
+                                    <input class="form-control" type="search" placeholder="Cari sesuai nominal..."
+                                        name="search" id="searchWithdraw" value="{{ request()->input('search') ?? '' }}">
                                 </div>
-                                <div class="col-lg-2 col-6">
-                                    <select class="form-select">
-                                        <option>Pembayaran</option>
-                                        <option>Master card</option>
-                                        <option>Visa card</option>
-                                        <option>Paypal</option>
+                                <div class="col-lg-2 col-6 col-md-3">
+                                    <select name="status" id="filterStatus" class="form-select">
+                                        <option {{ !request()->input('status') ? 'selected' : '' }} disabled>Filter</option>
+                                        <option
+                                            {{ request()->input('status') && request()->input('status') == 'Pending' ? 'selected' : '' }}
+                                            value="Pending">Menunggu Review</option>
+                                        <option
+                                            {{ request()->input('status') && request()->input('status') == 'OnReview' ? 'selected' : '' }}
+                                            value="OnReview">Sedang direview</option>
+                                        <option
+                                            {{ request()->input('status') && request()->input('status') == 'Approved' ? 'selected' : '' }}
+                                            value="Approved">Disetujui</option>
+                                        <option
+                                            {{ request()->input('status') && request()->input('status') == 'Rejected' ? 'selected' : '' }}
+                                            value="Rejected">Ditolak</option>
                                     </select>
                                 </div>
                             </div>
@@ -33,35 +53,77 @@
                                     <tr>
                                         <th class="align-middle">Jumlah</th>
                                         <th class="align-middle">Pembayaran</th>
-                                        <th class="align-middle">Tanggal</th>
+                                        <th class="align-middle">Nomor</th>
                                         <th class="align-middle">Status</th>
-                                        <th class="text-center align-middle"> Aksi</th>
+                                        <th class="align-middle"> Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="align-middle">Rp 294.000</td>
-                                        <td class="align-middle">
-                                            <div class="icontext"><img class="icon border"
-                                                    src="{{ asset('ecom_dashboard/imgs/card-brands/1.png') }}"
-                                                    alt="Payment"><span class="text text-muted">Amex</span></div>
-                                        </td>
-                                        <td class="align-middle">20 Agustus 2023</td>
-                                        <td class="align-middle">    <span class="badge rounded-pill alert-warning fw-normal">Menunggu
-                                            Approve</span>
-                                    </td>
-                                        <td class="text-end align-middle"><a class="btn btn-sm btn-light font-sm rounded"
-                                                href="{{ route('dashboardSeller.detailWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a></td>
-                                    </tr>
+                                    @if (count($withdraws) > 0)
+                                        @foreach ($withdraws as $key => $w)
+                                            <tr>
+                                                <td class="align-middle">
+                                                    {{ $w->amount && $w->amount > 0 ? numbFormat($w->amount) : 'Rp 0' }}
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="icontext">
+                                                        @if ($w->master_account)
+                                                            <img class="icon border"
+                                                                src="{{ $w?->master_account && $w->master_account?->image ? $w->master_account?->image : asset('ecom_dashboard/imgs/card-brands/1.png') }}"
+                                                                alt="pembayaran {{ $w?->master_account && $w->master_account?->provider_name ? $w->master_account?->provider_name : '-' }}">
+                                                        @else
+                                                            <img class="icon border"
+                                                                src="{{ asset('ecom_dashboard/imgs/card-brands/1.png') }}"
+                                                                alt="pembayaran">
+                                                        @endif
+                                                        <span class="text"
+                                                            style="font-size:14px !important">{{ $w?->master_account && $w->master_account?->provider_name ? $w->master_account?->provider_name : '-' }}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">{{ $w->account_bank_number??'' }}</td>
+                                                <td class="align-middle">
+                                                    @if ($w->status && $w->status == 'Pending')
+                                                        <p class="badge rounded-pill alert-primary fw-normal">Menunggu
+                                                            review</p>
+                                                    @elseif ($w->status && $w->status == 'OnReview')
+                                                        <p class="badge rounded-pill alert-primary fw-normal">Sedang
+                                                            direview</p>
+                                                    @elseif ($w->status && $w->status == 'Approved')
+                                                        <p
+                                                            class="badge rounded-pill alert-success fw-normal">Disetujui</p>
+                                                    @elseif ($w->status && $w->status == 'Rejected')
+                                                        <p
+                                                            class="badge rounded-pill alert-warning fw-normal">Ditolak</p>
+                                                    @endif
+
+
+                                                </td>
+                                                <td class="align-middle">
+                                                    <a class="btn btn-xs btn-light font-sm rounded"
+                                                        href="{{ route('dashboardSeller.detailWithdraw', ['id' => $w->id ?? 1]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
+                                                    @if ($w->status == 'Pending')
+                                                        <a class="btn btn-xs-danger"
+                                                            href="{{ route('dashboardSeller.deleteWithdraw', ['id' => $w->id ?? '1']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                            Hapus</a>
+                                                    @endif
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="8">No data Available</td>
+                                        </tr>
+                                    @endif
+
                                 </tbody>
                             </table>
+                            @if (count($withdraws) > 0)
+                                {{ $withdraws->onEachSide(3)->appends(request()->except('page'))->links() }}
+                            @endif
+
                         </div>
-                        <!-- table-responsive.//-->
-                        <!-- col end//-->
                     </div>
-                    <!-- col end//-->
-                    <!-- row end//-->
-                    <!-- card-body //-->
                 </div>
             </div>
         </div>
@@ -69,4 +131,34 @@
     </section>
 @endsection
 @push('importjs')
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('#mydiv').fadeOut('fast');
+            }, 2000);
+
+            function updateURL() {
+                var searchQuery = $('#searchWithdraw').val();
+                var selectedStatus = $('#filterStatus').val();
+                var baseUrl = "{{ route('dashboardSeller.allWithdraw') }}";
+                var url = baseUrl;
+
+                if (selectedStatus !== '') {
+                    url += '?status=' + selectedStatus;
+                }
+
+                if (searchQuery !== '') {
+                    url += (selectedStatus !== '' ? '&' : '?') + 'search=' + searchQuery;
+                }
+                auth =
+                    "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                window.location = url + (url.includes('?') ? '&' : '?') + auth;
+            }
+
+            $('#searchWithdraw, #filterStatus').on('change', function() {
+                updateURL();
+            });
+
+        })
+    </script>
 @endpush

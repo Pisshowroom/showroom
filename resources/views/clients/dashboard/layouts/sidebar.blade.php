@@ -88,10 +88,6 @@
                         class="icon material-icons md-monetization_on"></i><span class="text">Transaksi
                         Produk</span></a>
             </li>
-            <li class="menu-item @yield('profile')"><a class="menu-link" disabled=""
-                    href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
-                        class="icon material-icons md-storefront"></i><span class="text">Profil Toko</span></a>
-            </li>
             <li class="menu-item has-submenu @yield('withdraw')">
                 <a class="menu-link" href="{{ route('dashboardSeller.allWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
                         class="icon material-icons md-account_balance_wallet"></i><span class="text">Pencairan
@@ -100,6 +96,10 @@
                     <a href="{{ route('dashboardSeller.addWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Cairkan</a>
                     <a href="{{ route('dashboardSeller.allWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Semua Pencairan</a>
                 </div>
+            </li>
+            <li class="menu-item @yield('profile')"><a class="menu-link" disabled=""
+                    href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><i
+                        class="icon material-icons md-storefront"></i><span class="text">Profil Toko</span></a>
             </li>
         @endif
         {{-- <li class="menu-item @yield('review')"><a class="menu-link" href="page-reviews.html"><i
