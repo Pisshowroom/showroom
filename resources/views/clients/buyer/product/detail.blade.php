@@ -276,7 +276,7 @@
                                 aria-selected="true">Informasi tambahan</a></li>
                         <li><a href="#tab-reviews" data-bs-toggle="tab" role="tab" aria-controls="tab-reviews"
                                 aria-selected="true">Ulasan ({{ $data['reviews']->total() ?? 0 }})</a></li>
-                        @if (Auth::guard('web')->user() && Auth::guard('web')->user()->id && $product->reviews && count($product->reviews) > 0)
+                        @if ($product->review_user == 1 && $product->order_user == 1)
                             <li><a href="#tab-create-reviews" data-bs-toggle="tab" role="tab"
                                     aria-controls="tab-create-reviews" aria-selected="true">Tulis Ulasan</a></li>
                         @endif
@@ -468,7 +468,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if (Auth::guard('web')->user() && Auth::guard('web')->user()->id && $product->reviews && count($product->reviews) > 0)
+                        @if ($product->review_user == 1 && $product->order_user == 1)
                             <div class="tab-pane fade" id="tab-create-reviews" role="tabpanel"
                                 aria-labelledby="tab-create-reviews">
                                 <div class="comments-area">

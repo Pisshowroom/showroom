@@ -54,7 +54,7 @@ class WithdrawController extends Controller
         if (!$this->isSeller()) {
             return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
-        $withdraw = Withdraw::where('user_id', $user->id)->where('id', $id)->first();
+        $withdraw = Withdraw::where('user_id', $user->id)->with('master_account:id,image')->where('id', $id)->first();
         if (!$withdraw)
             return redirect("/toko/semua-pencairan-uang")->with('danger', 'Detail pencairan tidak ditemukan.')->with('auth', base64_encode($user->uid));
         else {
@@ -108,7 +108,7 @@ class WithdrawController extends Controller
         $withdraw->account_bank_name = $request->account_bank_name;
         $withdraw->account_bank_number = $request->account_bank_number;
         if ($request->filled('amount'))
-        $withdraw->amount = (int) preg_replace("/[^0-9]/", "", $request->amount);
+            $withdraw->amount = (int) preg_replace("/[^0-9]/", "", $request->amount);
 
         $withdraw->description = $request->description;
         $withdraw->save();

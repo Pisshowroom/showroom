@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Review;
@@ -242,6 +243,28 @@ class ProductController extends Controller
                     $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
                 }
             }
+        }
+        if (Auth::guard('web')->user()) {
+            $review_user = Order::where('user_id', Auth::guard('web')->user()->id)
+                ->where('status', 'Completed')
+                ->whereHas('order_items', function ($q) use ($product) {
+                    $q->where('product_id', $product->id)->select(['id', 'product_id']);
+                })
+                ->with('order_items')->first();
+            if ($review_user) {
+                $product->review_user = 1;
+                $rev = Review::where('product_id', $product->id)->where('user_id', Auth::guard('web')->user()->id)->first();
+                if (!$rev)
+                    $product->order_user = 1;
+                else
+                    $product->order_user = 0;
+            } else {
+                $product->review_user = 0;
+                $product->order_user = 0;
+            }
+        } else {
+            $product->review_user = 0;
+            $product->order_user = 0;
         }
         return view('clients.buyer.product.detail', ['product' => $product, 'data' => $data]);
     }

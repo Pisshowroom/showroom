@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Clients\buyer;
 
+use App\Models\Help;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MasterAccountResource;
 use App\Http\Resources\ProductResource;
@@ -22,6 +23,7 @@ use Xendit\VirtualAccounts;
 use Xendit\Xendit;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -30,6 +32,23 @@ class OrderController extends Controller
     {
         $order = Order::where('payment_identifier', $identifier)->where('payment_status', 'PaymentPending')->with('master_account:id,provider_name,image,type')->firstOrFail();
         $order->due = parseDates($order->payment_due);
+        if (isset($order->qr_string)) {
+            $str = 'e wallet ' . $order->payment_channel;
+            $help = Help::where('slug', Str::slug($str))->first();
+        } elseif (isset($order->outlet_payment_code)) {
+            $str = 'retail outlet ' . $order->payment_channel;
+            $help = Help::where('slug', Str::slug($str))->first();
+        } elseif (isset($order->va_number)) {
+            $str = 'Virtual Account ' . $order->payment_channel;
+            $help = Help::where('slug', Str::slug($str))->first();
+        } else {
+            $help = new Help();
+            $help->name_id = '';
+            $help->content_id = '';
+        }
+        $order['name_id'] = $help->name_id ?? '';
+        $order['content_id'] = $help->content_id ?? '';
+
         return view('clients.dashboard.order.payment', ['order' => $order]);
     }
 
