@@ -122,36 +122,30 @@
                             <div class="sidebar-content">
                                 <h6 class="color-gray-900 mt-20 mb-10">Penjual</h6>
                                 <ul class="list-checkbox">
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox" checked="checked"><span
-                                                class="text-small">Apple</span><span class="checkmark"></span>
-                                        </label><span class="number-item">12</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Sony</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">34</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Toshiba</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">56</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Assus</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">78</span>
-                                    </li>
-                                    <li>
-                                        <label class="cb-container">
-                                            <input type="checkbox"><span class="text-small">Samsung</span><span
-                                                class="checkmark"></span>
-                                        </label><span class="number-item">23</span>
-                                    </li>
+                                    @if ($data['sellers'] && count($data['sellers']) > 0)
+                                        @foreach ($data['sellers'] as $seller)
+                                            <li>
+                                                <label class="cb-container">
+                                                    <input type="checkbox" class="seller-checkbox"
+                                                    {{ in_array($seller->id, explode(',', request()->input('seller_id'))) ? 'checked' : '' }}
+                                                        data-seller-id="{{ $seller->id }}">
+                                                    <span class="text-small">
+                                                        {{ substr($seller->name ?? '', 0, 15) . (strlen($seller->name ?? '') > 15 ? '..' : '') }}
+                                                    </span>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <span class="number-item">
+                                                    {{ $seller->products_count }}</span>
+                                            </li>
+                                        @endforeach
+                                    @else
+                                        <li>
+                                            <label class="cb-container" style="padding-left: 0 !important;">
+                                                Tidak ada list penjual
+                                            </label>
+                                        </li>
+                                    @endif
+
                                 </ul>
                                 <a class="btn btn-filter font-sm color-brand-3 font-medium mt-10" href="#ModalFiltersForm"
                                     data-bs-toggle="modal">Semua Filter</a>
@@ -159,7 +153,7 @@
                         </div>
                         <div class="box-slider-item mb-30">
                             <div class="head pb-15 border-brand-2">
-                                <h5 class="color-gray-900">Best seller</h5>
+                                <h5 class="color-gray-900">Penjual Terbaik</h5>
                             </div>
                             <div class="content-slider">
                                 <div class="box-swiper slide-shop">
@@ -303,12 +297,24 @@
                     url += (selectedCategoryId !== undefined || selectedOrderBy !== undefined ? '&' : '?') +
                         'search=' + searchQuery;
                 }
+                var sellerIds = [];
+                $('.seller-checkbox:checked').each(function() {
+                    sellerIds.push($(this).data('seller-id'));
+                });
+
+                if (sellerIds.length > 0) {
+                    url += (url.includes('?') ? '&' : '?') + 'seller_id=' + sellerIds.join(',');
+                }
                 auth =
                     "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? 'auth=' . base64_encode(Auth::user()->uid) : '' }}"
                 window.location = url + (url.includes('?') ? '&' : '?') + auth;
             }
 
             $('#searchProduct, #navKategori').on('change', function() {
+                updateURL();
+            });
+            $('.seller-checkbox').on('change', function() {
+                // Handle checkbox click event here
                 updateURL();
             });
             $('.dropdown-menu li button').on('click', function(e) {

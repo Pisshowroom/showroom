@@ -1,9 +1,15 @@
 <div class="card-grid-style-3">
     <div class="card-grid-inner {{ Route::currentRouteName() == 'buyer.allListProduct' ? 'gap-3' : '' }}">
         <div class="tools">
-            <a class="btn btn-wishlist btn-tooltip mb-10"
-                href="{{ Auth::guard('web')->user() ? route('buyer.wishlist') : route('buyer.login') }}"
-                aria-label="Tambahkan ke Wishlist"></a>
+            @if (Auth::guard('web')->user())
+                <button class="btn btn-wishlist btn-tooltip mb-10" id="btn-tooltip-{{ $prd->id }}"
+                    aria-label="Tambahkan ke Wishlist" onclick="addWishlist('{{ $prd->id }}','{{ $prd->stock }}')">
+
+                </button>
+            @else
+                <a class="btn btn-wishlist btn-tooltip mb-10" href="{{ route('buyer.login') }}"
+                    aria-label="Tambahkan ke Wishlist"></a>
+            @endif
         </div>
         <div class="image-box">
             @if ($prd->discount && $prd->discount > 0)
@@ -107,6 +113,74 @@
 
         });
 
+        function addWishlist(productId, stock) {
+            if ("{{ Auth::guard('web')->user() }}") {
+                if (stock > 0) {
+                    $('.loading').removeClass('d-none').addClass('show-modal');
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: "post",
+                        url: "{{ route('buyer.addWishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                        data: {
+                            id: productId
+                        },
+                        xhr: function() {
+                            // get the native XmlHttpRequest object
+                            var xhr = $.ajaxSettings.xhr()
+                            // set the onprogress event handler
+                            xhr.upload.onprogress = function(evt) {}
+                            return xhr
+                        },
+                        success: function(response) {
+                            messageSuccess(response.message);
+                            $('.loading').removeClass('show-modal').addClass('d-none')
+                        },
+
+                        error: function(error) {
+                            if (error && error.responseJSON && error
+                                .responseJSON.message) {
+                                messageError(error.responseJSON.message);
+                            }
+                            $('.loading').removeClass('show-modal').addClass('d-none')
+                        }
+                    });
+                } else {
+                    messageError('Stok produk tidak mencukupi.');
+                }
+            } else {
+                messageError('Kamu belum login.');
+            }
+        }
+
+        function messageSuccess(res) {
+            $('#myDivHandleSuccess').text('');
+            $('#myDivHandleSuccess').text(res);
+            $('#myDivHandleSuccess').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleSuccess')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
+
+        function messageError(res) {
+            $('#myDivHandleError').text('');
+            $('#myDivHandleError').text(res);
+            $('#myDivHandleError').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleError')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
+
         function checkout(productId, stock, sellerId) {
             if (stock > 0) {
                 $('.loading').removeClass('d-none').addClass('show-modal');
@@ -156,14 +230,17 @@
                                         if (response.delivery_services_info && response
                                             .delivery_services_info.results && response
                                             .delivery_services_info.results.length > 0) {
-                                            var results = response.delivery_services_info.results;
-                                            var filteredResults = results.filter(function(item) {
+                                            var results = response.delivery_services_info
+                                                .results;
+                                            var filteredResults = results.filter(function(
+                                                item) {
                                                 return (
                                                     item.costs.length > 0 &&
                                                     item.costs[0].cost.length > 0 &&
                                                     typeof item.costs[0].cost[0]
                                                     .value !== 'undefined' &&
-                                                    typeof item.costs[0].cost[0].etd !==
+                                                    typeof item.costs[0].cost[0]
+                                                    .etd !==
                                                     'undefined'
                                                 );
                                             });
@@ -175,53 +252,26 @@
                                                     "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                                                 );
                                             } else {
-                                                $('#myDivHandleError').text(
-                                                    'Paket Pengiriman tidak tersedia'
-                                                );
-                                                $('#myDivHandleError').css(
-                                                    'display',
-                                                    'block');
-                                                setTimeout(function() {
-                                                    $('#myDivHandleError')
-                                                        .fadeOut(
-                                                            'fast');
-                                                }, 2000);
+                                                messageError('Paket Pengiriman tidak tersedia');
                                             }
                                         } else {
-                                            $('#myDivHandleError').text(
-                                                'Paket Pengiriman tidak tersedia'
-                                            );
-                                            $('#myDivHandleError').css(
-                                                'display',
-                                                'block');
-                                            setTimeout(function() {
-                                                $('#myDivHandleError')
-                                                    .fadeOut(
-                                                        'fast');
-                                            }, 2000);
+                                            messageError('Paket Pengiriman tidak tersedia');
                                         }
-                                        $('.loading').removeClass('show-modal').addClass('d-none')
+                                        $('.loading').removeClass('show-modal').addClass(
+                                            'd-none')
 
                                     } else {
-                                        $('.loading').removeClass('show-modal').addClass('d-none')
+                                        $('.loading').removeClass('show-modal').addClass(
+                                            'd-none')
                                     }
                                 },
 
                                 error: function(error) {
                                     if (error && error.responseJSON && error
                                         .responseJSON.message) {
-                                        $('#myDivHandleError').text(error
-                                            .responseJSON.message);
-                                        $('#myDivHandleError').css('display',
-                                            'block');
-                                        setTimeout(function() {
-                                            $('#myDivHandleError')
-                                                .fadeOut(
-                                                    'fast');
-                                        }, 2000);
+                                        messageError(error.responseJSON.message);
                                     }
                                     $('.loading').removeClass('show-modal').addClass('d-none')
-                                    console.log(error);
                                 }
                             });
                         } else {
@@ -234,18 +284,9 @@
                         console.log(error);
                         if (error && error.responseJSON && error
                             .responseJSON.message) {
-                            $('#myDivHandleError').text(error
-                                .responseJSON.message);
-                            $('#myDivHandleError').css('display',
-                                'block');
-                            setTimeout(function() {
-                                $('#myDivHandleError')
-                                    .fadeOut(
-                                        'fast');
-                            }, 2000);
+                            messageError(error.responseJSON.message);
                         }
                         $('.loading').removeClass('show-modal').addClass('d-none')
-                        console.log(error);
 
                     }
                 });

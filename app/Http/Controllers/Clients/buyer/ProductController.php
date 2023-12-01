@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -47,6 +49,9 @@ class ProductController extends Controller
                 return $q->where('category_id', $request->category_id);
             })->when($request->filled('sub_category_id'), function ($q) use ($request) {
                 return $q->where('sub_category_id', $request->sub_category_id);
+            })->when($request->filled('seller_id'), function ($q) use ($request) {
+                $sellerIds = is_array($request->seller_id) ? $request->seller_id : [$request->seller_id];
+                return $q->whereIn('seller_id', $sellerIds);
             })
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
@@ -66,28 +71,19 @@ class ProductController extends Controller
                 }
             }
         }
-        $bestSellerProducts = Product::with([
-            'category', 'seller:id,name,seller_slug,seller_name',
-            'seller.address:id,user_id,for_seller,main,city',
-        ])
-            ->addSelect([
-                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
-                    ->whereColumn('product_id', 'products.id')
-                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->where('orders.status', 'done')
-            ])->byNotVariant()
-            ->orderByDesc('total_quantity')
-            ->take(8)
-            ->get();
         $data = $this->getCommonData();
-        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
-        foreach ($data['best_seller_product'] as $value) {
-            if ($value->discount && $value->discount > 0) {
-                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
-            } else {
-                $value->price_discount = null;
-            }
-        }
+        $data['best_seller_product'] = $this->bestSellerProducts();
+        $data['sellers'] = User::where('is_seller', 1)->select('id', 'name')
+            ->whereHas('products', function ($q) {
+                $q->withAvg('reviews', 'rating')
+                    ->with(['order_items' => function ($query) {
+                        $query->whereHas('order', function ($query) {
+                            $query->where('status', 'done');
+                        });
+                    }])
+                    ->withSum('order_items', 'quantity');
+            })->withCount('products')->orderByDesc('products_count')
+            ->take(4)->get();
         return view('clients.buyer.product.all_grid', ['products' => $product, 'data' => $data]);
     }
     public function allListProduct(Request $request)
@@ -103,6 +99,9 @@ class ProductController extends Controller
                 return $q->where('category_id', $request->category_id);
             })->when($request->filled('sub_category_id'), function ($q) use ($request) {
                 return $q->where('sub_category_id', $request->sub_category_id);
+            })->when($request->filled('seller_id'), function ($q) use ($request) {
+                $sellerIds = is_array($request->seller_id) ? $request->seller_id : [$request->seller_id];
+                return $q->whereIn('seller_id', $sellerIds);
             })
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
@@ -122,28 +121,19 @@ class ProductController extends Controller
                 }
             }
         }
-        $bestSellerProducts = Product::with([
-            'category', 'seller:id,name,seller_slug,seller_name',
-            'seller.address:id,user_id,for_seller,main,city',
-        ])
-            ->addSelect([
-                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
-                    ->whereColumn('product_id', 'products.id')
-                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->where('orders.status', 'done')
-            ])->byNotVariant()
-            ->orderByDesc('total_quantity')
-            ->take(8)
-            ->get();
         $data = $this->getCommonData();
-        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
-        foreach ($data['best_seller_product'] as $value) {
-            if ($value->discount && $value->discount > 0) {
-                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
-            } else {
-                $value->price_discount = null;
-            }
-        }
+        $data['best_seller_product'] = $this->bestSellerProducts();
+        $data['sellers'] = User::where('is_seller', 1)->select('id', 'name')
+            ->whereHas('products', function ($q) {
+                $q->withAvg('reviews', 'rating')
+                    ->with(['order_items' => function ($query) {
+                        $query->whereHas('order', function ($query) {
+                            $query->where('status', 'done');
+                        });
+                    }])
+                    ->withSum('order_items', 'quantity');
+            })->withCount('products')->orderByDesc('products_count')
+            ->take(4)->get();
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
@@ -167,6 +157,7 @@ class ProductController extends Controller
                 });
             }], 'quantity')
             ->where('slug', $slug)
+            ->with('variants')
             ->whereNull('deleted_at')  // Assuming products table has a 'deleted_at' column
             ->firstOrFail();
         if ($product->discount && $product->discount > 0) {
@@ -189,13 +180,6 @@ class ProductController extends Controller
             ->get();
         $data = $this->getCommonData();
         $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
-        foreach ($data['best_seller_product'] as $value) {
-            if ($value->discount && $value->discount > 0) {
-                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
-            } else {
-                $value->price_discount = null;
-            }
-        }
         $data['reviews'] = Review::whereNull('deleted_at')->with('user:id,name,image')->orderByDesc('id')->paginate(5);
         foreach ($data['reviews'] as $review) {
             if ($review->created_at)
@@ -243,6 +227,28 @@ class ProductController extends Controller
                 }
             }
         }
+        if (Auth::guard('web')->user()) {
+            $review_user = Order::where('user_id', Auth::guard('web')->user()->id)
+                ->where('status', 'Completed')
+                ->whereHas('order_items', function ($q) use ($product) {
+                    $q->where('product_id', $product->id)->select(['id', 'product_id']);
+                })
+                ->with('order_items')->first();
+            if ($review_user) {
+                $product->review_user = 1;
+                $rev = Review::where('product_id', $product->id)->where('user_id', Auth::guard('web')->user()->id)->first();
+                if (!$rev)
+                    $product->order_user = 1;
+                else
+                    $product->order_user = 0;
+            } else {
+                $product->review_user = 0;
+                $product->order_user = 0;
+            }
+        } else {
+            $product->review_user = 0;
+            $product->order_user = 0;
+        }
         return view('clients.buyer.product.detail', ['product' => $product, 'data' => $data]);
     }
 
@@ -266,5 +272,31 @@ class ProductController extends Controller
             $review->images = $request->image;
         $review->save();
         return redirect("/produk-" . $request->product_slug)->with('success', 'Berhasil menambahkan Ulasan')->with('auth', base64_encode($user->uid));
+    }
+
+    private function bestSellerProducts()
+    {
+        $bestSellerProducts = Product::with([
+            'category', 'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+        ])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])->byNotVariant()
+            ->orderByDesc('total_quantity')
+            ->take(8)
+            ->get();
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        return $data['best_seller_product'];
     }
 }

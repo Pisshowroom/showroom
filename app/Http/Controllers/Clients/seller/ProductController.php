@@ -35,7 +35,7 @@ class ProductController extends Controller
     public function editProduct(Request $request)
     {
         $data['categories'] = Category::whereNull('deleted_at')->get();
-        $product = Product::where('id', $request->id)->firstOrFail();
+        $product = Product::where('id', $request->id)->with('variants')->firstOrFail();
         if ($product->category_id != null) {
             $data['sub_category'] = SubCategory::where('category_id', $product->category_id)->select('id', 'name', 'category_id')->get();
         } else {

@@ -148,8 +148,9 @@
                             $('#myDiv2').css('display', 'block');
                             setTimeout(function() {
                                 $('#myDiv2').fadeOut('fast');
-                                // window.location.replace(
-                                //     "{{ route('dashboardSeller.allWithdraw') }}")
+                                window.location.replace(
+                                    "{{ route('dashboardSeller.allWithdraw') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                                );
                             }, 2000);
 
                         }
