@@ -115,6 +115,7 @@ class ProductController extends Controller
         $data['rating_seller'] = doubleVal($averageRating);
 
         $user = auth()->guard('api-client')->user();
+        $data['is_wishlisted'] = false;
         if ($user != null && $product->seller_id != null) {
             $buyerAddress = $user->addresses()->where('main', true)->first();
             $sellerAddress = $product->seller->addresses()->where('main', true)->first();
@@ -123,6 +124,8 @@ class ProductController extends Controller
             } else {
                 $data['delivery_service'] = null;
             }
+
+            $data['is_wishlisted'] = $product->usersWishlisted()->where('user_id', $user->id)->exists();
         }
 
         $relatedProductsByCategory = Product::where('category_id', $product->category_id)
@@ -148,7 +151,11 @@ class ProductController extends Controller
     public function showSimple(Product $product)
     {
         $product->load(['variants.parent']);
-
+        $user = auth()->guard('api-client')->user();
+        $product['is_wishlisted'] = false;
+        if ($user != null && $product->seller_id != null) {
+            $product['is_wishlisted'] = $product->usersWishlisted()->where('user_id', $user->id)->exists();
+        }
 
         return ResponseAPI($product);
     }
