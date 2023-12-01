@@ -9,6 +9,7 @@ use App\Http\Controllers\Clients\buyer\SellerController as BuyerSellerController
 use App\Http\Controllers\Clients\BuyerController;
 use App\Http\Controllers\Clients\buyer\DashboardController;
 use App\Http\Controllers\Clients\buyer\OrderController as BuyerOrderController;
+use App\Http\Controllers\Clients\buyer\WishlistController;
 use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
 use App\Http\Controllers\Clients\seller\SellerController;
 use App\Http\Controllers\Clients\seller\TransactionOrderController;
@@ -190,14 +191,14 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/detail-pesanan/{identifier}', [BuyerOrderController::class, 'detailOrder'])->name('dashboard.detailOrder');
         Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
         Route::get('/ubah-alamat/{id}', [DashboardController::class, 'changeAddress'])->name('dashboard.changeAddress');
-        Route::get('/wishlist', [BuyerController::class, 'wishlist'])->name('buyer.wishlist');
+        Route::get('/wishlist', [WishlistController::class, 'wishlist'])->name('buyer.wishlist');
+        Route::post('/tambah/wishlist', [WishlistController::class, 'store'])->name('buyer.addWishlist');
+        Route::get('/hapus/wishlist', [WishlistController::class, 'destroy'])->name('buyer.deleteWishlist');
         Route::get('/checkout', [BuyerController::class, 'checkout'])->name('buyer.checkout');
         Route::post('/precheck-early', [BuyerOrderController::class, 'preCheckEarly'])->name('buyer.preCheckEarly');
         Route::post('/precheck', [BuyerOrderController::class, 'preCheck'])->name('buyer.preCheck');
         Route::post('/precheck-with-delivery', [BuyerOrderController::class, 'precheckWithDelivery'])->name('buyer.precheckWithDelivery');
         Route::post('/checkout', [BuyerOrderController::class, 'checkout'])->name('buyer.preCheckout');
-
-
         Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
     });
     Route::group(['prefix' => 'pi'], function () {

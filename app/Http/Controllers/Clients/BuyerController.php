@@ -171,7 +171,6 @@ class BuyerController extends Controller
             return redirect()->route('buyer.home');
         }
         $data = $this->getCommonData();
-        $data = $this->getCommonData();
 
         $data['best_seller_product'] = $this->bestSellerProducts();
         $data['recommended_products'] = $this->limitedProducts();

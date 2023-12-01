@@ -102,10 +102,18 @@
                                 </div>
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-9 text-start text-sm-end">
-                                <a class="mr-20"
-                                    href="{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? route('buyer.wishlist') . '?auth=' . base64_encode(Auth::user()->uid) : route('buyer.login') }}"><span
-                                        class="btn btn-wishlist mr-5 opacity-100 transform-none"></span><span
-                                        class="font-md color-gray-900">Tambahkan ke Wishlist</span></a>
+                                @if (Auth::guard('web')->user())
+                                    <button class="mr-20 bg-transparent" style="border: none !important;"
+                                        onclick="addWishlist('{{ $product->id }}','{{ $product->stock }}')">
+                                        <span class="btn btn-wishlist mr-5 opacity-100 transform-none"></span>
+                                        <span class="font-md color-gray-900">Tambahkan ke
+                                            Wishlist</span></button>
+                                @else
+                                    <a class="mr-20"
+                                        href="{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? route('buyer.wishlist') . '?auth=' . base64_encode(Auth::user()->uid) : route('buyer.login') }}">
+                                        <span class="btn btn-wishlist mr-5 opacity-100 transform-none"></span><span
+                                            class="font-md color-gray-900">Tambahkan ke Wishlist</span></a>
+                                @endif
                             </div>
                         </div>
                         <div class="border-bottom pt-10 mb-20"></div>
@@ -307,7 +315,7 @@
                                         <tr>
                                             <td>Nama</td>
                                             <td>
-                                                <p class="line-2 text-start" style="overflow-wrap: break-word;">
+                                                <p class="line-1 text-start" style="word-break: break-word;">
                                                     {{ $product->name ?? '' }}</p>
                                             </td>
                                         </tr>
@@ -373,8 +381,9 @@
                                                                     height="80px"
                                                                     src="{{ $review->user && $review->user->image ? $review->user->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                                                     alt="ulasan dari {{ $review->user->name }}">
-                                                                <p class="font-heading text-brand">
-                                                                    {{ $review->user ? $review->user->name ?? '' : '' }}
+                                                                <p class="font-heading text-brand line-2"
+                                                                    style="word-break: break-word">
+                                                                    {{ substr($review?->user?->name ?? '', 0, 15) . (strlen($review?->user?->name ?? '') > 15 ? '..' : '') }}
                                                                 </p>
                                                             </div>
                                                             <div class="desc w-100">
@@ -672,11 +681,7 @@
                     $('.btn-buy-detail').prop('disabled', false);
                 }
                 if (numericValue === 0) {
-                    $('#myDiv2').text('Minimal pembelian produk ini adalah 1 barang');
-                    $('#myDiv2').css('display', 'block');
-                    setTimeout(function() {
-                        $('#myDiv2').fadeOut('fast');
-                    }, 2000);
+                    messageError('Minimal pembelian produk ini adalah 1 barang');
                 }
             });
 
@@ -686,7 +691,7 @@
 
                 var productData = @json($product);
                 productData.product_id = productData.id;
-                productData.note = "Tolong ini hati-hati bawanya ";
+                productData.note = "Tolong ini hati-hati bawanya";
                 productData.qty = $('#quantity').val();
                 // {
                 //     product_id: "{{ $product->id ?? '' }}",
@@ -708,33 +713,62 @@
                         return item.product_id === productData.product_id;
                     });
                     if (existingProductIndex !== -1) {
-                        $('#myDiv2').text('barang sudah ada di keranjang');
-                        $('#myDiv2').css('display', 'block');
-                        setTimeout(function() {
-                            $('#myDiv2').fadeOut('fast');
-                        }, 2000);
+                        messageError('barang sudah ada di keranjang');
                         existingCart[existingProductIndex].qty = parseInt(existingCart[existingProductIndex]
                             .qty) + parseInt(productData.qty);
                     } else {
-                        $('#myDivHandleSuccess').text('berhasil menambahkan barang kedalam keranjang');
-                        $('#myDivHandleSuccess').css('display', 'block');
-                        setTimeout(function() {
-                            $('#myDivHandleSuccess').fadeOut('fast');
-                        }, 2000);
+                        messageSuccess('berhasil menambahkan barang kedalam keranjang');
                         existingCart.push(productData);
                     }
 
                     localStorage.setItem('cart', JSON.stringify(existingCart));
                 } else {
-                    $('#myDivHandleSuccess').text('berhasil menambahkan barang kedalam keranjang');
-                    $('#myDivHandleSuccess').css('display', 'block');
-                    setTimeout(function() {
-                        $('#myDivHandleSuccess').fadeOut('fast');
-                    }, 2000);
-
+                    messageSuccess('berhasil menambahkan barang kedalam keranjang');
                     localStorage.setItem('cart', JSON.stringify([productData]));
                 }
             });
+
+            function addWishlist(productId, stock) {
+                if (stock > 0) {
+                    $('.loading').removeClass('d-none').addClass('show-modal');
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: "post",
+                        url: "{{ route('buyer.addWishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                        data: {
+                            id: productId
+                        },
+                        xhr: function() {
+                            // get the native XmlHttpRequest object
+                            var xhr = $.ajaxSettings.xhr()
+                            // set the onprogress event handler
+                            xhr.upload.onprogress = function(evt) {}
+                            return xhr
+                        },
+                        success: function(response) {
+                            messageSuccess(response.message);
+                            $('.loading').removeClass('show-modal').addClass('d-none')
+                        },
+
+                        error: function(error) {
+                            if (error && error.responseJSON && error
+                                .responseJSON.message) {
+                                messageError(error.responseJSON.message);
+                            }
+                            $('.loading').removeClass('show-modal').addClass('d-none')
+                        }
+                    });
+                } else {
+                    messageError('Stok produk tidak mencukupi.');
+                }
+            };
+
+
             $('#buy-now').on('click', function(e) {
                 e.preventDefault();
                 if ("{{ $product->stock > 0 }}") {
@@ -828,30 +862,14 @@
                                                             "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                                                         );
                                                     } else {
-                                                        $('#myDivHandleError').text(
+                                                        messageError(
                                                             'Paket Pengiriman tidak tersedia'
                                                         );
-                                                        $('#myDivHandleError').css(
-                                                            'display',
-                                                            'block');
-                                                        setTimeout(function() {
-                                                            $('#myDivHandleError')
-                                                                .fadeOut(
-                                                                    'fast');
-                                                        }, 2000);
                                                     }
                                                 } else {
-                                                    $('#myDivHandleError').text(
+                                                    messageError(
                                                         'Paket Pengiriman tidak tersedia'
                                                     );
-                                                    $('#myDivHandleError').css(
-                                                        'display',
-                                                        'block');
-                                                    setTimeout(function() {
-                                                        $('#myDivHandleError')
-                                                            .fadeOut(
-                                                                'fast');
-                                                    }, 2000);
                                                 }
                                                 $('.loading').removeClass(
                                                         'show-modal')
@@ -866,16 +884,10 @@
                                         error: function(error) {
                                             if (error && error.responseJSON && error
                                                 .responseJSON.message) {
-                                                $('#myDivHandleError').text(error
-                                                    .responseJSON.message);
-                                                $('#myDivHandleError').css(
-                                                    'display',
-                                                    'block');
-                                                setTimeout(function() {
-                                                    $('#myDivHandleError')
-                                                        .fadeOut(
-                                                            'fast');
-                                                }, 2000);
+                                                messageError(
+                                                    error
+                                                    .responseJSON.message
+                                                );
                                             }
                                             $('.loading').removeClass('show-modal')
                                                 .addClass('d-none');
@@ -895,26 +907,16 @@
                                 console.log(error);
                                 if (error && error.responseJSON && error
                                     .responseJSON.message) {
-                                    $('#myDivHandleError').text(error
-                                        .responseJSON.message);
-                                    $('#myDivHandleError').css('display',
-                                        'block');
-                                    setTimeout(function() {
-                                        $('#myDivHandleError')
-                                            .fadeOut(
-                                                'fast');
-                                    }, 2000);
+                                    messageError(
+                                        error
+                                        .responseJSON.message
+                                    );
                                 }
-                                console.log(error);
 
                             }
                         });
                     } else {
-                        $('#myDivHandleError').text('Pesananmu melebihi stok yang ada');
-                        $('#myDivHandleError').css('display', 'block');
-                        setTimeout(function() {
-                            $('#myDivHandleError').fadeOut('fast');
-                        }, 2000);
+                        messageError('Pesananmu melebihi stok yang ada');
                     }
                 } else {
                     $('#myDivCheckout').css('display', 'block');
@@ -924,6 +926,32 @@
                 }
 
             });
+
+            function messageSuccess(res) {
+                $('#myDivHandleSuccess').text('');
+                $('#myDivHandleSuccess').text(res);
+                $('#myDivHandleSuccess').css('display',
+                    'block');
+                setTimeout(function() {
+                    $('#myDivHandleSuccess')
+                        .fadeOut(
+                            'fast');
+                }, 2000);
+            }
+
+            function messageError(res) {
+                $('#myDivHandleError').text('');
+                $('#myDivHandleError').text(res);
+                $('#myDivHandleError').css('display',
+                    'block');
+                setTimeout(function() {
+                    $('#myDivHandleError')
+                        .fadeOut(
+                            'fast');
+                }, 2000);
+            }
+
+
         });
     </script>
 @endpush

@@ -8323,7 +8323,7 @@ a.text-brand-3:hover {
   font-weight: bold;
 }
 
-a:hover span.btn-wishlist {
+a:hover span.btn-wishlist,button:hover span.btn-wishlist {
   background: #ffffff url(../imgs/template/icons/wishlist-hover.svg) no-repeat center;
 }
 a:hover span.btn-compare {
@@ -8357,6 +8357,8 @@ a:hover span {
   border-color: #FD9636;
 }
 .list-colors li img {
+  aspect-ratio: 1/0.8;
+  object-fit: cover;
   display: block;
 }
 .list-colors li.disabled {
@@ -8802,7 +8804,7 @@ a:hover span {
   padding: 4px 10px;
 }
 .item-wishlist .wishlist-action {
-  width: 15%;
+  width: 32%;
   text-align: center;
 }
 .item-wishlist .wishlist-action .btn-cart {
@@ -10244,7 +10246,8 @@ a:hover span {
     width: 92% !important;
   }
   .item-wishlist .wishlist-price {
-    width: 40%;
+    text-align: left;
+    width: 30%;
     margin-top: 15px;
   }
   .item-wishlist .wishlist-status {
@@ -10252,7 +10255,7 @@ a:hover span {
     margin-top: 15px;
   }
   .item-wishlist .wishlist-action {
-    width: 35%;
+    width: 52%;
     margin-top: 15px;
   }
   .item-wishlist .wishlist-remove {
