@@ -146,6 +146,7 @@ class UserController extends Controller
     public function getASeller($sellerId)
     {
         $seller = User::where('id', $sellerId)->where('is_seller', true)->first();
+        $seller->load('address_seller');
         if (!$seller) {
             return ResponseAPI("Seller tidak ditemukan", 404);
         }

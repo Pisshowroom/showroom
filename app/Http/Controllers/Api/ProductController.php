@@ -80,7 +80,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $product->load(['category', 'sub_category', 'variants', 'seller.address']);
+        $product->load(['category', 'sub_category', 'variants', 'seller.address_seller']);
 
         $product->loadAvg('reviews', 'rating');
         $product->loadCount(['reviews']);
