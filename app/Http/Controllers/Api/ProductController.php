@@ -273,6 +273,7 @@ class ProductController extends Controller
                 $theVariant->slug = null;
                 $theVariant->images = $image;
                 $theVariant->price = $variant['price'];
+                $theVariant->weight = $variant['weight'];
                 $theVariant->stock = $variant['stock'];
                 $theVariant->discount = $variant['discount'] ?? null;
                 $theVariant->save();
@@ -293,6 +294,7 @@ class ProductController extends Controller
                     'images' => $image ?? null,
                     'price' => $variant['price'],
                     'stock' => $variant['stock'],
+                    'weight' => $variant['weight'],
                     'discount' => $variant['discount'] ?? null,
                 ]);
             }
