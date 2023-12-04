@@ -109,6 +109,7 @@ Route::group(['prefix' => 'product'], function () {
 
 Route::group(['prefix' => 'withdraw'], function () {
     Route::get('/', [WithdrawController::class, 'index']);
+    Route::get('/index-history-fund', [WithdrawController::class, 'indexHistoryFund']);
     Route::post('/store-or-update', [WithdrawController::class, 'storeOrUpdate']);
     Route::delete('/{withdraw}', [WithdrawController::class, 'destroy']);
 });
@@ -165,6 +166,7 @@ Route::group(['prefix' => 'order'], function () {
         Route::get('/index', [OrderDataController::class, 'index']);
         Route::get('/seller-list-order', [OrderDataController::class, 'sellerListOrder']);
         Route::get('/{order}', [OrderDataController::class, 'detail']);
+        Route::get('/tutorial-payment/{order}', [OrderDataController::class, 'tutorialPayment']);
         Route::post('/seller-accept/{order}', [OrderDataController::class, 'sellerAcceptOrder']);
         Route::post('/seller-reject/{order}', [OrderDataController::class, 'sellerRejectOrder']);
         Route::post('/seller-send/{order}', [OrderDataController::class, 'sellerSendOrder']);

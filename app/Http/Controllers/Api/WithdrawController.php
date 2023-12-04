@@ -3,20 +3,45 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\HistoryFundResource;
 use App\Http\Resources\WithdrawResource;
+use App\Models\HistoryFund;
 use App\Models\Withdraw;
 use Illuminate\Http\Request;
 
 class WithdrawController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->guard('api-client')->user();
 
-        $withdraw = Withdraw::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
+        $withdraw = Withdraw::with(['master_account'])->where('user_id', $user->id)
+        ->when($request->filled('date'), function ($query) use ($request) {
+            $query->whereDate('created_at', $request->date);
+        })
+        ->orderBy('created_at', 'desc')->paginate(10);
 
         return WithdrawResource::collection($withdraw);
         // return ResponseApi($withdraw, 'List Withdraw berhasil diambil');
+    }
+
+    public function indexHistoryFund(Request $request)
+    {
+        $user = auth()->guard('api-client')->user();
+
+        $request->validate([
+            'date' => 'nullable|date',
+        ]);
+
+        $historyFund = HistoryFund::where('user_id', $user->id)->orderBy('created_at', 'desc');
+
+        if ($request->filled('date')) {
+            $historyFund->whereDate('created_at', $request->date);
+        }
+
+        $historyFund =  $historyFund->paginate(10);
+
+        return HistoryFundResource::collection($historyFund);
     }
 
     public function storeOrUpdate(Request $request)

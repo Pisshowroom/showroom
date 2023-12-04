@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Models\Help;
 use App\Models\Order;
 use App\Models\Setting;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
 
 class OrderDataController extends Controller
 {
@@ -37,6 +40,28 @@ class OrderDataController extends Controller
         $order->load(['master_account', 'order_items.product.parent', 'user.address.ro_city']);
 
         return new OrderResource($order);
+    }
+
+    public function tutorialPayment(Order $order)
+    {
+        if (isset($order->qr_string)) {
+            $str = 'e wallet ' . $order->payment_channel;
+            $help = Help::where('slug', Str::slug($str))->first();
+        } elseif (isset($order->outlet_payment_code)) {
+            $str = 'retail outlet ' . $order->payment_channel;
+            $help = Help::where('slug', Str::slug($str))->first();
+        } elseif (isset($order->va_number)) {
+            $str = 'Virtual Account ' . $order->payment_channel;
+            $help = Help::where('slug', Str::slug($str))->first();
+        } else {
+            $help = new Help();
+            $help->name_id = '';
+            $help->content_id = '';
+        }
+        $data['name_id'] = $help->name_id ?? '';
+        $data['content_id'] = $help->content_id ?? '';
+
+        return ResponseAPI($data, 200);
     }
 
     public function sellerListOrder(Request $request)
