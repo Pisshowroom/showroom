@@ -206,7 +206,7 @@ class OrderDataController extends Controller
         $historyFund->user_id = $seller->id;
         $historyFund->type = "Penjualan";
         $historyFund->amount = $totalIncome;
-        $historyFund->description = "Penjualan #" . $order->payment_identifier;
+        $historyFund->name = "Penjualan #" . $order->payment_identifier;
         $historyFund->save();
 
         DB::commit();
