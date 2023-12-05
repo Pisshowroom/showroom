@@ -118,10 +118,9 @@ class ProductController extends Controller
         $data['is_wishlisted'] = false;
         if ($user != null && $product->seller_id != null) {
             $buyerAddress = $user->addresses()->where('main', true)->first();
-            $seller = $product->seller;
             $sellerAddress = $product->seller->addresses()->where('main', true)->first();
             if ($buyerAddress != null && $sellerAddress != null) {
-                $data['delivery_service'] = lypsisCheckShippingPrice($buyerAddress->ro_subdistrict_id, $sellerAddress->ro_subdistrict_id, $product->weight, $seller->seller_delivery_service);
+                $data['delivery_service'] = lypsisCheckShippingPrice($buyerAddress->ro_subdistrict_id, $sellerAddress->ro_subdistrict_id, $product->weight);
             } else {
                 $data['delivery_service'] = null;
             }
