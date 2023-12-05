@@ -38,6 +38,9 @@ class WithdrawController extends Controller
         if ($request->filled('date')) {
             $historyFund->whereDate('created_at', $request->date);
         }
+        if ($request->filled('type')) {
+            $historyFund->where('type', $request->type);
+        }
 
         $historyFund =  $historyFund->paginate(10);
 
