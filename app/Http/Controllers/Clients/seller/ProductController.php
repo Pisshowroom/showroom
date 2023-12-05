@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductController extends Controller
             return $q->where('name', 'like', "%$request->search%");
         })->when($request->filled('category_id'), function ($q) use ($request) {
             return $q->where('category_id', $request->category_id);
-        })->where('seller_id', Auth::guard('web')->user()->id)->whereNull('parent_id')->with('category:id,name')->orderBy('id', $request->orderBy ?? 'desc')->paginate(10);
+        })->withCount('variants')->where('seller_id', Auth::guard('web')->user()->id)->whereNull('parent_id')->with('category:id,name')->orderBy('id', $request->orderBy ?? 'desc')->paginate(10);
         $data['categories_product'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) {
             $q->where('seller_id', Auth::guard('web')->user()->id);
         })->select('id', 'name')->get();
@@ -34,8 +35,13 @@ class ProductController extends Controller
     }
     public function editProduct(Request $request)
     {
+        $user = Auth::guard('web')->user();
+
         $data['categories'] = Category::whereNull('deleted_at')->get();
-        $product = Product::where('id', $request->id)->with('variants')->firstOrFail();
+        $product = Product::where('id', $request->id)->firstOrFail();
+        if (!$product)
+            return redirect("/toko/semua-produk")->with('danger', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
+
         if ($product->category_id != null) {
             $data['sub_category'] = SubCategory::where('category_id', $product->category_id)->select('id', 'name', 'category_id')->get();
         } else {
@@ -43,6 +49,22 @@ class ProductController extends Controller
         }
 
         return view('clients.seller.product.add', ['product' => $product, 'data' => $data]);
+    }
+    public function variantProduct(Request $request)
+    {
+        $user = Auth::guard('web')->user();
+
+        $data['categories'] = Category::whereNull('deleted_at')->get();
+        $product = Product::where('id', $request->id)->with('variants')->select('id','name')->withCount('variants')->firstOrFail();
+        if (!$product)
+            return redirect("/toko/semua-produk")->with('danger', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
+
+        if ($product->category_id != null) {
+            $data['sub_category'] = SubCategory::where('category_id', $product->category_id)->select('id', 'name', 'category_id')->get();
+        } else {
+            $data['sub_category'] = '';
+        }
+        return view('clients.seller.product.variant', ['product' => $product, 'data' => $data]);
     }
     public function addUpdateProduct(Request $request)
     {
@@ -67,6 +89,11 @@ class ProductController extends Controller
         if ($request->filled('id')) {
             $product = Product::find($request->id);
         } else {
+            $user->load('address_seller');
+
+            if ($user->address_seller == null) {
+                return redirect("/toko/semua-produk")->with('danger', 'Penjual wajib mengisi data alamat toko terlebih dahulu')->with('auth', base64_encode($user->uid));
+            }
             $product = new Product();
             $isCreate = true;
         }
@@ -120,74 +147,125 @@ class ProductController extends Controller
         }
     }
 
-    public function storeOrUpdateProductVariant(Product $productParent, Request $request)
+    public function addUpdateProductVariant(Request $request)
     {
         $user = auth()->guard('web')->user();
 
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'variants.*.name' => 'required',
             'variants.*.price' => 'required',
-            'variants.*.stock' => 'required',
+            'variants.*.stock' => 'required'
         ]);
 
-        $variants = json_decode($request->variants, true);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        dd($request->variants);
+        $isCreate = !$request->filled('id');
+
+        if ($isCreate) {
+            $user->load('address_seller');
+
+            if ($user->address_seller == null) {
+                return redirect("/toko/semua-produk")
+                    ->with('danger', 'Penjual wajib mengisi data alamat toko terlebih dahulu')
+                    ->with('auth', base64_encode($user->uid));
+            }
+
+            $productParent = new Product();
+        } else {
+            $productParent = Product::find($request->id);
+        }
+
+        $variants = $request->variants;
         DB::beginTransaction();
 
-        // dd($variants);
-        foreach ($variants as $variant) {
-            $productName = $variant['name'];
-            $image = null;
-            if (empty($variant['id'])) {
-                $theVariant = $productParent->replicate();
-                $productName .= " AA";
-                if (isset($variant['image']) && is_uploaded_file($variant['image'])) {
-                    $image = uploadFoto($variant['image'], 'uploads/products/' . $user->id);
-                    $image = [$image];
-                }
+        try {
+            foreach ($variants as $key => $variant) {
+                $productName = $variant['name'];
 
-                $theVariant->parent_id = $productParent->id;
-                $theVariant->name = $productName;
-                $theVariant->slug = null;
-                $theVariant->images = $image;
-                $theVariant->price = $variant['price'];
-                $theVariant->stock = $variant['stock'];
-                $theVariant->discount = $variant['discount'] ?? null;
-                $theVariant->save();
-            } else {
-                $theVariant = Product::where('parent_id', $productParent->id)->where('id', $variant['id'])
-                    ->firstOrFail();
-                $productName .= " BB";
-                if (isset($variant['image']) && is_uploaded_file($variant['image'])) {
-                    $image = uploadFoto($variant['image'], 'uploads/products/' . $user->id);
-                    $image = [$image];
-                } else if (!empty($variant['image'])) {
-                    $image = $theVariant->images;
-                }
+                if (empty($variant['id'])) {
+                    $theVariant = $productParent->replicate();
+                    $productName .= " AA";
+                    if (isset($variant['images'])) {
+                        $image = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
+                    } else {
+                        $image = null;
+                    }
 
-                $theVariant->update([
-                    'name' => $productName,
-                    'slug' => null,
-                    'images' => $image ?? null,
-                    'price' => $variant['price'],
-                    'stock' => $variant['stock'],
-                    'discount' => $variant['discount'] ?? null,
-                ]);
+                    $theVariant->parent_id = $productParent->id;
+                    $theVariant->name = $productName;
+                    $theVariant->slug = null;
+                    $theVariant->images = $image;
+                    $theVariant->weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
+                    if ($theVariant->weight == 0) {
+                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,berat tidak sesuai.')->with('auth', base64_encode($user->uid));
+                    }
+                    $theVariant->price = (int) preg_replace("/[^0-9]/", "", $variant['price']);
+                    if ($theVariant->price == 0) {
+                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,harga tidak sesuai.')->with('auth', base64_encode($user->uid));
+                    }
+                    $theVariant->stock = (int) preg_replace("/[^0-9]/", "", $variant['stock']);
+                    if ($theVariant->stock == 0) {
+                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,stok minimal 1.')->with('auth', base64_encode($user->uid));
+                    }
+
+                    $theVariant->discount = null;
+                    $theVariant->save();
+                } else {
+                    $theVariant = Product::where('parent_id', $productParent->id)->where('id', $variant['id'])
+                        ->firstOrFail();
+                    $productName .= " BB";
+                    if (isset($variant['images'])) {
+                        $image = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
+                    } else {
+                        $image = null;
+                    }
+                    $weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
+                    if ($weight == 0) {
+                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,berat tidak sesuai.')->with('auth', base64_encode($user->uid));
+                    }
+                    $price = (int) preg_replace("/[^0-9]/", "", $variant['price']);
+                    if ($price == 0) {
+                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,harga tidak sesuai.')->with('auth', base64_encode($user->uid));
+                    }
+                    $stock = (int) preg_replace("/[^0-9]/", "", $variant['stock']);
+                    if ($stock == 0) {
+                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,stok minimal 1.')->with('auth', base64_encode($user->uid));
+                    }
+
+                    $theVariant->update([
+                        'name' => $productName,
+                        'slug' => null,
+                        'images' => $image ?? null,
+                        'price' => $price,
+                        'stock' => $stock,
+                        'weight' => $weight,
+                        'discount' =>  null,
+                    ]);
+                }
             }
+            $deletedItemsIds = json_decode($request->deletedItemsIds, true);
+
+            if (!empty($deletedItemsIds)) {
+                Product::whereIn('id', $deletedItemsIds)->delete();
+            }
+
+            DB::commit();
+
+            $message = $isCreate ? 'Berhasil menambah varian produk.' : 'Berhasil mengubah varian produk.';
+            $redirectPath = "/toko/semua-produk";
+            $withData = ['success' => $message, 'auth' => base64_encode($user->uid)];
+        } catch (\Exception $e) {
+            DB::rollback();
+            $message = 'Gagal melakukan operasi. ' . $e->getMessage();
+            $redirectPath = back()->getTargetUrl(); // Redirect back to the previous page
+            $withData = ['error' => $message];
         }
 
-        // $deletedItemsIds = $request->deletedItemsIds;
-        $deletedItemsIds = json_decode($request->deletedItemsIds, true);
-        // dd($deletedItemsIds);
-        if (!empty($deletedItemsIds) && count($deletedItemsIds) > 0) {
-            /* $a = Product::whereIn('id', $deletedItemsIds)->get()->toArray();
-            dd($a); */
-            Product::whereIn('id', $deletedItemsIds)->delete();
-        }
-
-        DB::commit();
-
-        return ResponseAPI("Manajemen variasi produk telah berhasil.", 200);
+        return redirect($redirectPath)->with($withData);
     }
+
 
     public function deleteProduct($id)
     {
