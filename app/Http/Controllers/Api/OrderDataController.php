@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Help;
+use App\Models\HistoryFund;
 use App\Models\Order;
 use App\Models\Setting;
 use GuzzleHttp\Psr7\Response;
@@ -194,6 +195,14 @@ class OrderDataController extends Controller
 
         $seller->balance += $totalIncome;
         $seller->save();
+
+        $historyFund = new HistoryFund();
+        $historyFund->order_id = $order->id;
+        $historyFund->user_id = $seller->id;
+        $historyFund->type = "Penjualan";
+        $historyFund->amount = $totalIncome;
+        $historyFund->description = "Penjualan #" . $order->payment_identifier;
+        $historyFund->save();
 
         DB::commit();
         return ResponseAPI('Pesanan berhasil diselesaikan', 200);

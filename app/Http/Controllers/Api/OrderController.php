@@ -224,11 +224,11 @@ class OrderController extends Controller
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
         $data['weight'] = $weight;
-        Log::info('checkShippingPrice called with parameters:', [
+        /* Log::info('checkShippingPrice called with parameters:', [
             'origin_id' => $addressBuyer->ro_subdistrict_id,
             'destination_id' => $sellerAddress->ro_city_id,
             'weight' => $weight,
-        ]);
+        ]); */
 
         // $weight = -2;
         // $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
