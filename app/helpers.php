@@ -248,7 +248,7 @@ function checkShippingPrice($originId, $destinationId, $weight, $earlierMode = f
     // return  $shippingCost->results;
 }
 
-function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
+function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false)
 {
     $curl = curl_init();
 
@@ -261,7 +261,7 @@ function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMo
         'destination' => $destinationId,
         'destinationType' => 'city',
         'weight' => $weight,
-        'courier' => env('RO_SERVICES'),
+        'courier' => $deliveryServices,
     ]));
     curl_setopt($curl, CURLOPT_HTTPHEADER, [
         'key: ' . env('RO_KEY'),
