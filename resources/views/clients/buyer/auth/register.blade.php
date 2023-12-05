@@ -24,6 +24,7 @@
                         @endif
                         <div style="display:none" class="alert alert-warning" id="myDiv2"></div>
                         <div style="display:none" class="alert alert-success" id="myDiv3"></div>
+                        <div style="display:none" class="alert alert-info" id="myDiv4"></div>
                         <form class="form-register mt-30 mb-30" id="submitRegister" method="post">
                             <div class="form-group">
                                 <label class="mb-5 font-sm color-gray-700">Nama Lengkap *</label>
@@ -120,11 +121,32 @@
                 if (email !== '' && password !== '' && name !== '' && repassword !== '') {
                     if (password == repassword) {
                         $submitButton.prop('disabled', false);
+                        validateEmail();
                     }
                 } else {
                     $submitButton.prop('disabled', true);
                 }
             });
+
+            function validateEmail() {
+                var email = $('#email').val();
+                var regex = /@co/;
+                console.log(regex.test(email));
+                if (regex.test(email)) {
+                    $('#registerEmail').prop('disabled', false);
+                } else {
+                    if (email.trim() !== '') {
+                        var div = document.getElementById('myDiv2');
+                        $('#myDiv2').css('display', 'block');
+                        div.innerHTML = '';
+                        div.innerHTML += 'Email tidak valid. Harap gunakan domain ".co" yang valid setelah "@"';
+                        setTimeout(function() {
+                            $('#myDiv2').fadeOut('fast');
+                        }, 2000);
+                        $('#registerEmail').prop('disabled', true);
+                    }
+                }
+            }
             $(".toggle-password").click(function() {
                 $(this).toggleClass("fa-eye fa-eye-slash");
                 var input = $($(this).attr("toggle"));

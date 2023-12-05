@@ -227,6 +227,11 @@ class AuthController extends Controller
             $user = new User;
             $user->name = $request->name;
             $user->email = $request->email;
+            $randomInteger = '';
+            for ($i = 0; $i < 21; $i++) {
+                $randomInteger .= mt_rand(0, 9);
+            }
+            $user->uid = (int) $randomInteger;
             $user->password = bcrypt($request->password);
             $user->save();
 

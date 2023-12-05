@@ -137,16 +137,17 @@ class ProductController extends Controller
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
-    public function detailProduct(Request $request, $slug)
+    public function detailProduct($slug)
     {
+        $user = Auth::guard('web')->user();
         $product = Product::with([
             'seller:id,name,seller_slug,seller_name',
             'seller.address:id,user_id,for_seller,main,city',
             'category:id,name',
-            'reviews' => function ($q) {
+            'reviews' => function ($q) use ($user) {
                 $q->select('id', 'product_id', 'user_id');
-                if (Auth::guard('web')->user() && Auth::guard('web')->user()->id)
-                    $q->where('user_id', Auth::guard('web')->user()->id);
+                if ($user && $user->id)
+                    $q->where('user_id', $user->id);
             }
         ])
             ->withAvg('reviews', 'rating')
@@ -165,6 +166,12 @@ class ProductController extends Controller
         } else {
             $product->price_discount = null;
         }
+        $product->is_wishlisted = false;
+
+        if ($user != null && $product->seller_id != null) {
+            $product->is_wishlisted = $product->usersWishlisted()->where('user_id', $user->id)->exists();
+        }
+
         $bestSellerProducts = Product::with([
             'category', 'seller:id,name,seller_slug,seller_name',
             'seller.address:id,user_id,for_seller,main,city',

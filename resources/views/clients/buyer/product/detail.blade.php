@@ -103,14 +103,21 @@
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-9 text-start text-sm-end">
                                 @if (Auth::guard('web')->user())
-                                    <button class="mr-20 bg-transparent" style="border: none !important;"
-                                        onclick="addWishlist('{{ $product->id }}','{{ $product->stock }}')">
-                                        <span class="btn btn-wishlist mr-5 opacity-100 transform-none"></span>
-                                        <span class="font-md color-gray-900">Tambahkan ke
-                                            Wishlist</span></button>
+                                    @if ($product->is_wishlisted == false)
+                                        <button class="mr-20 bg-transparent" style="border: none !important;"
+                                            onclick="addWishlist('{{ $product->id }}','{{ $product->stock }}')">
+                                            <span class="btn btn-wishlist mr-5 opacity-100 transform-none"></span>
+                                            <span class="font-md color-gray-900">Tambahkan ke
+                                                Wishlist</span></button>
+                                    @else
+                                        <a class="mr-20"
+                                            href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                            <span class="btn btn-wishlist mr-5 opacity-100 transform-none"></span><span
+                                                class="font-md color-gray-900">Lihat Wishlist</span></a>
+                                    @endif
                                 @else
                                     <a class="mr-20"
-                                        href="{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? route('buyer.wishlist') . '?auth=' . base64_encode(Auth::user()->uid) : route('buyer.login') }}">
+                                        href="{{ route('buyer.login') }}">
                                         <span class="btn btn-wishlist mr-5 opacity-100 transform-none"></span><span
                                             class="font-md color-gray-900">Tambahkan ke Wishlist</span></a>
                                 @endif

@@ -83,6 +83,13 @@
                                             {{ $product->stock && $product->stock > 0 ? moneyFormat($product->stock) : '0' }}
                                         </td>
                                         <td class="align-middle">
+                                            @if ($product->variants_count != 0)
+                                                <a class="btn btn-xs"
+                                                    href="{{ route('dashboardSeller.variantProduct', ['id' => $product->id ?? '1']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Varian</a>
+                                            @else
+                                                <a class="btn btn-xs"
+                                                    href="{{ route('dashboardSeller.variantProduct', ['id' => $product->id ?? '1']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Varian</a>
+                                            @endif
                                             <a class="btn btn-xs"
                                                 href="{{ route('dashboardSeller.editProduct', ['id' => $product->id ?? '1']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Detail</a>
                                             <a href="{{ route('dashboardSeller.deleteProduct', ['id' => $product->id]) }}"
