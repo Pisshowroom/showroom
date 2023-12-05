@@ -39,14 +39,14 @@
 </style>
 
 @php
-$order = App\Models\Order::find(4);
+    $order = App\Models\Order::find(4);
 
 @endphp
 
 <body>
     <div class="box">
         <header>
-            <img src="{{asset('/ecom/imgs/pshop.png')}}" class="image-header" alt="">
+            <img src="{{ asset('/ecom/imgs/pshop.png') }}" class="image-header" alt="">
         </header>
         <hr class="dashed">
         <div class="content">
@@ -84,8 +84,8 @@ $order = App\Models\Order::find(4);
                         <div>
                             <p><b>{{ $order->user->name }}</b> - {{ $order->user->phone_number }}</p>
                             <p>{{ $order->address->address_description }}</p>
-                            <p>{{ $order->district }}, {{ $order->city }}, {{ $order->address->ro_province->provice_name
-                                }}</p>
+                            <p>{{ $order->district }}, {{ $order->city }},
+                                {{ $order->address->ro_province->provice_name }}</p>
                             <p></p>
                         </div>
                     </td>
@@ -96,8 +96,8 @@ $order = App\Models\Order::find(4);
                         <div>
                             <p><b>{{ $order->user->name }}</b> - {{ $order->user->phone_number }}</p>
                             <p>{{ $order->address->address_description }}</p>
-                            <p>{{ $order->district }}, {{ $order->city }}, {{ $order->address->ro_province->provice_name
-                                }}</p>
+                            <p>{{ $order->district }}, {{ $order->city }},
+                                {{ $order->address->ro_province->provice_name }}</p>
                             <p></p>
                         </div>
                     </td>
@@ -113,11 +113,11 @@ $order = App\Models\Order::find(4);
                     <td style="width:20%">Jumlah</td>
                 </tr>
                 @foreach ($order->order_items as $item)
-                <tr>
-                    <td style="width:60%">{{$item->product->name}}</td>
-                    <td style="width:20%">{{  }}</td>
-                    <td style="width:20%">{{$item->quantity}}</td>
-                </tr>
+                    <tr>
+                        <td style="width:60%">{{ $item->product->name }}</td>
+                        {{-- <td style="width:20%">{{ }}</td> --}}
+                        <td style="width:20%">{{ $item->quantity }}</td>
+                    </tr>
                 @endforeach
             </table>
         </div>
