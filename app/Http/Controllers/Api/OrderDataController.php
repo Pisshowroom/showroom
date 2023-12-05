@@ -8,6 +8,7 @@ use App\Models\Help;
 use App\Models\HistoryFund;
 use App\Models\Order;
 use App\Models\Setting;
+use Barryvdh\DomPDF\Facade\Pdf;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -132,6 +133,10 @@ class OrderDataController extends Controller
         $order->status = Order::SHIPPED;
         $order->save();
 
+
+        $pdf = Pdf::loadView('receipt_image', $order);
+        $order->link_label =  $pdf->save(public_path("/receipt_images/$order->delivery_receipt_number.pdf"));
+        $order->save();
 
         // receipt image
         // exec("wkhtmltoimage --format png $html $output");
