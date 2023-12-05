@@ -22,6 +22,7 @@ class SellerResource extends JsonResource
             'phone_number_seller' => $this->phone_number_seller,
             'is_seller_active' => $this->is_seller_active,
             'seller_description' => $this->seller_description,
+            'seller_delivery_service' => $this->seller_delivery_service,
             'address' => $this->when($this->address_seller != null, new AddressResource($this->address_seller)),
         ];
         

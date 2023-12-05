@@ -10,6 +10,10 @@ class HistoryFund extends Model
 {
     use HasFactory, SoftDeletes;
 
+    /* Type
+    Refund/Penjualan
+    */
+
     public function user()
     {
         return $this->belongsTo(User::class);
