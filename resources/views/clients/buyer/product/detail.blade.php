@@ -116,8 +116,7 @@
                                                 class="font-md color-gray-900">Lihat Wishlist</span></a>
                                     @endif
                                 @else
-                                    <a class="mr-20"
-                                        href="{{ route('buyer.login') }}">
+                                    <a class="mr-20" href="{{ route('buyer.login') }}">
                                         <span class="btn btn-wishlist mr-5 opacity-100 transform-none"></span><span
                                             class="font-md color-gray-900">Tambahkan ke Wishlist</span></a>
                                 @endif
@@ -432,6 +431,18 @@
                                                                 <p class="mb-10 font-sm color-gray-900">
                                                                     {!! $review->text ?? '' !!}
                                                                 </p>
+                                                                <div class="preview-container">
+                                                                    @if ($review != null && $review->images && count($review->images) > 0)
+                                                                        @foreach ($review->images as $k => $image)
+                                                                            @if ($k < 2)
+                                                                                <a class="preview-item" href="{{$image}}" target="_blank">
+                                                                                    <img src="{{ asset($image) }}"
+                                                                                        alt="ulasan {{ $review?->user?->name ?? '' }}">
+                                                                                </a>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -516,8 +527,11 @@
                                                         <div class="form-group">
                                                             <label for="image" class="form-label">Gambar</label>
                                                             <input class="form-control" type="file" id="image"
-                                                                name="image" accept="image/*">
+                                                                name="image[]" accept="image/*" multiple>
                                                         </div>
+                                                        <div class="preview-container" id="imagePreviewContainer">
+                                                        </div>
+
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
@@ -528,35 +542,6 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        {{-- <div class="col-lg-4">
-                                    <h4 class="mb-30 title-question">Customer reviews</h4>
-                                    <div class="d-flex mb-30">
-                                        <div class="product-rate d-inline-block mr-15">
-                                            <div class="product-rating" style="width: 90%"></div>
-                                        </div>
-                                        <h6>4.8 out of 5</h6>
-                                    </div>
-                                    <div class="progress"><span>5 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 50%"
-                                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-                                    </div>
-                                    <div class="progress"><span>4 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 25%"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                                    </div>
-                                    <div class="progress"><span>3 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 45%"
-                                            aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
-                                    </div>
-                                    <div class="progress"><span>2 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 65%"
-                                            aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
-                                    </div>
-                                    <div class="progress mb-30"><span>1 star</span>
-                                        <div class="progress-bar" role="progressbar" style="width: 85%"
-                                            aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
-                                    </div><a class="font-xs text-muted" href="#">How are ratings calculated?</a>
-                                </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -619,6 +604,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
     <style>
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .preview-item {
+            position: relative;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .preview-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            background-color: white;
+            border: none;
+            padding: 0;
+        }
+
         .stars {
             padding: 0 20px;
             width: 100%;
@@ -668,6 +682,42 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
         $(document).ready(function() {
+            $('#image').on('change', function(e) {
+                var files = e.target.files;
+
+                // Display new previews
+                for (var i = 0; i < files.length; i++) {
+                    displayImagePreview(files[i]);
+                }
+            });
+            $(document).on('click', '.remove-btn', function() {
+                var removedIndex = $(this).parent().index();
+                $(this).parent().remove();
+                // Remove the corresponding array item
+                if (removedIndex !== -1) {
+                    // Assuming you have an array called imageArray
+                    imageArray.splice(removedIndex, 1);
+                }
+            });
+
+            function displayImagePreview(file) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    var previewItem = $(
+                        '<div class="preview-item"><img src="' + e.target.result +
+                        '" alt="Image Preview">' +
+                        '<button class="remove-btn" style="background:white !important;" type="button"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button></div>'
+                    );
+
+                    $('#imagePreviewContainer').append(previewItem);
+                    // Assuming you have an array called imageArray
+                    imageArray.push(file);
+                };
+
+                reader.readAsDataURL(file);
+            }
+
             var inputValue2 = $('.input-quantity input').val();
             var numericValue2 = parseInt(inputValue2);
             if (numericValue2 < 1 || isNaN(numericValue2)) {

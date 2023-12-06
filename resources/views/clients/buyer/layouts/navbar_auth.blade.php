@@ -1,10 +1,36 @@
 <div class="topbar">
     <div class="container-topbar w-100">
+        <div class="menu-topbar-left d-none d-xl-block">
+            <ul class="nav-small">
+                <li><a class="font-xs"
+                        href="{{ route('buyer.about') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tentang
+                        Kami</a></li>
+                <li>
+                    @auth
+                        @if (Auth::guard('web')->user()->is_seller == 1)
+                            <a class="font-xs"
+                                href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Dashboard
+                                Toko</a>
+                        @else
+                            <a class="font-xs"
+                                href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar
+                                Toko</a>
+                        @endif
+                    @endauth
+                    @guest
+
+                        <a class="font-xs" href="{{ route('buyer.register') }}">Buka toko</a>
+                    @endguest
+                </li>
+            </ul>
+        </div>
         <div class="info-topbar w-100 text-center d-none d-xl-block"><a class="font-xs color-brand-3"
                 href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                 target="_blank">Download Aplikasi PIS Shop Global</a></div>
+        <div class="menu-topbar-right"><span class="font-xs color-brand-3">Butuh bantuan? Hubungi:</span><span
+                class="font-sm-bold color-success"> + 1800 900</span>
+        </div>
     </div>
-</div>
 </div>
 <header class="header sticky-bar">
     <div class="container">
@@ -89,7 +115,13 @@
                                 </div> --}}
                             </div>
                         </div>
-
+                        <a class="font-lg icon-list icon-wishlist"
+                            href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span>Wishlist</span>
+                            @if ($data['userWishlist'] > 0)
+                                <span class="number-item font-xs"
+                                    style="top:-12px !important">{{ $data['userWishlist'] }}</span>
+                            @endif
+                        </a>
                         <div class="d-inline-block box-dropdown-cart"><span
                                 class="font-lg icon-list icon-cart"><span>Keranjang</span><span
                                     class="number-item font-xs amount-cart d-none"></span></span>
@@ -406,7 +438,8 @@
                     var element = cart[i];
                     totalAmount += parseFloat(element.price);
                     var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
-                    var imageUrl = element.images && element.images[0] ? element.images[0] : "{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}";
+                    var imageUrl = element.images && element.images[0] ? element.images[0] :
+                        "{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}";
                     url = url.replace(':slug', element.slug);
                     html += `<div class="item-cart mb-20">
                     <div class="cart-image">

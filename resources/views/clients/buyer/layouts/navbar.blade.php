@@ -1,10 +1,39 @@
 <div class="topbar top-gray-1000">
     <div class="container-topbar w-100">
-        <div class="info-topbar w-100 text-center d-none d-xl-block"><a class="font-xs color-brand-3"
+        <div class="menu-topbar-left d-none d-xl-block">
+            <ul class="nav-small">
+                <li><a class="font-xs"
+                        href="{{ route('buyer.about') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tentang
+                        Kami</a></li>
+                <li>
+                    @auth
+                        @if (Auth::guard('web')->user()->is_seller == 1)
+                            <a class="font-xs"
+                                href="{{ route('dashboardSeller.dashboard') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Dashboard
+                                Toko</a>
+                        @else
+                            <a class="font-xs"
+                                href="{{ route('dashboardSeller.profile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar
+                                Toko</a>
+                        @endif
+                    @endauth
+                    @guest
+
+                        <a class="font-xs"
+                            href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Buka
+                            toko</a>
+                    @endguest
+                </li>
+
+            </ul>
+        </div>
+        <div class="info-topbar text-center d-none d-xl-block"><a class="font-xs color-brand-3"
                 href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                 target="_blank">Download Aplikasi PIS Shop Global</a></div>
+        <div class="menu-topbar-right"><span class="font-xs color-brand-3">Butuh bantuan? Hubungi:</span><span
+                class="font-sm-bold color-success"> + 1800 900</span>
+        </div>
     </div>
-</div>
 </div>
 <header class="header header-container sticky-bar">
     <div class="container">
@@ -34,13 +63,19 @@
                     </div>
                 </div>
                 <div class="header-nav text-start">
-                    {{-- <nav class="nav-main-menu d-none d-xl-block">
+                    <nav class="nav-main-menu d-none d-xl-block">
                         <ul class="main-menu">
-                            <li><a class="active" href="#">Flash Deals</a></li>
-                            <li><a href="#">Spesial</a></li>
-                            <li><a href="#">Penjual Teratas</a></li>
+                            <li><a class="active"
+                                    href="{{ route('buyer.allGridProduct', ['special' => 'promo']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Promo</a>
+                            </li>
+                            <li><a
+                                    href="{{ route('buyer.allGridProduct', ['special' => 'special']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Spesial</a>
+                            </li>
+                            <li><a
+                                    href="{{ route('buyer.allGridProduct', ['special' => 'newest']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Penjual
+                                    Teratas</a></li>
                         </ul>
-                    </nav> --}}
+                    </nav>
                     <div class="burger-icon burger-icon-white"><span class="burger-icon-top"></span><span
                             class="burger-icon-mid"></span><span class="burger-icon-bottom"></span></div>
                 </div>
@@ -78,6 +113,13 @@
                                 </div> --}}
                             </div>
                         </div>
+                        <a class="font-lg icon-list icon-wishlist"
+                            href="{{ route('buyer.wishlist') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span>Wishlist</span>
+                            @if ($data['userWishlist'] > 0)
+                                <span class="number-item font-xs"
+                                    style="top:-12px !important">{{ $data['userWishlist'] }}</span>
+                            @endif
+                        </a>
                         <div class="d-inline-block box-dropdown-cart"><span
                                 class="font-lg icon-list icon-cart"><span>Keranjang</span><span
                                     class="number-item font-xs amount-cart d-none"></span></span>
@@ -138,63 +180,67 @@
                 @endauth
             </div>
         </div>
-        <div class="header-bottom">
-            <div class="container">
-                @if ($data['sub_categories'] && count($data['sub_categories']) > 0)
-                    <div class="dropdown d-lg-inline-block d-none">
-                        <button class="btn dropdown-toggle btn-category" id="dropdownCategory" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="true" data-bs-display="static"><span
-                                class="dropdown-right font-sm-bold color-white">Berdasarkan Kategori</span></button>
-                        <div class="sidebar-left dropdown-menu dropdown-menu-light" aria-labelledby="dropdownCategory"
-                            data-bs-popper="static">
-                            <ul class="menu-texts menu-close">
-                                @foreach ($data['sub_categories'] as $ct)
-                                    <li class="has-children">
-                                        <a
-                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
-                                                class="text-link">{{ $ct->name ?? '' }}</span></a>
-                                        @if ($ct->sub_categories && count($ct->sub_categories) > 0)
-                                            <ul class="sub-menu {{ $ct->id }}">
-                                                @foreach ($ct->sub_categories as $sc)
-                                                    <li><a
-                                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
+    </div>
+    <div class="header-bottom">
+        <div class="container">
+            @if ($data['sub_categories'] && count($data['sub_categories']) > 0)
+                <div class="dropdown d-lg-inline-block d-none">
+                    <button class="btn dropdown-toggle btn-category" id="dropdownCategory" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="true" data-bs-display="static"><span
+                            class="dropdown-right font-sm-bold color-white">Berdasarkan Kategori</span></button>
+                    <div class="sidebar-left dropdown-menu dropdown-menu-light" aria-labelledby="dropdownCategory"
+                        data-bs-popper="static">
+                        <ul class="menu-texts menu-close">
+                            @foreach ($data['sub_categories'] as $ct)
+                                <li class="has-children">
+                                    <a
+                                        href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><span
+                                            class="text-link">{{ $ct->name ?? '' }}</span></a>
+                                    @if ($ct->sub_categories && count($ct->sub_categories) > 0)
+                                        <ul class="sub-menu {{ $ct->id }}">
+                                            @foreach ($ct->sub_categories as $sc)
+                                                <li><a
+                                                        href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
-                @endif
-                <div class="header-nav d-inline-block">
-                    <nav class="nav-main-menu d-none d-xl-block">
-                        <ul class="main-menu">
-                            <li><a class="@yield('home')"
-                                    href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
-                            </li>
-                            {{-- @guest
+                </div>
+            @endif
+            <div class="header-nav d-inline-block">
+                <nav class="nav-main-menu d-none d-xl-block">
+                    <ul class="main-menu">
+                        <li><a class="@yield('home')"
+                                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
+                        </li>
+                        {{-- @guest
                                 <li><a class="@yield('login')" href="{{ route('buyer.login') }}">Masuk</a></li>
                             @endguest --}}
-                            <li><a class="@yield('allProduct')"
-                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
-                                    Produk</a></li>
-                            <li><a class="@yield('article')"
-                                    href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="discount d-xl-flex d-none">
-                    @guest
-                        <a class="@yield('login') btn btn-buy"
-                            href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Masuk</a>
-                        <a class="@yield('register') btn btn-cart"
-                            href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar</a>
-                    @endguest
-                </div>
+                        <li><a class="@yield('allProduct')"
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Semua
+                                Produk</a></li>
+                        <li><a class="@yield('article')"
+                                href="{{ route('buyer.allArticle') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Artikel</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
+            @guest
+                <div class="discount d-xl-flex d-none">
+                    <a class="@yield('login') btn btn-buy"
+                        href="{{ route('buyer.login') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Masuk</a>
+                    <a class="@yield('register') btn btn-cart"
+                        href="{{ route('buyer.register') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Daftar</a>
+                </div>
+            @endguest
+            @auth
+                <div class="discount2 font-16 font-bold d-xl-flex d-none">PENAWARAN SPESIAL</div>
+            @endauth
+
         </div>
     </div>
 </header>
@@ -351,7 +397,8 @@
                     var element = cart[i];
                     totalAmount += parseFloat(element.price);
                     var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
-                    var imageUrl = element.images && element.images[0] ? element.images[0] : "{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}";
+                    var imageUrl = element.images && element.images[0] ? element.images[0] :
+                        "{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}";
                     url = url.replace(':slug', element.slug);
                     html += `<div class="item-cart mb-20">
                     <div class="cart-image">

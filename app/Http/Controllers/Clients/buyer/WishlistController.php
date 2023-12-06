@@ -8,6 +8,7 @@ use App\Models\Address;
 use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,8 +21,10 @@ class WishlistController extends Controller
 
         if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
             $data['addresses'] = $this->addresses();
+            $data['userWishlist'] = Wishlist::where('user_id', Auth::guard('web')->user()->id)->whereNotNull('product_id')->count();
         } else {
             $data['addresses'] = null;
+            $data['userWishlist'] = 0;
         }
 
         return $data;

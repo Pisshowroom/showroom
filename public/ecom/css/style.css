@@ -3417,7 +3417,7 @@ a.text-brand-3:hover {
 }
 .header .main-header .header-left .header-shop .icon-wishlist {
   background-image: url(../imgs/template/wishlist.svg);
-  background-position: 0px 2px;
+  /* background-position: 0px 2px; */
   padding-left: 35px;
 }
 .header .main-header .header-left .header-shop .icon-cart {
@@ -3804,7 +3804,7 @@ a.text-brand-3:hover {
   right: 0px;
   margin-top: -4px;
 }
-.header-bottom .discount a {
+.header-bottom .discount a,.header-bottom .discount2 a {
     font-family: "DM Sans", sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -3815,7 +3815,7 @@ a.text-brand-3:hover {
     text-decoration: none;
     position: relative;
 }
-.header-bottom .discount .active,.header-bottom .discount a:hover {
+.header-bottom .discount .active,.header-bottom .discount a:hover,.header-bottom .discount2 .active,.header-bottom .discount2 a:hover {
   opacity: 1;
   transition: 0.2s;
 }
@@ -3824,6 +3824,17 @@ a.text-brand-3:hover {
   display: inline-block;
   /* padding: 9px 0px 9px 0px; */
 }
+
+.header-bottom .discount2 {
+    display: inline-block;
+    padding: 9px 0px 9px 42px;
+    background-image: url(../imgs/page/homepage4/discount.svg);
+    background-position: left center;
+    background-repeat: no-repeat;
+    min-width: 250px;
+    max-height: 53px;
+}
+
 .header-bottom .dropdown-right {
   background-image: url(../imgs/page/homepage4/arrow-down.svg);
   background-position: right center;
@@ -10040,7 +10051,7 @@ a:hover span {
     width: 0%;
   }
   .header .main-header .header-left .header-search {
-    width: 65%;
+    width: 55%;
   }
   .header .burger-icon {
     display: block;

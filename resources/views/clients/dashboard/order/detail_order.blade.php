@@ -5,9 +5,13 @@
                 <span>
                     <i class="material-icons md-calendar_today"></i>
                     <b>Tanggal Pesanan : {{ $order->date . ' WIB' ?? '' }}</b>
-                </span><br>
+                </span>
+                <br>
                 <small class="text-muted">Nomor Identifikasi :
                     {{ $order->payment_identifier ?? '' }}</small>
+                <br>
+                <small class="text-muted">Nomor Resi :
+                    {{ $order->delivery_receipt_number ?? '' }}</small>
                 <p class="mt-15"><span>Status:</span>
                     @include('clients.dashboard.order.status_order')
                 </p>

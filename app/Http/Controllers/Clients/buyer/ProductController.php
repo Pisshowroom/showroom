@@ -11,6 +11,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Review;
 use App\Models\User;
+use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -24,8 +25,10 @@ class ProductController extends Controller
 
         if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
             $data['addresses'] = $this->addresses();
+            $data['userWishlist'] = Wishlist::where('user_id', Auth::guard('web')->user()->id)->whereNotNull('product_id')->count();
         } else {
             $data['addresses'] = null;
+            $data['userWishlist'] = 0;
         }
 
         return $data;
@@ -52,6 +55,10 @@ class ProductController extends Controller
             })->when($request->filled('seller_id'), function ($q) use ($request) {
                 $sellerIds = is_array($request->seller_id) ? $request->seller_id : [$request->seller_id];
                 return $q->whereIn('seller_id', $sellerIds);
+            })->when($request->filled('special'), function ($q) use ($request) {
+                if ($request->special == 'promo') {
+                    return $q->whereNotNull('discount')->where('discount', '>', '0');
+                }
             })
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
@@ -59,9 +66,9 @@ class ProductController extends Controller
                     $query->where('status', 'done');
                 });
             }], 'quantity')
-            ->orderBy('id', $request->filled('orderBy') && $request->orderBy == 'asc' ? 'asc' : 'desc')
+            ->orderBy('id',  !$request->filled('orderBy') || ($request->filled('orderBy') && $request->orderBy == 'desc')|| ($request->filled('special') && $request->special == 'newest') ? 'desc' : 'asc')
             ->orderBy('reviews_avg_rating', $request->filled('rating') && $request->rating == 'asc' ? 'asc' : 'desc')
-            ->orderBy('price', $request->filled('price') && $request->price == 'asc' ? 'asc' : 'desc')
+            ->orderBy('price', !$request->filled('price') || ($request->filled('price') && $request->price == 'desc') || ($request->filled('special') && $request->special == 'special')  ? 'desc' : 'asc')
             ->paginate(15);
         if ($product && count($product) > 0) {
             foreach ($product as $key => $value) {
@@ -275,8 +282,18 @@ class ProductController extends Controller
             $review->product_id = (int) $request->product_id;
         $review->rating =  (int) $request->rating;
         $review->text = $request->text;
-        if ($request->hasFile('image'))
-            $review->images = $request->image;
+        $images = [];
+        if (!empty($request->image)) {
+            foreach ($request->image as $img) {
+                if (isset($img) && is_uploaded_file($img)) {
+                    $images[] = uploadFoto($img, 'uploads/reviews/' . $user->id);
+                } else if (!empty($img)) {
+                    $dirImage = lypsisRemoveHost($img);
+                    $images[] = $dirImage;
+                }
+            }
+        }
+        $review->images = $images;
         $review->save();
         return redirect("/produk-" . $request->product_slug)->with('success', 'Berhasil menambahkan Ulasan')->with('auth', base64_encode($user->uid));
     }
