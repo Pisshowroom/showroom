@@ -112,6 +112,29 @@ class UserController extends Controller
         return response()->json(['message' => 'Berhasil memperbarui data.']);
     }
 
+    public function myUserSeller()
+    {
+        $user = Auth::guard('api-client')->user();
+        if($user->is_seller == false){
+            return ResponseAPI('Anda belum terdaftar sebagai seller', 400);
+        }
+
+        return new SellerResource($user);
+    }
+
+    public function setDeliveryService(Request $request)
+    {
+        $user = Auth::guard('api-client')->user();
+        $request->validate([
+            'seller_delivery_service' => 'required|string',
+        ]);
+
+        $user->seller_delivery_service = $request->seller_delivery_service;
+        $user->save();
+
+        return ResponseAPI('Berhasil mengubah status layanan pengiriman');
+    }
+
     public function registerAsSeller(Request $request)
     {
         $user = Auth::guard('api-client')->user();
@@ -136,6 +159,7 @@ class UserController extends Controller
         $user->seller_name = $request->input('name');
         $user->seller_slug = Str::slug($request->name);
         $user->phone_number_seller = $request->phone_number_seller;
+        $user->seller_delivery_service = "jne:jnt:sicepat:anteraja";
         $user->is_seller = true;
         $user->save();
 

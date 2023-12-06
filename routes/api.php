@@ -139,6 +139,8 @@ Route::group(['prefix' => 'user'], function () {
 
     Route::middleware('auth:api-client')->group(function () {
         Route::get('/profile', [UserController::class, 'profile']);
+        Route::get('/my-user-seller', [UserController::class, 'myUserSeller']);
+        Route::post('/set-delivery-service', [UserController::class, 'setDeliveryService']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
         Route::post('/update-seller', [UserController::class, 'updateSeller']);
         Route::post('/register-as-seller', [UserController::class, 'registerAsSeller']);

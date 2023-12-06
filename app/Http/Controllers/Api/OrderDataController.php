@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Help;
+use App\Models\HistoryFund;
 use App\Models\Order;
 use App\Models\Setting;
+use Barryvdh\DomPDF\Facade\Pdf;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -132,6 +134,10 @@ class OrderDataController extends Controller
         $order->save();
 
 
+        $pdf = Pdf::loadView('receipt_image', $order);
+        $order->link_label =  $pdf->save(public_path("/receipt_images/$order->delivery_receipt_number.pdf"));
+        $order->save();
+
         // receipt image
         // exec("wkhtmltoimage --format png $html $output");
 
@@ -194,6 +200,14 @@ class OrderDataController extends Controller
 
         $seller->balance += $totalIncome;
         $seller->save();
+
+        $historyFund = new HistoryFund();
+        $historyFund->order_id = $order->id;
+        $historyFund->user_id = $seller->id;
+        $historyFund->type = "Penjualan";
+        $historyFund->amount = $totalIncome;
+        $historyFund->name = "Penjualan #" . $order->payment_identifier;
+        $historyFund->save();
 
         DB::commit();
         return ResponseAPI('Pesanan berhasil diselesaikan', 200);

@@ -224,11 +224,11 @@ class OrderController extends Controller
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
         $data['weight'] = $weight;
-        Log::info('checkShippingPrice called with parameters:', [
+        /* Log::info('checkShippingPrice called with parameters:', [
             'origin_id' => $addressBuyer->ro_subdistrict_id,
             'destination_id' => $sellerAddress->ro_city_id,
             'weight' => $weight,
-        ]);
+        ]); */
 
         // $weight = -2;
         // $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
@@ -240,7 +240,7 @@ class OrderController extends Controller
         $requestForShippingPrice = new Request();
         $requestForShippingPrice->merge($dataRequest);
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
-        $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
+        $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight, $seller->seller_delivery_service);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
 
@@ -314,7 +314,7 @@ class OrderController extends Controller
             $requestForShippingPrice = new Request();
             $requestForShippingPrice->merge($dataRequest);
             // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
-            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight']);
+            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight'], $dummyBoongan = "");
             return ResponseAPI($deliveryServicesInfo);
             // $this->lypsisCheckShippingPrice();
         } else if ($request->type == 'b') {
@@ -326,7 +326,7 @@ class OrderController extends Controller
             $requestForShippingPrice = new Request();
             $requestForShippingPrice->merge($dataRequest);
             // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
-            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight']);
+            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight'], $dummyBoongan = "");
             return ResponseAPI($deliveryServicesInfo);
             // $this->lypsisCheckShippingPrice();
         } else if ($request->type == 'c') {
@@ -338,13 +338,13 @@ class OrderController extends Controller
             $requestForShippingPrice = new Request();
             $requestForShippingPrice->merge($dataRequest);
             // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
-            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight']);
+            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight'], $dummyBoongan = "");
             return ResponseAPI($deliveryServicesInfo);
             // $this->lypsisCheckShippingPrice();
         }
     }
 
-    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
+    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices ,$earlierMode = false)
     {
         $curl = curl_init();
 
@@ -357,7 +357,7 @@ class OrderController extends Controller
             'destination' => $destinationId,
             'destinationType' => 'city',
             'weight' => $weight,
-            'courier' => env('RO_SERVICES'),
+            'courier' => $deliveryServices,
         ]));
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'key: ' . env('RO_KEY'),
