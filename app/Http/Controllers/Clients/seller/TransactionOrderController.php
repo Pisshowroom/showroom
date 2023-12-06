@@ -9,6 +9,7 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransactionOrderController extends Controller
 {
@@ -126,6 +127,10 @@ class TransactionOrderController extends Controller
         $order->status = Order::SHIPPED;
         $order->save();
 
+        $pdf = Pdf::loadView('receipt_image', $order);
+        $order->link_label =  $pdf->save(public_path("/receipt_images/$order->delivery_receipt_number.pdf"));
+        $order->save();
+
         return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil dikirim')->with('auth', base64_encode($user->uid));
     }
 
@@ -189,5 +194,10 @@ class TransactionOrderController extends Controller
 
         DB::commit();
         return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil diselesaikan')->with('auth', base64_encode($user->uid));
+    }
+
+    private function viewReceipt(Order $order)
+    {
+        return view('receipt_image', ['order' => $order]);
     }
 }
