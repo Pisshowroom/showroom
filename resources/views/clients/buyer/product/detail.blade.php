@@ -60,23 +60,64 @@
                                                     alt="produk {{ $product->name ?? '' }}">
                                             </figure>
                                         @endif
+                                        @if ($product && $product->variants && count($product->variants) > 0)
+                                            @foreach ($product->variants as $images)
+                                                @if ($images && $images->images && is_array($images->images) && count($images->images) > 0)
+                                                    @foreach ($images->images as $item)
+                                                        <figure class="border-radius-10"><img
+                                                                src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                                alt="produk {{ $images->name ?? '' }}">
+                                                        </figure>
+                                                    @endforeach
+                                                @elseif ($images && $images->images && is_string($images->images) && $images->images != null)
+                                                    <figure class="border-radius-10"><img
+                                                            src="{{ $images->images ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                            alt="produk {{ $images->name ?? '' }}">
+                                                    </figure>
+                                                @endif
+                                            @endforeach
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="slider-nav-thumbnails">
-                                    <div>
-                                        @if ($product && $product->images && count($product->images) > 0)
-                                            @foreach ($product->images as $item)
+                                    @if ($product && $product->images && count($product->images) > 0)
+                                        @foreach ($product->images as $item)
+                                            <div>
                                                 <div class="item-thumb"><img
                                                         src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
                                                         alt="produk {{ $product->name ?? '' }}"></div>
-                                            @endforeach
-                                        @else
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div>
                                             <div class="item-thumb"><img
                                                     src="{{ asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
-                                                    alt="produk {{ $product->name ?? '' }}"></div>
-                                        @endif
+                                                    alt="produk {{ $product->name ?? '' }}">
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if ($product && $product->variants && count($product->variants) > 0)
+                                        @foreach ($product->variants as $images)
+                                            @if ($images && $images->images && is_array($images->images) && count($images->images) > 0)
+                                                @foreach ($images->images as $item)
+                                                    <div>
+                                                        <div class="item-thumb"><img
+                                                                src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                                alt="produk {{ $product->name ?? '' }}">
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @elseif ($images && $images->images && is_string($images->images) && $images->images != null)
+                                                <div>
+                                                    <div class="item-thumb"><img
+                                                            src="{{ $images->images ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                            alt="produk {{ $product->name ?? '' }}">
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    @endif
 
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -156,24 +197,58 @@
                             </div>
                         </div> --}}
                         <div class="box-product-color mt-20">
-                            <p class="font-sm color-gray-900">Warna:<span class="color-brand-2 nameColor">Default</span>
+                            <p class="font-sm color-gray-900">Varian:<span class="color-brand-2 nameColor">Default</span>
                             </p>
                             <ul class="list-colors">
                                 @if ($product && $product->images && count($product->images) > 0)
-                                    @foreach ($product->images as $item)
-                                        <li class="disabled" style="max-width: 100px !important"><img
-                                                src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
-                                                alt="produk {{ $product->name ?? '' }}"></li>
-                                    @endforeach
+                                    <li class="active" style="max-width: 100px !important"><img title="Default"
+                                            src="{{ $product->images[0] ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                            alt="produk {{ $product->name ?? '' }}">
+                                        <input type="hidden" class="id" value="{{ $product->id }}">
+                                        <input type="hidden" class="name" value="{{ $product->name }}">
+                                        <input type="hidden" class="stock" value="{{ $product->stock }}">
+                                    </li>
                                 @else
-                                    <li class="disabled" style="max-width: 100px !important"><img
-                                            src="{{ asset('ecom/imgs/page/product/img-gallery-6.jpg') }}"
-                                            alt="produk {{ $product->name ?? '' }}" title="Black"></li>
-                                    <li class="disabled" style="max-width: 100px !important"><img
+                                    <li class="active" style="max-width: 100px !important"><img title="Default"
                                             src="{{ asset('ecom/imgs/page/product/img-gallery-7.jpg') }}"
-                                            alt="produk {{ $product->name ?? '' }}" title="Red"></li>
+                                            alt="produk {{ $product->name ?? '' }}">
+                                        <input type="hidden" class="id" value="{{ $product->id }}">
+                                        <input type="hidden" class="name" value="{{ $product->name }}">
+                                        <input type="hidden" class="stock" value="{{ $product->stock }}">
+                                    </li>
                                 @endif
+                                @if ($product && $product->variants && count($product->variants) > 0)
+                                    @foreach ($product->variants as $images)
+                                        @if ($images->stock && $images->stock > 0)
+                                            @if ($images && $images->images && is_array($images->images) && count($images->images) > 0)
+                                                @foreach ($images->images as $item)
+                                                    <li style="max-width: 100px !important">
+                                                        <img title="{{ $images->name ?? '' }}"
+                                                            src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                            alt="produk {{ $images->name ?? '' }}">
+                                                        <input type="hidden" class="id"
+                                                            value="{{ $images->id }}">
+                                                        <input type="hidden" class="name"
+                                                            value="{{ $images->name }}">
+                                                        <input type="hidden" class="stock"
+                                                            value="{{ $images->stock }}">
 
+                                                    </li>
+                                                @endforeach
+                                            @elseif ($images && $images->images && is_string($images->images) && $images->images != null)
+                                                <li style="max-width: 100px !important">
+                                                    <img title="{{ $images->name ?? '' }}"
+                                                        src="{{ $images->images ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                        alt="produk {{ $images->name ?? '' }}">
+                                                    <input type="hidden" class="id" value="{{ $images->id }}">
+                                                    <input type="hidden" class="name" value="{{ $images->name }}">
+                                                    <input type="hidden" class="stock" value="{{ $images->stock }}">
+
+                                                </li>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
                         {{-- <div class="box-product-style-size mt-20">
@@ -226,9 +301,8 @@
                                 <div class="">
                                     <p class="font-sm mb-20  w-full">Stok</p>
                                     <div class="box-quantity">
-                                        <p class="font-lg color-brand-3">
+                                        <p class="font-lg color-brand-3 stock">
                                             {{ $product->stock . ' barang' ?? 'Stok Kosong' }}</p>
-
                                     </div>
                                 </div>
 
@@ -346,7 +420,8 @@
                                         <tr>
                                             <td>Diskon</td>
                                             <td>
-                                                <p>{{ $product->discount ?? '-' }}</p>
+                                                <p>{{ $product->discount && $product->discount > 0 ? $product->discount . '%' : '-' }}
+                                                </p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -435,7 +510,9 @@
                                                                     @if ($review != null && $review->images && count($review->images) > 0)
                                                                         @foreach ($review->images as $k => $image)
                                                                             @if ($k < 2)
-                                                                                <a class="preview-item" href="{{$image}}" target="_blank">
+                                                                                <a class="preview-item"
+                                                                                    href="{{ $image }}"
+                                                                                    target="_blank">
                                                                                     <img src="{{ asset($image) }}"
                                                                                         alt="ulasan {{ $review?->user?->name ?? '' }}">
                                                                                 </a>
@@ -682,6 +759,16 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
         $(document).ready(function() {
+            $('.list-colors li').each(function() {
+                $(this).on('click', function(e) {
+                    e.preventDefault();
+                    if ($(this).hasClass('active')) {
+                        var stock = $(this).find('.stock').val();
+                        $('.box-quantity').find('p.stock').text(stock + ' barang');
+                        $('.box-quantity').find('input#quantity').val(1);
+                    }
+                });
+            })
             $('#image').on('change', function(e) {
                 var files = e.target.files;
 
@@ -828,158 +915,175 @@
 
             $('#buy-now').on('click', function(e) {
                 e.preventDefault();
-                if ("{{ $product->stock > 0 }}") {
-                    if ("{{ $product->stock }}" >= $('#quantity').val()) {
-                        $('.loading').removeClass('d-none').addClass('show-modal');
-                        var productData = [{
-                            product_id: "{{ $product->id ?? '' }}",
-                            note: "Tolong ini hati-hati bawanya ",
-                            qty: $('#quantity').val(),
-                        }];
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
-                        $.ajax({
-                            type: "post",
-                            url: "{{ route('buyer.preCheckEarly') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
-                            data: {
-                                order_items: JSON.stringify(productData)
-                            },
-                            xhr: function() {
-                                // get the native XmlHttpRequest object
-                                var xhr = $.ajaxSettings.xhr()
-                                // set the onprogress event handler
-                                xhr.upload.onprogress = function(evt) {}
-                                return xhr
-                            },
-                            success: function(response) {
-                                if (response) {
-                                    $.ajax({
-                                        type: "post",
-                                        url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
-                                        data: {
-                                            order_items: JSON.stringify(productData),
-                                            seller_id: "{{ $product->seller_id ?? '' }}",
-                                            address_id: "{{ $data['addresses']->id ?? '' }}",
-                                        },
-                                        xhr: function() {
-                                            // get the native XmlHttpRequest object
-                                            var xhr = $.ajaxSettings.xhr()
-                                            // set the onprogress event handler
-                                            xhr.upload.onprogress = function(evt) {}
-                                            return xhr
-                                        },
-                                        success: function(response) {
-                                            if (response) {
-                                                if (response
-                                                    .delivery_services_info &&
-                                                    response
-                                                    .delivery_services_info
-                                                    .results && response
-                                                    .delivery_services_info.results
-                                                    .length > 0) {
-                                                    var results = response
+                var th = $('.list-colors li.active');
+                var stock = th.find('input.stock').val();
+                var id = th.find('input.id').val();
+                if (id && stock) {
+                    if (stock > 0) {
+                        if (stock >= $('#quantity').val()) {
+                            $('.loading').removeClass('d-none').addClass('show-modal');
+                            var productData = [{
+                                product_id: id,
+                                note: "Tolong ini hati-hati bawanya ",
+                                qty: $('#quantity').val(),
+                            }];
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                type: "post",
+                                url: "{{ route('buyer.preCheckEarly') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                                data: {
+                                    order_items: JSON.stringify(productData)
+                                },
+                                xhr: function() {
+                                    // get the native XmlHttpRequest object
+                                    var xhr = $.ajaxSettings.xhr()
+                                    // set the onprogress event handler
+                                    xhr.upload.onprogress = function(evt) {}
+                                    return xhr
+                                },
+                                success: function(response) {
+                                    if (response) {
+                                        $.ajax({
+                                            type: "post",
+                                            url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                                            data: {
+                                                order_items: JSON.stringify(
+                                                    productData),
+                                                seller_id: "{{ $product->seller_id ?? '' }}",
+                                                address_id: "{{ $data['addresses']->id ?? '' }}",
+                                            },
+                                            xhr: function() {
+                                                // get the native XmlHttpRequest object
+                                                var xhr = $.ajaxSettings.xhr()
+                                                // set the onprogress event handler
+                                                xhr.upload.onprogress = function(
+                                                    evt) {}
+                                                return xhr
+                                            },
+                                            success: function(response) {
+                                                if (response) {
+                                                    if (response
+                                                        .delivery_services_info &&
+                                                        response
                                                         .delivery_services_info
-                                                        .results;
-                                                    var filteredResults = results
-                                                        .filter(function(item) {
-                                                            return (
-                                                                item.costs
-                                                                .length >
-                                                                0 &&
-                                                                item.costs[
-                                                                    0].cost
-                                                                .length >
-                                                                0 &&
-                                                                typeof item
-                                                                .costs[0]
-                                                                .cost[0]
-                                                                .value !==
-                                                                'undefined' &&
-                                                                typeof item
-                                                                .costs[0]
-                                                                .cost[0]
-                                                                .etd !==
-                                                                'undefined'
+                                                        .results && response
+                                                        .delivery_services_info
+                                                        .results
+                                                        .length > 0) {
+                                                        var results = response
+                                                            .delivery_services_info
+                                                            .results;
+                                                        var filteredResults =
+                                                            results
+                                                            .filter(function(item) {
+                                                                return (
+                                                                    item
+                                                                    .costs
+                                                                    .length >
+                                                                    0 &&
+                                                                    item
+                                                                    .costs[
+                                                                        0]
+                                                                    .cost
+                                                                    .length >
+                                                                    0 &&
+                                                                    typeof item
+                                                                    .costs[
+                                                                        0]
+                                                                    .cost[0]
+                                                                    .value !==
+                                                                    'undefined' &&
+                                                                    typeof item
+                                                                    .costs[
+                                                                        0]
+                                                                    .cost[0]
+                                                                    .etd !==
+                                                                    'undefined'
+                                                                );
+                                                            });
+                                                        if (filteredResults) {
+                                                            localStorage.setItem(
+                                                                'seller_id',
+                                                                "{{ $product->seller_id ?? '' }}"
                                                             );
-                                                        });
-                                                    if (filteredResults) {
-                                                        localStorage.setItem(
-                                                            'seller_id',
-                                                            "{{ $product->seller_id ?? '' }}"
-                                                        );
-                                                        localStorage.setItem(
-                                                            'checkout',
-                                                            JSON
-                                                            .stringify(response)
-                                                        );
-                                                        window.location.replace(
-                                                            "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                                                        );
+                                                            localStorage.setItem(
+                                                                'checkout',
+                                                                JSON
+                                                                .stringify(
+                                                                    response)
+                                                            );
+                                                            window.location.replace(
+                                                                "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                                                            );
+                                                        } else {
+                                                            messageError(
+                                                                'Paket Pengiriman tidak tersedia'
+                                                            );
+                                                        }
                                                     } else {
                                                         messageError(
                                                             'Paket Pengiriman tidak tersedia'
                                                         );
                                                     }
+                                                    $('.loading').removeClass(
+                                                            'show-modal')
+                                                        .addClass('d-none');
                                                 } else {
+                                                    $('.loading').removeClass(
+                                                            'show-modal')
+                                                        .addClass('d-none');
+                                                }
+                                            },
+
+                                            error: function(error) {
+                                                if (error && error.responseJSON &&
+                                                    error
+                                                    .responseJSON.message) {
                                                     messageError(
-                                                        'Paket Pengiriman tidak tersedia'
+                                                        error
+                                                        .responseJSON.message
                                                     );
                                                 }
                                                 $('.loading').removeClass(
                                                         'show-modal')
                                                     .addClass('d-none');
-                                            } else {
-                                                $('.loading').removeClass(
-                                                        'show-modal')
-                                                    .addClass('d-none');
+                                                console.log(error);
                                             }
-                                        },
+                                        });
+                                    } else {
+                                        $('.loading').removeClass(
+                                                'show-modal')
+                                            .addClass('d-none');
 
-                                        error: function(error) {
-                                            if (error && error.responseJSON && error
-                                                .responseJSON.message) {
-                                                messageError(
-                                                    error
-                                                    .responseJSON.message
-                                                );
-                                            }
-                                            $('.loading').removeClass('show-modal')
-                                                .addClass('d-none');
-                                            console.log(error);
-                                        }
-                                    });
-                                } else {
-                                    $('.loading').removeClass(
-                                            'show-modal')
-                                        .addClass('d-none');
+                                    }
+                                },
+                                error: function(error) {
+                                    $('.loading').removeClass('show-modal').addClass('d-none');
+                                    console.log('error');
+                                    console.log(error);
+                                    if (error && error.responseJSON && error
+                                        .responseJSON.message) {
+                                        messageError(
+                                            error
+                                            .responseJSON.message
+                                        );
+                                    }
 
                                 }
-                            },
-                            error: function(error) {
-                                $('.loading').removeClass('show-modal').addClass('d-none');
-                                console.log('error');
-                                console.log(error);
-                                if (error && error.responseJSON && error
-                                    .responseJSON.message) {
-                                    messageError(
-                                        error
-                                        .responseJSON.message
-                                    );
-                                }
-
-                            }
-                        });
+                            });
+                        } else {
+                            messageError('Pesananmu melebihi stok yang ada');
+                        }
                     } else {
-                        messageError('Pesananmu melebihi stok yang ada');
+                        $('#myDivCheckout').css('display', 'block');
+                        setTimeout(function() {
+                            $('#myDivCheckout').fadeOut('fast');
+                        }, 2000);
                     }
-                } else {
-                    $('#myDivCheckout').css('display', 'block');
-                    setTimeout(function() {
-                        $('#myDivCheckout').fadeOut('fast');
-                    }, 2000);
                 }
 
             });

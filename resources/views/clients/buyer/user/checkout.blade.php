@@ -7,10 +7,14 @@
             <div class="breadcrumbs-div">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Beranda</a></li>
-                        <li><a class="font-xs color-gray-1000" href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Produk</a>
+                        <li><a class="font-xs color-gray-1000"
+                                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Beranda</a>
                         </li>
-                        <li><a class="font-xs color-gray-500" href="{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Checkout</a>
+                        <li><a class="font-xs color-gray-1000"
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Produk</a>
+                        </li>
+                        <li><a class="font-xs color-gray-500"
+                                href="{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Checkout</a>
                         </li>
                     </ul>
                 </div>
@@ -126,7 +130,8 @@
                                         </select>
                                         @if (count($data['address']) < 1)
                                             <h6 class="font-xs text-danger">Input alamat terlebih dahulu di <a
-                                                    href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Halaman Profil</a> </h6>
+                                                    href="{{ route('dashboard.settings') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Halaman
+                                                    Profil</a> </h6>
                                         @endif
                                     </div>
                                 </div>
@@ -136,12 +141,13 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label" for="master_account_id">Pilih Pembayaran</label>
-                                        <select class="form-control font-sm select-style1"
-                                            id="master_account_id" name="master_account_id">
+                                        <select class="form-control font-sm select-style1" id="master_account_id"
+                                            name="master_account_id">
                                             <option value="0">Pilih salah satu</option>
                                             @foreach ($data['master_account'] as $item)
                                                 @if (Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) && $item->type == 'PI')
-                                                    <option value="{{ $item->id }}">{{ $item->name }} (Recommended)</option>
+                                                    <option value="{{ $item->id }}">{{ $item->name }} (Recommended)
+                                                    </option>
                                                 @else
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endif
@@ -152,8 +158,8 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-label" for="packet">Pilih Kurir</label>
-                                        <select class="form-control font-sm select-style1" id="packet"
-                                            disabled name="packet">
+                                        <select class="form-control font-sm select-style1" id="packet" disabled
+                                            name="packet">
                                             <option value="0">Pilih salah satu</option>
                                         </select>
                                         <p class="font-xs text-danger d-none">Pilih alamat dan pembayaran terlebih dahulu
@@ -163,7 +169,8 @@
                             </div>
                             <div class="row mt-20">
                                 <div class="col-lg-6 col-5 mb-20"><a class="btn font-sm-bold color-brand-1 arrow-back-1"
-                                        href="{{ route('buyer.cart') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">Kembali ke Keranjang</a></div>
+                                        href="{{ route('buyer.cart') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kembali
+                                        ke Keranjang</a></div>
                                 <div class="col-lg-6 col-7 mb-20 text-end">
                                     <button class="btn btn-buy w-auto arrow-next" disabled>Pesan Sekarang</button>
                                 </div>
@@ -219,18 +226,19 @@
                     checkout.products.forEach((element, i) => {
                         var url = "{{ route('buyer.detailProduct', ['slug' => ':slug']) }}";
                         url = url.replace(':slug', element.slug);
-                        var imageUrl = element.images && element.images[0] ? element.images[0] : "{{ asset('ecom/imgs/page/product/img-sub.png') }}";
+                        var imageUrl = element.images && element.images[0] ? element.images[0] :
+                            "{{ asset('ecom/imgs/page/product/img-sub.png') }}";
 
                         html += `<div class="item-wishlist">
                                     <div class="wishlist-product">
                                         <div class="product-wishlist">
                                             <div class="product-image"><a
-                                                    href="${url}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}"><img
+                                                    href="${url}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
                                                         src="${imageUrl}"
                                                         alt="Ecom"></a></div>
                                             <div class="product-info">
                                                 <a
-                                                    href="${url}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}">
+                                                    href="${url}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     <h6 class="color-brand-3 line-2 text-start" style="word-wrap:break-word;">${element.name}</h6>
                                                 </a>
                                                 <div class="rating"><img
@@ -270,7 +278,9 @@
                     console.error('Error parsing JSON:', error);
                 }
             } else {
-                window.location.replace("{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}");
+                window.location.replace(
+                    "{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                    );
             }
             if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id').find(
                     'option:selected')
@@ -385,7 +395,7 @@
                         $('.loading').removeClass('d-none').addClass('show-modal');
 
                         $.ajax({
-                            url: "{{ route('buyer.precheckWithDelivery') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
+                            url: "{{ route('buyer.precheckWithDelivery') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                             type: "POST",
                             // dataType: "json",
                             data: obj,
@@ -439,69 +449,81 @@
                 var selectedOption = $('#packet').find('option:selected');
                 var checkouts = localStorage.getItem('checkout');
                 var checkout = JSON.parse(checkouts);
-                if (checkout.products) {
-                    const obj = {
-                        order_items: JSON.stringify(checkout.products),
-                        address_id: $('#address_id').find('option:selected').val(),
-                        delivery_cost: $(selectedOption).find('.cost').val(),
-                        delivery_code: $(selectedOption).val(),
-                        delivery_name: $(selectedOption).find('.name').val(),
-                        master_account_id: $('#master_account_id').find('option:selected').val(),
-                        delivery_service: $(selectedOption).find('.description').val(),
-                        delivery_estimation_day: $(selectedOption).find('.etd').val()
-                    }
-                    $.ajaxSetup({
-                        headers: {
-                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                                "content"
-                            ),
-                        },
-                    });
-                    $('.loading').removeClass('d-none').addClass('show-modal');
+                if ($('#master_account_id').find('option:selected').val() != 0) {
 
-                    $.ajax({
-                        url: "{{ route('buyer.preCheckout') }}{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}",
-                        type: "POST",
-                        // dataType: "json",
-                        data: obj,
-                        success: function(data) {
-                            $('#myDivHandleSuccess').text('Berhasil memesan produk.');
-                            $('#myDivHandleSuccess').css('display', 'block');
-                            setTimeout(function() {
-                                $('#myDivHandleSuccess').fadeOut('fast');
-                                localStorage.removeItem('checkout');
-                                if (data && data.order) {
-                                    if (data.order.payment_identifier) {
-                                        var route =
-                                            "{{ route('dashboard.payment', ['identifier' => 'id']) }}";
-                                        window.location.replace(route.replace(
-                                            'id', data.order.payment_identifier
-                                        )+"{{ Auth::check() && preg_match('/PiBrowser/i',request()->header('User-Agent')) ?  '?auth='.base64_encode(Auth::user()->uid) : '' }}");
-                                    }
-                                }
-                            }, 2000);
-                            $('.loading').removeClass('show-modal')
-                                .addClass('d-none');
+                    if (checkout.products) {
+                        const obj = {
+                            order_items: JSON.stringify(checkout.products),
+                            address_id: $('#address_id').find('option:selected').val(),
+                            delivery_cost: $(selectedOption).find('.cost').val(),
+                            delivery_code: $(selectedOption).val(),
+                            delivery_name: $(selectedOption).find('.name').val(),
+                            master_account_id: $('#master_account_id').find('option:selected').val(),
+                            delivery_service: $(selectedOption).find('.description').val(),
+                            delivery_estimation_day: $(selectedOption).find('.etd').val()
+                        }
+                        $.ajaxSetup({
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                    "content"
+                                ),
+                            },
+                        });
+                        $('.loading').removeClass('d-none').addClass('show-modal');
 
-                        },
-                        error: function(error) {
-                            if (error && error.responseJSON && error.responseJSON.message) {
-                                $('#myDivHandleError').text(error.responseJSON.message);
-                                $('#myDivHandleError').css('display', 'block');
+                        $.ajax({
+                            url: "{{ route('buyer.preCheckout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                            type: "POST",
+                            // dataType: "json",
+                            data: obj,
+                            success: function(data) {
+                                $('#myDivHandleSuccess').text('Berhasil memesan produk.');
+                                $('#myDivHandleSuccess').css('display', 'block');
                                 setTimeout(function() {
-                                    $('#myDivHandleError').fadeOut('fast');
+                                    $('#myDivHandleSuccess').fadeOut('fast');
+                                    localStorage.removeItem('checkout');
+                                    if (data && data.order) {
+                                        if (data.order.payment_identifier) {
+                                            var route =
+                                                "{{ route('dashboard.payment', ['identifier' => 'id']) }}";
+                                            window.location.replace(route.replace(
+                                                    'id', data.order
+                                                    .payment_identifier
+                                                ) +
+                                                "{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                                                );
+                                        }
+                                    }
                                 }, 2000);
-                            }
-                            $('.loading').removeClass('show-modal')
-                                .addClass('d-none');
+                                $('.loading').removeClass('show-modal')
+                                    .addClass('d-none');
 
-                            console.log('error');
-                            console.log(error);
-                        },
-                    });
+                            },
+                            error: function(error) {
+                                if (error && error.responseJSON && error.responseJSON.message) {
+                                    $('#myDivHandleError').text(error.responseJSON.message);
+                                    $('#myDivHandleError').css('display', 'block');
+                                    setTimeout(function() {
+                                        $('#myDivHandleError').fadeOut('fast');
+                                    }, 2000);
+                                }
+                                $('.loading').removeClass('show-modal')
+                                    .addClass('d-none');
+
+                                console.log('error');
+                                console.log(error);
+                            },
+                        });
+                    } else {
+                        $('#myDivHandleError').text('Error');
+                        $('#myDivHandleError').css('display', 'block');
+                        setTimeout(function() {
+                            $('#myDivHandleError').fadeOut('fast');
+                        }, 2000);
+                    }
                 } else {
-                    console.log('error');
-                    $('#myDivHandleError').text('error.responseJSON.message');
+                    $('#myDivHandleError').text('');
+                    $('#myDivHandleError').text('Pilih pembayaran terlebih dahulu');
                     $('#myDivHandleError').css('display', 'block');
                     setTimeout(function() {
                         $('#myDivHandleError').fadeOut('fast');

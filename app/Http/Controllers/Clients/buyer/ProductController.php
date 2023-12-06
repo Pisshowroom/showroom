@@ -148,6 +148,7 @@ class ProductController extends Controller
     {
         $user = Auth::guard('web')->user();
         $product = Product::with([
+            'variants:id,name,parent_id,stock,seller_id,slug,price',
             'seller:id,name,seller_slug,seller_name',
             'seller.address:id,user_id,for_seller,main,city',
             'category:id,name',

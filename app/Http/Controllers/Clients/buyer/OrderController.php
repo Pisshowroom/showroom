@@ -239,11 +239,11 @@ class OrderController extends Controller
         $data['counted_promo_product'] = $countedPromoProduct;
         $data['counted_amount_promo'] = $countedAmountPromo;
         $data['weight'] = $weight;
-        Log::info('checkShippingPrice called with parameters:', [
-            'origin_id' => $addressBuyer->ro_subdistrict_id,
-            'destination_id' => $sellerAddress->ro_city_id,
-            'weight' => $weight,
-        ]);
+        // Log::info('checkShippingPrice called with parameters:', [
+        //     'origin_id' => $addressBuyer->ro_subdistrict_id,
+        //     'destination_id' => $sellerAddress->ro_city_id,
+        //     'weight' => $weight,
+        // ]);
 
         // $weight = -2;
         // $deliveryServicesInfo = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
@@ -255,7 +255,7 @@ class OrderController extends Controller
         $requestForShippingPrice = new Request();
         $requestForShippingPrice->merge($dataRequest);
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
-        $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
+        $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight, $seller->seller_delivery_service);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
 
@@ -299,6 +299,11 @@ class OrderController extends Controller
             }
             if ($sellerId == null) {
                 $sellerId = $product->seller_id;
+                $product->load('seller');
+                $seller = $product->seller;
+                if ($seller != null && $seller->is_seller_active != true) {
+                    return ResponseAPI("Maaf, toko " . $seller->seller_name . " tidak aktif. Maka tidak bisa beli barang disini", 400);
+                }
             } else {
                 if ($sellerId != $product->seller_id) {
                     return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
@@ -433,6 +438,11 @@ class OrderController extends Controller
             }
             if ($sellerId == null) {
                 $sellerId = $product->seller_id;
+                $product->load('seller');
+                $seller = $product->seller;
+                if ($seller != null && $seller->is_seller_active != true) {
+                    return ResponseAPI("Maaf, toko " . $seller->seller_name . " tidak aktif. Maka tidak bisa beli barang disini", 400);
+                }
             } else {
                 if ($sellerId != $product->seller_id) {
                     return ResponseAPI("Maaf, kamu hanya bisa membeli produk-produk dari 1 toko dalam 1 transaksi.", 400);
@@ -690,7 +700,7 @@ class OrderController extends Controller
     }
 
 
-    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMode = false)
+    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices ,$earlierMode = false)
     {
         $curl = curl_init();
 
@@ -703,7 +713,7 @@ class OrderController extends Controller
             'destination' => $destinationId,
             'destinationType' => 'city',
             'weight' => $weight,
-            'courier' => env('RO_SERVICES'),
+            'courier' => $deliveryServices,
         ]));
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'key: ' . env('RO_KEY'),
