@@ -62,11 +62,16 @@ class Order extends Model
     ProcessedBySeller, Shipped, Delivered,
     ExpiredPayment, Cancelled, RequestedRefund, RefundAccepted, RefundDone, RefundDeclined,
     RequestedReturn, ReturnAccepted, ReturnShipped, ReturnDelivered, ReturnCompleted,
+    Complain
     Completed
     */
 
     // Pending, Paid, Sending, Cancel, Returning, Completed
     // FIMGA SELLER : Dalam Pengiriman, Dikomplain
+
+    /* returning_product_type
+    ReturnProdukDanUang, Refund, Komplain 
+    */
 
     /* Payment Status
     PaymentPending, PaymentPaid, PaymentCancelled, PaymentExpired
@@ -90,6 +95,8 @@ class Order extends Model
     const RETURN_SHIPPED = 'ReturnShipped';
     const RETURN_DELIVERED = 'ReturnDelivered';
     const RETURN_COMPLETED = 'ReturnCompleted';
+
+    const COMPLAINT = 'Complain';
 
     /* Payment Status
     PaymentPending, PaymentPaid, PaymentCancelled, PaymentExpired

@@ -175,6 +175,9 @@ Route::group(['prefix' => 'order'], function () {
         Route::post('/check-status-delivered/{order}', [OrderDataController::class, 'checkStatusDeliveredOrder']);
         Route::post('/completed-order/{order}', [OrderDataController::class, 'completedOrder']);
         Route::post('/buyer-cancel-order/{order}', [OrderDataController::class, 'buyerCancelOrder']);
+
+        Route::get('/detail-order-for-complain/{order}', [OrderDataController::class, 'detailOrderForComplain']);
+        Route::post('/request-refund/{order}', [OrderDataController::class, 'requestRefund']);
     });
 });
 
