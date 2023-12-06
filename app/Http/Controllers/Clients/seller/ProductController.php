@@ -55,7 +55,7 @@ class ProductController extends Controller
         $user = Auth::guard('web')->user();
 
         $data['categories'] = Category::whereNull('deleted_at')->get();
-        $product = Product::where('id', $request->id)->with('variants')->select('id','name')->withCount('variants')->firstOrFail();
+        $product = Product::where('id', $request->id)->with('variants')->select('id', 'name')->withCount('variants')->firstOrFail();
         if (!$product)
             return redirect("/toko/semua-produk")->with('danger', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
 
@@ -160,7 +160,6 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        dd($request->variants);
         $isCreate = !$request->filled('id');
 
         if ($isCreate) {
@@ -183,20 +182,18 @@ class ProductController extends Controller
         try {
             foreach ($variants as $key => $variant) {
                 $productName = $variant['name'];
-
+                $images = [];
                 if (empty($variant['id'])) {
                     $theVariant = $productParent->replicate();
                     $productName .= " AA";
                     if (isset($variant['images'])) {
-                        $image = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
-                    } else {
-                        $image = null;
+                        $images[] = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
                     }
-
+                    $image = $images ?? null;
                     $theVariant->parent_id = $productParent->id;
                     $theVariant->name = $productName;
                     $theVariant->slug = null;
-                    $theVariant->images = $image;
+                    $theVariant->images = $image?? null;
                     $theVariant->weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
                     if ($theVariant->weight == 0) {
                         return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,berat tidak sesuai.')->with('auth', base64_encode($user->uid));
@@ -217,10 +214,9 @@ class ProductController extends Controller
                         ->firstOrFail();
                     $productName .= " BB";
                     if (isset($variant['images'])) {
-                        $image = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
-                    } else {
-                        $image = null;
+                        $images[] = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
                     }
+                    $image = $images ?? null;
                     $weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
                     if ($weight == 0) {
                         return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,berat tidak sesuai.')->with('auth', base64_encode($user->uid));
