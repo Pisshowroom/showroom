@@ -16,7 +16,12 @@
     @stack('css')
     {{-- pi coin --}}
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <script>Pi.init({ version: "2.0", sandbox: true })</script>
+    <script>
+        Pi.init({
+            version: "2.0",
+            sandbox: false
+        })
+    </script>
     <title>@yield('title')</title>
 </head>
 
@@ -24,8 +29,9 @@
     <div class="loading d-none"><span class="loaders"><span class="loader-inner"></span></span></div>
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top"><a class="brand-wrap" href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img class="logo"
-            src="{{ asset('ecom/imgs/pshop.png') }}" alt="Dashboard"></a>
+        <div class="aside-top"><a class="brand-wrap"
+                href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                    class="logo" src="{{ asset('ecom/imgs/pshop.png') }}" alt="Dashboard"></a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"><i
                         class="text-muted material-icons md-menu_open"></i></button>
@@ -41,9 +47,10 @@
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">
+                    Copyright &copy;
                     <script>
                         document.write(new Date().getFullYear())
-                    </script> &copy;, <a href="https://hotama.co.id/" target="_blank"
+                    </script> <a href="https://hotama.co.id/" target="_blank"
                         rel="noopener noreferrer">PT.Kreasi Putra Hotama.</a>
                 </div>
                 <div class="col-sm-6">

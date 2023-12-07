@@ -30,7 +30,9 @@
                                     <br>
                                     <small class="text-muted">Nomor Identifikasi :
                                         {{ $order->payment_identifier ?? '' }}</small>
-
+                                    <br>
+                                    <small class="text-muted">Nomor Resi :
+                                        {{ $order->delivery_receipt_number ?? '' }}</small>
                                     <p class="mt-15"><span>Status:</span>
                                         <span class="badge rounded-pill alert-warning alert-link px-3 py-2">Menunggu
                                             Pembayaran</span>
@@ -82,13 +84,13 @@
                             </div>
                         @endif
                         @if ($order->name_id && $order->content_id)
-                        <h5 class="mt-5 mb-1 text-body">Cara Bayar</h5>
-                        <div class="w-100">
-                            <p class="text-body fw-700" id="checkPaymentLabel">{{ $order->name_id ?? '' }}</p>
-                            <div class="p-3 mt-4" style="border:1px solid #383e50;border-radius:5px">
-                                {!! $order->content_id !!}
+                            <h5 class="mt-5 mb-1 text-body">Cara Bayar</h5>
+                            <div class="w-100">
+                                <p class="text-body fw-700" id="checkPaymentLabel">{{ $order->name_id ?? '' }}</p>
+                                <div class="p-3 mt-4" style="border:1px solid #383e50;border-radius:5px">
+                                    {!! $order->content_id !!}
+                                </div>
                             </div>
-                        </div>
                         @endif
                     </div>
                 </div>

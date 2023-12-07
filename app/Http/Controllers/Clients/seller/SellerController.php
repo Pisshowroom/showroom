@@ -216,10 +216,15 @@ class SellerController extends Controller
         if ($request->filled('phone_number_seller')) {
             $user->phone_number_seller = $request->phone_number_seller;
         }
+        $user->seller_delivery_service = "jne:jnt:sicepat:anteraja";
 
         if ($request->hasFile('seller_image')) {
             $user->seller_image = uploadFoto($request->seller_image, 'uploads/seller/');
         }
+        if (isset($request->is_seller_active) && $request->is_seller_active == 'on')
+            $user->is_seller_active = true;
+        else
+            $user->is_seller_active = false;
 
         $user->save();
         if ($request->filled('is_seller')) {

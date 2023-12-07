@@ -24,6 +24,7 @@ class OrderResource extends JsonResource
             'address_id' => $this->address_id,
             'delivery_cost' => $this->delivery_cost,
             'service_fee' => $this->service_fee,
+            'market_fee_buyer' => $this->market_fee_buyer,
             'delivery_receipt_number' => $this->delivery_receipt_number,
             'delivery_estimation_day' => $this->delivery_estimation_day,
             'delivery_service_code' => $this->delivery_service_code,

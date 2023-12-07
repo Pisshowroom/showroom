@@ -40,7 +40,7 @@ class BuyerController extends Controller
 
     private function addresses()
     {
-        return Address::where('user_id', Auth::guard('web')->user()->id)->where('main', true)->whereNull('deleted_at')->first();
+        return Address::where('user_id', Auth::guard('web')->user()->id)->where('main', true)->where('for_seller', '!=', true)->whereNull('deleted_at')->first();
     }
 
     public function home(Request $request)

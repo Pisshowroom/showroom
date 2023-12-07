@@ -68,7 +68,11 @@ function lypsisGetOrderStatusValues($paramStatus)
         case 'Cancel':
             return ['ExpiredPayment', 'Cancelled'];
         case 'Returning':
-            return ['RequestedRefund', 'RefundAccepted', 'RefundDone', 'RefundDeclined', 'RequestedReturn', 'ReturnAccepted', 'ReturnShipped', 'ReturnDelivered', 'ReturnCompleted'];
+            return [
+                'RequestedRefund', 'RefundAccepted', 'RefundDone', 'RefundDeclined',
+                'RequestedReturn', 'ReturnAccepted', 'ReturnShipped', 'ReturnDelivered', 'ReturnCompleted',
+                'Complaint', 'ComplaintAccepted', 'ComplaintDeclined', 'ComplaintCompleted'
+            ];
         default:
             return [$paramStatus];
     }

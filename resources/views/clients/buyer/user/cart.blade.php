@@ -266,8 +266,6 @@
                                     localStorage.setItem('cart', JSON.stringify(cart));
                                     var cartsNew = localStorage.getItem('cart');
                                     var cartNew = JSON.parse(cartsNew);
-                                    console.log(cartNew);
-                                    console.log('cartNew');
                                     cartss(cartNew);
                                 }
 
@@ -369,105 +367,141 @@
                                         return xhr
                                     },
                                     success: function(response) {
-                                        console.log(response);
                                         $('.loading').removeClass('show-modal')
                                             .addClass('d-none');
 
                                         if (response) {
-                                            $.ajaxSetup({
-                                                headers: {
-                                                    'X-CSRF-TOKEN': $(
-                                                            'meta[name="csrf-token"]')
-                                                        .attr(
-                                                            'content')
-                                                }
-                                            });
-                                            $.ajax({
-                                                type: "post",
-                                                url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
-                                                data: {
-                                                    order_items: JSON.stringify(cart),
-                                                    seller_id: cart[0].seller_id,
-                                                    address_id: "{{ $data['addresses']->id ?? '' }}",
-                                                },
-                                                xhr: function() {
-                                                    // get the native XmlHttpRequest object
-                                                    var xhr = $.ajaxSettings.xhr()
-                                                    // set the onprogress event handler
-                                                    xhr.upload.onprogress =
-                                                        function(
-                                                            evt) {}
-                                                    return xhr
-                                                },
-                                                success: function(response) {
-                                                    if (response) {
-                                                        if (response
-                                                            .delivery_services_info &&
-                                                            response
-                                                            .delivery_services_info
-                                                            .results &&
-                                                            response
-                                                            .delivery_services_info
-                                                            .results
-                                                            .length > 0) {
-                                                            var results = response
+                                            if ("{{ $data['addresses']->id ?? '' }}" == null) {
+                                                $('#myDivHandleError').text(
+                                                    'Kamu belum menginput alamat');
+                                                $('#myDivHandleError').css('display',
+                                                    'block');
+                                                setTimeout(function() {
+                                                    $('#myDivHandleError')
+                                                        .fadeOut(
+                                                            'fast');
+                                                }, 2000);
+
+                                            } else {
+                                                $.ajaxSetup({
+                                                    headers: {
+                                                        'X-CSRF-TOKEN': $(
+                                                                'meta[name="csrf-token"]'
+                                                            )
+                                                            .attr(
+                                                                'content')
+                                                    }
+                                                });
+                                                $.ajax({
+                                                    type: "post",
+                                                    url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                                                    data: {
+                                                        order_items: JSON.stringify(
+                                                            cart),
+                                                        seller_id: cart[0].seller_id,
+                                                        address_id: "{{ $data['addresses']->id ?? '' }}",
+                                                    },
+                                                    xhr: function() {
+                                                        // get the native XmlHttpRequest object
+                                                        var xhr = $.ajaxSettings
+                                                            .xhr()
+                                                        // set the onprogress event handler
+                                                        xhr.upload.onprogress =
+                                                            function(
+                                                                evt) {}
+                                                        return xhr
+                                                    },
+                                                    success: function(response) {
+                                                        if (response) {
+                                                            if (response
+                                                                .delivery_services_info &&
+                                                                response
                                                                 .delivery_services_info
-                                                                .results;
-                                                            var filteredResults =
-                                                                results
-                                                                .filter(function(
-                                                                    item) {
-                                                                    return (
-                                                                        item
-                                                                        .costs
-                                                                        .length >
-                                                                        0 &&
-                                                                        item
-                                                                        .costs[
-                                                                            0
-                                                                        ]
-                                                                        .cost
-                                                                        .length >
-                                                                        0 &&
-                                                                        typeof item
-                                                                        .costs[
-                                                                            0
-                                                                        ]
-                                                                        .cost[
-                                                                            0
-                                                                        ]
-                                                                        .value !==
-                                                                        'undefined' &&
-                                                                        typeof item
-                                                                        .costs[
-                                                                            0
-                                                                        ]
-                                                                        .cost[
-                                                                            0
-                                                                        ]
-                                                                        .etd !==
-                                                                        'undefined'
-                                                                    );
-                                                                });
-                                                            if (filteredResults) {
-                                                                localStorage
-                                                                    .setItem(
-                                                                        'seller_id',
-                                                                        cart[
-                                                                            0]
-                                                                        .seller_id
-                                                                    );
-                                                                localStorage
-                                                                    .setItem(
-                                                                        'checkout',
-                                                                        JSON
-                                                                        .stringify(
-                                                                            response
-                                                                        ));
-                                                                window.location
-                                                                    .replace(
-                                                                        "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                                                                    );
+                                                                .results &&
+                                                                response
+                                                                .delivery_services_info
+                                                                .results
+                                                                .length > 0) {
+                                                                var results =
+                                                                    response
+                                                                    .delivery_services_info
+                                                                    .results;
+                                                                var filteredResults =
+                                                                    results
+                                                                    .filter(
+                                                                        function(
+                                                                            item) {
+                                                                            return (
+                                                                                item
+                                                                                .costs
+                                                                                .length >
+                                                                                0 &&
+                                                                                item
+                                                                                .costs[
+                                                                                    0
+                                                                                ]
+                                                                                .cost
+                                                                                .length >
+                                                                                0 &&
+                                                                                typeof item
+                                                                                .costs[
+                                                                                    0
+                                                                                ]
+                                                                                .cost[
+                                                                                    0
+                                                                                ]
+                                                                                .value !==
+                                                                                'undefined' &&
+                                                                                typeof item
+                                                                                .costs[
+                                                                                    0
+                                                                                ]
+                                                                                .cost[
+                                                                                    0
+                                                                                ]
+                                                                                .etd !==
+                                                                                'undefined'
+                                                                            );
+                                                                        });
+                                                                if (
+                                                                    filteredResults
+                                                                    ) {
+                                                                    localStorage
+                                                                        .setItem(
+                                                                            'seller_id',
+                                                                            cart[
+                                                                                0]
+                                                                            .seller_id
+                                                                        );
+                                                                    localStorage
+                                                                        .setItem(
+                                                                            'checkout',
+                                                                            JSON
+                                                                            .stringify(
+                                                                                response
+                                                                            ));
+                                                                    window.location
+                                                                        .replace(
+                                                                            "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                                                                        );
+                                                                } else {
+                                                                    $('#myDivHandleError')
+                                                                        .text(
+                                                                            'Paket Pengiriman tidak tersedia'
+                                                                        );
+                                                                    $('#myDivHandleError')
+                                                                        .css(
+                                                                            'display',
+                                                                            'block'
+                                                                        );
+                                                                    setTimeout(
+                                                                        function() {
+                                                                            $('#myDivHandleError')
+                                                                                .fadeOut(
+                                                                                    'fast'
+                                                                                );
+                                                                        }, 2000);
+                                                                }
                                                             } else {
                                                                 $('#myDivHandleError')
                                                                     .text(
@@ -485,11 +519,30 @@
                                                                             );
                                                                     }, 2000);
                                                             }
+                                                            $('.loading')
+                                                                .removeClass(
+                                                                    'show-modal')
+                                                                .addClass('d-none');
+
                                                         } else {
+                                                            $('.loading')
+                                                                .removeClass(
+                                                                    'show-modal')
+                                                                .addClass('d-none');
+                                                        }
+
+                                                    },
+
+                                                    error: function(error) {
+                                                        if (error && error
+                                                            .responseJSON &&
+                                                            error
+                                                            .responseJSON.message) {
                                                             $('#myDivHandleError')
                                                                 .text(
-                                                                    'Paket Pengiriman tidak tersedia'
-                                                                );
+                                                                    error
+                                                                    .responseJSON
+                                                                    .message);
                                                             $('#myDivHandleError')
                                                                 .css(
                                                                     'display',
@@ -505,40 +558,9 @@
                                                                 'show-modal')
                                                             .addClass('d-none');
 
-                                                    } else {
-                                                        $('.loading').removeClass(
-                                                                'show-modal')
-                                                            .addClass('d-none');
                                                     }
-
-                                                },
-
-                                                error: function(error) {
-                                                    if (error && error
-                                                        .responseJSON &&
-                                                        error
-                                                        .responseJSON.message) {
-                                                        $('#myDivHandleError').text(
-                                                            error
-                                                            .responseJSON
-                                                            .message);
-                                                        $('#myDivHandleError').css(
-                                                            'display',
-                                                            'block');
-                                                        setTimeout(function() {
-                                                            $('#myDivHandleError')
-                                                                .fadeOut(
-                                                                    'fast');
-                                                        }, 2000);
-                                                    }
-                                                    $('.loading').removeClass(
-                                                            'show-modal')
-                                                        .addClass('d-none');
-
-                                                    console.log('error');
-                                                    console.log(error);
-                                                }
-                                            });
+                                                });
+                                            }
                                         } else {
                                             $('.loading').removeClass('show-modal')
                                                 .addClass('d-none');
@@ -546,8 +568,6 @@
                                     },
 
                                     error: function(error) {
-                                        console.log('error');
-                                        console.log(error);
                                         if (error && error.responseJSON && error
                                             .responseJSON.message) {
                                             $('#myDivHandleError').text(error
@@ -572,7 +592,6 @@
                                 }, 2000);
                             }
 
-                            console.log("Semua item memiliki seller_id yang sama:", firstSellerId);
                         } else {
                             $('#myDivHandleError').text(
                                 'Transaksi hanya bisa 1 Toko'

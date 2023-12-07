@@ -171,8 +171,15 @@ class OrderController extends Controller
 
         $addressBuyer = Address::findOrFail($request->address_id);
         $seller = \App\Models\User::find($request->seller_id);
+        if ($seller == null) {
+            return ResponseAPI('Penjual tidak ditemukan.', 404);
+        }
+        $seller->load('address_seller');
         // dd($seller);
-        $sellerAddress = Address::where('user_id', $seller->id)->where('for_seller', true)->firstOrFail();
+        if ($seller->address_seller == null) {
+            return ResponseAPI('Alamat penjual tidak ditemukan.', 404);
+        }
+        $sellerAddress = $seller->address_seller;
 
         $products = [];
         $total = 0;
