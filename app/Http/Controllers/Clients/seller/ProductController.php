@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients\seller;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\SubCategory;
@@ -30,6 +31,8 @@ class ProductController extends Controller
     {
         $data['categories'] = Category::whereNull('deleted_at')->get();
         $data['sub_category'] = '';
+        $address = $this->addressSeller();
+
 
         return view('clients.seller.product.add', ['product' => null, 'data' => $data]);
     }
@@ -41,7 +44,7 @@ class ProductController extends Controller
         $product = Product::where('id', $request->id)->firstOrFail();
         if (!$product)
             return redirect("/toko/semua-produk")->with('danger', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
-
+        $address = $this->addressSeller();
         if ($product->category_id != null) {
             $data['sub_category'] = SubCategory::where('category_id', $product->category_id)->select('id', 'name', 'category_id')->get();
         } else {
@@ -58,7 +61,7 @@ class ProductController extends Controller
         $product = Product::where('id', $request->id)->with('variants')->select('id', 'name')->withCount('variants')->firstOrFail();
         if (!$product)
             return redirect("/toko/semua-produk")->with('danger', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
-
+        $address = $this->addressSeller();
         if ($product->category_id != null) {
             $data['sub_category'] = SubCategory::where('category_id', $product->category_id)->select('id', 'name', 'category_id')->get();
         } else {
@@ -193,7 +196,7 @@ class ProductController extends Controller
                     $theVariant->parent_id = $productParent->id;
                     $theVariant->name = $productName;
                     $theVariant->slug = null;
-                    $theVariant->images = $image?? null;
+                    $theVariant->images = $image ?? null;
                     $theVariant->weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
                     if ($theVariant->weight == 0) {
                         return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,berat tidak sesuai.')->with('auth', base64_encode($user->uid));
@@ -269,5 +272,16 @@ class ProductController extends Controller
         $ad = Product::where('id', $id)->firstOrFail();
         $ad->delete();
         return redirect()->route('dashboardSeller.allProduct')->with('success', 'Produk berhasil dihapus')->with('auth', base64_encode($user->uid));
+    }
+    private function addressSeller()
+    {
+        $user = Auth::guard('web')->user();
+
+        $user->load('address_seller');
+
+        if ($user->address_seller == null) {
+            return redirect("/toko/semua-produk")->with('danger', 'Penjual wajib mengisi data alamat toko terlebih dahulu')->with('auth', base64_encode($user->uid));
+        }
+        return $user;
     }
 }
