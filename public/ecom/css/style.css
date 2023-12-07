@@ -10044,6 +10044,7 @@ a:hover span {
   }
   .header .main-header .header-left .header-shop {
     width: 35%;
+    align-items: center;
     padding-right: 35px;
     min-width: 189px;
   }

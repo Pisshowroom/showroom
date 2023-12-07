@@ -918,9 +918,10 @@
                 var th = $('.list-colors li.active');
                 var stock = th.find('input.stock').val();
                 var id = th.find('input.id').val();
+                console.log(id,parseInt(stock) > parseInt($('#quantity').val()));
                 if (id && stock) {
-                    if (stock > 0) {
-                        if (stock >= $('#quantity').val()) {
+                    if (parseInt(stock) > 0) {
+                        if (parseInt(stock) >= parseInt($('#quantity').val())) {
                             $('.loading').removeClass('d-none').addClass('show-modal');
                             var productData = [{
                                 product_id: id,
