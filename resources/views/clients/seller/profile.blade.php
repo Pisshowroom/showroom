@@ -88,20 +88,34 @@
                                                             pattern="[0-9]*" inputmode="numeric" id="phone_number_seller"
                                                             onkeypress="return event.charCode>=48&&event.charCode<=57">
                                                     </div>
-                                                </div>
-                                                <aside>
-                                                    <label for="image" class="form-label">Gambar</label>
-                                                    <figure>
-                                                        <img class="img-lg mb-3 img-avatar" id="previewImage"
-                                                            src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? asset(Auth::guard('web')->user()->seller_image) ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
-                                                            alt="User">
-                                                        <figcaption>
-                                                            <input class="form-control" type="file" id="seller_image"
-                                                                name="seller_image" accept="image/*">
+                                                    <div class="col-12">
+                                                        <div class="mb-3">
+                                                            <div class="form-check form-switch ps-5">
+                                                                <label class="form-check-label" for="is_seller_active">Toko
+                                                                    saat ini aktif</label>
+                                                                    <i class="icon material-icons md-home"
+                                                                        style="color: #E9A92E"></i>
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    name="is_seller_active" id="is_seller_active"
+                                                                    {{ Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller_active == 1 ? 'checked' : '' }}>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <aside>
+                                                        <label for="image" class="form-label">Gambar</label>
+                                                        <figure>
+                                                            <img class="img-lg mb-3 img-avatar" id="previewImage"
+                                                                src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? asset(Auth::guard('web')->user()->seller_image) ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
+                                                                alt="User">
+                                                            <figcaption>
+                                                                <input class="form-control" type="file"
+                                                                    id="seller_image" name="seller_image"
+                                                                    accept="image/*">
 
-                                                        </figcaption>
-                                                    </figure>
-                                                </aside>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </aside>
+                                                </div>
                                             </div>
                                         </div><br>
                                         <button class="btn btn-primary" type="submit">Simpan</button>
@@ -132,8 +146,7 @@
                                                                     <h4>{{ $address->person_name ?? '' }}</h4>
                                                                     @if ($address->for_seller == 1)
                                                                         <button class="btn btn-xs"
-                                                                            style="background-color: #E9A92E !important;border-radius:5px !important"
-                                                                        >Utama</button>
+                                                                            style="background-color: #E9A92E !important;border-radius:5px !important">Utama</button>
                                                                     @endif
 
                                                                 </div>
@@ -266,8 +279,8 @@
                                                                 <div class="form-check form-switch ps-5">
                                                                     <label class="form-check-label" for="for_seller">Atur
                                                                         sebagai Alamat Utama</label>
-                                                                        <i class="icon material-icons md-home"
-                                                                            style="color: #E9A92E"></i>
+                                                                    <i class="icon material-icons md-home"
+                                                                        style="color: #E9A92E"></i>
                                                                     <input class="form-check-input" type="checkbox"
                                                                         name="for_seller" id="for_seller" checked>
                                                                 </div>
