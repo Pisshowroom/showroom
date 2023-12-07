@@ -62,7 +62,7 @@ class Order extends Model
     ProcessedBySeller, Shipped, Delivered,
     ExpiredPayment, Cancelled, RequestedRefund, RefundAccepted, RefundDone, RefundDeclined,
     RequestedReturn, ReturnAccepted, ReturnShipped, ReturnDelivered, ReturnCompleted,
-    Complain
+    Complaint, ComplaintAccepted, ComplaintDeclined, ComplaintCompleted
     Completed
     */
 
@@ -96,7 +96,11 @@ class Order extends Model
     const RETURN_DELIVERED = 'ReturnDelivered';
     const RETURN_COMPLETED = 'ReturnCompleted';
 
-    const COMPLAINT = 'Complain';
+    const COMPLAINT = 'Complaint';
+    const COMPLAINT_ACCEPTED = 'ComplaintAccepted';
+    const COMPLAINT_DECLINED = 'ComplaintDeclined';
+    const COMPLAINT_COMPLETED = 'ComplaintCompleted';
+
 
     /* Payment Status
     PaymentPending, PaymentPaid, PaymentCancelled, PaymentExpired
