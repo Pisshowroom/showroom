@@ -419,7 +419,10 @@ class OrderController extends Controller
 
             return $data;
         } catch (\Exception $e) {
-            throw $e;
+            // throw $e;
+            Log::info("1_Error RajaOngkir: " . $e->getMessage());
+            throw new Exception("Jasa kirim tidak tersedia.", 404);
+
         } finally {
             curl_close($curl);
         }
