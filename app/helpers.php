@@ -68,7 +68,11 @@ function lypsisGetOrderStatusValues($paramStatus)
         case 'Cancel':
             return ['ExpiredPayment', 'Cancelled'];
         case 'Returning':
-            return ['RequestedRefund', 'RefundAccepted', 'RefundDone', 'RefundDeclined', 'RequestedReturn', 'ReturnAccepted', 'ReturnShipped', 'ReturnDelivered', 'ReturnCompleted'];
+            return [
+                'RequestedRefund', 'RefundAccepted', 'RefundDone', 'RefundDeclined',
+                'RequestedReturn', 'ReturnAccepted', 'ReturnShipped', 'ReturnDelivered', 'ReturnCompleted',
+                'Complaint', 'ComplaintAccepted', 'ComplaintDeclined', 'ComplaintCompleted'
+            ];
         default:
             return [$paramStatus];
     }
@@ -257,9 +261,9 @@ function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMo
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
         'origin' => $originId,
-        'originType' => 'subdistrict',
+        'originType' => 'city',
         'destination' => $destinationId,
-        'destinationType' => 'city',
+        'destinationType' => 'subdistrict',
         'weight' => $weight,
         'courier' => env('RO_SERVICES'),
     ]));

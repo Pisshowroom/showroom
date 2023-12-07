@@ -247,7 +247,7 @@ class OrderController extends Controller
         $requestForShippingPrice = new Request();
         $requestForShippingPrice->merge($dataRequest);
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
-        $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight, $seller->seller_delivery_service);
+        $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($sellerAddress->ro_city_id, $addressBuyer->ro_subdistrict_id, $weight, $seller->seller_delivery_service);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
 
@@ -351,7 +351,7 @@ class OrderController extends Controller
         }
     }
 
-    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices ,$earlierMode = false)
+    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false)
     {
         $curl = curl_init();
 
@@ -360,9 +360,9 @@ class OrderController extends Controller
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
             'origin' => $originId,
-            'originType' => 'subdistrict',
+            'originType' => 'city',
             'destination' => $destinationId,
-            'destinationType' => 'city',
+            'destinationType' => 'subdistrict',
             'weight' => $weight,
             'courier' => $deliveryServices,
         ]));
@@ -419,7 +419,9 @@ class OrderController extends Controller
 
             return $data;
         } catch (\Exception $e) {
-            throw $e;
+            // throw $e;
+            Log::info("1_Error RajaOngkir: " . $e->getMessage());
+            throw new Exception("Jasa kirim tidak tersedia. Coba ubah atau buat alamat valid lagi.", 404);
         } finally {
             curl_close($curl);
         }

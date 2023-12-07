@@ -150,7 +150,8 @@ Route::group(['prefix' => 'user'], function () {
 });
 
 Route::group(['prefix' => 'reviews'], function () {
-    Route::post('store-or-update', [ReviewController::class, 'storeOrUpdate']);
+    Route::get('user-my-reviews', [ReviewController::class, 'userMyReviews']);
+    Route::post('create', [ReviewController::class, 'create']);
     Route::get('limited-of-product/{productId}', [ReviewController::class, 'getLimitedReviewsOfAProduct']);
     Route::get('of-a-product/{productId}', [ReviewController::class, 'getAllReviewsOfAProduct']);
 });
