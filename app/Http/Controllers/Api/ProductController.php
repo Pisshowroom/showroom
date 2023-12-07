@@ -121,7 +121,7 @@ class ProductController extends Controller
             $sellerAddress = $product->seller->addresses()->where('main', true)->first();
             if ($buyerAddress != null && $sellerAddress != null) {
                 try {
-                    $data['delivery_service'] = lypsisCheckShippingPrice($buyerAddress->ro_subdistrict_id, $sellerAddress->ro_subdistrict_id, $product->weight);
+                    $data['delivery_service'] = lypsisCheckShippingPrice($sellerAddress->ro_city_id, $buyerAddress->ro_subdistrict_id,  $product->weight);
                 } catch (\Throwable $th) {
                     $data['delivery_service'] = null;
                 }

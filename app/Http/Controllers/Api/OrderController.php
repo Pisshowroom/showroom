@@ -351,7 +351,7 @@ class OrderController extends Controller
         }
     }
 
-    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices ,$earlierMode = false)
+    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false)
     {
         $curl = curl_init();
 
@@ -421,8 +421,7 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             // throw $e;
             Log::info("1_Error RajaOngkir: " . $e->getMessage());
-            throw new Exception("Jasa kirim tidak tersedia.", 404);
-
+            throw new Exception("Jasa kirim tidak tersedia. Coba ubah atau buat alamat valid lagi.", 404);
         } finally {
             curl_close($curl);
         }
