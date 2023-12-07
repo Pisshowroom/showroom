@@ -38,11 +38,6 @@
     }
 </style>
 
-@php
-    $order = App\Models\Order::find(4);
-
-@endphp
-
 <body>
     <div class="box">
         <header>
