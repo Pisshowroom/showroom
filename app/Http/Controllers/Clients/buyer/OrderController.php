@@ -829,7 +829,8 @@ class OrderController extends Controller
             'base_uri' => "https://api.minepi.com",
             'timeout'  => 20000,
             'headers'  => [
-                'Authorization' => 'Key mtr9iaoqhkkqvqz4lgwcu8jrbkorcaf8u6qlrfytia1rzrzkwbapvlsagmdseajd'
+                'Authorization' => 'Key rj3ovcgdeuktnwyzeatifmgchc1vvmltfnbi5o3fqciqlqrdxb7osbnfldyep4ja'
+                // 'Authorization' => 'Key mtr9iaoqhkkqvqz4lgwcu8jrbkorcaf8u6qlrfytia1rzrzkwbapvlsagmdseajd'
                 // 'Authorization' => 'Key sfzgfudokxyf6urlin26hda1cmo0rgiui62dqslp2qqkib4rzohcbngosbppplbt'
             ],
         ]);
