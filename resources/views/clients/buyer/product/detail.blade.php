@@ -811,8 +811,10 @@
                 $('.btn-cart-detail').prop('disabled', true);
                 $('.btn-buy-detail').prop('disabled', true);
             } else {
-                $('.btn-cart-detail').prop('disabled', false);
-                $('.btn-buy-detail').prop('disabled', false);
+                if ("{{ Auth::guard('web')->user() && Auth::guard('web')->user()->id != $product->seller_id }}") {
+                    $('.btn-cart-detail').prop('disabled', false);
+                    $('.btn-buy-detail').prop('disabled', false);
+                }
             }
             $('.input-quantity input').on('input', function() {
                 var inputValue = $(this).val();
@@ -821,8 +823,11 @@
                     $('.btn-cart-detail').prop('disabled', true);
                     $('.btn-buy-detail').prop('disabled', true);
                 } else {
-                    $('.btn-cart-detail').prop('disabled', false);
-                    $('.btn-buy-detail').prop('disabled', false);
+                    if (
+                        "{{ Auth::guard('web')->user() && Auth::guard('web')->user()->id != $product->seller_id }}") {
+                        $('.btn-cart-detail').prop('disabled', false);
+                        $('.btn-buy-detail').prop('disabled', false);
+                    }
                 }
                 if (numericValue === 0) {
                     messageError('Minimal pembelian produk ini adalah 1 barang');
@@ -918,7 +923,6 @@
                 var th = $('.list-colors li.active');
                 var stock = th.find('input.stock').val();
                 var id = th.find('input.id').val();
-                console.log(id,parseInt(stock) > parseInt($('#quantity').val()));
                 if (id && stock) {
                     if (parseInt(stock) > 0) {
                         if (parseInt(stock) >= parseInt($('#quantity').val())) {

@@ -255,7 +255,7 @@
                 });
             });
             $("#sub_category_id").select2({
-                placeholder: "Pilih Kota / Kabupaten Kamu",
+                placeholder: "Pilih Sub kategori",
                 allowClear: true
             });
 
