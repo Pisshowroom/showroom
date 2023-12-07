@@ -178,7 +178,6 @@ class OrderController extends Controller
             'order_items' => 'required',
             'address_id' => 'required',
         ]);
-
         $addressBuyer = Address::findOrFail($request->address_id);
         if (!$addressBuyer)  return ResponseAPI("Kamu belum menginput alamat.", 404);
         if (!$request->seller_id)  return ResponseAPI("Penjual belum menginput alamat.", 404);

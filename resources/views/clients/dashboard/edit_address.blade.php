@@ -340,8 +340,6 @@
         function setLocationCoordinates(key, lat, lng) {
             const latitudeField = document.getElementById(key + "-" + "latitude");
             const longitudeField = document.getElementById(key + "-" + "longitude");
-            console.log(lat, lng);
-            console.log('lat, lng');
             latitudeField.value = lat;
             longitudeField.value = lng;
         }

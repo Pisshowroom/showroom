@@ -811,8 +811,10 @@
                 $('.btn-cart-detail').prop('disabled', true);
                 $('.btn-buy-detail').prop('disabled', true);
             } else {
-                $('.btn-cart-detail').prop('disabled', false);
-                $('.btn-buy-detail').prop('disabled', false);
+                if ("{{ Auth::guard('web')->user() && Auth::guard('web')->user()->id != $product->seller_id }}") {
+                    $('.btn-cart-detail').prop('disabled', false);
+                    $('.btn-buy-detail').prop('disabled', false);
+                }
             }
             $('.input-quantity input').on('input', function() {
                 var inputValue = $(this).val();
@@ -821,8 +823,12 @@
                     $('.btn-cart-detail').prop('disabled', true);
                     $('.btn-buy-detail').prop('disabled', true);
                 } else {
-                    $('.btn-cart-detail').prop('disabled', false);
-                    $('.btn-buy-detail').prop('disabled', false);
+                    if (
+                        "{{ Auth::guard('web')->user() && Auth::guard('web')->user()->id != $product->seller_id }}"
+                    ) {
+                        $('.btn-cart-detail').prop('disabled', false);
+                        $('.btn-buy-detail').prop('disabled', false);
+                    }
                 }
                 if (numericValue === 0) {
                     messageError('Minimal pembelian produk ini adalah 1 barang');
@@ -919,8 +925,8 @@
                 var stock = th.find('input.stock').val();
                 var id = th.find('input.id').val();
                 if (id && stock) {
-                    if (stock > 0) {
-                        if (stock >= $('#quantity').val()) {
+                    if (parseInt(stock) > 0) {
+                        if (parseInt(stock) >= parseInt($('#quantity').val())) {
                             $('.loading').removeClass('d-none').addClass('show-modal');
                             var productData = [{
                                 product_id: id,
@@ -947,113 +953,144 @@
                                 },
                                 success: function(response) {
                                     if (response) {
-                                        $.ajax({
-                                            type: "post",
-                                            url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
-                                            data: {
-                                                order_items: JSON.stringify(
-                                                    productData),
-                                                seller_id: "{{ $product->seller_id ?? '' }}",
-                                                address_id: "{{ $data['addresses']->id ?? '' }}",
-                                            },
-                                            xhr: function() {
-                                                // get the native XmlHttpRequest object
-                                                var xhr = $.ajaxSettings.xhr()
-                                                // set the onprogress event handler
-                                                xhr.upload.onprogress = function(
-                                                    evt) {}
-                                                return xhr
-                                            },
-                                            success: function(response) {
-                                                if (response) {
-                                                    if (response
-                                                        .delivery_services_info &&
-                                                        response
-                                                        .delivery_services_info
-                                                        .results && response
-                                                        .delivery_services_info
-                                                        .results
-                                                        .length > 0) {
-                                                        var results = response
+                                        if ("{{ $data['addresses']->id ?? '' }}" == null) {
+                                            messageError('Kamu belum menginput alamat');
+                                            $('.loading').removeClass(
+                                                    'show-modal')
+                                                .addClass('d-none');
+
+                                        } else {
+                                            $.ajaxSetup({
+                                                headers: {
+                                                    'X-CSRF-TOKEN': $(
+                                                            'meta[name="csrf-token"]')
+                                                        .attr(
+                                                            'content')
+                                                }
+                                            });
+                                            $.ajax({
+                                                type: "post",
+                                                url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                                                data: {
+                                                    order_items: JSON.stringify(
+                                                        productData),
+                                                    seller_id: "{{ $product->seller_id ?? '' }}",
+                                                    address_id: "{{ $data['addresses']->id ?? '' }}",
+                                                },
+                                                xhr: function() {
+                                                    // get the native XmlHttpRequest object
+                                                    var xhr = $.ajaxSettings.xhr()
+                                                    // set the onprogress event handler
+                                                    xhr.upload.onprogress =
+                                                        function(
+                                                            evt) {}
+                                                    return xhr
+                                                },
+                                                success: function(response) {
+                                                    if (response) {
+                                                        if (response
+                                                            .delivery_services_info &&
+                                                            response
                                                             .delivery_services_info
-                                                            .results;
-                                                        var filteredResults =
-                                                            results
-                                                            .filter(function(item) {
-                                                                return (
-                                                                    item
-                                                                    .costs
-                                                                    .length >
-                                                                    0 &&
-                                                                    item
-                                                                    .costs[
-                                                                        0]
-                                                                    .cost
-                                                                    .length >
-                                                                    0 &&
-                                                                    typeof item
-                                                                    .costs[
-                                                                        0]
-                                                                    .cost[0]
-                                                                    .value !==
-                                                                    'undefined' &&
-                                                                    typeof item
-                                                                    .costs[
-                                                                        0]
-                                                                    .cost[0]
-                                                                    .etd !==
-                                                                    'undefined'
+                                                            .results && response
+                                                            .delivery_services_info
+                                                            .results
+                                                            .length > 0) {
+                                                            var results = response
+                                                                .delivery_services_info
+                                                                .results;
+                                                            var filteredResults =
+                                                                results
+                                                                .filter(function(
+                                                                    item) {
+                                                                    return (
+                                                                        item
+                                                                        .costs
+                                                                        .length >
+                                                                        0 &&
+                                                                        item
+                                                                        .costs[
+                                                                            0
+                                                                            ]
+                                                                        .cost
+                                                                        .length >
+                                                                        0 &&
+                                                                        typeof item
+                                                                        .costs[
+                                                                            0
+                                                                            ]
+                                                                        .cost[
+                                                                            0
+                                                                            ]
+                                                                        .value !==
+                                                                        'undefined' &&
+                                                                        typeof item
+                                                                        .costs[
+                                                                            0
+                                                                            ]
+                                                                        .cost[
+                                                                            0
+                                                                            ]
+                                                                        .etd !==
+                                                                        'undefined'
+                                                                    );
+                                                                });
+                                                            if (filteredResults) {
+                                                                localStorage
+                                                                    .setItem(
+                                                                        'seller_id',
+                                                                        "{{ $product->seller_id ?? '' }}"
+                                                                    );
+                                                                localStorage
+                                                                    .setItem(
+                                                                        'checkout',
+                                                                        JSON
+                                                                        .stringify(
+                                                                            response
+                                                                            )
+                                                                    );
+                                                                window.location
+                                                                    .replace(
+                                                                        "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                                                                    );
+                                                            } else {
+                                                                messageError(
+                                                                    'Paket Pengiriman tidak tersedia'
                                                                 );
-                                                            });
-                                                        if (filteredResults) {
-                                                            localStorage.setItem(
-                                                                'seller_id',
-                                                                "{{ $product->seller_id ?? '' }}"
-                                                            );
-                                                            localStorage.setItem(
-                                                                'checkout',
-                                                                JSON
-                                                                .stringify(
-                                                                    response)
-                                                            );
-                                                            window.location.replace(
-                                                                "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                                                            );
+                                                            }
                                                         } else {
                                                             messageError(
                                                                 'Paket Pengiriman tidak tersedia'
                                                             );
                                                         }
+                                                        $('.loading').removeClass(
+                                                                'show-modal')
+                                                            .addClass('d-none');
                                                     } else {
+                                                        $('.loading').removeClass(
+                                                                'show-modal')
+                                                            .addClass('d-none');
+                                                    }
+                                                },
+
+                                                error: function(error) {
+                                                    if (error && error
+                                                        .responseJSON &&
+                                                        error
+                                                        .responseJSON.message) {
                                                         messageError(
-                                                            'Paket Pengiriman tidak tersedia'
+                                                            error
+                                                            .responseJSON
+                                                            .message
                                                         );
                                                     }
                                                     $('.loading').removeClass(
                                                             'show-modal')
                                                         .addClass('d-none');
-                                                } else {
-                                                    $('.loading').removeClass(
-                                                            'show-modal')
-                                                        .addClass('d-none');
                                                 }
-                                            },
+                                            });
+                                        }
 
-                                            error: function(error) {
-                                                if (error && error.responseJSON &&
-                                                    error
-                                                    .responseJSON.message) {
-                                                    messageError(
-                                                        error
-                                                        .responseJSON.message
-                                                    );
-                                                }
-                                                $('.loading').removeClass(
-                                                        'show-modal')
-                                                    .addClass('d-none');
-                                                console.log(error);
-                                            }
-                                        });
                                     } else {
                                         $('.loading').removeClass(
                                                 'show-modal')
@@ -1063,8 +1100,6 @@
                                 },
                                 error: function(error) {
                                     $('.loading').removeClass('show-modal').addClass('d-none');
-                                    console.log('error');
-                                    console.log(error);
                                     if (error && error.responseJSON && error
                                         .responseJSON.message) {
                                         messageError(

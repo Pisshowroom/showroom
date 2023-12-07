@@ -143,10 +143,13 @@ class AuthController extends Controller
         ]);
         if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
             // Authentication passed...
-
+            if (preg_match('/PiBrowser/', $request->header('user_agent'), $matches)) {
+                $user = $this->getUser();
+            } else $user = null;
             return response()->json([
                 "status" => "success",
-                "message" => "Berhasil login"
+                "message" => "Berhasil login",
+                "user" => $user ?? null
             ]);
         } else {
             return response()->json([
@@ -219,9 +222,13 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            if (preg_match('/PiBrowser/', $request->header('user_agent'), $matches)) {
+                $users = $this->getUser();
+            } else $users = null;
             return response()->json([
                 "status" => "info",
-                "message" => "Kamu sudah punya akun"
+                "message" => "Kamu sudah punya akun",
+                "user" => $users ?? null
             ]);
         } else {
             $user = new User;
@@ -236,11 +243,27 @@ class AuthController extends Controller
             $user->save();
 
             Auth::guard('web')->loginUsingId($user->id, true);
+            if (preg_match('/PiBrowser/', $request->header('user_agent'), $matches)) {
+                $users = $this->getUser();
+            } else $users = null;
+
             return response()->json([
                 "status" => "success",
-                "message" => "Berhasil Mendaftar"
+                "message" => "Berhasil Mendaftar",
+                "user" => $users ?? null
+
             ]);
         }
+    }
+
+    private function getUser()
+    {
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $user = Auth::guard('web')->user();
+        } else {
+            $user = null;
+        }
+        return $user;
     }
 
     public function logout()

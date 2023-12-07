@@ -210,78 +210,88 @@
                     },
                     success: function(response) {
                         if (response) {
-                            $.ajax({
-                                type: "post",
-                                url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
-                                data: {
-                                    order_items: JSON.stringify(productData),
-                                    seller_id: sellerId,
-                                    address_id: "{{ $data['addresses']->id ?? '' }}",
-                                },
-                                xhr: function() {
-                                    // get the native XmlHttpRequest object
-                                    var xhr = $.ajaxSettings.xhr()
-                                    // set the onprogress event handler
-                                    xhr.upload.onprogress = function(evt) {}
-                                    return xhr
-                                },
-                                success: function(response) {
-                                    if (response) {
-                                        if (response.delivery_services_info && response
-                                            .delivery_services_info.results && response
-                                            .delivery_services_info.results.length > 0) {
-                                            var results = response.delivery_services_info
-                                                .results;
-                                            var filteredResults = results.filter(function(
-                                                item) {
-                                                return (
-                                                    item.costs.length > 0 &&
-                                                    item.costs[0].cost.length > 0 &&
-                                                    typeof item.costs[0].cost[0]
-                                                    .value !== 'undefined' &&
-                                                    typeof item.costs[0].cost[0]
-                                                    .etd !==
-                                                    'undefined'
-                                                );
-                                            });
-                                            if (filteredResults) {
-                                                localStorage.setItem('seller_id', sellerId);
-                                                localStorage.setItem('checkout', JSON
-                                                    .stringify(response));
-                                                window.location.replace(
-                                                    "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                                                );
+                            if ("{{ $data['addresses']->id ?? '' }}" == null) {
+                                messageError('Kamu belum menginput alamat');
+                                $('.loading').removeClass(
+                                        'show-modal')
+                                    .addClass('d-none');
+                            } else {
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+                                $.ajax({
+                                    type: "post",
+                                    url: "{{ route('buyer.preCheck') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                                    data: {
+                                        order_items: JSON.stringify(productData),
+                                        seller_id: sellerId,
+                                        address_id: "{{ $data['addresses']->id ?? '' }}",
+                                    },
+                                    xhr: function() {
+                                        // get the native XmlHttpRequest object
+                                        var xhr = $.ajaxSettings.xhr()
+                                        // set the onprogress event handler
+                                        xhr.upload.onprogress = function(evt) {}
+                                        return xhr
+                                    },
+                                    success: function(response) {
+                                        if (response) {
+                                            if (response.delivery_services_info && response
+                                                .delivery_services_info.results && response
+                                                .delivery_services_info.results.length > 0) {
+                                                var results = response.delivery_services_info
+                                                    .results;
+                                                var filteredResults = results.filter(function(
+                                                    item) {
+                                                    return (
+                                                        item.costs.length > 0 &&
+                                                        item.costs[0].cost.length > 0 &&
+                                                        typeof item.costs[0].cost[0]
+                                                        .value !== 'undefined' &&
+                                                        typeof item.costs[0].cost[0]
+                                                        .etd !==
+                                                        'undefined'
+                                                    );
+                                                });
+                                                if (filteredResults) {
+                                                    localStorage.setItem('seller_id', sellerId);
+                                                    localStorage.setItem('checkout', JSON
+                                                        .stringify(response));
+                                                    window.location.replace(
+                                                        "{{ route('buyer.checkout') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
+                                                    );
+                                                } else {
+                                                    messageError('Paket Pengiriman tidak tersedia');
+                                                }
                                             } else {
                                                 messageError('Paket Pengiriman tidak tersedia');
                                             }
+                                            $('.loading').removeClass('show-modal').addClass(
+                                                'd-none')
+
                                         } else {
-                                            messageError('Paket Pengiriman tidak tersedia');
+                                            $('.loading').removeClass('show-modal').addClass(
+                                                'd-none')
                                         }
-                                        $('.loading').removeClass('show-modal').addClass(
-                                            'd-none')
+                                    },
 
-                                    } else {
-                                        $('.loading').removeClass('show-modal').addClass(
-                                            'd-none')
+                                    error: function(error) {
+                                        if (error && error.responseJSON && error
+                                            .responseJSON.message) {
+                                            messageError(error.responseJSON.message);
+                                        }
+                                        $('.loading').removeClass('show-modal').addClass('d-none')
                                     }
-                                },
-
-                                error: function(error) {
-                                    if (error && error.responseJSON && error
-                                        .responseJSON.message) {
-                                        messageError(error.responseJSON.message);
-                                    }
-                                    $('.loading').removeClass('show-modal').addClass('d-none')
-                                }
-                            });
+                                });
+                            }
                         } else {
                             $('.loading').removeClass('show-modal').addClass('d-none')
                         }
                     },
 
                     error: function(error) {
-                        console.log('error');
-                        console.log(error);
                         if (error && error.responseJSON && error
                             .responseJSON.message) {
                             messageError(error.responseJSON.message);

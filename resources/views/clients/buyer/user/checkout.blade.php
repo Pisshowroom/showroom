@@ -338,12 +338,10 @@
             });
 
             $('#master_account_id').on('change', function() {
-                console.log($('#master_account_id').find('option:selected').val() != 0);
                 if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id').find(
                         'option:selected')
                     .val() !=
                     0 && $('#packet').find('option:selected').val() == 0) {
-                    console.log('asa');
                     $('p.text-danger').addClass('d-none').removeClass('d-block');
                     $('#packet').prop('disabled', false);
                 } else if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id')
@@ -351,7 +349,6 @@
                         'option:selected')
                     .val() ==
                     0) {
-                    console.log('asa');
                     $('p.text-danger').addClass('d-block').removeClass('d-none');
                     $('#packet').prop('disabled', true);
                 } else if ($('#address_id').find('option:selected').val() != 0 && $('#master_account_id')
@@ -404,7 +401,6 @@
                                 $('.shipping').text(formatRupiah(data.delivery_cost, 'Rp '));
                                 $('.fee').text(formatRupiah(data.payment_service_fee, 'Rp '));
                                 $('.total').text(formatRupiah(data.total, 'Rp '));
-                                console.log(data);
                                 $('.loading').removeClass('show-modal')
                                     .addClass('d-none');
 
@@ -417,15 +413,12 @@
                                         $('#myDivHandleError').fadeOut('fast');
                                     }, 2000);
                                 }
-                                console.log('error');
-                                console.log(error);
                                 $('.loading').removeClass('show-modal')
                                     .addClass('d-none');
 
                             },
                         });
                     } else {
-                        console.log('error');
                         $('#myDivHandleError').text('error.responseJSON.message');
                         $('#myDivHandleError').css('display', 'block');
                         setTimeout(function() {
@@ -510,12 +503,10 @@
                                 $('.loading').removeClass('show-modal')
                                     .addClass('d-none');
 
-                                console.log('error');
-                                console.log(error);
                             },
                         });
                     } else {
-                        $('#myDivHandleError').text('Error');
+                        $('#myDivHandleError').text('Produk tidak terdeteksi');
                         $('#myDivHandleError').css('display', 'block');
                         setTimeout(function() {
                             $('#myDivHandleError').fadeOut('fast');
