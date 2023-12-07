@@ -292,8 +292,6 @@
                     },
 
                     error: function(error) {
-                        console.log('error');
-                        console.log(error);
                         if (error && error.responseJSON && error
                             .responseJSON.message) {
                             messageError(error.responseJSON.message);

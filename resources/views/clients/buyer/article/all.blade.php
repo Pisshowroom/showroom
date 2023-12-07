@@ -97,8 +97,6 @@
         $(document).ready(function() {
             $('.card-grid-style-1').each(function() {
                 var text = $(this).find('h6.line-2').text();
-                console.log('text');
-                console.log(text);
 
                 // Menghapus spasi ekstra dan memeriksa jumlah baris
                 if (text.trim().split(/\r\n|\r|\n/).length < 2) {

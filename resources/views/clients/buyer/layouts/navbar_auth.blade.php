@@ -637,7 +637,6 @@
                                             $('.loading').removeClass('show-modal')
                                                 .addClass('d-none');
 
-                                            console.log(error);
                                         }
                                     });
                                 }
@@ -649,8 +648,6 @@
                         },
 
                         error: function(error) {
-                            console.log('error');
-                            console.log(error);
                             if (error && error.responseJSON && error
                                 .responseJSON.message) {
                                 $('#myDivHandleError').text(error

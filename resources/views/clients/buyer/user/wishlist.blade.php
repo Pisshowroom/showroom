@@ -347,8 +347,6 @@
                         },
                         error: function(error) {
                             $('.loading').removeClass('show-modal').addClass('d-none');
-                            console.log('error');
-                            console.log(error);
                             if (error && error.responseJSON && error
                                 .responseJSON.message) {
                                 messageError(

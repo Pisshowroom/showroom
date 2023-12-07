@@ -266,8 +266,6 @@
                                     localStorage.setItem('cart', JSON.stringify(cart));
                                     var cartsNew = localStorage.getItem('cart');
                                     var cartNew = JSON.parse(cartsNew);
-                                    console.log(cartNew);
-                                    console.log('cartNew');
                                     cartss(cartNew);
                                 }
 
@@ -560,8 +558,6 @@
                                                                 'show-modal')
                                                             .addClass('d-none');
 
-                                                        console.log('error');
-                                                        console.log(error);
                                                     }
                                                 });
                                             }
@@ -596,7 +592,6 @@
                                 }, 2000);
                             }
 
-                            console.log("Semua item memiliki seller_id yang sama:", firstSellerId);
                         } else {
                             $('#myDivHandleError').text(
                                 'Transaksi hanya bisa 1 Toko'

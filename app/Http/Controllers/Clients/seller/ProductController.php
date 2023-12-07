@@ -153,7 +153,6 @@ class ProductController extends Controller
     public function addUpdateProductVariant(Request $request)
     {
         $user = auth()->guard('web')->user();
-
         $validator = Validator::make($request->all(), [
             'variants.*.name' => 'required',
             'variants.*.price' => 'required',

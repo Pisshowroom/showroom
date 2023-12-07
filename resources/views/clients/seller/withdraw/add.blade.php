@@ -134,7 +134,6 @@
                     data: obj,
                     success: function(data) {
                         if (data && data.status && data.status == 'danger') {
-                            console.log('data');
                             $('#myDiv').text('');
                             $('#myDiv').text(data.message);
                             $('#myDiv').css('display', 'block');
@@ -142,7 +141,6 @@
                                 $('#myDiv').fadeOut('fast');
                             }, 2000);
                         } else {
-                            console.log(data);
                             $('#myDiv2').text('');
                             $('#myDiv2').text('Berhasil mengajukan pencairan uang');
                             $('#myDiv2').css('display', 'block');

@@ -91,7 +91,7 @@
                                 @else
                                     <div class="mb-4 variant">
                                         <label class="form-label">Nama Variasi</label>
-                                        <input class="form-control" name="variants[][name]" type="text" maxlength="70"
+                                        <input class="form-control" name="variants[0][name]" type="text" maxlength="70"
                                             required>
                                         <div class="text-end">
                                             <span class="max-name">maksimal panjang nama 0/70</span>
@@ -100,29 +100,29 @@
 
                                     <div class="mb-4 variant">
                                         <label class="form-label">Deskripsi Varian*</label>
-                                        <textarea class="form-control" name="variants[][description]" required placeholder="Masukkan keterangan varian"
+                                        <textarea class="form-control" name="variants[0][description]" required placeholder="Masukkan keterangan varian"
                                             rows="4"></textarea>
                                     </div>
                                     <div class="mb-4 variant">
                                         <label class="form-label">Satuan*</label>
-                                        <input class="form-control" name="variants[][unit]" type="text" required
+                                        <input class="form-control" name="variants[0][unit]" type="text" required
                                             placeholder="pcs, buah, butir, dll">
                                     </div>
                                     <div class="mb-4 variant">
                                         <label class="form-label">Jumlah Stok*</label>
-                                        <input class="form-control stock" name="variants[][stock]" required
+                                        <input class="form-control stock" name="variants[0][stock]" required
                                             onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                                     </div>
                                     <div class="mb-4 variant">
                                         <label class="form-label">Berat barang* (gram)</label>
-                                        <input class="form-control weight" name="variants[][weight]" required
+                                        <input class="form-control weight" name="variants[0][weight]" required
                                             onkeypress="return event.charCode>=48&&event.charCode<=57" type="text"
                                             pattern="[0-9]+([,.][0-9]+)?">
                                     </div>
                                     <div class="mb-4 variant">
                                         <label class="form-label">Harga*</label>
                                         <div class="row gx-2"></div>
-                                        <input class="form-control price" name="variants[][price]" required
+                                        <input class="form-control price" name="variants[0][price]" required
                                             onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                                         <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp
                                             50.000</p>
@@ -281,8 +281,7 @@
 
             // Dynamically remove variants
             variantsSection.on('click', '.removeVariantBtn', function() {
-                if ($(this).length > 1)
-                    $(this).parent().remove();
+                $(this).parent().remove();
             });
 
             $(document).on('click', '.remove-btn', function() {

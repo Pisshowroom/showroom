@@ -591,7 +591,6 @@
                                                             'fast');
                                                 }, 2000);
                                             }
-                                            console.log(error);
                                             $('.loading').removeClass('show-modal')
                                                 .addClass('d-none');
 
@@ -607,8 +606,6 @@
                         },
 
                         error: function(error) {
-                            console.log('error');
-                            console.log(error);
                             if (error && error.responseJSON && error
                                 .responseJSON.message) {
                                 $('#myDivHandleError').text(error
