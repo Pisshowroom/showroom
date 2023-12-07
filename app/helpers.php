@@ -261,9 +261,9 @@ function lypsisCheckShippingPrice($originId, $destinationId, $weight, $earlierMo
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
         'origin' => $originId,
-        'originType' => 'subdistrict',
+        'originType' => 'city',
         'destination' => $destinationId,
-        'destinationType' => 'city',
+        'destinationType' => 'subdistrict',
         'weight' => $weight,
         'courier' => env('RO_SERVICES'),
     ]));
