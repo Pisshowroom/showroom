@@ -10,6 +10,7 @@ use App\Http\Controllers\Clients\BuyerController;
 use App\Http\Controllers\Clients\buyer\DashboardController;
 use App\Http\Controllers\Clients\buyer\OrderController as BuyerOrderController;
 use App\Http\Controllers\Clients\buyer\WishlistController;
+use App\Http\Controllers\Clients\RefundController;
 use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
 use App\Http\Controllers\Clients\seller\SellerController;
 use App\Http\Controllers\Clients\seller\TransactionOrderController;
@@ -200,6 +201,10 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::post('/precheck-with-delivery', [BuyerOrderController::class, 'precheckWithDelivery'])->name('buyer.precheckWithDelivery');
         Route::post('/checkout', [BuyerOrderController::class, 'checkout'])->name('buyer.preCheckout');
         Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
+        Route::get('/index-history-fund', [RefundController::class, 'indexHistoryFund'])->name('dashboard.indexHistoryFund');
+        Route::get('/keluhan-terkait-produk/{order}', [RefundController::class, 'detailOrderForComplain'])->name('dashboard.detailOrderForComplain');
+        Route::post('/pengajuan-pengembalian-dana/{order}', [RefundController::class, 'requestRefund'])->name('dashboard.requestRefund');
+
     });
     Route::group(['prefix' => 'pi'], function () {
         Route::post('incomplete', [BuyerOrderController::class, 'serverIncomplete']);
