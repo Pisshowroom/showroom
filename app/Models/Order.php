@@ -13,7 +13,8 @@ class Order extends Model
 
     // protected $guarded = [];
     protected $casts = [
-        'is_reviewed' => 'boolean'
+        'is_reviewed' => 'boolean',
+        'returning_images' => 'array'
     ];
 
     public function getNextId()
