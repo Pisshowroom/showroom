@@ -126,22 +126,15 @@ class ReviewController extends Controller
         return ResponseAPI("Review berhasil disimpan.");
     }
 
-    public function update(Request $request)
+    public function update(Request $request, Review $review)
     {
         $user = auth()->guard('api-client')->user();
 
         $request->validate([
-            'id' => 'nullable|integer',
-            'order_id' => 'required|integer',
-            'product_id' => 'required|integer',
             'rating' => 'required|integer|min:1|max:5',
             'text' => 'required|string',
         ]);
 
-
-        $review = Review::where('id', $request->id)->firstOrFail();
-
-        $review->order_id = $request->input('order_id');
         $review->rating = $request->input('rating');
         $review->text = $request->input('text');
 

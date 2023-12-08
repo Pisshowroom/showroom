@@ -61,7 +61,8 @@ class Order extends Model
     /*  Status
     Pending, Paid,
     ProcessedBySeller, Shipped, Delivered,
-    ExpiredPayment, Cancelled, RequestedRefund, RefundAccepted, RefundDone, RefundDeclined,
+    ExpiredPayment, Cancelled, 
+    RequestedRefund, RefundAccepted, RefundDone, RefundDeclined,
     RequestedReturn, ReturnAccepted, ReturnShipped, ReturnDelivered, ReturnCompleted,
     Complaint, ComplaintAccepted, ComplaintDeclined, ComplaintCompleted
     Completed

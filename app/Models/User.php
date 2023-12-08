@@ -22,7 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'seller_slug',
-        'uid'
+        'uid',
+        'balance'
     ];
 
     /**
