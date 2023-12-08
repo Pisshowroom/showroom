@@ -14,6 +14,12 @@ class OrderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $imagesComplainData = [];
+        // dd($this->returning_images);
+        foreach(($this->returning_images ?? []) as $img) {
+            $imagesComplainData[] = lypsisAsset($img);
+        }
+        
         $data = [
             'id' => $this->id,
             'payment_identifier' => $this->payment_identifier,
@@ -64,6 +70,16 @@ class OrderResource extends JsonResource
             'arrived_at' => $this->arrived_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'returning_product_type' => $this->returning_product_type,
+            'returning_reason' => $this->returning_reason,
+            'returning_description' => $this->returning_description,
+            'returning_images' => $imagesComplainData,
+            'returning_video' => lypsisAsset($this->returning_video),
+            'returning_delivery_service_code' => $this->returning_delivery_service_code,
+            'returning_delivery_service_name' => $this->returning_delivery_service_name,
+            'refund_total' => $this->refund_total,
+            'returning_data_due' => $this->returning_data_due,
+            'returning_sending_due' => $this->returning_sending_due,
         ];
 
         if ($this->order_items_count) {

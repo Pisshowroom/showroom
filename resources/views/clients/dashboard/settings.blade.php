@@ -46,9 +46,7 @@
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade {{ !request()->get('param') || request()->get('param') != 'alamat' ? 'show active' : '' }}"
                                     id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
-                                    <form method="POST"
-                                        action="{{ route('dashboard.updateProfile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                                        enctype="multipart/form-data">
+                                    <form method="POST" id="updateProfile">
                                         @csrf
                                         <div class="row">
                                             <div class="col-12">
@@ -61,8 +59,8 @@
                                                     </div>
                                                     <!-- col .//-->
                                                     <div class="col-lg-6 mb-3">
-                                                        <label class="form-label">Email</label>
-                                                        <input class="form-control" type="email"
+                                                        <label class="form-label" for="email">Email</label>
+                                                        <input class="form-control" type="email" id="email"
                                                             placeholder="andi@mail.com" name="email"
                                                             value="{{ Auth::guard('web')->user()->email }}" required>
                                                     </div>
@@ -95,7 +93,8 @@
                                                 </aside>
                                             </div>
                                         </div><br>
-                                        <button class="btn btn-primary" type="submit">Simpan Profil</button>
+                                        <button class="btn btn-primary" type="submit" id="btn-updateProfile">Simpan
+                                            Profil</button>
                                     </form>
                                 </div>
                                 <div class="tab-pane fade {{ request()->get('param') == 'alamat' ? 'show active' : '' }}"
@@ -113,17 +112,16 @@
                                                         class="d-flex align-items-center w-100 gap-2 justify-content-between">
                                                         <div class="d-flex flex-column">
                                                             <div class="d-flex align-items-center gap-2">
-                                                                @if ($address->main == 1)
+                                                                @if ($address->main)
                                                                     <i class="icon material-icons md-home"
                                                                         style="color: #E9A92E"></i>
                                                                 @else
                                                                     <i class="icon material-icons md-home"></i>
                                                                 @endif
-                                                                <h4>{{ $address->person_name ?? '' }}</h4>
-                                                                @if ($address->main == 1)
+                                                                <h4>{{ $address->main }}{{ $address->person_name ?? '' }}</h4>
+                                                                @if ($address->main)
                                                                     <button class="btn btn-xs"
-                                                                        style="background-color: #E9A92E !important;border-radius:5px !important"
-                                                                        >Utama</button>
+                                                                        style="background-color: #E9A92E !important;border-radius:5px !important">Utama</button>
                                                                 @endif
 
                                                             </div>
@@ -152,8 +150,7 @@
                                 </div>
                                 <div class="tab-pane fade" id="pills-add-address" role="tabpanel"
                                     aria-labelledby="pills-add-address-tab">
-                                    <form method="POST" id="updateAddress"
-                                        action="{{ route('dashboard.updateAddress') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                    <form method="POST" id="updateAddresses">
                                         @csrf
                                         <div class="row">
                                             <div class="col-12">
@@ -200,7 +197,7 @@
                                                             <label for="ro_city_id" class="form-label w-100">Kota /
                                                                 Kabupaten:</label>
                                                             <select id="ro_city_id" class="form-select ro_city_id"
-                                                                name="ro_city_id">
+                                                                required name="ro_city_id">
                                                             </select>
                                                         </div>
                                                     </div>
@@ -210,14 +207,14 @@
                                                             <label for="ro_subdistrict_id"
                                                                 class="form-label w-100">Kecamatan:</label>
                                                             <select id="ro_subdistrict_id"
-                                                                class="form-select ro_subdistrict_id"
+                                                                class="form-select ro_subdistrict_id" required
                                                                 name="ro_subdistrict_id">
                                                             </select>
                                                         </div>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="address_address">Alamat</label>
-                                                        <input type="text" id="address-input" name="address_address"
+                                                        <input type="text" id="address-input" name="address_address" id="address_address"
                                                             required class="form-control map-input">
                                                         <input type="hidden" name="lat" id="address-latitude"
                                                             value="0" />
@@ -250,7 +247,8 @@
                                                 </div>
                                             </div>
                                         </div><br>
-                                        <button class="btn btn-primary" type="submit">Simpan Alamat</button>
+                                        <button class="btn btn-primary" type="submit" id="btn-address">Simpan
+                                            Alamat</button>
                                     </form>
                                 </div>
                             </div>
@@ -300,7 +298,7 @@
         async defer></script>
     <script>
         function initialize() {
-            $('#updateAddress').on('keyup keypress', function(e) {
+            $('#updateAddresses').on('keyup keypress', function(e) {
                 var keyCode = e.keyCode || e.which;
                 if (keyCode === 13) {
                     e.preventDefault();
@@ -415,6 +413,21 @@
                     reader.readAsDataURL(file);
                 }
             });
+            var $email = $('#email');
+            var $name = $('#name');
+            var $submitButton = $('#btn-updateProfile');
+
+            // $submitButton.prop('disabled', true);
+            $name.add($email).on('input', function() {
+                var email = $email.val()?.trim();
+                var name = $name.val()?.trim();
+                if (email !== '' && name !== '') {
+                    $submitButton.prop('disabled', false);
+                } else {
+                    $submitButton.prop('disabled', true);
+                }
+            });
+
         });
 
         var input = document.querySelector("#phone_number");
@@ -485,5 +498,148 @@
             placeholder: "Pilih Kecamatan Kamu",
             allowClear: true
         });
+
+        $('#updateProfile').on('submit', function(e) {
+            e.preventDefault();
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var birth_date = $('#birthdate').val();
+            var image = $('#image').val();
+            var dataToSend = {
+                email: email,
+                name: name,
+            };
+            if (password !== null && password !== '') {
+                dataToSend.password = password;
+            }
+            if (birth_date !== null && birth_date !== '') {
+                dataToSend.birth_date = birth_date;
+            }
+            if (image !== null && image !== '') {
+                dataToSend.image = image;
+            }
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+            $('.loading').removeClass('d-none').addClass('show-modal');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('dashboard.updateProfile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                data: dataToSend,
+                success: function(data) {
+                    if (data.status == "success") {
+                        messageSuccess(data.message);
+                        location.reload(true);
+                    } else {
+                        messageError(data.message);
+                    }
+                },
+                error: function(error) {
+                    messageError(error.message);
+                },
+                complete: function() {
+                    // This block will be executed regardless of success or failure
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
+            });
+
+        });
+
+        $('#updateAddresses').on('submit', function(e) {
+            e.preventDefault();
+            var person_name = $('#person_name').val();
+            var phone_number = $('#phone_number').val();
+            var place_name = $('#place_name').val();
+            var birth_date = $('#birthdate').val();
+            var ro_province_id = $('#ro_province_id').find('option:selected').val();
+            var ro_subdistrict_id = $('#ro_subdistrict_id').find('option:selected').val();
+            var ro_city_id = $('#ro_city_id').find('option:selected').val();
+            var lat = $('#address-latitude').val();
+            var long = $('#address-longitude').val();
+            var id = $('.id').val();
+            var address_description = $('#address_description').val();
+            var main = $('#main').prop('checked');
+            var dataToSend = {
+                phone_number: phone_number,
+                id: id,
+                place_name: place_name,
+                person_name: person_name,
+                ro_subdistrict_id: ro_subdistrict_id,
+                ro_city_id: ro_city_id,
+                ro_province_id: ro_province_id,
+                person_name: person_name,
+            };
+            if (main !== null && main !== '') {
+                dataToSend.main = main;
+            }
+
+            if (lat !== null && lat !== '') {
+                dataToSend.lat = lat;
+            }
+            if (long !== null && long !== '') {
+                dataToSend.long = long;
+            }
+            if (address_description !== null && address_description !== '') {
+                dataToSend.address_description = address_description;
+            }
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+            $('.loading').removeClass('d-none').addClass('show-modal');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('dashboard.updateAddress') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                data: dataToSend,
+                success: function(data) {
+                    if (data.status == "success") {
+                        messageSuccess(data.message);
+                        window.location.replace(data.redirect);
+                    } else {
+                        messageError(data.message);
+                    }
+                },
+                error: function(error) {
+                    messageError(error.message);
+                },
+                complete: function() {
+                    // This block will be executed regardless of success or failure
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
+            });
+
+        });
+
+        function messageSuccess(res) {
+            $('#myDivHandleSuccess').text('');
+            $('#myDivHandleSuccess').text(res);
+            $('#myDivHandleSuccess').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleSuccess')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
+
+        function messageError(res) {
+            $('#myDivHandleError').text('');
+            $('#myDivHandleError').text(res);
+            $('#myDivHandleError').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleError')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
     </script>
 @endpush

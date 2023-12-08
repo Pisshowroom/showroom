@@ -127,11 +127,14 @@ class TransactionOrderController extends Controller
         $order->status = Order::SHIPPED;
         $order->save();
 
-        $pdf = Pdf::loadView('receipt_image', ['order' => $order->load(['address', 'seller', 'order_items.product', 'user.address'])]);
-        $order->link_label =  $pdf->save(public_path("/receipt_images/$order->delivery_receipt_number.pdf"));
+        // $pdf = Pdf::loadView('receipt_image', ['order' => $order->load(['address', 'seller', 'order_items.product', 'user.address'])]);
+        // $order->link_label =  $pdf->save(public_path("/receipt_images/$order->delivery_receipt_number.pdf"));
         $order->save();
-
-        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil dikirim')->with('auth', base64_encode($user->uid));
+        return response()->json([
+            "status" => "success",
+            "message" => "Pesanan berhasil dikirim",
+            "redirect" => route('dashboardSeller.allTransaction') . '?auth=' . base64_encode($user->uid)
+        ], 200, [], JSON_UNESCAPED_SLASHES);
     }
 
     public function checkStatusDeliveredOrder($id)

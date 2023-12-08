@@ -57,9 +57,7 @@
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade {{ !request()->get('param') || request()->get('param') != 'alamat' ? 'show active' : '' }}"
                                     id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
-                                    <form method="POST"
-                                        action="{{ route('dashboardSeller.updateProfile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                                        enctype="multipart/form-data">
+                                    <form method="POST" id="updateProfile">
                                         @csrf
                                         <div class="row">
                                             <div class="col-12">
@@ -93,8 +91,8 @@
                                                             <div class="form-check form-switch ps-5">
                                                                 <label class="form-check-label" for="is_seller_active">Toko
                                                                     saat ini aktif</label>
-                                                                    <i class="icon material-icons md-home"
-                                                                        style="color: #E9A92E"></i>
+                                                                <i class="icon material-icons md-home"
+                                                                    style="color: #E9A92E"></i>
                                                                 <input class="form-check-input" type="checkbox"
                                                                     name="is_seller_active" id="is_seller_active"
                                                                     {{ Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller_active == 1 ? 'checked' : '' }}>
@@ -118,7 +116,8 @@
                                                 </div>
                                             </div>
                                         </div><br>
-                                        <button class="btn btn-primary" type="submit">Simpan</button>
+                                        <button class="btn btn-primary" type="submit"
+                                            id="btn-updateProfile">Simpan</button>
                                     </form>
                                 </div>
                                 <div class="tab-pane fade {{ request()->get('param') == 'alamat' ? 'show active' : '' }}"
@@ -137,14 +136,14 @@
                                                             class="d-flex align-items-center w-100 gap-2 justify-content-between">
                                                             <div class="d-flex flex-column">
                                                                 <div class="d-flex align-items-center gap-2">
-                                                                    @if ($address->for_seller == 1)
+                                                                    @if ($address->for_seller == true)
                                                                         <i class="icon material-icons md-home"
                                                                             style="color: #E9A92E"></i>
                                                                     @else
                                                                         <i class="icon material-icons md-home"></i>
                                                                     @endif
                                                                     <h4>{{ $address->person_name ?? '' }}</h4>
-                                                                    @if ($address->for_seller == 1)
+                                                                    @if ($address->for_seller == true)
                                                                         <button class="btn btn-xs"
                                                                             style="background-color: #E9A92E !important;border-radius:5px !important">Utama</button>
                                                                     @endif
@@ -182,8 +181,7 @@
                                 @if (Auth::guard('web')->user() && Auth::guard('web')->user()->is_seller == 1)
                                     <div class="tab-pane fade" id="pills-add-address" role="tabpanel"
                                         aria-labelledby="pills-add-address-tab">
-                                        <form method="POST" id="updateAddressSeller"
-                                            action="{{ route('dashboardSeller.updateAddressSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                        <form method="POST" id="updateAddressSeller">
                                             @csrf
                                             <div class="row">
                                                 <div class="col-12">
@@ -235,7 +233,7 @@
                                                                 <label for="ro_city_id" class="form-label w-100">Kota /
                                                                     Kabupaten:</label>
                                                                 <select id="ro_city_id" class="form-select ro_city_id"
-                                                                    name="ro_city_id">
+                                                                    required name="ro_city_id">
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -245,7 +243,7 @@
                                                                 <label for="ro_subdistrict_id"
                                                                     class="form-label w-100">Kecamatan:</label>
                                                                 <select id="ro_subdistrict_id"
-                                                                    class="form-select ro_subdistrict_id"
+                                                                    class="form-select ro_subdistrict_id" required
                                                                     name="ro_subdistrict_id">
                                                                 </select>
                                                             </div>
@@ -253,7 +251,7 @@
                                                         <div class="form-group mb-3">
                                                             <label for="address_address">Alamat</label>
                                                             <input type="text" id="address-input"
-                                                                name="address_address" required
+                                                                name="address_address" required id="address_address"
                                                                 class="form-control map-input">
                                                             <input type="hidden" name="lat" id="address-latitude"
                                                                 value="0" />
@@ -464,6 +462,23 @@
                     reader.readAsDataURL(file);
                 }
             });
+            var $seller_name = $('#seller_name');
+            var $seller_description = $('#seller_description');
+            var $phone_number_seller = $('#phone_number_seller');
+            var $submitButton = $('#btn-updateProfile');
+
+            // $submitButton.prop('disabled', true);
+            $seller_name.add($seller_description).add($phone_number_seller).on('input', function() {
+                var seller_name = $seller_name.val()?.trim();
+                var seller_description = $seller_description.val()?.trim();
+                var phone_number_seller = $phone_number_seller.val()?.trim();
+                if (seller_name !== '' && seller_description !== '' && phone_number_seller !== '') {
+                    $submitButton.prop('disabled', false);
+                } else {
+                    $submitButton.prop('disabled', true);
+                }
+            });
+
         });
         var input = document.querySelector("#phone_number");
         window.intlTelInput(input, {
@@ -533,5 +548,147 @@
             placeholder: "Pilih Kecamatan Kamu",
             allowClear: true
         });
+
+        $('#updateProfile').on('submit', function(e) {
+            e.preventDefault();
+            var seller_description = $('#seller_description').val();
+            var seller_name = $('#seller_name').val();
+            var phone_number_seller = $('#phone_number_seller').val();
+            var is_seller_active = $('#is_seller_active').prop('checked');
+            var seller_image = $('#seller_image').val();
+            var dataToSend = {
+                seller_name: seller_name,
+                seller_description: seller_description,
+                phone_number_seller: phone_number_seller,
+            };
+            if (is_seller_active !== null && is_seller_active !== '') {
+                dataToSend.is_seller_active = is_seller_active;
+            }
+            if (seller_image !== null && seller_image !== '') {
+                dataToSend.seller_image = seller_image;
+            }
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+            $('.loading').removeClass('d-none').addClass('show-modal');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('dashboardSeller.updateProfile') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                data: dataToSend,
+                success: function(data) {
+                    if (data.status == "success") {
+                        messageSuccess(data.message);
+                        location.reload(true);
+                    } else {
+                        messageError(data.message);
+                    }
+                },
+                error: function(error) {
+                    messageError(error.message);
+                },
+                complete: function() {
+                    // This block will be executed regardless of success or failure
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
+            });
+
+        });
+
+        $('#updateAddressSeller').on('submit', function(e) {
+            e.preventDefault();
+            var person_name = $('#person_name').val();
+            var phone_number = $('#phone_number').val();
+            var place_name = $('#place_name').val();
+            var birth_date = $('#birthdate').val();
+            var ro_province_id = $('#ro_province_id').find('option:selected').val();
+            var ro_subdistrict_id = $('#ro_subdistrict_id').find('option:selected').val();
+            var ro_city_id = $('#ro_city_id').find('option:selected').val();
+            var lat = $('#address-latitude').val();
+            var long = $('#address-longitude').val();
+            var id = $('.id').val();
+            var address_description = $('#address_description').val();
+            var for_seller = $('#for_seller').prop('checked');
+
+            var dataToSend = {
+                phone_number: phone_number,
+                id: id,
+                place_name: place_name,
+                person_name: person_name,
+                ro_subdistrict_id: ro_subdistrict_id,
+                ro_city_id: ro_city_id,
+                ro_province_id: ro_province_id,
+                person_name: person_name,
+            };
+            if (for_seller !== null && for_seller !== '') {
+                dataToSend.for_seller = for_seller;
+            }
+
+            if (lat !== null && lat !== '') {
+                dataToSend.lat = lat;
+            }
+            if (long !== null && long !== '') {
+                dataToSend.long = long;
+            }
+            if (address_description !== null && address_description !== '') {
+                dataToSend.address_description = address_description;
+            }
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+            $('.loading').removeClass('d-none').addClass('show-modal');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('dashboardSeller.updateAddressSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                data: dataToSend,
+                success: function(data) {
+                    if (data.status == "success") {
+                        messageSuccess(data.message);
+                        window.location.replace(data.redirect);
+                    } else {
+                        messageError(data.message);
+                    }
+                },
+                error: function(error) {
+                    messageError(error.message);
+                },
+                complete: function() {
+                    // This block will be executed regardless of success or failure
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
+            });
+
+        });
+
+        function messageSuccess(res) {
+            $('#myDivHandleSuccess').text('');
+            $('#myDivHandleSuccess').text(res);
+            $('#myDivHandleSuccess').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleSuccess')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
+
+        function messageError(res) {
+            $('#myDivHandleError').text('');
+            $('#myDivHandleError').text(res);
+            $('#myDivHandleError').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleError')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
     </script>
 @endpush

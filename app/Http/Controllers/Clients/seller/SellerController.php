@@ -140,27 +140,27 @@ class SellerController extends Controller
             $address->address_description = $request->address_description;
         $address->lat = $request->lat;
         $address->long = $request->long;
-        if ($user->addresses->count() < 1) {
-            $address->for_seller = 1;
-        } else if (isset($request->for_seller) && $request->for_seller == 'on') {
-            $user->addresses()->where('for_seller', true)->update(['for_seller' => false]);
+        if (isset($request->for_seller))
+            $for_seller =  filter_var($request->for_seller, FILTER_VALIDATE_BOOLEAN);
+        else
+            $for_seller = null;
+        if ($user->address_seller()->count() < 1) {
             $address->for_seller = true;
+        } elseif ($for_seller == true) {
+            if ($request->id)
+                $user->address_seller()->where('id', '!=', $address->id)->where('for_seller', true)->update(['for_seller' => false]);
+            $address->for_seller = true;
+        } elseif ($for_seller == false) {
+            $address->for_seller = false;
         }
-        // $address->ro_province_id = 6;
-        // $address->ro_city_id = 16;
-        // $address->ro_subdistrict_id = 18;
-        // $address->city = RoCity::where('id', 16)->pluck('city_name');
-        // $address->district = RoSubdistrict::where('id', 18)->pluck('subdistrict_name');
-        // $address->place_name = 'Rumah';
-        // $address->person_name = 'Uri';
-        // $address->phone_number =  (int) '085212739231';
-        // $address->address_description = 'ABCD nomor B17';
-        // $address->lat = -0.06640807407910417;
-        // $address->long = 109.38475276537;
-        // $address->main = 1;
+
         $address->user_id = $user->id;
         $address->save();
-        return redirect("/toko/profil?param=alamat")->with('success', 'Alamat berhasil diperbarui')->with('auth', base64_encode($user->uid));
+        return response()->json([
+            "status" => "success",
+            "message" => "Alamat berhasil diperbarui",
+            "redirect" => route('dashboardSeller.profile') . '?param=alamat&auth=' . base64_encode($user->uid)
+        ], 200, [], JSON_UNESCAPED_SLASHES);
     }
     public function deleteAddressSeller($id)
     {
@@ -221,16 +221,20 @@ class SellerController extends Controller
         if ($request->hasFile('seller_image')) {
             $user->seller_image = uploadFoto($request->seller_image, 'uploads/seller/');
         }
-        if (isset($request->is_seller_active) && $request->is_seller_active == 'on')
-            $user->is_seller_active = true;
+        if (isset($request->is_seller_active))
+            $is_seller_active =  filter_var($request->is_seller_active, FILTER_VALIDATE_BOOLEAN);
         else
+            $is_seller_active = null;
+
+        if ($is_seller_active == true)
+            $user->is_seller_active = true;
+        else if ($is_seller_active == false)
             $user->is_seller_active = false;
 
         $user->save();
-        if ($request->filled('is_seller')) {
-            return redirect("/toko/profil")->with('success', 'berhasil membuat toko')->with('auth', base64_encode($user->uid));
-        } else {
-            return redirect("/toko/profil")->with('success', 'Profil toko berhasil diperbarui')->with('auth', base64_encode($user->uid));
-        }
+        return response()->json([
+            "status" => "success",
+            "message" => $request->filled('is_seller') ? "Berhasil membuat toko" : "Profil toko berhasil diperbarui",
+        ]);
     }
 }

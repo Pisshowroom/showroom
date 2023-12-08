@@ -13,7 +13,8 @@ class Order extends Model
 
     // protected $guarded = [];
     protected $casts = [
-        'is_reviewed' => 'boolean'
+        'is_reviewed' => 'boolean',
+        'returning_images' => 'array'
     ];
 
     public function getNextId()
@@ -60,7 +61,8 @@ class Order extends Model
     /*  Status
     Pending, Paid,
     ProcessedBySeller, Shipped, Delivered,
-    ExpiredPayment, Cancelled, RequestedRefund, RefundAccepted, RefundDone, RefundDeclined,
+    ExpiredPayment, Cancelled, 
+    RequestedRefund, RefundAccepted, RefundDone, RefundDeclined,
     RequestedReturn, ReturnAccepted, ReturnShipped, ReturnDelivered, ReturnCompleted,
     Complaint, ComplaintAccepted, ComplaintDeclined, ComplaintCompleted
     Completed

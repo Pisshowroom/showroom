@@ -708,9 +708,9 @@ class OrderController extends Controller
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
             'origin' => $originId,
-            'originType' => 'subdistrict',
+            'originType' => 'city',
             'destination' => $destinationId,
-            'destinationType' => 'city',
+            'destinationType' => 'subdistrict',
             'weight' => $weight,
             'courier' => $deliveryServices,
         ]));
@@ -768,6 +768,9 @@ class OrderController extends Controller
             return $data;
         } catch (\Exception $e) {
             throw $e;
+            // throw $e;
+            Log::info("1_Error RajaOngkir: " . $e->getMessage());
+            throw new Exception("Jasa kirim tidak tersedia.", 404);
         } finally {
             curl_close($curl);
         }

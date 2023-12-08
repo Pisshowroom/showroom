@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/geta', function () {
+    abort(500, "Bad Request");
     // return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
     /*  $orders = Order::whereNull('seller_id')->get();
     // 2
@@ -202,8 +203,8 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::post('/checkout', [BuyerOrderController::class, 'checkout'])->name('buyer.preCheckout');
         Route::get('/keranjang', [BuyerController::class, 'cart'])->name('buyer.cart');
         Route::get('/index-history-fund', [RefundController::class, 'indexHistoryFund'])->name('dashboard.indexHistoryFund');
-        Route::get('/keluhan-terkait-produk/{order}', [RefundController::class, 'detailOrderForComplain'])->name('dashboard.detailOrderForComplain');
-        Route::post('/pengajuan-pengembalian-dana/{order}', [RefundController::class, 'requestRefund'])->name('dashboard.requestRefund');
+        Route::get('/keluhan-terkait-produk/{identifier}', [RefundController::class, 'detailOrderForComplain'])->name('dashboard.detailOrderForComplain');
+        Route::post('/pengajuan-pengembalian-dana', [RefundController::class, 'requestRefund'])->name('dashboard.requestRefund');
 
     });
     Route::group(['prefix' => 'pi'], function () {

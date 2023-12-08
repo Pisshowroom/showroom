@@ -29,6 +29,9 @@ class OrderItemResource extends JsonResource
             'product' => $this->whenLoaded('product', function () {
                 return new ProductResource($this->product);
             }),
+            'return_quantity' => $this->return_quantity,
+            'return_weight' => $this->return_weight,
+            'return_item_total' => $this->return_item_total,
         ];
     }
 }

@@ -107,6 +107,9 @@
     <script src="{{ asset('ecom/js/firebase.js') }}"></script>
     <script>
         $(document).ready(function() {
+            if (navigator.userAgent.includes('PiBrowser')) {
+                $('#googleRegister').addClass('d-none');
+            }
             var $name = $('#name');
             var $email = $('#email');
             var $password = $('#password');
@@ -291,7 +294,12 @@
                             setTimeout(function() {
                                 $('#myDiv3').fadeOut('fast');
                             }, 2000);
-                            window.location.replace("{{ route('dashboard.myOrder') }}");
+                            if (navigator.userAgent.includes('PiBrowser')) {
+                                sessionStorage.setItem("api_token", `${data.user.api_token}`);
+                                window.location.replace("/login-session?api_token=" + data.user.api_token);
+                            } else {
+                                window.location.replace("{{ route('dashboard.myOrder') }}");
+                            }
 
                         } else {
                             var div = document.getElementById('myDiv2');

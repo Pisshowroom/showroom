@@ -27,10 +27,9 @@
                 <div class="row gx-5">
                     <div class="col-12">
                         <section class="content-body p-xl-4">
-                            <form id="updateAddressSeller" method="POST"
-                                action="{{ route('dashboardSeller.updateAddressSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                            <form id="updateAddressSeller" method="POST">
                                 @csrf
-                                <input type="hidden" value="{{ $data->id }}" name="id">
+                                <input type="hidden" class="id" value="{{ $data->id }}" name="id">
 
                                 <div class="row">
                                     <div class="col-12">
@@ -78,7 +77,7 @@
                                                     <div class="mb-3">
                                                         <label for="ro_city_id" class="form-label w-100">Kota /
                                                             Kabupaten:</label>
-                                                        <select id="ro_city_id" class="form-select ro_city_id"
+                                                        <select id="ro_city_id" class="form-select ro_city_id" required
                                                             name="ro_city_id">
                                                             <option style="color:#232323;background:#f5f5f5 !important"
                                                                 selected disabled>Pilih
@@ -98,7 +97,7 @@
                                                     <div class="mb-3">
                                                         <label for="ro_city_id" class="form-label w-100">Kota /
                                                             Kabupaten:</label>
-                                                        <select id="ro_city_id" class="form-select ro_city_id"
+                                                        <select id="ro_city_id" class="form-select ro_city_id" required
                                                             name="ro_city_id">
                                                         </select>
                                                     </div>
@@ -109,7 +108,7 @@
                                                     <div class="mb-3">
                                                         <label for="ro_subdistrict_id"
                                                             class="form-label w-100">Kecamatan:</label>
-                                                        <select id="ro_subdistrict_id" class="form-select ro_subdistrict_id"
+                                                        <select id="ro_subdistrict_id" class="form-select ro_subdistrict_id" required
                                                             name="ro_subdistrict_id">
                                                             <option style="color:#232323;background:#f5f5f5 !important"
                                                                 selected disabled>Pilih
@@ -128,7 +127,7 @@
                                                     <div class="mb-3">
                                                         <label for="ro_subdistrict_id"
                                                             class="form-label w-100">Kecamatan:</label>
-                                                        <select id="ro_subdistrict_id" class="form-select ro_subdistrict_id"
+                                                        <select id="ro_subdistrict_id" class="form-select ro_subdistrict_id" required
                                                             name="ro_subdistrict_id">
                                                         </select>
                                                     </div>
@@ -136,7 +135,7 @@
                                             @endif
                                             <div class="form-group mb-3">
                                                 <label for="address_address">Alamat</label>
-                                                <input type="text" id="address-input" name="address_address"
+                                                <input type="text" id="address-input" name="address_address" id="address_address"
                                                     {{ $data->lat && $data->long ? '' : 'required' }}
                                                     class="form-control map-input">
                                                 <input type="hidden" name="lat" id="address-latitude"
@@ -166,14 +165,14 @@
                                                         <i class="icon material-icons md-home" style="color: #E9A92E"></i>
 
                                                         <input class="form-check-input" type="checkbox" id="for_seller"
-                                                            name="for_seller" checked>
+                                                            name="for_seller" {{ $data->for_seller == true ? 'checked' : '' }}>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div><br>
-                                <button class="btn btn-primary" type="submit">Simpan Alamat</button>
+                                <button class="btn btn-primary" type="submit" id="btn-updateSeller">Simpan Alamat</button>
                             </form>
                         </section>
                     </div>
@@ -351,6 +350,25 @@
             $('#mydiv').fadeOut('fast');
         }, 2000);
 
+        $(document).ready(function() {
+            var $person_name = $('#person_name');
+            var $phone_number = $('#phone_number');
+            var $place_name = $('#place_name');
+            var $submitButton = $('#btn-updateSeller');
+
+            // $submitButton.prop('disabled', true);
+            $person_name.add($phone_number).on('input', function() {
+                var phone_number = $phone_number.val()?.trim();
+                var person_name = $person_name.val()?.trim();
+                var place_name = $place_name.val()?.trim();
+                if (phone_number !== '' && person_name !== '' && place_name !== '') {
+                    $submitButton.prop('disabled', false);
+                } else {
+                    $submitButton.prop('disabled', true);
+                }
+            });
+
+        });
         var input = document.querySelector("#phone_number");
         window.intlTelInput(input, {
             initialCountry: "ID",
@@ -419,5 +437,98 @@
             placeholder: "Pilih Kecamatan Kamu",
             allowClear: true
         });
+
+        $('#updateAddressSeller').on('submit', function(e) {
+            e.preventDefault();
+            var person_name = $('#person_name').val();
+            var phone_number = $('#phone_number').val();
+            var place_name = $('#place_name').val();
+            var birth_date = $('#birthdate').val();
+            var ro_province_id = $('#ro_province_id').find('option:selected').val();
+            var ro_subdistrict_id = $('#ro_subdistrict_id').find('option:selected').val();
+            var ro_city_id = $('#ro_city_id').find('option:selected').val();
+            var lat = $('#address-latitude').val();
+            var long = $('#address-longitude').val();
+            var id = $('.id').val();
+            var address_description = $('#address_description').val();
+            var for_seller = $('#for_seller').prop('checked');
+
+            var dataToSend = {
+                phone_number: phone_number,
+                id: id,
+                place_name: place_name,
+                person_name: person_name,
+                ro_subdistrict_id: ro_subdistrict_id,
+                ro_city_id: ro_city_id,
+                ro_province_id: ro_province_id,
+                person_name: person_name,
+            };
+            if (for_seller !== null && for_seller !== '') {
+                dataToSend.for_seller = for_seller;
+            }
+
+            if (lat !== null && lat !== '') {
+                dataToSend.lat = lat;
+            }
+            if (long !== null && long !== '') {
+                dataToSend.long = long;
+            }
+            if (address_description !== null && address_description !== '') {
+                dataToSend.address_description = address_description;
+            }
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+            $('.loading').removeClass('d-none').addClass('show-modal');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('dashboardSeller.updateAddressSeller') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                data: dataToSend,
+                success: function(data) {
+                    if (data.status == "success") {
+                        messageSuccess(data.message);
+                        window.location.replace(data.redirect);
+                    } else {
+                        messageError(data.message);
+                    }
+                },
+                error: function(error) {
+                    messageError(error.message);
+                },
+                complete: function() {
+                    // This block will be executed regardless of success or failure
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
+            });
+
+        });
+
+        function messageSuccess(res) {
+            $('#myDivHandleSuccess').text('');
+            $('#myDivHandleSuccess').text(res);
+            $('#myDivHandleSuccess').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleSuccess')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
+
+        function messageError(res) {
+            $('#myDivHandleError').text('');
+            $('#myDivHandleError').text(res);
+            $('#myDivHandleError').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleError')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
     </script>
 @endpush

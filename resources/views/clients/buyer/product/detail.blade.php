@@ -569,15 +569,17 @@
                                 <div class="comments-area">
                                     <div class="row">
                                         <div class="col-lg-8">
-                                            <form class="form-comment"
-                                                action="{{ route('buyer.addReview') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
-                                                method="POST">
+                                            <form class="form-comment" id="addReview" method="POST">
                                                 @csrf
                                                 <div class="row">
+                                                    @if (isset($product->order_id) && $product->order_id != 0)
+                                                        <input type="hidden" name="order_id"
+                                                            value="{{ $product->order_id }}">
+                                                    @endif
                                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                                     <input type="hidden" name="product_slug"
                                                         value="{{ $product->slug }}">
-                                                    <p class="font-lg mb-2">Rating barang ini menurut kamu</p>
+                                                    <p class="font-lg mb-2">Rating barang ini menurut kamu*</p>
                                                     <div class="stars">
                                                         <input class="star star-5" id="star-5" type="radio"
                                                             name="rating" value="5" checked />
@@ -597,7 +599,7 @@
                                                     </div>
                                                     <div class="col-lg-12 mt-4">
                                                         <div class="form-group">
-                                                            <textarea class="form-control" placeholder="Tulis Ulasan" rows="5" name="text" required></textarea>
+                                                            <textarea class="form-control" placeholder="Tulis Ulasan*" rows="5" name="text" required></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 mt-4">
@@ -612,7 +614,7 @@
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
-                                                            <button class="btn btn-buy w-auto"
+                                                            <button class="btn btn-buy w-auto" id="btn-addReview"
                                                                 type="submit">Kirim</button>
                                                         </div>
                                                     </div>
@@ -696,7 +698,7 @@
         .preview-item img {
             width: 100px;
             height: 100px;
-            object-fit: cover;
+            object-fit: contain;
             border: 1px solid #ccc;
         }
 
@@ -1011,26 +1013,26 @@
                                                                         item
                                                                         .costs[
                                                                             0
-                                                                            ]
+                                                                        ]
                                                                         .cost
                                                                         .length >
                                                                         0 &&
                                                                         typeof item
                                                                         .costs[
                                                                             0
-                                                                            ]
+                                                                        ]
                                                                         .cost[
                                                                             0
-                                                                            ]
+                                                                        ]
                                                                         .value !==
                                                                         'undefined' &&
                                                                         typeof item
                                                                         .costs[
                                                                             0
-                                                                            ]
+                                                                        ]
                                                                         .cost[
                                                                             0
-                                                                            ]
+                                                                        ]
                                                                         .etd !==
                                                                         'undefined'
                                                                     );
@@ -1047,7 +1049,7 @@
                                                                         JSON
                                                                         .stringify(
                                                                             response
-                                                                            )
+                                                                        )
                                                                     );
                                                                 window.location
                                                                     .replace(
@@ -1120,6 +1122,46 @@
                         }, 2000);
                     }
                 }
+
+            });
+
+            $('#addReview').on('submit', function(e) {
+                e.preventDefault();
+                var delivery_service = $('#delivery_service').val();
+                var delivery_receipt_number = $('#delivery_receipt_number').val();
+                var id = $('.id').val();
+                var dataToSend = {
+                    id: id,
+                    delivery_receipt_number: delivery_receipt_number,
+                    delivery_service: delivery_service,
+                };
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                });
+                $('.loading').removeClass('d-none').addClass('show-modal');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('buyer.addReview') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                    data: dataToSend,
+                    success: function(data) {
+                        if (data.status == "success") {
+                            messageSuccess(data.message);
+                            location.reload(true);
+                        } else {
+                            messageError(data.message);
+                        }
+                    },
+                    error: function(error) {
+                        messageError(error.message);
+                    },
+                    complete: function() {
+                        $('.loading').addClass('d-none').removeClass('show-modal');
+                    }
+                });
 
             });
 
