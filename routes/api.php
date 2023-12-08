@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\OrderDataController as AdminOrderDataController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Api\AddressController;
@@ -55,6 +56,18 @@ Route::group(['prefix' => 'admin'], function () {
     // Route::get('/order', [AdminOrderController::class, 'index']);
     Route::group(['prefix' => 'order'], function () {
         Route::get('/index', [AdminOrderController::class, 'index']);
+    });
+
+    Route::group(['prefix' => 'complaint'], function () {
+        Route::get('/list-complaint', [AdminOrderDataController::class, 'listComplaint']);
+        Route::get('/list-return-back', [AdminOrderDataController::class, 'listReturnBack']);
+        Route::get('/list-refund', [AdminOrderDataController::class, 'listRefund']);
+        Route::post('/accept-complaint/{order}', [AdminOrderDataController::class, 'acceptComplaint']);
+        Route::post('/accept-return-back/{order}', [AdminOrderDataController::class, 'acceptReturnBack']);
+        Route::post('/accept-refund/{order}', [AdminOrderDataController::class, 'acceptRefund']);
+        Route::post('/reject-complaint/{order}', [AdminOrderDataController::class, 'rejectComplaint']);
+        Route::post('/reject-return-back/{order}', [AdminOrderDataController::class, 'rejectReturnBack']);
+        Route::post('/reject-refund/{order}', [AdminOrderDataController::class, 'rejectRefund']);
     });
 
     Route::group(['prefix' => 'sliders', 'middleware' => 'auth:api-client'], function () {
@@ -152,6 +165,7 @@ Route::group(['prefix' => 'user'], function () {
 Route::group(['prefix' => 'reviews'], function () {
     Route::get('user-my-reviews', [ReviewController::class, 'userMyReviews']);
     Route::post('create', [ReviewController::class, 'create']);
+    Route::post('update/{review}', [ReviewController::class, 'update']);
     Route::get('limited-of-product/{productId}', [ReviewController::class, 'getLimitedReviewsOfAProduct']);
     Route::get('of-a-product/{productId}', [ReviewController::class, 'getAllReviewsOfAProduct']);
 });
