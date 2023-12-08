@@ -184,12 +184,12 @@ class DashboardController extends Controller
         $address->lat = $request->lat;
         $address->long = $request->long;
         if ($user->address()->count() < 1) {
-            $address->main = 1;
+            $address->main = true;
         } else if (isset($request->main) && $request->main == true) {
             $user->address()->where('main', true)->update(['main' => false]);
-            $user->main = true;
+            $address->main = true;
         } else if (isset($request->main) && $request->main == false) {
-            $user->main = false;
+            $address->main = false;
         }
         // $address->ro_province_id = 6;
         // $address->ro_city_id = 16;

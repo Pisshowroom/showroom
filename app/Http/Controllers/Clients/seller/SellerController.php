@@ -141,12 +141,12 @@ class SellerController extends Controller
         $address->lat = $request->lat;
         $address->long = $request->long;
         if ($user->address_seller()->count() < 1) {
-            $address->for_seller = 1;
+            $address->for_seller = true;
         } else if (isset($request->for_seller) && $request->for_seller == true) {
             $user->address_seller()->where('for_seller', true)->update(['for_seller' => false]);
-            $user->for_seller = true;
+            $address->for_seller = true;
         } else if (isset($request->for_seller) && $request->for_seller == false) {
-            $user->for_seller = false;
+            $address->for_seller = false;
         }
         // $address->ro_province_id = 6;
         // $address->ro_city_id = 16;
