@@ -11,6 +11,7 @@ class Address extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+    protected $fillable = ['main'];
     protected $casts = [
         'main' => 'boolean',
         'for_seller' => 'boolean',

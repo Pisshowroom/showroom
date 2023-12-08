@@ -135,7 +135,7 @@
                                             @endif
                                             <div class="form-group mb-3">
                                                 <label for="address_address">Alamat</label>
-                                                <input type="text" id="address-input" name="address_address"
+                                                <input type="text" id="address-input" name="address_address" id="address_address"
                                                     {{ $data->lat && $data->long ? '' : 'required' }}
                                                     class="form-control map-input">
                                                 <input type="hidden" name="lat" id="address-latitude"
@@ -465,6 +465,7 @@
             var id = $('.id').val();
             var address_description = $('#address_description').val();
             var main = $('#main').prop('checked');
+            // var dataToSend = new FormData();
 
             var dataToSend = {
                 phone_number: phone_number,
