@@ -133,7 +133,7 @@ class TransactionOrderController extends Controller
         return response()->json([
             "status" => "success",
             "message" => "Pesanan berhasil dikirim",
-            "redirect" => route('dashboardSeller.allTransaction')
+            "redirect" => route('dashboardSeller.allTransaction') . '?auth=' . base64_encode($user->uid)
         ], 200, [], JSON_UNESCAPED_SLASHES);
     }
 

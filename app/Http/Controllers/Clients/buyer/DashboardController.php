@@ -78,7 +78,7 @@ class DashboardController extends Controller
         // }
         $user['addresses'] = Address::where('user_id', Auth::guard('web')->user()->id)->whereNull('deleted_at')
             ->select([
-                'id', 'user_id', 'place_name', 'person_name', 'phone_number', 'main','for_seller',
+                'id', 'user_id', 'place_name', 'person_name', 'phone_number', 'main', 'for_seller',
                 'ro_province_id', 'district', 'city', 'address_description'
             ])
             ->with('ro_province:id,province_name')->orderByDesc('main')
@@ -208,7 +208,7 @@ class DashboardController extends Controller
         return response()->json([
             "status" => "success",
             "message" => "Alamat berhasil diperbarui",
-            "redirect" => route('dashboard.settings') . '?param=alamat'
+            "redirect" => route('dashboard.settings') . '?param=alamat&auth=' . base64_encode($user->uid)
         ], 200, [], JSON_UNESCAPED_SLASHES);
     }
     public function deleteAddress($id)

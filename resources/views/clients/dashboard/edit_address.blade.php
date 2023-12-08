@@ -504,7 +504,6 @@
                 success: function(data) {
                     if (data.status == "success") {
                         messageSuccess(data.message);
-                        console.log(data.redirect);
                         window.location.replace(data.redirect);
                     } else {
                         messageError(data.message);

@@ -165,7 +165,7 @@ class SellerController extends Controller
         return response()->json([
             "status" => "success",
             "message" => "Alamat berhasil diperbarui",
-            "redirect" => route('dashboardSeller.profile') . '?param=alamat'
+            "redirect" => route('dashboardSeller.profile') . '?param=alamat&auth=' . base64_encode($user->uid)
         ], 200, [], JSON_UNESCAPED_SLASHES);
     }
     public function deleteAddressSeller($id)

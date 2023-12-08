@@ -86,7 +86,8 @@
         $(document).ready(function() {
             if (navigator.userAgent.includes('PiBrowser')) {
                 $('#piBrowser').addClass('d-block').removeClass('d-none');
-            } else {}
+                $('#googleLogin').addClass('d-none');
+            }
             var $email = $('#email');
             var $password = $('#password');
             var $submitButton = $('#loginEmail');

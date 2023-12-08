@@ -107,6 +107,9 @@
     <script src="{{ asset('ecom/js/firebase.js') }}"></script>
     <script>
         $(document).ready(function() {
+            if (navigator.userAgent.includes('PiBrowser')) {
+                $('#googleRegister').addClass('d-none');
+            }
             var $name = $('#name');
             var $email = $('#email');
             var $password = $('#password');
