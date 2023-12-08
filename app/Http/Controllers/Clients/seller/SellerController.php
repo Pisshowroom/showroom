@@ -140,11 +140,13 @@ class SellerController extends Controller
             $address->address_description = $request->address_description;
         $address->lat = $request->lat;
         $address->long = $request->long;
-        if ($user->addresses->count() < 1) {
+        if ($user->address_seller()->count() < 1) {
             $address->for_seller = 1;
-        } else if (isset($request->for_seller) && $request->for_seller == 'on') {
-            $user->addresses()->where('for_seller', true)->update(['for_seller' => false]);
-            $address->for_seller = true;
+        } else if (isset($request->for_seller) && $request->for_seller == true) {
+            $user->address_seller()->where('for_seller', true)->update(['for_seller' => false]);
+            $user->for_seller = true;
+        } else if (isset($request->for_seller) && $request->for_seller == false) {
+            $user->for_seller = false;
         }
         // $address->ro_province_id = 6;
         // $address->ro_city_id = 16;
@@ -160,7 +162,11 @@ class SellerController extends Controller
         // $address->main = 1;
         $address->user_id = $user->id;
         $address->save();
-        return redirect("/toko/profil?param=alamat")->with('success', 'Alamat berhasil diperbarui')->with('auth', base64_encode($user->uid));
+        return response()->json([
+            "status" => "success",
+            "message" => "Alamat berhasil diperbarui",
+            "redirect" => route('dashboardSeller.profile') . '?param=alamat'
+        ], 200, [], JSON_UNESCAPED_SLASHES);
     }
     public function deleteAddressSeller($id)
     {
@@ -221,16 +227,15 @@ class SellerController extends Controller
         if ($request->hasFile('seller_image')) {
             $user->seller_image = uploadFoto($request->seller_image, 'uploads/seller/');
         }
-        if (isset($request->is_seller_active) && $request->is_seller_active == 'on')
+        if (isset($request->is_seller_active) && $request->is_seller_active == true)
             $user->is_seller_active = true;
-        else
+        else if (isset($request->is_seller_active) && $request->is_seller_active == false)
             $user->is_seller_active = false;
 
         $user->save();
-        if ($request->filled('is_seller')) {
-            return redirect("/toko/profil")->with('success', 'berhasil membuat toko')->with('auth', base64_encode($user->uid));
-        } else {
-            return redirect("/toko/profil")->with('success', 'Profil toko berhasil diperbarui')->with('auth', base64_encode($user->uid));
-        }
+        return response()->json([
+            "status" => "success",
+            "message" => $request->filled('is_seller') ? "Berhasil membuat toko" : "Profil toko berhasil diperbarui",
+        ]);
     }
 }

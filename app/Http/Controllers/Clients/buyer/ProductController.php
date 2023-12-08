@@ -66,7 +66,7 @@ class ProductController extends Controller
                     $query->where('status', 'done');
                 });
             }], 'quantity')
-            ->orderBy('id',  !$request->filled('orderBy') || ($request->filled('orderBy') && $request->orderBy == 'desc')|| ($request->filled('special') && $request->special == 'newest') ? 'desc' : 'asc')
+            ->orderBy('id',  !$request->filled('orderBy') || ($request->filled('orderBy') && $request->orderBy == 'desc') || ($request->filled('special') && $request->special == 'newest') ? 'desc' : 'asc')
             ->orderBy('reviews_avg_rating', $request->filled('rating') && $request->rating == 'asc' ? 'asc' : 'desc')
             ->orderBy('price', !$request->filled('price') || ($request->filled('price') && $request->price == 'desc') || ($request->filled('special') && $request->special == 'special')  ? 'desc' : 'asc')
             ->paginate(15);
@@ -248,14 +248,17 @@ class ProductController extends Controller
                 ->whereHas('order_items', function ($q) use ($product) {
                     $q->where('product_id', $product->id)->select(['id', 'product_id']);
                 })
-                ->with('order_items')->first();
+                ->with('order_items')->latest()->first();
             if ($review_user) {
                 $product->review_user = 1;
                 $rev = Review::where('product_id', $product->id)->where('user_id', Auth::guard('web')->user()->id)->first();
-                if (!$rev)
+                if (!$rev) {
+                    $product->order_id = $review_user->id ?? 0;
                     $product->order_user = 1;
-                else
+                } else {
+                    $product->order_id = 0;
                     $product->order_user = 0;
+                }
             } else {
                 $product->review_user = 0;
                 $product->order_user = 0;
@@ -296,7 +299,10 @@ class ProductController extends Controller
         }
         $review->images = $images;
         $review->save();
-        return redirect("/produk-" . $request->product_slug)->with('success', 'Berhasil menambahkan Ulasan')->with('auth', base64_encode($user->uid));
+        return response()->json([
+            "status" => "success",
+            "message" => "Berhasil menambahkan Ulasan"
+        ]);
     }
 
     private function bestSellerProducts()
