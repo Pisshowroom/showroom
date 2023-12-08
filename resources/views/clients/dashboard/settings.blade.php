@@ -112,14 +112,14 @@
                                                         class="d-flex align-items-center w-100 gap-2 justify-content-between">
                                                         <div class="d-flex flex-column">
                                                             <div class="d-flex align-items-center gap-2">
-                                                                @if ($address->main == 1 && $address->for_seller != 1)
+                                                                @if ($address->main)
                                                                     <i class="icon material-icons md-home"
                                                                         style="color: #E9A92E"></i>
                                                                 @else
                                                                     <i class="icon material-icons md-home"></i>
                                                                 @endif
-                                                                <h4>{{ $address->person_name ?? '' }}</h4>
-                                                                @if ($address->main == 1 && $address->for_seller != 1)
+                                                                <h4>{{ $address->main }}{{ $address->person_name ?? '' }}</h4>
+                                                                @if ($address->main)
                                                                     <button class="btn btn-xs"
                                                                         style="background-color: #E9A92E !important;border-radius:5px !important">Utama</button>
                                                                 @endif
@@ -214,7 +214,7 @@
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="address_address">Alamat</label>
-                                                        <input type="text" id="address-input" name="address_address"
+                                                        <input type="text" id="address-input" name="address_address" id="address_address"
                                                             required class="form-control map-input">
                                                         <input type="hidden" name="lat" id="address-latitude"
                                                             value="0" />
@@ -564,7 +564,6 @@
             var id = $('.id').val();
             var address_description = $('#address_description').val();
             var main = $('#main').prop('checked');
-
             var dataToSend = {
                 phone_number: phone_number,
                 id: id,

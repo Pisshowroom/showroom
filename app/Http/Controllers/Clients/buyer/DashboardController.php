@@ -183,26 +183,19 @@ class DashboardController extends Controller
             $address->address_description = $request->address_description;
         $address->lat = $request->lat;
         $address->long = $request->long;
+        if (isset($request->main))
+            $main =  filter_var($request->main, FILTER_VALIDATE_BOOLEAN);
+        else
+            $main = null;
         if ($user->address()->count() < 1) {
             $address->main = true;
-        } else if (isset($request->main) && $request->main == true) {
-            $user->address()->where('main', true)->update(['main' => false]);
+        } elseif ($main == true) {
+            if ($request->id)
+                $user->address()->where('main', true)->where('id', '!=', $address->id)->where('for_seller', false)->update(['main' => false]);
             $address->main = true;
-        } else if (isset($request->main) && $request->main == false) {
+        } elseif ($main == false) {
             $address->main = false;
         }
-        // $address->ro_province_id = 6;
-        // $address->ro_city_id = 16;
-        // $address->ro_subdistrict_id = 18;
-        // $address->city = RoCity::where('id', 16)->pluck('city_name');
-        // $address->district = RoSubdistrict::where('id', 18)->pluck('subdistrict_name');
-        // $address->place_name = 'Rumah';
-        // $address->person_name = 'Uri';
-        // $address->phone_number =  (int) '085212739231';
-        // $address->address_description = 'ABCD nomor B17';
-        // $address->lat = -0.06640807407910417;
-        // $address->long = 109.38475276537;
-        // $address->main = 1;
         $address->user_id = $user->id;
         $address->save();
         return response()->json([
