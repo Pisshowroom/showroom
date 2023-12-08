@@ -143,9 +143,9 @@ class OrderDataController extends Controller
 
 
         $pdf = Pdf::loadView('receipt_image', ['order' => $order->load(['address', 'seller', 'order_items.product', 'user.address'])]);
-        $link_label = $pdf->save(public_path("/receipt_images/$order->delivery_receipt_number.pdf"));
-        if (gettype($link_label) == 'string')
-            $order->link_label =  $link_label;
+        $link_label = public_path("/receipt_images/$order->delivery_receipt_number.pdf");
+        $pdf->save($link_label);
+        $order->link_label =  $link_label;
         $order->save();
 
         // receipt image
