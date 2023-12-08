@@ -236,6 +236,7 @@ class OrderDataController extends Controller
 
         $refundTotal = 0;
         if ($request->returning_product_type == 'ReturnProdukDanUang') {
+            // TODOS add checker status suits for this and 2 others
             $request->validate([
                 'returning_reason' => 'required',
                 'returning_description' => 'required',
@@ -248,9 +249,8 @@ class OrderDataController extends Controller
             $images = [];
             $order->status = Order::REQUESTED_RETURN;
 
-
-            if (!empty($request->images)) {
-                foreach ($request->images as $img) {
+            if (!empty($request->returning_images)) {
+                foreach ($request->returning_images as $img) {
                     if (isset($img) && is_uploaded_file($img)) {
                         $images[] = uploadFoto($img, 'uploads/photos_refund_complain');
                     }
@@ -268,6 +268,9 @@ class OrderDataController extends Controller
                 $orderItem = OrderItem::find($order_item['id'] ?? null);
                 if (!$orderItem) {
                     return ResponseAPI('Item pesanan tidak ditemukan', 400);
+                }
+                if ($order_item['return_quantity'] > $orderItem->quantity) {
+                    return ResponseAPI('Jumlah item pesanan yang dikembalikan melebihi jumlah item yang dipesan', 400);
                 }
                 $orderItem->return_quantity = $order_item['return_quantity'];
                 $returningItemTotal = $orderItem->price * ($order_item['return_quantity'] ?? 1);
@@ -299,7 +302,7 @@ class OrderDataController extends Controller
             }
             $refundTotal = $order->subtotal;
         } else if ($request->returning_product_type == 'Komplain') {
-            // * TODOS: belum
+            // TODOS: belum
             $request->validate([
                 'returning_reason' => 'required',
             ]);

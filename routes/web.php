@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/geta', function () {
+    abort(500, "Bad Request");
     // return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
     /*  $orders = Order::whereNull('seller_id')->get();
     // 2
