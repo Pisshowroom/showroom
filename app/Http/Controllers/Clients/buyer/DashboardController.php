@@ -78,7 +78,7 @@ class DashboardController extends Controller
         // }
         $user['addresses'] = Address::where('user_id', Auth::guard('web')->user()->id)->whereNull('deleted_at')
             ->select([
-                'id', 'user_id', 'place_name', 'person_name', 'phone_number', 'main',
+                'id', 'user_id', 'place_name', 'person_name', 'phone_number', 'main', 'for_seller',
                 'ro_province_id', 'district', 'city', 'address_description'
             ])
             ->with('ro_province:id,province_name')->orderByDesc('main')
@@ -132,8 +132,10 @@ class DashboardController extends Controller
         }
 
         $user->save();
-
-        return redirect("/pembeli/pengaturan")->with('success', 'Profil berhasil diperbarui')->with('auth', base64_encode($user->uid));
+        return response()->json([
+            "status" => "success",
+            "message" => "Profil berhasil diperbarui",
+        ]);
     }
 
     public function updateAddress(Request $request)
@@ -181,11 +183,13 @@ class DashboardController extends Controller
             $address->address_description = $request->address_description;
         $address->lat = $request->lat;
         $address->long = $request->long;
-        if ($user->addresses->count() < 1) {
-            $address->main = 1;
-        } else if (isset($request->main) && $request->main == 'on') {
-            $user->addresses()->where('main', true)->update(['main' => false]);
+        if ($user->address()->count() < 1) {
             $address->main = true;
+        } else if (isset($request->main) && $request->main == true) {
+            $user->address()->where('main', true)->update(['main' => false]);
+            $address->main = true;
+        } else if (isset($request->main) && $request->main == false) {
+            $address->main = false;
         }
         // $address->ro_province_id = 6;
         // $address->ro_city_id = 16;
@@ -201,7 +205,11 @@ class DashboardController extends Controller
         // $address->main = 1;
         $address->user_id = $user->id;
         $address->save();
-        return redirect("/pembeli/pengaturan?param=alamat")->with('success', 'Alamat berhasil diperbarui')->with('auth', base64_encode($user->uid));
+        return response()->json([
+            "status" => "success",
+            "message" => "Alamat berhasil diperbarui",
+            "redirect" => route('dashboard.settings') . '?param=alamat&auth=' . base64_encode($user->uid)
+        ], 200, [], JSON_UNESCAPED_SLASHES);
     }
     public function deleteAddress($id)
     {

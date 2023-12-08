@@ -8,7 +8,7 @@
             action="{{ route('dashboard.requestRefund') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
             method="POST">
             @csrf
-            <input type="hidden" name="id" value="{{ $order->id }}">
+            <input type="hidden" name="id" class="id" value="{{ $order->id }}">
             <div class="col-12">
                 <div class="content-header">
                     @if (request()->get('status') && request()->get('status') == 'refund')
