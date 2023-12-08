@@ -696,7 +696,7 @@
         .preview-item img {
             width: 100px;
             height: 100px;
-            object-fit: cover;
+            object-fit: contain;
             border: 1px solid #ccc;
         }
 

@@ -88,9 +88,17 @@
                                                 <a class="btn btn-xs-success"
                                                     href="{{ route('dashboard.payment', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Cara
                                                     Bayar</a>
+                                            @elseif ($order->status == 'Shipped')
+                                                <a class="btn btn-xs-danger"
+                                                    href="{{ route('dashboard.detailOrderForComplain', ['identifier' => $order->payment_identifier ?? '1234', 'status' => 'complaint']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Komplain</a>
+                                            @elseif ($order->status == 'Delivered' || $order->status == 'Completed')
+                                                <a class="btn btn-xs-danger"
+                                                    href="{{ route('dashboard.detailOrderForComplain', ['identifier' => $order->payment_identifier ?? '1234', 'status' => 'refund']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Ajukan Pengembalian</a>
                                             @elseif ($order->status == 'Pending' && $order->expired == true)
                                                 <a class="btn btn-xs-danger"
-                                                    href="{{ route('deleteOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.myOrder']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Batalkan</a>
+                                                    href="{{ route('deleteOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.myOrder']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Hapus</a>
                                                 {{-- <a class="btn btn-xs-danger"
                                                     href="{{ route('cancelOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.detailOrder']) }}">Batalkan</a> --}}
                                             @endif

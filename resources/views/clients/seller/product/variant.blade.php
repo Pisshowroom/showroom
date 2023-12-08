@@ -71,20 +71,30 @@
                                             <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp
                                                 50.000</p>
                                         </div>
-                                        <div class="mb-4 variant">
-                                            <label class="form-label" for="imageInput_{{ $variant->id }}">Gambar*</label>
-
-                                            <div class="input-upload">
-                                                <label for="imageInput_{{ $variant->id }}">
-                                                    <img src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
-                                                        alt="Upload Icon">
-                                                </label>
-                                                <input id="imageInput_{{ $variant->id }}" class="form-control"
-                                                    {{ $variant->images == null ? 'required' : '' }} accept="image/*"
-                                                    type="file" name="variants[{{ $k }}][images]">
-                                            </div>
-
-                                        </div>
+                                        <aside class="mb-4 variant">
+                                            <label for="imageInput_{{ $variant->id }}" class="form-label">Gambar*</label>
+                                            <figure>
+                                                @if ($variant && $variant->images && is_array($variant->images) && count($variant->images) > 0)
+                                                    <img class="img-lg mb-3 img-avatar previewImage"
+                                                        src="{{ $variant != null && $variant->images != null ? $variant->images[0] ?? asset('ecom_dashboard/imgs/theme/upload.svg') : asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                                                        alt="{{ $variant->name ?? 'produk varian' }}">
+                                                @elseif ($variant && $variant->images && is_string($variant->images) && $variant->images != null)
+                                                    <img class="img-lg mb-3 img-avatar previewImage"
+                                                        src="{{ $variant != null && $variant->images != null ? $variant->images ?? asset('ecom_dashboard/imgs/theme/upload.svg') : asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                                                        alt="{{ $variant->name ?? 'produk varian' }}">
+                                                @else
+                                                    <img class="img-lg mb-3 img-avatar previewImage"
+                                                        src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                                                        alt="produk varian">
+                                                @endif
+                                                <figcaption>
+                                                    <input id="imageInput_{{ $variant->id }}"
+                                                        class="form-control imageInput"
+                                                        {{ $variant->images == null ? 'required' : '' }} accept="image/*"
+                                                        type="file" name="variants[{{ $k }}][images]">
+                                                </figcaption>
+                                            </figure>
+                                        </aside>
                                         <button type="button" class="removeVariantBtn btn btn-xs-danger mb-4">Hapus
                                             Variasi</button>
                                     @endforeach
@@ -127,19 +137,18 @@
                                         <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp
                                             50.000</p>
                                     </div>
-                                    <div class="mb-4 variant">
+                                    <aside class="mb-4 variant">
                                         <label class="form-label">Gambar*</label>
-
-                                        <div class="input-upload">
-                                            <label>
-                                                <img src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
-                                                    alt="Upload Icon">
-                                            </label>
-                                            <input class="form-control" required accept="image/*" type="file"
-                                                name="variants[][images]">
-                                        </div>
-
-                                    </div>
+                                        <figure>
+                                            <img class="img-lg mb-3 img-avatar previewImage"
+                                                src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                                                alt="produk varian">
+                                            <figcaption>
+                                                <input class="form-control imageInput" required accept="image/*"
+                                                    type="file" name="variants[0][images]">
+                                            </figcaption>
+                                        </figure>
+                                    </aside>
 
                                     <button type="button" class="removeVariantBtn btn btn-xs-danger mb-4">Hapus
                                         Variasi</button>
@@ -202,7 +211,7 @@
         .preview-item img {
             width: 100px;
             height: 100px;
-            object-fit: cover;
+            object-fit: contain;
             border: 1px solid #ccc;
         }
 
@@ -249,31 +258,35 @@
 
             <div class="mb-4 variant">
                 <label class="form-label">Jumlah Stok*</label>
-                <input class="form-control" name="variants[${k}][stock]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
+                <input class="form-control stock" name="variants[${k}][stock]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
             </div>
 
             <div class="mb-4 variant">
                 <label class="form-label">Berat barang* (gram)</label>
-                <input class="form-control" name="variants[${k}][weight]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="text" pattern="[0-9]+([,.][0-9]+)?">
+                <input class="form-control weight" name="variants[${k}][weight]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="text" pattern="[0-9]+([,.][0-9]+)?">
             </div>
 
             <div class="mb-4 variant">
                 <label class="form-label">Harga*</label>
                 <div class="row gx-2"></div>
-                <input class="form-control" name="variants[${k}][price]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
+                <input class="form-control price" name="variants[${k}][price]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                 <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp 50.000</p>
             </div>
 
 
-            <div class="mb-4 variant">
+            <aside class="mb-4 variant">
                 <label class="form-label">Gambar*</label>
-                <div class="input-upload">
-                    <label>
-                        <img src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}" alt="Upload Icon">
-                    </label>
-                    <input class="form-control" required accept="image/*" type="file" name="variants[${k}][images]">
-                </div>
-            </div>
+                <figure>
+                    <img class="img-lg mb-3 img-avatar previewImage"
+                        src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                        alt="produk varian">
+                    <figcaption>
+                        <input class="form-control imageInput" required accept="image/*"
+                            type="file" name="variants[${k}][images]">
+                    </figcaption>
+                </figure>
+            </aside>
+
             <button type="button" class="removeVariantBtn btn btn-xs-danger mb-4">Hapus Variasi</button>`;
 
                 variantsSection.append(variantHtml);
@@ -281,38 +294,10 @@
 
             // Dynamically remove variants
             variantsSection.on('click', '.removeVariantBtn', function() {
-                $(this).parent().remove();
+                $(this).closest('.variant').remove();
             });
 
-            $(document).on('click', '.remove-btn', function() {
-                var removedIndex = $(this).parent().index();
-                $(this).parent().remove();
-                // Remove the corresponding array item
-                if (removedIndex !== -1) {
-                    // Assuming you have an array called imageArray
-                    imageArray.splice(removedIndex, 1);
-                }
-            });
-            //province
 
-
-            function displayImagePreview(file) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    var previewItem = $(
-                        '<div class="preview-item"><img src="' + e.target.result +
-                        '" alt="Image Preview">' +
-                        '<button class="remove-btn" style="background:white !important;" type="button"><i class="icon material-icons md-delete text-danger"></i></button></div>'
-                    );
-
-                    $('#imagePreviewContainer').append(previewItem);
-                    // Assuming you have an array called imageArray
-                    imageArray.push(file);
-                };
-
-                reader.readAsDataURL(file);
-            }
 
 
 
@@ -322,32 +307,53 @@
                 $('.max-name').text('Maksimal panjang nama ' + currentLength + '/70');
             });
 
-            $('input.weight').each(function() {
-                $(this).on('keyup', function() {
-                    // Apply any formatting logic here
-                    $(this).val(formatRupiah(this.value));
-                });
-            })
-            $('input.stock').each(function() {
-                $(this).on('keyup', function() {
-                    // Apply any formatting logic here
-                    $(this).val(formatRupiah(this.value));
-                });
-            })
-            $('input.price').each(function() {
-                $(this).on('keyup', function() {
-                    $(this).val(formatRupiah(this.value, 'Rp '));
+            // $('form').on('submit', function() {
+            //     // Check if at least one image has been uploaded
+            //     if ($('#imageInput')[0].files.length === 0) {
+            //         if (
+            //             "{{ $product && $product != null && $product->images && count($product->images) < 1 }}"
+            //         ) {
+            //             alert('Please upload at least one image.');
+            //             return false; // Prevent form submission
+            //         }
+            //     }
+            // });
+            $('#variantsSection').on('change', 'input.imageInput', function() {
+                var file = this.files[0];
+                var reader = new FileReader();
 
-                    // Check if the entered price is less than 50,000
-                    if (parseFloat(this.value.replace(/[^\d]/g, '')) < 50000) {
-                        $('.textCancel').addClass('d-block').removeClass('d-none');
-                    } else {
-                        $('.textCancel').addClass('d-none').removeClass('d-block');
-                    }
-                });
-            })
+                var previewImage = $(this).closest('.variant').find('.previewImage');
+
+                reader.onload = function(event) {
+                    previewImage.attr('src', event.target.result);
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $('#variantsSection').on('input', 'input.price', function() {
+
+                $(this).val(formatRupiah(this.value, 'Rp '));
+
+                // Check if the entered price is less than 50,000
+                if (parseFloat(this.value.replace(/[^\d]/g, '')) < 50000) {
+                    $('.textCancel').addClass('d-block').removeClass('d-none');
+                } else {
+                    $('.textCancel').addClass('d-none').removeClass('d-block');
+                }
+            });
+            $('#variantsSection').on('input', 'input.stock', function() {
+                $(this).val(formatRupiah(this.value));
+            });
+            $('#variantsSection').on('input', 'input.weight', function() {
+                $(this).val(formatRupiah(this.value));
+            });
+
 
             function formatRupiah(angka, prefix) {
+
                 var number_string = angka.replace(/[^,\d]/g, '').toString(),
                     split = number_string.split(','),
                     sisa = split[0].length % 3,
@@ -362,18 +368,6 @@
                 rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
                 return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
             }
-            // $('form').on('submit', function() {
-            //     // Check if at least one image has been uploaded
-            //     if ($('#imageInput')[0].files.length === 0) {
-            //         if (
-            //             "{{ $product && $product != null && $product->images && count($product->images) < 1 }}"
-            //         ) {
-            //             alert('Please upload at least one image.');
-            //             return false; // Prevent form submission
-            //         }
-            //     }
-            // });
-
 
         });
 
