@@ -699,7 +699,7 @@ class OrderController extends Controller
     }
 
 
-    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices ,$earlierMode = false)
+    private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false)
     {
         $curl = curl_init();
 
@@ -744,6 +744,9 @@ class OrderController extends Controller
             }
 
             $rajaOngkirResponse = json_decode($res);
+            if (!$rajaOngkirResponse)
+                throw new Exception("Jasa kirim tidak tersedia.", 404);
+
             $shippingCost = $rajaOngkirResponse->rajaongkir;
 
             // $data['origin_details'] = $shippingCost->origin_details;
