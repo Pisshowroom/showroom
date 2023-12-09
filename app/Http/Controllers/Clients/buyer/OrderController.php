@@ -746,6 +746,8 @@ class OrderController extends Controller
             $rajaOngkirResponse = json_decode($res);
             if (!$rajaOngkirResponse)
                 throw new Exception("Jasa kirim tidak tersedia.", 404);
+            elseif ($rajaOngkirResponse && !$rajaOngkirResponse->rajaongkir)
+                throw new Exception("Jasa kirim tidak tersedia.", 404);
 
             $shippingCost = $rajaOngkirResponse->rajaongkir;
 
