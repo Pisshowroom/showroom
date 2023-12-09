@@ -31,9 +31,14 @@ class ProductController extends Controller
     {
         $data['categories'] = Category::whereNull('deleted_at')->get();
         $data['sub_category'] = '';
-        $address = $this->addressSeller();
+        $user = Auth::guard('web')->user();
 
-
+        $user->load('address_seller');
+        if ($user->address_seller == null) {
+            return redirect("/toko/semua-produk")->with('error', 'Penjual wajib mengisi data alamat toko terlebih dahulu')->with('auth', base64_encode($user->uid));
+        } else if ($user->is_seller_active != true || $user->is_seller_active != 1) {
+            return redirect("/toko/profil")->with('error', 'Penjual wajib mengaktifkan status Toko')->with('auth', base64_encode($user->uid));
+        }
         return view('clients.seller.product.add', ['product' => null, 'data' => $data]);
     }
     public function editProduct(Request $request)
@@ -43,8 +48,15 @@ class ProductController extends Controller
         $data['categories'] = Category::whereNull('deleted_at')->get();
         $product = Product::where('id', $request->id)->firstOrFail();
         if (!$product)
-            return redirect("/toko/semua-produk")->with('danger', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
-        $address = $this->addressSeller();
+            return redirect("/toko/semua-produk")->with('error', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
+        $user = Auth::guard('web')->user();
+
+        $user->load('address_seller');
+        if ($user->address_seller == null) {
+            return redirect("/toko/semua-produk")->with('error', 'Penjual wajib mengisi data alamat toko terlebih dahulu')->with('auth', base64_encode($user->uid));
+        } else if ($user->is_seller_active != true || $user->is_seller_active != 1) {
+            return redirect("/toko/profil")->with('error', 'Penjual wajib mengaktifkan status Toko')->with('auth', base64_encode($user->uid));
+        }
         if ($product->category_id != null) {
             $data['sub_category'] = SubCategory::where('category_id', $product->category_id)->select('id', 'name', 'category_id')->get();
         } else {
@@ -60,8 +72,15 @@ class ProductController extends Controller
         $data['categories'] = Category::whereNull('deleted_at')->get();
         $product = Product::where('id', $request->id)->with('variants')->select('id', 'name')->withCount('variants')->firstOrFail();
         if (!$product)
-            return redirect("/toko/semua-produk")->with('danger', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
-        $address = $this->addressSeller();
+            return redirect("/toko/semua-produk")->with('error', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
+        $user = Auth::guard('web')->user();
+
+        $user->load('address_seller');
+        if ($user->address_seller == null) {
+            return redirect("/toko/semua-produk")->with('error', 'Penjual wajib mengisi data alamat toko terlebih dahulu')->with('auth', base64_encode($user->uid));
+        } else if ($user->is_seller_active != true || $user->is_seller_active != 1) {
+            return redirect("/toko/profil")->with('error', 'Penjual wajib mengaktifkan status Toko')->with('auth', base64_encode($user->uid));
+        }
         if ($product->category_id != null) {
             $data['sub_category'] = SubCategory::where('category_id', $product->category_id)->select('id', 'name', 'category_id')->get();
         } else {
@@ -72,7 +91,6 @@ class ProductController extends Controller
     public function addUpdateProduct(Request $request)
     {
         $user = Auth::guard('web')->user();
-
         $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required',
@@ -95,7 +113,7 @@ class ProductController extends Controller
             $user->load('address_seller');
 
             if ($user->address_seller == null) {
-                return redirect("/toko/semua-produk")->with('danger', 'Penjual wajib mengisi data alamat toko terlebih dahulu')->with('auth', base64_encode($user->uid));
+                return ResponseAPI('Penjual wajib mengisi alamat toko terlebih dahulu', 404);
             }
             $product = new Product();
             $isCreate = true;
@@ -122,17 +140,17 @@ class ProductController extends Controller
         if ($request->filled('weight'))
             $product->weight = (int) preg_replace("/[^0-9]/", "", $request->weight);
         if ($product->weight == 0) {
-            return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,berat tidak sesuai.')->with('auth', base64_encode($user->uid));
+            return ResponseAPI('Gagal menginput,berat tidak sesuai.', 404);
         }
         if ($request->filled('price'))
             $product->price = (int) preg_replace("/[^0-9]/", "", $request->price);
         if ($product->price == 0) {
-            return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,harga tidak sesuai.')->with('auth', base64_encode($user->uid));
+            return ResponseAPI('Gagal menginput,harga tidak sesuai.', 404);
         }
         if ($request->filled('stock'))
             $product->stock = (int) preg_replace("/[^0-9]/", "", $request->stock);
         if ($product->stock == 0) {
-            return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,stok minimal 1.')->with('auth', base64_encode($user->uid));
+            return ResponseAPI('Gagal menginput,stok minimal 1.', 404);
         }
         if ($request->filled('unit'))
             $product->unit = $request->unit;
@@ -142,12 +160,11 @@ class ProductController extends Controller
             $product->discount = $request->discount;
         $product->seller_id = $user->id;
         $product->save();
-
-        if ($isCreate) {
-            return redirect("/toko/semua-produk")->with('success', 'Produk berhasil disimpan.')->with('auth', base64_encode($user->uid));
-        } else {
-            return redirect("/toko/semua-produk")->with('success', 'Produk berhasil diperbarui.')->with('auth', base64_encode($user->uid));
-        }
+        return response()->json([
+            "status" => "success",
+            "message" => $isCreate ? "Produk berhasil disimpan." : "Produk berhasil diperbarui.",
+            "redirect" => route('dashboardSeller.allProduct') . '?auth=' . base64_encode($user->uid)
+        ], 200, [], JSON_UNESCAPED_SLASHES);
     }
 
     public function addUpdateProductVariant(Request $request)
@@ -168,9 +185,7 @@ class ProductController extends Controller
             $user->load('address_seller');
 
             if ($user->address_seller == null) {
-                return redirect("/toko/semua-produk")
-                    ->with('danger', 'Penjual wajib mengisi data alamat toko terlebih dahulu')
-                    ->with('auth', base64_encode($user->uid));
+                return ResponseAPI('Penjual wajib mengisi alamat toko terlebih dahulu', 404);
             }
 
             $productParent = new Product();
@@ -198,15 +213,15 @@ class ProductController extends Controller
                     $theVariant->images = $image ?? null;
                     $theVariant->weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
                     if ($theVariant->weight == 0) {
-                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,berat tidak sesuai.')->with('auth', base64_encode($user->uid));
+                        return ResponseAPI('Gagal menginput,berat tidak sesuai.', 404);
                     }
                     $theVariant->price = (int) preg_replace("/[^0-9]/", "", $variant['price']);
                     if ($theVariant->price == 0) {
-                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,harga tidak sesuai.')->with('auth', base64_encode($user->uid));
+                        return ResponseAPI('Gagal menginput,harga tidak sesuai.', 404);
                     }
                     $theVariant->stock = (int) preg_replace("/[^0-9]/", "", $variant['stock']);
                     if ($theVariant->stock == 0) {
-                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,stok minimal 1.')->with('auth', base64_encode($user->uid));
+                        return ResponseAPI('Gagal menginput,stok minimal 1.', 404);
                     }
 
                     $theVariant->discount = null;
@@ -221,15 +236,15 @@ class ProductController extends Controller
                     $image = $images ?? null;
                     $weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
                     if ($weight == 0) {
-                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,berat tidak sesuai.')->with('auth', base64_encode($user->uid));
+                        return ResponseAPI('Gagal menginput,berat tidak sesuai.', 404);
                     }
                     $price = (int) preg_replace("/[^0-9]/", "", $variant['price']);
                     if ($price == 0) {
-                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,harga tidak sesuai.')->with('auth', base64_encode($user->uid));
+                        return ResponseAPI('Gagal menginput,harga tidak sesuai.', 404);
                     }
                     $stock = (int) preg_replace("/[^0-9]/", "", $variant['stock']);
                     if ($stock == 0) {
-                        return redirect("/toko/semua-produk")->with('danger', 'Gagal menginput,stok minimal 1.')->with('auth', base64_encode($user->uid));
+                        return ResponseAPI('Gagal menginput,stok minimal 1.', 404);
                     }
 
                     $theVariant->update([
@@ -251,17 +266,17 @@ class ProductController extends Controller
 
             DB::commit();
 
-            $message = $isCreate ? 'Berhasil menambah varian produk.' : 'Berhasil mengubah varian produk.';
-            $redirectPath = "/toko/semua-produk";
-            $withData = ['success' => $message, 'auth' => base64_encode($user->uid)];
+            return response()->json([
+                "status" => "success",
+                "message" => $isCreate ? "Berhasil menambah varian produk." : "Berhasil mengubah varian produk.",
+                "redirect" => route('dashboardSeller.allProduct') . '?auth=' . base64_encode($user->uid)
+            ], 200, [], JSON_UNESCAPED_SLASHES);
         } catch (\Exception $e) {
+
             DB::rollback();
             $message = 'Gagal melakukan operasi. ' . $e->getMessage();
-            $redirectPath = back()->getTargetUrl(); // Redirect back to the previous page
-            $withData = ['error' => $message];
+            return ResponseAPI($message);
         }
-
-        return redirect($redirectPath)->with($withData);
     }
 
 
@@ -271,16 +286,5 @@ class ProductController extends Controller
         $ad = Product::where('id', $id)->firstOrFail();
         $ad->delete();
         return redirect()->route('dashboardSeller.allProduct')->with('success', 'Produk berhasil dihapus')->with('auth', base64_encode($user->uid));
-    }
-    private function addressSeller()
-    {
-        $user = Auth::guard('web')->user();
-
-        $user->load('address_seller');
-
-        if ($user->address_seller == null) {
-            return redirect("/toko/semua-produk")->with('danger', 'Penjual wajib mengisi data alamat toko terlebih dahulu')->with('auth', base64_encode($user->uid));
-        }
-        return $user;
     }
 }

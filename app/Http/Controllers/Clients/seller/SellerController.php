@@ -219,7 +219,7 @@ class SellerController extends Controller
         $user->seller_delivery_service = "jne:jnt:sicepat:anteraja";
 
         if ($request->hasFile('seller_image')) {
-            $user->seller_image = uploadFoto($request->seller_image, 'uploads/seller/');
+            $user->seller_image = uploadFoto($request->seller_image, 'uploads/sellers/');
         }
         if (isset($request->is_seller_active))
             $is_seller_active =  filter_var($request->is_seller_active, FILTER_VALIDATE_BOOLEAN);

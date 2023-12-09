@@ -357,8 +357,8 @@
                         <li><a href="#tab-reviews" data-bs-toggle="tab" role="tab" aria-controls="tab-reviews"
                                 aria-selected="true">Ulasan ({{ $data['reviews']->total() ?? 0 }})</a></li>
                         @if ($product->review_user == 1 && $product->order_user == 1)
-                            <li><a href="#tab-create-reviews" data-bs-toggle="tab" role="tab"
-                                    aria-controls="tab-create-reviews" aria-selected="true">Tulis Ulasan</a></li>
+                        <li><a href="#tab-create-reviews" data-bs-toggle="tab" role="tab"
+                                aria-controls="tab-create-reviews" aria-selected="true">Tulis Ulasan</a></li>
                         @endif
                     </ul>
                     <div class="tab-content">
@@ -564,66 +564,67 @@
                             </div>
                         </div>
                         @if ($product->review_user == 1 && $product->order_user == 1)
-                            <div class="tab-pane fade" id="tab-create-reviews" role="tabpanel"
-                                aria-labelledby="tab-create-reviews">
-                                <div class="comments-area">
-                                    <div class="row">
-                                        <div class="col-lg-8">
-                                            <form class="form-comment" id="addReview" method="POST">
-                                                @csrf
-                                                <div class="row">
-                                                    @if (isset($product->order_id) && $product->order_id != 0)
-                                                        <input type="hidden" name="order_id"
-                                                            value="{{ $product->order_id }}">
-                                                    @endif
-                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                    <input type="hidden" name="product_slug"
-                                                        value="{{ $product->slug }}">
-                                                    <p class="font-lg mb-2">Rating barang ini menurut kamu*</p>
-                                                    <div class="stars">
-                                                        <input class="star star-5" id="star-5" type="radio"
-                                                            name="rating" value="5" checked />
-                                                        <label class="star star-5" for="star-5"></label>
-                                                        <input class="star star-4" id="star-4" type="radio"
-                                                            name="rating" value="4" />
-                                                        <label class="star star-4" for="star-4"></label>
-                                                        <input class="star star-3" id="star-3" type="radio"
-                                                            name="rating" value="3" />
-                                                        <label class="star star-3" for="star-3"></label>
-                                                        <input class="star star-2" id="star-2" type="radio"
-                                                            name="rating" value="2" />
-                                                        <label class="star star-2" for="star-2"></label>
-                                                        <input class="star star-1" id="star-1" type="radio"
-                                                            name="rating" value="1" />
-                                                        <label class="star star-1" for="star-1"></label>
-                                                    </div>
-                                                    <div class="col-lg-12 mt-4">
-                                                        <div class="form-group">
-                                                            <textarea class="form-control" placeholder="Tulis Ulasan*" rows="5" name="text" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12 mt-4">
-                                                        <div class="form-group">
-                                                            <label for="image" class="form-label">Gambar</label>
-                                                            <input class="form-control" type="file" id="image"
-                                                                name="image[]" accept="image/*" multiple>
-                                                        </div>
-                                                        <div class="preview-container" id="imagePreviewContainer">
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <button class="btn btn-buy w-auto" id="btn-addReview"
-                                                                type="submit">Kirim</button>
-                                                        </div>
+                        <div class="tab-pane fade" id="tab-create-reviews" role="tabpanel"
+                            aria-labelledby="tab-create-reviews">
+                            <div class="comments-area">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <form class="form-comment" id="addReview" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="row">
+                                                @if (isset($product->order_id) && $product->order_id != 0)
+                                                    <input type="hidden" name="order_id" id="order_id"
+                                                        value="{{ $product->order_id }}">
+                                                @endif
+                                                <input type="hidden" id="product_id" name="product_id"
+                                                    value="{{ $product->id }}">
+                                                <input type="hidden" id="product_slug" name="product_slug"
+                                                    value="{{ $product->slug }}">
+                                                <p class="font-lg mb-2">Rating barang ini menurut kamu*</p>
+                                                <div class="stars">
+                                                    <input class="star star-5 tngs" id="star-5" type="radio"
+                                                        name="rating" value="5" checked />
+                                                    <label class="star star-5" for="star-5"></label>
+                                                    <input class="star star-4 tngs" id="star-4" type="radio"
+                                                        name="rating" value="4" />
+                                                    <label class="star star-4" for="star-4"></label>
+                                                    <input class="star star-3 tngs" id="star-3" type="radio"
+                                                        name="rating" value="3" />
+                                                    <label class="star star-3" for="star-3"></label>
+                                                    <input class="star star-2 tngs" id="star-2" type="radio"
+                                                        name="rating" value="2" />
+                                                    <label class="star star-2" for="star-2"></label>
+                                                    <input class="star star-1 tngs" id="star-1" type="radio"
+                                                        name="rating" value="1" />
+                                                    <label class="star star-1" for="star-1"></label>
+                                                </div>
+                                                <div class="col-lg-12 mt-4">
+                                                    <div class="form-group">
+                                                        <textarea class="form-control" placeholder="Tulis Ulasan*" id="text" rows="5" name="text" required></textarea>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <div class="col-lg-12 mt-4">
+                                                    <div class="form-group">
+                                                        <label for="image" class="form-label">Gambar</label>
+                                                        <input class="form-control" type="file" id="image"
+                                                            name="image[]" accept="image/*" multiple>
+                                                    </div>
+                                                    <div class="preview-container" id="imagePreviewContainer">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <button class="btn btn-buy w-auto" id="btn-addReview"
+                                                            type="submit">Kirim</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         @endif
                         <div class="border-bottom pt-30 mb-50"></div>
                         <h4 class="color-brand-3">Produk terkait</h4>
@@ -782,6 +783,8 @@
             $(document).on('click', '.remove-btn', function() {
                 var removedIndex = $(this).parent().index();
                 $(this).parent().remove();
+                var imageArray = [];
+
                 // Remove the corresponding array item
                 if (removedIndex !== -1) {
                     // Assuming you have an array called imageArray
@@ -789,22 +792,52 @@
                 }
             });
 
+            function readAsDataURLAsync(file) {
+                return new Promise((resolve, reject) => {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        resolve(e.target.result);
+                    };
+
+                    reader.onerror = function(e) {
+                        reject(e);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+            }
+
             function displayImagePreview(file) {
-                var reader = new FileReader();
+                readAsDataURLAsync(file)
+                    .then(dataURL => {
+                        var previewItem = $(
+                            '<div class="preview-item"><img src="' + dataURL +
+                            '" alt="Image Preview">' +
+                            '<button class="remove-btn" style="background:white !important;" type="button"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button></div>'
+                        );
 
-                reader.onload = function(e) {
-                    var previewItem = $(
-                        '<div class="preview-item"><img src="' + e.target.result +
-                        '" alt="Image Preview">' +
-                        '<button class="remove-btn" style="background:white !important;" type="button"><i class="fa fa-trash text-danger" aria-hidden="true"></i></button></div>'
-                    );
+                        var imageArray = [];
 
-                    $('#imagePreviewContainer').append(previewItem);
-                    // Assuming you have an array called imageArray
-                    imageArray.push(file);
-                };
+                        $('#imagePreviewContainer').append(previewItem);
+                        // Assuming you have an array called imageArray
+                        imageArray.push(file);
 
-                reader.readAsDataURL(file);
+                        // Bind the click event handler to the remove button in the context of the button
+                        previewItem.find('.remove-btn').on('click', function() {
+                            var removedIndex = $(this).parent().index();
+                            $(this).parent().remove();
+
+                            // Remove the corresponding array item
+                            if (removedIndex !== -1) {
+                                // Assuming you have an array called imageArray
+                                imageArray.splice(removedIndex, 1);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
             }
 
             var inputValue2 = $('.input-quantity input').val();
@@ -1127,24 +1160,34 @@
 
             $('#addReview').on('submit', function(e) {
                 e.preventDefault();
-                var delivery_service = $('#delivery_service').val();
-                var delivery_receipt_number = $('#delivery_receipt_number').val();
-                var id = $('.id').val();
-                var dataToSend = {
-                    id: id,
-                    delivery_receipt_number: delivery_receipt_number,
-                    delivery_service: delivery_service,
-                };
+
+                var product_slug = $('#product_slug').val();
+                var product_id = $('#product_id').val();
+                var text = $('#text').val();
+                var rating = $('.tngs:checked').val();
+                var dataToSend = new FormData($(this)[0]); // Use FormData to handle files
+                // Append additional data to FormData
+                dataToSend.append('text', text);
+                dataToSend.append('product_id', product_id);
+                dataToSend.append('product_slug', product_slug);
+                dataToSend.append('rating', rating);
+                if ("{{ isset($product->order_id) && $product->order_id != 0 }}") {
+                    var order_id = $('#order_id').val();
+                    dataToSend.append('order_id', order_id);
+                }
+
                 $.ajaxSetup({
                     headers: {
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                            "content"
-                        ),
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                     },
                 });
+
                 $('.loading').removeClass('d-none').addClass('show-modal');
+
                 $.ajax({
                     type: "POST",
+                    processData: false, // important
+                    contentType: false, // important
                     url: "{{ route('buyer.addReview') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
                     data: dataToSend,
                     success: function(data) {
@@ -1156,14 +1199,17 @@
                         }
                     },
                     error: function(error) {
-                        messageError(error.message);
+                        if (error && error.message)
+                            messageError(error.message);
+                        else
+                            messageError('Gagal mengisi ulasan.');
                     },
                     complete: function() {
                         $('.loading').addClass('d-none').removeClass('show-modal');
                     }
                 });
-
             });
+
 
             function messageSuccess(res) {
                 $('#myDivHandleSuccess').text('');

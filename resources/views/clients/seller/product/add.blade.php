@@ -3,12 +3,10 @@
 @section('product', 'active')
 @section('dashboard')
     <section class="content-main">
-        <form class="row"
-            action="{{ route('dashboardSeller.addUpdateProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
-            method="POST" enctype="multipart/form-data">
+        <form class="row" id="addUpdateProduct" method="POST" enctype="multipart/form-data">
             @csrf
             @if ($product != null && $product->id)
-                <input type="hidden" name="id" value="{{ $product->id }}">
+                <input type="hidden" name="id" id="id" value="{{ $product->id }}">
             @endif
             <div class="col-12">
                 <div class="content-header">
@@ -32,7 +30,11 @@
                                     required placeholder="Masukkan nama produk"
                                     value="{{ $product != null ? $product->name : '' }}">
                                 <div class="text-end">
-                                    <span class="max-name">maksimal panjang nama 0/70</span>
+                                    @if ($product != null && $product->name)
+                                        maksimal panjang nama {{ strlen($product->name) ?? 0 }}/70</span>
+                                    @else
+                                        <span class="max-name">maksimal panjang nama 0/70</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="mb-4">
@@ -92,12 +94,6 @@
                                     placeholder="pcs, buah, butir, dll"
                                     value="{{ $product != null ? $product->unit : '' }}">
                             </div>
-                            {{-- <div class="mb-4">
-                            <label class="form-label" for="variant">Variasi</label>
-                            <input class="form-control" id="variant" name="variant" type="text"
-                                placeholder="Masukkan variasi produk"
-                                value="{{ $product != null ? $product->variant : '' }}">
-                        </div> --}}
                             <div class="mb-4">
                                 <label class="form-label" for="stock">Jumlah Stok*</label>
                                 <input class="form-control" id="stock" name="stock" required
@@ -123,8 +119,8 @@
                                 <div class="form-check form-switch mx-3">
                                     <input class="form-check-input cursor-pointer" type="checkbox" role="switch"
                                         {{ $product != null && $product->discount && $product->discount > 0 ? 'checked' : '' }}
-                                        id="discount">
-                                    <label class="form-check-label cursor-pointer" for="discount">Diskon</label>
+                                        id="discounts">
+                                    <label class="form-check-label cursor-pointer" for="discounts">Diskon</label>
                                 </div>
                             </div>
 
@@ -133,9 +129,9 @@
                                 <label class="form-label">Diskon</label>
                                 <div class="input-group">
                                     <input class="form-control" placeholder="Masukkan diskon dalam bentuk %"
-                                        type="numeric" min="0.1" max="100" name="discount"
+                                        type="numeric" min="0.1" max="100" name="discount" id="discount"
                                         value="{{ $product != null ? $product->discount : '' }}"
-                                        onkeypress="return event.charCode>=48&&event.charCode<=57" id="myPercent" />
+                                        onkeypress="return event.charCode>=48&&event.charCode<=57" />
                                     <div class="input-group-append">
                                         <span class="input-group-text">%</span>
                                     </div>
@@ -225,6 +221,8 @@
             $(document).on('click', '.remove-btn', function() {
                 var removedIndex = $(this).parent().index();
                 $(this).parent().remove();
+                var imageArray = [];
+
                 // Remove the corresponding array item
                 if (removedIndex !== -1) {
                     // Assuming you have an array called imageArray
@@ -268,6 +266,7 @@
                         '" alt="Image Preview">' +
                         '<button class="remove-btn" style="background:white !important;" type="button"><i class="icon material-icons md-delete text-danger"></i></button></div>'
                     );
+                    var imageArray = [];
 
                     $('#imagePreviewContainer').append(previewItem);
                     // Assuming you have an array called imageArray
@@ -279,7 +278,7 @@
 
 
 
-            $('#discount').change(function() {
+            $('#discounts').change(function() {
                 if (this.checked) {
                     $('#discountInput').show(); // Tampilkan input diskon jika switch checked
                 } else {
@@ -292,30 +291,6 @@
 
                 $('.max-name').text('Maksimal panjang nama ' + currentLength + '/70');
             });
-            // $('#addVariantBtn').on('click', function() {
-            //     // Clone the last variant container
-            //     var clone = $('.all:last').clone(true);
-
-            //     // Generate a unique identifier (timestamp in milliseconds)
-            //     var uniqueId = new Date().getTime();
-
-            //     // Update IDs and names for the cloned elements
-            //     clone.find('.variant-input').val(''); // Clear the value for the new input
-            //     clone.find('.max-name').text('maksimal panjang nama 0/70'); // Reset character count
-            //     clone.find('.variant-input').attr('id', 'variant_' + uniqueId);
-            //     clone.find('.variant-input').attr('name', 'variant_' + uniqueId + '[]');
-            //     clone.find('.max-name').attr('id', 'max-name_' + uniqueId);
-
-            //     // Insert the cloned variant container
-            //     $('.all:last').after(clone);
-            // });
-
-            // // Update character count for each variant input
-            // $(document).on('input', '.variant-input', function() {
-            //     var currentLength = $(this).val().length;
-            //     var uniqueId = $(this).attr('id').split('_')[1]; // Extract the unique identifier
-            //     $('#max-name_' + uniqueId).text('Maksimal panjang nama ' + currentLength + '/70');
-            // });
             var tanpa_rupiah = $('#price');
 
             // Set the initial value if product->price is available
@@ -324,6 +299,12 @@
             stock.on('keyup', function() {
                 // Apply any formatting logic here
                 stock.val(formatRupiah(this.value));
+            });
+            var weight = $('#weight');
+
+            weight.on('keyup', function() {
+                // Apply any formatting logic here
+                weight.val(formatRupiah(this.value));
             });
 
             tanpa_rupiah.on('keyup', function() {
@@ -353,66 +334,86 @@
                 rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
                 return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
             }
-            $('form').on('submit', function() {
-                // Check if at least one image has been uploaded
-                if ($('#imageInput')[0].files.length === 0) {
-                    if (
-                        "{{ $product && $product != null && $product->images && count($product->images) < 1 }}"
-                    ) {
-                        alert('Please upload at least one image.');
-                        return false; // Prevent form submission
-                    }
-                }
-            });
-
 
         });
 
-        function convertToDecimal(inputElement) {
-            var inputValue = inputElement.value.trim();
+        $('#addUpdateProduct').on('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData($(this)[0]);
 
-            // Remove any percentage sign (%) if present
-            if (inputValue.endsWith("%")) {
-                inputValue = inputValue.slice(0, -1);
+            // Append other data to FormData object
+            formData.append('name', $('#name').val());
+            formData.append('category_id', $('#category_id').val());
+            formData.append('sub_category_id', $('#sub_category_id').val());
+            formData.append('description', $('#description').val());
+            formData.append('unit', $('#unit').val());
+            formData.append('stock', $('#stock').val());
+            formData.append('price', $('#price').val());
+            formData.append('weight', $('#weight').val());
+
+            if ("{{ $product != null && $product->id }}") {
+                formData.append('id', $('#id').val());
             }
 
-            // Convert the input to a decimal (e.g., 50% to 0.5)
-            var decimalValue = parseFloat(inputValue) / 100;
-
-            if (!isNaN(decimalValue) && decimalValue >= 0 && decimalValue <= 1) {
-                // Update the input field with the decimal value
-                var data = decimalValue * 100 + "%";
-                inputElement.value = data.replace(/[^0-9]/g, '').substring(0, 3);
-                // inputElement.value.replace(/[^0-9]/g, '').substring(0, 3);
-            } else {
-                // Handle invalid input, e.g., display an error message
+            if ($('#discounts').is(":checked") && $('#discountInput').is(":visible")) {
+                formData.append('discount', $('#discount').val());
             }
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+            $('.loading').removeClass('d-none').addClass('show-modal');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('dashboardSeller.addUpdateProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}",
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function(data) {
+                    if (data.status == "success") {
+                        messageSuccess(data.message);
+                        window.location.replace(data.redirect);
+                    } else {
+                        messageError(data.message);
+                    }
+                },
+                error: function(error) {
+                    messageError(error.message);
+                },
+                complete: function() {
+                    // This block will be executed regardless of success or failure
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
+            });
+
+        });
+
+
+        function messageSuccess(res) {
+            $('#myDivHandleSuccess').text('');
+            $('#myDivHandleSuccess').text(res);
+            $('#myDivHandleSuccess').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleSuccess')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
         }
 
-
-        // $('#btn-product').click(function(e) {
-        //     e.preventDefault();
-        //     var data = $('#price').val();
-        //     data = data.toString().replace(/\Rp /g, '');
-        //     var datas = data.toString().replace(/\./g, '');
-        //     console.log(datas);
-        //     if (datas.length == 0) {
-        //         if ($('.list-infaq').hasClass('activeNominal')) {
-        //             var nominal = $('.list-infaq.activeNominal').find('p').text();
-        //             nominal = nominal.toString().replace(/\Rp /g, '');
-        //             localStorage.setItem("nominalRupiah", nominal.toString().replace(/\./g, ''));
-        //         }
-        //         // $('.info-maraton2 h4').text(formatRupiah(localStorage.getItem('nominalRupiah'), 'Rp '));
-        //     } else if (datas < 0) {
-        //         $('.textCancel').removeClass('d-none').addClass('d-block');
-        //     } else {
-        //         if (datas.length != 0 && data > 0) {
-        //             localStorage.setItem('nominalRupiah', datas);
-        //         }
-        //         // $('.info-maraton2 h4').text(formatRupiah(localStorage.getItem('nominalRupiah'), 'Rp '));
-
-        //     }
-        // });
+        function messageError(res) {
+            $('#myDivHandleError').text('');
+            $('#myDivHandleError').text(res);
+            $('#myDivHandleError').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleError')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
     </script>
 @endpush
 

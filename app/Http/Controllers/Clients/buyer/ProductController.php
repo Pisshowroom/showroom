@@ -198,7 +198,7 @@ class ProductController extends Controller
         $data['reviews'] = Review::whereNull('deleted_at')->with('user:id,name,image')->orderByDesc('id')->paginate(5);
         foreach ($data['reviews'] as $review) {
             if ($review->created_at)
-                $review->date = parseDateId($review->created_at) . ' WIB';
+                $review->date = parseDates($review->created_at) . ' WIB';
             else
                 $review->date = null;
         }
@@ -284,7 +284,7 @@ class ProductController extends Controller
             $review->order_id = (int) $request->order_id;
         if ($request->filled('product_id'))
             $review->product_id = (int) $request->product_id;
-        $review->rating =  (int) $request->rating;
+        $review->rating = (int) $request->rating;
         $review->text = $request->text;
         $images = [];
         if (!empty($request->image)) {
@@ -301,7 +301,7 @@ class ProductController extends Controller
         $review->save();
         return response()->json([
             "status" => "success",
-            "message" => "Berhasil menambahkan Ulasan"
+            "message" => "Berhasil menambahkan Ulasan",
         ]);
     }
 

@@ -74,19 +74,20 @@ class RefundController extends Controller
 
         $refundTotal = 0;
         $order = Order::where('id', $request->id)->first();
-        if (!$order)
-            return redirect("/pembeli/pesananku")->with('error', 'Pesanan tidak ditemukan')->with('auth', base64_encode($user->uid));
+        if (!$order instanceof Order)
+            return ResponseAPI('Pesanan tidak ditemukan', 404);
+
+            $images = [];
         if ($request->returning_product_type == 'ReturnProdukDanUang') {
             $request->validate([
                 'returning_reason' => 'required',
                 'returning_description' => 'required',
                 'returning_images' => 'required',
                 'order_items' => 'required',
-                'order_items.*.id' => 'required',
-                'order_items.*.quantity' => 'required',
+                // 'order_items.*.id' => 'required',
+                // 'order_items.*.quantity' => 'required',
                 'returning_video' => 'required|mimes:mp4|max:10240',
             ]);
-            $images = [];
 
             $order->status = Order::REQUESTED_RETURN;
 
@@ -104,18 +105,28 @@ class RefundController extends Controller
             if (isset($request->returning_video) && is_uploaded_file($request->returning_video)) {
                 $order->returning_video = uploadFile($request->returning_video, 'uploads/video_refund_complain');
             }
-
             $orderItems = $request->order_items;
-            foreach ($orderItems as $order_item) {
-                $orderItem = OrderItem::find($order_item['id'] ?? null);
-                if (!$orderItem) {
-                    return ResponseAPI('Item pesanan tidak ditemukan', 400);
-                }
-                $orderItem->return_quantity = $order_item['quantity'];
-                $returningItemTotal = $orderItem->price * ($order_item['quantity'] ?? 1);
-                $orderItem->return_item_total = $returningItemTotal;
-                $refundTotal += $returningItemTotal;
-                $orderItem->save();
+            foreach ($orderItems as $key => $order_item) {
+                if (gettype($order_item)) {
+                    foreach ($order_item as $ke => $orders) {
+                        $o = json_decode($orders);
+                        $orderItemId = $o->id ?? null;
+                        $orderItem = OrderItem::find($orderItemId);
+                        if (!$orderItem) {
+                            return ResponseAPI('Item pesanan tidak ditemukan', 404);
+                        }
+                        if ($o->quantity > $orderItem->quantity) {
+                            return ResponseAPI('Jumlah item pesanan yang dikembalikan melebihi jumlah item yang dipesan', 400);
+                        }
+
+                        $orderItem->return_quantity = $o->quantity;
+                        $returningItemTotal = $orderItem->price * ($o->quantity ?? 1);
+                        $orderItem->return_item_total = $returningItemTotal;
+                        $refundTotal += $returningItemTotal;
+                        $orderItem->save();
+                    }
+                } else
+                    return ResponseAPI('Item pesanan tidak ditemukan', 404);
             }
         } else if ($request->returning_product_type == 'Refund') {
             $request->validate([
@@ -149,7 +160,6 @@ class RefundController extends Controller
             $refundTotal = $order->subtotal;
             $order->status = Order::COMPLAINT;
         }
-
         $order->refund_total = $refundTotal;
         $order->returning_product_type = $request->returning_product_type;
         $order->returning_reason = $request->returning_reason ?? null;
@@ -157,6 +167,10 @@ class RefundController extends Controller
         $order->save();
 
         DB::commit();
-        return redirect("/pembeli/pesananku")->with('success', "Permintaan $request->returning_product_type berhasil dikirim")->with('auth', base64_encode($user->uid));
+        return response()->json([
+            "status" => "success",
+            "message" => "Permintaan $request->returning_product_type berhasil dikirim",
+            "redirect" => route('dashboard.myOrder') . '?auth=' . base64_encode($user->uid)
+        ], 200, [], JSON_UNESCAPED_SLASHES);
     }
 }

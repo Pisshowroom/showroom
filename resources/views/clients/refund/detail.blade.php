@@ -8,7 +8,6 @@
             action="{{ route('dashboard.requestRefund') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
             method="POST">
             @csrf
-            <input type="hidden" name="id" class="id" value="{{ $order->id }}">
             <div class="col-12">
                 <div class="content-header">
                     @if (request()->get('status') && request()->get('status') == 'refund')
@@ -40,7 +39,8 @@
                                         <label for="returning_product_type" class="form-label">Pilih Pengembalian*</label>
                                         <select id="returning_product_type" class="form-select returning_product_type"
                                             name="returning_product_type" required>
-                                            <option style="color:#232323;background:#f5f5f5 !important" value="0" disabled>
+                                            <option style="color:#232323;background:#f5f5f5 !important" value="0"
+                                                disabled>
                                                 Pilih
                                             </option>
                                             <option value="Refund" selected>Pengembalian Uang</option>
@@ -88,12 +88,12 @@
                                 </div>
                                 <div class="mb-4 d-none" id="order_items">
                                     @if (count($order->order_items) > 0)
-                                    <label class="form-label">Pilih Produk yang ingin dikembalikan*</label>
+                                        <label class="form-label">Pilih Produk yang ingin dikembalikan*</label>
                                         @foreach ($order->order_items as $k => $oi)
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox"
                                                     name="order_items[{{ $k }}][{{ $oi }}]"
-                                                    value="{{ $oi }}" id="produk-{{ $k }}"
+                                                    value="{{ $order->order_items[$k] }}" id="produk-{{ $k }}"
                                                     {{ $k == 0 ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="produk-{{ $k }}">
                                                     {{ $oi?->product?->name ?? '' }}
@@ -230,6 +230,57 @@
                 });
             }
 
+            $('form').on('submit', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+                if (formData.has('order_items') && Array.isArray(formData.get('order_items'))) {
+                    console.log(formData.getAll('order_items'));
+                    // Convert the order_items array to a JSON string
+                    formData.set('order_items', JSON.stringify(formData.getAll('order_items')));
+                }
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr('action'),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function(data) {
+                        if (data.status == "success") {
+                            messageSuccess(data.message);
+                            window.location.replace(data.redirect);
+                        } else {
+                            messageError(data.message);
+                        }
+                    },
+                    error: function(error) {
+                        messageError(error.message);
+                    },
+                    complete: function() {
+                        // This block will be executed regardless of success or failure
+                        $('.loading').addClass('d-none').removeClass('show-modal');
+                    }
+                });
+            });
+
+            function messageSuccess(res) {
+                $('#myDivHandleSuccess').text('');
+                $('#myDivHandleSuccess').text(res);
+                $('#myDivHandleSuccess').css('display', 'block');
+                setTimeout(function() {
+                    $('#myDivHandleSuccess').fadeOut('fast');
+                }, 2000);
+            }
+
+            function messageError(res) {
+                $('#myDivHandleError').text('');
+                $('#myDivHandleError').text(res);
+                $('#myDivHandleError').css('display', 'block');
+                setTimeout(function() {
+                    $('#myDivHandleError').fadeOut('fast');
+                }, 2000);
+            }
         });
     </script>
 @endpush

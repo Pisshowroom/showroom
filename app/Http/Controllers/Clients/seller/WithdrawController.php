@@ -56,7 +56,7 @@ class WithdrawController extends Controller
         }
         $withdraw = Withdraw::where('user_id', $user->id)->with('master_account:id,image')->where('id', $id)->first();
         if (!$withdraw)
-            return redirect("/toko/semua-pencairan-uang")->with('danger', 'Detail pencairan tidak ditemukan.')->with('auth', base64_encode($user->uid));
+            return redirect("/toko/semua-pencairan-uang")->with('error', 'Detail pencairan tidak ditemukan.')->with('auth', base64_encode($user->uid));
         else {
             $withdraw->date = parseDates($withdraw->created_at);
             return view('clients.seller.withdraw.detail', ['withdraw' => $withdraw]);

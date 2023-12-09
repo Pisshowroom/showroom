@@ -29,129 +29,146 @@
                             <div id="variantsSection">
                                 @if ($product && $product->variants && count($product->variants) > 0)
                                     @foreach ($product->variants as $k => $variant)
-                                        <input type="hidden" name="variants[{{ $k }}][id]"
-                                            value="{{ $variant->id }}">
+                                        <div class="variants">
+                                            <input type="hidden" name="variants[{{ $k }}][id]"
+                                                value="{{ $variant->id }}">
+                                            <div class="mb-4 variant">
+                                                <label class="form-label">Nama Variasi</label>
+                                                <input class="form-control name" name="variants[{{ $k }}][name]"
+                                                    maxlength="70" type="text" value="{{ $variant->name }}">
+                                                <div class="text-end">
+                                                    <span class="max-name">maksimal panjang nama
+                                                        {{ strlen($variant->name) ?? 0 }}/70</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="mb-4 variant">
+                                                <label class="form-label">Deskripsi Varian*</label>
+                                                <textarea class="form-control" name="variants[{{ $k }}][description]" required
+                                                    placeholder="Masukkan keterangan varian" rows="4">{{ $variant != null ? $variant->description : '' }}</textarea>
+                                            </div>
+                                            <div class="mb-4 variant">
+                                                <label class="form-label">Satuan*</label>
+                                                <input class="form-control" name="variants[{{ $k }}][unit]"
+                                                    type="text" required placeholder="pcs, buah, butir, dll"
+                                                    value="{{ $variant != null ? $variant->unit : '' }}">
+                                            </div>
+                                            <div class="mb-4 variant">
+                                                <label class="form-label">Jumlah Stok*</label>
+                                                <input class="form-control stock"
+                                                    name="variants[{{ $k }}][stock]" required
+                                                    value="{{ $variant != null ? moneyFormat($variant->stock) : '' }}"
+                                                    onkeypress="return event.charCode>=48&&event.charCode<=57"
+                                                    type="tel">
+                                            </div>
+                                            <div class="mb-4 variant">
+                                                <label class="form-label">Berat barang* (gram)</label>
+                                                <input class="form-control weight"
+                                                    name="variants[{{ $k }}][weight]" required
+                                                    value="{{ $variant != null ? moneyFormat($variant->weight) : '' }}"
+                                                    onkeypress="return event.charCode>=48&&event.charCode<=57"
+                                                    type="text" pattern="[0-9]+([,.][0-9]+)?">
+                                            </div>
+                                            <div class="mb-4 variant">
+                                                <label class="form-label">Harga*</label>
+                                                <div class="row gx-2"></div>
+                                                <input class="form-control price"
+                                                    name="variants[{{ $k }}][price]" required
+                                                    onkeypress="return event.charCode>=48&&event.charCode<=57"
+                                                    value="{{ $variant != null ? numbFormat($variant->price) : '' }}"
+                                                    type="tel">
+                                                <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal
+                                                    Rp
+                                                    50.000</p>
+                                            </div>
+                                            <aside class="mb-4 variant">
+                                                <label for="imageInput_{{ $variant->id }}"
+                                                    class="form-label">Gambar*</label>
+                                                <figure>
+                                                    @if ($variant && $variant->images && is_array($variant->images) && count($variant->images) > 0)
+                                                        <img class="img-lg mb-3 img-avatar previewImage"
+                                                            src="{{ $variant != null && $variant->images != null ? $variant->images[0] ?? asset('ecom_dashboard/imgs/theme/upload.svg') : asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                                                            alt="{{ $variant->name ?? 'produk varian' }}">
+                                                    @elseif ($variant && $variant->images && is_string($variant->images) && $variant->images != null)
+                                                        <img class="img-lg mb-3 img-avatar previewImage"
+                                                            src="{{ $variant != null && $variant->images != null ? $variant->images ?? asset('ecom_dashboard/imgs/theme/upload.svg') : asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                                                            alt="{{ $variant->name ?? 'produk varian' }}">
+                                                    @else
+                                                        <img class="img-lg mb-3 img-avatar previewImage"
+                                                            src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                                                            alt="produk varian">
+                                                    @endif
+                                                    <figcaption>
+                                                        <input id="imageInput_{{ $variant->id }}"
+                                                            class="form-control imageInput"
+                                                            {{ $variant->images == null ? 'required' : '' }}
+                                                            accept="image/*" type="file"
+                                                            name="variants[{{ $k }}][images]">
+                                                    </figcaption>
+                                                </figure>
+                                            </aside>
+                                            <button type="button" class="removeVariantBtn btn btn-xs-danger mb-4"
+                                                id="btn-{{ $k }}">Hapus
+                                                Variasi</button>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="variants">
                                         <div class="mb-4 variant">
                                             <label class="form-label">Nama Variasi</label>
-                                            <input class="form-control" name="variants[{{ $k }}][name]"
-                                                type="text" value="{{ $variant->name }}">
+                                            <input class="form-control name" name="variants[0][name]" type="text"
+                                                maxlength="70" required>
+                                            <div class="text-end">
+                                                <span class="max-name">maksimal panjang nama 0/70</span>
+                                            </div>
                                         </div>
+
                                         <div class="mb-4 variant">
                                             <label class="form-label">Deskripsi Varian*</label>
-                                            <textarea class="form-control" name="variants[{{ $k }}][description]" required
-                                                placeholder="Masukkan keterangan varian" rows="4">{{ $variant != null ? $variant->description : '' }}</textarea>
+                                            <textarea class="form-control" name="variants[0][description]" required placeholder="Masukkan keterangan varian"
+                                                rows="4"></textarea>
                                         </div>
                                         <div class="mb-4 variant">
                                             <label class="form-label">Satuan*</label>
-                                            <input class="form-control" name="variants[{{ $k }}][unit]"
-                                                type="text" required placeholder="pcs, buah, butir, dll"
-                                                value="{{ $variant != null ? $variant->unit : '' }}">
+                                            <input class="form-control" name="variants[0][unit]" type="text" required
+                                                placeholder="pcs, buah, butir, dll">
                                         </div>
                                         <div class="mb-4 variant">
                                             <label class="form-label">Jumlah Stok*</label>
-                                            <input class="form-control stock" name="variants[{{ $k }}][stock]"
-                                                required value="{{ $variant != null ? moneyFormat($variant->stock) : '' }}"
+                                            <input class="form-control stock" name="variants[0][stock]" required
                                                 onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                                         </div>
                                         <div class="mb-4 variant">
                                             <label class="form-label">Berat barang* (gram)</label>
-                                            <input class="form-control weight" name="variants[{{ $k }}][weight]"
-                                                required
-                                                value="{{ $variant != null ? moneyFormat($variant->weight) : '' }}"
+                                            <input class="form-control weight" name="variants[0][weight]" required
                                                 onkeypress="return event.charCode>=48&&event.charCode<=57" type="text"
                                                 pattern="[0-9]+([,.][0-9]+)?">
                                         </div>
                                         <div class="mb-4 variant">
                                             <label class="form-label">Harga*</label>
                                             <div class="row gx-2"></div>
-                                            <input class="form-control price" name="variants[{{ $k }}][price]"
-                                                required onkeypress="return event.charCode>=48&&event.charCode<=57"
-                                                value="{{ $variant != null ? numbFormat($variant->price) : '' }}"
-                                                type="tel">
+                                            <input class="form-control price" name="variants[0][price]" required
+                                                onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                                             <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp
                                                 50.000</p>
                                         </div>
                                         <aside class="mb-4 variant">
-                                            <label for="imageInput_{{ $variant->id }}" class="form-label">Gambar*</label>
+                                            <label class="form-label">Gambar*</label>
                                             <figure>
-                                                @if ($variant && $variant->images && is_array($variant->images) && count($variant->images) > 0)
-                                                    <img class="img-lg mb-3 img-avatar previewImage"
-                                                        src="{{ $variant != null && $variant->images != null ? $variant->images[0] ?? asset('ecom_dashboard/imgs/theme/upload.svg') : asset('ecom_dashboard/imgs/theme/upload.svg') }}"
-                                                        alt="{{ $variant->name ?? 'produk varian' }}">
-                                                @elseif ($variant && $variant->images && is_string($variant->images) && $variant->images != null)
-                                                    <img class="img-lg mb-3 img-avatar previewImage"
-                                                        src="{{ $variant != null && $variant->images != null ? $variant->images ?? asset('ecom_dashboard/imgs/theme/upload.svg') : asset('ecom_dashboard/imgs/theme/upload.svg') }}"
-                                                        alt="{{ $variant->name ?? 'produk varian' }}">
-                                                @else
-                                                    <img class="img-lg mb-3 img-avatar previewImage"
-                                                        src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
-                                                        alt="produk varian">
-                                                @endif
+                                                <img class="img-lg mb-3 img-avatar previewImage"
+                                                    src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                                                    alt="produk varian">
                                                 <figcaption>
-                                                    <input id="imageInput_{{ $variant->id }}"
-                                                        class="form-control imageInput"
-                                                        {{ $variant->images == null ? 'required' : '' }} accept="image/*"
-                                                        type="file" name="variants[{{ $k }}][images]">
+                                                    <input class="form-control imageInput" required accept="image/*"
+                                                        type="file" name="variants[0][images]">
                                                 </figcaption>
                                             </figure>
                                         </aside>
-                                        <button type="button" class="removeVariantBtn btn btn-xs-danger mb-4">Hapus
+
+                                        <button type="button" class="removeVariantBtn btn btn-xs-danger mb-4"
+                                            id="btn-0">Hapus
                                             Variasi</button>
-                                    @endforeach
-                                @else
-                                    <div class="mb-4 variant">
-                                        <label class="form-label">Nama Variasi</label>
-                                        <input class="form-control" name="variants[0][name]" type="text" maxlength="70"
-                                            required>
-                                        <div class="text-end">
-                                            <span class="max-name">maksimal panjang nama 0/70</span>
-                                        </div>
                                     </div>
-
-                                    <div class="mb-4 variant">
-                                        <label class="form-label">Deskripsi Varian*</label>
-                                        <textarea class="form-control" name="variants[0][description]" required placeholder="Masukkan keterangan varian"
-                                            rows="4"></textarea>
-                                    </div>
-                                    <div class="mb-4 variant">
-                                        <label class="form-label">Satuan*</label>
-                                        <input class="form-control" name="variants[0][unit]" type="text" required
-                                            placeholder="pcs, buah, butir, dll">
-                                    </div>
-                                    <div class="mb-4 variant">
-                                        <label class="form-label">Jumlah Stok*</label>
-                                        <input class="form-control stock" name="variants[0][stock]" required
-                                            onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
-                                    </div>
-                                    <div class="mb-4 variant">
-                                        <label class="form-label">Berat barang* (gram)</label>
-                                        <input class="form-control weight" name="variants[0][weight]" required
-                                            onkeypress="return event.charCode>=48&&event.charCode<=57" type="text"
-                                            pattern="[0-9]+([,.][0-9]+)?">
-                                    </div>
-                                    <div class="mb-4 variant">
-                                        <label class="form-label">Harga*</label>
-                                        <div class="row gx-2"></div>
-                                        <input class="form-control price" name="variants[0][price]" required
-                                            onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
-                                        <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp
-                                            50.000</p>
-                                    </div>
-                                    <aside class="mb-4 variant">
-                                        <label class="form-label">Gambar*</label>
-                                        <figure>
-                                            <img class="img-lg mb-3 img-avatar previewImage"
-                                                src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
-                                                alt="produk varian">
-                                            <figcaption>
-                                                <input class="form-control imageInput" required accept="image/*"
-                                                    type="file" name="variants[0][images]">
-                                            </figcaption>
-                                        </figure>
-                                    </aside>
-
-                                    <button type="button" class="removeVariantBtn btn btn-xs-danger mb-4">Hapus
-                                        Variasi</button>
 
                                 @endif
 
@@ -233,48 +250,54 @@
             var addVariantBtn = $('#addVariantBtn');
 
             addVariantBtn.click(function() {
+                addVariant();
+            });
+
+
+            function addVariant() {
                 // Customize this part based on your variant structure
                 var k = variantsSection.children('.variant').length; // Get the number of existing variants
 
                 // Add the HTML structure for each variant
                 var variantHtml = `
-            <div class="mb-4 variant">
+            <div class="variants">
+                <div class="mb-4 variant">
                 <label class="form-label">Nama Variasi</label>
-                <input class="form-control" name="variants[${k}][name]" type="text" maxlength="70" required>
+                <input class="form-control name" name="variants[${k}][name]" type="text" maxlength="70" required>
                 <div class="text-end">
                     <span class="max-name">maksimal panjang nama 0/70</span>
                 </div>
-            </div>
+                </div>
 
-            <div class="mb-4 variant">
+                <div class="mb-4 variant">
                 <label class="form-label">Deskripsi Varian*</label>
                 <textarea class="form-control" name="variants[${k}][description]" required placeholder="Masukkan keterangan varian" rows="4"></textarea>
-            </div>
+                </div>
 
-            <div class="mb-4 variant">
+                <div class="mb-4 variant">
                 <label class="form-label">Satuan*</label>
                 <input class="form-control" name="variants[${k}][unit]" type="text" required placeholder="pcs, buah, butir, dll">
-            </div>
+                </div>
 
-            <div class="mb-4 variant">
+                <div class="mb-4 variant">
                 <label class="form-label">Jumlah Stok*</label>
                 <input class="form-control stock" name="variants[${k}][stock]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
-            </div>
+                </div>
 
-            <div class="mb-4 variant">
+                <div class="mb-4 variant">
                 <label class="form-label">Berat barang* (gram)</label>
                 <input class="form-control weight" name="variants[${k}][weight]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="text" pattern="[0-9]+([,.][0-9]+)?">
-            </div>
+                </div>
 
-            <div class="mb-4 variant">
+                <div class="mb-4 variant">
                 <label class="form-label">Harga*</label>
                 <div class="row gx-2"></div>
                 <input class="form-control price" name="variants[${k}][price]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                 <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp 50.000</p>
-            </div>
+                </div>
 
 
-            <aside class="mb-4 variant">
+                <aside class="mb-4 variant">
                 <label class="form-label">Gambar*</label>
                 <figure>
                     <img class="img-lg mb-3 img-avatar previewImage"
@@ -285,54 +308,26 @@
                             type="file" name="variants[${k}][images]">
                     </figcaption>
                 </figure>
-            </aside>
+                </aside>
 
-            <button type="button" class="removeVariantBtn btn btn-xs-danger mb-4">Hapus Variasi</button>`;
-
+                <button type="button" class="removeVariantBtn btn btn-xs-danger mb-4" id="btn-${k}">Hapus Variasi</button>
+            </div>`;
                 variantsSection.append(variantHtml);
+            };
+
+            $('#variantsSection').on('click', '.removeVariantBtn', function() {
+                var variantToRemove = $(this).closest('.variants');
+                variantToRemove.remove();
+                if ($(this).find('.variants').length === 0) {
+                    $(this).remove();
+                }
             });
-
-            // Dynamically remove variants
-            variantsSection.on('click', '.removeVariantBtn', function() {
-                $(this).closest('.variant').remove();
-            });
-
-
-
-
-
-            $('#name').on('input', function() {
+            $('#variantsSection').on('input', 'input.name', function() {
                 var currentLength = $(this).val().length;
 
                 $('.max-name').text('Maksimal panjang nama ' + currentLength + '/70');
+
             });
-
-            // $('form').on('submit', function() {
-            //     // Check if at least one image has been uploaded
-            //     if ($('#imageInput')[0].files.length === 0) {
-            //         if (
-            //             "{{ $product && $product != null && $product->images && count($product->images) < 1 }}"
-            //         ) {
-            //             alert('Please upload at least one image.');
-            //             return false; // Prevent form submission
-            //         }
-            //     }
-            // });
-            $('#variantsSection').on('change', 'input.imageInput', function() {
-                var file = this.files[0];
-                var reader = new FileReader();
-
-                var previewImage = $(this).closest('.variant').find('.previewImage');
-
-                reader.onload = function(event) {
-                    previewImage.attr('src', event.target.result);
-                };
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                }
-            });
-
             $('#variantsSection').on('input', 'input.price', function() {
 
                 $(this).val(formatRupiah(this.value, 'Rp '));
@@ -371,25 +366,58 @@
 
         });
 
-        function convertToDecimal(inputElement) {
-            var inputValue = inputElement.value.trim();
+        $('form').on('submit', function(e) {
+            e.preventDefault();
 
-            // Remove any percentage sign (%) if present
-            if (inputValue.endsWith("%")) {
-                inputValue = inputValue.slice(0, -1);
-            }
+            var formData = new FormData(this);
 
-            // Convert the input to a decimal (e.g., 50% to 0.5)
-            var decimalValue = parseFloat(inputValue) / 100;
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function(data) {
+                    if (data.status == "success") {
+                        messageSuccess(data.message);
+                        window.location.replace(data.redirect);
+                    } else {
+                        messageError(data.message);
+                    }
+                },
+                error: function(error) {
+                    messageError(error.message);
+                },
+                complete: function() {
+                    // This block will be executed regardless of success or failure
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
+            });
+        });
 
-            if (!isNaN(decimalValue) && decimalValue >= 0 && decimalValue <= 1) {
-                // Update the input field with the decimal value
-                var data = decimalValue * 100 + "%";
-                inputElement.value = data.replace(/[^0-9]/g, '').substring(0, 3);
-                // inputElement.value.replace(/[^0-9]/g, '').substring(0, 3);
-            } else {
-                // Handle invalid input, e.g., display an error message
-            }
+        function messageSuccess(res) {
+            $('#myDivHandleSuccess').text('');
+            $('#myDivHandleSuccess').text(res);
+            $('#myDivHandleSuccess').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleSuccess')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
+        }
+
+        function messageError(res) {
+            $('#myDivHandleError').text('');
+            $('#myDivHandleError').text(res);
+            $('#myDivHandleError').css('display',
+                'block');
+            setTimeout(function() {
+                $('#myDivHandleError')
+                    .fadeOut(
+                        'fast');
+            }, 2000);
         }
     </script>
 @endpush
