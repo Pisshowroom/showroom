@@ -13,7 +13,7 @@ class ReviewController extends Controller
 {
     public function getLimitedReviewsOfAProduct($productId)
     {
-        $reviews = Review::where('product_id', $productId)->orderBy('created_at', 'desc')->take(5)->get();
+        $reviews = Review::with(['user'])->where('product_id', $productId)->orderBy('created_at', 'desc')->take(5)->get();
         return ReviewResource::collection($reviews);
     }
 
@@ -26,7 +26,7 @@ class ReviewController extends Controller
         return ReviewResource::collection($reviews); */
 
         $filtered = false;
-        $query = Review::where('product_id', $productId);
+        $query = Review::with(['user'])->where('product_id', $productId);
 
         if ($request->sort_rating === 'asc') {
             $query->orderBy('rating', 'asc');
@@ -54,7 +54,7 @@ class ReviewController extends Controller
     {
         $user = auth()->guard('api-client')->user();
 
-        $reviews = Review::where('user_id', $user->id)->latest()->paginate(20);
+        $reviews = Review::with(['user'])->where('user_id', $user->id)->latest()->paginate(20);
 
         return ReviewResource::collection($reviews);
     }
