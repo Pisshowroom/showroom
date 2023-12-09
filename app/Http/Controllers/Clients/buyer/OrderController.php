@@ -740,7 +740,10 @@ class OrderController extends Controller
                 $rajaOngkirResponse = json_decode($res);
                 $errorCode = $rajaOngkirResponse->rajaongkir->status->code;
                 $errorDescription = $rajaOngkirResponse->rajaongkir->status->description;
-                throw new Exception("Error getting shipping cost: $errorDescription", 404);
+                if ($errorDescription)
+                    return ResponseAPI("Error getting shipping cost: $errorDescription", 404);
+                else
+                    return ResponseAPI("Error getting shipping cost", 404);
             }
 
             $rajaOngkirResponse = json_decode($res);
@@ -772,10 +775,11 @@ class OrderController extends Controller
 
             return $data;
         } catch (\Exception $e) {
-            throw $e;
             // throw $e;
-            Log::info("1_Error RajaOngkir: " . $e->getMessage());
-            throw new Exception("Jasa kirim tidak tersedia.", 404);
+            return ResponseAPI('Jasa kirim tidak tersedia.', 404);
+
+            // Log::info("1_Error RajaJasa kirim tidak tersedia.Ongkir: " . $e->getMessage());
+            // throw new Exception("", 404);
         } finally {
             curl_close($curl);
         }
@@ -805,8 +809,8 @@ class OrderController extends Controller
         } else if ($channelType == 'QR_CODE') {
             // $amount check maximum 100000
             if ($amount > 10000000) {
-                // return ResponseAPI('Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000', 400);
-                throw new HttpException(400, 'Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000');
+                return ResponseAPI('Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000', 400);
+                // throw new HttpException(400, 'Gagal membuat pembayaran, maksimal transaksi dengan metode ini adalah Rp. 10.000.000');
             }
             $result = QRCode::create([
                 'api_version' => '2022-07-31',
