@@ -70,6 +70,11 @@ class ProductController extends Controller
             $filtered = true;
         }
 
+        if ($request->filled('search')) {
+            $query->where('name', 'LIKE', "%$request->search%");
+            $filtered = true;
+        }
+
         if ($filtered == false) {
             $query->inRandomOrder();
         }
