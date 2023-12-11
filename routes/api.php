@@ -45,6 +45,7 @@ Route::post('/login', [ClientsAuthController::class, 'login']);
 
 Route::get("home", [HomeController::class, 'home']);
 Route::get("stats-count", [HomeController::class, 'statsCount']);
+Route::get("contact-and-info", [HomeController::class, 'contactAndInfo']);
 Route::get("categories", [HomeController::class, 'categories']);
 Route::get("just-categories", [HomeController::class, 'justCategories']);
 Route::get("sub-categories", [HomeController::class, 'subCategories']);

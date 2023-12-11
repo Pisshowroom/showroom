@@ -93,4 +93,9 @@ class HomeController extends Controller
         return SubCategoryResource::collection($subCategories);
     }
     
+    public function contactAndInfo()
+    {
+        $data['whatsapp_cs'] = lypsisGetSetting('whatsapp_cs');
+        return ResponseAPI($data);
+    }
 }
