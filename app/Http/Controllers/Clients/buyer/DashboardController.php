@@ -239,11 +239,9 @@ class DashboardController extends Controller
     public function deleteAccount($id)
     {
         $user = Auth::guard('web')->user();
-        $ad = User::where('id', (int) $id)->with('addresses')->first();
-        if (!$ad)
-        return redirect()->route('dashboard.settings')->with('error', 'Akun tidak ditemukan')->with('auth', base64_encode($user->uid));
-        $ad->addresses()->delete();
-        $ad->delete();
-        return redirect()->route('dashboard.settings')->with('success', 'Akun berhasil dihapus')->with('auth', base64_encode($user->uid));
+        if (!$user)
+            return redirect()->route('dashboard.settings')->with('error', 'Akun tidak ditemukan')->with('auth', base64_encode($user->uid));
+        $user->delete();
+        return redirect()->route('buyer.home')->with('success', 'Akun berhasil dihapus')->with('auth', base64_encode($user->uid));
     }
 }
