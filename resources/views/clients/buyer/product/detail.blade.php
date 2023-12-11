@@ -461,7 +461,7 @@
                                                             <div class="thumb text-center"><img width="80px"
                                                                     height="80px"
                                                                     src="{{ $review->user && $review->user->image ? $review->user->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
-                                                                    alt="ulasan dari {{ $review->user->name }}">
+                                                                    alt="ulasan dari {{ $review->user->name?? '' }}">
                                                                 <p class="font-heading text-brand line-2"
                                                                     style="word-break: break-word">
                                                                     {{ substr($review?->user?->name ?? '', 0, 15) . (strlen($review?->user?->name ?? '') > 15 ? '..' : '') }}
