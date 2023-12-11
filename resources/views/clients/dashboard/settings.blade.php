@@ -125,7 +125,7 @@
                                                                 @else
                                                                     <i class="icon material-icons md-home"></i>
                                                                 @endif
-                                                                <h4>{{ $address->main }}{{ $address->person_name ?? '' }}
+                                                                <h4>{{ $address->person_name ?? '' }}
                                                                 </h4>
                                                                 @if ($address->main)
                                                                     <button class="btn btn-xs"
