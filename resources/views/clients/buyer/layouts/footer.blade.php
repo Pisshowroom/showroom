@@ -40,7 +40,7 @@
                 <div class="col-lg-4 mb-30">
                     <h4 class="mb-30 color-gray-1000">Selengkapnya</h4>
                     <ul class="menu-footer">
-                        <li><a href="#">FAQs</a></li>
+                        <li><a href="{{ route('buyer.privacy') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kebijakan Privasi</a></li>
                         <li><a href="{{ route('buyer.contact') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kontak Kami</a></li>
                         <li><a href="{{ route('buyer.about') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tentang Kami</a></li>
                         <li><a href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat & Ketentuan</a></li>

@@ -153,6 +153,7 @@ Route::post('/register', [AuthController::class, 'registerUsingGoogle'])->name('
 Route::post('/register-email', [AuthController::class, 'registerEmail'])->name('registerEmail');
 Route::get('/tidak-ditemukan', [BuyerController::class, 'notFound'])->name('buyer.notFound');
 Route::get('/kontak-kami', [BuyerController::class, 'contact'])->name('buyer.contact');
+Route::get('/kebijakan-privasi', [BuyerController::class, 'privacy'])->name('buyer.privacy');
 Route::get('/tentang-kami', [BuyerController::class, 'about'])->name('buyer.about');
 Route::get('/syarat-dan-ketentuan', [BuyerController::class, 'term'])->name('buyer.term');
 

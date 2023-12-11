@@ -103,6 +103,11 @@ class BuyerController extends Controller
         $data = $this->getCommonData();
         return view('clients.buyer.contact', ['data' => $data]);
     }
+    public function privacy()
+    {
+        $data = $this->getCommonData();
+        return view('clients.buyer.privacy', ['data' => $data]);
+    }
 
 
     //auth
