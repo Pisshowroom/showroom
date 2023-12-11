@@ -225,6 +225,13 @@ class OrderController extends Controller
             array_push($products, $productTransformed);
         }
 
+        try {
+            $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($sellerAddress->ro_city_id, $addressBuyer->ro_subdistrict_id, $weight, $seller->seller_delivery_service);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            return ResponseAPI($message, 400);
+        }
 
         $data['total'] = $total;
         $data['total_without_discount'] = $totalWithoutDiscount;
@@ -247,7 +254,6 @@ class OrderController extends Controller
         $requestForShippingPrice = new Request();
         $requestForShippingPrice->merge($dataRequest);
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
-        $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($sellerAddress->ro_city_id, $addressBuyer->ro_subdistrict_id, $weight, $seller->seller_delivery_service);
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
 
@@ -309,48 +315,6 @@ class OrderController extends Controller
         return ResponseAPI("Pembayaran berhasil dikonfirmasi.", 200);
     }
 
-    public function dummyDelivery(Request $request)
-    {
-        // return $request->type;
-        if ($request->type == 'a') {
-            $dataRequest = [
-                'origin_id' => 18,
-                'destination_id' => 16,
-                'weight' => 0,
-            ];
-            $requestForShippingPrice = new Request();
-            $requestForShippingPrice->merge($dataRequest);
-            // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
-            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight'], $dummyBoongan = "");
-            return ResponseAPI($deliveryServicesInfo);
-            // $this->lypsisCheckShippingPrice();
-        } else if ($request->type == 'b') {
-            $dataRequest = [
-                'origin_id' => 18,
-                'destination_id' => 0,
-                'weight' => 100,
-            ];
-            $requestForShippingPrice = new Request();
-            $requestForShippingPrice->merge($dataRequest);
-            // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
-            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight'], $dummyBoongan = "");
-            return ResponseAPI($deliveryServicesInfo);
-            // $this->lypsisCheckShippingPrice();
-        } else if ($request->type == 'c') {
-            $dataRequest = [
-                'origin_id' => 18,
-                'destination_id' => 16,
-                'weight' => 100,
-            ];
-            $requestForShippingPrice = new Request();
-            $requestForShippingPrice->merge($dataRequest);
-            // $deliveryServicesInfo = $this->lypsisCheckShippingPrice($requestForShippingPrice);
-            $deliveryServicesInfo = $this->lypsisCheckShippingPrice($dataRequest['origin_id'], $dataRequest['destination_id'], $dataRequest['weight'], $dummyBoongan = "");
-            return ResponseAPI($deliveryServicesInfo);
-            // $this->lypsisCheckShippingPrice();
-        }
-    }
-
     private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false)
     {
         $curl = curl_init();
@@ -392,7 +356,7 @@ class OrderController extends Controller
                 $rajaOngkirResponse = json_decode($res);
                 $errorCode = $rajaOngkirResponse->rajaongkir->status->code;
                 $errorDescription = $rajaOngkirResponse->rajaongkir->status->description;
-                throw new Exception("Error getting shipping cost: $errorDescription", 404);
+                throw new Exception("Tidak dapat menemukan jasa kirim beserta biayanya: $errorDescription", 404);
             }
 
             $rajaOngkirResponse = json_decode($res);
@@ -421,7 +385,12 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             // throw $e;
             Log::info("1_Error RajaOngkir: " . $e->getMessage());
-            throw new Exception("Jasa kirim tidak tersedia. Coba ubah atau buat alamat valid lagi.", 404);
+            $message = $e->getMessage();
+            if (empty($message)) {
+                $message = "Jasa kirim tidak tersedia. Coba lagi nanti / Coba sesuaikan alamat valid lagi";
+            }
+            throw new Exception($message, 404);
+            // throw new Exception("Jasa kirim tidak tersedia. Coba lagi nanti / Coba sesuaikan alamat valid lagi.", 404);
         } finally {
             curl_close($curl);
         }
