@@ -6,12 +6,15 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pisshowroom.co/">
+    <meta property="og:title" content="Pishop">
+    <meta property="og:description"
+        content="Pishop adalah Aplikasi & Website dari Pi Showroom">
+    <meta property="og:image" content="{{ asset('ecom/imgs/favicon.png') }}">
+
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom/imgs/favicon.png') }}">
-    <link href="{{ asset('ecom_dashboard/css/style.css?v=1.0.3') }}" rel="stylesheet">
+    <link href="{{ asset('ecom_dashboard/css/style.css?v=1.0.4') }}" rel="stylesheet">
     @stack('importcss')
     @stack('css')
     {{-- pi coin --}}

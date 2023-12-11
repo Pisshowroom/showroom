@@ -4,8 +4,15 @@
 @section('dashboard')
     <section class="content-main">
         <div class="content-header">
-            <h2 class="content-title">Profil</h2>
+            <div>
+                <h2 class="content-title">Profil</h2>
+            </div>
+            <div> <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal" data-bs-target="#deleteAccount">
+                    Hapus Akun
+                </button>
+            </div>
         </div>
+
         @if (session('error'))
             <div class="alert alert-warning" id="mydiv">
                 {{ session('error') }}
@@ -118,7 +125,8 @@
                                                                 @else
                                                                     <i class="icon material-icons md-home"></i>
                                                                 @endif
-                                                                <h4>{{ $address->main }}{{ $address->person_name ?? '' }}</h4>
+                                                                <h4>{{ $address->main }}{{ $address->person_name ?? '' }}
+                                                                </h4>
                                                                 @if ($address->main)
                                                                     <button class="btn btn-xs"
                                                                         style="background-color: #E9A92E !important;border-radius:5px !important">Utama</button>
@@ -214,8 +222,8 @@
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label for="address_address">Alamat</label>
-                                                        <input type="text" id="address-input" name="address_address" id="address_address"
-                                                            required class="form-control map-input">
+                                                        <input type="text" id="address-input" name="address_address"
+                                                            id="address_address" required class="form-control map-input">
                                                         <input type="hidden" name="lat" id="address-latitude"
                                                             value="0" />
                                                         <input type="hidden" name="long" id="address-longitude"
@@ -257,6 +265,27 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="deleteAccount" tabindex="-1" aria-labelledby="deleteAccountLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <h1 class="modal-title fs-5 text-dark" id="deleteAccountLabel">Hapus Akun</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="text-dark">Apakah kamu yakin ingin menghapus akun ini ?</h5>
+                    </div>
+                    <div class="modal-footer border-top-0">
+                        <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
+                        <a class="btn btn-xs-danger" style="background-color:#dc3545 !important;"
+                            href="{{ route('dashboard.deleteAccount', ['id' => Auth::guard('web')->user()->id ?? 0]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Hapus
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 
 @endsection
