@@ -154,7 +154,7 @@ Route::post('/register-email', [AuthController::class, 'registerEmail'])->name('
 Route::get('/tidak-ditemukan', [BuyerController::class, 'notFound'])->name('buyer.notFound');
 Route::get('/kontak-kami', [BuyerController::class, 'contact'])->name('buyer.contact');
 Route::get('/kebijakan-privasi', [BuyerController::class, 'privacy'])->name('buyer.privacy');
-Route::get('/ketentuan-hapus akun', [BuyerController::class, 'termDeleteUser'])->name('buyer.termDeleteUser');
+Route::get('/ketentuan-hapus-akun', [BuyerController::class, 'termDeleteUser'])->name('buyer.termDeleteUser');
 Route::get('/tentang-kami', [BuyerController::class, 'about'])->name('buyer.about');
 Route::get('/syarat-dan-ketentuan', [BuyerController::class, 'term'])->name('buyer.term');
 
