@@ -10,15 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    //
-    /* 
-    for $data = [];
-    1. put into a property inside $data O rder where status Completed
-    2. put into a property inside $data $lypsisGetSetting('commerce_balance')put into a property inside $data Db products
-    3. put into a property inside $data Db products count all
-    4. put into a property inside $data - total users 
-    */
-
     public function index(Request $request)
     {
         $data = [];

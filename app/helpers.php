@@ -73,6 +73,8 @@ function lypsisGetOrderStatusValues($paramStatus)
                 'RequestedReturn', 'ReturnAccepted', 'ReturnShipped', 'ReturnDelivered', 'ReturnCompleted',
                 'Complaint', 'ComplaintAccepted', 'ComplaintDeclined', 'ComplaintCompleted'
             ];
+        case 'Completed':
+            return ['Completed', 'ComplaintCompleted', 'ReturnCompleted', 'RefundDone'];
         default:
             return [$paramStatus];
     }

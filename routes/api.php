@@ -193,6 +193,7 @@ Route::group(['prefix' => 'order'], function () {
 
         Route::get('/detail-order-for-complain/{order}', [OrderDataController::class, 'detailOrderForComplain']);
         Route::post('/request-refund/{order}', [OrderDataController::class, 'requestRefund']);
+        Route::post('/cancel-refund-return-complaint/{order}', [OrderDataController::class, 'cancelRefundReturnComplaint']);
     });
 });
 

@@ -322,4 +322,13 @@ class OrderDataController extends Controller
         DB::commit();
         return ResponseAPI("Permintaan $request->returning_product_type berhasil dikirim", 200);
     }
+
+    public function cancelRefundReturnComplaint(Order $order)
+    {
+        $order->status = Order::COMPLETED;
+        
+        $order->save();
+        return ResponseAPI('Permintaan pengembalian dibatalkan', 200);
+    }
+
 }
