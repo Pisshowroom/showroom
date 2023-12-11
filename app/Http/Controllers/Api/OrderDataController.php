@@ -331,4 +331,19 @@ class OrderDataController extends Controller
         return ResponseAPI('Permintaan pengembalian dibatalkan', 200);
     }
 
+    public function buyerSendingOrder(Order $order, Request $request)
+    {
+        $request->validate([
+            'returning_delivery_service_code' => 'required',
+            'returning_delivery_service_name' => 'required',
+        ]);
+        
+        $order->returning_delivery_service_code = $request->returning_delivery_service_code;
+        $order->returning_delivery_service_name = $request->returning_delivery_service_name;
+        $order->status = Order::RETURN_SHIPPED;
+        
+        $order->save();
+        return ResponseAPI('Permintaan pengembalian dikonfirmasi', 200);
+    }
+
 }
