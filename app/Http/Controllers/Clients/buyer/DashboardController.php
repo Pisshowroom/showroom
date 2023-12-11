@@ -9,6 +9,7 @@ use App\Models\RoCity;
 use App\Models\RoProvince;
 use App\Models\RoSubdistrict;
 use App\Models\SubCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -232,5 +233,17 @@ class DashboardController extends Controller
             return redirect()->route($page)->with('success', 'Berhasil menghapus transaksi')->with('auth', base64_encode($user->uid));
         else
             return redirect()->route($page)->with('success', 'Berhasil menghapus pesanan')->with('auth', base64_encode($user->uid));
+    }
+
+
+    public function deleteAccount($id)
+    {
+        $user = Auth::guard('web')->user();
+        $ad = User::where('id', (int) $id)->with('addresses')->first();
+        if (!$ad)
+        return redirect()->route('dashboard.settings')->with('error', 'Akun tidak ditemukan')->with('auth', base64_encode($user->uid));
+        $ad->addresses()->delete();
+        $ad->delete();
+        return redirect()->route('dashboard.settings')->with('success', 'Akun berhasil dihapus')->with('auth', base64_encode($user->uid));
     }
 }

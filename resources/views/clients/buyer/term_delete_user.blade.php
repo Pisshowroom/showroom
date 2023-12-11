@@ -53,9 +53,37 @@
                         <p>Jika ada perubahan dalam kebijakan penghapusan akun, penyedia layanan biasanya memberikan
                             pemberitahuan kepada pengguna dan meminta persetujuan mereka terhadap perubahan tersebut.</p>
                         <h5>Terima kasih.</h5>
+                        @auth
+                            <div> <button type="button" class="btn btn-xs-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteAccount">
+                                    Hapus Akun
+                                </button>
+                            </div>
+                        @endauth
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="deleteAccount" tabindex="-1" aria-labelledby="deleteAccountLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header border-bottom-0">
+                            <h1 class="modal-title fs-5 text-dark" id="deleteAccountLabel">Hapus Akun</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5 class="text-dark">Apakah kamu yakin ingin menghapus akun ini ?</h5>
+                        </div>
+                        <div class="modal-footer border-top-0">
+                            <button type="button" class="btn btn-xs" data-bs-dismiss="modal">Tutup</button>
+                            <a class="btn btn-xs-danger" style="background-color:#dc3545 !important;"
+                                href="{{ route('dashboard.deleteAccount', ['id' => Auth::guard('web')->user()->id ?? 0]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Hapus
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         @include('clients.buyer.layouts.benefit')

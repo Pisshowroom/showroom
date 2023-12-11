@@ -1161,6 +1161,29 @@ a.text-brand-3:hover {
   text-transform: uppercase;
   background: url(../imgs/template/icons/arrow.svg) no-repeat right 0px top 20px;
 }
+
+.btn.btn-xs ,.btn.btn-xs-danger,.btn.btn-xs-success{
+    color: #ffffff;
+    border: none;
+    font-size: 11px !important;
+    font-weight: 400;
+    border-radius: 4px;
+    display: inline-block;
+    padding: 6px 19px;
+}
+.btn.btn-xs{
+    background-color: #425A8B;
+}
+.btn-xs-danger{
+    background-color: #dc3545;
+}
+.btn.btn-xs-success{
+    background-color: #28a745;
+}
+.btn.btn-xs i,.btn.btn-xs-danger i {
+  font-size: 11px;
+}
+
 .btn.btn-brand-2 {
   background-color: #FD9636;
   color: #ffffff;
@@ -10602,6 +10625,10 @@ a:hover span {
     max-width: none;
     height: 100%;
     max-height: 150px;
+  }
+  .btn.btn-xs,.btn.btn-xs-danger,.btn.btn-xs-success {
+    font-size: 10px;
+    padding: 5px 4px;
   }
 }
 @media (max-width: 575.98px) {

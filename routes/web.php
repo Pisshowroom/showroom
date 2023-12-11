@@ -185,6 +185,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::post('/perbarui-profil', [DashboardController::class, 'updateProfile'])->name('dashboard.updateProfile');
     Route::post('/tambah-alamat', [DashboardController::class, 'updateAddress'])->name('dashboard.updateAddress');
     Route::get('/hapus-alamat/{id}', [DashboardController::class, 'deleteAddress'])->name('dashboard.deleteAddress');
+    Route::get('/hapus-akun/{id}', [DashboardController::class, 'deleteAccount'])->name('dashboard.deleteAccount');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
     Route::get('/delete-order', [DashboardController::class, 'deleteOrder'])->name('deleteOrder');

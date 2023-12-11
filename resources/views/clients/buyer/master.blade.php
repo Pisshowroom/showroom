@@ -10,15 +10,26 @@
     <meta http-equiv="Expires" content="0">
     <meta name="msapplication-TileColor" content="#0E0E0E">
     <meta name="template-color" content="#0E0E0E">
-    <meta name="description" content="Index page">
+    <meta name="description" content="Pishop adalah Aplikasi & Website dari Pi Showroom">
     <meta name="keywords" content="index, page">
     <meta name="author" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pisshowroom.co/">
+    <meta property="og:title" content="Pishop">
+    <meta property="og:description" content="Pishop adalah Aplikasi & Website dari Pi Showroom">
+    <meta property="og:image" content="{{ asset('ecom/imgs/favicon.png') }}">
+
     <meta name="csrf-token" content="{{ csrf_token() }}" id="metaToken" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom/imgs/favicon.png') }}">
-    <link href="{{ asset('ecom/css/style.css?v=3.0.6') }}" rel="stylesheet">
+    <link href="{{ asset('ecom/css/style.css?v=3.0.7') }}" rel="stylesheet">
     {{-- pi coin --}}
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <script>Pi.init({ version: "2.0", sandbox: false })</script>
+    <script>
+        Pi.init({
+            version: "2.0",
+            sandbox: false
+        })
+    </script>
     <title>@yield('title')</title>
 
     @stack('css')
@@ -29,8 +40,8 @@
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
-                <div class="text-center"><img class="mb-10" style="max-width: 25px" src="{{ asset('ecom/imgs/favicon.png') }}"
-                        alt="loading favicon">
+                <div class="text-center"><img class="mb-10" style="max-width: 25px"
+                        src="{{ asset('ecom/imgs/favicon.png') }}" alt="loading favicon">
                     <div class="preloader-dots"></div>
                 </div>
             </div>
