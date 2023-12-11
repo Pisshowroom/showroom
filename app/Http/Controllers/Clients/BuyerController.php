@@ -108,6 +108,11 @@ class BuyerController extends Controller
         $data = $this->getCommonData();
         return view('clients.buyer.privacy', ['data' => $data]);
     }
+    public function termDeleteUser()
+    {
+        $data = $this->getCommonData();
+        return view('clients.buyer.term_delete_user', ['data' => $data]);
+    }
 
 
     //auth

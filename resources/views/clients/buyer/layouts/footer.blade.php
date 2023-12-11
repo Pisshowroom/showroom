@@ -44,6 +44,7 @@
                         <li><a href="{{ route('buyer.contact') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kontak Kami</a></li>
                         <li><a href="{{ route('buyer.about') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tentang Kami</a></li>
                         <li><a href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat & Ketentuan</a></li>
+                        <li><a href="{{ route('buyer.termDeleteUser') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Ketentuan Hapus Akun</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
