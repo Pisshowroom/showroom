@@ -160,6 +160,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('/register-as-seller', [UserController::class, 'registerAsSeller']);
         Route::post('/logout', [UserController::class, 'logout']);
         Route::post('/set-seller-active-status', [UserController::class, 'setSellerActiveStatus']);
+        Route::post('/delete-account', [UserController::class, 'deleteAccount']);
     });
 });
 

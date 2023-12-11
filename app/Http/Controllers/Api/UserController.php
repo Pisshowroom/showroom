@@ -154,7 +154,7 @@ class UserController extends Controller
             'for_seller' => true,
         ]);
 
-        $address = $addressSellerController->storeOrUpdate($request);
+        $addressSellerController->storeOrUpdate($request);
 
         $user->seller_name = $request->input('name');
         $user->seller_slug = Str::slug($request->name);
@@ -201,5 +201,14 @@ class UserController extends Controller
         $user->save();
 
         return ResponseAPI('Berhasil mengubah status seller', 200);
+    }
+
+    // delete user account
+    public function deleteAccount()
+    {
+        $user = Auth::guard('api-client')->user();
+
+        $user->delete();
+        return ResponseAPI('Akun berhasil dihapus');
     }
 }
