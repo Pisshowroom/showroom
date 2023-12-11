@@ -24,6 +24,7 @@ use Xendit\Xendit;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Support\Str;
+use App\Models\Setting;
 
 class OrderController extends Controller
 {
@@ -110,6 +111,68 @@ class OrderController extends Controller
         $order->date_arrived_at = $order->arrived_at ? parseDates($order->arrived_at) : '-';
         return view('clients.dashboard.order.detail', ['order' => $order]);
     }
+
+    public function cancelRefundReturnComplaint($identifier)
+    {
+        $user = Auth::guard('web')->user();
+        $order = Order::where('payment_identifier', $identifier)->first();
+        if (!$order)
+            return redirect("/pembeli/pesananku")->with('error', 'Pesanan tidak ditemukan')->with('auth', base64_encode($user->uid));
+
+        $order->status = Order::COMPLETED;
+
+        $order->save();
+        return redirect("/pembeli/pesananku")->with('success', 'Permintaan pengembalian dibatalkan')->with('auth', base64_encode($user->uid));
+    }
+
+
+    public function completedOrder($id)
+    {
+        $user = Auth::guard('web')->user();
+        $order = Order::findOrFail($id);
+        if (in_array($order->status, [Order::SHIPPED, Order::DELIVERED])) {
+            $order->status = Order::COMPLETED;
+        } else {
+            return redirect("/pembeli/pesananku")->with('error', 'Status Pesanan Belum memenuhi syarat untuk selesai')->with('auth', base64_encode($user->uid));
+        }
+
+        $seller = $order->seller;
+        $totalPrice = $order->total_final ? $order->total_final : $order->total;
+        $feeCommerce = 0;
+        $feeGlobalAmount = lypsisGetSetting("", [], true, ['seller_fee_amount', 'seller_fee_percent'])->toArray();
+        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
+        $dateFromDelivery = now();
+
+
+        if ($seller->seller_fee_amount > 0) {
+            $feeCommerce = $seller->seller_fee_amount;
+        } else if ($seller->seller_fee_percentage > 0) {
+            $feeCommerce = $totalPrice * ($seller->seller_fee_percentage / 100);
+        } else if ($feeGlobalAmount[0] > 0) {
+            $feeCommerce = $feeGlobalAmount[0];
+        } else if ($feeGlobalAmount[1] > 0) {
+            $feeCommerce = $totalPrice * ($feeGlobalAmount[1] / 100);
+        }
+
+        DB::beginTransaction();
+        $totalIncome = $totalPrice - $feeCommerce;
+
+        $order->market_fee_seller = $feeCommerce;
+        $order->arrived_at = $dateFromDelivery;
+        $order->save();
+
+        $commerceBalance = Setting::where('name', 'commerce_balance')->firstOrFail();
+        $theCommerceBalance = intval($commerceBalance->value);
+        $commerceBalance->value = $theCommerceBalance + $feeCommerce;
+        $commerceBalance->save();
+
+        $seller->balance += $totalIncome;
+        $seller->save();
+
+        DB::commit();
+        return redirect("/pembeli/pesananku")->with('success', 'Pesanan berhasil diselesaikan')->with('auth', base64_encode($user->uid));
+    }
+
 
     public function preCheckEarly(Request $request)
     {

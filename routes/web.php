@@ -196,6 +196,9 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/detail-pesanan/{identifier}', [BuyerOrderController::class, 'detailOrder'])->name('dashboard.detailOrder');
         Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
         Route::get('/ubah-alamat/{id}', [DashboardController::class, 'changeAddress'])->name('dashboard.changeAddress');
+        Route::get('/batalkan-pengembalian/{identifier}', [BuyerOrderController::class, 'cancelRefundReturnComplaint'])->name('dashboard.cancelRefundReturnComplaint');
+        Route::get('/completed-order/{id}', [BuyerOrderController::class, 'completedOrder'])->name('dashboard.completedOrder');
+        Route::post('/cancel-refund-return-complaint/{order}', [OrderDataController::class, 'cancelRefundReturnComplaint']);
         Route::get('/wishlist', [WishlistController::class, 'wishlist'])->name('buyer.wishlist');
         Route::post('/tambah/wishlist', [WishlistController::class, 'store'])->name('buyer.addWishlist');
         Route::get('/hapus/wishlist', [WishlistController::class, 'destroy'])->name('buyer.deleteWishlist');
@@ -221,7 +224,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/profil', [SellerController::class, 'profile'])->name('dashboardSeller.profile');
         Route::get('/ubah-alamat/{id}', [SellerController::class, 'addressSeller'])->name('dashboardSeller.addressSeller');
         Route::post('/tambah-alamat', [SellerController::class, 'updateAddressSeller'])->name('dashboardSeller.updateAddressSeller');
-        Route::get('/hapus-alamat/{id}', [SellerController::class, 'deleteAddressSeller'])->name('dashboardSeller.deleteAddressSeller');
+        Route::get('/hapus-alamat/{id}', [SellerController::class, 'cancelRefundReturnComplaint'])->name('dashboardSeller.deleteAddressSeller');
         Route::get('/tambah-produk', [SellerProductController::class, 'addProduct'])->name('dashboardSeller.addProduct');
         Route::post('/tambah-ubah-produk', [SellerProductController::class, 'addUpdateProduct'])->name('dashboardSeller.addUpdateProduct');
         Route::post('/tambah-ubah-produk-varian', [SellerProductController::class, 'addUpdateProductVariant'])->name('dashboardSeller.addUpdateProductVariant');
@@ -236,7 +239,6 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/penjual-tolak/{id}', [TransactionOrderController::class, 'sellerRejectOrder'])->name('dashboardSeller.sellerRejectOrder');
         Route::post('/penjual-kirim', [TransactionOrderController::class, 'sellerSendOrder'])->name('dashboardSeller.sellerSendOrder');
         Route::get('/penjual-cek-status-diantar/{id}', [TransactionOrderController::class, 'checkStatusDeliveredOrder'])->name('dashboardSeller.checkStatusDeliveredOrder');
-        Route::get('/completed-order/{id}', [TransactionOrderController::class, 'completedOrder'])->name('dashboardSeller.completedOrder');
         Route::get('/cairkan-uang', [WithdrawController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
         Route::get('/semua-pencairan-uang', [WithdrawController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
         Route::get('/detail-pencairan-uang/{id}', [WithdrawController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');

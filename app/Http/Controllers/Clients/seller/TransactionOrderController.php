@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Clients\seller;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -154,52 +153,6 @@ class TransactionOrderController extends Controller
         return redirect("/toko/semua-transaksi")->with('success', 'Pesanan telah sampai ketujuan')->with('auth', base64_encode($user->uid));
     }
 
-    public function completedOrder($id)
-    {
-        $user = Auth::guard('web')->user();
-        $order = Order::findOrFail($id);
-        if (in_array($order->status, [Order::SHIPPED, Order::DELIVERED])) {
-            $order->status = Order::COMPLETED;
-        } else {
-            return redirect("/toko/semua-transaksi")->with('error', 'Status Pesanan Belum memenuhi syarat untuk selesai')->with('auth', base64_encode($user->uid));
-        }
-
-        $seller = $order->seller;
-        $totalPrice = $order->total_final ? $order->total_final : $order->total;
-        $feeCommerce = 0;
-        $feeGlobalAmount = lypsisGetSetting("", [], true, ['seller_fee_amount', 'seller_fee_percent'])->toArray();
-        $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
-        $dateFromDelivery = now();
-
-
-        if ($seller->seller_fee_amount > 0) {
-            $feeCommerce = $seller->seller_fee_amount;
-        } else if ($seller->seller_fee_percentage > 0) {
-            $feeCommerce = $totalPrice * ($seller->seller_fee_percentage / 100);
-        } else if ($feeGlobalAmount[0] > 0) {
-            $feeCommerce = $feeGlobalAmount[0];
-        } else if ($feeGlobalAmount[1] > 0) {
-            $feeCommerce = $totalPrice * ($feeGlobalAmount[1] / 100);
-        }
-
-        DB::beginTransaction();
-        $totalIncome = $totalPrice - $feeCommerce;
-
-        $order->market_fee_seller = $feeCommerce;
-        $order->arrived_at = $dateFromDelivery;
-        $order->save();
-
-        $commerceBalance = Setting::where('name', 'commerce_balance')->firstOrFail();
-        $theCommerceBalance = intval($commerceBalance->value);
-        $commerceBalance->value = $theCommerceBalance + $feeCommerce;
-        $commerceBalance->save();
-
-        $seller->balance += $totalIncome;
-        $seller->save();
-
-        DB::commit();
-        return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil diselesaikan')->with('auth', base64_encode($user->uid));
-    }
 
     private function viewReceipt(Order $order)
     {

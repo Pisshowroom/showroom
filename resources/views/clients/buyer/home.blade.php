@@ -9,6 +9,16 @@ dd(request()->all());
 @endphp --}}
     {{-- {!! dd(request()->session()->all()); !!} --}}
     <main class="main">
+        @if (session('error'))
+            <div class="alert alert-warning" id="mydiv">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success" id="mydiv">
+                {{ session('success') }}
+            </div>
+        @endif
         <section class="section-box">
             <div class="banner-hero banner-1 pt-10">
                 <div class="container">
@@ -574,6 +584,10 @@ dd(request()->all());
 @endsection
 @push('importjs')
     <script>
+        setTimeout(function() {
+            $('#mydiv').fadeOut('fast');
+        }, 2000);
+
         $(document).ready(function() {
             $('.info-right').each(function() {
                 var text = $(this).find('.color-brand-3.font-sm-bold').text();

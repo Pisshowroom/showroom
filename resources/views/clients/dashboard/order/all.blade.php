@@ -92,10 +92,18 @@
                                                 <a class="btn btn-xs-danger"
                                                     href="{{ route('dashboard.detailOrderForComplain', ['identifier' => $order->payment_identifier ?? '1234', 'status' => 'complaint']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Komplain</a>
-                                            @elseif ($order->status == 'Delivered' || $order->status == 'Completed')
+                                            @elseif ($order->status == 'Delivered')
                                                 <a class="btn btn-xs-danger"
                                                     href="{{ route('dashboard.detailOrderForComplain', ['identifier' => $order->payment_identifier ?? '1234', 'status' => 'refund']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Ajukan Pengembalian</a>
+                                            @elseif ($order->status == 'Shipped' || $order->status == 'Delivered')
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboard.completedOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Selesai</a>
+                                            @elseif ($order->status == 'RequestedRefund' || $order->status == 'RequestedReturn' || $order->status == 'COMPLAINT')
+                                                <a class="btn btn-xs-danger"
+                                                    href="{{ route('dashboard.cancelRefundReturnComplaint', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Batalkan Pengajuan</a>
                                             @elseif ($order->status == 'Pending' && $order->expired == true)
                                                 <a class="btn btn-xs-danger"
                                                     href="{{ route('deleteOrder', ['identifier' => $order->payment_identifier ?? '1234', 'page' => 'dashboard.myOrder']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Hapus</a>

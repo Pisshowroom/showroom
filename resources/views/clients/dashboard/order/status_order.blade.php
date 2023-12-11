@@ -23,15 +23,15 @@
 @elseif ($order->status == 'Completed')
     <span class="badge rounded-pill alert-success fw-normal">Selesai</span>
 @elseif ($order->status == 'RequestedReturn')
-    <span class="badge rounded-pill alert-warning fw-normal">PENGEMBALIAN DITOLAK</span>
+    <span class="badge rounded-pill alert-warning fw-normal">Pengembalian Ditolak</span>
 @elseif ($order->status == 'ReturnAccepted')
-    <span class="badge rounded-pill alert-success fw-normal">PENGEMBALIAN DITERIMA</span>
+    <span class="badge rounded-pill alert-success fw-normal">Pengembalian Diterima</span>
 @elseif ($order->status == 'ReturnShipped')
-    <span class="badge rounded-pill alert-danger fw-normal">KEMBALI DIKIRIM</span>
+    <span class="badge rounded-pill alert-danger fw-normal">Kembali Dikirim</span>
 @elseif ($order->status == 'ReturnDelivered')
-    <span class="badge rounded-pill alert-success fw-normal">PENGEMBALIAN DIKIRIM</span>
+    <span class="badge rounded-pill alert-success fw-normal">Pengembalian Dikirim</span>
 @elseif ($order->status == 'ReturnCompleted')
-    <span class="badge rounded-pill alert-success fw-normal">PENGEMBALIAN SELESAI</span>
+    <span class="badge rounded-pill alert-success fw-normal">Pengembalian Selesai</span>
 @elseif ($order->status == 'ReturnDeclined')
     <span class="badge rounded-pill alert-danger fw-normal">Refund diminta</span>
 @elseif ($order->status == 'Cancelled')
