@@ -795,6 +795,7 @@ class OrderController extends Controller
 
     private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false)
     {
+        dd($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false);
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/cost");
