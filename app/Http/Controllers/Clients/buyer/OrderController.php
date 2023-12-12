@@ -813,9 +813,12 @@ class OrderController extends Controller
             'Content-Type: application/json',
         ]);
         curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+        $res = curl_exec($curl);
+        
+        dd(json_decode($res));
+        sleep(30);
 
         try {
-            $res = curl_exec($curl);
 
             if ($res === false) {
                 throw new Exception(curl_error($curl), curl_errno($curl));
@@ -823,8 +826,6 @@ class OrderController extends Controller
 
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-            dd(json_decode($res));
-            sleep(30);
 
             if ($httpCode >= 400) {
                 // throw new Exception("Error getting shipping cost: HTTP $res");
