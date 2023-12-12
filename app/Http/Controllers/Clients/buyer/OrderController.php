@@ -795,6 +795,7 @@ class OrderController extends Controller
 
     private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false)
     {
+
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/cost");
@@ -813,19 +814,18 @@ class OrderController extends Controller
             'Content-Type: application/json',
         ]);
         curl_setopt($curl, CURLOPT_TIMEOUT, 15);
-        $res = curl_exec($curl);
-        
-        dd(json_decode($res));
-        sleep(30);
 
         try {
+            $res = curl_exec($curl);
+
+            dd(json_decode($res), $originId, $destinationId, $weight, $deliveryServices, $earlierMode);
+            sleep(30);
 
             if ($res === false) {
                 throw new Exception(curl_error($curl), curl_errno($curl));
             }
 
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
 
             if ($httpCode >= 400) {
                 // throw new Exception("Error getting shipping cost: HTTP $res");
