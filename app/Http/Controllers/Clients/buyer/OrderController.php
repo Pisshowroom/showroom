@@ -348,7 +348,13 @@ class OrderController extends Controller
         $requestForShippingPrice = new Request();
         $requestForShippingPrice->merge($dataRequest);
         // $data['delivery_services_info'] = checkShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight);
-        $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($addressBuyer->ro_subdistrict_id, $sellerAddress->ro_city_id, $weight, $seller->seller_delivery_service);
+        try {
+            $data['delivery_services_info'] = $this->lypsisCheckShippingPrice($sellerAddress->ro_city_id, $addressBuyer->ro_subdistrict_id, $weight, $seller->seller_delivery_service);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            return ResponseAPI($message, 400);
+        }
         // $aa = $this->checkShippingPrice();
         $data['products'] = $products;
 
@@ -811,7 +817,6 @@ class OrderController extends Controller
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'key: ' . env('RO_KEY'),
             'Content-Type: application/json',
-            "Content-Length: 51"
         ]);
         curl_setopt($curl, CURLOPT_TIMEOUT, 15);
 
