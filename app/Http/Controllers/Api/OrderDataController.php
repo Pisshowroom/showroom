@@ -232,6 +232,8 @@ class OrderDataController extends Controller
     {
         $request->validate([
             'returning_product_type' => 'required|in:ReturnProdukDanUang,Refund,Komplain',
+            'returning_reason' => 'required',
+                'returning_description' => 'required',
         ]);
 
         DB::beginTransaction();
@@ -240,8 +242,7 @@ class OrderDataController extends Controller
         if ($request->returning_product_type == 'ReturnProdukDanUang') {
             // TODOS add checker status suits for this and 2 others
             $request->validate([
-                'returning_reason' => 'required',
-                'returning_description' => 'required',
+                
                 'returning_images' => 'required',
                 'order_items' => 'required',
                 'order_items.*.id' => 'required',
@@ -259,7 +260,6 @@ class OrderDataController extends Controller
                 }
             }
 
-            $order->returning_description = $request->returning_description;
             $order->returning_images = $images;
             if (isset($request->returning_video) && is_uploaded_file($request->returning_video)) {
                 $order->returning_video = uploadFile($request->returning_video, 'uploads/video_refund_complain');
@@ -282,8 +282,6 @@ class OrderDataController extends Controller
             }
         } else if ($request->returning_product_type == 'Refund') {
             $request->validate([
-                'returning_reason' => 'required',
-                'returning_description' => 'required',
                 'returning_images' => 'required',
                 'returning_video' => 'required|mimes:mp4|max:10240',
             ]);
@@ -297,23 +295,19 @@ class OrderDataController extends Controller
                 }
             }
 
-            $order->returning_description = $request->returning_description;
             $order->returning_images = $images;
             if (isset($request->returning_video) && is_uploaded_file($request->returning_video)) {
                 $order->returning_video = uploadFile($request->returning_video, 'uploads/video_refund_complain');
             }
             $refundTotal = $order->subtotal;
         } else if ($request->returning_product_type == 'Komplain') {
-            // TODOS: belum
-            $request->validate([
-                'returning_reason' => 'required',
-            ]);
-
+  
             $refundTotal = $order->subtotal;
             $order->status = Order::COMPLAINT;
         }
 
         $order->refund_total = $refundTotal;
+        $order->returning_description = $request->returning_description;
         $order->returning_product_type = $request->returning_product_type;
         $order->returning_reason = $request->returning_reason ?? null;
 
@@ -344,6 +338,14 @@ class OrderDataController extends Controller
         
         $order->save();
         return ResponseAPI('Permintaan pengembalian dikonfirmasi', 200);
+    }
+
+    public function sellerReceivingOrder(Order $order)
+    {
+        $order->status = Order::RETURN_RECEIVED;
+        
+        $order->save();
+        return ResponseAPI('Permintaan pengembalian diterima', 200);
     }
 
 }
