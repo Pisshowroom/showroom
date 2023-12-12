@@ -259,7 +259,6 @@ class OrderDataController extends Controller
                 }
             }
 
-            $order->returning_description = $request->returning_description;
             $order->returning_images = $images;
             if (isset($request->returning_video) && is_uploaded_file($request->returning_video)) {
                 $order->returning_video = uploadFile($request->returning_video, 'uploads/video_refund_complain');
@@ -297,7 +296,6 @@ class OrderDataController extends Controller
                 }
             }
 
-            $order->returning_description = $request->returning_description;
             $order->returning_images = $images;
             if (isset($request->returning_video) && is_uploaded_file($request->returning_video)) {
                 $order->returning_video = uploadFile($request->returning_video, 'uploads/video_refund_complain');
@@ -307,6 +305,7 @@ class OrderDataController extends Controller
             // TODOS: belum
             $request->validate([
                 'returning_reason' => 'required',
+                'returning_description' => 'required',
             ]);
 
             $refundTotal = $order->subtotal;
@@ -314,6 +313,7 @@ class OrderDataController extends Controller
         }
 
         $order->refund_total = $refundTotal;
+        $order->returning_description = $request->returning_description;
         $order->returning_product_type = $request->returning_product_type;
         $order->returning_reason = $request->returning_reason ?? null;
 
@@ -344,6 +344,14 @@ class OrderDataController extends Controller
         
         $order->save();
         return ResponseAPI('Permintaan pengembalian dikonfirmasi', 200);
+    }
+
+    public function sellerReceivingOrder(Order $order)
+    {
+        $order->status = Order::RETURN_RECEIVED;
+        
+        $order->save();
+        return ResponseAPI('Permintaan pengembalian diterima', 200);
     }
 
 }
