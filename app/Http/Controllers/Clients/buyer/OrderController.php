@@ -804,7 +804,7 @@ class OrderController extends Controller
             'origin' => $originId,
             'originType' => 'city',
             'destination' => $destinationId,
-            'destinationType' => 'city',
+            'destinationType' => 'subdistrict',
             'weight' => $weight,
             'courier' => $deliveryServices,
         ]));
@@ -816,13 +816,12 @@ class OrderController extends Controller
 
         try {
             $res = curl_exec($curl);
-            
+
             if ($res === false) {
                 throw new Exception(curl_error($curl), curl_errno($curl));
             }
 
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-            
 
             if ($httpCode >= 400) {
                 // throw new Exception("Error getting shipping cost: HTTP $res");
