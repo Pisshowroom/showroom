@@ -24,7 +24,7 @@ class OrderDataController extends Controller
         return "List Refund";
     }
 
-    public function acceptComplaint($order)
+    public function acceptComplaint(Order $order)
     {
         DB::beginTransaction();
         $order->load('user');
@@ -46,7 +46,7 @@ class OrderDataController extends Controller
         return ResponseAPI('Complaint Accepted', 200);
     }
 
-    public function rejectComplaint($order)
+    public function rejectComplaint(Order $order)
     {
         $order->status = Order::COMPLAINT_DECLINED;
         $order->save();
@@ -54,22 +54,27 @@ class OrderDataController extends Controller
         return ResponseAPI('Complaint Rejected', 200);
     }
 
-    public function acceptReturnBack($order)
+    public function acceptReturnBack(Order $order)
     {
-        $order->status = Order::RETURN_ACCEPTED;
-        $order->save();
+        // if order REQUESTED_RETURN
+        if ($order->status == Order::REQUESTED_RETURN) {
+            $order->status = Order::RETURN_ACCEPTED;
+            $order->save();
 
-        return ResponseAPI('Return Back Accepted', 200);
+            return ResponseAPI('Pengembalian disetujui', 200);
+        } else {
+            return ResponseAPI('Gagal, Data pesanan / Status tidak valid', 404);
+        }
     }
 
-    public function rejectReturnBack($order)
+    public function rejectReturnBack(Order $order)
     {
         $order->status = Order::RETURN_DECLINED;
         $order->save();
-        return ResponseAPI('Return Back Rejected', 200);
+        return ResponseAPI('Pengembalian ditolak', 200);
     }
 
-    public function acceptRefund($order)
+    public function acceptRefund(Order $order)
     {
         $order->load('user');
 
@@ -89,7 +94,7 @@ class OrderDataController extends Controller
         return ResponseAPI('Refund Accepted', 200);
     }
 
-    public function rejectRefund($order)
+    public function rejectRefund(Order $order)
     {
         $order->status = Order::REFUND_DECLINED;
         $order->save();
