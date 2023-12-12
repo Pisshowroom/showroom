@@ -202,14 +202,14 @@ class ProductController extends Controller
                 $images = [];
                 if (empty($variant['id'])) {
                     $theVariant = $productParent->replicate();
-                    $productName .= " AA";
+                    $productName;
                     if (isset($variant['images'])) {
                         $images[] = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
                     }
                     $image = $images ?? null;
                     $theVariant->parent_id = $productParent->id;
                     $theVariant->name = $productName;
-                    $theVariant->slug = null;
+                    $theVariant->slug = Str::slug($theVariant->name);
                     $theVariant->images = $image ?? null;
                     $theVariant->weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
                     if ($theVariant->weight == 0) {
@@ -229,7 +229,7 @@ class ProductController extends Controller
                 } else {
                     $theVariant = Product::where('parent_id', $productParent->id)->where('id', $variant['id'])
                         ->firstOrFail();
-                    $productName .= " BB";
+                    $productName;
                     if (isset($variant['images'])) {
                         $images[] = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
                     }
