@@ -21,7 +21,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}" id="metaToken" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('ecom/imgs/favicon.png') }}">
-    <link href="{{ asset('ecom/css/style.css?v=3.0.7') }}" rel="stylesheet">
+    <link href="{{ asset('ecom/css/style.css?v=3.0.8') }}" rel="stylesheet">
     {{-- pi coin --}}
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <script>

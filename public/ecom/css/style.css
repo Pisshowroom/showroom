@@ -8589,6 +8589,7 @@ a:hover span {
 }
 
 .display-text-short {
+  -webkit-user-modify: read-write-plaintext-only;
   display: inline-block;
   width: 100%;
   height: 125px;
