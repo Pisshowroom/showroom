@@ -814,9 +814,6 @@ class OrderController extends Controller
         ]);
         curl_setopt($curl, CURLOPT_TIMEOUT, 15);
 
-        dd(env('RO_KEY'));
-        sleep(30);
-
         try {
             $res = curl_exec($curl);
 
@@ -825,6 +822,9 @@ class OrderController extends Controller
             }
 
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            dd(json_decode($res));
+            sleep(30);
 
             if ($httpCode >= 400) {
                 // throw new Exception("Error getting shipping cost: HTTP $res");
