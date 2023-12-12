@@ -369,6 +369,7 @@
             e.preventDefault();
 
             var formData = new FormData(this);
+            $('.loading').removeClass('d-none').addClass('show-modal');
 
             $.ajax({
                 type: "POST",

@@ -811,6 +811,7 @@ class OrderController extends Controller
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'key: ' . env('RO_KEY'),
             'Content-Type: application/json',
+            "Content-Length: 51"
         ]);
         curl_setopt($curl, CURLOPT_TIMEOUT, 15);
 
