@@ -795,24 +795,52 @@ class OrderController extends Controller
 
     private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false)
     {
+        // $curl = curl_init();
+
+        // curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/cost");
+        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($curl, CURLOPT_POST, true);
+        // curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
+        //     'origin' => $originId,
+        //     'originType' => 'city',
+        //     'destination' => $destinationId,
+        //     'destinationType' => 'subdistrict',
+        //     'weight' => $weight,
+        //     'courier' => $deliveryServices,
+        // ]));
+        // curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        //     'key: ' . env('RO_KEY'),
+        //     'Content-Type: application/json',
+        // ]);
+        // curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+
+
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/cost");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
-            'origin' => $originId,
-            'originType' => 'city',
-            'destination' => $destinationId,
-            'destinationType' => 'subdistrict',
-            'weight' => $weight,
-            'courier' => $deliveryServices,
-        ]));
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'key: ' . env('RO_KEY'),
-            'Content-Type: application/json',
-        ]);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://pro.rajaongkir.com/api/cost",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => http_build_query([
+                'origin' => $originId,
+                'originType' => 'city',
+                'destination' => $destinationId,
+                'destinationType' => 'subdistrict',
+                'weight' => $weight,
+                'courier' => $deliveryServices,
+            ]),
+            CURLOPT_HTTPHEADER => array(
+                "content-type: application/json",
+                "key: " . env('RO_KEY')
+            ),
+        ));
+
+        // $response = curl_exec($curl);
+
 
         try {
             $res = curl_exec($curl);
