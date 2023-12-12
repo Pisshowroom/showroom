@@ -138,6 +138,105 @@ class TransactionOrderController extends Controller
         ], 200, [], JSON_UNESCAPED_SLASHES);
     }
 
+    public function acceptComplaint($id)
+    {
+        $order = Order::first($id);
+        $admin = Auth::guard('web')->user();
+        if (!$order)
+            return redirect("/toko/semua-transaksi")->with('error', 'Transaksi tidak ditemukan')->with('auth', base64_encode($admin->uid));
+
+        DB::beginTransaction();
+        $order->load('user');
+        $user = $order->user;
+
+        if ($user) {
+            $user->update([
+                'balance' => ($user->balance + $order->refund_total)
+            ]);
+        } else {
+            return redirect("/toko/semua-transaksi")->with('error', 'Gagal, Data Pembeli Tidak Ditemukan')->with('auth', base64_encode($admin->uid));
+        }
+        $order->status = Order::COMPLAINT_ACCEPTED;
+
+        $order->save();
+
+        DB::commit();
+        return redirect("/toko/semua-transaksi")->with('success', 'Komplain disetujui')->with('auth', base64_encode($admin->uid));
+    }
+
+    public function rejectComplaint($id)
+    {
+        $order = Order::first($id);
+        $admin = Auth::guard('web')->user();
+        if (!$order)
+            return redirect("/toko/semua-transaksi")->with('error', 'Transaksi tidak ditemukan')->with('auth', base64_encode($admin->uid));
+
+        $order->status = Order::COMPLAINT_DECLINED;
+        $order->save();
+        return redirect("/toko/semua-transaksi")->with('success', 'Komplain ditolak')->with('auth', base64_encode($admin->uid));
+    }
+
+    public function acceptReturnBack($id)
+    {
+        $order = Order::first($id);
+        $admin = Auth::guard('web')->user();
+        if (!$order)
+            return redirect("/toko/semua-transaksi")->with('error', 'Transaksi tidak ditemukan')->with('auth', base64_encode($admin->uid));
+
+        $order->status = Order::RETURN_ACCEPTED;
+        $order->save();
+        return redirect("/toko/semua-transaksi")->with('success', 'Pengembalian barang diterima')->with('auth', base64_encode($admin->uid));
+    }
+
+    public function rejectReturnBack($id)
+    {
+        $order = Order::first($id);
+        $admin = Auth::guard('web')->user();
+        if (!$order)
+            return redirect("/toko/semua-transaksi")->with('error', 'Transaksi tidak ditemukan')->with('auth', base64_encode($admin->uid));
+
+        $order->status = Order::RETURN_DECLINED;
+        $order->save();
+        return redirect("/toko/semua-transaksi")->with('success', 'Pengembalian barang ditolak')->with('auth', base64_encode($admin->uid));
+    }
+
+    public function acceptRefund($id)
+    {
+        $order = Order::first($id);
+        $admin = Auth::guard('web')->user();
+        if (!$order)
+            return redirect("/toko/semua-transaksi")->with('error', 'Transaksi tidak ditemukan')->with('auth', base64_encode($admin->uid));
+
+        $order->load('user');
+
+        $user = $order->user;
+
+        if ($user) {
+            $user->update([
+                'balance' => ($user->balance + $order->refund_total)
+            ]);
+        } else {
+            return redirect("/toko/semua-transaksi")->with('error', 'Gagal, Data Pembeli Tidak Ditemukan')->with('auth', base64_encode($admin->uid));
+        }
+
+        $order->status = Order::REFUND_ACCEPTED;
+        $order->save();
+        return redirect("/toko/semua-transaksi")->with('success', 'Refund disetujui')->with('auth', base64_encode($admin->uid));
+    }
+
+    public function rejectRefund($id)
+    {
+        $order = Order::first($id);
+        $admin = Auth::guard('web')->user();
+        if (!$order)
+            return redirect("/toko/semua-transaksi")->with('error', 'Transaksi tidak ditemukan')->with('auth', base64_encode($admin->uid));
+
+        $order->status = Order::REFUND_DECLINED;
+        $order->save();
+        return redirect("/toko/semua-transaksi")->with('success', 'Refund ditolak')->with('auth', base64_encode($admin->uid));
+    }
+
+
     public function checkStatusDeliveredOrder($id)
     {
         $user = Auth::guard('web')->user();

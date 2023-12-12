@@ -168,7 +168,10 @@ class ProductController extends Controller
             ->where('slug', $slug)
             ->with('variants')
             ->whereNull('deleted_at')  // Assuming products table has a 'deleted_at' column
-            ->firstOrFail();
+            ->first();
+        if (!$product)
+            return redirect()->route('buyer.home')->with('error', 'Produk tidak ditemukan.')->with('auth', base64_encode($user->uid));
+
         if ($product->discount && $product->discount > 0) {
             $product->price_discount = $product->price - ($product->price * ($product->discount / 100));
         } else {

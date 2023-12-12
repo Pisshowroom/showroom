@@ -36,6 +36,14 @@
     <span class="badge rounded-pill alert-danger fw-normal">Refund diminta</span>
 @elseif ($order->status == 'Cancelled')
     <span class="badge rounded-pill alert-warning fw-normal">Dibatalkan</span>
+@elseif ($order->status == 'Complaint')
+    <span class="badge rounded-pill alert-warning fw-normal">Pengajuan Komplain</span>
+@elseif ($order->status == 'ComplaintDeclined')
+    <span class="badge rounded-pill alert-warning fw-normal">Komplain ditolak</span>
+@elseif ($order->status == 'ComplaintAccepted')
+    <span class="badge rounded-pill alert-success fw-normal">Komplain disetujui</span>
+@elseif ($order->status == 'ComplaintCompleted')
+    <span class="badge rounded-pill alert-success fw-normal">Komplain selesai</span>
 @else
     <span class="badge rounded-pill alert-warning fw-normal">Menunggu
         Pembayaran</span>
