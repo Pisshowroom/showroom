@@ -239,6 +239,8 @@
                     // Convert the order_items array to a JSON string
                     formData.set('order_items', JSON.stringify(formData.getAll('order_items')));
                 }
+                $('.loading').removeClass('d-none').addClass('show-modal');
+
                 $.ajax({
                     type: "POST",
                     url: $(this).attr('action'),
