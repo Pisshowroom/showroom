@@ -807,23 +807,23 @@ class OrderController extends Controller
             'destination' => $destinationId,
             'destinationType' => 'subdistrict',
             'weight' => $weight,
-            'courier' => "jne",
+            'courier' => $deliveryServices,
         ]));
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'key: ' . env('RO_KEY'),
             'Content-Type: application/json',
         ]);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
 
         try {
             $res = curl_exec($curl);
 
-            dd(json_decode($res), $originId, $destinationId, $weight, $deliveryServices, $earlierMode);
-            sleep(30);
-
             if ($res === false) {
                 throw new Exception(curl_error($curl), curl_errno($curl));
             }
+
+            dd(json_decode($res));
 
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
