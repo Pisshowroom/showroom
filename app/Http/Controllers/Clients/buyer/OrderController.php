@@ -801,7 +801,9 @@ class OrderController extends Controller
         curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/cost");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query([
             'origin' => $originId,
             'originType' => 'city',
             'destination' => $destinationId,
@@ -813,8 +815,7 @@ class OrderController extends Controller
             'key: ' . env('RO_KEY'),
             'Content-Type: application/json',
         ]);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-        curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+        
 
         try {
             $res = curl_exec($curl);
