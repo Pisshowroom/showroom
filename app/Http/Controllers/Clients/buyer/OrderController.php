@@ -807,7 +807,7 @@ class OrderController extends Controller
             'destination' => $destinationId,
             'destinationType' => 'subdistrict',
             'weight' => $weight,
-            'courier' => $deliveryServices,
+            'courier' => "jne",
         ]));
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'key: ' . env('RO_KEY'),
