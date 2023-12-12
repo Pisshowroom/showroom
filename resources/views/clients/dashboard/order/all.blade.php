@@ -96,11 +96,15 @@
                                                 <a class="btn btn-xs-danger"
                                                     href="{{ route('dashboard.detailOrderForComplain', ['identifier' => $order->payment_identifier ?? '1234', 'status' => 'refund']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Ajukan Pengembalian</a>
+                                            @elseif ($order->status == 'ReturnAccepted')
+                                                <a class="btn btn-xs-success"
+                                                    href="{{ route('dashboard.sendProductBack', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Kirim Barang</a>
                                             @elseif ($order->status == 'Shipped' || $order->status == 'Delivered')
                                                 <a class="btn btn-xs-success"
                                                     href="{{ route('dashboard.completedOrder', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Selesai</a>
-                                            @elseif ($order->status == 'RequestedRefund' || $order->status == 'RequestedReturn' || $order->status == 'COMPLAINT')
+                                            @elseif ($order->status == 'RequestedRefund' || $order->status == 'Complaint')
                                                 <a class="btn btn-xs-danger"
                                                     href="{{ route('dashboard.cancelRefundReturnComplaint', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Batalkan Pengajuan</a>

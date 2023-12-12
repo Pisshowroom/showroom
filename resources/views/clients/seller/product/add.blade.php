@@ -113,7 +113,8 @@
                                 <input class="form-control" name="price" id="price" required
                                     onkeypress="return event.charCode>=48&&event.charCode<=57"
                                     value="{{ $product != null ? numbFormat($product->price) : '' }}" type="tel">
-                                <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp 50.000</p>
+                                <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal
+                                    {{ numbFormat('5000') }}</p>
                             </div>
                             <div class="mb-4">
                                 <div class="form-check form-switch mx-3">
@@ -312,7 +313,7 @@
                 tanpa_rupiah.val(formatRupiah(this.value, 'Rp '));
 
                 // Check if the entered price is less than 50,000
-                if (parseFloat(this.value.replace(/[^\d]/g, '')) < 50000) {
+                if (parseFloat(this.value.replace(/[^\d]/g, '')) < 5000) {
                     $('.textCancel').addClass('d-block').removeClass('d-none');
                 } else {
                     $('.textCancel').addClass('d-none').removeClass('d-block');

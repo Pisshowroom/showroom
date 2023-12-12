@@ -125,6 +125,37 @@ class OrderController extends Controller
         return redirect("/pembeli/pesananku")->with('success', 'Permintaan pengembalian dibatalkan')->with('auth', base64_encode($user->uid));
     }
 
+    public function sendProductBack($identifier)
+    {
+        $order = Order::where('payment_identifier', $identifier)->firstOrFail();
+        // $order = Order::where('payment_identifier', $identifier)->where('status', 'ProcessedBySeller')->firstOrFail();
+        return view('clients.dashboard.order.send_product_back', ['order' => $order]);
+    }
+
+
+    public function buyerSendingOrder(Request $request)
+    {
+        $request->validate([
+            'returning_delivery_service_code' => 'required',
+            'returning_delivery_service_name' => 'required',
+        ]);
+        $user = Auth::guard('web')->user();
+
+        $order = Order::where('id', $request->id)->first();
+        if (!$order)
+            return redirect("/pembeli/pesananku")->with('error', 'Pesanan tidak ditemukan')->with('auth', base64_encode($user->uid));
+        $order->returning_delivery_service_code = $request->returning_delivery_service_code;
+        $order->returning_delivery_service_name = $request->returning_delivery_service_name;
+        $order->status = Order::RETURN_SHIPPED;
+
+        $order->save();
+        return response()->json([
+            "status" => "success",
+            "message" => "Permintaan pengembalian dikonfirmasi",
+            "redirect" => route('dashboard.myOrder') . '?auth=' . base64_encode($user->uid)
+        ], 200, [], JSON_UNESCAPED_SLASHES);
+    }
+
 
     public function completedOrder($id)
     {

@@ -196,6 +196,8 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/detail-pesanan/{identifier}', [BuyerOrderController::class, 'detailOrder'])->name('dashboard.detailOrder');
         Route::get('/pengaturan', [DashboardController::class, 'settings'])->name('dashboard.settings');
         Route::get('/ubah-alamat/{id}', [DashboardController::class, 'changeAddress'])->name('dashboard.changeAddress');
+        Route::get('/kirim-nomor-resi/{identifier}', [BuyerOrderController::class, 'sendProductBack'])->name('dashboard.sendProductBack');
+        Route::post('/kirim-barang-kembali', [BuyerOrderController::class, 'buyerSendingOrder'])->name('dashboard.buyerSendingOrder');
         Route::get('/batalkan-pengembalian/{identifier}', [BuyerOrderController::class, 'cancelRefundReturnComplaint'])->name('dashboard.cancelRefundReturnComplaint');
         Route::get('/completed-order/{id}', [BuyerOrderController::class, 'completedOrder'])->name('dashboard.completedOrder');
         Route::post('/cancel-refund-return-complaint/{order}', [OrderDataController::class, 'cancelRefundReturnComplaint']);
@@ -211,7 +213,6 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/index-history-fund', [RefundController::class, 'indexHistoryFund'])->name('dashboard.indexHistoryFund');
         Route::get('/keluhan-terkait-produk/{identifier}', [RefundController::class, 'detailOrderForComplain'])->name('dashboard.detailOrderForComplain');
         Route::post('/pengajuan-pengembalian-dana', [RefundController::class, 'requestRefund'])->name('dashboard.requestRefund');
-
     });
     Route::group(['prefix' => 'pi'], function () {
         Route::post('incomplete', [BuyerOrderController::class, 'serverIncomplete']);
@@ -239,6 +240,17 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/penjual-tolak/{id}', [TransactionOrderController::class, 'sellerRejectOrder'])->name('dashboardSeller.sellerRejectOrder');
         Route::post('/penjual-kirim', [TransactionOrderController::class, 'sellerSendOrder'])->name('dashboardSeller.sellerSendOrder');
         Route::get('/penjual-cek-status-diantar/{id}', [TransactionOrderController::class, 'checkStatusDeliveredOrder'])->name('dashboardSeller.checkStatusDeliveredOrder');
+
+        Route::group(['prefix' => 'complaint'], function () {
+            Route::post('/accept-complaint/{id}', [TransactionOrderController::class, 'acceptComplaint'])->name('dashboardSeller.acceptComplaint');
+            Route::post('/accept-return-back/{id}', [TransactionOrderController::class, 'acceptReturnBack'])->name('dashboardSeller.acceptReturnBack');
+            Route::post('/accept-refund/{id}', [TransactionOrderController::class, 'acceptRefund'])->name('dashboardSeller.acceptRefund');
+            Route::post('/reject-complaint/{id}', [TransactionOrderController::class, 'rejectComplaint'])->name('dashboardSeller.rejectComplaint');
+            Route::post('/reject-return-back/{id}', [TransactionOrderController::class, 'rejectReturnBack'])->name('dashboardSeller.rejectReturnBack');
+            Route::post('/reject-refund/{id}', [TransactionOrderController::class, 'rejectRefund'])->name('dashboardSeller.rejectRefund');
+        });
+
+
         Route::get('/cairkan-uang', [WithdrawController::class, 'addWithdraw'])->name('dashboardSeller.addWithdraw');
         Route::get('/semua-pencairan-uang', [WithdrawController::class, 'allWithdraw'])->name('dashboardSeller.allWithdraw');
         Route::get('/detail-pencairan-uang/{id}', [WithdrawController::class, 'detailWithdraw'])->name('dashboardSeller.detailWithdraw');
@@ -247,5 +259,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::post('/perbarui-profil', [SellerController::class, 'updateProfile'])->name('dashboardSeller.updateProfile');
     });
 });
+
+
 // seller
 Route::get('/seller', [SellerController::class, 'home'])->name('seller.home');
