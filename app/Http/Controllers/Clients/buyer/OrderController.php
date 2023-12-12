@@ -815,7 +815,7 @@ class OrderController extends Controller
             'key: ' . env('RO_KEY'),
             'Content-Type: application/json',
         ]);
-        
+
 
         try {
             $res = curl_exec($curl);
@@ -824,7 +824,14 @@ class OrderController extends Controller
                 throw new Exception(curl_error($curl), curl_errno($curl));
             }
 
-            dd(json_decode($res));
+            dd(json_decode($res), http_build_query([
+                'origin' => $originId,
+                'originType' => 'city',
+                'destination' => $destinationId,
+                'destinationType' => 'subdistrict',
+                'weight' => $weight,
+                'courier' => $deliveryServices,
+            ]));
 
             $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
