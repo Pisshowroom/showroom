@@ -801,9 +801,11 @@ class OrderController extends Controller
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
-            'origin' => $originId,
+            // 'origin' => $originId,
+            'origin' => "365",
             'originType' => 'city',
-            'destination' => $destinationId,
+            // 'destination' => $destinationId,
+            'destination' => "5106",
             'destinationType' => 'subdistrict',
             'weight' => $weight,
             'courier' => $deliveryServices,
@@ -811,7 +813,6 @@ class OrderController extends Controller
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'key: ' . env('RO_KEY'),
             'Content-Type: application/json',
-            "Content-Length: 51"
         ]);
         curl_setopt($curl, CURLOPT_TIMEOUT, 15);
 
