@@ -29,7 +29,7 @@ class OrderDataController extends Controller
         DB::beginTransaction();
         $order->load('user');
         $user = $order->user;
-        
+
         if ($user) {
             $user->update([
                 'balance' => ($user->balance + $order->refund_total)
@@ -38,7 +38,7 @@ class OrderDataController extends Controller
             return ResponseAPI('Gagal, Data Pembeli Tidak Ditemukan', 404);
         }
         $order->status = Order::COMPLAINT_ACCEPTED;
-        
+
         $order->save();
 
         DB::commit();
@@ -79,7 +79,7 @@ class OrderDataController extends Controller
         $order->load('user');
 
         $user = $order->user;
-        
+
         if ($user) {
             $user->update([
                 'balance' => ($user->balance + $order->refund_total)
@@ -87,7 +87,7 @@ class OrderDataController extends Controller
         } else {
             return ResponseAPI('Gagal, Data Pembeli Tidak Ditemukan', 404);
         }
-        
+
         $order->status = Order::REFUND_ACCEPTED;
         $order->save();
 

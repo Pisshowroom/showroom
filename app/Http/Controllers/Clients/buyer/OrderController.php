@@ -801,18 +801,15 @@ class OrderController extends Controller
 
     private function lypsisCheckShippingPrice($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false)
     {
-        dd($originId, $destinationId, $weight, $deliveryServices, $earlierMode = false);
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, "https://pro.rajaongkir.com/api/cost");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
-            // 'origin' => $originId,
-            'origin' => "365",
+            'origin' => $originId,
             'originType' => 'city',
-            // 'destination' => $destinationId,
-            'destination' => "5106",
+            'destination' => $destinationId,
             'destinationType' => 'subdistrict',
             'weight' => $weight,
             'courier' => $deliveryServices,
