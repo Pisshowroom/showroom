@@ -232,6 +232,8 @@ class OrderDataController extends Controller
     {
         $request->validate([
             'returning_product_type' => 'required|in:ReturnProdukDanUang,Refund,Komplain',
+            'returning_reason' => 'required',
+                'returning_description' => 'required',
         ]);
 
         DB::beginTransaction();
@@ -240,8 +242,7 @@ class OrderDataController extends Controller
         if ($request->returning_product_type == 'ReturnProdukDanUang') {
             // TODOS add checker status suits for this and 2 others
             $request->validate([
-                'returning_reason' => 'required',
-                'returning_description' => 'required',
+                
                 'returning_images' => 'required',
                 'order_items' => 'required',
                 'order_items.*.id' => 'required',
@@ -281,8 +282,6 @@ class OrderDataController extends Controller
             }
         } else if ($request->returning_product_type == 'Refund') {
             $request->validate([
-                'returning_reason' => 'required',
-                'returning_description' => 'required',
                 'returning_images' => 'required',
                 'returning_video' => 'required|mimes:mp4|max:10240',
             ]);
@@ -302,12 +301,7 @@ class OrderDataController extends Controller
             }
             $refundTotal = $order->subtotal;
         } else if ($request->returning_product_type == 'Komplain') {
-            // TODOS: belum
-            $request->validate([
-                'returning_reason' => 'required',
-                'returning_description' => 'required',
-            ]);
-
+  
             $refundTotal = $order->subtotal;
             $order->status = Order::COMPLAINT;
         }
