@@ -78,8 +78,7 @@
                                                     value="{{ $variant != null ? numbFormat($variant->price) : '' }}"
                                                     type="tel">
                                                 <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal
-                                                    Rp
-                                                    50.000</p>
+                                                    {{ numbFormat('5000') }}</p>
                                             </div>
                                             <aside class="mb-4 variant">
                                                 <label for="imageInput_{{ $variant->id }}"
@@ -150,7 +149,7 @@
                                             <input class="form-control price" name="variants[0][price]" required
                                                 onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
                                             <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp
-                                                50.000</p>
+                                                {{ numbFormat('5000') }}</p>
                                         </div>
                                         <aside class="mb-4 variant">
                                             <label class="form-label">Gambar*</label>
@@ -293,7 +292,7 @@
                 <label class="form-label">Harga*</label>
                 <div class="row gx-2"></div>
                 <input class="form-control price" name="variants[${k}][price]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="tel">
-                <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal Rp 50.000</p>
+                <p class="textCancel fw-500 fs-14 pt-2 ls-3 d-none mb-2">Isi harga minimal ${formatRupiah('5000','Rp ')}</p>
                 </div>
 
 
@@ -333,7 +332,7 @@
                 $(this).val(formatRupiah(this.value, 'Rp '));
 
                 // Check if the entered price is less than 50,000
-                if (parseFloat(this.value.replace(/[^\d]/g, '')) < 50000) {
+                if (parseFloat(this.value.replace(/[^\d]/g, '')) < 5000) {
                     $('.textCancel').addClass('d-block').removeClass('d-none');
                 } else {
                     $('.textCancel').addClass('d-none').removeClass('d-block');
