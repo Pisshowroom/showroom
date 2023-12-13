@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\AddressSellerController;
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\OrderDataController;
 use App\Http\Controllers\Api\PaymentController;
@@ -100,6 +101,11 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'article'], function () {
     Route::get('/', [ArticleController::class, 'index']);
     Route::get('/{id}', [ArticleController::class, 'show']);
+});
+
+Route::group(['prefix' => 'notification'], function () {
+    Route::get('/', [NotificationController::class, 'index']);
+    Route::get('/{id}', [NotificationController::class, 'show']);
 });
 
 Route::group(['prefix' => 'wishlist', 'middleware' => 'auth:api-client'], function () {
