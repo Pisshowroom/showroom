@@ -218,15 +218,15 @@
                             </p>
                             <ul class="list-colors">
                                 @if ($product && $product->variants && count($product->variants) > 0)
-                                    @foreach ($product->variants as $images)
+                                    @foreach ($product->variants as $kry => $images)
                                         @if ($images->stock && $images->stock > 0)
                                             @if ($images && $images->images && is_array($images->images) && count($images->images) > 0)
                                                 @foreach ($images->images as $ks => $item)
                                                     @if (is_object($item))
                                                     @else
-                                                        <li style="max-width: 100px !important">
-                                                            <img class="{{ $ks == 0 ? 'active' : '' }}"
-                                                                title="{{ $images->name ?? '' }}"
+                                                        <li class="{{ $kry==0 ? 'active' : '' }}"
+                                                            style="max-width: 100px !important">
+                                                            <img title="{{ $images->name ?? '' }}"
                                                                 src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
                                                                 alt="produk {{ $images->name ?? '' }}">
                                                             <input type="hidden" class="id"
@@ -240,7 +240,7 @@
                                                     @endif
                                                 @endforeach
                                             @elseif ($images && $images->images && is_string($images->images) && $images->images != null)
-                                                <li style="max-width: 100px !important">
+                                                <li class="{{ $kry==0 ? 'active' : '' }}" style="max-width: 100px !important">
                                                     <img title="{{ $images->name ?? '' }}"
                                                         src="{{ $images->images ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
                                                         alt="produk {{ $images->name ?? '' }}">
