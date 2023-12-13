@@ -64,10 +64,13 @@
                                             @foreach ($product->variants as $images)
                                                 @if ($images && $images->images && is_array($images->images) && count($images->images) > 0)
                                                     @foreach ($images->images as $item)
-                                                        <figure class="border-radius-10"><img
-                                                                src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
-                                                                alt="produk {{ $images->name ?? '' }}">
-                                                        </figure>
+                                                        @if (is_object($item))
+                                                        @else
+                                                            <figure class="border-radius-10"><img
+                                                                    src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                                    alt="produk {{ $images->name ?? '' }}">
+                                                            </figure>
+                                                        @endif
                                                     @endforeach
                                                 @elseif ($images && $images->images && is_string($images->images) && $images->images != null)
                                                     <figure class="border-radius-10"><img
@@ -100,12 +103,15 @@
                                         @foreach ($product->variants as $images)
                                             @if ($images && $images->images && is_array($images->images) && count($images->images) > 0)
                                                 @foreach ($images->images as $item)
-                                                    <div>
-                                                        <div class="item-thumb"><img
-                                                                src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
-                                                                alt="produk {{ $product->name ?? '' }}">
+                                                    @if (is_object($item))
+                                                    @else
+                                                        <div>
+                                                            <div class="item-thumb"><img
+                                                                    src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                                    alt="produk {{ $product->name ?? '' }}">
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @endif
                                                 @endforeach
                                             @elseif ($images && $images->images && is_string($images->images) && $images->images != null)
                                                 <div>
@@ -197,10 +203,61 @@
                             </div>
                         </div> --}}
                         <div class="box-product-color mt-20">
-                            <p class="font-sm color-gray-900">Varian:<span class="color-brand-2 nameColor">Default</span>
+                            <p class="font-sm color-gray-900">Varian:
+                                @if (
+                                    $product &&
+                                        $product->variants &&
+                                        count($product->variants) > 0 &&
+                                        $product->variants[0]?->images &&
+                                        $product->variants[0]?->images[0]
+                                )
+                                    <span class="color-brand-2 nameColor">{{ $product->variants[0]?->name ?? '' }}</span>
+                                @else
+                                    <span class="color-brand-2 nameColor">Default</span>
+                                @endif
                             </p>
                             <ul class="list-colors">
-                                @if ($product && $product->images && count($product->images) > 0)
+                                @if ($product && $product->variants && count($product->variants) > 0)
+                                    @foreach ($product->variants as $kry => $images)
+                                        @if ($images->stock && $images->stock > 0)
+                                            @if ($images && $images->images && is_array($images->images) && count($images->images) > 0)
+                                                @foreach ($images->images as $ks => $item)
+                                                    @if (is_object($item))
+                                                    @else
+                                                        <li class="{{ $kry == 0 ? 'active' : '' }}"
+                                                            style="max-width: 100px !important">
+                                                            <img title="{{ $images->name ?? '' }}"
+                                                                src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                                alt="produk {{ $images->name ?? '' }}">
+                                                            <input type="hidden" class="id"
+                                                                value="{{ $images->id }}">
+                                                            <input type="hidden" class="name"
+                                                                value="{{ $images->name }}">
+                                                            <input type="hidden" class="stock"
+                                                                value="{{ $images->stock }}">
+
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            @elseif ($images && $images->images && is_string($images->images) && $images->images != null)
+                                                <li class="{{ $kry == 0 ? 'active' : '' }}"
+                                                    style="max-width: 100px !important">
+                                                    <img title="{{ $images->name ?? '' }}"
+                                                        src="{{ $images->images ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
+                                                        alt="produk {{ $images->name ?? '' }}">
+                                                    <input type="hidden" class="id" value="{{ $images->id }}">
+                                                    <input type="hidden" class="name" value="{{ $images->name }}">
+                                                    <input type="hidden" class="stock" value="{{ $images->stock }}">
+
+                                                </li>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                @elseif (
+                                    $product &&
+                                        $product->images &&
+                                        count($product->images) > 0 &&
+                                        (!$product->variants || count($product->variants) == 0))
                                     <li class="active" style="max-width: 100px !important"><img title="Default"
                                             src="{{ $product->images[0] ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
                                             alt="produk {{ $product->name ?? '' }}">
@@ -216,38 +273,6 @@
                                         <input type="hidden" class="name" value="{{ $product->name }}">
                                         <input type="hidden" class="stock" value="{{ $product->stock }}">
                                     </li>
-                                @endif
-                                @if ($product && $product->variants && count($product->variants) > 0)
-                                    @foreach ($product->variants as $images)
-                                        @if ($images->stock && $images->stock > 0)
-                                            @if ($images && $images->images && is_array($images->images) && count($images->images) > 0)
-                                                @foreach ($images->images as $item)
-                                                    <li style="max-width: 100px !important">
-                                                        <img title="{{ $images->name ?? '' }}"
-                                                            src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
-                                                            alt="produk {{ $images->name ?? '' }}">
-                                                        <input type="hidden" class="id"
-                                                            value="{{ $images->id }}">
-                                                        <input type="hidden" class="name"
-                                                            value="{{ $images->name }}">
-                                                        <input type="hidden" class="stock"
-                                                            value="{{ $images->stock }}">
-
-                                                    </li>
-                                                @endforeach
-                                            @elseif ($images && $images->images && is_string($images->images) && $images->images != null)
-                                                <li style="max-width: 100px !important">
-                                                    <img title="{{ $images->name ?? '' }}"
-                                                        src="{{ $images->images ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
-                                                        alt="produk {{ $images->name ?? '' }}">
-                                                    <input type="hidden" class="id" value="{{ $images->id }}">
-                                                    <input type="hidden" class="name" value="{{ $images->name }}">
-                                                    <input type="hidden" class="stock" value="{{ $images->stock }}">
-
-                                                </li>
-                                            @endif
-                                        @endif
-                                    @endforeach
                                 @endif
                             </ul>
                         </div>
@@ -357,15 +382,15 @@
                         <li><a href="#tab-reviews" data-bs-toggle="tab" role="tab" aria-controls="tab-reviews"
                                 aria-selected="true">Ulasan ({{ $data['reviews']->total() ?? 0 }})</a></li>
                         @if ($product->review_user == 1 && $product->order_user == 1)
-                        <li><a href="#tab-create-reviews" data-bs-toggle="tab" role="tab"
-                                aria-controls="tab-create-reviews" aria-selected="true">Tulis Ulasan</a></li>
+                            <li><a href="#tab-create-reviews" data-bs-toggle="tab" role="tab"
+                                    aria-controls="tab-create-reviews" aria-selected="true">Tulis Ulasan</a></li>
                         @endif
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="tab-description" role="tabpanel"
                             aria-labelledby="tab-description">
                             <div class="display-text-short">
-                                {!! $product->description !!}
+                                {{ $product->description ?? '' }}
                                 {{-- <p><img src="{{ asset('ecom/imgs/page/product/product-banner.jpg') }}" alt="Ecom">
                                 </p>
                                 <p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
@@ -461,7 +486,7 @@
                                                             <div class="thumb text-center"><img width="80px"
                                                                     height="80px"
                                                                     src="{{ $review->user && $review->user->image ? $review->user->image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
-                                                                    alt="ulasan dari {{ $review->user->name?? '' }}">
+                                                                    alt="ulasan dari {{ $review->user->name ?? '' }}">
                                                                 <p class="font-heading text-brand line-2"
                                                                     style="word-break: break-word">
                                                                     {{ substr($review?->user?->name ?? '', 0, 15) . (strlen($review?->user?->name ?? '') > 15 ? '..' : '') }}
@@ -564,67 +589,68 @@
                             </div>
                         </div>
                         @if ($product->review_user == 1 && $product->order_user == 1)
-                        <div class="tab-pane fade" id="tab-create-reviews" role="tabpanel"
-                            aria-labelledby="tab-create-reviews">
-                            <div class="comments-area">
-                                <div class="row">
-                                    <div class="col-lg-8">
-                                        <form class="form-comment" id="addReview" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="row">
-                                                @if (isset($product->order_id) && $product->order_id != 0)
-                                                    <input type="hidden" name="order_id" id="order_id"
-                                                        value="{{ $product->order_id }}">
-                                                @endif
-                                                <input type="hidden" id="product_id" name="product_id"
-                                                    value="{{ $product->id }}">
-                                                <input type="hidden" id="product_slug" name="product_slug"
-                                                    value="{{ $product->slug }}">
-                                                <p class="font-lg mb-2">Rating barang ini menurut kamu*</p>
-                                                <div class="stars">
-                                                    <input class="star star-5 tngs" id="star-5" type="radio"
-                                                        name="rating" value="5" checked />
-                                                    <label class="star star-5" for="star-5"></label>
-                                                    <input class="star star-4 tngs" id="star-4" type="radio"
-                                                        name="rating" value="4" />
-                                                    <label class="star star-4" for="star-4"></label>
-                                                    <input class="star star-3 tngs" id="star-3" type="radio"
-                                                        name="rating" value="3" />
-                                                    <label class="star star-3" for="star-3"></label>
-                                                    <input class="star star-2 tngs" id="star-2" type="radio"
-                                                        name="rating" value="2" />
-                                                    <label class="star star-2" for="star-2"></label>
-                                                    <input class="star star-1 tngs" id="star-1" type="radio"
-                                                        name="rating" value="1" />
-                                                    <label class="star star-1" for="star-1"></label>
-                                                </div>
-                                                <div class="col-lg-12 mt-4">
-                                                    <div class="form-group">
-                                                        <textarea class="form-control" placeholder="Tulis Ulasan*" id="text" rows="5" name="text" required></textarea>
+                            <div class="tab-pane fade" id="tab-create-reviews" role="tabpanel"
+                                aria-labelledby="tab-create-reviews">
+                                <div class="comments-area">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <form class="form-comment" id="addReview" method="POST"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="row">
+                                                    @if (isset($product->order_id) && $product->order_id != 0)
+                                                        <input type="hidden" name="order_id" id="order_id"
+                                                            value="{{ $product->order_id }}">
+                                                    @endif
+                                                    <input type="hidden" id="product_id" name="product_id"
+                                                        value="{{ $product->id }}">
+                                                    <input type="hidden" id="product_slug" name="product_slug"
+                                                        value="{{ $product->slug }}">
+                                                    <p class="font-lg mb-2">Rating barang ini menurut kamu*</p>
+                                                    <div class="stars">
+                                                        <input class="star star-5 tngs" id="star-5" type="radio"
+                                                            name="rating" value="5" checked />
+                                                        <label class="star star-5" for="star-5"></label>
+                                                        <input class="star star-4 tngs" id="star-4" type="radio"
+                                                            name="rating" value="4" />
+                                                        <label class="star star-4" for="star-4"></label>
+                                                        <input class="star star-3 tngs" id="star-3" type="radio"
+                                                            name="rating" value="3" />
+                                                        <label class="star star-3" for="star-3"></label>
+                                                        <input class="star star-2 tngs" id="star-2" type="radio"
+                                                            name="rating" value="2" />
+                                                        <label class="star star-2" for="star-2"></label>
+                                                        <input class="star star-1 tngs" id="star-1" type="radio"
+                                                            name="rating" value="1" />
+                                                        <label class="star star-1" for="star-1"></label>
                                                     </div>
-                                                </div>
-                                                <div class="col-lg-12 mt-4">
-                                                    <div class="form-group">
-                                                        <label for="image" class="form-label">Gambar</label>
-                                                        <input class="form-control" type="file" id="image"
-                                                            name="image[]" accept="image/*" multiple>
+                                                    <div class="col-lg-12 mt-4">
+                                                        <div class="form-group">
+                                                            <textarea class="form-control" placeholder="Tulis Ulasan*" id="text" rows="5" name="text" required></textarea>
+                                                        </div>
                                                     </div>
-                                                    <div class="preview-container" id="imagePreviewContainer">
-                                                    </div>
+                                                    <div class="col-lg-12 mt-4">
+                                                        <div class="form-group">
+                                                            <label for="image" class="form-label">Gambar</label>
+                                                            <input class="form-control" type="file" id="image"
+                                                                name="image[]" accept="image/*" multiple>
+                                                        </div>
+                                                        <div class="preview-container" id="imagePreviewContainer">
+                                                        </div>
 
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <button class="btn btn-buy w-auto" id="btn-addReview"
-                                                            type="submit">Kirim</button>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <button class="btn btn-buy w-auto" id="btn-addReview"
+                                                                type="submit">Kirim</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @endif
                         <div class="border-bottom pt-30 mb-50"></div>
                         <h4 class="color-brand-3">Produk terkait</h4>

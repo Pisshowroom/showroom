@@ -85,9 +85,12 @@
                                                     class="form-label">Gambar*</label>
                                                 <figure>
                                                     @if ($variant && $variant->images && is_array($variant->images) && count($variant->images) > 0)
-                                                        <img class="img-lg mb-3 img-avatar previewImage"
-                                                            src="{{ $variant != null && $variant->images != null ? $variant->images[0] ?? asset('ecom_dashboard/imgs/theme/upload.svg') : asset('ecom_dashboard/imgs/theme/upload.svg') }}"
-                                                            alt="{{ $variant->name ?? 'produk varian' }}">
+                                                        @if (is_object($variant->images[0]))
+                                                        @else
+                                                            <img class="img-lg mb-3 img-avatar previewImage"
+                                                                src="{{ $variant != null && $variant->images != null ? $variant->images[0] ?? asset('ecom_dashboard/imgs/theme/upload.svg') : asset('ecom_dashboard/imgs/theme/upload.svg') }}"
+                                                                alt="{{ $variant->name ?? 'produk varian' }}">
+                                                        @endif
                                                     @elseif ($variant && $variant->images && is_string($variant->images) && $variant->images != null)
                                                         <img class="img-lg mb-3 img-avatar previewImage"
                                                             src="{{ $variant != null && $variant->images != null ? $variant->images ?? asset('ecom_dashboard/imgs/theme/upload.svg') : asset('ecom_dashboard/imgs/theme/upload.svg') }}"

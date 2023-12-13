@@ -95,7 +95,7 @@
                                                 <a class="btn btn-xs-success"
                                                     href="{{ route('dashboardSeller.sendResi', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Siap diantar</a>
-                                            @elseif ($order->status == 'Complaint')
+                                            {{-- @elseif ($order->status == 'Complaint')
                                                 <a class="btn btn-xs-success"
                                                     href="{{ route('dashboardSeller.acceptComplaint', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Komplain disetujui</a>
@@ -115,7 +115,7 @@
                                                     Pengembalian kembali disetujui</a>
                                                 <a class="btn btn-xs-danger"
                                                     href="{{ route('dashboardSeller.rejectReturnBack', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                    Pengembalian kembali ditolak</a>
+                                                    Pengembalian kembali ditolak</a> --}}
                                             @endif
                                         </td>
                                     </tr>
