@@ -63,7 +63,7 @@
                             @if (count($products) > 0)
                                 @foreach ($products as $key => $product)
                                     <tr>
-                                        <td class="align-middle">{{ $key + 1 }}</td>
+                                        <td class="align-middle">{{ ($products->currentPage() - 1) * $products->perPage() + $loop->iteration }}</td>
                                         <td class="align-middle"><a class="itemside"
                                                 href="{{ route('buyer.detailProduct', ['slug' => $product?->slug ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                 <div class="left">
@@ -72,7 +72,7 @@
                                                         alt="Item" width="40" height="40">
                                                 </div>
                                                 <div class="info">
-                                                    {{ substr($product?->name ?? '', 0, 12) . (strlen($product?->name ?? '') > 12 ? '..' : '') }}
+                                                    {{ substr($product?->name ?? '', 0, 18) . (strlen($product?->name ?? '') > 18 ? '..' : '') }}
                                                 </div>
                                             </a></td>
                                         <td class="align-middle">
