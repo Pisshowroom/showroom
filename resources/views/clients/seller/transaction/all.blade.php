@@ -70,7 +70,8 @@
                             @if (count($orders) > 0)
                                 @foreach ($orders as $key => $order)
                                     <tr>
-                                        <td class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">
+                                            {{ ($orders->currentPage() - 1) * $orders->perPage() + $loop->iteration }}</td>
                                         <td class="align-middle">
                                             {{ $order->payment_identifier ?? '' }}
                                         </td>
