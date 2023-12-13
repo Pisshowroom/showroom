@@ -224,7 +224,7 @@
                                                 @foreach ($images->images as $ks => $item)
                                                     @if (is_object($item))
                                                     @else
-                                                        <li class="{{ $kry==0 ? 'active' : '' }}"
+                                                        <li class="{{ $kry == 0 ? 'active' : '' }}"
                                                             style="max-width: 100px !important">
                                                             <img title="{{ $images->name ?? '' }}"
                                                                 src="{{ $item ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
@@ -240,7 +240,8 @@
                                                     @endif
                                                 @endforeach
                                             @elseif ($images && $images->images && is_string($images->images) && $images->images != null)
-                                                <li class="{{ $kry==0 ? 'active' : '' }}" style="max-width: 100px !important">
+                                                <li class="{{ $kry == 0 ? 'active' : '' }}"
+                                                    style="max-width: 100px !important">
                                                     <img title="{{ $images->name ?? '' }}"
                                                         src="{{ $images->images ?? asset('ecom/imgs/page/product/img-gallery-1.jpg') }}"
                                                         alt="produk {{ $images->name ?? '' }}">
@@ -389,7 +390,7 @@
                         <div class="tab-pane fade active show" id="tab-description" role="tabpanel"
                             aria-labelledby="tab-description">
                             <div class="display-text-short">
-                                {!! $product->description !!}
+                                {{ $product->description ?? '' }}
                                 {{-- <p><img src="{{ asset('ecom/imgs/page/product/product-banner.jpg') }}" alt="Ecom">
                                 </p>
                                 <p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
