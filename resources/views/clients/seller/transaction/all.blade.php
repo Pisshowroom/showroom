@@ -70,7 +70,7 @@
                             @if (count($orders) > 0)
                                 @foreach ($orders as $key => $order)
                                     <tr>
-                                        <td class="align-middle">{{ $key + 1 }}</td>
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle">
                                             {{ $order->payment_identifier ?? '' }}
                                         </td>
@@ -95,7 +95,7 @@
                                                 <a class="btn btn-xs-success"
                                                     href="{{ route('dashboardSeller.sendResi', ['identifier' => $order->payment_identifier ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Siap diantar</a>
-                                            {{-- @elseif ($order->status == 'Complaint')
+                                                {{-- @elseif ($order->status == 'Complaint')
                                                 <a class="btn btn-xs-success"
                                                     href="{{ route('dashboardSeller.acceptComplaint', ['id' => $order->id ?? '1234']) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
                                                     Komplain disetujui</a>

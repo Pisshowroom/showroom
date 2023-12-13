@@ -9,12 +9,20 @@ use App\Models\RoCity;
 use App\Models\RoProvince;
 use App\Models\RoSubdistrict;
 use App\Models\SubCategory;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\NotificationResource;
+use App\Models\Notification;
 
 class DashboardController extends Controller
 {
+
+    private function getNotification()
+    {
+        $user = Auth::guard('web')->user();
+        $notifications = Notification::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(4)->get();
+        return NotificationResource::collection($notifications);
+    }
 
     public function dashboard(Request $request)
     {

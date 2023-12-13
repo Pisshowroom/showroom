@@ -65,7 +65,7 @@
                             @if (count($orders) > 0)
                                 @foreach ($orders as $key => $order)
                                     <tr>
-                                        <td class="align-middle">{{ $key + 1 }}</td>
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle">
                                             {{ $order->payment_identifier ?? '' }}
                                         </td>
