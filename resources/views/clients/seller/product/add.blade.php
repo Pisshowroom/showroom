@@ -145,7 +145,7 @@
                 <div class="col-lg-4 col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h4>Gambar*(masing2 maksimal 2mb)</h4>
+                            <h4>Gambar*(<span style="font-size: 13px">masing2 maksimal 2mb</span>)</h4>
                             <a style="font-size: 12px" href="https://www.iloveimg.com/compress-image" target="_blank">Konvert gambar disini <span>https://www.iloveimg.com/compress-image</span></a>
                         </div>
                         <div class="card-body">

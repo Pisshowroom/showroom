@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Clients\buyer;
 use App\Models\Help;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MasterAccountResource;
+use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Address;
 use App\Models\MasterAccount;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -28,6 +30,20 @@ use App\Models\Setting;
 
 class OrderController extends Controller
 {
+    public function getCommonData()
+    {
+
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $notifications = Notification::where('user_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->take(4)->get();
+            $data['notification'] = NotificationResource::collection($notifications);
+            $data['notif_count'] = Notification::where('user_id', Auth::guard('web')->user()->id)->count();
+        } else {
+            $data['notification'] = null;
+            $data['notif_count'] = 0;
+        }
+
+        return $data;
+    }
 
     public function payment($identifier)
     {
@@ -49,15 +65,18 @@ class OrderController extends Controller
         }
         $order['name_id'] = $help->name_id ?? '';
         $order['content_id'] = $help->content_id ?? '';
+        $data = $this->getCommonData();
 
-        return view('clients.dashboard.order.payment', ['order' => $order]);
+        return view('clients.dashboard.order.payment', ['order' => $order, 'data' => $data]);
     }
 
     public function piPayment($identifier)
     {
+        $data = $this->getCommonData();
+
         $order = Order::where('payment_identifier', $identifier)->where('payment_status', 'PaymentPending')->with('master_account:id,provider_name,image,type')->firstOrFail();
         $order->due = parseDates($order->payment_due);
-        return view('clients.dashboard.order.pi_payment', ['order' => $order]);
+        return view('clients.dashboard.order.pi_payment', ['order' => $order, 'data' => $data]);
     }
 
     public function myOrder(Request $request)
@@ -88,7 +107,9 @@ class OrderController extends Controller
                 $value->expired = false;
             $value->date = parseDates($value->created_at);
         }
-        return view('clients.dashboard.order.all', ['orders' => $order]);
+        $data = $this->getCommonData();
+
+        return view('clients.dashboard.order.all', ['orders' => $order, 'data' => $data]);
     }
     public function detailOrder($identifier)
     {
@@ -109,7 +130,9 @@ class OrderController extends Controller
         $order->date_packing_due = $order->packing_due ? parseDates($order->packing_due) : '-';
         $order->date_delivered_at = $order->delivered_at ? parseDates($order->delivered_at) : '-';
         $order->date_arrived_at = $order->arrived_at ? parseDates($order->arrived_at) : '-';
-        return view('clients.dashboard.order.detail', ['order' => $order]);
+        $data = $this->getCommonData();
+
+        return view('clients.dashboard.order.detail', ['order' => $order, 'data' => $data]);
     }
 
     public function cancelRefundReturnComplaint($identifier)
@@ -127,9 +150,15 @@ class OrderController extends Controller
 
     public function sendProductBack($identifier)
     {
-        $order = Order::where('payment_identifier', $identifier)->firstOrFail();
+        $user = Auth::guard('web')->user();
+
+        $order = Order::where('payment_identifier', $identifier)->first();
+        if (!$order)
+            return redirect("/pembeli/pesananku")->with('error', 'Pesanan tidak ditemukan')->with('auth', base64_encode($user->uid));
+        $data = $this->getCommonData();
+
         // $order = Order::where('payment_identifier', $identifier)->where('status', 'ProcessedBySeller')->firstOrFail();
-        return view('clients.dashboard.order.send_product_back', ['order' => $order]);
+        return view('clients.dashboard.order.send_product_back', ['order' => $order, 'data' => $data]);
     }
 
 
