@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Clients;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\MasterAccountResource;
+use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\SliderResource;
 use App\Models\Address;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\MasterAccount;
+use App\Models\Notification;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Setting;
@@ -30,9 +32,14 @@ class BuyerController extends Controller
         if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
             $data['addresses'] = $this->addresses();
             $data['userWishlist'] = Wishlist::where('user_id', Auth::guard('web')->user()->id)->whereNotNull('product_id')->count();
+            $notifications = Notification::where('user_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->take(4)->get();
+            $data['notification'] = NotificationResource::collection($notifications);
+            $data['notif_count'] = Notification::where('user_id', Auth::guard('web')->user()->id)->count();
         } else {
             $data['addresses'] = null;
             $data['userWishlist'] = 0;
+            $data['notification'] = null;
+            $data['notif_count'] = 0;
         }
 
         return $data;

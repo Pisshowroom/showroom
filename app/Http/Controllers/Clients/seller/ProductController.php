@@ -46,7 +46,7 @@ class ProductController extends Controller
         $user = Auth::guard('web')->user();
 
         $data['categories'] = Category::whereNull('deleted_at')->get();
-        $product = Product::where('id', $request->id)->firstOrFail();
+        $product = Product::where('id', $request->id)->where('seller_id', $user->id)->first();
         if (!$product)
             return redirect("/toko/semua-produk")->with('error', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
         $user = Auth::guard('web')->user();
@@ -70,7 +70,7 @@ class ProductController extends Controller
         $user = Auth::guard('web')->user();
 
         $data['categories'] = Category::whereNull('deleted_at')->get();
-        $product = Product::where('id', $request->id)->with('variants')->select('id', 'name')->withCount('variants')->firstOrFail();
+        $product = Product::where('id', $request->id)->where('seller_id', $user->id)->with('variants')->select('id', 'name','seller_id')->withCount('variants')->first();
         if (!$product)
             return redirect("/toko/semua-produk")->with('error', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
         $user = Auth::guard('web')->user();

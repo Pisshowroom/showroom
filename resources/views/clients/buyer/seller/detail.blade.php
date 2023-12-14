@@ -162,9 +162,11 @@
                                         @foreach ($data['categories_product'] as $ct)
                                             <li data-category="{{ $ct->id }}"
                                                 class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}">
-                                                <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
+                                                <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}" style="display: flex !important;flex-direction: row;align-items: center;justify-content: space-between;gap:.5rem;"
                                                     href="javascript:void(0)">
-                                                    {{ $ct->name ?? '' }}
+                                                    <span>
+                                                        {{ $ct->name ?? '' }}
+                                                    </span>
                                                     <span
                                                         class="number">{{ $ct->products_count ? moneyFormat($ct->products_count) ?? 0 : 0 }}</span>
                                                 </a>
