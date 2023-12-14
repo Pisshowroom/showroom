@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Clients\seller;
 
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationResource;
+use App\Models\Notification;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +18,20 @@ class TransactionOrderController extends Controller
     {
         return Auth::guard('web')->user()->is_seller == true;
     }
+    public function getCommonData()
+    {
+
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $notifications = Notification::where('user_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->take(4)->get();
+            $data['notification'] = NotificationResource::collection($notifications);
+            $data['notif_count'] = Notification::where('user_id', Auth::guard('web')->user()->id)->count();
+        } else {
+            $data['notification'] = null;
+            $data['notif_count'] = 0;
+        }
+        return $data;
+    }
+
     public function allTransaction(Request $request)
     {
         if (!$this->isSeller()) {
@@ -45,7 +61,8 @@ class TransactionOrderController extends Controller
                 $value->expired = false;
             $value->date = parseDates($value->created_at);
         }
-        return view('clients.seller.transaction.all', ['orders' => $order]);
+        $data = $this->getCommonData();
+        return view('clients.seller.transaction.all', ['orders' => $order, 'data' => $data]);
     }
     public function sendResi($identifier)
     {
@@ -55,7 +72,8 @@ class TransactionOrderController extends Controller
         }
         $order = Order::where('payment_identifier', $identifier)->firstOrFail();
         // $order = Order::where('payment_identifier', $identifier)->where('status', 'ProcessedBySeller')->firstOrFail();
-        return view('clients.seller.transaction.send_resi', ['order' => $order]);
+        $data = $this->getCommonData();
+        return view('clients.seller.transaction.send_resi', ['orders' => $order, 'data' => $data]);
     }
     public function detailTransaction($identifier)
     {
@@ -79,7 +97,8 @@ class TransactionOrderController extends Controller
         $order->date_packing_due = $order->packing_due ? parseDates($order->packing_due) : '-';
         $order->date_delivered_at = $order->delivered_at ? parseDates($order->delivered_at) : '-';
         $order->date_arrived_at = $order->arrived_at ? parseDates($order->arrived_at) : '-';
-        return view('clients.seller.transaction.detail', ['order' => $order]);
+        $data = $this->getCommonData();
+        return view('clients.seller.transaction.detail', ['orders' => $order, 'data' => $data]);
     }
 
     // seller approve / reject

@@ -10,6 +10,7 @@ use App\Http\Controllers\Clients\BuyerController;
 use App\Http\Controllers\Clients\buyer\DashboardController;
 use App\Http\Controllers\Clients\buyer\OrderController as BuyerOrderController;
 use App\Http\Controllers\Clients\buyer\WishlistController;
+use App\Http\Controllers\Clients\NotificationController;
 use App\Http\Controllers\Clients\RefundController;
 use App\Http\Controllers\Clients\seller\ProductController as SellerProductController;
 use App\Http\Controllers\Clients\seller\SellerController;
@@ -189,6 +190,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
     Route::get('/delete-order', [DashboardController::class, 'deleteOrder'])->name('deleteOrder');
+    Route::get('/detail-notifikasi/{id}', [NotificationController::class, 'detailNotif'])->name('dashboard.detailNotif');
     Route::group(['prefix' => 'pembeli'], function () {
         // Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
         Route::get('/pembayaran/{identifier}', [BuyerOrderController::class, 'payment'])->name('dashboard.payment');

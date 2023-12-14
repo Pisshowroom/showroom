@@ -99,7 +99,10 @@
                                 @if ($data['notification'] && count($data['notification']) > 0)
                                     <div class="col-lg-12">
                                         @foreach ($data['notification'] as $notif)
-                                            <h6 class="mb-2">{{ $notif->title ?? '' }}</h6>
+                                            <a class="mb-2 line-1 text-start" style="color: #425A8B"
+                                                href="{{ route('dashboard.detailNotif', ['id' => $notif->id ?? 1]) }}">
+                                                {{ $notif->title ?? '' }}
+                                            </a>
                                         @endforeach
                                     </div>
                                 @else

@@ -35,10 +35,10 @@
                                             <div class="mb-4 variant">
                                                 <label class="form-label">Nama Variasi</label>
                                                 <input class="form-control name" name="variants[{{ $k }}][name]"
-                                                    maxlength="70" type="text" value="{{ $variant->name }}">
+                                                    maxlength="75" type="text" value="{{ $variant->name }}">
                                                 <div class="text-end">
                                                     <span class="max-name">maksimal panjang nama
-                                                        {{ strlen($variant->name) ?? 0 }}/70</span>
+                                                        {{ strlen($variant->name) ?? 0 }}/75</span>
                                                 </div>
 
                                             </div>
@@ -121,9 +121,9 @@
                                         <div class="mb-4 variant">
                                             <label class="form-label">Nama Variasi</label>
                                             <input class="form-control name" name="variants[0][name]" type="text"
-                                                maxlength="70" required>
+                                                maxlength="75" required>
                                             <div class="text-end">
-                                                <span class="max-name">maksimal panjang nama 0/70</span>
+                                                <span class="max-name">maksimal panjang nama 0/75</span>
                                             </div>
                                         </div>
 
@@ -269,9 +269,9 @@
             <div class="variants">
                 <div class="mb-4 variant">
                 <label class="form-label">Nama Variasi</label>
-                <input class="form-control name" name="variants[${k}][name]" type="text" maxlength="70" required>
+                <input class="form-control name" name="variants[${k}][name]" type="text" maxlength="75" required>
                 <div class="text-end">
-                    <span class="max-name">maksimal panjang nama 0/70</span>
+                    <span class="max-name">maksimal panjang nama 0/75</span>
                 </div>
                 </div>
 
@@ -333,7 +333,7 @@
             $('#variantsSection').on('input', 'input.name', function() {
                 var currentLength = $(this).val().length;
 
-                $('.max-name').text('Maksimal panjang nama ' + currentLength + '/70');
+                $('.max-name').text('Maksimal panjang nama ' + currentLength + '/75');
 
             });
             $('#variantsSection').on('input', 'input.imageInput', function() {

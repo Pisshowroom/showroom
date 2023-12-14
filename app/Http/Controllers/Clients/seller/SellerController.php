@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Clients\seller;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationResource;
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\RoCity;
@@ -22,6 +24,21 @@ class SellerController extends Controller
     {
         return Auth::guard('web')->user()->is_seller == true;
     }
+    public function getCommonData()
+    {
+
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $notifications = Notification::where('user_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->take(4)->get();
+            $data['notification'] = NotificationResource::collection($notifications);
+            $data['notif_count'] = Notification::where('user_id', Auth::guard('web')->user()->id)->count();
+        } else {
+            $data['notification'] = null;
+            $data['notif_count'] = 0;
+        }
+
+        return $data;
+    }
+
     public function dashboard(Request $request)
     {
         if (!$this->isSeller()) {
@@ -46,6 +63,7 @@ class SellerController extends Controller
                 $value->expired = false;
             $value->date = parseDates($value->created_at);
         }
+        $data = $this->getCommonData();
         $data['products'] = Product::where('seller_id', Auth::guard('web')->user()->id)->whereNull(['parent_id', 'deleted_at'])->count();
         $data['withdrawals'] = 0;
         $categories = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) {
@@ -68,6 +86,8 @@ class SellerController extends Controller
     }
     public function profile()
     {
+        $user = $this->getCommonData();
+
         $user['addresses'] = Address::where('user_id', Auth::guard('web')->user()->id)->whereNull('deleted_at')
             ->select([
                 'id', 'user_id', 'place_name', 'person_name', 'phone_number', 'main', 'for_seller',
@@ -81,6 +101,8 @@ class SellerController extends Controller
     }
     public function addressSeller($id)
     {
+        $user = $this->getCommonData();
+
         $user = Address::where('id', $id)->firstOrFail();
         if ($user->ro_province_id != null) {
             $user['cities'] = RoCity::where('ro_province_id', $user->ro_province_id)->select('id', 'city_name', 'postal_code', 'ro_province_id')->get();
@@ -175,7 +197,8 @@ class SellerController extends Controller
             $user = Auth::guard('web')->user();
             return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
-        return view('clients.seller.withdraw.add');
+        $data = $this->getCommonData();
+        return view('clients.seller.withdraw.add', ['data' => $data]);
     }
     public function allWithdraw(Request $request)
     {
@@ -183,7 +206,8 @@ class SellerController extends Controller
             $user = Auth::guard('web')->user();
             return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
-        return view('clients.seller.withdraw.all');
+        $data = $this->getCommonData();
+        return view('clients.seller.withdraw.all', ['data' => $data]);
     }
     public function detailWithdraw(Request $request)
     {

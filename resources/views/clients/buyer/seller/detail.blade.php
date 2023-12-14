@@ -31,7 +31,7 @@
                                 <div class="avarta">
                                     <img class="mb-5 object-fit-cover" width="50px" height="50px"
                                         style="border-radius: 50%"
-                                        src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? Auth::guard('web')->user()->seller_image ?? asset('ecom/imgs/page/vendor/fasfox.png') : asset('ecom/imgs/page/vendor/fasfox.png') }}"
+                                        src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? Auth::guard('web')->user()->seller_image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
                                         alt="Ecom"><a class="btn btn-buy font-xs"
                                         href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
                                         Produk</a>

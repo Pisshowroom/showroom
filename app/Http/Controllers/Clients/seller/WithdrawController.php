@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Clients\seller;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationResource;
 use App\Http\Resources\WithdrawResource;
 use App\Models\MasterAccount;
+use App\Models\Notification;
 use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +17,20 @@ class WithdrawController extends Controller
     {
         return Auth::guard('web')->user()->is_seller == true;
     }
+    public function getCommonData()
+    {
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $notifications = Notification::where('user_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->take(4)->get();
+            $data['notification'] = NotificationResource::collection($notifications);
+            $data['notif_count'] = Notification::where('user_id', Auth::guard('web')->user()->id)->count();
+        } else {
+            $data['notification'] = null;
+            $data['notif_count'] = 0;
+        }
+
+        return $data;
+    }
+
 
     public function addWithdraw()
     {
@@ -23,7 +39,8 @@ class WithdrawController extends Controller
             return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
         $bank = MasterAccount::whereNull('deleted_at')->select(['id', 'provider_name'])->get();
-        return view('clients.seller.withdraw.add', ['banks' => $bank]);
+        $data = $this->getCommonData();
+        return view('clients.seller.withdraw.add', ['banks' => $bank, 'data' => $data]);
     }
     public function allWithdraw(Request $request)
     {
@@ -45,8 +62,9 @@ class WithdrawController extends Controller
         foreach ($withdraw as  $value) {
             $value->date = parseDates($value->created_at);
         }
+        $data = $this->getCommonData();
 
-        return view('clients.seller.withdraw.all', ['withdraws' => $withdraw]);
+        return view('clients.seller.withdraw.all', ['withdraws' => $withdraw, 'data' => $data]);
     }
     public function detailWithdraw($id)
     {
@@ -59,7 +77,8 @@ class WithdrawController extends Controller
             return redirect("/toko/semua-pencairan-uang")->with('error', 'Detail pencairan tidak ditemukan.')->with('auth', base64_encode($user->uid));
         else {
             $withdraw->date = parseDates($withdraw->created_at);
-            return view('clients.seller.withdraw.detail', ['withdraw' => $withdraw]);
+            $data = $this->getCommonData();
+            return view('clients.seller.withdraw.detail', ['withdraw' => $withdraw, 'data' => $data]);
         }
     }
 
