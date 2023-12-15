@@ -38,8 +38,7 @@ class UserController extends Controller
         
         if ($request->filled('name')) {
             $user->name = $request->input('name');
-            // str::slug of name
-            $user->seller_slug = Str::slug($request->input('name'));
+            // $user->seller_slug = Str::slug($request->input('name'));
         }
 
         if ($request->filled('email')) {
