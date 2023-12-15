@@ -11,4 +11,5 @@ class Admin extends Model
 {
     use HasFactory, HasApiTokens, SoftDeletes;
 
+    protected $guarded = [];
 }

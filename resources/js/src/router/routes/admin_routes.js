@@ -17,6 +17,15 @@ export default [
             // rule:'institution'
         },
     },
+    {
+        path: '/admin/user/index',
+        name: 'admin.user.index',
+        component: () => import('../../views/admin/user/UserIndex.vue'),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
     // {
     //     path: '/institution/prodi/edit/:id',
     //     name: 'institution-prodi.edit',
