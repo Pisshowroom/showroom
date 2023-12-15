@@ -17,6 +17,36 @@ export default [
             // rule:'institution'
         },
     },
+
+
+    // master data iklan
+    {
+        path: '/admin/ads/index',
+        name: 'admin.ads.index',
+        component: () => import('../../views/admin/ads/AdsIndex.vue'),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
+    {
+        path: '/admin/ads/form',
+        name: 'admin.ads.form',
+        component: () => import('../../views/admin/ads/AdsForm.vue'),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
+    {
+        path: '/admin/ads/edit/:id',
+        name: 'admin.ads.edit',
+        component: () => import('../../views/admin/ads/AdsForm.vue'),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
     // {
     //     path: '/institution/prodi/edit/:id',
     //     name: 'institution-prodi.edit',

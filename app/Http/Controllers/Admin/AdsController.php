@@ -14,7 +14,7 @@ class AdsController extends Controller
         $ads = Ads::when($request->filled('search'), function ($query, $request) {
             return $query->where('page', 'like', '%' . $request->search . '%');
         })
-            ->paginate($request->per_page ?? 10);
+            ->orderByDesc('id')->paginate($request->per_page ?? 10);
 
         return $ads;
     }
@@ -27,46 +27,29 @@ class AdsController extends Controller
             'image' => 'required|file',
         ]);
 
-        $category = new Ads();
-        $category->page = $request->input('page');
-        $category->section = $request->input('section');
+        if (!$request->id)
+            $ads = new Ads();
+        else
+            $ads = Ads::findOrFail($request->id);
+        $ads->page = $request->input('page');
+        $ads->section = $request->input('section');
         if ($request->hasFile('image')) {
-            $category->image = uploadFoto($request->image, 'uploads/ads');
+            $ads->image = uploadFoto($request->image, 'uploads/ads');
         }
-        $category->save();
+        $ads->save();
 
-        return ResponseAPI('Iklan berhasil ditambahkan', 200);
+        return ResponseAPI($ads);
     }
 
-    public function show(Ads $category)
+    public function show(Ads $ads)
     {
-        return $category;
+        return $ads;
     }
 
-    public function update(Request $request, Ads $category)
+
+    public function destroy(Ads $ads)
     {
-        // dd($request->all());
-        if ($request->filled('page')) {
-            $category->page = $request->input('page');
-        }
-        if ($request->filled('section')) {
-            $category->section = $request->input('section');
-        }
-
-        if ($request->hasFile('image')) {
-            $category->image = uploadFoto($request->image, 'uploads/ads');
-        } else if ($request->filled('image')) {
-            $category->image = $request->image;
-        }
-
-        $category->save();
-
-        return ResponseAPI('Iklan berhasil diperbarui', 200);
-    }
-
-    public function destroy(Ads $category)
-    {
-        $category->delete();
+        $ads->delete();
 
         return ResponseAPI('Iklan berhasil dihapus', 200);
     }
