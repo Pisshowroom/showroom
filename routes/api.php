@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdsController;
 use App\Http\Controllers\Admin\AdminController as AdminAdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -96,7 +97,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::delete('/{slider}', [SliderController::class, 'destroy']);
     });
 
-    
+    Route::group(['prefix' => 'ads'], function () {
+        Route::get('/', [AdsController::class, 'index']);
+        Route::post('/', [AdsController::class, 'store']);
+        Route::get('/{ads}', [AdsController::class, 'show']);
+        Route::delete('/{ads}', [AdsController::class, 'destroy']);
+    });
+
 
     Route::group(['prefix' => 'categories', 'middleware' => 'auth:api-client'], function () {
         Route::get('/', [CategoryController::class, 'index']);
