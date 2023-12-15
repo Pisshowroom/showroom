@@ -31,6 +31,10 @@ class UserController extends Controller
     {
         $user = Auth::guard('api-client')->user();
 
+        $request->validate([
+            'phone_number' => 'required'
+        ]);
+        
         if ($request->filled('name')) {
             $user->name = $request->input('name');
             // str::slug of name
