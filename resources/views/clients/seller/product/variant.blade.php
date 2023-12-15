@@ -67,7 +67,7 @@
                                                     name="variants[{{ $k }}][weight]" required
                                                     value="{{ $variant != null ? moneyFormat($variant->weight) : '' }}"
                                                     onkeypress="return event.charCode>=48&&event.charCode<=57"
-                                                    type="text" pattern="[0-9]+([,.][0-9]+)?">
+                                                    >
                                             </div>
                                             <div class="mb-4 variant">
                                                 <label class="form-label">Harga*</label>
@@ -292,7 +292,7 @@
 
                 <div class="mb-4 variant">
                 <label class="form-label">Berat barang* (gram)</label>
-                <input class="form-control weight" name="variants[${k}][weight]" required onkeypress="return event.charCode>=48&&event.charCode<=57" type="text" pattern="[0-9]+([,.][0-9]+)?">
+                <input class="form-control weight" name="variants[${k}][weight]" required onkeypress="return event.charCode>=48&&event.charCode<=57" >
                 </div>
 
                 <div class="mb-4 variant">

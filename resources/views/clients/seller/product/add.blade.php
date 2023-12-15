@@ -104,8 +104,7 @@
                                 <label class="form-label" for="weight">Berat barang* (gram)</label>
                                 <input class="form-control" id="weight" name="weight" required
                                     value="{{ $product != null ? moneyFormat($product->weight) : '' }}"
-                                    onkeypress="return event.charCode>=48&&event.charCode<=57" type="text"
-                                    pattern="[0-9]+([,.][0-9]+)?">
+                                    onkeypress="return event.charCode>=48&&event.charCode<=57" type="text">
                             </div>
                             <div class="mb-4">
                                 <label class="form-label" for="price">Harga*</label>

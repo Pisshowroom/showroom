@@ -24,7 +24,6 @@ class ProductController extends Controller
             $notifications = Notification::where('user_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->take(4)->get();
             $data['notification'] = NotificationResource::collection($notifications);
             $data['notif_count'] = Notification::where('user_id', Auth::guard('web')->user()->id)->count();
-
         } else {
             $data['notification'] = null;
             $data['notif_count'] = 0;
@@ -231,14 +230,14 @@ class ProductController extends Controller
                     $productName;
                     if (isset($variant['images'])) {
                         $images[] = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
+                        $image = $images ?? null;
+                        $theVariant->images = $image ?? null;
                     }
-                    $image = $images ?? null;
                     $theVariant->parent_id = $productParent->id;
                     $theVariant->name = $productName;
                     $theVariant->category_id = $productParent->sub_category_id ? $productParent->category_id : Category::first()->pluck('id') ?? 1;
                     $theVariant->sub_category_id = $productParent->sub_category_id ? $productParent->sub_category_id : SubCategory::first()->pluck('id') ?? 1;
                     $theVariant->slug = Str::slug($theVariant->name);
-                    $theVariant->images = $image ?? null;
                     $theVariant->weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
                     if ($theVariant->weight == 0) {
                         return ResponseAPI('Gagal menginput,berat tidak sesuai.', 404);
@@ -260,8 +259,10 @@ class ProductController extends Controller
                     $productName;
                     if (isset($variant['images'])) {
                         $images[] = uploadFoto($variant['images'], 'uploads/products/' . $user->id);
+                        $image = $images;
+                    } else {
+                        $image = $theVariant->images;
                     }
-                    $image = $images ?? null;
                     $weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);
                     if ($weight == 0) {
                         return ResponseAPI('Gagal menginput,berat tidak sesuai.', 404);
@@ -278,7 +279,7 @@ class ProductController extends Controller
                     $theVariant->update([
                         'name' => $productName,
                         'slug' => null,
-                        'images' => $image ?? null,
+                        'images' => $image ?? [],
                         'price' => $price,
                         'stock' => $stock,
                         'weight' => $weight,
