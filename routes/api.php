@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\AdsController;
+use App\Http\Controllers\Admin\AdminController as AdminAdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\OrderDataController as AdminOrderDataController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AddressSellerController;
 use App\Http\Controllers\Api\ArticleController;
@@ -61,6 +63,20 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/index', [AdminOrderController::class, 'index']);
     });
 
+    Route::group(['prefix' => 'user'], function () {
+        // , 'middleware' => 'auth:api-client'
+        Route::get('/index', [AdminUserController::class, 'index']);
+        Route::get('/{user}', [AdminUserController::class, 'detail']);
+        Route::post('update/{user}', [AdminUserController::class, 'update']);
+    });
+
+    Route::group(['prefix' => 'admin'], function () {
+        // , 'middleware' => 'auth:api-client'
+        Route::get('/index', [AdminAdminController::class, 'index']);
+        Route::get('/{admin}', [AdminAdminController::class, 'detail']);
+        Route::post('update/{admin}', [AdminAdminController::class, 'update']);
+    });
+
     Route::group(['prefix' => 'complaint'], function () {
         Route::get('/list-complaint', [AdminOrderDataController::class, 'listComplaint']);
         Route::get('/list-return-back', [AdminOrderDataController::class, 'listReturnBack']);
@@ -87,6 +103,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/{ads}', [AdsController::class, 'show']);
         Route::delete('/{ads}', [AdsController::class, 'destroy']);
     });
+
 
     Route::group(['prefix' => 'categories', 'middleware' => 'auth:api-client'], function () {
         Route::get('/', [CategoryController::class, 'index']);
