@@ -45,7 +45,7 @@ class UserController extends Controller
         if ($request->filled('email')) {
             $user->email = $request->input('email');
         }
-
+        
         if ($request->filled('device_id')) {
             $user->device_id = $request->input('device_id');
         }
@@ -212,7 +212,10 @@ class UserController extends Controller
     public function deleteAccount()
     {
         $user = Auth::guard('api-client')->user();
-
+        $user->phone_number = null;
+        $user->email = uniqid() . $user->email;
+        $user->save();
+        
         $user->delete();
         return ResponseAPI('Akun berhasil dihapus');
     }
