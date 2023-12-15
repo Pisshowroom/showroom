@@ -226,7 +226,8 @@ class SellerController extends Controller
             $user->seller_name = $request->seller_name;
             $user->seller_slug = Str::slug($request->seller_name);
             $checkDuplicate = User::where('id', '!=', $user->id)->where('seller_slug', $user->seller_slug)->first();
-            if ($checkDuplicate) {
+            $checkDuplicate2 = User::where('id', '!=', $user->id)->withTrashed()->where('seller_slug', $user->seller_slug)->first();
+            if ($checkDuplicate || $checkDuplicate2) {
                 return redirect("/toko/profil")->with('error', 'Nama Toko sudah digunakan')->with('auth', base64_encode($user->uid));
             }
         }
@@ -239,6 +240,11 @@ class SellerController extends Controller
         }
         if ($request->filled('phone_number_seller')) {
             $user->phone_number_seller = $request->phone_number_seller;
+            $checkDuplicate = User::where('id', '!=', $user->id)->where('phone_number_seller', $user->phone_number_seller)->first();
+            $checkDuplicate2 = User::where('id', '!=', $user->id)->withTrashed()->where('phone_number_seller', $user->phone_number_seller)->first();
+            if ($checkDuplicate || $checkDuplicate2) {
+                return redirect("/toko/profil")->with('error', 'Nomor Handphone Toko sudah digunakan')->with('auth', base64_encode($user->uid));
+            }
         }
         $user->seller_delivery_service = "jne:jnt:sicepat:anteraja";
 

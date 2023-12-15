@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\NotificationResource;
 use App\Models\Notification;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -137,6 +138,12 @@ class DashboardController extends Controller
 
         if ($request->filled('email')) {
             $user->email = $request->email;
+            $checkDuplicate = User::where('id', '!=', $user->id)->where('email', $user->email)->first();
+            $checkDuplicate2 = User::where('id', '!=', $user->id)->withTrashed()->where('email', $user->email)->first();
+            if ($checkDuplicate || $checkDuplicate2) {
+                return redirect("/toko/profil")->with('error', 'Email sudah digunakan')->with('auth', base64_encode($user->uid));
+            }
+
         }
 
         if ($request->filled('device_id')) {

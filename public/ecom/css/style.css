@@ -3987,6 +3987,8 @@ a.text-brand-3:hover {
   margin-right: 15px;
 }
 .item-cart .cart-image img {
+  aspect-ratio: 1/0.6;
+  object-fit: contain;
   width: 100%;
 }
 .item-cart .color-brand-3:hover {
@@ -8863,6 +8865,11 @@ a:hover span {
   align-items: center;
   align-content: center;
   display: flex;
+}
+.product-wishlist .product-image a img {
+    width: 130px;
+    height: 90px;
+    object-fit: contain;
 }
 .product-wishlist .product-info {
   width: 100%;
