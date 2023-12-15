@@ -35,10 +35,10 @@
                                             <div class="mb-4 variant">
                                                 <label class="form-label">Nama Variasi</label>
                                                 <input class="form-control name" name="variants[{{ $k }}][name]"
-                                                    maxlength="70" type="text" value="{{ $variant->name }}">
+                                                    maxlength="75" type="text" value="{{ $variant->name }}">
                                                 <div class="text-end">
                                                     <span class="max-name">maksimal panjang nama
-                                                        {{ strlen($variant->name) ?? 0 }}/70</span>
+                                                        {{ strlen($variant->name) ?? 0 }}/75</span>
                                                 </div>
 
                                             </div>
@@ -82,7 +82,9 @@
                                             </div>
                                             <aside class="mb-4 variant">
                                                 <label for="imageInput_{{ $variant->id }}"
-                                                    class="form-label">Gambar*</label>
+                                                    class="form-label">Gambar*(maksimal 2mb)</label>
+                                                    <br>
+                                                    <a style="font-size: 12px" href="https://www.iloveimg.com/compress-image" target="_blank">Konvert gambar disini <span>https://www.iloveimg.com/compress-image</span></a>
                                                 <figure>
                                                     @if ($variant && $variant->images && is_array($variant->images) && count($variant->images) > 0)
                                                         @if (is_object($variant->images[0]))
@@ -119,9 +121,9 @@
                                         <div class="mb-4 variant">
                                             <label class="form-label">Nama Variasi</label>
                                             <input class="form-control name" name="variants[0][name]" type="text"
-                                                maxlength="70" required>
+                                                maxlength="75" required>
                                             <div class="text-end">
-                                                <span class="max-name">maksimal panjang nama 0/70</span>
+                                                <span class="max-name">maksimal panjang nama 0/75</span>
                                             </div>
                                         </div>
 
@@ -155,7 +157,9 @@
                                                 {{ numbFormat('5000') }}</p>
                                         </div>
                                         <aside class="mb-4 variant">
-                                            <label class="form-label">Gambar*</label>
+                                            <label class="form-label">Gambar*(maksimal 2mb)</label>
+                                            <br>
+                                            <a style="font-size: 12px" href="https://www.iloveimg.com/compress-image" target="_blank">Konvert gambar disini <span>https://www.iloveimg.com/compress-image</span></a>
                                             <figure>
                                                 <img class="img-lg mb-3 img-avatar previewImage"
                                                     src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
@@ -265,9 +269,9 @@
             <div class="variants">
                 <div class="mb-4 variant">
                 <label class="form-label">Nama Variasi</label>
-                <input class="form-control name" name="variants[${k}][name]" type="text" maxlength="70" required>
+                <input class="form-control name" name="variants[${k}][name]" type="text" maxlength="75" required>
                 <div class="text-end">
-                    <span class="max-name">maksimal panjang nama 0/70</span>
+                    <span class="max-name">maksimal panjang nama 0/75</span>
                 </div>
                 </div>
 
@@ -300,7 +304,9 @@
 
 
                 <aside class="mb-4 variant">
-                <label class="form-label">Gambar*</label>
+                <label class="form-label">Gambar*(maksimal 2mb)</label>
+                <br>
+                <a style="font-size: 12px" href="https://www.iloveimg.com/compress-image" target="_blank">Konvert gambar disini <span>https://www.iloveimg.com/compress-image</span></a>
                 <figure>
                     <img class="img-lg mb-3 img-avatar previewImage"
                         src="{{ asset('ecom_dashboard/imgs/theme/upload.svg') }}"
@@ -327,9 +333,23 @@
             $('#variantsSection').on('input', 'input.name', function() {
                 var currentLength = $(this).val().length;
 
-                $('.max-name').text('Maksimal panjang nama ' + currentLength + '/70');
+                $('.max-name').text('Maksimal panjang nama ' + currentLength + '/75');
 
             });
+            $('#variantsSection').on('input', 'input.imageInput', function() {
+                var file = this.files[0];
+                var reader = new FileReader();
+                var previewImage = $(this).closest('.variant').find('.previewImage');
+
+                reader.onload = function(event) {
+                    previewImage.attr('src', event.target.result);
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            });
+
             $('#variantsSection').on('input', 'input.price', function() {
 
                 $(this).val(formatRupiah(this.value, 'Rp '));

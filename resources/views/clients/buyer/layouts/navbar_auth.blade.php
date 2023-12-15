@@ -90,29 +90,27 @@
                                 </a>
                             </div>
                         @endif
-                        <div class="d-inline-block box-dropdown-cart">
-                            <span class="font-lg icon-list icon-notification"><span>Notifikasi</span>
-                                {{-- <span
-                                    class="number-item font-xs">2</span> --}}
+                        <div class="d-inline-block box-dropdown-cart"><span
+                                class="font-lg icon-list icon-notification"><span>Notifikasi</span>
+                                @if ($data['notification'] && count($data['notification']) > 0 && $data['notif_count'] && $data['notif_count'] > 0)
+                                    <span class="number-item font-xs">{{ $data['notif_count'] }}</span>
+                                @endif
                             </span>
                             <div class="dropdown-notification">
-                                <div class="col-lg-12 text-center mt-10">
-                                    <h6>Tidak ada notifikasi saat ini</h6>
-                                </div>
-
-                                {{-- <div class="item-cart mb-20">
-                                    <div class="cart-image"><img src="{{ asset('ecom/imgs/page/homepage1/imgsp5.png') }}"
-                                            alt="Ecom">
+                                @if ($data['notification'] && count($data['notification']) > 0)
+                                    <div class="col-lg-12">
+                                        @foreach ($data['notification'] as $notif)
+                                            <a class="mb-2 line-1 text-start" style="color: #425A8B"
+                                                href="{{ route('dashboard.detailNotif', ['id' => $notif->id ?? 1]) }}">
+                                                {{ $notif->title ?? '' }}
+                                            </a>
+                                        @endforeach
                                     </div>
-                                    <div class="cart-info"><a class="font-sm-bold color-brand-3"
-                                            href="{{ route('buyer.detailProduct', ['slug' => 'sd']) }}">2022 Apple iMac
-                                            with
-                                            Retina 5K
-                                            Display 8GB RAM,
-                                            256GB SSD</a>
-                                        <p><span class="color-brand-2 font-sm-bold">1 x $2856.4</span></p>
+                                @else
+                                    <div class="col-lg-12 text-center mt-10">
+                                        <h6>Tidak ada notifikasi saat ini</h6>
                                     </div>
-                                </div> --}}
+                                @endif
                             </div>
                         </div>
                         <a class="font-lg icon-list icon-wishlist"

@@ -26,14 +26,14 @@
                         <div class="card-body">
                             <div class="mb-4">
                                 <label class="form-label" for="name">Nama Produk*</label>
-                                <input class="form-control" id="name" name="name" type="text" maxlength="70"
+                                <input class="form-control" id="name" name="name" type="text" maxlength="75"
                                     required placeholder="Masukkan nama produk"
                                     value="{{ $product != null ? $product->name : '' }}">
                                 <div class="text-end">
                                     @if ($product != null && $product->name)
-                                        maksimal panjang nama {{ strlen($product->name) ?? 0 }}/70</span>
+                                        maksimal panjang nama {{ strlen($product->name) ?? 0 }}/75</span>
                                     @else
-                                        <span class="max-name">maksimal panjang nama 0/70</span>
+                                        <span class="max-name">maksimal panjang nama 0/75</span>
                                     @endif
                                 </div>
                             </div>
@@ -145,7 +145,8 @@
                 <div class="col-lg-4 col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h4>Gambar*</h4>
+                            <h4>Gambar*(<span style="font-size: 13px">masing2 maksimal 2mb</span>)</h4>
+                            <a style="font-size: 12px" href="https://www.iloveimg.com/compress-image" target="_blank">Konvert gambar disini <span>https://www.iloveimg.com/compress-image</span></a>
                         </div>
                         <div class="card-body">
                             <div class="input-upload">
@@ -290,7 +291,7 @@
             $('#name').on('input', function() {
                 var currentLength = $(this).val().length;
 
-                $('.max-name').text('Maksimal panjang nama ' + currentLength + '/70');
+                $('.max-name').text('Maksimal panjang nama ' + currentLength + '/75');
             });
             var tanpa_rupiah = $('#price');
 

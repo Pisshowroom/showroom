@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Clients\seller;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationResource;
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Notification;
 use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
@@ -15,13 +17,34 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    public function getCommonData()
+    {
+
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $notifications = Notification::where('user_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->take(4)->get();
+            $data['notification'] = NotificationResource::collection($notifications);
+            $data['notif_count'] = Notification::where('user_id', Auth::guard('web')->user()->id)->count();
+
+        } else {
+            $data['notification'] = null;
+            $data['notif_count'] = 0;
+        }
+
+        return $data;
+    }
+
+
     public function allProduct(Request $request)
     {
         $product = Product::when($request->filled('search'), function ($q) use ($request) {
             return $q->where('name', 'like', "%$request->search%");
         })->when($request->filled('category_id'), function ($q) use ($request) {
             return $q->where('category_id', $request->category_id);
-        })->withCount('variants')->where('seller_id', Auth::guard('web')->user()->id)->whereNull('parent_id')->with('category:id,name')->orderBy('id', $request->orderBy ?? 'desc')->paginate(10);
+        })->withCount('variants')
+            ->where('seller_id', Auth::guard('web')->user()->id)->whereNull('parent_id')
+            ->with('category:id,name')->orderBy('id', $request->orderBy ?? 'desc')->paginate(10);
+        $data = $this->getCommonData();
+
         $data['categories_product'] = Category::whereNull('deleted_at')->withCount('products')->whereHas('products', function ($q) {
             $q->where('seller_id', Auth::guard('web')->user()->id);
         })->select('id', 'name')->get();
@@ -29,6 +52,7 @@ class ProductController extends Controller
     }
     public function addProduct(Request $request)
     {
+        $data = $this->getCommonData();
         $data['categories'] = Category::whereNull('deleted_at')->get();
         $data['sub_category'] = '';
         $user = Auth::guard('web')->user();
@@ -44,9 +68,10 @@ class ProductController extends Controller
     public function editProduct(Request $request)
     {
         $user = Auth::guard('web')->user();
+        $data = $this->getCommonData();
 
         $data['categories'] = Category::whereNull('deleted_at')->get();
-        $product = Product::where('id', $request->id)->firstOrFail();
+        $product = Product::where('id', $request->id)->where('seller_id', $user->id)->first();
         if (!$product)
             return redirect("/toko/semua-produk")->with('error', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
         $user = Auth::guard('web')->user();
@@ -68,9 +93,10 @@ class ProductController extends Controller
     public function variantProduct(Request $request)
     {
         $user = Auth::guard('web')->user();
+        $data = $this->getCommonData();
 
         $data['categories'] = Category::whereNull('deleted_at')->get();
-        $product = Product::where('id', $request->id)->with('variants')->select('id', 'name')->withCount('variants')->firstOrFail();
+        $product = Product::where('id', $request->id)->where('seller_id', $user->id)->with('variants')->select('id', 'name', 'seller_id')->withCount('variants')->first();
         if (!$product)
             return redirect("/toko/semua-produk")->with('error', 'Produk tidak ditemukan')->with('auth', base64_encode($user->uid));
         $user = Auth::guard('web')->user();
@@ -209,6 +235,8 @@ class ProductController extends Controller
                     $image = $images ?? null;
                     $theVariant->parent_id = $productParent->id;
                     $theVariant->name = $productName;
+                    $theVariant->category_id = $productParent->sub_category_id ? $productParent->category_id : Category::first()->pluck('id') ?? 1;
+                    $theVariant->sub_category_id = $productParent->sub_category_id ? $productParent->sub_category_id : SubCategory::first()->pluck('id') ?? 1;
                     $theVariant->slug = Str::slug($theVariant->name);
                     $theVariant->images = $image ?? null;
                     $theVariant->weight = (int) preg_replace("/[^0-9]/", "", $variant['weight']);

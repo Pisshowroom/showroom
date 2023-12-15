@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Clients\buyer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationResource;
 use App\Models\Address;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Notification;
 use App\Models\Wishlist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,9 +24,14 @@ class ArticleController extends Controller
         if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
             $data['addresses'] = $this->addresses();
             $data['userWishlist'] = Wishlist::where('user_id', Auth::guard('web')->user()->id)->whereNotNull('product_id')->count();
+            $notifications = Notification::where('user_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->take(4)->get();
+            $data['notification'] = NotificationResource::collection($notifications);
+            $data['notif_count'] = Notification::where('user_id', Auth::guard('web')->user()->id)->count();
         } else {
             $data['addresses'] = null;
             $data['userWishlist'] = 0;
+            $data['notification'] = null;
+            $data['notif_count'] = 0;
         }
 
         return $data;

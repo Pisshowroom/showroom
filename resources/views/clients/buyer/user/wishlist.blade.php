@@ -204,7 +204,7 @@
 
         function buyNow(productId, stock, seller_id) {
             if (stock > 0) {
-                if ("{{ $data['addresses']->id }}") {
+                if ("{{ $data['addresses'] && $data['addresses']->id }}") {
                     $('.loading').removeClass('d-none').addClass('show-modal');
                     var productData = [{
                         product_id: productId,

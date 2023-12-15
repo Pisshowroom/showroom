@@ -17,11 +17,19 @@ use App\Models\Notification;
 class DashboardController extends Controller
 {
 
-    private function getNotification()
+    public function getCommonData()
     {
-        $user = Auth::guard('web')->user();
-        $notifications = Notification::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(4)->get();
-        return NotificationResource::collection($notifications);
+
+        if (Auth::guard('web')->user() && Auth::guard('web')->user()->id) {
+            $notifications = Notification::where('user_id', Auth::guard('web')->user()->id)->orderBy('created_at', 'desc')->take(4)->get();
+            $data['notification'] = NotificationResource::collection($notifications);
+            $data['notif_count'] = Notification::where('user_id', Auth::guard('web')->user()->id)->count();
+        } else {
+            $data['notification'] = null;
+            $data['notif_count'] = 0;
+        }
+
+        return $data;
     }
 
     public function dashboard(Request $request)
@@ -40,6 +48,8 @@ class DashboardController extends Controller
         foreach ($order as $key => $value) {
             $value->date = parseDates($value->created_at);
         }
+        $data = $this->getCommonData();
+
         $data['all_order'] = Order::whereNull('deleted_at')
             ->where('user_id', Auth::guard('web')->user()->id)->count();
         $data['cart'] = 0;
@@ -85,6 +95,8 @@ class DashboardController extends Controller
         // } else {
         //     $user['districts'] = '';
         // }
+        $user = $this->getCommonData();
+
         $user['addresses'] = Address::where('user_id', Auth::guard('web')->user()->id)->whereNull('deleted_at')
             ->select([
                 'id', 'user_id', 'place_name', 'person_name', 'phone_number', 'main', 'for_seller',
@@ -98,6 +110,8 @@ class DashboardController extends Controller
 
     public function changeAddress($id)
     {
+        $user = $this->getCommonData();
+
         $user = Address::where('id', $id)->firstOrFail();
         if ($user->ro_province_id != null) {
             $user['cities'] = RoCity::where('ro_province_id', $user->ro_province_id)->select('id', 'city_name', 'postal_code', 'ro_province_id')->get();
