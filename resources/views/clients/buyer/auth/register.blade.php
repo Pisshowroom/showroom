@@ -124,32 +124,12 @@
                 if (email !== '' && password !== '' && name !== '' && repassword !== '') {
                     if (password == repassword) {
                         $submitButton.prop('disabled', false);
-                        validateEmail();
                     }
                 } else {
                     $submitButton.prop('disabled', true);
                 }
             });
 
-            function validateEmail() {
-                var email = $('#email').val();
-                var regex = /@co/;
-                console.log(regex.test(email));
-                if (regex.test(email)) {
-                    $('#registerEmail').prop('disabled', false);
-                } else {
-                    if (email.trim() !== '') {
-                        var div = document.getElementById('myDiv2');
-                        $('#myDiv2').css('display', 'block');
-                        div.innerHTML = '';
-                        div.innerHTML += 'Email tidak valid. Harap gunakan domain ".co" yang valid setelah "@"';
-                        setTimeout(function() {
-                            $('#myDiv2').fadeOut('fast');
-                        }, 2000);
-                        $('#registerEmail').prop('disabled', true);
-                    }
-                }
-            }
             $(".toggle-password").click(function() {
                 $(this).toggleClass("fa-eye fa-eye-slash");
                 var input = $($(this).attr("toggle"));
