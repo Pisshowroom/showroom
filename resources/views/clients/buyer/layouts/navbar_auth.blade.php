@@ -420,7 +420,7 @@
             }
 
             function convertRupiahToPi(price) {
-                var value = {{ $setting->value ?? 558647.95 }}
+                var value = {{ $setting->value ?? 4866825564.40 }}
 
                 return (1 / value) * (price);
             }

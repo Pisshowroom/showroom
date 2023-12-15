@@ -165,7 +165,7 @@ class BuyerController extends Controller
         if (!$setting) {
             $setting = new Setting();
             $setting->name = "pi";
-            $setting->value = "558647.95";
+            $setting->value = "4866825564.40";
             $setting->save();
         }
         $data['setting'] = $setting;
