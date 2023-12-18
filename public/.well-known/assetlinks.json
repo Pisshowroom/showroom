@@ -1,0 +1,10 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.pissg.app",
+      "sha256_cert_fingerprints":
+      ["47:CA:62:7F:89:8C:1E:67:D0:48:73:02:56:89:28:E5:5F:EA:92:8C:AE:92:72:69:FF:A8:81:35:A2:EE:E9:65"]
+    }
+  }]
+  

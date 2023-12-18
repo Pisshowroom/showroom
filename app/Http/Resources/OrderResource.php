@@ -19,7 +19,7 @@ class OrderResource extends JsonResource
         foreach(($this->returning_images ?? []) as $img) {
             $imagesComplainData[] = lypsisAsset($img);
         }
-        
+
         $data = [
             'id' => $this->id,
             'payment_identifier' => $this->payment_identifier,
@@ -56,6 +56,7 @@ class OrderResource extends JsonResource
                 return  new OrderItemResource($this->single_order_item_with_product);
             }),
             'payment_channel' => $this->payment_channel,
+            // 'link_label' => $this->link_label,
             'va_number' => $this->va_number,
             'qr_id' => $this->qr_id,
             'qr_string' => $this->qr_string,
