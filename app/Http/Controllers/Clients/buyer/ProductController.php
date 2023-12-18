@@ -151,6 +151,13 @@ class ProductController extends Controller
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
+    public function detailProduct2($id)
+    {
+        $product = Product::where('id', $id)->first();
+        if (!$product)
+            return redirect()->route('buyer.home')->with('error', 'Produk tidak ditemukan.');
+        return redirect()->route('buyer.detailProduct', ['slug' => $product->slug]);
+    }
     public function detailProduct($slug)
     {
         $user = Auth::guard('web')->user();

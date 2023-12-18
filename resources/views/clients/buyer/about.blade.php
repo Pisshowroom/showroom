@@ -175,7 +175,7 @@
                                     alt="Ecom"></div>
                             <h4 class="mb-5">Kontak</h4>
                             <p class="font-sm color-gray-700 mb-5">Bicaralah dengan tim kami.</p><a
-                                class="font-sm color-gray-900" href="mailto:sales@ecom.com">sales@ecom.com</a>
+                                class="font-sm color-gray-900" href="mailto:Pisshowroom@gmail.com">Pisshowroom@gmail.com</a>
                         </div>
                         <div class="col-lg-3 text-center mb-30">
                             <div class="box-image mb-20"><img src="{{ asset('ecom/imgs/page/contact/call.svg') }}"

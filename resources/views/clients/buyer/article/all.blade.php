@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col-xl-10 col-lg-9 mb-0 text-lg-end text-center"><span
                                         class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
-                                        {{ count($articles) > 0 ? count($articles) : 0 }} hasil</span>
+                                        {{ $articles->total() > 0 ? $articles->total() : 0 }} hasil</span>
                                     <div class="d-inline-block"><span
                                             class="font-sm color-gray-500 font-medium">Berdasarkan:</span>
                                         <div class="dropdown dropdown-sort border-1-right">

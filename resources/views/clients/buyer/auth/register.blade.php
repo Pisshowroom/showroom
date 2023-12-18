@@ -187,9 +187,6 @@
                         type: "POST",
                         data: obj,
                         success: function(data) {
-                            $('.loading').removeClass('show-modal')
-                                .addClass('d-none');
-
                             if (data.status == "success") {
                                 var div = document.getElementById('myDiv3');
                                 $('#myDiv3').css('display', 'block');
@@ -212,9 +209,6 @@
                             }
                         },
                         error: function(error) {
-                            $('.loading').removeClass('show-modal')
-                                .addClass('d-none');
-
                             var div = document.getElementById('myDiv2');
                             $('#myDiv2').css('display', 'block');
                             div.innerHTML = '';
@@ -223,6 +217,10 @@
                                 $('#myDiv2').fadeOut('fast');
                             }, 2000);
                         },
+                        complete: function() {
+                            $('.loading').addClass('d-none').removeClass('show-modal');
+                        }
+
                     });
                     // ...
                 })
@@ -263,9 +261,6 @@
                         password: password,
                     },
                     success: function(data) {
-                        $('.loading').removeClass('show-modal')
-                            .addClass('d-none');
-
                         if (data.status == "success") {
                             var div = document.getElementById('myDiv3');
                             $('#myDiv3').css('display', 'block');
@@ -276,7 +271,8 @@
                             }, 2000);
                             if (navigator.userAgent.includes('PiBrowser')) {
                                 sessionStorage.setItem("api_token", `${data.user.api_token}`);
-                                window.location.replace("/login-session?api_token=" + data.user.api_token);
+                                window.location.replace("/login-session?api_token=" + data.user
+                                    .api_token);
                             } else {
                                 window.location.replace("{{ route('dashboard.myOrder') }}");
                             }
@@ -292,9 +288,6 @@
                         }
                     },
                     error: function(error) {
-                        $('.loading').removeClass('show-modal')
-                            .addClass('d-none');
-
                         var div = document.getElementById('myDiv2');
                         $('#myDiv2').css('display', 'block');
                         div.innerHTML = '';
@@ -303,6 +296,10 @@
                             $('#myDiv2').fadeOut('fast');
                         }, 2000);
                     },
+                    complete: function() {
+                        $('.loading').addClass('d-none').removeClass('show-modal');
+                    }
+
                 });
             } else {
                 var div = document.getElementById('myDiv2');

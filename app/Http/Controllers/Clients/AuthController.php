@@ -56,20 +56,27 @@ class AuthController extends Controller
                     "message" => "Berhasil login"
                 ]);
             } else {
-                $user = new User;
-                $user->uid = $request->uid;
-                $user->api_token = bcrypt($request->api_token);
-                $user->name = $request->username;
-                $user->email = $request->username . '@gmail.com';
-                // $user->image = $request->photoURL;
-                $user->save();
-                Auth::guard('web')->loginUsingId($user->id, true);
-                return response()->json([
-                    "status" => "success",
-                    "api_token" => $user->api_token,
-                    "message" => "Berhasil Mendaftar"
+                $checkUser2 = User::withTrashed()->where('uid', $request->uid)->first();
+                if ($checkUser2) {
+                    $checkUser2->phone_number = null;
+                    $checkUser2->email = uniqid() . $checkUser2->email;
+                    $checkUser2->save();
+                }else{
+                    $user = new User;
+                    $user->uid = $request->uid;
+                    $user->api_token = bcrypt($request->api_token);
+                    $user->name = $request->username;
+                    $user->email = $request->username . '@gmail.com';
+                    // $user->image = $request->photoURL;
+                    $user->save();
+                    Auth::guard('web')->loginUsingId($user->id, true);
+                    return response()->json([
+                        "status" => "success",
+                        "api_token" => $user->api_token,
+                        "message" => "Berhasil Mendaftar"
 
-                ]);
+                    ]);
+                }
             }
         } else {
             return response()->json([

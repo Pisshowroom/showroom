@@ -179,8 +179,9 @@ dd(request()->all());
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
                                 <div class="card-grid-style-2 card-grid-style-2-small">
                                     <div class="image-box">
-                                        <a style="width:85px;height:85px;"
-                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                        <a
+                                            href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                            <img style="width:95px;height:95px;object-fit:contain"
                                                 src="{{ $ct->image ?? asset('ecom/imgs/page/homepage1/smartphone.png') }}"
                                                 alt="kategori {{ $ct->name ?? '' }}">
                                         </a>
@@ -261,6 +262,13 @@ dd(request()->all());
                                             @endforeach
                                         </div>
                                     </div>
+                                    <div class="swiper-slide">
+                                        <div class="list-products-5">
+                                            @foreach ($data['latest_product2'] as $prd)
+                                                @include('clients.buyer.components.list_product1')
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -272,6 +280,13 @@ dd(request()->all());
                                     <div class="swiper-slide">
                                         <div class="list-products-5">
                                             @foreach ($data['best_seller_product'] as $prd)
+                                                @include('clients.buyer.components.list_product1')
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="list-products-5">
+                                            @foreach ($data['best_seller_product2'] as $prd)
                                                 @include('clients.buyer.components.list_product1')
                                             @endforeach
                                         </div>
@@ -289,7 +304,13 @@ dd(request()->all());
                                             @foreach ($data['recommended_products'] as $prd)
                                                 @include('clients.buyer.components.list_product1')
                                             @endforeach
-
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="list-products-5">
+                                            @foreach ($data['recommended_products2'] as $prd)
+                                                @include('clients.buyer.components.list_product1')
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -327,6 +348,15 @@ dd(request()->all());
                                         <div class="swiper-slide">
                                             <div class="row">
                                                 @foreach ($data['recommended_products'] as $prd)
+                                                    <div class="col-xl-4 col-lg-6 col-md-6">
+                                                        @include('clients.buyer.components.list_product1')
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="row">
+                                                @foreach ($data['recommended_products2'] as $prd)
                                                     <div class="col-xl-4 col-lg-6 col-md-6">
                                                         @include('clients.buyer.components.list_product1')
                                                     </div>
@@ -371,6 +401,15 @@ dd(request()->all());
                                                 @endforeach
                                             </div>
                                         </div>
+                                        <div class="swiper-slide">
+                                            <div class="row">
+                                                @foreach ($data['recommended_products2'] as $prd)
+                                                    <div class="col-xl-4 col-lg-6 col-md-6">
+                                                        @include('clients.buyer.components.list_product1')
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -395,6 +434,11 @@ dd(request()->all());
                                         <div class="swiper-wrapper pt-5">
                                             <div class="swiper-slide">
                                                 @foreach ($data['promo_products'] as $prd)
+                                                    @include('clients.buyer.components.list_product2')
+                                                @endforeach
+                                            </div>
+                                            <div class="swiper-slide">
+                                                @foreach ($data['promo_products2'] as $prd)
                                                     @include('clients.buyer.components.list_product2')
                                                 @endforeach
                                             </div>
@@ -424,6 +468,11 @@ dd(request()->all());
                                         <div class="swiper-wrapper pt-5">
                                             <div class="swiper-slide">
                                                 @foreach ($data['latest_product'] as $key => $prd)
+                                                    @include('clients.buyer.components.list_product2')
+                                                @endforeach
+                                            </div>
+                                            <div class="swiper-slide">
+                                                @foreach ($data['latest_product2'] as $key => $prd)
                                                     @include('clients.buyer.components.list_product2')
                                                 @endforeach
                                             </div>
