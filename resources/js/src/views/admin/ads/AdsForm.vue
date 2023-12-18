@@ -225,6 +225,7 @@ const pages = [
   { id: 1, name: "Beranda", value: "home" },
   { id: 2, name: "Semua Produk", value: "all_product" },
   { id: 3, name: "Detail Produk", value: "detail_product" },
+  { id: 4, name: "Detail Artikel", value: "detail_article" },
 ];
 const sections: any = ref([]);
 import FileUploadWithPreview from "file-upload-with-preview";
@@ -264,16 +265,33 @@ onMounted(async () => {
         form.value.page = matchingPage;
       }
     }
-    if (form.value.section != null && form.value.page != "detail_product") {
-      getSections();
-      const matchingSection = sections.value.find(
-        (data) => form.value.section === data.value
-      );
-      if (matchingSection) {
-        form.value.section = matchingSection;
-      }
-    } else if (form.value.page == "detail_product") {
-      form.value.section = "ads_detail";
+    if (
+      form.value.section != null &&
+      (form.value.page.value == "home" ||
+        form.value.page.value == "all_product")
+    ) {
+      getSections(form.value.page);
+    } else if (
+      form.value.section != null &&
+      form.value.page.value == "detail_product"
+    ) {
+      console.log("datas");
+      const datas = {
+        id: 1,
+        value: "ads_detail",
+        name: "Bagian detail Produk",
+      };
+      form.value.section = datas;
+    } else if (
+      form.value.section != null &&
+      form.value.page.value == "detail_article"
+    ) {
+      const datas = {
+        id: 1,
+        value: "ads_article",
+        name: "Bagian detail Artikel",
+      };
+      form.value.section = datas;
     }
     new FileUploadWithPreview("myFirstImage", {
       images: {
@@ -301,9 +319,8 @@ useHead({
     ? "Tambah Iklan"
     : "",
 });
-const getSections = () => {
-  console.log(form.value.page);
-  if (form.value.page && form.value.page?.value == "home") {
+const getSections = (post) => {
+  if (post && post?.value == "home") {
     sections.value = [
       {
         id: 1,
@@ -328,13 +345,21 @@ const getSections = () => {
       { id: 5, name: "Samping Slider", value: "side_slider" },
       { id: 6, name: "Paling ujung dari Slider", value: "right_end_slider" },
     ];
-  } else if (form.page && form.page?.value == "all_product") {
+  } else if (post && post?.value == "all_product") {
     sections.value = [
       { id: 1, name: "Diatas List Produk", value: "above_list_product" },
       { id: 2, name: "Dibawah list penjual", value: "below_list_seller" },
     ];
   }
-  console.log(sections);
+
+  if (route.params.id) {
+    const matchingSection = sections.value.find(
+      (data) => form.value.section === data.value
+    );
+    if (matchingSection) {
+      form.value.section = matchingSection;
+    }
+  }
 };
 const handleFileChange = (event) => {
   form.value.image = event.target.files[0];
