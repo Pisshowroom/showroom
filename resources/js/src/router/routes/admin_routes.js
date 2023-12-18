@@ -51,6 +51,29 @@ export default [
             // rule:'institution'
         },
     },
+    {
+        path: "/admin/category/index",
+        name: "admin.category.index",
+        component: () => import("../../views/admin/category/CategoryIndex.vue"),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
+    {
+        path: "/admin/category/form",
+        name: "admin.category.form",
+        component: () => import("../../views/admin/category/CategoryForm.vue"),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
+    {
+        path: "/admin/category/edit/:id",
+        name: "admin.category.edit",
+        component: () => import("../../views/admin/category/CategoryForm.vue"),
+    },
     // {
     //     path: '/institution/prodi/edit/:id',
     //     name: 'institution-prodi.edit',
