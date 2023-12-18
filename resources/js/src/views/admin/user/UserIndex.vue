@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table :url="`/admin/user/index`" :cols="cols" :title="'Daftar Pengguna'" :dropdownAction="true" :searching="true" ref="datatable">
+    <Table :url="`/admin/user/index`" :cols="cols" :actions="actions" :title="'Daftar Pengguna'" :dropdownAction="true" :searching="true" ref="datatable">
     </Table>
 
     <div :style="{ height: '70vh' }">
@@ -38,9 +38,8 @@ const cols =
     { field: 'name', title: 'Name', sort: false },
     { field: 'email', title: 'Email', sort: false },
     {
-      field: 'phone_number', title: 'Nomor HP', sort: false, callRenderer: (item: any) => {
-        // var thePhoneNumber =  item.phone_number != null ? ("asdasd" + item.phone_number) : '-';
-        return "asjdpasjdasdi sdio";
+      field: 'phone_number', title: 'Nomor HP', sort: false, cellRenderer: (item: any) => {
+        return item.phone_number != null ? ("0" + item.phone_number) : '-';
       },
     },
     {
@@ -50,15 +49,29 @@ const cols =
       },
     },
     // { field: 'balance', title: 'Balance', sort: false },
+    { field: 'actions', title: 'Aksi', slot: true, sort: false },
   ]) || [];
 
 const actions = ref([
-  /* {
+  {
     type: 'editDropdown',
     to: ({ value }) => {
-      return `/institution/student/edit/${value.id}`;
+      return `/admin/user`;
     },
   },
+  {
+    type: 'deleteIcon',
+    click: ({ value }) => {
+      // return `/admin/user`;
+    },
+  },  
+ /*  {
+    type: 'editIcon',
+    to: ({ value }) => {
+      return `/admin/user`;
+    },
+  }, */
+  /* 
   {
     type: 'previewDropdown',
     to: ({ value }) => {

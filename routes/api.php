@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\AdsController;
 use App\Http\Controllers\Admin\AdminController as AdminAdminController;
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\OrderDataController as AdminOrderDataController;
@@ -105,15 +105,15 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
 
-    Route::group(['prefix' => 'categories', 'middleware' => 'auth:api-client'], function () {
-        Route::get('/', [CategoryController::class, 'index']);
-        Route::post('/', [CategoryController::class, 'store']);
-        Route::get('/{category}', [CategoryController::class, 'show']);
-        Route::post('update/{category}', [CategoryController::class, 'update']);
-        Route::delete('/{category}', [CategoryController::class, 'destroy']);
+    Route::group(['prefix' => 'categories'], function () {
+        Route::get('/index', [AdminCategoryController::class, 'index']);
+        Route::post('/', [AdminCategoryController::class, 'store']);
+        Route::get('/{category}', [AdminCategoryController::class, 'show']);
+        // Route::post('update/{category}', [AdminCategoryController::class, 'update']);
+        Route::delete('/{category}', [AdminCategoryController::class, 'destroy']);
     });
 
-    Route::group(['prefix' => 'sub-categories', 'middleware' => 'auth:api-client'], function () {
+    Route::group(['prefix' => 'sub-categories'], function () {
         Route::get('/', [SubCategoryController::class, 'index']);
         Route::post('/', [SubCategoryController::class, 'store']);
         Route::get('/{subCategory}', [SubCategoryController::class, 'show']);

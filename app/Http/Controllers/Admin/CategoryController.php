@@ -23,17 +23,31 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'image' => 'required|file',
+            'image' => 'required',
         ]);
-        
-        $category = new Category();
+
+        $isCreate = false;
+        if (!$request->id) {
+            $request->validate([
+                'image' => 'required',
+            ]);
+            
+            $category = new Category();
+            $isCreate = true;
+        } else
+            $category = Category::findOrFail($request->id);
+
         $category->name = $request->input('name');
         if ($request->hasFile('image')) {
             $category->image = uploadFoto($request->image, 'uploads/categories');
         }
+
         $category->save();
 
-        return ResponseAPI('Kategori berhasil ditambahkan', 200);
+        if ($isCreate)
+            return ResponseAPI($category, 200);
+        else
+            return ResponseAPI($category, 200);
     }
 
     public function show(Category $category)
@@ -48,11 +62,7 @@ class CategoryController extends Controller
             $category->name = $request->input('name');
         }
 
-        if ($request->hasFile('image')) {
-            $category->image = uploadFoto($request->image, 'uploads/categories');
-        } else if ($request->filled('image')) {
-            $category->image = $request->image;
-        }
+
 
         $category->save();
 

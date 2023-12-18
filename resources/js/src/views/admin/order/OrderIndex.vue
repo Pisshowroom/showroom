@@ -40,7 +40,7 @@ const cols =
     { field: 'market_fee_seller', title: 'PI Fee Seller', sort: false },
     { field: 'payment_channel', title: 'Channel Pembayaran', sort: false },
     {
-      field: 'total',
+      field: 'total',  
       title: "Total",
       sort: false,
       cellRenderer: (item: any) => {
