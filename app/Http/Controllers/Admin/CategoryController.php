@@ -10,13 +10,19 @@ class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        // when request filled search on name
         $categories = Category::when($request->filled('search'), function ($query, $request) {
             return $query->where('name', 'like', '%' . $request->search . '%');
         })
             ->paginate($request->per_page ?? 10);
 
         return $categories;
+    }
+
+    public function allCategories()
+    {
+        $categories = Category::all();
+        return $categories;
+        // return ["A", "B"];
     }
 
     public function store(Request $request)

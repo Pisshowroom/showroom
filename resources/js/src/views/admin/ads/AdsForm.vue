@@ -302,7 +302,7 @@ useHead({
     : "",
 });
 const getSections = () => {
-    console.log(form.value.page);
+  console.log(form.value.page);
   if (form.value.page && form.value.page?.value == "home") {
     sections.value = [
       {
