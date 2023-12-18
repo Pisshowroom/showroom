@@ -4,12 +4,11 @@
             <div class="row">
                 <div class="col-lg-4 width-25 mb-30">
                     <h4 class="mb-30 color-gray-1000">Kontak</h4>
-                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Alamat:</strong> 502
-                        New Design Str, Melbourne, San Francisco, CA 94110, United States</div>
-                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">No. Handphone:</strong> (+01)
-                        123-456-789</div>
+                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Alamat:</strong> Jl Demang Akub No. 95 RT. 005 RW. 002 Sui Rasau, Singkawang Utara, Kalbar - INDONESIA 79151 </div>
+                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">No. Handphone:</strong> (+62)
+                        8584-9680-562</div>
                     <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">E-mail:</strong>
-                        contact@ecom-market.com</div>
+                        Pisshowroom@gmail.com</div>
                     {{-- <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Hours:</strong> 8:00
                         - 17:00, Mon - Sat</div> --}}
                     <div class="mt-30"><a class="icon-socials icon-facebook" href="#"></a><a

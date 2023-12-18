@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="col-xl-10 col-lg-9 mb-10 text-lg-end"><span
                                         class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
-                                        {{ count($sellers) > 0 ? count($sellers) : 0 }} hasil</span>
+                                        {{ $sellers->total() > 0 ? $sellers->total() : 0 }} hasil</span>
                                     <div class="d-inline-block"><span
                                             class="font-sm color-gray-500 font-medium">Berdasarkan:</span>
                                         <div class="dropdown dropdown-sort border-1-right">

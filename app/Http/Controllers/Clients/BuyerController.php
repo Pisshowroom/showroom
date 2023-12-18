@@ -9,6 +9,7 @@ use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\SliderResource;
 use App\Models\Address;
+use App\Models\Ads;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\MasterAccount;
@@ -52,15 +53,6 @@ class BuyerController extends Controller
 
     public function home(Request $request)
     {
-        // $recommendedProducts = Product::with(['category', 'parent'])
-        //     ->whereHas('order_items.order', function ($query) {
-        //         $query->where('status', 'done');
-        //     })
-        //     ->havingRaw('COUNT(order_items.id) > 0')
-        //     ->orderByDesc('order_items_count')
-        //     ->take(10)
-        //     ->get();
-
 
         $sliders = Slider::all();
         // limitted 5 article latest
@@ -69,17 +61,27 @@ class BuyerController extends Controller
             'category', 'seller:id,name,seller_slug,seller_name',
             'seller.address:id,user_id,for_seller,main,city',
         ])->byNotVariant()->latest()->take(8)->get();
-        $promoProducts = Product::with([
+        $latestProducts2 = Product::with([
             'category', 'seller:id,name,seller_slug,seller_name',
             'seller.address:id,user_id,for_seller,main,city',
-        ])->byNotVariant()->whereNotNull('discount')->inRandomOrder()->take(8)->get();
+        ])->byNotVariant()->latest()->skip(8)->take(8)->get();
         $data = $this->getCommonData();
         $data['sliders'] = SliderResource::collection($sliders);
         $data['latest_product'] = ProductResource::collection($latestProducts);
+        $data['latest_product2'] = ProductResource::collection($latestProducts2);
         $data['limited_product'] = $this->limitedProducts();
         $data['best_seller_product'] = $this->bestSellerProducts();
+        $data['best_seller_product2'] = $this->bestSellerProducts2();
         $data['recommended_products'] = $this->limitedProducts();
-        $data['promo_products'] = ProductResource::collection($promoProducts);
+        $data['recommended_products2'] = $this->limitedProducts();
+        $data['promo_products'] = $this->promoProducts();
+        $data['promo_products2'] = $this->promoProducts();
+        $data['ads1'] = $this->getAds('side_slider', 2);
+        $data['ads2'] = $this->getAds('right_end_slider', 2);
+        $data['ads3'] = $this->getAds2('under_discount_products');
+        $data['ads4'] = $this->getAds2('above_recommended_products');
+        $data['ads5'] = $this->getAds('above_best_selling_products', 3);
+        $data['ads6'] = $this->getAds('below_best_selling_products', 3);
         foreach ($data['latest_product'] as $value) {
             if ($value->discount && $value->discount > 0) {
                 $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
@@ -87,7 +89,7 @@ class BuyerController extends Controller
                 $value->price_discount = null;
             }
         }
-        foreach ($data['promo_products'] as $value) {
+        foreach ($data['latest_product2'] as $value) {
             if ($value->discount && $value->discount > 0) {
                 $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
             } else {
@@ -239,5 +241,61 @@ class BuyerController extends Controller
             }
         }
         return $data['best_seller_product'];
+    }
+    private function bestSellerProducts2()
+    {
+        $bestSellerProducts = Product::with([
+            'category', 'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+        ])
+            ->addSelect([
+                'total_quantity' => OrderItem::selectRaw('sum(quantity)')
+                    ->whereColumn('product_id', 'products.id')
+                    ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                    ->where('orders.status', 'done')
+            ])->byNotVariant()
+            ->orderByDesc('total_quantity')
+            ->skip(8)
+            ->take(8)
+            ->get();
+        $data['best_seller_product'] = ProductResource::collection($bestSellerProducts);
+        foreach ($data['best_seller_product'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        return $data['best_seller_product'];
+    }
+    private function promoProducts()
+    {
+        $promoProducts = Product::with([
+            'category', 'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+        ])->byNotVariant()->whereNotNull('discount')->inRandomOrder()->take(8)->get();
+
+        $data['promo_products'] = ProductResource::collection($promoProducts);;
+        foreach ($data['promo_products'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+
+        return $data['promo_products'];
+    }
+    private function getAds($section, $take)
+    {
+        return Ads::where('page', 'home')->where('section', $section)
+            ->whereNull('deleted_at')->select('id', 'image', 'page', 'section')
+            ->orderByDesc('id')->take($take)->get();
+    }
+    private function getAds2($section)
+    {
+        return Ads::where('page', 'home')->where('section', $section)
+            ->whereNull('deleted_at')->select('id', 'image', 'page', 'section')
+            ->latest()->first();
     }
 }

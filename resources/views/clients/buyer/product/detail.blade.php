@@ -465,7 +465,7 @@
                                         <tr>
                                             <td>Berat barang</td>
                                             <td>
-                                                <p>{{ $product->weight && $product->weight > 0 ? moneyFormat($product->weight) . ' gram' : '-' }}
+                                                <p>{{ $product->weight && $product->weight > 0 ? convertWeight($product->weight) . ' kg' : '-' }}
                                                 </p>
                                             </td>
                                         </tr>

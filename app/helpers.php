@@ -80,7 +80,8 @@ function lypsisGetOrderStatusValues($paramStatus)
     }
 }
 
-function lypsisRemoveHost($url) {
+function lypsisRemoveHost($url)
+{
     return parse_url($url, PHP_URL_PATH);
 }
 
@@ -577,6 +578,26 @@ function convertRupiahToPi($price)
     }
 
     return (1 / (float) $setting->value) * ($price);
+}
+
+// function convertWeight($value, $fromUnit, $toUnit)
+function convertWeight($value)
+{
+    $conversionTable = [
+        'kg_to_g' => 1000,
+        'g_to_kg' => 0.001,
+    ];
+
+    $conversionKey = "g_to_kg";
+
+    if (array_key_exists($conversionKey, $conversionTable)) {
+        $conversionRate = $conversionTable[$conversionKey];
+        $convertedValue = $value * $conversionRate;
+
+        return $convertedValue;
+    } else {
+        return "Invalid conversion units";
+    }
 }
 
 function numbFormatUSD($price, $decimal = true)

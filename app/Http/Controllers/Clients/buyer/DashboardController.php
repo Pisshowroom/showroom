@@ -143,7 +143,6 @@ class DashboardController extends Controller
             if ($checkDuplicate || $checkDuplicate2) {
                 return redirect("/toko/profil")->with('error', 'Email sudah digunakan')->with('auth', base64_encode($user->uid));
             }
-
         }
 
         if ($request->filled('device_id')) {
@@ -269,7 +268,11 @@ class DashboardController extends Controller
     {
         $user = Auth::guard('web')->user();
         if (!$user)
-            return redirect()->route('dashboard.settings')->with('error', 'Akun tidak ditemukan')->with('auth', base64_encode($user->uid));
+            return redirect()->route('buyer.home')->with('error', 'Akun tidak ditemukan');
+        $user->phone_number = null;
+        $user->email = uniqid() . $user->email;
+        $user->save();
+
         $user->delete();
         return redirect()->route('buyer.home')->with('success', 'Akun berhasil dihapus')->with('auth', base64_encode($user->uid));
     }

@@ -30,8 +30,10 @@
         <div class="info-topbar text-center d-none d-xl-block"><a class="font-xs color-brand-3"
                 href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"
                 target="_blank">Download Aplikasi PIS Shop Global</a></div>
-        <div class="menu-topbar-right"><span class="font-xs color-brand-3">Butuh bantuan? Hubungi:</span><span
-                class="font-sm-bold color-success"> + 1800 900</span>
+        <div class="menu-topbar-right"><span class="font-xs color-brand-3">Butuh bantuan? Hubungi:</span><a
+                class="font-sm-bold color-success" target="_blank"
+                href="https://api.whatsapp.com/send?phone=6285849680562&text=Hallo%0ASaya%20mau%20bertanya%20terkait%20PiShop.">
+                +6285849680562</a>
         </div>
     </div>
 </div>

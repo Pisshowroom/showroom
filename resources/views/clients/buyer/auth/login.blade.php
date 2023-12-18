@@ -157,8 +157,6 @@
                 // dataType: "json",
                 data: formData,
                 success: function(data) {
-                    $('.loading').removeClass('show-modal')
-                        .addClass('d-none');
                     if (data.status == "success") {
                         // window.location.href = URL + "/dashboard"
                         var div = document.getElementById('myDiv3');
@@ -176,13 +174,15 @@
                     var div = document.getElementById('myDiv2');
                     $('#myDiv2').css('display', 'block');
                     div.innerHTML = '';
-                    div.innerHTML += error.data.message;
+                    div.innerHTML += error.message;
                     setTimeout(function() {
                         $('#myDiv2').fadeOut('fast');
                     }, 2000);
-                    $('.loading').removeClass('show-modal')
-                        .addClass('d-none');
                 },
+                complete: function() {
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
+
             });
         }
 
@@ -225,9 +225,6 @@
                         // dataType: "json",
                         data: obj,
                         success: function(data) {
-                            $('.loading').removeClass('show-modal')
-                                .addClass('d-none');
-
                             if (data.status == "success") {
 
                                 // window.location.href = URL + "/dashboard"
@@ -253,8 +250,6 @@
 
                         },
                         error: function(error) {
-                            $('.loading').removeClass('show-modal')
-                                .addClass('d-none');
 
                             var div = document.getElementById('myDiv2');
                             $('#myDiv2').css('display', 'block');
@@ -264,6 +259,10 @@
                                 $('#myDiv2').fadeOut('fast');
                             }, 2000);
                         },
+                        complete: function() {
+                            $('.loading').addClass('d-none').removeClass('show-modal');
+                        }
+
                     });
                     // ...
                 })
@@ -310,8 +309,6 @@
                     password: password,
                 },
                 success: function(data) {
-                    $('.loading').removeClass('show-modal')
-                        .addClass('d-none');
 
                     if (data.status == "success") {
                         var div = document.getElementById('myDiv3');
@@ -338,8 +335,6 @@
                     }
                 },
                 error: function(error) {
-                    $('.loading').removeClass('show-modal')
-                        .addClass('d-none');
                     var div = document.getElementById('myDiv2');
                     $('#myDiv2').css('display', 'block');
                     div.innerHTML = '';
@@ -348,6 +343,10 @@
                         $('#myDiv2').fadeOut('fast');
                     }, 2000);
                 },
+                complete: function() {
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
+
             });
 
         });

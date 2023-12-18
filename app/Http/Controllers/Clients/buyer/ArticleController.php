@@ -59,7 +59,15 @@ class ArticleController extends Controller
         $article = Article::where('id', $id)->firstOrFail();
         $article->date = parseDates2($article->created_at);
         $data = $this->getCommonData();
+        $data['another_articles'] = $this->anotherArticles($id);
+        $data['another_articles2'] = $this->anotherArticles($id);
+        $data['articles'] = Article::where('id', '!=', $id)->orderByDesc('view')->take(4)->get();
 
         return view('clients.buyer.article.detail', ['article' => $article, 'data' => $data]);
+    }
+
+    private function anotherArticles($i)
+    {
+        return Article::where('id', '!=', $i)->inRandomOrder()->take(4)->get();
     }
 }

@@ -31,18 +31,19 @@
                                 <div class="avarta">
                                     <img class="mb-5 object-fit-cover" width="50px" height="50px"
                                         style="border-radius: 50%"
-                                        src="{{ Auth::guard('web')->user() && Auth::guard('web')->user()->seller_image ? Auth::guard('web')->user()->seller_image ?? asset('ecom/imgs/users.svg') : asset('ecom/imgs/users.svg') }}"
-                                        alt="Ecom"><a class="btn btn-buy font-xs"
+                                        src="{{ $seller && $seller->seller_image ? $seller->seller_image ?? asset('ecom/imgs/pishop2.jpg') : asset('ecom/imgs/pishop2.jpg') }}"
+                                        alt="{{ $seller && $seller->seller_name ? $seller->seller_name : 'Penjual' }}"><a
+                                        class="btn btn-buy font-xs"
                                         href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $seller->products_count ? moneyFormat($seller->products_count) ?? 0 : 0 }}
                                         Produk</a>
                                 </div>
                                 <div class="info-vendor">
-                                    <h4 class="mb-5">{{ Auth::guard('web')->user()->seller_name ?? '' }}</h4>
+                                    <h4 class="mb-5">{{ $seller->seller_name ?? '' }}</h4>
                                     {{-- <span
                                         class="font-xs color-gray-500 mr-20">sejak 2012</span> --}}
                                     <div class="rating d-inline-block"><img
                                             src="{{ asset('ecom/imgs/template/icons/star.svg') }}"
-                                            alt="rating penjual {{ Auth::guard('web')->user()->seller_name ?? '' }}"><span
+                                            alt="rating penjual {{ $seller->seller_name ?? '' }}"><span
                                             class="font-xs color-gray-500">
                                             {{ $seller->rating_seller ? doubleval($seller->rating_seller) : 0 }}</span>
                                     </div>
@@ -59,10 +60,10 @@
                                                 </div>
                                             @endif
                                         </div>
-                                        @if (Auth::guard('web')->user() && Auth::guard('web')->user()->phone_number_seller)
+                                        @if ($seller && $seller->phone_number_seller)
                                             <div class="col-xl-5 col-lg-12">
                                                 <div class="d-inline-block font-md color-gray-500 phone">(+62) -
-                                                    {{ Auth::guard('web')->user()->phone_number_seller }}</div>
+                                                    {{ $seller->phone_number_seller }}</div>
                                             </div>
                                         @endif
                                     </div>
@@ -113,7 +114,7 @@
                                         data-bs-toggle="modal">Filter</a></div>
                                 <div class="col-xl-10 col-lg-9 mb-10 text-lg-end text-center"><span
                                         class="font-sm color-gray-900 font-medium border-1-right span">Menampilkan
-                                        {{ count($products) > 0 ? count($products) : 0 }} hasil</span>
+                                        {{ $products->total() > 0 ? $products->total() : 0 }} hasil</span>
                                     <div class="d-inline-block"><span
                                             class="font-sm color-gray-500 font-medium">Berdasarkan:</span>
                                         <div class="dropdown dropdown-sort border-1-right">
@@ -162,7 +163,8 @@
                                         @foreach ($data['categories_product'] as $ct)
                                             <li data-category="{{ $ct->id }}"
                                                 class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}">
-                                                <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}" style="display: flex !important;flex-direction: row;align-items: center;justify-content: space-between;gap:.5rem;"
+                                                <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
+                                                    style="display: flex !important;flex-direction: row;align-items: center;justify-content: space-between;gap:.5rem;"
                                                     href="javascript:void(0)">
                                                     <span>
                                                         {{ $ct->name ?? '' }}

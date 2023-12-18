@@ -169,6 +169,7 @@ Route::get('/detail-artikel/{id}', [ArticleController::class, 'detailArticle'])-
 Route::get('/semua-produk', [BuyerProductController::class, 'allListProduct'])->name('buyer.allListProduct');
 Route::get('/semua-produk-grid', [BuyerProductController::class, 'allGridProduct'])->name('buyer.allGridProduct');
 Route::get('/produk-{slug}', [BuyerProductController::class, 'detailProduct'])->name('buyer.detailProduct');
+Route::get('/detailProduct-{id}', [BuyerProductController::class, 'detailProduct2'])->name('buyer.detailProduct2');
 Route::post('/tambah-ulasan', [BuyerProductController::class, 'addReview'])->name('buyer.addReview');
 
 Route::get('/pembeli/pembayaran-pi/{identifier}', [BuyerOrderController::class, 'piPayment'])->name('dashboard.pi_payment');
