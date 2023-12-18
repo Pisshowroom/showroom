@@ -49,6 +49,7 @@ const cols =
       cellRenderer: (item: any) => {
         if (item.page == "home") return "Beranda";
         else if (item.page == "detail_product") return "Detail Produk";
+        else if (item.page == "detail_article") return "Detail Artikel";
         else if (item.page == "all_product") return "Semua Produk";
         else return "Beranda";
       },
@@ -67,6 +68,8 @@ const cols =
           else if (item.section == "right_end_slider") return "Paling ujung dari Slider";
           else if (item.section == "above_list_product") return "Diatas List Produk";
           else if (item.section == "below_list_seller") return "Dibawah list penjual";
+          else if (item.section == "ads_detail") return "Bagian detail Produk";
+          else if (item.section == "ads_article") return "Bagian detail Artikel";
           else return "Beranda";
         },
       sort: false,
