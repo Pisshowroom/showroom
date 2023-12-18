@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->text('link_label')->nullable();
-        });
+        if (!Schema::hasColumn('orders', 'link_label')) {
+            Schema::table('orders', function (Blueprint $table) {
+                $table->text('link_label')->nullable();
+            });
+        }
     }
 
     /**
@@ -22,7 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('link_label');
+            if (Schema::hasColumn('orders', 'link_label')) {
+                $table->dropColumn('link_label');
+            }
         });
     }
 };
