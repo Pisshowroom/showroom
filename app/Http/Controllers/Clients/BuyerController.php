@@ -88,7 +88,9 @@ class BuyerController extends Controller
         $data['ads5'] = $this->getAds('above_best_selling_products', 3);
         // $data['ads6'] = $this->getAds('above_best_selling_products', 3);
         $data['ads6'] = $this->getAds('below_best_selling_products', 3);
-        $data['ads7'] = $this->getAds('right_end_slider', 6);
+        $data['ads7'] = Ads::where('page', 'home')->where('section', 'right_end_slider')
+            ->whereNull('deleted_at')->select('id', 'image', 'page', 'section')
+            ->orderByDesc('id')->skip(6)->take(6)->get();
         foreach ($data['latest_product'] as $value) {
             if ($value->discount && $value->discount > 0) {
                 $value->price_discount = $value->price - ($value->price * ($value->discount / 100));

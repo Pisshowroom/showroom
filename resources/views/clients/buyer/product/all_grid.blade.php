@@ -134,7 +134,7 @@
                                                         {{ in_array($seller->id, explode(',', request()->input('seller_id'))) ? 'checked' : '' }}
                                                         data-seller-id="{{ $seller->id }}">
                                                     <span class="text-small">
-                                                        {{ substr($seller->name ?? '', 0, 15) . (strlen($seller->name ?? '') > 15 ? '..' : '') }}
+                                                        {{ substr($seller->name ?? '', 0,18) . (strlen($seller->name ?? '') >18 ? '..' : '') }}
                                                     </span>
                                                     <span class="checkmark"></span>
                                                 </label>

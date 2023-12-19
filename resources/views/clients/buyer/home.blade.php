@@ -104,8 +104,8 @@ dd(request()->all());
                                     @if ($data['ads1'] && $data['ads1']->image)
                                         <a
                                             href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                            <img class="mb-20" src="{{ $data['ads1']->image }}" alt="iklan"
-                                                style="border-radius: 5px">
+                                            <img class="mb-20 h-175 w-100" src="{{ $data['ads1']->image }}" alt="iklan"
+                                                style="border-radius: 5px;object-fit:fill;">
                                         </a>
                                     @else
                                         <div class="bg-metaverse bg-22 pt-25 mb-20 pl-20 h-175">
@@ -119,8 +119,8 @@ dd(request()->all());
                                     @if ($data['ads11'] && $data['ads11']->image)
                                         <a
                                             href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                            <img class="mh-307" src="{{ $data['ads11']->image }}" alt="iklan"
-                                                style="border-radius: 5px">
+                                            <img class="h-307 w-100" src="{{ $data['ads11']->image }}" alt="iklan"
+                                                style="border-radius: 5px;object-fit:fill;">
                                         </a>
                                     @else
                                         <div class="bg-4 box-bdrd-4 bg-headphone pt-20 mh-307"><span
@@ -142,6 +142,36 @@ dd(request()->all());
                                                 <div class="swiper-slide">
                                                     @if ($data['ads2'] && count($data['ads2']) > 0)
                                                         @foreach ($data['ads2'] as $item)
+                                                            <a
+                                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                    src="{{ $item->image ?? asset('ecom/imgs/page/homepage4/promotion1.png') }}"
+                                                                    alt="Iklan"></a>
+                                                        @endforeach
+                                                    @else
+                                                        <a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion1.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion2.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion3.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion4.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion5.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion6.png') }}"
+                                                                alt="Iklan"></a>
+                                                    @endif
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    @if ($data['ads7'] && count($data['ads7']) > 0)
+                                                        @foreach ($data['ads7'] as $item)
                                                             <a
                                                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
                                                                     src="{{ $item->image ?? asset('ecom/imgs/page/homepage4/promotion1.png') }}"
@@ -507,10 +537,10 @@ dd(request()->all());
             <div class="container">
                 <div class="row">
                     <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 mb-30">
-                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][2]->image)
+                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][0]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][2]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads5'][0]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -526,7 +556,7 @@ dd(request()->all());
                         @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][1]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][1]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads5'][1]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -539,10 +569,10 @@ dd(request()->all());
                         @endif
                     </div>
                     <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
-                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][0]->image)
+                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][2]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][0]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads5'][2]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -581,10 +611,10 @@ dd(request()->all());
             <div class="container">
                 <div class="row">
                     <div class="col-xl-4 col-lg-7 col-md-7 col-sm-12 mb-30">
-                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][1]->image)
+                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][0]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][1]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads6'][0]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -598,10 +628,10 @@ dd(request()->all());
                         @endif
                     </div>
                     <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 mb-30">
-                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][0]->image)
+                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][1]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][0]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads6'][1]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -618,7 +648,7 @@ dd(request()->all());
                         @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][2]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][2]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads6'][2]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
