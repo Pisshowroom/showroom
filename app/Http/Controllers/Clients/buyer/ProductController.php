@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Address;
+use App\Models\Ads;
 use App\Models\Category;
 use App\Models\Notification;
 use App\Models\Order;
@@ -98,6 +99,9 @@ class ProductController extends Controller
                     ->withSum('order_items', 'quantity');
             })->withCount('products')->orderByDesc('products_count')
             ->take(4)->get();
+        $data['ads1'] = $this->getAds('above_list_product');
+        $data['ads2'] = $this->getAds('below_list_seller');
+
         return view('clients.buyer.product.all_grid', ['products' => $product, 'data' => $data]);
     }
     public function allListProduct(Request $request)
@@ -148,7 +152,8 @@ class ProductController extends Controller
                     ->withSum('order_items', 'quantity');
             })->withCount('products')->orderByDesc('products_count')
             ->take(4)->get();
-
+        $data['ads1'] = $this->getAds('above_list_product');
+        $data['ads2'] = $this->getAds('below_list_seller');
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
     public function detailProduct2($id)
@@ -284,6 +289,10 @@ class ProductController extends Controller
             $product->review_user = 0;
             $product->order_user = 0;
         }
+        $data['ads'] = Ads::where('page', 'detail_product')
+            ->whereNull('deleted_at')->select('id', 'image', 'page', 'section')
+            ->orderByDesc('id')->latest()->first();
+
         return view('clients.buyer.product.detail', ['product' => $product, 'data' => $data]);
     }
 
@@ -346,5 +355,12 @@ class ProductController extends Controller
             }
         }
         return $data['best_seller_product'];
+    }
+
+    private function getAds($section)
+    {
+        return  Ads::where('page', 'all_product')->where('section', $section)
+            ->whereNull('deleted_at')->select('id', 'image', 'page', 'section')
+            ->first();
     }
 }

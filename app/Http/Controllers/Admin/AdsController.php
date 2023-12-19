@@ -24,7 +24,6 @@ class AdsController extends Controller
         $request->validate([
             'page' => 'required',
             'section' => 'required',
-            'image' => 'required|file',
         ]);
 
         if (!$request->id)

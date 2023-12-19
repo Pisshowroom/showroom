@@ -203,7 +203,6 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::post('/kirim-barang-kembali', [BuyerOrderController::class, 'buyerSendingOrder'])->name('dashboard.buyerSendingOrder');
         Route::get('/batalkan-pengembalian/{identifier}', [BuyerOrderController::class, 'cancelRefundReturnComplaint'])->name('dashboard.cancelRefundReturnComplaint');
         Route::get('/completed-order/{id}', [BuyerOrderController::class, 'completedOrder'])->name('dashboard.completedOrder');
-        Route::post('/cancel-refund-return-complaint/{order}', [OrderDataController::class, 'cancelRefundReturnComplaint']);
         Route::get('/wishlist', [WishlistController::class, 'wishlist'])->name('buyer.wishlist');
         Route::post('/tambah/wishlist', [WishlistController::class, 'store'])->name('buyer.addWishlist');
         Route::get('/hapus/wishlist', [WishlistController::class, 'destroy'])->name('buyer.deleteWishlist');

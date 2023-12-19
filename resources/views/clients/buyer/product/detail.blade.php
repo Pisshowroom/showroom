@@ -696,7 +696,7 @@
             <div class="text-center">
                 <a
                     href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                        src="{{ asset('ecom/imgs/page/product/banner-ads.png') }}" alt="banner produk">
+                        src="{{ $data['ads'] && $data['ads']->image ? $data['ads']->image : asset('ecom/imgs/page/product/banner-ads.png') }}" alt="banner produk">
                 </a>
             </div>
         </div>

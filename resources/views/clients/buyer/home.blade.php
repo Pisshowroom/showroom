@@ -101,66 +101,74 @@ dd(request()->all());
                         <div class="col-xl-5 col-lg-12 col-md-12">
                             <div class="row">
                                 <div class="col-xl-7 col-lg-9 col-md-8 col-sm-12 mb-30">
-                                    <div class="bg-metaverse bg-22 pt-25 mb-20 pl-20 h-175">
-                                        <h3 class="mb-10 font-32">Metaverse</h3>
-                                        <p class="font-16">The Future of Creativity</p>
-                                        <div class="mt-10"><a class="btn btn-link-brand-2 btn-arrow-brand-2"
-                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                                Selengkapnya</a></div>
-                                    </div>
-                                    <div class="bg-4 box-bdrd-4 bg-headphone pt-20 mh-307"><span
-                                            class="font-md color-brand-3">Headphone</span>
-                                        <h4 class="font-32 color-gray-1000 mb-10 mt-5">Rockez 547</h4>
-                                        <p class="color-brand-1 font-sm">MUSIC EVERYWHERE<br
-                                                class="d-none d-lg-block">ANYTIME</p>
-                                        <div class="mt-35"><a class="btn btn-brand-2 btn-arrow-right"
-                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja
-                                                Sekarang</a></div>
-                                    </div>
+                                    @if ($data['ads1'] && $data['ads1']->image)
+                                        <a
+                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                            <img class="mb-20" src="{{ $data['ads1']->image }}" alt="iklan"
+                                                style="border-radius: 5px">
+                                        </a>
+                                    @else
+                                        <div class="bg-metaverse bg-22 pt-25 mb-20 pl-20 h-175">
+                                            <h3 class="mb-10 font-32">Metaverse</h3>
+                                            <p class="font-16">The Future of Creativity</p>
+                                            <div class="mt-10"><a class="btn btn-link-brand-2 btn-arrow-brand-2"
+                                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                    Selengkapnya</a></div>
+                                        </div>
+                                    @endif
+                                    @if ($data['ads11'] && $data['ads11']->image)
+                                        <a
+                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                            <img class="mh-307" src="{{ $data['ads11']->image }}" alt="iklan"
+                                                style="border-radius: 5px">
+                                        </a>
+                                    @else
+                                        <div class="bg-4 box-bdrd-4 bg-headphone pt-20 mh-307"><span
+                                                class="font-md color-brand-3">Headphone</span>
+                                            <h4 class="font-32 color-gray-1000 mb-10 mt-5">Rockez 547</h4>
+                                            <p class="color-brand-1 font-sm">MUSIC EVERYWHERE<br
+                                                    class="d-none d-lg-block">ANYTIME</p>
+                                            <div class="mt-35"><a class="btn btn-brand-2 btn-arrow-right"
+                                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja
+                                                    Sekarang</a></div>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="col-xl-5 col-lg-3 col-md-4 col-sm-12">
                                     <div class="box-promotions">
                                         <!-- Swiper-->
                                         <div class="swiper swiper-vertical-1">
                                             <div class="swiper-wrapper">
-                                                <div class="swiper-slide"><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion1.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion2.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion3.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion4.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion5.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion6.png') }}"
-                                                            alt="Ecom"></a></div>
-                                                <div class="swiper-slide"><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion2.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion4.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion6.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion1.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion3.png') }}"
-                                                            alt="Ecom"></a><a
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                                            src="{{ asset('ecom/imgs/page/homepage4/promotion5.png') }}"
-                                                            alt="Ecom"></a></div>
+                                                <div class="swiper-slide">
+                                                    @if ($data['ads2'] && count($data['ads2']) > 0)
+                                                        @foreach ($data['ads2'] as $item)
+                                                            <a
+                                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                    src="{{ $item->image ?? asset('ecom/imgs/page/homepage4/promotion1.png') }}"
+                                                                    alt="Iklan"></a>
+                                                        @endforeach
+                                                    @else
+                                                        <a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion1.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion2.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion3.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion4.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion5.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion6.png') }}"
+                                                                alt="Iklan"></a>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -181,7 +189,7 @@ dd(request()->all());
                                     <div class="image-box">
                                         <a
                                             href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                            <img style="width:95px;height:95px;object-fit:contain"
+                                            <img style="width:95px;height:95px;object-fit:contain;border-radius:50%"
                                                 src="{{ $ct->image ?? asset('ecom/imgs/page/homepage1/smartphone.png') }}"
                                                 alt="kategori {{ $ct->name ?? '' }}">
                                         </a>
@@ -366,9 +374,11 @@ dd(request()->all());
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-20"><a
+                            <div class="mt-20">
+                                <a
                                     href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                        src="{{ asset('ecom/imgs/page/homepage4/banner-ads.png') }}" alt="Ecom"></a>
+                                        src="{{ $data['ads4'] && $data['ads4']->image ? $data['ads4']->image : asset('ecom/imgs/page/homepage4/banner-ads.png') }}"
+                                        alt="iklan"></a>
                             </div>
                         </div>
                         <div class="box-content mt-45">
@@ -447,11 +457,19 @@ dd(request()->all());
                                 </div>
                             </div>
                         </div>
-                        <div class="banner-right h-500 text-center mb-30"><span class="text-no font-11">No.9</span>
-                            <h5 class="font-23 mt-20">Sensitive Touch<br class="d-none d-lg-block">without fingerprint
-                            </h5>
-                            <p class="text-desc font-16 mt-15">Smooth handle and accurate click</p>
-                        </div>
+                        @if ($data['ads3'] && $data['ads3']->image)
+                            <a
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                <img class="mb-30" src="{{ $data['ads3']->image }}" alt="iklan"
+                                    style="border-radius: 5px">
+                            </a>
+                        @else
+                            <div class="banner-right h-500 text-center mb-30"><span class="text-no font-11">No.9</span>
+                                <h5 class="font-23 mt-20">Sensitive Touch<br class="d-none d-lg-block">without fingerprint
+                                </h5>
+                                <p class="text-desc font-16 mt-15">Smooth handle and accurate click</p>
+                            </div>
+                        @endif
                         <div class="box-slider-item box-sidebar">
                             <div class="head">
                                 <h4 class="d-inline-block">Produk Terbaru</h4>
@@ -489,28 +507,52 @@ dd(request()->all());
             <div class="container">
                 <div class="row">
                     <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 mb-30">
-                        <div class="bg-5 block-iphone"><span class="color-brand-3 font-sm-lh32">Starting from
-                                $899</span>
-                            <h3 class="font-lg mb-10">iPhone 12 Pro 128Gb</h3>
-                            <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
-                        </div>
+                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][2]->image)
+                            <a
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                <img class="mb-10" src="{{ $data['ads5'][2]->image }}" alt="iklan"
+                                    style="border-radius: 5px">
+                            </a>
+                        @else
+                            <div class="bg-5 block-iphone"><span class="color-brand-3 font-sm-lh32">Starting from
+                                    $899</span>
+                                <h3 class="font-lg mb-10">iPhone 12 Pro 128Gb</h3>
+                                <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow"
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
+                            </div>
+                        @endif
                     </div>
                     <div class="col-xl-4 col-lg-7 col-md-7 col-sm-12 mb-30">
-                        <div class="bg-4 block-samsung"><span class="color-brand-3 font-sm-lh32">New Arrivals</span>
-                            <h3 class="font-lg mb-10">Samsung 2022 Led TV</h3>
-                            <p class="font-base color-brand-3 mb-20">Special Sale</p><a
-                                class="btn btn-brand-2 btn-arrow-right"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
-                        </div>
+                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][1]->image)
+                            <a
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                <img class="mb-10" src="{{ $data['ads5'][1]->image }}" alt="iklan"
+                                    style="border-radius: 5px">
+                            </a>
+                        @else
+                            <div class="bg-4 block-samsung"><span class="color-brand-3 font-sm-lh32">New Arrivals</span>
+                                <h3 class="font-lg mb-10">Samsung 2022 Led TV</h3>
+                                <p class="font-base color-brand-3 mb-20">Special Sale</p><a
+                                    class="btn btn-brand-2 btn-arrow-right"
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
+                            </div>
+                        @endif
                     </div>
                     <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
-                        <div class="bg-6 block-drone">
-                            <h3 class="font-33 mb-20">Drone Quadcopter UAV - DJI Air 2S</h3>
-                            <div class="mb-30"><strong class="font-18">Gimbal Camera, 5.4K Video</strong></div><a
-                                class="btn btn-brand-2 btn-arrow-right"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
-                        </div>
+                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][0]->image)
+                            <a
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                <img class="mb-10" src="{{ $data['ads5'][0]->image }}" alt="iklan"
+                                    style="border-radius: 5px">
+                            </a>
+                        @else
+                            <div class="bg-6 block-drone">
+                                <h3 class="font-33 mb-20">Drone Quadcopter UAV - DJI Air 2S</h3>
+                                <div class="mb-30"><strong class="font-18">Gimbal Camera, 5.4K Video</strong></div><a
+                                    class="btn btn-brand-2 btn-arrow-right"
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -539,29 +581,55 @@ dd(request()->all());
             <div class="container">
                 <div class="row">
                     <div class="col-xl-4 col-lg-7 col-md-7 col-sm-12 mb-30">
-                        <div class="bg-4 block-charge"><span class="color-brand-3 font-sm-lh32">Power Bank</span>
-                            <h4 class="font-lg-bold mb-10">Quick Charge</h4>
-                            <p class="font-base color-brand-3 mb-10">Lightweight and Portable</p><a
-                                class="btn btn-brand-2 btn-arrow-right"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja
+                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][1]->image)
+                            <a
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                <img class="mb-10" src="{{ $data['ads5'][1]->image }}" alt="iklan"
+                                    style="border-radius: 5px">
                             </a>
-                        </div>
+                        @else
+                            <div class="bg-4 block-charge"><span class="color-brand-3 font-sm-lh32">Power Bank</span>
+                                <h4 class="font-lg-bold mb-10">Quick Charge</h4>
+                                <p class="font-base color-brand-3 mb-10">Lightweight and Portable</p><a
+                                    class="btn btn-brand-2 btn-arrow-right"
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Belanja
+                                </a>
+                            </div>
+                        @endif
                     </div>
                     <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 mb-30">
-                        <div class="bg-6 block-player">
-                            <h4 class="font-33 mb-10">Xbox Series XS Game Controller</h4>
-                            <div class="mb-10"><strong class="font-16">Replacement Kit D-pad ABXY Keys</strong></div><a
-                                class="btn btn-brand-3 btn-arrow-right"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
-                        </div>
+                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][0]->image)
+                            <a
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                <img class="mb-10" src="{{ $data['ads5'][0]->image }}" alt="iklan"
+                                    style="border-radius: 5px">
+                            </a>
+                        @else
+                            <div class="bg-6 block-player">
+                                <h4 class="font-33 mb-10">Xbox Series XS Game Controller</h4>
+                                <div class="mb-10"><strong class="font-16">Replacement Kit D-pad ABXY Keys</strong></div>
+                                <a class="btn btn-brand-3 btn-arrow-right"
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
+                            </div>
+                        @endif
+
                     </div>
                     <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 mb-30">
-                        <div class="bg-5 block-iphone"><span class="color-brand-3 font-sm-lh32">Starting from
-                                $899</span>
-                            <h4 class="font-lg mb-10">iPhone 12 Pro 128Gb</h4>
-                            <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow"
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
-                        </div>
+                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][2]->image)
+                            <a
+                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                <img class="mb-10" src="{{ $data['ads5'][2]->image }}" alt="iklan"
+                                    style="border-radius: 5px">
+                            </a>
+                        @else
+                            <div class="bg-5 block-iphone"><span class="color-brand-3 font-sm-lh32">Starting from
+                                    $899</span>
+                                <h4 class="font-lg mb-10">iPhone 12 Pro 128Gb</h4>
+                                <p class="font-base color-brand-3 mb-10">Special Sale</p><a class="btn btn-arrow"
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Selengkapnya</a>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
