@@ -107,6 +107,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/index', [AdminCategoryController::class, 'index']);
+        Route::get('/all-categories', [AdminCategoryController::class, 'allCategories']);
         Route::post('/', [AdminCategoryController::class, 'store']);
         Route::get('/{category}', [AdminCategoryController::class, 'show']);
         // Route::post('update/{category}', [AdminCategoryController::class, 'update']);
@@ -114,7 +115,7 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     Route::group(['prefix' => 'sub-categories'], function () {
-        Route::get('/', [SubCategoryController::class, 'index']);
+        Route::get('/index', [SubCategoryController::class, 'index']);
         Route::post('/', [SubCategoryController::class, 'store']);
         Route::get('/{subCategory}', [SubCategoryController::class, 'show']);
         Route::post('update/{subCategory}', [SubCategoryController::class, 'update']);

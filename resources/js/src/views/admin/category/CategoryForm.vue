@@ -123,7 +123,7 @@
             </button>
             <button
               type="button"
-              @click="deleteAds"
+              @click="deleteCategory"
               class="btn btn-danger w-full btn-lg mt-4"
               v-if="route.params.id"
             >
@@ -195,11 +195,8 @@ const sections: any = ref([]);
 import FileUploadWithPreview from "file-upload-with-preview";
 const route = useRoute();
 import Swal from "sweetalert2";
-import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 let user: any = auth.users();
-const type: any = user?.educational_institution?.type;
-import { useI18n } from "vue-i18n";
 
 let form: any = ref({
   name: "",
@@ -219,8 +216,6 @@ const file: any = ref(null);
 
 onMounted(async () => {
   if (route.params.id) {
-    console.log("MOde Edit");
-
     form.value = (await axios.get(`/admin/categories/${route.params.id}`)).data;
     if (form.value.section != null && form.value.page != "detail_product") {
       getSections();
@@ -333,7 +328,7 @@ const handleSubmit = async () => {
   }
 };
 
-const deleteAds = () => {
+const deleteCategory = () => {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       popup: "sweet-alerts",
@@ -365,9 +360,9 @@ const deleteAds = () => {
     })
     .then((result) => {
       if (result.value) {
-        axios.delete(`/admin/ads/${form.value.id}`).then((res) => {
+        axios.delete(`/admin/categories/${form.value.id}`).then((res) => {
           toast.fire("Kategori berhasil dihapus.");
-          router.push("/admin/ads/index");
+          router.push("/admin/categories/index");
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }

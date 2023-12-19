@@ -267,7 +267,8 @@ onMounted(async () => {
     }
     if (
       form.value.section != null &&
-      (form.value.page.value == "home" || form.value.page.value == "all_product")
+      (form.value.page.value == "home" ||
+        form.value.page.value == "all_product")
     ) {
       getSections(form.value.page);
     } else if (

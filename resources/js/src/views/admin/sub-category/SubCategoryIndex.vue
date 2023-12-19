@@ -1,12 +1,12 @@
 <template>
   <div>
     <Table
-      :url="`/admin/categories/index`"
+      :url="`/admin/sub-categories/index`"
       :cols="cols"
       :addName="'Tambah'"
-      :addRoute="'/admin/category/form'"
+      :addRoute="'/admin/sub-category/form'"
       :actions="actions"
-      :title="'Daftar Kategori'"
+      :title="'Daftar Sub Kategori'"
       :dropdownAction="false"
       :searching="true"
       ref="datatable"
@@ -36,14 +36,21 @@ const datatable: any = ref(null);
 let user: any = auth.users();
 
 useHead({
-  title: "Kategori",
+  title: "Sub Kategori",
 });
 
 const cols =
   ref([
     // { field: 'id', title: 'No', slot: true, sort: false },
     { field: "name", title: "Name", sort: false },
-    { field: "roundedImage1", title: "Gambar", sort: false },
+    {
+      field: "category",
+      title: "Kategori Induk",
+      sort: false,
+      cellRenderer: (item: any) => {
+        return item.category?.name ?? "-";
+      },
+    },
     // { field: 'balance', title: 'Balance', sort: false },
     { field: "actions", title: "Aksi", slot: true, sort: false },
   ]) || [];
@@ -52,7 +59,7 @@ const actions = ref([
   {
     type: "editIcon",
     to: ({ value }) => {
-      return `/admin/category/edit/${value.id}`;
+      return `/admin/sub-category/edit/${value.id}`;
     },
   },
   {
@@ -89,7 +96,7 @@ const actions = ref([
         })
         .then((result) => {
           if (result.value) {
-            axios.delete(`/admin/categories/${value.id}`).then((res) => {
+            axios.delete(`/admin/sub-categories/${value.id}`).then((res) => {
               toast.fire("Data berhasil dihapus.");
               datatable.value.getData();
             });
