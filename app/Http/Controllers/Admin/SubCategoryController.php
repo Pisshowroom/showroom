@@ -19,39 +19,6 @@ class SubCategoryController extends Controller
         return $categories;
     }
 
-    /* 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'image' => 'required',
-        ]);
-
-        $isCreate = false;
-        if (!$request->id) {
-            $request->validate([
-                'image' => 'required',
-            ]);
-            
-            $category = new Category();
-            $isCreate = true;
-        } else
-            $category = Category::findOrFail($request->id);
-
-        $category->name = $request->input('name');
-        if ($request->hasFile('image')) {
-            $category->image = uploadFoto($request->image, 'uploads/categories');
-        }
-
-        $category->save();
-
-        if ($isCreate)
-            return ResponseAPI($category, 200);
-        else
-            return ResponseAPI($category, 200);
-    }
-    */
-
     public function store(Request $request)
     {
         // return $request->all();
