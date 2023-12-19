@@ -219,7 +219,7 @@ dd(request()->all());
                                     <div class="image-box">
                                         <a
                                             href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                            <img style="width:95px;height:95px;object-fit:contain;border-radius:50%"
+                                            <img style="width:95px;height:95px;object-fit:fill;border-radius:50%"
                                                 src="{{ $ct->image ?? asset('ecom/imgs/page/homepage1/smartphone.png') }}"
                                                 alt="kategori {{ $ct->name ?? '' }}">
                                         </a>
@@ -230,13 +230,13 @@ dd(request()->all());
                                     </div>
                                     <div class="info-right"><a class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                            <h6>{{ $ct->name ?? '' }}</h6>
+                                            <h6 class="line-2 text-start">{{ $ct->name ?? '' }}</h6>
                                         </a>
                                         @if ($ct->sub_categories && count($ct->sub_categories) > 0)
                                             <ul class="list-links-disc">
                                                 @foreach ($ct->sub_categories as $k => $sc)
                                                     @if ($k < 3)
-                                                        <li><a class="font-sm"
+                                                        <li><a class="font-sm line-1 text-start"
                                                                 href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
                                                         </li>
                                                     @endif
@@ -739,13 +739,17 @@ dd(request()->all());
             $('.info-right').each(function() {
                 var text = $(this).find('.color-brand-3.font-sm-bold').text();
 
-                // Menghapus spasi ekstra dan memeriksa jumlah baris
                 if (text.trim().split(/\r\n|\r|\n/).length < 2) {
                     $(this).find('.color-brand-3.font-sm-bold').css('height', '40px');
                 }
                 var text2 = $(this).find('.article-desc span').text();
                 if (text2.trim().split(/\r\n|\r|\n/).length < 3) {
                     $(this).find('.article-desc span').css('height', '54px');
+                }
+                var text3 = $(this).find('.color-brand-3.font-sm-bold h6').text();
+
+                if (text3.trim().split(/\r\n|\r|\n/).length < 2) {
+                    $(this).find('.color-brand-3.font-sm-bold h6').css('height', '40px');
                 }
             });
 
