@@ -142,10 +142,16 @@ class OrderDataController extends Controller
         $order->save();
 
 
-        $pdf = Pdf::loadView('receipt_image', ['order' => $order->load(['address', 'seller', 'order_items.product', 'user.address'])]);
-        $link_label = public_path("/receipt_images/$order->delivery_receipt_number.pdf");
-        $pdf->save($link_label);
-        $order->link_label =  $link_label;
+        $pdf = Pdf::loadView('receipt_image', ['order' => $order->load(['address', 'seller', 'seller.address_seller', 'seller.address_seller.ro_province', 'order_items.product', 'user.address', 'user.address.ro_province'])]);
+        // $link_label = public_path("/receipt_images/$order->delivery_receipt_number.pdf");
+        // $pdf->save($link_label);
+        // $order->link_label =  $link_label;
+        $filename = $order->delivery_receipt_number . ".pdf";
+
+        $link_label = url("/receipt_images/$filename");
+
+        $pdf->save(public_path("/receipt_images/$filename"));
+        $order->link_label = $link_label;
         $order->save();
 
         // receipt image
@@ -233,7 +239,7 @@ class OrderDataController extends Controller
         $request->validate([
             'returning_product_type' => 'required|in:ReturnProdukDanUang,Refund,Komplain',
             'returning_reason' => 'required',
-                'returning_description' => 'required',
+            'returning_description' => 'required',
         ]);
 
         DB::beginTransaction();
@@ -242,7 +248,7 @@ class OrderDataController extends Controller
         if ($request->returning_product_type == 'ReturnProdukDanUang') {
             // TODOS add checker status suits for this and 2 others
             $request->validate([
-                
+
                 'returning_images' => 'required',
                 'order_items' => 'required',
                 'order_items.*.id' => 'required',
@@ -301,7 +307,7 @@ class OrderDataController extends Controller
             }
             $refundTotal = $order->subtotal;
         } else if ($request->returning_product_type == 'Komplain') {
-  
+
             $refundTotal = $order->subtotal;
             $order->status = Order::COMPLAINT;
         }
@@ -320,7 +326,7 @@ class OrderDataController extends Controller
     public function cancelRefundReturnComplaint(Order $order)
     {
         $order->status = Order::COMPLETED;
-        
+
         $order->save();
         return ResponseAPI('Permintaan pengembalian dibatalkan', 200);
     }
@@ -331,11 +337,11 @@ class OrderDataController extends Controller
             'returning_delivery_service_code' => 'required',
             'returning_delivery_service_name' => 'required',
         ]);
-        
+
         $order->returning_delivery_service_code = $request->returning_delivery_service_code;
         $order->returning_delivery_service_name = $request->returning_delivery_service_name;
         $order->status = Order::RETURN_SHIPPED;
-        
+
         $order->save();
         return ResponseAPI('Permintaan pengembalian dikonfirmasi', 200);
     }
@@ -346,7 +352,7 @@ class OrderDataController extends Controller
 
         $user = $order->user;
         DB::beginTransaction();
-        
+
         if ($user) {
             $user->update([
                 'balance' => ($user->balance + $order->refund_total)
@@ -355,10 +361,9 @@ class OrderDataController extends Controller
             return ResponseAPI('Gagal, Data Pembeli Tidak Ditemukan', 404);
         }
         $order->status = Order::RETURN_COMPLETED;
-        
+
         $order->save();
         DB::commit();
         return ResponseAPI('Pengembalian barang selesai', 200);
     }
-
 }

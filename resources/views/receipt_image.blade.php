@@ -41,7 +41,7 @@
 <body>
     <div class="box">
         <header>
-            <img src="{{ asset('/ecom/imgs/pshop.png') }}" class="image-header" alt="">
+            <img src="{{ asset('ecom/imgs/pshop.png') }}" class="image-header" alt="pishop">
         </header>
         <hr class="dashed">
         <div class="content">
@@ -68,7 +68,9 @@
                         </div>
                         <div>
                             <p>Berat</p>
-                            <p style="font-weight:bold">{{ $order->weight }} kg</p>
+                            <p style="font-weight:bold">
+                                {{ $order->weight && $order->weight > 0 ? convertWeight($order->weight) . ' kg' : '-' }}
+                            </p>
                             {{-- <p style="font-weight:bold">0.06 kg</p> --}}
                         </div>
                     </td>
@@ -77,10 +79,11 @@
                     <td style="width:30%;vertical-align: top;">Kepada</td>
                     <td style="width:60%">
                         <div>
-                            <p><b>{{ $order->user->name }}</b> - {{ $order->user->phone_number }}</p>
-                            <p>{{ $order->address->address_description }}</p>
-                            <p>{{ $order->district }}, {{ $order->city }},
-                                {{ $order->address->ro_province->provice_name }}</p>
+                            <p><b>{{ $order?->user?->name ?? '' }}</b> - {{ $order?->user?->phone_number ?? '' }}</p>
+                            <p>{{ $order?->user?->address?->address_description ?? '' }}</p>
+                            <p>{{ $order?->user?->address?->district ?? '' }},
+                                {{ $order?->user?->address?->city ?? '' }},
+                                {{ $order?->user?->address?->ro_province?->provice_name ?? '' }}</p>
                             <p></p>
                         </div>
                     </td>
@@ -89,10 +92,12 @@
                     <td style="width:30%;vertical-align: top;">Dari</td>
                     <td style="width:60%">
                         <div>
-                            <p><b>{{ $order->user->name }}</b> - {{ $order->user->phone_number }}</p>
-                            <p>{{ $order->address->address_description }}</p>
-                            <p>{{ $order->district }}, {{ $order->city }},
-                                {{ $order->address->ro_province->provice_name }}</p>
+                            <p><b>{{ $order?->seller?->seller_name ?? '' }}</b> -
+                                {{ $order?->seller?->phone_number_seller ?? '' }}</p>
+                            <p>{{ $order?->seller?->address_seller?->address_description ?? '' }}</p>
+                            <p>{{ $order?->seller?->address_seller?->district ?? '' }},
+                                {{ $order?->seller?->address_seller?->city ?? '' }},
+                                {{ $order?->seller?->address_seller?->ro_province?->provice_name ?? '' }}</p>
                             <p></p>
                         </div>
                     </td>
@@ -112,6 +117,8 @@
                         <td style="width:60%">{{ $item->product->name }}</td>
                         {{-- <td style="width:20%">{{ }}</td> --}}
                         <td style="width:20%">{{ $item->quantity }}</td>
+                        <td style="width:20%">{{ $item->price && $item->price > 0 ? numbFormat($item->price) : 0 }}
+                        </td>
                     </tr>
                 @endforeach
             </table>

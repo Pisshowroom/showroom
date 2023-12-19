@@ -66,14 +66,17 @@ class TransactionOrderController extends Controller
     }
     public function sendResi($identifier)
     {
+        $user = Auth::guard('web')->user();
         if (!$this->isSeller()) {
-            $user = Auth::guard('web')->user();
             return redirect('/pembeli')->with('auth', base64_encode($user->uid));
         }
-        $order = Order::where('payment_identifier', $identifier)->firstOrFail();
+        $order = Order::where('payment_identifier', $identifier)->first();
+        if (!$order)
+            return redirect("/toko/semua-transaksi")->with('error', 'Transaksi tidak ditemukan')->with('auth', base64_encode($user->uid));
+
         // $order = Order::where('payment_identifier', $identifier)->where('status', 'ProcessedBySeller')->firstOrFail();
         $data = $this->getCommonData();
-        return view('clients.seller.transaction.send_resi', ['orders' => $order, 'data' => $data]);
+        return view('clients.seller.transaction.send_resi', ['order' => $order, 'data' => $data]);
     }
     public function detailTransaction($identifier)
     {
@@ -98,7 +101,7 @@ class TransactionOrderController extends Controller
         $order->date_delivered_at = $order->delivered_at ? parseDates($order->delivered_at) : '-';
         $order->date_arrived_at = $order->arrived_at ? parseDates($order->arrived_at) : '-';
         $data = $this->getCommonData();
-        return view('clients.seller.transaction.detail', ['orders' => $order, 'data' => $data]);
+        return view('clients.seller.transaction.detail', ['order' => $order, 'data' => $data]);
     }
 
     // seller approve / reject
@@ -145,10 +148,16 @@ class TransactionOrderController extends Controller
         $order->status = Order::SHIPPED;
         $order->save();
 
-        $pdf = Pdf::loadView('receipt_image', ['order' => $order->load(['address', 'seller', 'order_items.product', 'user.address'])]);
-        $link_label = public_path("/receipt_images/$order->delivery_receipt_number.pdf");
-        $pdf->save($link_label);
-        $order->link_label =  $link_label;
+        $pdf = Pdf::loadView('receipt_image', ['order' => $order->load(['address', 'seller', 'seller.address_seller', 'seller.address_seller.ro_province', 'order_items.product', 'user.address', 'user.address.ro_province'])]);
+        // $link_label = public_path("/receipt_images/$order->delivery_receipt_number.pdf");
+        // $pdf->save($link_label);
+        // $order->link_label =  $link_label;
+        $filename = $order->delivery_receipt_number . ".pdf";
+
+        $link_label = url("/receipt_images/$filename");
+
+        $pdf->save(public_path("/receipt_images/$filename"));
+        $order->link_label = $link_label;
         $order->save();
         return response()->json([
             "status" => "success",
