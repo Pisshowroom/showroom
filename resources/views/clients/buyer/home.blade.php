@@ -332,14 +332,14 @@ dd(request()->all());
                                 <div class="swiper-wrapper pt-5">
                                     <div class="swiper-slide">
                                         <div class="list-products-5">
-                                            @foreach ($data['recommended_products'] as $prd)
+                                            @foreach ($data['recommended_products3'] as $prd)
                                                 @include('clients.buyer.components.list_product1')
                                             @endforeach
                                         </div>
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="list-products-5">
-                                            @foreach ($data['recommended_products2'] as $prd)
+                                            @foreach ($data['recommended_products4'] as $prd)
                                                 @include('clients.buyer.components.list_product1')
                                             @endforeach
                                         </div>
