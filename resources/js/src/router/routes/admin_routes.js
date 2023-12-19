@@ -98,6 +98,30 @@ export default [
         name: "admin.sub-category.edit",
         component: () => import("../../views/admin/sub-category/SubCategoryForm.vue"),
     },
+
+    {
+        path: "/admin/setting/index",
+        name: "admin.setting.index",
+        component: () => import("../../views/admin/setting/SettingIndex.vue"),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
+    {
+        path: "/admin/setting/form",
+        name: "admin.setting.form",
+        component: () => import("../../views/admin/setting/SettingForm.vue"),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
+    {
+        path: "/admin/setting/edit/:id",
+        name: "admin.setting.edit",
+        component: () => import("../../views/admin/setting/SettingForm.vue"),
+    },
     // {
     //     path: '/institution/prodi/edit/:id',
     //     name: 'institution-prodi.edit',

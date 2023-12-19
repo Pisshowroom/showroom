@@ -122,6 +122,13 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('update/{subCategory}', [SubCategoryController::class, 'update']);
         Route::delete('/{subCategory}', [SubCategoryController::class, 'destroy']);
     });
+
+    Route::group(['prefix' => 'settings'], function () {
+        Route::get('/index', [AdminSettingController::class, 'index']);
+        Route::post('/', [AdminSettingController::class, 'store']);
+        Route::get('/{setting}', [AdminSettingController::class, 'show']);
+        Route::delete('/{setting}', [AdminSettingController::class, 'destroy']);
+    });
 });
 
 

@@ -1,12 +1,12 @@
 <template>
   <div>
     <Table
-      :url="`/admin/categories/index`"
+      :url="`/admin/settings/index`"
       :cols="cols"
       :addName="'Tambah'"
-      :addRoute="'/admin/category/form'"
+      :addRoute="'/admin/setting/form'"
       :actions="actions"
-      :title="'Daftar Kategori'"
+      :title="'Daftar Pengaturan'"
       :dropdownAction="false"
       :searching="true"
       ref="datatable"
@@ -36,14 +36,14 @@ const datatable: any = ref(null);
 let user: any = auth.users();
 
 useHead({
-  title: "Kategori",
+  title: "Pengaturan",
 });
 
 const cols =
   ref([
-    // { field: 'id', title: 'No', slot: true, sort: false },
+    { field: "id", title: "ID", sort: false },
     { field: "name", title: "Name", sort: false },
-    { field: "roundedImage1", title: "Gambar", sort: false },
+    { field: "value", title: "Nilai", sort: false },
     // { field: 'balance', title: 'Balance', sort: false },
     { field: "actions", title: "Aksi", slot: true, sort: false },
   ]) || [];
@@ -52,7 +52,7 @@ const actions = ref([
   {
     type: "editIcon",
     to: ({ value }) => {
-      return `/admin/category/edit/${value.id}`;
+      return `/admin/setting/edit/${value.id}`;
     },
   },
   {
@@ -79,7 +79,7 @@ const actions = ref([
       swalWithBootstrapButtons
         .fire({
           title: "Hapus data?",
-          text: "Apakah kamu yakin untuk menghapus data ini",
+          text: "Apakah kamu yakin untuk menghapus data ini, Data yang dihapus dapat mempengaruhi fungsi pada Aplikasi Mobile !",
           icon: "warning",
           showCancelButton: true,
           confirmButtonText: "Hapus",
@@ -89,7 +89,7 @@ const actions = ref([
         })
         .then((result) => {
           if (result.value) {
-            axios.delete(`/admin/categories/${value.id}`).then((res) => {
+            axios.delete(`/admin/settings/${value.id}`).then((res) => {
               toast.fire("Data berhasil dihapus.");
               datatable.value.getData();
             });
@@ -99,9 +99,6 @@ const actions = ref([
     },
   },
 ]);
-
-var statsCount: any = ref({});
-const activitySeries: any = ref([]);
 
 const getData = async () => {};
 

@@ -5,28 +5,28 @@
     >
       <li>
         <router-link
-          to="/admin/category/index"
+          to="/admin/setting/index"
           class="text-primary hover:underline font-medium"
-          >Master Data Kategori</router-link
+          >Master Data Pengaturan</router-link
         >
       </li>
       <li class="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
         <span class="font-medium">{{
-          route.params.id
-            ? "Edit Kategori"
-            : !route.params.id
-            ? "Tambah Kategori"
-            : "Tambah Kategori"
+          currentRouteId
+            ? "Edit Pengaturan"
+            : !currentRouteId
+            ? "Tambah Pengaturan"
+            : "Tambah Pengaturan"
         }}</span>
       </li>
     </ul>
     <p class="sm:pt-4 px-4 sm:px-0 text-xl font-bold">
       {{
-        route.params.id
-          ? "Edit Kategori"
-          : !route.params.id
-          ? "Tambah Kategori"
-          : "Tambah Kategori"
+        currentRouteId
+          ? "Edit Pengaturan"
+          : !currentRouteId
+          ? "Tambah Pengaturan"
+          : "Tambah Pengaturan"
       }}
     </p>
     <div class="pt-3">
@@ -37,7 +37,7 @@
         <div
           class="w-full lg:w-3/4 border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-[#0e1726]"
         >
-          <p class="pb-3 text-lg font-semibold">Data Kategori</p>
+          <p class="pb-3 text-lg font-semibold">Data Pengaturan</p>
           <div class="flex-1">
             <div class="grid grid-cols-1 gap-5">
               <div class="flex flex-col gap-2">
@@ -45,7 +45,7 @@
                   >Nama/Judul</label
                 >
                 <input
-                  class="md:w-3/4 form-input"
+                  class="md:w-4/4 form-input"
                   id="name"
                   type="text"
                   required
@@ -53,38 +53,59 @@
                   v-model="form.name"
                 />
               </div>
+
+              <div class="flex flex-col gap-2">
+                <label class="w-full md:mb-0 font-semibold">Tipe</label>
+                <div class="flex flex-row gap-2">
+                  <div>
+                    <input
+                      type="radio"
+                      id="number"
+                      value="number"
+                      v-model="form.type"
+                    />
+                    <label for="number">Number</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="textarea"
+                      value="textarea"
+                      v-model="form.type"
+                    />
+                    <label for="textarea">Textarea</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <label class="w-full md:mb-0 font-semibold" for="page"
+                  >Nilai / Isi</label
+                >
+                <template v-if="form.type === 'number'">
+                  <input
+                    class="md:w-4/4 form-input"
+                    id="name"
+                    type="number"
+                    required
+                    placeholder="Nilai / Isi"
+                    v-model="form.value"
+                  />
+                </template>
+                <template v-else>
+                  <textarea
+                    class="md:w-4/4 form-input"
+                    id="name"
+                    required
+                    placeholder="Nilai / Isi"
+                    v-model="form.value"
+                  ></textarea>
+                </template>
+              </div>
             </div>
           </div>
         </div>
         <div class="w-full lg:w-1/4">
-          <div
-            class="custom-file-container border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-[#0e1726]"
-            data-upload-id="myFirstImage"
-          >
-            <p class="font-semibold text-lg mb-3">Gambar</p>
-            <div class="label-container" style="display: none">
-              <label>Upload </label>
-              <a
-                href="javascript:;"
-                class="custom-file-container__image-clear"
-                title="Clear Image"
-                >×</a
-              >
-            </div>
-            <label class="custom-file-container__custom-file">
-              <input
-                type="file"
-                class="custom-file-container__custom-file__custom-file-input"
-                @change="handleFileChange"
-                accept="image/*"
-              />
-              <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
-              <span
-                class="custom-file-container__custom-file__custom-file-control ltr:pr-20 rtl:pl-20"
-              ></span>
-            </label>
-            <div class="custom-file-container__image-preview"></div>
-          </div>
           <div
             class="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-[#0e1726]"
           >
@@ -123,9 +144,9 @@
             </button>
             <button
               type="button"
-              @click="deleteCategory"
+              @click="deleteSetting"
               class="btn btn-danger w-full btn-lg mt-4"
-              v-if="route.params.id"
+              v-if="currentRouteId"
             >
               <svg
                 class="mr-2"
@@ -190,20 +211,21 @@ import { Axios } from "axios";
 import globalComponents from "@/global-components";
 const router = useRouter();
 
-import FileUploadWithPreview from "file-upload-with-preview";
 const route = useRoute();
 import Swal from "sweetalert2";
 import "flatpickr/dist/flatpickr.css";
 let user: any = auth.users();
+let currentRouteId: any = route.params.id;
 
 let form: any = ref({
-  name: "",
-  image: "",
+  /* name: "",
+  // image: "", */
 });
 const rules = {
   form: {
     name: { required },
-    image: { required },
+    type: { required },
+    value: { required },
   },
 };
 const v1 = useVuelidate(rules, { form });
@@ -213,32 +235,17 @@ const axios = <Axios>inject("axios");
 const file: any = ref(null);
 
 onMounted(async () => {
-  if (route.params.id) {
-    form.value = (await axios.get(`/admin/categories/${route.params.id}`)).data;
-    new FileUploadWithPreview("myFirstImage", {
-      images: {
-        baseImage:
-          form.value.image != null
-            ? axios.getUri().replace("/api", "") + form.value.image
-            : "/assets/images/file-preview.svg",
-        backgroundImage: "",
-      },
-    });
+  if (currentRouteId) {
+    form.value = (await axios.get(`/admin/settings/${currentRouteId}`)).data;
   } else {
-    new FileUploadWithPreview("myFirstImage", {
-      images: {
-        baseImage: "/assets/images/file-preview.svg",
-        backgroundImage: "",
-      },
-    });
   }
 });
 
 useHead({
-  title: route.params.id
-    ? "Edit Kategori"
-    : !route.params.id
-    ? "Tambah Kategori"
+  title: currentRouteId
+    ? "Edit Pengaturan"
+    : !currentRouteId
+    ? "Tambah Pengaturan"
     : "",
 });
 const handleFileChange = (event) => {
@@ -246,11 +253,13 @@ const handleFileChange = (event) => {
 };
 const handleSubmit = async () => {
   const isFormCorrect = await v1.value.$validate();
+  console.log("fform" + form.value);
   if (isFormCorrect) {
     let fform = globalComponents.dataToFormData(form.value);
+
     store.isShowMainLoader = true;
     axios
-      .post("/admin/categories", fform)
+      .post("/admin/settings", fform)
       .then((res) => {
         store.isShowMainLoader = false;
         console.log(res.data);
@@ -260,12 +269,12 @@ const handleSubmit = async () => {
           var statusCodeColor = res.status < 300 ? "success" : "danger";
           globalComponents.handleToast(statusCodeColor, res.data.message);
         } else {
-          router.push({ name: "admin.category.index" });
+          router.push({ name: "admin.setting.index" });
           globalComponents.handleToast(
             "success",
-            route.params.id
+            currentRouteId
               ? "Berhasil mengedit data"
-              : !route.params.id
+              : !currentRouteId
               ? "Berhasil menambahkan data"
               : ""
           );
@@ -273,14 +282,15 @@ const handleSubmit = async () => {
       })
       .catch((e) => {
         store.isShowMainLoader = false;
-        globalComponents.handleToast("danger", e.message);
+        let message = e.response.data?.message ?? e.message;
+        globalComponents.handleToast("danger", message);
       });
   } else {
     globalComponents.handleToast("danger", "Lengkapi data dengan benar");
   }
 };
 
-const deleteCategory = () => {
+const deleteSetting = () => {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       popup: "sweet-alerts",
@@ -302,7 +312,7 @@ const deleteCategory = () => {
   swalWithBootstrapButtons
     .fire({
       title: "Hapus data?",
-      text: "Apakah kamu yakin untuk menghapus data ini",
+      text: "Apakah kamu yakin untuk menghapus data ini, Data yang dihapus dapat mempengaruhi fungsi pada Aplikasi Mobile !",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Hapus",
@@ -312,9 +322,9 @@ const deleteCategory = () => {
     })
     .then((result) => {
       if (result.value) {
-        axios.delete(`/admin/categories/${form.value.id}`).then((res) => {
-          toast.fire("Kategori berhasil dihapus.");
-          router.push("/admin/categories/index");
+        axios.delete(`/admin/settings/${form.value.id}`).then((res) => {
+          toast.fire("Pengaturan berhasil dihapus.");
+          router.push("/admin/setting/index");
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }

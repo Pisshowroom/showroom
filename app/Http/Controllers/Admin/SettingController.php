@@ -11,7 +11,7 @@ class SettingController extends Controller
     // list settings
     public function index(Request $request)
     {
-        $settings = \App\Models\Setting::paginate($request->per_page ?? 15);
+        $settings = \App\Models\Setting::whereNot('name', 'commerce_balance')->paginate($request->per_page ?? 15);
 
         return $settings;
     }
@@ -30,8 +30,12 @@ class SettingController extends Controller
 
             $setting = new Setting();
             $isCreate = true;
-        } else
+        } else {
             $setting = Setting::findOrFail($request->id);
+            if ($setting->name == 'commerce_balance') {
+                return ResponseAPI('Pengaturan ini tidak dapat diubah', 406);
+            }
+        }
 
         $setting->name = $request->input('name');
         $setting->value = $request->input('value');
@@ -46,6 +50,7 @@ class SettingController extends Controller
 
     public function show(Setting $setting)
     {
+        return ResponseAPI($setting, 200);
         return $setting;
     }
 

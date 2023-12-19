@@ -314,7 +314,7 @@ const deleteCategory = () => {
       if (result.value) {
         axios.delete(`/admin/categories/${form.value.id}`).then((res) => {
           toast.fire("Kategori berhasil dihapus.");
-          router.push("/admin/categories/index");
+          router.push("/admin/category/index");
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
       }

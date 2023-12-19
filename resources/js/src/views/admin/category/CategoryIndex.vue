@@ -100,9 +100,6 @@ const actions = ref([
   },
 ]);
 
-var statsCount: any = ref({});
-const activitySeries: any = ref([]);
-
 const getData = async () => {};
 
 onMounted(async () => {
