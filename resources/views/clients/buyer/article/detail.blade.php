@@ -114,10 +114,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="banner-right h-500 text-center mb-30"><span class="text-no font-11">No.9</span>
-                            <h5 class="font-23 mt-20">Sensitive Touch<br class="d-none d-lg-block">without fingerprint
-                            </h5>
-                            <p class="text-desc font-16 mt-15">Smooth handle and accurate click</p>
+                        <div class="banner-right h-500 text-center mb-30">
+                            @if ($data['ads'] && $data['ads']->image)
+                                <a
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                    <img class="mb-30" src="{{ $data['ads']->image }}" alt="iklan"
+                                        style="border-radius: 5px">
+                                </a>
+                            @else<span class="text-no font-11">No.9</span>
+                                <h5 class="font-23 mt-20">Sensitive Touch<br class="d-none d-lg-block">without fingerprint
+                                </h5>
+                                <p class="text-desc font-16 mt-15">Smooth handle and accurate click</p>
+                            @endif
                         </div>
                     </div>
 
@@ -134,7 +142,8 @@
                                 <div class="image-box">
                                     <a
                                         href="{{ route('buyer.detailArticle', ['id' => $article->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                        <img style="object-fit: cover;width:auto !important;" src="{{ $article?->image ? $article->image : asset('ecom/imgs/page/blog/blog-17.jpg') }}"
+                                        <img style="object-fit: cover;width:auto !important;"
+                                            src="{{ $article?->image ? $article->image : asset('ecom/imgs/page/blog/blog-17.jpg') }}"
                                             alt="produk {{ $article->title ?? '' }}"></a>
                                 </div>
                                 <a class="color-gray-1100"

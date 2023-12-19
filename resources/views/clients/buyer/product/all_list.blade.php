@@ -21,9 +21,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-9 order-first order-lg-last">
-                        <div class="banner-ads-top mb-30"><a
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
-                                    src="{{ asset('ecom/imgs/page/shop/banner.png') }}" alt="semua produk"></a></div>
+                        <div class="banner-ads-top mb-30">
+                            <a
+                                href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                    src="{{ $data['ads1'] && $data['ads1']->image ? $data['ads1']->image : asset('ecom/imgs/page/shop/banner.png') }}"
+                                    alt="semua produk"></a>
+                        </div>
                         <div class="box-filters mt-0 pb-5 border-bottom">
                             <div class="row">
                                 <div class="col-xl-2 col-lg-3 mb-10 text-lg-start text-center"><a
@@ -87,7 +90,8 @@
                                         @foreach ($data['categories'] as $ct)
                                             <li data-category="{{ $ct->id }}"
                                                 class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}">
-                                                <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}" style="display: flex !important;flex-direction: row;align-items: center;justify-content: space-between;gap:.5rem;"
+                                                <a class="{{ request()->input('category_id') == $ct->id ? 'active' : '' }}"
+                                                    style="display: flex !important;flex-direction: row;align-items: center;justify-content: space-between;gap:.5rem;"
                                                     href="javascript:void(0)">
                                                     {{ $ct->name ?? '' }}
                                                     <span
@@ -115,7 +119,7 @@
                                             <li>
                                                 <label class="cb-container">
                                                     <input type="checkbox" class="seller-checkbox"
-                                                    {{ in_array($seller->id, explode(',', request()->input('seller_id'))) ? 'checked' : '' }}
+                                                        {{ in_array($seller->id, explode(',', request()->input('seller_id'))) ? 'checked' : '' }}
                                                         data-seller-id="{{ $seller->id }}">
                                                     <span class="text-small">
                                                         {{ substr($seller->name ?? '', 0, 15) . (strlen($seller->name ?? '') > 15 ? '..' : '') }}
@@ -162,12 +166,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="banner-right h-500 text-center mb-30"><span class="text-no font-11">No.9</span>
-                            <h5 class="font-23 mt-20">Sensitive Touch<br class="d-none d-lg-block">without fingerprint
-                            </h5>
-                            <p class="text-desc font-16 mt-15">Smooth handle and accurate click</p><a
-                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">View
-                                Details</a>
+                        <div class="banner-right h-500 text-center mb-30">
+                            @if ($data['ads2'] && $data['ads2']->image)
+                                <a
+                                    href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                    <img class="mb-30" src="{{ $data['ads2']->image }}" alt="iklan"
+                                        style="border-radius: 5px">
+                                </a>
+                            @else
+                                <span class="text-no font-11">No.9</span>
+                                <h5 class="font-23 mt-20">Sensitive Touch<br class="d-none d-lg-block">without fingerprint
+                                </h5>
+                                <p class="text-desc font-16 mt-15">Smooth handle and accurate click</p><a
+                                    href="{{ route('buyer.allListProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">View
+                                    Details</a>
+                            @endif
                         </div>
                     </div>
                 </div>
