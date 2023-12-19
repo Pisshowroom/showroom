@@ -54,7 +54,7 @@ class BuyerController extends Controller
     public function home(Request $request)
     {
 
-        $sliders = Slider::all();
+        $sliders = Slider::latest()->take(3)->get();
         // limitted 5 article latest
         $articles  = Article::latest()->take(4)->get();
         $latestProducts = Product::with([

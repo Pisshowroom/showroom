@@ -148,7 +148,7 @@ class TransactionOrderController extends Controller
         $order->status = Order::SHIPPED;
         $order->save();
 
-        $pdf = Pdf::loadView('receipt_image', ['order' => $order->load(['address', 'seller', 'seller.address_seller', 'seller.address_seller.ro_province', 'order_items.product', 'user.address', 'user.address.ro_province'])]);
+        $pdf = Pdf::loadView('receipt_image', ['order' => $order->load(['address.ro_province', 'seller', 'seller.address_seller', 'seller.address_seller.ro_province', 'order_items.product', 'user'])]);
         // $link_label = public_path("/receipt_images/$order->delivery_receipt_number.pdf");
         // $pdf->save($link_label);
         // $order->link_label =  $link_label;

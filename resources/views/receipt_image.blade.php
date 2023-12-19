@@ -80,10 +80,10 @@
                     <td style="width:60%">
                         <div>
                             <p><b>{{ $order?->user?->name ?? '' }}</b> - {{ $order?->user?->phone_number ?? '' }}</p>
-                            <p>{{ $order?->user?->address?->address_description ?? '' }}</p>
-                            <p>{{ $order?->user?->address?->district ?? '' }},
-                                {{ $order?->user?->address?->city ?? '' }},
-                                {{ $order?->user?->address?->ro_province?->provice_name ?? '' }}</p>
+                            <p>{{ $order?->address?->address_description ?? '' }}</p>
+                            <p>{{ $order?->address?->district ?? '' }},
+                                {{ $order?->address?->city ?? '' }},
+                                {{ $order?->address?->ro_province?->provice_name ?? '' }}</p>
                             <p></p>
                         </div>
                     </td>

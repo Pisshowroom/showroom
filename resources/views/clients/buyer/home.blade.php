@@ -27,72 +27,65 @@ dd(request()->all());
                             <div class="box-swiper">
                                 <div class="swiper-container swiper-group-1">
                                     <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="banner-big banner-big-3 bg-22"
-                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner.png') }})">
-                                                <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
-                                                        class="d-none d-lg-block"> The Music</h1>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <ul class="list-disc">
-                                                            <li class="font-lg color-brand-3">Free Shipping. Secure Payment
-                                                            </li>
-                                                            <li class="font-lg color-brand-3">Contact us 24hrs a day</li>
-                                                            <li class="font-lg color-brand-3">Support gift service</li>
-                                                        </ul>
-                                                    </div>
+                                        @if ($data['sliders'] && count($data['sliders']) > 0)
+                                            @foreach ($data['sliders'] as $slider)
+                                                <div class="swiper-slide">
+                                                    <a
+                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                        <img class="w-100" style="height:500px;object-fit:fill;border-radius:5px" src="{{ $slider->image ?? asset('ecom/imgs/page/homepage4/bg-banner-2.png') }}"
+                                                            alt="slider beranda"></a>
                                                 </div>
-                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
-                                                        now</a><a class="btn btn-link text-underline"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
-                                                        more</a></div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="banner-big banner-big-3 bg-22"
-                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-2.png') }})">
-                                                <h1 class="color-gray-100 text-uppercase text-shadow">360 DEGREE<br
-                                                        class="d-none d-lg-block"> VIRTUAL REALITY</h1>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <ul class="list-disc">
-                                                            <li class="font-lg color-brand-3">Free Shipping. Secure Payment
-                                                            </li>
-                                                            <li class="font-lg color-brand-3">Contact us 24hrs a day</li>
-                                                            <li class="font-lg color-brand-3">Support gift service</li>
-                                                        </ul>
+                                            @endforeach
+                                        @else
+                                            <div class="swiper-slide">
+                                                <div class="banner-big banner-big-3 bg-22"
+                                                    style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-2.png') }})">
+                                                    <h1 class="color-gray-100 text-uppercase text-shadow">360 DEGREE<br
+                                                            class="d-none d-lg-block"> VIRTUAL REALITY</h1>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                                            <ul class="list-disc">
+                                                                <li class="font-lg color-brand-3">Free Shipping. Secure
+                                                                    Payment
+                                                                </li>
+                                                                <li class="font-lg color-brand-3">Contact us 24hrs a day
+                                                                </li>
+                                                                <li class="font-lg color-brand-3">Support gift service</li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
+                                                    <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
+                                                            now</a><a class="btn btn-link text-underline"
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
+                                                            more</a></div>
                                                 </div>
-                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
-                                                        now</a><a class="btn btn-link text-underline"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
-                                                        more</a></div>
                                             </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="banner-big banner-big-3 bg-22"
-                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-3.png') }})">
-                                                <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
-                                                        class="d-none d-lg-block"> The Music</h1>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <ul class="list-disc">
-                                                            <li class="font-lg color-brand-3">Free Shipping. Secure Payment
-                                                            </li>
-                                                            <li class="font-lg color-brand-3">Contact us 24hrs a day</li>
-                                                            <li class="font-lg color-brand-3">Support gift service</li>
-                                                        </ul>
+                                            <div class="swiper-slide">
+                                                <div class="banner-big banner-big-3 bg-22"
+                                                    style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-3.png') }})">
+                                                    <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
+                                                            class="d-none d-lg-block"> The Music</h1>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                                            <ul class="list-disc">
+                                                                <li class="font-lg color-brand-3">Free Shipping. Secure
+                                                                    Payment
+                                                                </li>
+                                                                <li class="font-lg color-brand-3">Contact us 24hrs a day
+                                                                </li>
+                                                                <li class="font-lg color-brand-3">Support gift service</li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
+                                                    <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
+                                                            now</a><a class="btn btn-link text-underline"
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
+                                                            more</a></div>
                                                 </div>
-                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
-                                                        now</a><a class="btn btn-link text-underline"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
-                                                        more</a></div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </div>
                                     <div class="swiper-pagination swiper-pagination-1"></div>
                                 </div>
