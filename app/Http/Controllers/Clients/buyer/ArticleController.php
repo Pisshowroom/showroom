@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Clients\buyer;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
 use App\Models\Address;
+use App\Models\Ads;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Notification;
@@ -62,6 +63,9 @@ class ArticleController extends Controller
         $data['another_articles'] = $this->anotherArticles($id);
         $data['another_articles2'] = $this->anotherArticles($id);
         $data['articles'] = Article::where('id', '!=', $id)->orderByDesc('view')->take(4)->get();
+        $data['ads'] = Ads::where('page', 'detail_article')
+            ->whereNull('deleted_at')->select('id', 'image', 'page', 'section')
+            ->orderByDesc('id')->latest()->first();
 
         return view('clients.buyer.article.detail', ['article' => $article, 'data' => $data]);
     }

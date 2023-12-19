@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Address;
+use App\Models\Ads;
 use App\Models\Category;
 use App\Models\Notification;
 use App\Models\Order;
@@ -148,6 +149,9 @@ class ProductController extends Controller
                     ->withSum('order_items', 'quantity');
             })->withCount('products')->orderByDesc('products_count')
             ->take(4)->get();
+        $data['ads'] = Ads::where('page', 'detail_product')
+            ->whereNull('deleted_at')->select('id', 'image', 'page', 'section')
+            ->orderByDesc('id')->latest()->first();
 
         return view('clients.buyer.product.all_list', ['products' => $product, 'data' => $data]);
     }
