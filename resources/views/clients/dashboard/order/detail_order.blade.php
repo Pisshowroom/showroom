@@ -1,7 +1,7 @@
 <div class="card">
     <header class="card-header">
         <div class="row align-items-center">
-            <div class="col-12 mb-lg-0 mb-15">
+            <div class="col-lg-8 mb-lg-0 mb-15">
                 <span>
                     <i class="material-icons md-calendar_today"></i>
                     <b>Tanggal Pesanan : {{ $order->date . ' WIB' ?? '' }}</b>
@@ -10,12 +10,18 @@
                 <small class="text-muted">Nomor Identifikasi :
                     {{ $order->payment_identifier ?? '' }}</small>
                 <br>
-                <small class="text-muted">Nomor Resi :
+                <small class="text-muted">Invoice :
                     {{ $order->delivery_receipt_number ?? '' }}</small>
                 <p class="mt-15"><span>Status:</span>
                     @include('clients.dashboard.order.status_order')
                 </p>
             </div>
+            @if ($order->link_label)
+                <div class="col-lg-4 mb-lg-0 mb-15 text-lg-end">
+                    <a class="btn btn-primary" href="{{ $order->link_label }}" target="_blank" download>Download
+                        Invoice</a>
+                </div>
+            @endif
         </div>
     </header>
     <div class="card-body">

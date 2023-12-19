@@ -6460,7 +6460,7 @@ a.text-brand-3:hover {
 .list-links-disc {
   display: inline-block;
   width: 100%;
-  padding: 15px 0px 10px 0px;
+  padding: 0px 0px 10px 0px;
 }
 .list-links-disc li {
   margin: 0px 0px 6px 0px;
@@ -7006,8 +7006,12 @@ a.text-brand-3:hover {
   height: 175px;
 }
 
-.mh-307 {
-  min-height: 307px;
+.h-276 {
+  height: 276px;
+}
+
+.h-307 {
+  height: 307px;
 }
 
 .box-promotions {

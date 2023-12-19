@@ -27,72 +27,65 @@ dd(request()->all());
                             <div class="box-swiper">
                                 <div class="swiper-container swiper-group-1">
                                     <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="banner-big banner-big-3 bg-22"
-                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner.png') }})">
-                                                <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
-                                                        class="d-none d-lg-block"> The Music</h1>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <ul class="list-disc">
-                                                            <li class="font-lg color-brand-3">Free Shipping. Secure Payment
-                                                            </li>
-                                                            <li class="font-lg color-brand-3">Contact us 24hrs a day</li>
-                                                            <li class="font-lg color-brand-3">Support gift service</li>
-                                                        </ul>
-                                                    </div>
+                                        @if ($data['sliders'] && count($data['sliders']) > 0)
+                                            @foreach ($data['sliders'] as $slider)
+                                                <div class="swiper-slide">
+                                                    <a
+                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
+                                                        <img class="w-100" style="height:500px;object-fit:fill;border-radius:5px" src="{{ $slider->image ?? asset('ecom/imgs/page/homepage4/bg-banner-2.png') }}"
+                                                            alt="slider beranda"></a>
                                                 </div>
-                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
-                                                        now</a><a class="btn btn-link text-underline"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
-                                                        more</a></div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="banner-big banner-big-3 bg-22"
-                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-2.png') }})">
-                                                <h1 class="color-gray-100 text-uppercase text-shadow">360 DEGREE<br
-                                                        class="d-none d-lg-block"> VIRTUAL REALITY</h1>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <ul class="list-disc">
-                                                            <li class="font-lg color-brand-3">Free Shipping. Secure Payment
-                                                            </li>
-                                                            <li class="font-lg color-brand-3">Contact us 24hrs a day</li>
-                                                            <li class="font-lg color-brand-3">Support gift service</li>
-                                                        </ul>
+                                            @endforeach
+                                        @else
+                                            <div class="swiper-slide">
+                                                <div class="banner-big banner-big-3 bg-22"
+                                                    style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-2.png') }})">
+                                                    <h1 class="color-gray-100 text-uppercase text-shadow">360 DEGREE<br
+                                                            class="d-none d-lg-block"> VIRTUAL REALITY</h1>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                                            <ul class="list-disc">
+                                                                <li class="font-lg color-brand-3">Free Shipping. Secure
+                                                                    Payment
+                                                                </li>
+                                                                <li class="font-lg color-brand-3">Contact us 24hrs a day
+                                                                </li>
+                                                                <li class="font-lg color-brand-3">Support gift service</li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
+                                                    <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
+                                                            now</a><a class="btn btn-link text-underline"
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
+                                                            more</a></div>
                                                 </div>
-                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
-                                                        now</a><a class="btn btn-link text-underline"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
-                                                        more</a></div>
                                             </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="banner-big banner-big-3 bg-22"
-                                                style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-3.png') }})">
-                                                <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
-                                                        class="d-none d-lg-block"> The Music</h1>
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                                        <ul class="list-disc">
-                                                            <li class="font-lg color-brand-3">Free Shipping. Secure Payment
-                                                            </li>
-                                                            <li class="font-lg color-brand-3">Contact us 24hrs a day</li>
-                                                            <li class="font-lg color-brand-3">Support gift service</li>
-                                                        </ul>
+                                            <div class="swiper-slide">
+                                                <div class="banner-big banner-big-3 bg-22"
+                                                    style="background-image: url({{ asset('ecom/imgs/page/homepage4/bg-banner-3.png') }})">
+                                                    <h1 class="color-gray-100 text-uppercase text-shadow">Enjoy<br
+                                                            class="d-none d-lg-block"> The Music</h1>
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                                            <ul class="list-disc">
+                                                                <li class="font-lg color-brand-3">Free Shipping. Secure
+                                                                    Payment
+                                                                </li>
+                                                                <li class="font-lg color-brand-3">Contact us 24hrs a day
+                                                                </li>
+                                                                <li class="font-lg color-brand-3">Support gift service</li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
+                                                    <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
+                                                            now</a><a class="btn btn-link text-underline"
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
+                                                            more</a></div>
                                                 </div>
-                                                <div class="mt-30"><a class="btn btn-brand-2 btn-gray-1000"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Shop
-                                                        now</a><a class="btn btn-link text-underline"
-                                                        href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Learn
-                                                        more</a></div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </div>
                                     <div class="swiper-pagination swiper-pagination-1"></div>
                                 </div>
@@ -104,8 +97,8 @@ dd(request()->all());
                                     @if ($data['ads1'] && $data['ads1']->image)
                                         <a
                                             href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                            <img class="mb-20" src="{{ $data['ads1']->image }}" alt="iklan"
-                                                style="border-radius: 5px">
+                                            <img class="mb-20 h-175 w-100" src="{{ $data['ads1']->image }}" alt="iklan"
+                                                style="border-radius: 5px;object-fit:fill;">
                                         </a>
                                     @else
                                         <div class="bg-metaverse bg-22 pt-25 mb-20 pl-20 h-175">
@@ -119,8 +112,8 @@ dd(request()->all());
                                     @if ($data['ads11'] && $data['ads11']->image)
                                         <a
                                             href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                            <img class="mh-307" src="{{ $data['ads11']->image }}" alt="iklan"
-                                                style="border-radius: 5px">
+                                            <img class="h-307 w-100" src="{{ $data['ads11']->image }}" alt="iklan"
+                                                style="border-radius: 5px;object-fit:fill;">
                                         </a>
                                     @else
                                         <div class="bg-4 box-bdrd-4 bg-headphone pt-20 mh-307"><span
@@ -169,6 +162,36 @@ dd(request()->all());
                                                                 alt="Iklan"></a>
                                                     @endif
                                                 </div>
+                                                <div class="swiper-slide">
+                                                    @if ($data['ads7'] && count($data['ads7']) > 0)
+                                                        @foreach ($data['ads7'] as $item)
+                                                            <a
+                                                                href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                    src="{{ $item->image ?? asset('ecom/imgs/page/homepage4/promotion1.png') }}"
+                                                                    alt="Iklan"></a>
+                                                        @endforeach
+                                                    @else
+                                                        <a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion1.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion2.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion3.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion4.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion5.png') }}"
+                                                                alt="Iklan"></a><a
+                                                            href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                                                                src="{{ asset('ecom/imgs/page/homepage4/promotion6.png') }}"
+                                                                alt="Iklan"></a>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -189,7 +212,7 @@ dd(request()->all());
                                     <div class="image-box">
                                         <a
                                             href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                            <img style="width:95px;height:95px;object-fit:contain;border-radius:50%"
+                                            <img style="width:95px;height:95px;object-fit:fill;border-radius:50%"
                                                 src="{{ $ct->image ?? asset('ecom/imgs/page/homepage1/smartphone.png') }}"
                                                 alt="kategori {{ $ct->name ?? '' }}">
                                         </a>
@@ -200,13 +223,13 @@ dd(request()->all());
                                     </div>
                                     <div class="info-right"><a class="color-brand-3 font-sm-bold"
                                             href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                            <h6>{{ $ct->name ?? '' }}</h6>
+                                            <h6 class="line-2 text-start">{{ $ct->name ?? '' }}</h6>
                                         </a>
                                         @if ($ct->sub_categories && count($ct->sub_categories) > 0)
                                             <ul class="list-links-disc">
                                                 @foreach ($ct->sub_categories as $k => $sc)
                                                     @if ($k < 3)
-                                                        <li><a class="font-sm"
+                                                        <li><a class="font-sm line-1 text-start"
                                                                 href="{{ route('buyer.allGridProduct', ['category_id' => $ct->id, 'sub_category_id' => $sc->id]) }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">{{ $sc->name ?? '' }}</a>
                                                         </li>
                                                     @endif
@@ -309,14 +332,14 @@ dd(request()->all());
                                 <div class="swiper-wrapper pt-5">
                                     <div class="swiper-slide">
                                         <div class="list-products-5">
-                                            @foreach ($data['recommended_products'] as $prd)
+                                            @foreach ($data['recommended_products3'] as $prd)
                                                 @include('clients.buyer.components.list_product1')
                                             @endforeach
                                         </div>
                                     </div>
                                     <div class="swiper-slide">
                                         <div class="list-products-5">
-                                            @foreach ($data['recommended_products2'] as $prd)
+                                            @foreach ($data['recommended_products4'] as $prd)
                                                 @include('clients.buyer.components.list_product1')
                                             @endforeach
                                         </div>
@@ -507,10 +530,10 @@ dd(request()->all());
             <div class="container">
                 <div class="row">
                     <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 mb-30">
-                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][2]->image)
+                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][0]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][2]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads5'][0]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -526,7 +549,7 @@ dd(request()->all());
                         @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][1]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][1]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads5'][1]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -539,10 +562,10 @@ dd(request()->all());
                         @endif
                     </div>
                     <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
-                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][0]->image)
+                        @if ($data['ads5'] && count($data['ads5']) > 0 && $data['ads5'][2]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][0]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads5'][2]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -581,10 +604,10 @@ dd(request()->all());
             <div class="container">
                 <div class="row">
                     <div class="col-xl-4 col-lg-7 col-md-7 col-sm-12 mb-30">
-                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][1]->image)
+                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][0]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][1]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads6'][0]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -598,10 +621,10 @@ dd(request()->all());
                         @endif
                     </div>
                     <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 mb-30">
-                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][0]->image)
+                        @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][1]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][0]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads6'][1]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -618,7 +641,7 @@ dd(request()->all());
                         @if ($data['ads6'] && count($data['ads6']) > 0 && $data['ads6'][2]->image)
                             <a
                                 href="{{ route('buyer.allGridProduct') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">
-                                <img class="mb-10" src="{{ $data['ads5'][2]->image }}" alt="iklan"
+                                <img class="mb-10 w-100 h-276" src="{{ $data['ads6'][2]->image }}" alt="iklan"
                                     style="border-radius: 5px">
                             </a>
                         @else
@@ -709,13 +732,17 @@ dd(request()->all());
             $('.info-right').each(function() {
                 var text = $(this).find('.color-brand-3.font-sm-bold').text();
 
-                // Menghapus spasi ekstra dan memeriksa jumlah baris
                 if (text.trim().split(/\r\n|\r|\n/).length < 2) {
                     $(this).find('.color-brand-3.font-sm-bold').css('height', '40px');
                 }
                 var text2 = $(this).find('.article-desc span').text();
                 if (text2.trim().split(/\r\n|\r|\n/).length < 3) {
                     $(this).find('.article-desc span').css('height', '54px');
+                }
+                var text3 = $(this).find('.color-brand-3.font-sm-bold h6').text();
+
+                if (text3.trim().split(/\r\n|\r|\n/).length < 2) {
+                    $(this).find('.color-brand-3.font-sm-bold h6').css('height', '40px');
                 }
             });
 

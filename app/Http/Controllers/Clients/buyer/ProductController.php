@@ -88,7 +88,7 @@ class ProductController extends Controller
         }
         $data = $this->getCommonData();
         $data['best_seller_product'] = $this->bestSellerProducts();
-        $data['sellers'] = User::where('is_seller', 1)->select('id', 'name')
+        $data['sellers'] = User::where('is_seller', 1)->where('is_seller_active', 1)->select('id', 'name')
             ->whereHas('products', function ($q) {
                 $q->withAvg('reviews', 'rating')
                     ->with(['order_items' => function ($query) {
@@ -97,7 +97,9 @@ class ProductController extends Controller
                         });
                     }])
                     ->withSum('order_items', 'quantity');
-            })->withCount('products')->orderByDesc('products_count')
+            })->withCount(['products' => function ($query) {
+                $query->whereNull(['parent_id', 'deleted_at']);
+            }])->orderByDesc('products_count')
             ->take(4)->get();
         $data['ads1'] = $this->getAds('above_list_product');
         $data['ads2'] = $this->getAds('below_list_seller');
@@ -141,7 +143,7 @@ class ProductController extends Controller
         }
         $data = $this->getCommonData();
         $data['best_seller_product'] = $this->bestSellerProducts();
-        $data['sellers'] = User::where('is_seller', 1)->select('id', 'name')
+        $data['sellers'] = User::where('is_seller', 1)->where('is_seller_active', 1)->select('id', 'name')
             ->whereHas('products', function ($q) {
                 $q->withAvg('reviews', 'rating')
                     ->with(['order_items' => function ($query) {
@@ -150,7 +152,9 @@ class ProductController extends Controller
                         });
                     }])
                     ->withSum('order_items', 'quantity');
-            })->withCount('products')->orderByDesc('products_count')
+            })->withCount(['products' => function ($query) {
+                $query->whereNull(['parent_id', 'deleted_at']);
+            }])->orderByDesc('products_count')
             ->take(4)->get();
         $data['ads1'] = $this->getAds('above_list_product');
         $data['ads2'] = $this->getAds('below_list_seller');

@@ -54,7 +54,7 @@ class BuyerController extends Controller
     public function home(Request $request)
     {
 
-        $sliders = Slider::all();
+        $sliders = Slider::latest()->take(3)->get();
         // limitted 5 article latest
         $articles  = Article::latest()->take(4)->get();
         $latestProducts = Product::with([
@@ -72,8 +72,10 @@ class BuyerController extends Controller
         $data['limited_product'] = $this->limitedProducts();
         $data['best_seller_product'] = $this->bestSellerProducts();
         $data['best_seller_product2'] = $this->bestSellerProducts2();
-        $data['recommended_products'] = $this->limitedProducts();
-        $data['recommended_products2'] = $this->limitedProducts();
+        $data['recommended_products'] = $this->limitedProducts2(9);
+        $data['recommended_products2'] = $this->limitedProducts2(9);
+        $data['recommended_products3'] = $this->limitedProducts();
+        $data['recommended_products4'] = $this->limitedProducts();
         $data['promo_products'] = $this->promoProducts();
         $data['promo_products2'] = $this->promoProducts();
         $data['ads1'] = Ads::where('page', 'home')->where('section', 'side_slider')
@@ -88,7 +90,9 @@ class BuyerController extends Controller
         $data['ads5'] = $this->getAds('above_best_selling_products', 3);
         // $data['ads6'] = $this->getAds('above_best_selling_products', 3);
         $data['ads6'] = $this->getAds('below_best_selling_products', 3);
-        $data['ads7'] = $this->getAds('right_end_slider', 6);
+        $data['ads7'] = Ads::where('page', 'home')->where('section', 'right_end_slider')
+            ->whereNull('deleted_at')->select('id', 'image', 'page', 'section')
+            ->orderByDesc('id')->skip(6)->take(6)->get();
         foreach ($data['latest_product'] as $value) {
             if ($value->discount && $value->discount > 0) {
                 $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
@@ -213,6 +217,23 @@ class BuyerController extends Controller
             'category', 'seller:id,name,seller_slug,seller_name',
             'seller.address:id,user_id,for_seller,main,city',
         ])->byNotVariant()->inRandomOrder()->take(8)->get();
+
+        $data['recommended_products'] = ProductResource::collection($limitedProducts);
+        foreach ($data['recommended_products'] as $value) {
+            if ($value->discount && $value->discount > 0) {
+                $value->price_discount = $value->price - ($value->price * ($value->discount / 100));
+            } else {
+                $value->price_discount = null;
+            }
+        }
+        return $data['recommended_products'];
+    }
+    private function limitedProducts2($take)
+    {
+        $limitedProducts = Product::with([
+            'category', 'seller:id,name,seller_slug,seller_name',
+            'seller.address:id,user_id,for_seller,main,city',
+        ])->byNotVariant()->inRandomOrder()->take($take)->get();
 
         $data['recommended_products'] = ProductResource::collection($limitedProducts);
         foreach ($data['recommended_products'] as $value) {
