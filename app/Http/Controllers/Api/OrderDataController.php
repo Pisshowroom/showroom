@@ -101,6 +101,24 @@ class OrderDataController extends Controller
         $order->status = Order::CANCELLED;
         $order->save();
 
+        $order->load(['seller']);
+        $seller = $order->seller;
+        if (!$seller && $seller->device_id != null) {
+            $notificationTitle = "Pesanan Dibatalkan";
+            $notificationSubTitle = "Pembeli telah membatalkan pesanannya";
+            $notifLink = "/detail_penjualan-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/toko/detail-transaksi/" . $order->identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($seller->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $seller->device_id);
+        }
+
         return ResponseAPI('Pesanan berhasil dibatalkan', 200);
     }
 
@@ -116,6 +134,25 @@ class OrderDataController extends Controller
     {
         $order->status = Order::CANCELLED;
         $order->save();
+        
+        $order->load(['user']);
+        $user = $order->user;
+        if (!$user && $user->device_id != null) {
+            $notificationTitle = "Pesanan Dibatalkan";
+            $notificationSubTitle = "Penjual telah membatalkan pesanan anda";
+            
+            $notifLink = "/transaksi/detail-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($user->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
+        }
 
         return ResponseAPI('Pesanan berhasil ditolak', 200);
     }
@@ -126,9 +163,7 @@ class OrderDataController extends Controller
             'delivery_service' => 'required|in:jne,jnt,sicepat,anteraja',
             'delivery_receipt_number' => 'required|string',
         ]);
-
-        $orderController    = new OrderController();
-
+        
         $requestNew = new Request();
         $requestNew->replace([
             'delivery_service' => $request->delivery_service,
@@ -136,6 +171,7 @@ class OrderDataController extends Controller
             'just_json' => true,
         ]);
         // TODOS : Uncomment This
+        // $orderController = new OrderController();
         // $orderController->waybillCheck($requestNew);
         $order->delivery_receipt_number = $request->delivery_receipt_number;
         $order->status = Order::SHIPPED;
@@ -156,6 +192,24 @@ class OrderDataController extends Controller
 
         // receipt image
         // exec("wkhtmltoimage --format png $html $output");
+        $order->load(['user']);
+        $user = $order->user;
+        if (!$user && $user->device_id != null) {
+            $notificationTitle = "Pesanan Diproses";
+            $notificationSubTitle = "Penjual sedang memproses pesanan anda";
+
+            $notifLink = "/transaksi/detail-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($user->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
+        }
 
         return ResponseAPI('Pesanan berhasil dikirim', 200);
     }

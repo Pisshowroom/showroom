@@ -23,6 +23,7 @@ class NotificationResource extends JsonResource
             'content' => $this->content,
             'read' => $this->read,
             'link' => $this->link,
+            'link_web' => $this->link_web,
             'link_label' => $this->link_label,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

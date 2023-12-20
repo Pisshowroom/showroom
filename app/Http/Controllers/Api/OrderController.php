@@ -288,26 +288,51 @@ class OrderController extends Controller
         $order->payment_status = Order::PAYMENT_PAID;
         $order->save();
 
-        $order->load('order_items');
+        $order->load(['order_items', 'user']);
+        $user = $order->user;
+
         if (count($order->order_items) > 0) {
             foreach ($order->order_items as $order_item) {
                 $product = Product::find($order_item->product_id);
                 if (empty($product)) {
-                    try {
+                    // $user balance addition from orderitem -> item_total
+                    if ($user) {
+                        $user->balance += $order_item->item_total;
+                        $user->save();
+                    }
+
+                    // * This WRONG
+                    /* try {
                         $product = Product::withTrashed()->where('id', $order_item->product_id)->firstOrFail();
                     } catch (\Exception $e) {
-                        $user = User::find($order->user_id);
-                        $total = $order->total_item ? $order->total_item : $order->total;
+                        $user = User::findOrFail($order->user_id);
+                        $total = $order->total_final ? $order->total_final : $order->total;
                         $user->balance += $total;
-                        DB::rollBack();
-                        return ResponseAPI("Maaf produk " . $product->name . " sudah tidak dijual lagi.", 404);
-                    }
+                        // DB::rollBack();
+                        // return ResponseAPI("Maaf produk " . $product->name . " sudah tidak dijual lagi.", 404);
+                    } */
                 }
 
 
                 $product->stock -= $order_item->qty;
                 $product->save();
             }
+        }
+        $seller = User::find($order->seller_id);
+        if (!$seller && $seller->device_id != null) {
+            $notificationTitle = "Ada Pesaanan Baru";
+            $notificationSubTitle = "Pesanan sudah dibayar dengan Identifier : " . $external_id;
+            $notifLink = "/detail_penjualan-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/toko/detail-transaksi/" . $order->identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($seller->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $seller->device_id);
         }
 
         DB::commit();

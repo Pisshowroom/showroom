@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use App\Models\Critic;
+use App\Models\Notification;
 use App\Models\Role;
 use App\Models\Setting;
 use App\Models\User;
@@ -56,6 +57,19 @@ function phoneGeneralize($phone)
     if (substr($phone, 0, 1) == '8') $phone = '628' . substr($phone, 1);
     if (substr($phone, 0, 4) == '6208') $phone = '628' . substr($phone, 4);
     return '+' . $phone;
+}
+
+function createNotificationData(int $user_id, String $title, String $subtitle, String $content = null, String $link = null, String $link_label = null, $link_web = null)
+{
+    $notification = new Notification();
+    $notification->user_id = $user_id;
+    $notification->title = $title;
+    $notification->subtitle = $subtitle;
+    $notification->content = $content;
+    $notification->link = $link;
+    $notification->link_label = $link_label;
+    $notification->link_web = $link_web;
+    $notification->save();
 }
 
 function lypsisGetOrderStatusValues($paramStatus)
@@ -672,7 +686,7 @@ function terbilang($nilai)
     return $hasil;
 }
 
-/*
+
 function sendMessage($title, $message, $data, $device_id, $send_all = false, $image = null)
 {
     $content = array("en" => $message);
@@ -686,8 +700,8 @@ function sendMessage($title, $message, $data, $device_id, $send_all = false, $im
         }
         return true;
     }
-    $app_id = "789790b0-b71b-4f3b-8338-4810a48f7413";
-    $rest_api_key = "YzhhYjI5ZmYtNjVhYi00MzMzLTljNWMtNTJlY2JkZDdjZmI2";
+    $app_id = "f489661e-2262-49f7-b768-5fc16ee7b5ac";
+    $rest_api_key = "Y2E5YzIxNzgtMmZmZS00YzRhLWFkZTYtYjMxOTNkNGFmMjFl";
 
     if ($send_all) {
         $fields = array(
@@ -711,64 +725,6 @@ function sendMessage($title, $message, $data, $device_id, $send_all = false, $im
         $fields['big_picture'] = $image;
     }
 
-
-    if (count($device_id) > 0)
-        foreach ($device_id as $id) {
-            $u = User::where('device_id', $id)->first();
-            if ($u != null) {
-                $notification = new Notification();
-                $notification->title = $title;
-                $notification->message = $message;
-                $notification->user_id = $u->id;
-                $notification->save();
-
-                if (array_key_exists('type', $data['data'])) {
-                    if ($data['data']['type'] == 'todo') {
-                        $notification->type = $data['data']['type'];
-                        $notification->save();
-                        $todoLists = TodoList::find($data['data']['id']);
-                        $todoLists->notifications()->save($notification);
-                    }
-                    if ($data['data']['type'] == 'loan') {
-                        $notification->type = $data['data']['type'];
-                        $notification->save();
-                        $loan = Loan::find($data['data']['id']);
-                        $loan->notifications()->save($notification);
-                    }
-                    if ($data['data']['type'] == 'presence') {
-                        $notification->type = $data['data']['type'];
-                        $notification->save();
-                    }
-                    if ($data['data']['type'] == 'permit') {
-                        $notification->type = $data['data']['type'];
-                        $notification->save();
-                        $permit = Permit::find($data['data']['id']);
-                        $permit->notifications()->save($notification);
-                    }
-                    if ($data['data']['type'] == 'overtime') {
-                        $notification->type = $data['data']['type'];
-                        $notification->save();
-                        $overtime = Overtime::find($data['data']['id']);
-                        $overtime->notifications()->save($notification);
-                    }
-                    if ($data['data']['type'] == 'leave') {
-                        $notification->type = $data['data']['type'];
-                        $notification->save();
-                        $leave = Leave::find($data['data']['id']);
-                        $leave->notifications()->save($notification);
-                    }
-
-                    if ($data['data']['type'] == 'critic') {
-                        $notification->type = $data['data']['type'];
-                        $notification->save();
-                        $critic = Critic::find($data['data']['id']);
-                        $critic->notifications()->save($notification);
-                    }
-                }
-            }
-        }
-
-
     $fields = json_encode($fields);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
@@ -787,4 +743,4 @@ function sendMessage($title, $message, $data, $device_id, $send_all = false, $im
 
     return $response;
 }
-*/
+

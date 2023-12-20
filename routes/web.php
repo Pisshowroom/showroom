@@ -34,54 +34,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/geta', function () {
-    abort(500, "Bad Request");
-    // return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
-    /*  $orders = Order::whereNull('seller_id')->get();
-    // 2
-    $result = $orders->map(function ($order) {
-        $product = $order->order_items()->first()->product;
-
-        return [
-            'id_order' => $order->id,
-            'id_product' => $product->id,
-            'id_seller' => $product->seller_id,
-        ];
-    }); */
-
-    /* foreach ($result as $item) {
-        Order::where('id', $item['id_order'])->update(['seller_id' => $item['id_seller']]);
-    } */
-    // 3
-    // return Review::whereNotNull('images')->where('images', '!=', '[]')->get();
-    // 4
-    $array1 = [1, 4, 7, 10];
-    $array2 = [2, 5, 8, 11];
-    $array3 = [3, 6, 9, 12];
-
-    $arraysData = array_merge($array1, $array2);
-    $arraysData = array_merge($arraysData, $array3);
-    // * Approaches 1
-    // asort($arraysData);
-    // * Approaches 2
-    $arraysSorted = [];
-    // Get the length of the array
-    $arrayLength = count($arraysData);
-
-    // Implementing Bubble Sort (Ascending Order)
-    for ($i = 0; $i < $arrayLength - 1; $i++) {
-        for ($j = 0; $j < $arrayLength - $i - 1; $j++) {
-            // Swap if the element found is greater than the next element
-            if ($arraysData[$j] > $arraysData[$j + 1]) {
-                $temp = $arraysData[$j];
-                $arraysData[$j] = $arraysData[$j + 1];
-                $arraysData[$j + 1] = $temp;
-            }
-        }
-    }
-
-    dd($arraysData);
-});
 
 Route::post('/0xff-callback-confirm-payment/{type}', [OrderController::class, 'callbackConfirmPayment']);
 
@@ -265,3 +217,58 @@ Route::group(['middleware' => ['auth:web']], function () {
 
 // seller
 Route::get('/seller', [SellerController::class, 'home'])->name('seller.home');
+
+
+/* Route::get('/getb', function () {
+    createNotificationData(1, "Pesanan Masuk","Pesanan sudah dibayar dengan Identifier : 082934JHAsjhda", 
+    null, null, null);
+}); */
+
+Route::get('/geta', function () {
+    abort(500, "Bad Request");
+    // return App\Models\RoSubdistrict::find(18)->load('ro_city.ro_province');
+    /*  $orders = Order::whereNull('seller_id')->get();
+    // 2
+    $result = $orders->map(function ($order) {
+        $product = $order->order_items()->first()->product;
+
+        return [
+            'id_order' => $order->id,
+            'id_product' => $product->id,
+            'id_seller' => $product->seller_id,
+        ];
+    }); */
+
+    /* foreach ($result as $item) {
+        Order::where('id', $item['id_order'])->update(['seller_id' => $item['id_seller']]);
+    } */
+    // 3
+    // return Review::whereNotNull('images')->where('images', '!=', '[]')->get();
+    // 4
+    $array1 = [1, 4, 7, 10];
+    $array2 = [2, 5, 8, 11];
+    $array3 = [3, 6, 9, 12];
+
+    $arraysData = array_merge($array1, $array2);
+    $arraysData = array_merge($arraysData, $array3);
+    // * Approaches 1
+    // asort($arraysData);
+    // * Approaches 2
+    $arraysSorted = [];
+    // Get the length of the array
+    $arrayLength = count($arraysData);
+
+    // Implementing Bubble Sort (Ascending Order)
+    for ($i = 0; $i < $arrayLength - 1; $i++) {
+        for ($j = 0; $j < $arrayLength - $i - 1; $j++) {
+            // Swap if the element found is greater than the next element
+            if ($arraysData[$j] > $arraysData[$j + 1]) {
+                $temp = $arraysData[$j];
+                $arraysData[$j] = $arraysData[$j + 1];
+                $arraysData[$j + 1] = $temp;
+            }
+        }
+    }
+
+    dd($arraysData);
+});
