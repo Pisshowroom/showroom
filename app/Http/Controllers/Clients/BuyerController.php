@@ -20,6 +20,7 @@ use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Slider;
 use App\Models\SubCategory;
+use App\Models\User;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -333,7 +334,20 @@ class BuyerController extends Controller
         $order = Order::where('id', $id)->first();
         if (!$order)
             return redirect()->route('buyer.home')->with('error', 'Pesanan tidak ditemukan.');
-        Auth::guard('web')->loginUsingId($order->user_id, true);
+        $user = User::where('id', $order->user_id)->first();
+        if (!$user)
+            return redirect()->route('buyer.home')->with('error', 'Akun tidak ditemukan.');
+        if (!$user->uid) {
+            $randomInteger = '';
+            for ($i = 0; $i < 21; $i++) {
+                $randomInteger .= mt_rand(0, 9);
+            }
+
+            $user->uid = (int) $randomInteger;
+            $user->save();
+        }
+
+        Auth::guard('web')->loginUsingId($user->id, true);
         return redirect()->route('dashboard.detailOrder', ['identifier' => $order->payment_identifier]);
     }
     public function detailTransaction2($id)
@@ -341,7 +355,20 @@ class BuyerController extends Controller
         $order = Order::where('id', $id)->first();
         if (!$order)
             return redirect()->route('buyer.home')->with('error', 'Transaksi tidak ditemukan.');
-        Auth::guard('web')->loginUsingId($order->user_id, true);
+        $user = User::where('id', $order->user_id)->first();
+        if (!$user)
+            return redirect()->route('buyer.home')->with('error', 'Akun tidak ditemukan.');
+        if (!$user->uid) {
+            $randomInteger = '';
+            for ($i = 0; $i < 21; $i++) {
+                $randomInteger .= mt_rand(0, 9);
+            }
+
+            $user->uid = (int) $randomInteger;
+            $user->save();
+        }
+
+        Auth::guard('web')->loginUsingId($user->id, true);
         return redirect()->route('dashboardSeller.detailTransaction', ['identifier' => $order->payment_identifier]);
     }
 }

@@ -115,6 +115,6 @@ class SellerController extends Controller
         $seller = User::where('id', $id)->where('is_seller', 1)->first();
         if (!$seller)
             return redirect()->route('buyer.home')->with('error', 'Toko tidak ditemukan.');
-        return redirect()->route('buyer.detailProduct', ['slug' => $seller->seller_slug]);
+        return redirect()->route('buyer.detailSeller', ['slug' => $seller->seller_slug]);
     }
 }
