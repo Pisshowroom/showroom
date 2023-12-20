@@ -113,6 +113,7 @@ Route::get('/syarat-dan-ketentuan', [BuyerController::class, 'term'])->name('buy
 
 Route::get('/semua-penjual', [BuyerSellerController::class, 'allSeller'])->name('buyer.allSeller');
 Route::get('/penjual-{slug}', [BuyerSellerController::class, 'detailSeller'])->name('buyer.detailSeller');
+Route::get('/detail_toko-{id}', [BuyerSellerController::class, 'detailSeller2'])->name('buyer.detailSeller2');
 
 
 Route::get('/semua-artikel', [ArticleController::class, 'allArticle'])->name('buyer.allArticle');
@@ -134,6 +135,8 @@ Route::prefix('regionals')->group(function () {
 
 // Route::get('/detail-produk/{slug}', [BuyerController::class, 'detailProduct'])->name('buyer.detailProduct');
 
+Route::get('/transaksi/detail-{id}', [BuyerController::class, 'detailOrder2'])->name('dashboard.detailOrder2');
+Route::get('/detail_penjualan-{id}', [BuyerController::class, 'detailTransaction2'])->name('dashboardSeller.detailTransaction2');
 
 Route::group(['middleware' => ['auth:web']], function () {
     Route::post('/perbarui-profil', [DashboardController::class, 'updateProfile'])->name('dashboard.updateProfile');
@@ -144,6 +147,8 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
     Route::get('/delete-order', [DashboardController::class, 'deleteOrder'])->name('deleteOrder');
     Route::get('/detail-notifikasi/{id}', [NotificationController::class, 'detailNotif'])->name('dashboard.detailNotif');
+
+
     Route::group(['prefix' => 'pembeli'], function () {
         // Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard.dashboard');
         Route::get('/pembayaran/{identifier}', [BuyerOrderController::class, 'payment'])->name('dashboard.payment');
@@ -189,6 +194,7 @@ Route::group(['middleware' => ['auth:web']], function () {
         Route::get('/hapus-produk/{id}', [SellerProductController::class, 'deleteProduct'])->name('dashboardSeller.deleteProduct');
         Route::get('/semua-transaksi', [TransactionOrderController::class, 'allTransaction'])->name('dashboardSeller.allTransaction');
         Route::get('/detail-transaksi/{identifier}', [TransactionOrderController::class, 'detailTransaction'])->name('dashboardSeller.detailTransaction');
+
         Route::get('/penjual-kirim-nomor-resi/{identifier}', [TransactionOrderController::class, 'sendResi'])->name('dashboardSeller.sendResi');
         Route::get('/penjual-terima/{id}', [TransactionOrderController::class, 'sellerAcceptOrder'])->name('dashboardSeller.sellerAcceptOrder');
         Route::get('/penjual-tolak/{id}', [TransactionOrderController::class, 'sellerRejectOrder'])->name('dashboardSeller.sellerRejectOrder');

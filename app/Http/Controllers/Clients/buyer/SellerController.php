@@ -109,4 +109,12 @@ class SellerController extends Controller
         })->orderByDesc('products_count')->get();
         return view('clients.buyer.seller.detail', ['seller' => $seller, 'products' => $product, 'data' => $data]);
     }
+
+    public function detailSeller2($id)
+    {
+        $seller = User::where('id', $id)->where('is_seller', 1)->first();
+        if (!$seller)
+            return redirect()->route('buyer.home')->with('error', 'Toko tidak ditemukan.');
+        return redirect()->route('buyer.detailSeller', ['slug' => $seller->seller_slug]);
+    }
 }
