@@ -196,6 +196,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('/my-user-seller', [UserController::class, 'myUserSeller']);
         Route::post('/set-delivery-service', [UserController::class, 'setDeliveryService']);
         Route::post('/update-profile', [UserController::class, 'updateProfile']);
+        Route::post('/set-device-id', [UserController::class, 'setDeviceId']);
         Route::post('/update-seller', [UserController::class, 'updateSeller']);
         Route::post('/register-as-seller', [UserController::class, 'registerAsSeller']);
         Route::post('/logout', [UserController::class, 'logout']);

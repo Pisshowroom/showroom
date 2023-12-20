@@ -72,6 +72,19 @@ class UserController extends Controller
         return ResponseAPI('Profil berhasil diperbarui');
     }
 
+    public function setDeviceId(Request $request)
+    {
+        $user = Auth::guard('api-client')->user();
+        $request->validate([
+            'device_id' => 'required|string',
+        ]);
+
+        $user->device_id = $request->device_id;
+        $user->save();
+
+        return ResponseAPI('Berhasil mengubah device id');
+    }
+
     public function updateSeller(Request $request)
     {
         $seller = Auth::guard('api-client')->user();
