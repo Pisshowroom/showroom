@@ -147,6 +147,7 @@ Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/cancel-order', [DashboardController::class, 'cancelOrder'])->name('cancelOrder');
     Route::get('/delete-order', [DashboardController::class, 'deleteOrder'])->name('deleteOrder');
     Route::get('/detail-notifikasi/{id}', [NotificationController::class, 'detailNotif'])->name('dashboard.detailNotif');
+    Route::get('/hapus-notifikasi/{id}', [NotificationController::class, 'deleteNotification'])->name('dashboard.deleteNotification');
 
 
     Route::group(['prefix' => 'pembeli'], function () {
@@ -226,7 +227,7 @@ Route::get('/seller', [SellerController::class, 'home'])->name('seller.home');
 
 
 /* Route::get('/getb', function () {
-    createNotificationData(1, "Pesanan Masuk","Pesanan sudah dibayar dengan Identifier : 082934JHAsjhda", 
+    createNotificationData(1, "Pesanan Masuk","Pesanan sudah dibayar dengan Identifier : 082934JHAsjhda",
     null, null, null);
 }); */
 

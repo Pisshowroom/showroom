@@ -49,4 +49,14 @@ class NotificationController extends Controller
 
         return view('clients.dashboard.notification.detail', ['notif' => $notif, 'data' => $data]);
     }
+
+    public function deleteNotification($id)
+    {
+        $user = Auth::guard('web')->user();
+        $notification = Notification::where('id', $id)->first();
+        if (!$notification)
+            return redirect("/pembeli/pesananku")->with('error', 'Tidak ada detail notifikasi')->with('auth', base64_encode($user->uid));
+        $notification->delete();
+        return redirect("/pembeli/pesananku")->with('success', 'Notifikasi berhasil dihapus')->with('auth', base64_encode($user->uid));
+    }
 }
