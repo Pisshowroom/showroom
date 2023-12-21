@@ -122,6 +122,24 @@ class TransactionOrderController extends Controller
         $order = Order::findOrFail($id);
         $order->status = Order::CANCELLED;
         $order->save();
+        $order->load(['user']);
+        $user = $order->user;
+        if (!$user && $user->device_id != null) {
+            $notificationTitle = "Pesanan Dibatalkan";
+            $notificationSubTitle = "Penjual telah membatalkan pesanan anda";
+            
+            $notifLink = "/transaksi/detail-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($user->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
+        }
 
         return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil ditolak')->with('auth', base64_encode($user->uid));
     }
@@ -159,6 +177,25 @@ class TransactionOrderController extends Controller
         $pdf->save(public_path("/receipt_images/$filename"));
         $order->link_label = $link_label;
         $order->save();
+        $order->load(['user']);
+        $user = $order->user;
+        if (!$user && $user->device_id != null) {
+            $notificationTitle = "Pesanan Diproses";
+            $notificationSubTitle = "Penjual sedang memproses pesanan anda";
+
+            $notifLink = "/transaksi/detail-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($user->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
+        }
+
         return response()->json([
             "status" => "success",
             "message" => "Pesanan berhasil dikirim",
