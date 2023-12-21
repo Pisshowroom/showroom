@@ -103,7 +103,7 @@ class OrderDataController extends Controller
 
         $order->load(['seller']);
         $seller = $order->seller;
-        if (!$seller && $seller->device_id != null) {
+        if ($seller != null && $seller->device_id != null) {
             $notificationTitle = "Pesanan Dibatalkan";
             $notificationSubTitle = "Pembeli telah membatalkan pesanannya";
             $notifLink = "/detail_penjualan-" . $order->id;
@@ -137,7 +137,7 @@ class OrderDataController extends Controller
         
         $order->load(['user']);
         $user = $order->user;
-        if (!$user && $user->device_id != null) {
+        if ($user != null && $user->device_id != null) {
             $notificationTitle = "Pesanan Dibatalkan";
             $notificationSubTitle = "Penjual telah membatalkan pesanan anda";
             
@@ -194,7 +194,7 @@ class OrderDataController extends Controller
         // exec("wkhtmltoimage --format png $html $output");
         $order->load(['user']);
         $user = $order->user;
-        if (!$user && $user->device_id != null) {
+        if ($user != null && $user->device_id != null) {
             $notificationTitle = "Pesanan Diproses";
             $notificationSubTitle = "Penjual sedang memproses pesanan anda";
 

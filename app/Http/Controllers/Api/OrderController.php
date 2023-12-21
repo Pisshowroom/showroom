@@ -288,7 +288,7 @@ class OrderController extends Controller
         $order->payment_status = Order::PAYMENT_PAID;
         $order->save();
 
-        $order->load(['order_items', 'user']);
+        $order->load(['order_items', 'user', 'seller']);
         $user = $order->user;
 
         if (count($order->order_items) > 0) {
@@ -318,8 +318,8 @@ class OrderController extends Controller
                 $product->save();
             }
         }
-        $seller = User::find($order->seller_id);
-        if (!$seller && $seller->device_id != null) {
+        $seller = $order->seller;
+        if ($seller != null && $seller->device_id != null) {
             $notificationTitle = "Ada Pesaanan Baru";
             $notificationSubTitle = "Pesanan sudah dibayar dengan Identifier : " . $external_id;
             $notifLink = "/detail_penjualan-" . $order->id;
