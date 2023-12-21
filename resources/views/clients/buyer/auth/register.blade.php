@@ -216,9 +216,15 @@
                             setTimeout(function() {
                                 $('#myDiv2').fadeOut('fast');
                             }, 2000);
+                            if ($('.loading').hasClass('show-modal')) {
+                                $('.loading').addClass('d-none').removeClass('show-modal');
+                            }
+
                         },
                         complete: function() {
-                            $('.loading').addClass('d-none').removeClass('show-modal');
+                            if ($('.loading').hasClass('show-modal')) {
+                                $('.loading').addClass('d-none').removeClass('show-modal');
+                            }
                         }
 
                     });
@@ -286,6 +292,10 @@
                                 $('#myDiv2').fadeOut('fast');
                             }, 2000);
                         }
+                        if ($('.loading').hasClass('show-modal')) {
+                            $('.loading').addClass('d-none').removeClass('show-modal');
+                        }
+
                     },
                     error: function(error) {
                         var div = document.getElementById('myDiv2');
@@ -295,9 +305,15 @@
                         setTimeout(function() {
                             $('#myDiv2').fadeOut('fast');
                         }, 2000);
+                        if ($('.loading').hasClass('show-modal')) {
+                            $('.loading').addClass('d-none').removeClass('show-modal');
+                        }
+
                     },
                     complete: function() {
-                        $('.loading').addClass('d-none').removeClass('show-modal');
+                        if ($('.loading').hasClass('show-modal')) {
+                            $('.loading').addClass('d-none').removeClass('show-modal');
+                        }
                     }
 
                 });

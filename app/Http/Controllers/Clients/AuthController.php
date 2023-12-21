@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         if ($request->uid) {
             $checkUser = User::where('uid', $request->uid)->first();
-            if ($checkUser) {
+            if ($checkUser && $checkUser->id) {
                 Auth::guard('web')->loginUsingId($checkUser->id, true);
                 return response()->json([
                     "status" => "success",
@@ -61,21 +61,37 @@ class AuthController extends Controller
                     $checkUser2->phone_number = null;
                     $checkUser2->email = uniqid() . $checkUser2->email;
                     $checkUser2->save();
-                }else{
-                    $user = new User;
-                    $user->uid = $request->uid;
-                    $user->api_token = bcrypt($request->api_token);
-                    $user->name = $request->username;
-                    $user->email = $request->username . '@gmail.com';
-                    // $user->image = $request->photoURL;
-                    $user->save();
-                    Auth::guard('web')->loginUsingId($user->id, true);
-                    return response()->json([
-                        "status" => "success",
-                        "api_token" => $user->api_token,
-                        "message" => "Berhasil Mendaftar"
+                } else {
+                    $checkUser3 = User::where('email', $request->username . '@gmail.com')->first();
+                    if ($checkUser3 && $checkUser3->id) {
+                        // if ($request->filled('device_id') && $request->device_id != null) {
+                        //     $checkUser3->device_id = $request->device_id;
+                        //     $checkUser3->save();
+                        // }
+                        Auth::guard('web')->loginUsingId($checkUser3->id, true);
+                        return response()->json([
+                            "status" => "success",
+                            "api_token" => $checkUser3->api_token,
+                            "message" => "Berhasil login"
+                        ]);
+                    } else {
+                        $user = new User;
+                        $user->uid = $request->uid;
+                        $user->api_token = bcrypt($request->api_token);
+                        $user->name = $request->username;
+                        $user->email = $request->username . '@gmail.com';
+                        // if ($request->filled('device_id') && $request->device_id != null) {
+                        //     $user->device_id = $request->device_id;
+                        // }
+                        $user->save();
+                        Auth::guard('web')->loginUsingId($user->id, true);
+                        return response()->json([
+                            "status" => "success",
+                            "api_token" => $user->api_token,
+                            "message" => "Berhasil Mendaftar"
 
-                    ]);
+                        ]);
+                    }
                 }
             }
         } else {
@@ -114,7 +130,7 @@ class AuthController extends Controller
         ]);
         if ($request->uid) {
             $checkUser = User::where('uid', $request->uid)->first();
-            if ($checkUser) {
+            if ($checkUser && $checkUser->id) {
                 Auth::guard('web')->loginUsingId($checkUser->id, true);
                 return response()->json([
                     "status" => "success",
@@ -122,8 +138,8 @@ class AuthController extends Controller
                 ]);
             } else {
                 $checkUser2 = User::where('email', $request->email)->first();
-                if ($checkUser2) {
-                    Auth::guard('web')->loginUsingId($checkUser->id, true);
+                if ($checkUser2 && $checkUser2->id) {
+                    Auth::guard('web')->loginUsingId($checkUser2->id, true);
                     return response()->json([
                         "status" => "success",
                         "message" => "Berhasil login"
@@ -173,7 +189,7 @@ class AuthController extends Controller
         ]);
         if ($request->uid) {
             $checkUser = User::where('uid', $request->uid)->first();
-            if ($checkUser) {
+            if ($checkUser && $checkUser->id) {
                 Auth::guard('web')->loginUsingId($checkUser->id, true);
                 return response()->json([
                     "status" => "info",
@@ -181,8 +197,8 @@ class AuthController extends Controller
                 ]);
             } else {
                 $checkUser2 = User::where('email', $request->email)->first();
-                if ($checkUser2) {
-                    Auth::guard('web')->loginUsingId($checkUser->id, true);
+                if ($checkUser2 && $checkUser2->id) {
+                    Auth::guard('web')->loginUsingId($checkUser2->id, true);
                     return response()->json([
                         "status" => "info",
                         "message" => "Kamu sudah punya akun"

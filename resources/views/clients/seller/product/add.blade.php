@@ -145,7 +145,9 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <h4>Gambar*(<span style="font-size: 13px">masing2 maksimal 2mb</span>)</h4>
-                            <a style="font-size: 12px" href="https://www.iloveimg.com/compress-image" target="_blank">Konvert gambar disini <span>https://www.iloveimg.com/compress-image</span></a>
+                            <a style="font-size: 12px" href="https://www.iloveimg.com/compress-image"
+                                target="_blank">Konvert gambar disini
+                                <span>https://www.iloveimg.com/compress-image</span></a>
                         </div>
                         <div class="card-body">
                             <div class="input-upload">
@@ -233,6 +235,7 @@
             //province
 
             $('.category_id').change(function() {
+                $('.loading').removeClass('d-none').addClass('show-modal');
                 $('.div_sub_category_id').css('display', 'block');
                 var id = this.value;
                 $.ajax({
@@ -250,8 +253,14 @@
                                 </option>`;
                         })
                         $(`.sub_category_id`).html(html);
+                    },
+                    complete: function() {
+                        $('.loading').addClass('d-none').removeClass('show-modal');
                     }
                 });
+                if ($('.loading').hasClass('show-modal')) {
+                    $('.loading').addClass('d-none').removeClass('show-modal');
+                }
             });
             $("#sub_category_id").select2({
                 placeholder: "Pilih Sub kategori",
