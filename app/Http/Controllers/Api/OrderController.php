@@ -324,7 +324,7 @@ class OrderController extends Controller
             $notificationSubTitle = "Pesanan sudah dibayar dengan Identifier : " . $external_id;
             $notifLink = "/detail_penjualan-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/toko/detail-transaksi/" . $order->identifier;
+            $notifLinkWeb = "/toko/detail-transaksi/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
@@ -492,7 +492,7 @@ class OrderController extends Controller
             array_push($products, $productTransformed);
         }
 
-        // create $identifier on Order::class i had getNextId() 
+        // create $identifier on Order::class i had getNextId()
 
 
         // $type = 'QRIS';

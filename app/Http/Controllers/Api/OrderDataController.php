@@ -108,7 +108,7 @@ class OrderDataController extends Controller
             $notificationSubTitle = "Pembeli telah membatalkan pesanannya";
             $notifLink = "/detail_penjualan-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/toko/detail-transaksi/" . $order->identifier;
+            $notifLinkWeb = "/toko/detail-transaksi/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
@@ -134,16 +134,16 @@ class OrderDataController extends Controller
     {
         $order->status = Order::CANCELLED;
         $order->save();
-        
+
         $order->load(['user']);
         $user = $order->user;
         if ($user != null && $user->device_id != null) {
             $notificationTitle = "Pesanan Dibatalkan";
             $notificationSubTitle = "Penjual telah membatalkan pesanan anda";
-            
+
             $notifLink = "/transaksi/detail-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
@@ -163,7 +163,7 @@ class OrderDataController extends Controller
             'delivery_service' => 'required|in:jne,jnt,sicepat,anteraja',
             'delivery_receipt_number' => 'required|string',
         ]);
-        
+
         $requestNew = new Request();
         $requestNew->replace([
             'delivery_service' => $request->delivery_service,
@@ -200,7 +200,7 @@ class OrderDataController extends Controller
 
             $notifLink = "/transaksi/detail-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
