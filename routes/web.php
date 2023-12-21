@@ -226,10 +226,12 @@ Route::group(['middleware' => ['auth:web']], function () {
 Route::get('/seller', [SellerController::class, 'home'])->name('seller.home');
 
 
-/* Route::get('/getb', function () {
-    createNotificationData(1, "Pesanan Masuk","Pesanan sudah dibayar dengan Identifier : 082934JHAsjhda",
-    null, null, null);
-}); */
+Route::get('/getb', function () {
+    // *1
+    /* createNotificationData(1, "Pesanan Masuk","Pesanan sudah dibayar dengan Identifier : 082934JHAsjhda",
+    null, null, null); */
+});
+
 
 Route::get('/geta', function () {
     abort(500, "Bad Request");

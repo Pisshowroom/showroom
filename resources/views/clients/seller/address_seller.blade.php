@@ -108,8 +108,8 @@
                                                     <div class="mb-3">
                                                         <label for="ro_subdistrict_id"
                                                             class="form-label w-100">Kecamatan:</label>
-                                                        <select id="ro_subdistrict_id" class="form-select ro_subdistrict_id" required
-                                                            name="ro_subdistrict_id">
+                                                        <select id="ro_subdistrict_id" class="form-select ro_subdistrict_id"
+                                                            required name="ro_subdistrict_id">
                                                             <option style="color:#232323;background:#f5f5f5 !important"
                                                                 selected disabled>Pilih
                                                                 Kecamatan</option>
@@ -127,16 +127,16 @@
                                                     <div class="mb-3">
                                                         <label for="ro_subdistrict_id"
                                                             class="form-label w-100">Kecamatan:</label>
-                                                        <select id="ro_subdistrict_id" class="form-select ro_subdistrict_id" required
-                                                            name="ro_subdistrict_id">
+                                                        <select id="ro_subdistrict_id" class="form-select ro_subdistrict_id"
+                                                            required name="ro_subdistrict_id">
                                                         </select>
                                                     </div>
                                                 </div>
                                             @endif
                                             <div class="form-group mb-3">
                                                 <label for="address_address">Alamat</label>
-                                                <input type="text" id="address-input" name="address_address" id="address_address"
-                                                    {{ $data->lat && $data->long ? '' : 'required' }}
+                                                <input type="text" id="address-input" name="address_address"
+                                                    id="address_address" {{ $data->lat && $data->long ? '' : 'required' }}
                                                     class="form-control map-input">
                                                 <input type="hidden" name="lat" id="address-latitude"
                                                     value="{{ $data->lat }}" value="0" />
@@ -165,14 +165,16 @@
                                                         <i class="icon material-icons md-home" style="color: #E9A92E"></i>
 
                                                         <input class="form-check-input" type="checkbox" id="for_seller"
-                                                            name="for_seller" {{ $data->for_seller == true ? 'checked' : '' }}>
+                                                            name="for_seller"
+                                                            {{ $data->for_seller == true ? 'checked' : '' }}>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div><br>
-                                <button class="btn btn-primary" type="submit" id="btn-updateSeller">Simpan Alamat</button>
+                                <button class="btn btn-primary" type="submit" id="btn-updateSeller">Simpan
+                                    Alamat</button>
                             </form>
                         </section>
                     </div>
@@ -383,6 +385,7 @@
         });
 
         $('.ro_province_id').change(function() {
+            $('.loading').removeClass('d-none').addClass('show-modal');
             $('.div_ro_city_id').css('display', 'block');
             var id = this.value;
             $.ajax({
@@ -400,8 +403,14 @@
                                 </option>`;
                     })
                     $(`.ro_city_id`).html(html);
+                },
+                complete: function() {
+                    $('.loading').addClass('d-none').removeClass('show-modal');
                 }
             });
+            if ($('.loading').hasClass('show-modal')) {
+                $('.loading').addClass('d-none').removeClass('show-modal');
+            }
         });
 
         //city
@@ -411,6 +420,7 @@
         });
 
         $('.ro_city_id').change(function() {
+            $('.loading').removeClass('d-none').addClass('show-modal');
             $('.div_ro_subdistrict_id').css('display', 'block');
             var id = this.value;
             $.ajax({
@@ -428,8 +438,15 @@
                                 </option>`;
                     })
                     $(`.ro_subdistrict_id`).html(html);
+                },
+                complete: function() {
+                    $('.loading').addClass('d-none').removeClass('show-modal');
                 }
             });
+            if ($('.loading').hasClass('show-modal')) {
+                $('.loading').addClass('d-none').removeClass('show-modal');
+            }
+
         });
 
         // district

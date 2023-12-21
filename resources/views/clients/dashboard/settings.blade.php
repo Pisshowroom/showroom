@@ -473,6 +473,7 @@
         });
 
         $('.ro_province_id').change(function() {
+            $('.loading').removeClass('d-none').addClass('show-modal');
             $('.div_ro_city_id').css('display', 'block');
             var id = this.value;
             $.ajax({
@@ -490,8 +491,14 @@
                                 </option>`;
                     })
                     $(`.ro_city_id`).html(html);
+                },
+                complete: function() {
+                    $('.loading').addClass('d-none').removeClass('show-modal');
                 }
             });
+            if ($('.loading').hasClass('show-modal')) {
+                $('.loading').addClass('d-none').removeClass('show-modal');
+            }
         });
 
         //city
@@ -501,6 +508,7 @@
         });
 
         $('.ro_city_id').change(function() {
+            $('.loading').removeClass('d-none').addClass('show-modal');
             $('.div_ro_subdistrict_id').css('display', 'block');
             var id = this.value;
             $.ajax({
@@ -518,8 +526,14 @@
                                 </option>`;
                     })
                     $(`.ro_subdistrict_id`).html(html);
+                },
+                complete: function() {
+                    $('.loading').addClass('d-none').removeClass('show-modal');
                 }
             });
+            if ($('.loading').hasClass('show-modal')) {
+                $('.loading').addClass('d-none').removeClass('show-modal');
+            }
         });
 
         // district
