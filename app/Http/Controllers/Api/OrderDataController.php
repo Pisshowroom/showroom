@@ -108,7 +108,7 @@ class OrderDataController extends Controller
             $notificationSubTitle = "Pembeli telah membatalkan pesanannya";
             $notifLink = "/detail_penjualan-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/toko/detail-transaksi/" . $order->identifier;
+            $notifLinkWeb = "/toko/detail-transaksi/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
@@ -143,7 +143,7 @@ class OrderDataController extends Controller
             
             $notifLink = "/transaksi/detail-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
@@ -200,7 +200,7 @@ class OrderDataController extends Controller
 
             $notifLink = "/transaksi/detail-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
