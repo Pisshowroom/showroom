@@ -245,11 +245,35 @@ class DashboardController extends Controller
         $user = Auth::guard('web')->user();
         $identifier = $request->identifier;
         $page = $request->page;
-        Order::where('payment_identifier', $identifier)->update(['status' => 'Cancelled']);
+       $order= Order::where('payment_identifier', $identifier)->firstOrFail();
+
+        $order->status = Order::CANCELLED;
+        $order->save();
+
         if ($page == 'dashboardSeller.dashboard' or $page == 'dashboardSeller.allTransaction')
             return redirect()->route($page)->with('success', 'Berhasil membatalkan transaksi')->with('auth', base64_encode($user->uid));
-        else
+        else{
+            $order->load(['seller']);
+            $seller = $order->seller;
+            if (!$seller && $seller->device_id != null) {
+                $notificationTitle = "Pesanan Dibatalkan";
+                $notificationSubTitle = "Pembeli telah membatalkan pesanannya";
+                $notifLink = "/detail_penjualan-" . $order->id;
+                $notifLinkLabel = "Lihat Pesanan";
+                $notifLinkWeb = "/toko/detail-transaksi/" . $order->identifier;
+                $dataNotif = [
+                    'type' => "new-notification",
+                    'notifLink' => $notifLink,
+                    'notifLinkLabel' => $notifLinkLabel,
+                    'notifLinkWeb' => $notifLinkWeb
+                ];
+                createNotificationData($seller->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+                sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $seller->device_id);
+            }
+    
             return redirect()->route($page)->with('success', 'Berhasil membatalkan pesanan')->with('auth', base64_encode($user->uid));
+
+        }
     }
     public function deleteOrder(Request $request)
     {
