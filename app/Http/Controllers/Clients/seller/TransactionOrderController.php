@@ -124,13 +124,13 @@ class TransactionOrderController extends Controller
         $order->save();
         $order->load(['user']);
         $user = $order->user;
-        if (!$user && $user->device_id != null) {
+        if ($user && $user->device_id != null) {
             $notificationTitle = "Pesanan Dibatalkan";
             $notificationSubTitle = "Penjual telah membatalkan pesanan anda";
-            
+
             $notifLink = "/transaksi/detail-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
@@ -179,13 +179,13 @@ class TransactionOrderController extends Controller
         $order->save();
         $order->load(['user']);
         $user = $order->user;
-        if (!$user && $user->device_id != null) {
+        if ($user && $user->device_id != null) {
             $notificationTitle = "Pesanan Diproses";
             $notificationSubTitle = "Penjual sedang memproses pesanan anda";
 
             $notifLink = "/transaksi/detail-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->identifier;
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,

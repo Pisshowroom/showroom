@@ -492,7 +492,7 @@ class OrderController extends Controller
             array_push($products, $productTransformed);
         }
 
-        // create $identifier on Order::class i had getNextId() 
+        // create $identifier on Order::class i had getNextId()
 
 
         // $type = 'QRIS';
