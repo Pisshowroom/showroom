@@ -569,7 +569,6 @@ class OrderController extends Controller
         $countOrderToday = DB::table('orders')->whereDate('created_at', now())->count();
         $identifier = str_pad(now()->day, 2, '0', STR_PAD_LEFT) . strtoupper(now()->format("M")) . now()->format('y') . 'ORD' . str_pad(($countOrderToday + 1), 3, '0', STR_PAD_LEFT) . env('XND_ID');
 
-
         $orderItems = json_decode($request->order_items, true);
 
         $order = new Order();
@@ -702,7 +701,7 @@ class OrderController extends Controller
         $order->subtotal = $subTotal;
         $order->market_fee_buyer = $buyerFee;
         $order->delivery_estimation_day = $request->delivery_estimation_day;
-        $order->delivery_service_code = $request->delivery_code;
+        $order->delivery_service_code = codeServiceDelivery($request->delivery_code);
         $order->delivery_service_name = $request->delivery_name;
         $order->delivery_service_kind = $request->delivery_service;
         $order->note = $request->note ?? null;
@@ -751,7 +750,7 @@ class OrderController extends Controller
     {
         $request->validate([
             'delivery_receipt_number' => 'required',
-            'delivery_service' => 'required',
+            'delivery_service' => 'required|in:jne,jnt,sicepat,anteraja',
             'just_json' => 'nullable',
         ]);
 
@@ -780,7 +779,7 @@ class OrderController extends Controller
 
             if ($httpCode >= 400) {
                 $rajaOngkirResponse = json_decode($res);
-                $errorCode = $rajaOngkirResponse->rajaongkir->status->code;
+                // $errorCode = $rajaOngkirResponse->rajaongkir->status->code;
                 $errorDescription = $rajaOngkirResponse->rajaongkir->status->description;
                 throw new Exception("Error checking waybill: $errorDescription", 404);
             }

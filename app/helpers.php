@@ -59,6 +59,15 @@ function phoneGeneralize($phone)
     return '+' . $phone;
 }
 
+// tolowercase
+function codeServiceDelivery($string)
+{
+    if ($string == 'J&T' || $string == 'j&t')
+        $string = 'jnt';
+
+    return strtolower($string);
+}
+
 function createNotificationData(int $user_id, String $title, String $subtitle, String $content = null, String $link = null, String $link_label = null, $link_web = null)
 {
     $notification = new Notification();
@@ -743,4 +752,3 @@ function sendMessage($title, $message, $data, $device_id, $send_all = false, $im
 
     return $response;
 }
-

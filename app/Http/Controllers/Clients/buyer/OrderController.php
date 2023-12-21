@@ -671,7 +671,7 @@ class OrderController extends Controller
         $order->subtotal = $subTotal;
         $order->market_fee_buyer = $buyerFee;
         $order->delivery_estimation_day = $request->delivery_estimation_day;
-        $order->delivery_service_code = $request->delivery_code;
+        $order->delivery_service_code = codeServiceDelivery($request->delivery_code);
         $order->delivery_service_name = $request->delivery_name;
         $order->delivery_service_kind = $request->delivery_service;
         $order->note = 'Tolong hati hati';
