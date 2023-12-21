@@ -11,7 +11,12 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // protected $guarded = [];
+    // protected $guarded = [];   
+
+    protected $fillable = [
+        "status"
+    ];
+
     protected $casts = [
         'is_reviewed' => 'boolean',
         'returning_images' => 'array'
@@ -112,4 +117,21 @@ class Order extends Model
     const PAYMENT_PAID = 'PaymentPaid';
     const PAYMENT_CANCELLED = 'PaymentCancelled';
     const PAYMENT_EXPIRED = 'PaymentExpired';
+
+    /* protected $fillable = [
+        'user_id', 'seller_id', 'address_id', 'master_account_id',
+        'status', 'payment_status', 'payment_type', 'payment_code',
+        'shipping_courier', 'shipping_service', 'shipping_cost',
+        'shipping_receipt', 'shipping_receipt_date', 'shipping_receipt_name',
+        'shipping_receipt_address', 'shipping_receipt_phone_number',
+        'shipping_receipt_image', 'shipping_receipt_note',
+        'returning_product_type', 'returning_images', 'returning_note',
+        'is_reviewed', 'review_rating', 'review_note',
+        'expired_at', 'paid_at', 'processed_at', 'shipped_at', 'delivered_at',
+        'refunded_at', 'returned_at', 'completed_at', 'cancelled_at',
+        'complaint_at', 'complaint_accepted_at', 'complaint_declined_at',
+        'complaint_completed_at', 'created_at', 'updated_at', 'deleted_at'
+    ]; */
+    
+    
 }
