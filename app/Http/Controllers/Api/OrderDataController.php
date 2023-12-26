@@ -173,6 +173,7 @@ class OrderDataController extends Controller
         // TODOS : Uncomment This
         // $orderController = new OrderController();
         // $orderController->waybillCheck($requestNew);
+
         $order->delivery_receipt_number = $request->delivery_receipt_number;
         $order->status = Order::SHIPPED;
         $order->save();
@@ -217,16 +218,70 @@ class OrderDataController extends Controller
     public function checkStatusDeliveredOrder(Order $order)
     {
 
-        // TODOS : Call Waybill check if not error property delivered == true
         $dateFromDelivery = now();
+        $requestNew = new Request();
+        $requestNew->replace([
+            'delivery_service' => $order->delivery_service_code,
+            'delivery_receipt_number' => $order->delivery_receipt_number,
+            'just_json' => true,
+        ]);
+        $result = false;
+
+        DB::beginTransaction();
 
         if ($order->status == Order::SHIPPED) {
-            $order->status = Order::DELIVERED;
-            $order->delivered_at = $dateFromDelivery;
-            $order->save();
+            try {
+                $requestNew = new Request();
+                $requestNew->replace([
+                    'delivery_service' => $order->delivery_service_code,
+                    'delivery_receipt_number' => $order->delivery_receipt_number,
+                    'just_json' => true,
+                ]);
+                $orderController = new OrderController();
+                $resultWaybill = $orderController->waybillCheck($requestNew);
+                // dd($resultWaybill);
+
+                if ($resultWaybill != null && $resultWaybill->delivered == true) {
+                    $order->status = Order::DELIVERED;
+                    $order->delivered_at = $dateFromDelivery;
+                    $order->save();
+
+                    $order->load(['user']);
+                    $user = $order->user;
+
+                    if ($user != null && $user->device_id != null) {
+                        $notificationTitle = "Pesanan Telah Sampai";
+                        $notificationSubTitle = "Pesanan anda telah sampai ketujuan";
+
+                        $notifLink = "/transaksi/detail-" . $order->id;
+                        $notifLinkLabel = "Lihat Pesanan";
+                        $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
+                        $dataNotif = [
+                            'type' => "new-notification",
+                            'notifLink' => $notifLink,
+                            'notifLinkLabel' => $notifLinkLabel,
+                            'notifLinkWeb' => $notifLinkWeb
+                        ];
+                        createNotificationData($user->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+                        sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
+                    }
+                    $result = true;
+                }
+            } catch (\Exception $th) {
+                $result = false;
+                goto skipToReturnApi;
+                // throw $th;
+            }
         }
 
-        return ResponseAPI('Pesanan telah sampai ketujuan', 200);
+        DB::commit();
+
+        skipToReturnApi:
+        if ($result) {
+            return ResponseAPI('Pesanan telah sampai ketujuan', 200);
+        } else {
+            return ResponseAPI('Pesanan belum sampai ketujuan', 400);
+        }
     }
 
     public function completedOrder(Order $order)
@@ -278,6 +333,25 @@ class OrderDataController extends Controller
         $historyFund->amount = $totalIncome;
         $historyFund->name = "Penjualan #" . $order->payment_identifier;
         $historyFund->save();
+
+        $order->load(['seller']);
+        $seller = $order->seller;
+        if ($seller != null && $seller->device_id != null) {
+            $notificationTitle = "Pesanan Sudah Selesai";
+            $notificationSubTitle = "Pesanan Telah Sampai ke pembeli";
+
+            $notifLink = "/transaksi/detail-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($seller->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $seller->device_id);
+        }
 
         DB::commit();
         return ResponseAPI('Pesanan berhasil diselesaikan', 200);
@@ -390,13 +464,45 @@ class OrderDataController extends Controller
         $request->validate([
             'returning_delivery_service_code' => 'required',
             'returning_delivery_service_name' => 'required',
+            // 'returning_delivery_service_name' => 'required',
         ]);
+        
+        // TODOS : Uncomment This - Fix Also Code And Receipt
+        // $requestNew = new Request();
+        // $requestNew->replace([
+        //     'delivery_service' => codeServiceDelivery($request->returning_delivery_service_name),
+        //     'delivery_receipt_number' => $request->returning_delivery_service_code,
+        //     'just_json' => true,
+        // ]);
+        // $orderController = new OrderController();
+        // $orderController->waybillCheck($requestNew);
+        DB::beginTransaction();
 
         $order->returning_delivery_service_code = $request->returning_delivery_service_code;
         $order->returning_delivery_service_name = $request->returning_delivery_service_name;
         $order->status = Order::RETURN_SHIPPED;
-
         $order->save();
+
+        $order->load(['seller']);
+        $seller = $order->seller;
+        if ($seller != null && $seller->device_id != null) {
+            $notificationTitle = "Pengembalian Pesanan";
+            $notificationSubTitle = "Pembeli telah mengirimkan pesanan yang dikembalikan";
+
+            $notifLink = "/transaksi/detail-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($seller->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $seller->device_id);
+        }
+
+        DB::commit();
         return ResponseAPI('Permintaan pengembalian dikonfirmasi', 200);
     }
 
@@ -417,6 +523,28 @@ class OrderDataController extends Controller
         $order->status = Order::RETURN_COMPLETED;
 
         $order->save();
+
+        $order->load(['user']);
+        $user = $order->user;
+        if ($user != null && $user->device_id != null) {
+            $notificationTitle = "Pesanan Berhasil Dikembalikan";
+            $notificationSubTitle = "Pesanannya telah dikembalikan oleh pembeli";
+
+            $notifLink = "/transaksi/detail-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($user->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
+        }
+
+
+
         DB::commit();
         return ResponseAPI('Pengembalian barang selesai', 200);
     }

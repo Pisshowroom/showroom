@@ -1,50 +1,58 @@
 <template>
-    <div>
-        <Table :url="`/admin/order/index`" :cols="cols" :title="'Daftar Pesanan'" :dropdownAction="true" :searching="true" ref="datatable">
-        </Table>
+  <div>
+    <Table
+      :url="`/admin/order/index`"
+      :cols="cols"
+      :title="'Daftar Pesanan'"
+      :dropdownAction="true"
+      :searching="true"
+      ref="datatable"
+    >
+    </Table>
 
-        <div :style="{ height: '70vh' }">
-        </div>
-
-    </div>
+    <div :style="{ height: '70vh' }"></div>
+  </div>
 </template>
   
 <script setup lang="ts">
-import { useHead } from '@vueuse/head';
-import { useAppStore } from '@/stores/index';
-import globalComponents from '@/global-components';
+import { useHead } from "@vueuse/head";
+import { useAppStore } from "@/stores/index";
+import globalComponents from "@/global-components";
 
 // @ts-ignore
-import Table from '@/components/plugins/Table.vue';
-import { inject, onMounted, reactive, ref, computed } from 'vue';
-import { Axios } from 'axios';
-import auth from '@/services/auth.service';
+import Table from "@/components/plugins/Table.vue";
+import { inject, onMounted, reactive, ref, computed } from "vue";
+import { Axios } from "axios";
+import auth from "@/services/auth.service";
 const store = useAppStore();
-const axios = <Axios>inject('axios');
+const axios = <Axios>inject("axios");
 let data: any = ref({});
-const titleActivity: any = ref('Harian');
+const titleActivity: any = ref("Harian");
 const datatable: any = ref(null);
-const titleActivity2: any = ref('Harian');
+const titleActivity2: any = ref("Harian");
 let user: any = auth.users();
 
-
 useHead({
-    title: 'Pesanan',
+  title: "Pesanan",
 });
 
 const cols =
   ref([
     // { field: 'number', title: 'No', slot: true, sort: false },
-    { field: 'payment_identifier', title: 'No. Invoice', sort: false },
-    { field: 'market_fee_buyer', title: 'PI Fee Buyer', sort: false },
-    { field: 'market_fee_seller', title: 'PI Fee Seller', sort: false },
-    { field: 'payment_channel', title: 'Channel Pembayaran', sort: false },
+    { field: "payment_identifier", title: "No. Invoice", sort: false },
+    { field: "market_fee_buyer", title: "PI Fee Buyer", sort: false },
+    { field: "market_fee_seller", title: "PI Fee Seller", sort: false },
+    { field: "payment_channel", title: "Channel Pembayaran", sort: false },
+    // status
+    { field: "status", title: "Status", sort: false },
     {
-      field: 'total',  
+      field: "total",
       title: "Total",
       sort: false,
       cellRenderer: (item: any) => {
-         return globalComponents.formatPrice(item.total_final ? item.total_final : item.total);
+        return globalComponents.formatPrice(
+          item.total_final ? item.total_final : item.total
+        );
       },
     },
     /* {
@@ -85,7 +93,7 @@ const cols =
     // { field: 'actions', title: 'Aksi', slot: true, sort: false },
   ]) || [];
 
-  const actions = ref([
+const actions = ref([
   /* {
     type: 'editDropdown',
     to: ({ value }) => {
@@ -100,30 +108,19 @@ const cols =
   }, */
 ]);
 
-
-var statsCount: any = ref({});
 const activitySeries: any = ref([]);
 
 const getData = async () => {
-    store.isShowMainLoader = true;
-    const tempData = (await axios.get('/admin/dashboard2')).data;
-    statsCount.value = (await axios.get('/admin/dashboard2')).data;
-    console.log(statsCount.value);
-    store.isShowMainLoader = false;
-    // const response = (await axios.get('/admin/educational-institution/teacher/murajaah')).data;
-
-
-    // data.value = response;
+  // store.isShowMainLoader = true;
+  // store.isShowMainLoader = false;
+  // const response = (await axios.get('/admin/educational-institution/teacher/murajaah')).data;
+  // data.value = response;
 };
 
-
-
-
 onMounted(async () => {
-    if (auth.isAuthenticated() && auth.getToken() != false) {
-        await getChart();
-    }
-    await getData();
+  if (auth.isAuthenticated() && auth.getToken() != false) {
+  }
+  await getData();
 });
 </script>
   

@@ -62,20 +62,36 @@ class AuthController extends Controller
                     $checkUser2->email = uniqid() . $checkUser2->email;
                     $checkUser2->save();
                 } else {
-                    $user = new User;
-                    $user->uid = $request->uid;
-                    $user->api_token = bcrypt($request->api_token);
-                    $user->name = $request->username;
-                    $user->email = $request->username . '@gmail.com';
-                    // $user->image = $request->photoURL;
-                    $user->save();
-                    Auth::guard('web')->loginUsingId($user->id, true);
-                    return response()->json([
-                        "status" => "success",
-                        "api_token" => $user->api_token,
-                        "message" => "Berhasil Mendaftar"
+                    $checkUser3 = User::where('email', $request->username . '@gmail.com')->first();
+                    if ($checkUser3 && $checkUser3->id) {
+                        // if ($request->filled('device_id') && $request->device_id != null) {
+                        //     $checkUser3->device_id = $request->device_id;
+                        //     $checkUser3->save();
+                        // }
+                        Auth::guard('web')->loginUsingId($checkUser3->id, true);
+                        return response()->json([
+                            "status" => "success",
+                            "api_token" => $checkUser3->api_token,
+                            "message" => "Berhasil login"
+                        ]);
+                    } else {
+                        $user = new User;
+                        $user->uid = $request->uid;
+                        $user->api_token = bcrypt($request->api_token);
+                        $user->name = $request->username;
+                        $user->email = $request->username . '@gmail.com';
+                        // if ($request->filled('device_id') && $request->device_id != null) {
+                        //     $user->device_id = $request->device_id;
+                        // }
+                        $user->save();
+                        Auth::guard('web')->loginUsingId($user->id, true);
+                        return response()->json([
+                            "status" => "success",
+                            "api_token" => $user->api_token,
+                            "message" => "Berhasil Mendaftar"
 
-                    ]);
+                        ]);
+                    }
                 }
             }
         } else {
