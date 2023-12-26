@@ -10,9 +10,10 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = Order::with(['user'])->where('status', 'NOT LIKE', '%Complaint%')
-        ->where('status', 'NOT LIKE', '%Return%')
-        ->where('status', 'NOT LIKE', '%Refund%')
+        $orders = Order::with(['user'])
+        // ->where('status', 'NOT LIKE', '%Complaint%')
+        // ->where('status', 'NOT LIKE', '%Return%')
+        // ->where('status', 'NOT LIKE', '%Refund%')
         ->when($request->filled('search'), function ($query) use ($request) {
             $query->where('payment_identifier', 'like', "%$request->search%");
         })
