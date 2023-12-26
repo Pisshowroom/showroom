@@ -9,19 +9,19 @@ use Illuminate\Support\Facades\DB;
 
 class RefundController extends Controller
 {
-    // List Order Status Refund
-    public function index()
+    public function index(Request $request)
     {
         // query where status %like% Refund
-        $oders = Order::where('status', 'like', '%Refund%')
+        $orders = Order::ith(['user'])->where('status', 'like', "%Refund%")
         // create orderBy status RequestedRefund,ReturnShipped,ReturnDelivered
-        ->orderByRaw(DB::raw("FIELD(status, 'RequestedRefund', 'ReturnShipped', 'ReturnDelivered')"))
-        ->get();
+        // ->orderByRaw(DB::raw("FIELD(status, 'RequestedRefund', 'ReturnShipped', 'ReturnDelivered')"))
+        ->orderBy(DB::raw("FIELD(status, 'RequestedRefund', 'ReturnShipped', 'ReturnDelivered')"))
+        ->paginate($request->per_page ?? 15);
 
-        return view('admin.refund.index', compact('orders'));
+        // return view('admin.refund.index', compact('orders'));
+        return $orders;
     }
 
-    // Show Detail Order Status Refund
     public function show(Order $order)
     {
         $order->load(['user', 'order_items', 'product', 'master_account']);

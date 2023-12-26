@@ -325,7 +325,7 @@ const orderNumber = (key): Number => {
   return page.value * pageSize.value - pageSize.value + (key + 1);
 };
 
-async function getData() {
+async function getData(paramsCustom?: any) {
   try {
     loading.value = true;
     const response = (
@@ -336,6 +336,7 @@ async function getData() {
           search: search.value,
           col: col.value,
           dir: dir.value,
+          ...paramsCustom,
         },
       })
     ).data;
@@ -352,6 +353,7 @@ async function getData() {
   } catch (error) {}
   loading.value = false;
 }
+
 const randomStatusColor = () => {
   const color = [
     "primary",

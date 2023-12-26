@@ -10,9 +10,17 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = Order::when($request->filled('search'), function ($query) use ($request) {
+        $orders = Order::with(['user'])->where('status', 'NOT LIKE', '%Complaint%')
+        ->where('status', 'NOT LIKE', '%Return%')
+        ->where('status', 'NOT LIKE', '%Refund%')
+        ->when($request->filled('search'), function ($query) use ($request) {
             $query->where('payment_identifier', 'like', "%$request->search%");
-        })->paginate($request->per_page ?? 15);
+        })
+        ->when($request->filled('statusRequest'), function ($query) use ($request) {
+            $query->where('status', $request->statusRequest);
+        })
+        ->orderBy('created_at')
+        ->paginate($request->per_page ?? 15);
 
         return $orders;
     }

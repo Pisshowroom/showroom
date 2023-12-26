@@ -122,6 +122,30 @@ export default [
         name: "admin.setting.edit",
         component: () => import("../../views/admin/setting/SettingForm.vue"),
     },
+
+    {
+        path: "/admin/refund/index",
+        name: "admin.refund.index",
+        component: () => import("../../views/admin/refund/RefundIndex.vue"),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
+    {
+        path: "/admin/refund/form",
+        name: "admin.refund.form",
+        component: () => import("../../views/admin/refund/RefundForm.vue"),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
+    {
+        path: "/admin/refund/edit/:id",
+        name: "admin.refund.edit",
+        component: () => import("../../views/admin/refund/RefundForm.vue"),
+    },
     // {
     //     path: '/institution/prodi/edit/:id',
     //     name: 'institution-prodi.edit',

@@ -59,7 +59,7 @@ Route::get("just-categories", [HomeController::class, 'justCategories']);
 Route::get("sub-categories", [HomeController::class, 'subCategories']);
 Route::POST("manual-create-pay-req", [OrderController::class, 'manualCreatePayReq']);
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
     Route::get('/dashboard2', [DashboardController::class, 'index']);
     Route::get('/activity-orders', [DashboardController::class, 'activityOrders']);
     // Route::get('/order', [AdminOrderController::class, 'index']);
@@ -94,11 +94,18 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     Route::group(['prefix' => 'sliders', 'middleware' => 'auth:api-client'], function () {
-        Route::get('/', [SliderController::class, 'index']);
+        Route::get('/index', [SliderController::class, 'index']);
         Route::post('/', [SliderController::class, 'store']);
         Route::get('/{slider}', [SliderController::class, 'show']);
         Route::post('update/{slider}', [SliderController::class, 'update']);
         Route::delete('/{slider}', [SliderController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'refunds'], function () {
+        Route::get('/index', [AdminRefundController::class, 'index']);
+        // Route::post('/', [AdminRefundController::class, 'store']);
+        Route::get('/{refund}', [AdminRefundController::class, 'show']);
+        Route::delete('/{refund}', [AdminRefundController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'ads'], function () {

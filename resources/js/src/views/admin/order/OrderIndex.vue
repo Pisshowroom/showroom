@@ -1,5 +1,22 @@
 <template>
   <div>
+    <div class="flex flex-wrap mb-2 gap-3">
+      <div class="flex flex-col">
+        <label class="font-semibold" for="faculty">Status</label>
+        <multiselect
+          id="status"
+          v-model="statusRequest"
+          :options="statusesOption"
+          :searchable="true"
+          :multiple="false"
+          selected-label=""
+          :placeholder="'Data tidak ditemukan'"
+          select-label=""
+          deselect-label=""
+          @select="setStatusRequest"
+        ></multiselect>
+      </div>
+    </div>
     <Table
       :url="`/admin/order/index`"
       :cols="cols"
@@ -15,13 +32,15 @@
 </template>
   
 <script setup lang="ts">
+import Multiselect from "@suadelabs/vue3-multiselect";
+import "@suadelabs/vue3-multiselect/dist/vue3-multiselect.css";
 import { useHead } from "@vueuse/head";
 import { useAppStore } from "@/stores/index";
 import globalComponents from "@/global-components";
 
 // @ts-ignore
 import Table from "@/components/plugins/Table.vue";
-import { inject, onMounted, reactive, ref, computed } from "vue";
+import { inject, onMounted, reactive, ref, nextTick } from "vue";
 import { Axios } from "axios";
 import auth from "@/services/auth.service";
 const store = useAppStore();
@@ -39,12 +58,69 @@ useHead({
 const cols =
   ref([
     // { field: 'number', title: 'No', slot: true, sort: false },
-    { field: "payment_identifier", title: "No. Invoice", sort: false },
-    { field: "market_fee_buyer", title: "PI Fee Buyer", sort: false },
-    { field: "market_fee_seller", title: "PI Fee Seller", sort: false },
+    { field: "payment_identifier", title: "No. Invoice", sort: true },
+    {
+      field: "nama_user",
+      title: "Nama Pembeli",
+      sort: false,
+      cellRenderer: (item: any) => {
+        return item?.user?.name ?? "-";
+      },
+    },
+    { field: "market_fee_buyer", title: " Fee Buyer", sort: false },
+    { field: "market_fee_seller", title: " Fee Seller", sort: false },
     { field: "payment_channel", title: "Channel Pembayaran", sort: false },
-    // status
-    { field: "status", title: "Status", sort: false },
+    {
+      field: "created_at",
+      title: "Tanggal",
+      sort: false,
+      cellRenderer: (item: any) => {
+        return globalComponents.formatDateTime(item.created_at);
+      },
+    },
+    // { field: "status", title: "Status", sort: false , cellRenderer: (item: any) => {
+    {
+      field: "status",
+      title: "Status",
+      sort: false,
+      cellRenderer: (item: any) => {
+        let badgeBgColor = "";
+        let badgeText = item.status;
+
+        switch (badgeText) {
+          case "Pending":
+            badgeBgColor = "#FFC107";
+            break;
+          case "Paid":
+            badgeBgColor = "#28A745";
+            break;
+          case "Completed":
+            badgeBgColor = "#007BFF";
+            break;
+          case "ProcessedBySeller":
+            badgeBgColor = "#17A2B8";
+            break;
+          case "Shipped":
+            badgeBgColor = "#6610F2";
+            break;
+          case "Delivered":
+            badgeBgColor = "#894dd7";
+            break;
+          case "ExpiredPayment":
+            badgeBgColor = "#6C757D";
+            break;
+          case "Cancelled":
+            badgeBgColor = "#FF0000";
+            break;
+          default:
+            badgeBgColor = "#000000";
+            break;
+        }
+
+        return `<span class="badge" style="background-color: ${badgeBgColor};">${badgeText}</span>`;
+      },
+    },
+
     {
       field: "total",
       title: "Total",
@@ -55,42 +131,6 @@ const cols =
         );
       },
     },
-    /* {
-      field: 'faculty',
-      title: type == 'campus' ? 'Fakultas' : type == 'school' ? 'Kelas' : type == 'business_organization' ? 'Divisi' : '',
-      sort: false,
-    },
-    {
-      field: 'educational_user.educational_prodi.name',
-      title: type == 'campus' ? 'Prodi' : '',
-      sort: false,
-      cellRenderer: (item: any) => {
-        if (type == 'campus') return item.educational_user?.educational_prodi?.name;
-        else return '';
-      },
-    },
-    {
-      field: 'educational_user.generation',
-      sort: false,
-      title: 'Angkatan',
-      cellRenderer: (item: any) => {
-        return item.educational_user?.generation;
-      },
-    },
-    {
-      field: 'nameWithRoundedImage3',
-      title: type == 'campus' ? 'Dosen Pembimbing' : type == 'school' ? 'Guru Pembimbing' : type == 'business_organization' ? 'Ustadz Pembimbing' : '',
-      sort: false,
-    },
-    {
-      field: 'label',
-      title: 'Klasifikasi',
-      cellRenderer: (item: any) => {
-        return item && item.educational_user && item.educational_user.educational_label ? item.educational_user.educational_label.label : '';
-      },
-      sort: false,
-    }, */
-    // { field: 'actions', title: 'Aksi', slot: true, sort: false },
   ]) || [];
 
 const actions = ref([
@@ -109,12 +149,59 @@ const actions = ref([
 ]);
 
 const activitySeries: any = ref([]);
+// create variable ["BNI", "SHOPEEPAY"]
+const paymentChannels: any = ref(["BNI", "SHOPEEPAY"]);
+
+let statusRequest = ref(null);
+
+const statusesOption: any = ref([
+  "Pending",
+  "Paid",
+  "Completed",
+  "ProcessedBySeller",
+  "Shipped",
+  "Delivered",
+  "ExpiredPayment",
+  "Cancelled",
+]);
+
+/* 
+"RequestedRefund",
+  "RefundAccepted",
+  "RefundDone",
+  "RefundDeclined",
+  "RequestedReturn",
+  "ReturnAccepted",
+  "ReturnShipped",
+  "ReturnDelivered",
+  "ReturnCompleted",
+  "Complaint",
+  "ComplaintAccepted",
+  "ComplaintDeclined",
+  "ComplaintCompleted",
+*/
+let filterParams = reactive({});
+
+const setStatusRequest = (value: any) => {
+  // statusRequest.value = value;
+  // statusRequest.value = value;
+  nextTick(() => {
+    console.log("statusRequest.value");
+    console.log(statusRequest.value);
+    Object.assign(filterParams, { statusRequest: statusRequest.value });
+    runTheFilter();
+  });
+};
 
 const getData = async () => {
   // store.isShowMainLoader = true;
   // store.isShowMainLoader = false;
   // const response = (await axios.get('/admin/educational-institution/teacher/murajaah')).data;
   // data.value = response;
+};
+
+const runTheFilter = (value?: any) => {
+  datatable.value.getData(filterParams);
 };
 
 onMounted(async () => {

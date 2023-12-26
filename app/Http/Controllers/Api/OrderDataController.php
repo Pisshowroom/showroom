@@ -36,7 +36,32 @@ class OrderDataController extends Controller
             ->with(['single_order_item_with_product.product.parent', 'single_order_item_with_product.product.seller'])->paginate(20);
 
         return OrderResource::collection($orders);
+
+    }    
+
+    public function ordersPackingDueEnded()
+    {
+        Order::where('status', Order::PROCESSED_BY_SELLER)->where('packing_due', '<=', now())->update(['status' => Order::CANCELLED]);
+
+        return ResponseAPI('Pesanan yang tidak dikemas telah dibatalkan', 200);
     }
+
+    public function completedOrderDueEnded()
+    {
+        Order::where('status', Order::DELIVERED)->where('completed_order_due', '<=', now())->update(['status' => Order::COMPLETED]);
+
+        return ResponseAPI('Pesanan yang tidak dikemas telah dibatalkan', 200);
+    }
+
+    // paymentDueEnded to Cancelled
+    public function paymentDueEnded()
+    {
+        Order::where('status', Order::PENDING)->where('payment_due', '<=', now())->update(['status' => Order::CANCELLED]);
+
+        return ResponseAPI('Pesanan yang tidak dibayar telah dibatalkan', 200);
+    }
+    
+    
 
     public function detail(Order $order)
     {
@@ -461,23 +486,25 @@ class OrderDataController extends Controller
 
     public function buyerSendingOrder(Order $order, Request $request)
     {
+        // TODOS : Perbarui Postman dan Info ke tim
         $request->validate([
-            'returning_delivery_service_code' => 'required',
-            'returning_delivery_service_name' => 'required',
-            // 'returning_delivery_service_name' => 'required',
+            'returning_delivery_service_code' => 'required|in:jne:jnt:sicepat:anteraja',
+            'returning_delivery_service_name' => 'nullable|string',
+            'returning_delivery_service_receipt' => 'required',
         ]);
         
         // TODOS : Uncomment This - Fix Also Code And Receipt
         // $requestNew = new Request();
         // $requestNew->replace([
-        //     'delivery_service' => codeServiceDelivery($request->returning_delivery_service_name),
-        //     'delivery_receipt_number' => $request->returning_delivery_service_code,
+        //     'delivery_service' => codeServiceDelivery($request->returning_delivery_service_code),
+        //     'delivery_receipt_number' => $request->returning_delivery_service_receipt,
         //     'just_json' => true,
         // ]);
         // $orderController = new OrderController();
         // $orderController->waybillCheck($requestNew);
         DB::beginTransaction();
 
+        $order->returning_delivery_service_receipt = $request->returning_delivery_service_receipt;
         $order->returning_delivery_service_code = $request->returning_delivery_service_code;
         $order->returning_delivery_service_name = $request->returning_delivery_service_name;
         $order->status = Order::RETURN_SHIPPED;
