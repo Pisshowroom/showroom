@@ -488,7 +488,7 @@ class OrderDataController extends Controller
     {
         // TODOS : Perbarui Postman dan Info ke tim
         $request->validate([
-            'returning_delivery_service_code' => 'required|in:jne:jnt:sicepat:anteraja',
+            'returning_delivery_service_code' => 'required|in:jne,jnt,sicepat,anteraja',
             'returning_delivery_service_name' => 'nullable|string',
             'returning_delivery_service_receipt' => 'required',
         ]);
