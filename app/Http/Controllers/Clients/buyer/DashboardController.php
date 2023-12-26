@@ -255,7 +255,7 @@ class DashboardController extends Controller
         else {
             $order->load(['seller']);
             $seller = $order->seller;
-            if ($seller && $seller->device_id != null) {
+            if ($seller) {
                 $notificationTitle = "Pesanan Dibatalkan";
                 $notificationSubTitle = "Pembeli telah membatalkan pesanannya";
                 $notifLink = "/detail_penjualan-" . $order->id;
@@ -268,7 +268,8 @@ class DashboardController extends Controller
                     'notifLinkWeb' => $notifLinkWeb
                 ];
                 createNotificationData($seller->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
-                sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $seller->device_id);
+                if ($seller->device_id != null)
+                    sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $seller->device_id);
             }
 
             return redirect()->route($page)->with('success', 'Berhasil membatalkan pesanan')->with('auth', base64_encode($user->uid));

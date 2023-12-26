@@ -124,7 +124,7 @@ class TransactionOrderController extends Controller
         $order->save();
         $order->load(['user']);
         $user = $order->user;
-        if ($user && $user->device_id != null) {
+        if ($user) {
             $notificationTitle = "Pesanan Dibatalkan";
             $notificationSubTitle = "Penjual telah membatalkan pesanan anda";
 
@@ -138,7 +138,8 @@ class TransactionOrderController extends Controller
                 'notifLinkWeb' => $notifLinkWeb
             ];
             createNotificationData($user->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
-            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
+            if ($user->device_id != null)
+                sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
         }
 
         return redirect("/toko/semua-transaksi")->with('success', 'Pesanan berhasil ditolak')->with('auth', base64_encode($user->uid));
@@ -179,7 +180,7 @@ class TransactionOrderController extends Controller
         $order->save();
         $order->load(['user']);
         $user = $order->user;
-        if ($user && $user->device_id != null) {
+        if ($user) {
             $notificationTitle = "Pesanan Diproses";
             $notificationSubTitle = "Penjual sedang memproses pesanan anda";
 
@@ -193,7 +194,8 @@ class TransactionOrderController extends Controller
                 'notifLinkWeb' => $notifLinkWeb
             ];
             createNotificationData($user->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
-            sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
+            if ($user->device_id != null)
+                sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $user->device_id);
         }
 
         return response()->json([
