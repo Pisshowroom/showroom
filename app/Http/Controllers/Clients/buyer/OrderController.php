@@ -167,17 +167,42 @@ class OrderController extends Controller
         $request->validate([
             'returning_delivery_service_code' => 'required',
             'returning_delivery_service_name' => 'required',
+            'returning_delivery_service_receipt' => 'required',
         ]);
         $user = Auth::guard('web')->user();
 
         $order = Order::where('id', $request->id)->first();
         if (!$order)
             return redirect("/pembeli/pesananku")->with('error', 'Pesanan tidak ditemukan')->with('auth', base64_encode($user->uid));
+
+        DB::beginTransaction();
+        $order->returning_delivery_service_receipt = $request->returning_delivery_service_receipt;
         $order->returning_delivery_service_code = $request->returning_delivery_service_code;
         $order->returning_delivery_service_name = $request->returning_delivery_service_name;
         $order->status = Order::RETURN_SHIPPED;
 
         $order->save();
+        $order->load(['seller']);
+        $seller = $order->seller;
+        if ($seller) {
+            $notificationTitle = "Pengembalian Pesanan";
+            $notificationSubTitle = "Pembeli telah mengirimkan pesanan yang dikembalikan";
+
+            $notifLink = "/detail_penjualan-" . $order->id;
+            $notifLinkLabel = "Lihat Pesanan";
+            $notifLinkWeb = "/toko/detail-transaksi/" . $order->payment_identifier;
+            $dataNotif = [
+                'type' => "new-notification",
+                'notifLink' => $notifLink,
+                'notifLinkLabel' => $notifLinkLabel,
+                'notifLinkWeb' => $notifLinkWeb
+            ];
+            createNotificationData($seller->id, $notificationTitle, $notificationSubTitle, null, $notifLink, $notifLinkLabel, $notifLinkWeb);
+            if ($seller->device_id != null)
+                sendMessage($notificationTitle, $notificationSubTitle, $dataNotif, $seller->device_id);
+        }
+
+        DB::commit();
         return response()->json([
             "status" => "success",
             "message" => "Permintaan pengembalian dikonfirmasi",
