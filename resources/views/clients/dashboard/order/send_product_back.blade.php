@@ -23,8 +23,10 @@
                             <input type="hidden" name="id" class="id" value="{{ $order->id }}">
                             <div class="mb-4">
                                 <div class="mb-3">
-                                    <label for="returning_delivery_service_code" class="form-label">Pilih Paket Perjalanan*</label>
-                                    <select id="returning_delivery_service_code" class="form-select returning_delivery_service_code"
+                                    <label for="returning_delivery_service_code" class="form-label">Pilih Paket
+                                        Perjalanan*</label>
+                                    <select id="returning_delivery_service_code"
+                                        class="form-select returning_delivery_service_code"
                                         name="returning_delivery_service_code" required>
                                         <option style="color:#232323;background:#f5f5f5 !important" disabled>
                                             Pilih
@@ -34,6 +36,11 @@
                                         <option value="sicepat">Sicepat</option>
                                         <option value="anteraja">Anteraja</option>
                                     </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="returning_delivery_service_receipt">Nomor Resi*</label>
+                                    <input class="form-control" id="returning_delivery_service_receipt" name="returning_delivery_service_receipt"
+                                        type="text" required placeholder="Masukkan nomor resi">
                                 </div>
                             </div>
                         </div>
@@ -80,11 +87,14 @@
         $('#returnResi').on('submit', function(e) {
             e.preventDefault();
             var returning_delivery_service_code = $('#returning_delivery_service_code');
+            var returning_delivery_service_receipt = $('#returning_delivery_service_receipt');
             var id = $('.id').val();
             var dataToSend = {
                 id: id,
-                returning_delivery_service_name: $('#returning_delivery_service_code').find('option:selected').text(),
+                returning_delivery_service_name: $('#returning_delivery_service_code').find('option:selected')
+                    .text(),
                 returning_delivery_service_code: returning_delivery_service_code.val(),
+                returning_delivery_service_receipt: returning_delivery_service_receipt.val(),
             };
             $.ajaxSetup({
                 headers: {
