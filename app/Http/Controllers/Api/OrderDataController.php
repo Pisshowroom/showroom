@@ -365,9 +365,9 @@ class OrderDataController extends Controller
             $notificationTitle = "Pesanan Sudah Selesai";
             $notificationSubTitle = "Pesanan Telah Sampai ke pembeli";
 
-            $notifLink = "/transaksi/detail-" . $order->id;
+            $notifLink = "/detail_penjualan-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
+            $notifLinkWeb = "/toko/detail-transaksi/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
@@ -516,9 +516,9 @@ class OrderDataController extends Controller
             $notificationTitle = "Pengembalian Pesanan";
             $notificationSubTitle = "Pembeli telah mengirimkan pesanan yang dikembalikan";
 
-            $notifLink = "/transaksi/detail-" . $order->id;
+            $notifLink = "/detail_penjualan-" . $order->id;
             $notifLinkLabel = "Lihat Pesanan";
-            $notifLinkWeb = "/pembeli/detail-pesanan/" . $order->payment_identifier;
+            $notifLinkWeb = "/toko/detail-transaksi/" . $order->payment_identifier;
             $dataNotif = [
                 'type' => "new-notification",
                 'notifLink' => $notifLink,
