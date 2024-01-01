@@ -21,7 +21,8 @@ class OrderController extends Controller
             $query->where('status', $request->statusRequest);
         })
         ->orderBy('created_at')
-        ->paginate($request->per_page ?? 15);
+        ->paginate(2);
+        // ->paginate($request->per_page ?? 15);
 
         return $orders;
     }

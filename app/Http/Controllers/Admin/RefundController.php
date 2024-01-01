@@ -12,14 +12,39 @@ class RefundController extends Controller
     public function index(Request $request)
     {
         // query where status %like% Refund
-        $orders = Order::ith(['user'])->where('status', 'like', "%Refund%")
+        $query = Order::with(['user']);
         // create orderBy status RequestedRefund,ReturnShipped,ReturnDelivered
         // ->orderByRaw(DB::raw("FIELD(status, 'RequestedRefund', 'ReturnShipped', 'ReturnDelivered')"))
-        ->orderBy(DB::raw("FIELD(status, 'RequestedRefund', 'ReturnShipped', 'ReturnDelivered')"))
-        ->paginate($request->per_page ?? 15);
+        if ($request->filled('statusRequest')) {
+            $query->where('status', $request->statusRequest);
+        } else {
+            $query->where('status', 'like', "%Refund%");
+        }
+
+        if ($request->filled('search')) {
+            $query->where('payment_identifier', 'like', "%$request->search%");
+        }
+
+        
+        $query->orderBy(DB::raw("FIELD(status, 'RequestedRefund', 'ReturnShipped', 'ReturnDelivered')"));
+        
+        $orders = $query->paginate($request->per_page ?? 15);
 
         // return view('admin.refund.index', compact('orders'));
         return $orders;
+    }
+
+    // response api array counted total requested refund
+    public function countComplaintsRefundsReturns(Request $request)
+    {
+        $complaints = Order::where('status', 'like', "Complaint")->count();
+        $data['complaints_counted'] = $complaints;
+        $refunds = Order::where('status', 'like', "RequestedRefund")->count();
+        $data['refunds_counted'] = $refunds;
+        $returnings = Order::where('status', 'like', "RequestedReturn")->count();
+        $data['returnings_counted'] = $returnings;
+
+        return $data;
     }
 
     public function show(Order $order)

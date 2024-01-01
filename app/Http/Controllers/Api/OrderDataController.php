@@ -36,32 +36,40 @@ class OrderDataController extends Controller
             ->with(['single_order_item_with_product.product.parent', 'single_order_item_with_product.product.seller'])->paginate(20);
 
         return OrderResource::collection($orders);
+    }
 
-    }    
-
-    public function ordersPackingDueEnded()
+    public function commandOrdersPackingDueEnded()
     {
         Order::where('status', Order::PROCESSED_BY_SELLER)->where('packing_due', '<=', now())->update(['status' => Order::CANCELLED]);
 
         return ResponseAPI('Pesanan yang tidak dikemas telah dibatalkan', 200);
     }
 
-    public function completedOrderDueEnded()
+    public function commandCompletedOrderDueEnded()
     {
         Order::where('status', Order::DELIVERED)->where('completed_order_due', '<=', now())->update(['status' => Order::COMPLETED]);
 
         return ResponseAPI('Pesanan yang tidak dikemas telah dibatalkan', 200);
     }
 
-    // paymentDueEnded to Cancelled
-    public function paymentDueEnded()
+    public function commandPaymentDueEnded()
     {
         Order::where('status', Order::PENDING)->where('payment_due', '<=', now())->update(['status' => Order::CANCELLED]);
 
         return ResponseAPI('Pesanan yang tidak dibayar telah dibatalkan', 200);
     }
-    
-    
+
+    public function commandReturningSendingDueEnded()
+    {
+        Order::where('status', Order::RETURN_ACCEPTED)->where('returning_sending_due', '<=', now())->update([
+            'status' => Order::DELIVERED,
+            'completed_order_due' => now()->addDays(1)
+        ]);
+
+        return ResponseAPI('Pesanan gagal untuk dikembalikan, kembali ke status pesanan telah sampai', 200);
+    }
+
+
 
     public function detail(Order $order)
     {
@@ -243,7 +251,6 @@ class OrderDataController extends Controller
     public function checkStatusDeliveredOrder(Order $order)
     {
 
-        $dateFromDelivery = now();
         $requestNew = new Request();
         $requestNew->replace([
             'delivery_service' => $order->delivery_service_code,
@@ -267,8 +274,11 @@ class OrderDataController extends Controller
                 // dd($resultWaybill);
 
                 if ($resultWaybill != null && $resultWaybill->delivered == true) {
+                    $dateFromDelivery = now();
                     $order->status = Order::DELIVERED;
+                    $order->completed_order_due = now()->addDays(1);
                     $order->delivered_at = $dateFromDelivery;
+                    $order->arrived_at = $dateFromDelivery;
                     $order->save();
 
                     $order->load(['user']);
@@ -323,7 +333,6 @@ class OrderDataController extends Controller
         $feeCommerce = 0;
         $feeGlobalAmount = lypsisGetSetting("", [], true, ['seller_fee_amount', 'seller_fee_percent'])->toArray();
         $feeGlobalAmount = array_map('intval', $feeGlobalAmount);
-        $dateFromDelivery = now();
 
 
         if ($seller->seller_fee_amount > 0) {
@@ -340,7 +349,11 @@ class OrderDataController extends Controller
         $totalIncome = $totalPrice - $feeCommerce;
 
         $order->market_fee_seller = $feeCommerce;
-        $order->arrived_at = $dateFromDelivery;
+        if ($order->arrived_at == null) {
+            $dateFromDelivery = now();
+            $order->delivered_at = $dateFromDelivery;
+            $order->arrived_at = $dateFromDelivery;
+        }
         $order->save();
 
         $commerceBalance = Setting::where('name', 'commerce_balance')->firstOrFail();
@@ -401,7 +414,6 @@ class OrderDataController extends Controller
         if ($request->returning_product_type == 'ReturnProdukDanUang') {
             // TODOS add checker status suits for this and 2 others
             $request->validate([
-
                 'returning_images' => 'required',
                 'order_items' => 'required',
                 'order_items.*.id' => 'required',
@@ -492,7 +504,7 @@ class OrderDataController extends Controller
             'returning_delivery_service_name' => 'nullable|string',
             'returning_delivery_service_receipt' => 'required',
         ]);
-        
+
         // TODOS : Uncomment This - Fix Also Code And Receipt
         // $requestNew = new Request();
         // $requestNew->replace([

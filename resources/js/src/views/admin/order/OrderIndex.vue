@@ -21,7 +21,7 @@
       :url="`/admin/order/index`"
       :cols="cols"
       :title="'Daftar Pesanan'"
-      :dropdownAction="true"
+      :dropdownAction="false"
       :searching="true"
       ref="datatable"
     >
@@ -148,10 +148,6 @@ const actions = ref([
   }, */
 ]);
 
-const activitySeries: any = ref([]);
-// create variable ["BNI", "SHOPEEPAY"]
-const paymentChannels: any = ref(["BNI", "SHOPEEPAY"]);
-
 let statusRequest = ref(null);
 
 const statusesOption: any = ref([
@@ -184,7 +180,6 @@ let filterParams = reactive({});
 
 const setStatusRequest = (value: any) => {
   // statusRequest.value = value;
-  // statusRequest.value = value;
   nextTick(() => {
     console.log("statusRequest.value");
     console.log(statusRequest.value);
@@ -208,6 +203,7 @@ onMounted(async () => {
   if (auth.isAuthenticated() && auth.getToken() != false) {
   }
   await getData();
+  // datatable.value.getData();
 });
 </script>
   

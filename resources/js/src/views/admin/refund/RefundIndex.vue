@@ -1,5 +1,22 @@
 <template>
   <div>
+    <div class="flex flex-wrap mb-2 gap-3">
+      <div class="flex flex-col">
+        <label class="font-semibold" for="faculty">Status</label>
+        <multiselect
+          id="status"
+          v-model="statusRequest"
+          :options="statusesOption"
+          :searchable="true"
+          :multiple="false"
+          selected-label=""
+          :placeholder="'Data tidak ditemukan'"
+          select-label=""
+          deselect-label=""
+          @select="setStatusRequest"
+        ></multiselect>
+      </div>
+    </div>
     <Table
       :url="`/admin/refunds/index`"
       :cols="cols"
@@ -17,20 +34,21 @@
 </template>
   
 <script setup lang="ts">
+import Multiselect from "@suadelabs/vue3-multiselect";
+import "@suadelabs/vue3-multiselect/dist/vue3-multiselect.css";
 import { useHead } from "@vueuse/head";
 import { useAppStore } from "@/stores/index";
 import globalComponents from "@/global-components";
 
 // @ts-ignore
 import Table from "@/components/plugins/Table.vue";
-import { inject, onMounted, reactive, ref, computed } from "vue";
+import { inject, onMounted, reactive, ref, nextTick } from "vue";
 import { Axios } from "axios";
+const axios = <Axios>inject("axios");
+
 import auth from "@/services/auth.service";
 import Swal from "sweetalert2";
 
-const store = useAppStore();
-const axios = <Axios>inject("axios");
-let data: any = ref({});
 const datatable: any = ref(null);
 let user: any = auth.users();
 
@@ -67,28 +85,16 @@ const cols =
         let badgeText = item.status;
 
         switch (badgeText) {
-          case "Pending":
+          case "RequestedRefund":
             badgeBgColor = "#FFC107";
             break;
-          case "Paid":
-            badgeBgColor = "#28A745";
-            break;
-          case "Completed":
-            badgeBgColor = "#007BFF";
-            break;
-          case "ProcessedBySeller":
-            badgeBgColor = "#17A2B8";
-            break;
-          case "Shipped":
+          case "RefundAccepted":
             badgeBgColor = "#6610F2";
             break;
-          case "Delivered":
-            badgeBgColor = "#894dd7";
+          case "RefundDone":
+            badgeBgColor = "#28A745";
             break;
-          case "ExpiredPayment":
-            badgeBgColor = "#6C757D";
-            break;
-          case "Cancelled":
+          case "RefundDeclined":
             badgeBgColor = "#FF0000";
             break;
           default:
@@ -140,6 +146,7 @@ const actions = ref([
         timer: 2000,
         showCloseButton: true,
       });
+
       swalWithBootstrapButtons
         .fire({
           title: "Hapus data?",
@@ -163,6 +170,31 @@ const actions = ref([
     },
   }, */
 ]);
+
+let statusRequest = ref(null);
+
+const statusesOption: any = ref([
+  "RequestedRefund",
+  "RefundAccepted",
+  "RefundDone",
+  "RefundDeclined",
+]);
+
+let filterParams = reactive({});
+
+const setStatusRequest = (value: any) => {
+  // statusRequest.value = value;
+  nextTick(() => {
+    console.log("statusRequest.value");
+    console.log(statusRequest.value);
+    Object.assign(filterParams, { statusRequest: statusRequest.value });
+    runTheFilter();
+  });
+};
+
+const runTheFilter = (value?: any) => {
+  datatable.value.getData(filterParams);
+};
 
 const getData = async () => {};
 
