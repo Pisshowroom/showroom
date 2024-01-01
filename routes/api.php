@@ -62,6 +62,7 @@ Route::POST("manual-create-pay-req", [OrderController::class, 'manualCreatePayRe
 Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
     Route::get('/dashboard2', [DashboardController::class, 'index']);
     Route::get('/activity-orders', [DashboardController::class, 'activityOrders']);
+    Route::get('/all-type-complaints-counted', [AdminRefundController::class, 'countComplaintsRefundsReturns']);
     // Route::get('/order', [AdminOrderController::class, 'index']);
     Route::group(['prefix' => 'order'], function () {
         Route::get('/index', [AdminOrderController::class, 'index']);
