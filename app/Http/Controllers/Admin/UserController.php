@@ -11,8 +11,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::when($request->filled('search'), function ($query) use ($request) {
-                $query->where('name', 'like', "%$request->search%")->where(function ($query2) use ($request) {
-                    $query2->orWhere('email', 'like', "%$request->search%");
+                $query->where(function ($query2) use ($request) {
+                    $query2->where('name', 'like', "%$request->search%")->orWhere('email', 'like', "%$request->search%");
                     // ->orWhere('phone', 'like', "%$request->search%");
                 });
             })->paginate($request->per_page ?? 15);
@@ -65,7 +65,7 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phone_number = $request->phone_number;
+        $user->phone_number = phoneGeneralize($request->phone_number);
         $user->is_seller = $request->is_seller;
         $user->is_seller_active = $request->is_seller_active;
         $user->seller_id = $request->seller_id;

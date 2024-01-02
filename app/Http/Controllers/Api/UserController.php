@@ -50,7 +50,7 @@ class UserController extends Controller
         }
 
         if ($request->filled('phone_number')) {
-            $user->phone_number = $request->input('phone_number');
+            $user->phone_number = phoneGeneralize($request->input('phone_number'));
         }
 
         if ($request->hasFile('image')) {
@@ -115,6 +115,10 @@ class UserController extends Controller
         if ($request->filled('seller_description')) {
             $seller->seller_description = $request->input('seller_description');
         }
+        
+        if ($request->filled('phone_number_seller')) {
+            $seller->phone_number_seller = phoneGeneralize($request->phone_number_seller);
+        }
 
         if ($request->hasFile('image')) {
             $seller->seller_image = uploadFoto($request->image, 'uploads/sellers/');
@@ -175,7 +179,7 @@ class UserController extends Controller
 
         $user->seller_name = $request->input('name');
         $user->seller_slug = Str::slug($request->name);
-        $user->phone_number_seller = $request->phone_number_seller;
+        $user->phone_number_seller = phoneGeneralize($request->phone_number_seller);
         $user->seller_delivery_service = "jne:jnt:sicepat:anteraja";
         $user->is_seller = true;
         $user->save();
