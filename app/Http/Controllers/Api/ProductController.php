@@ -24,7 +24,9 @@ class ProductController extends Controller
                 });
             }], 'quantity');
 
-        // $query->byNotVariant();
+            $
+
+        $query->byNotVariant();
         $filtered = false;
 
         if ($request->filled('rating')) {
