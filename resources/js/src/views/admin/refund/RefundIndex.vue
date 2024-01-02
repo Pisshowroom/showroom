@@ -119,10 +119,9 @@ const cols =
 
 const actions = ref([
   {
-    type: "editIcon",
+    type: "previewIcon",
     to: ({ value }) => {
-      // return `/admin/refund/edit/${value.id}`;
-      return "";
+      return `/admin/refund/detail/${value.id}`;
     },
   },
   /* {
@@ -175,7 +174,6 @@ let statusRequest = ref(null);
 
 const statusesOption: any = ref([
   "RequestedRefund",
-  "RefundAccepted",
   "RefundDone",
   "RefundDeclined",
 ]);

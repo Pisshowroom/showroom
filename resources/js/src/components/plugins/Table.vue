@@ -310,15 +310,23 @@ const formatDate = (date) => {
   return "";
 };
 
+let timeoutId: number | undefined = undefined;
+
 const change = (data) => {
-  column_filters.value = data.column_filters;
-  console.log(column_filters);
-  page.value = data.current_page;
-  pageSize.value = data.pagesize;
-  search.value = data.search;
-  col.value = data.sort_column;
-  dir.value = data.sort_direction;
-  getData();
+  if (timeoutId) {
+    clearTimeout(timeoutId);
+  }
+
+  timeoutId = setTimeout(() => {
+    column_filters.value = data.column_filters;
+    console.log(column_filters);
+    page.value = data.current_page;
+    pageSize.value = data.pagesize;
+    search.value = data.search;
+    col.value = data.sort_column;
+    dir.value = data.sort_direction;
+    getData();
+  }, 1500);
 };
 
 const orderNumber = (key): Number => {
@@ -675,6 +683,7 @@ const allProgress = (material, murajaah, mudabbir) => {
           :totalRows="totalRows"
           :sortable="true"
           :columnFilter="isFilter"
+          :pageSizeOptions="[5, 10, 30, 50]"
           @change="change"
           :search="search"
           :pagination="true"

@@ -66,6 +66,7 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
     // Route::get('/order', [AdminOrderController::class, 'index']);
     Route::group(['prefix' => 'order'], function () {
         Route::get('/index', [AdminOrderController::class, 'index']);
+        Route::get('/{order}', [AdminOrderController::class, 'detail']);
     });
 
     Route::group(['prefix' => 'user'], function () {

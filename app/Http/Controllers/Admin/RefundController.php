@@ -14,7 +14,6 @@ class RefundController extends Controller
         // query where status %like% Refund
         $query = Order::with(['user']);
         // create orderBy status RequestedRefund,ReturnShipped,ReturnDelivered
-        // ->orderByRaw(DB::raw("FIELD(status, 'RequestedRefund', 'ReturnShipped', 'ReturnDelivered')"))
         if ($request->filled('statusRequest')) {
             $query->where('status', $request->statusRequest);
         } else {
@@ -25,8 +24,7 @@ class RefundController extends Controller
             $query->where('payment_identifier', 'like', "%$request->search%");
         }
 
-        
-        $query->orderBy(DB::raw("FIELD(status, 'RequestedRefund', 'ReturnShipped', 'ReturnDelivered')"));
+        $query->orderBy(DB::raw("FIELD(status, 'RequestedRefund', 'RefundDone', 'RefundDeclined')"));
         
         $orders = $query->paginate($request->per_page ?? 15);
 

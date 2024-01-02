@@ -34,7 +34,7 @@ const titleActivity2: any = ref("Harian");
 let user: any = auth.users();
 
 useHead({
-  title: "Pesanan",
+  title: "Pengguna",
 });
 
 const cols =

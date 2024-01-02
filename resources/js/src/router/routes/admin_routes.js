@@ -133,18 +133,9 @@ export default [
         },
     },
     {
-        path: "/admin/refund/form",
-        name: "admin.refund.form",
-        component: () => import("../../views/admin/refund/RefundForm.vue"),
-        meta: {
-            // authRequired: true,
-            // rule:'institution'
-        },
-    },
-    {
-        path: "/admin/refund/edit/:id",
-        name: "admin.refund.edit",
-        component: () => import("../../views/admin/refund/RefundForm.vue"),
+        path: "/admin/refund/detail/:id",
+        name: "admin.refund.detail",
+        component: () => import("../../views/admin/refund/RefundDetail.vue"),
     },
     // {
     //     path: '/institution/prodi/edit/:id',

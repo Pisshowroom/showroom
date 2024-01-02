@@ -480,11 +480,13 @@
 </template>
 
   <script lang="ts" setup>
-import { ref, onMounted, inject, nextTick } from "vue";
+import { ref, onMounted, inject, watch } from "vue";
 import { Axios } from "axios";
 
 import { useAppStore } from "@/stores/index";
+import { useRoute } from "vue-router";
 import VueCollapsible from "vue-height-collapsible/vue3";
+const routeX1 = useRoute();
 const store = useAppStore();
 const activeDropdown: any = ref("");
 const subActive: any = ref("");
@@ -496,18 +498,32 @@ let refundsCounted = ref(0);
 let returningsCounted = ref(0);
 
 onMounted(() => {
-  // axios call method get 'http://localhost:8000/api/admin/all-type-complaints-counted'
-  axios.get("/admin/all-type-complaints-counted").then((res) => {
-    console.log("res.data 2");
+  let cache = localStorage.getItem("cache")
+    ? JSON.parse(localStorage.getItem("cache")!)
+    : null;
 
-    complaintsCounted.value = res.data.complaints_counted ?? 0;
-    refundsCounted.value = res.data.refunds_counted ?? 0;
-    returningsCounted.value = res.data.returnings_counted ?? 0;
+  if (cache && cache.data && Date.now() - cache.time < 30000) {
+    let res = cache.data;
+    complaintsCounted.value = res.complaints_counted ?? 0;
+    refundsCounted.value = res.refunds_counted ?? 0;
+    returningsCounted.value = res.returnings_counted ?? 0;
+  } else {
+    axios.get("/admin/all-type-complaints-counted").then((res) => {
+      console.log("res.data 2");
+      let cache = {
+        data: res.data,
+        time: Date.now(),
+      };
+      localStorage.setItem("cache", JSON.stringify(cache));
 
-    console.log(complaintsCounted.value);
-    console.log(refundsCounted.value);
-    console.log(returningsCounted.value);
-  });
+      complaintsCounted.value = res.data.complaints_counted ?? 0;
+      refundsCounted.value = res.data.refunds_counted ?? 0;
+      returningsCounted.value = res.data.returnings_counted ?? 0;
+      // console.log(complaintsCounted.value);
+    });
+  }
+
+  console.log("sideabar mounted");
 
   const selector = document.querySelector(
     '.sidebar ul a[href="' + window.location.pathname + '"]'
