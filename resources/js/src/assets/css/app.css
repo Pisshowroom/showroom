@@ -3,3 +3,4 @@
 @import '@bhplugin/vue3-datatable/dist/style.css';
 @import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
 @import 'tailwind.css';
+@import 'custom_styling.css';

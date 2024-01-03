@@ -313,11 +313,22 @@ const formatDate = (date) => {
 let timeoutId: number | undefined = undefined;
 
 const change = (data) => {
-  if (timeoutId) {
-    clearTimeout(timeoutId);
-  }
+  if (data?.change_type == "search" || data?.change_type == "pagesize") {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
 
-  timeoutId = setTimeout(() => {
+    timeoutId = setTimeout(() => {
+      column_filters.value = data.column_filters;
+      console.log(column_filters);
+      page.value = data.current_page;
+      pageSize.value = data.pagesize;
+      search.value = data.search;
+      col.value = data.sort_column;
+      dir.value = data.sort_direction;
+      getData();
+    }, 1500);
+  } else {
     column_filters.value = data.column_filters;
     console.log(column_filters);
     page.value = data.current_page;
@@ -326,7 +337,7 @@ const change = (data) => {
     col.value = data.sort_column;
     dir.value = data.sort_direction;
     getData();
-  }, 1500);
+  }
 };
 
 const orderNumber = (key): Number => {

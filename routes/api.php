@@ -88,10 +88,10 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
         Route::get('/list-return-back', [AdminOrderDataController::class, 'listReturnBack']);
         Route::get('/list-refund', [AdminOrderDataController::class, 'listRefund']);
         Route::post('/accept-complaint/{order}', [AdminOrderDataController::class, 'acceptComplaint']);
-        Route::post('/accept-return-back/{order}', [AdminOrderDataController::class, 'acceptReturnBack']);
+        Route::post('/accept-return/{order}', [AdminOrderDataController::class, 'acceptReturnBack']);
         Route::post('/accept-refund/{order}', [AdminOrderDataController::class, 'acceptRefund']);
         Route::post('/reject-complaint/{order}', [AdminOrderDataController::class, 'rejectComplaint']);
-        Route::post('/reject-return-back/{order}', [AdminOrderDataController::class, 'rejectReturnBack']);
+        Route::post('/reject-return/{order}', [AdminOrderDataController::class, 'rejectReturnBack']);
         Route::post('/reject-refund/{order}', [AdminOrderDataController::class, 'rejectRefund']);
     });
 

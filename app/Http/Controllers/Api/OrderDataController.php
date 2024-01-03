@@ -457,6 +457,8 @@ class OrderDataController extends Controller
                 'returning_video' => 'required|mimes:mp4|max:10240',
             ]);
             $order->status = Order::REQUESTED_REFUND;
+            $images = [];
+
 
             if (!empty($request->images)) {
                 foreach ($request->images as $img) {

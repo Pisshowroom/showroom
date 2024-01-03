@@ -40,7 +40,7 @@ import globalComponents from "@/global-components";
 
 // @ts-ignore
 import Table from "@/components/plugins/Table.vue";
-import { inject, onMounted, reactive, ref, nextTick } from "vue";
+import { inject, onMounted, reactive, ref, nextTick, watch } from "vue";
 import { Axios } from "axios";
 import auth from "@/services/auth.service";
 const store = useAppStore();
@@ -150,6 +150,13 @@ const actions = ref([
 
 let statusRequest = ref(null);
 
+watch(statusRequest, (newVal, oldVal) => {
+  if (newVal === null || newVal === undefined) {
+    datatable.value.getData();
+    // clearFilterIndicator.value = false;
+  }
+});
+
 const statusesOption: any = ref([
   "Pending",
   "Paid",
@@ -177,6 +184,7 @@ const statusesOption: any = ref([
   "ComplaintCompleted",
 */
 let filterParams = reactive({});
+// let clearFilterIndicator = ref(false);
 
 const setStatusRequest = (value: any) => {
   // statusRequest.value = value;
@@ -195,6 +203,19 @@ const getData = async () => {
   // data.value = response;
 };
 
+/* & not USED anymore */
+/* const clearFilter = () => {
+  if (statusRequest.value != null) {
+    clearFilterIndicator.value = true;
+    statusRequest.value = null;
+    datatable.value.getData();
+
+    setTimeout(() => {
+      clearFilterIndicator.value = false;
+    }, 3000);
+  }
+}; */
+
 const runTheFilter = (value?: any) => {
   datatable.value.getData(filterParams);
 };
@@ -202,7 +223,7 @@ const runTheFilter = (value?: any) => {
 onMounted(async () => {
   if (auth.isAuthenticated() && auth.getToken() != false) {
   }
-  await getData();
+  // await getData();
   // datatable.value.getData();
 });
 </script>

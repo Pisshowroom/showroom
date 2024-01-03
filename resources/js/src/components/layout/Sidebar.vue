@@ -523,8 +523,6 @@ onMounted(() => {
     });
   }
 
-  console.log("sideabar mounted");
-
   const selector = document.querySelector(
     '.sidebar ul a[href="' + window.location.pathname + '"]'
   );

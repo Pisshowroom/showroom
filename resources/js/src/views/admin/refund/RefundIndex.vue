@@ -42,7 +42,7 @@ import globalComponents from "@/global-components";
 
 // @ts-ignore
 import Table from "@/components/plugins/Table.vue";
-import { inject, onMounted, reactive, ref, nextTick } from "vue";
+import { inject, onMounted, reactive, ref, nextTick, watch } from "vue";
 import { Axios } from "axios";
 const axios = <Axios>inject("axios");
 
@@ -179,6 +179,12 @@ const statusesOption: any = ref([
 ]);
 
 let filterParams = reactive({});
+
+watch(statusRequest, (newVal, oldVal) => {
+  if (newVal === null || newVal === undefined) {
+    datatable.value.getData();
+  }
+});
 
 const setStatusRequest = (value: any) => {
   // statusRequest.value = value;
