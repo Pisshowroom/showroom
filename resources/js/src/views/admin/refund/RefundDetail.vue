@@ -23,66 +23,75 @@
       >
         <!-- <p class="pb-3 text-lg font-semibold">Data ...</p> -->
         <div class="flex-1">
+          <!-- LEFT -->
           <div class="grid grid-cols-1 gap-5">
-            <div class="flex flex-col gap-2">
-              <label class="w-full md:mb-0 font-semibold" for="page"
-                >No. Invoice Pesanan</label
-              >
-              <input
-                class="md:w-4/4 form-input"
-                id="name"
-                type="text"
-                required
-                :readonly="true"
-                placeholder=""
-                v-model="form.payment_identifier"
-              />
-            </div>
-            <div class="flex flex-col gap-2">
-              <label class="w-full md:mb-0 font-semibold" for="page"
-                >Data Pengguna</label
-              >
-              <input
-                class="md:w-4/4 form-input"
-                id="name"
-                type="text"
-                required
-                :readonly="true"
-                placeholder="Data Pengguna"
-                v-model="form.userData"
-              />
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <label class="w-full md:mb-0 font-semibold" for="page"
-                >Alasan Pengajuan</label
-              >
-              <input
-                class="md:w-4/4 form-input"
-                id="name"
-                type="text"
-                required
-                :readonly="true"
-                placeholder="Alasan Pengajuan"
-                v-model="form.returning_reason"
-              />
-            </div>
-
-            <div class="flex flex-col gap-2">
-              <label class="w-full md:mb-0 font-semibold" for="page"
-                >Deskripsi Pengajuan</label
-              >
-              <textarea
-                class="md:w-4/4 form-input"
-                id="name"
-                :readonly="true"
-                placeholder="Deskripsi Pengajuan"
-                v-model="form.returning_description"
-              ></textarea>
-            </div>
-
-            <div v-if="typeComplaint == 'return'">
+            <div class="grid grid-cols-2 gap-2">
+              <!-- First row, first column -->
               <div class="flex flex-col gap-2">
+                <label class="w-full md:mb-0 font-semibold" for="page"
+                  >No. Invoice Pesanan</label
+                >
+                <input
+                  class="md:w-4/4 form-input"
+                  id="name"
+                  type="text"
+                  required
+                  :readonly="true"
+                  placeholder=""
+                  v-model="form.payment_identifier"
+                />
+              </div>
+              <div class="flex flex-col gap-2">
+                <label class="w-full md:mb-0 font-semibold" for="page"
+                  >Data Pengguna</label
+                >
+                <input
+                  class="md:w-4/4 form-input"
+                  id="name"
+                  type="text"
+                  required
+                  :readonly="true"
+                  placeholder="Data Pengguna"
+                  v-model="form.userData"
+                />
+              </div>
+            </div>
+            <!-- RIGHT -->
+            <div class="grid grid-cols-2 gap-2">
+              <div class="flex flex-col gap-2">
+                <label class="w-full md:mb-0 font-semibold" for="page"
+                  >Alasan Pengajuan</label
+                >
+                <input
+                  class="md:w-4/4 form-input"
+                  id="name"
+                  type="text"
+                  required
+                  :readonly="true"
+                  placeholder="Alasan Pengajuan"
+                  v-model="form.returning_reason"
+                />
+              </div>
+              <!-- Second row, second column -->
+              <div class="flex flex-col gap-2">
+                <label class="w-full md:mb-0 font-semibold" for="page"
+                  >Deskripsi Pengajuan</label
+                >
+                <textarea
+                  class="md:w-4/4 form-input"
+                  id="name"
+                  :readonly="true"
+                  rows="1"
+                  placeholder="Deskripsi Pengajuan"
+                  v-model="form.returning_description"
+                ></textarea>
+              </div>
+            </div>
+            <!-- Rest of your code -->
+          </div>
+          <div class="grid grid-cols-1 gap-5">
+            <div v-if="typeComplaint == 'return' || typeComplaint == 'refund'">
+              <div class="flex flex-col gap-2" v-if="typeComplaint == 'return'">
                 <label class="w-full md:mb-0 font-semibold" for="page"
                   >Tenggat Pengiriman Barang</label
                 >
@@ -223,7 +232,7 @@ const axios = <Axios>inject("axios");
 const file: any = ref(null);
 
 onMounted(async () => {
-  form.value = (await axios.get(`/admin/order/${currentRouteId}`)).data;
+  form.value = (await axios.get(`/admin/refunds/${currentRouteId}`)).data;
   if (form.value.status.toLowerCase().includes("refund")) {
     typeComplaint.value = "refund";
     titleType.value = "Refund";
@@ -240,7 +249,9 @@ onMounted(async () => {
     " - " +
     form.value.user?.email +
     " - " +
-    form.value.user?.phone_number;
+    (form.value.user?.phone_number
+      ? "(+62 " + form.value.user?.phone_number + ")"
+      : "(No HP Tidak Tersedia)");
   console.log(form.value);
 });
 

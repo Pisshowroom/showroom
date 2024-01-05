@@ -460,8 +460,8 @@ class OrderDataController extends Controller
             $images = [];
 
 
-            if (!empty($request->images)) {
-                foreach ($request->images as $img) {
+            if (!empty($request->returning_images)) {
+                foreach ($request->returning_images as $img) {
                     if (isset($img) && is_uploaded_file($img)) {
                         $images[] = uploadFoto($img, 'uploads/photos_refund_complain');
                     }

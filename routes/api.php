@@ -106,8 +106,16 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
     Route::group(['prefix' => 'refunds'], function () {
         Route::get('/index', [AdminRefundController::class, 'index']);
         // Route::post('/', [AdminRefundController::class, 'store']);
-        Route::get('/{refund}', [AdminRefundController::class, 'show']);
+        Route::get('/{order}', [AdminRefundController::class, 'show']);
         Route::delete('/{refund}', [AdminRefundController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'complaints'], function () {
+        Route::get('/index', [AdminComplaintController::class, 'index']);
+        Route::get('/{order}', [AdminComplaintController::class, 'show']);
+    });
+    Route::group(['prefix' => 'returns'], function () {
+        Route::get('/index', [AdminReturnOrderController::class, 'index']);
     });
 
     Route::group(['prefix' => 'ads'], function () {

@@ -137,6 +137,25 @@ export default [
         name: "admin.refund.detail",
         component: () => import("../../views/admin/refund/RefundDetail.vue"),
     },
+
+    {
+        path: "/admin/complaint/index",
+        name: "admin.complaint.index",
+        component: () => import("../../views/admin/complaint/ComplaintIndex.vue"),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
+    {
+        path: "/admin/return-order/index",
+        name: "admin.return-order.index",
+        component: () => import("../../views/admin/return-order/ReturnOrderIndex.vue"),
+        meta: {
+            // authRequired: true,
+            // rule:'institution'
+        },
+    },
     // {
     //     path: '/institution/prodi/edit/:id',
     //     name: 'institution-prodi.edit',

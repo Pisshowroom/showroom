@@ -694,6 +694,7 @@ const allProgress = (material, murajaah, mudabbir) => {
           :totalRows="totalRows"
           :sortable="true"
           :columnFilter="isFilter"
+          :loading="loading"
           :pageSizeOptions="[5, 10, 30, 50]"
           @change="change"
           :search="search"

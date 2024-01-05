@@ -223,7 +223,7 @@ class TransactionOrderController extends Controller
         } else {
             return redirect("/toko/semua-transaksi")->with('error', 'Gagal, Data Pembeli Tidak Ditemukan')->with('auth', base64_encode($admin->uid));
         }
-        $order->status = Order::COMPLAINT_ACCEPTED;
+        $order->status = Order::COMPLAINT_COMPLETED;
 
         $order->save();
 
@@ -286,7 +286,7 @@ class TransactionOrderController extends Controller
             return redirect("/toko/semua-transaksi")->with('error', 'Gagal, Data Pembeli Tidak Ditemukan')->with('auth', base64_encode($admin->uid));
         }
 
-        $order->status = Order::REFUND_ACCEPTED;
+        $order->status = Order::REFUND_DONE;
         $order->save();
         return redirect("/toko/semua-transaksi")->with('success', 'Refund disetujui')->with('auth', base64_encode($admin->uid));
     }
