@@ -11,9 +11,7 @@ class RefundController extends Controller
 {
     public function index(Request $request)
     {
-        // query where status %like% Refund
         $query = Order::with(['user']);
-        // create orderBy status RequestedRefund,ReturnShipped,ReturnDelivered
         if ($request->filled('statusRequest')) {
             $query->where('status', $request->statusRequest);
         } else {
@@ -28,7 +26,6 @@ class RefundController extends Controller
         
         $orders = $query->paginate($request->per_page ?? 15);
 
-        // return view('admin.refund.index', compact('orders'));
         return $orders;
     }
 
@@ -47,7 +44,7 @@ class RefundController extends Controller
 
     public function show(Order $order)
     {
-        $order->load(['user', 'order_items', 'product', 'master_account']);
+        $order->load(['user', 'order_items']);
 
         return $order;
     }

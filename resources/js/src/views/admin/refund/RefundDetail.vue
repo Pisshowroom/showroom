@@ -26,7 +26,6 @@
           <!-- LEFT -->
           <div class="grid grid-cols-1 gap-5">
             <div class="grid grid-cols-2 gap-2">
-              <!-- First row, first column -->
               <div class="flex flex-col gap-2">
                 <label class="w-full md:mb-0 font-semibold" for="page"
                   >No. Invoice Pesanan</label
@@ -72,7 +71,6 @@
                   v-model="form.returning_reason"
                 />
               </div>
-              <!-- Second row, second column -->
               <div class="flex flex-col gap-2">
                 <label class="w-full md:mb-0 font-semibold" for="page"
                   >Deskripsi Pengajuan</label
