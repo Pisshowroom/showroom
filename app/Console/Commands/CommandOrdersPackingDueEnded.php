@@ -28,9 +28,9 @@ class CommandOrdersPackingDueEnded extends Command
     public function handle()
     {
         $now = now();
-        Log::info('command-completed-order-due-ended jam : ' . $now);
+        Log::info('cmd - orders-packing-due-ended - jam : ' . $now);
         
-        // Order::where('status', Order::PROCESSED_BY_SELLER)->where('packing_due', '<=', now())->update(['status' => Order::CANCELLED]);
+        Order::where('status', Order::PROCESSED_BY_SELLER)->where('packing_due', '<=', now())->update(['status' => Order::CANCELLED]);
 
         $this->info('Pesanan yang tidak dikemas telah dibatalkan');
     }

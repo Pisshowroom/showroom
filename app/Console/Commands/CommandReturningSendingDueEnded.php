@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Order;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class CommandReturningSendingDueEnded extends Command
 {
@@ -26,6 +27,8 @@ class CommandReturningSendingDueEnded extends Command
      */
     public function handle()
     {
+        $now = now();
+        Log::info('cmd - returning-sending-due-ended - jam : ' . $now);
         Order::where('status', Order::RETURN_ACCEPTED)->where('returning_sending_due', '<=', now())->update([
             'status' => Order::DELIVERED,
             'completed_order_due' => now()->addDays(1)

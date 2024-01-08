@@ -46,7 +46,7 @@ class CommandCompletedOrderDueEnded extends Command
             }); */
 
         $now = now();
-        Log::info('command-completed-order-due-ended jam : ' . $now);
+        Log::info('cmd - completed-order-due-ended - jam : ' . $now);
         // $orderController = app()->make('App\Http\Controllers\OrderController');
         $orderController = new OrderDataController();
         $baseQuery = DB::table('orders')

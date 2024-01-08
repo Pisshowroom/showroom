@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Order;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class CommandPaymentDueEnded extends Command
 {
@@ -26,6 +27,8 @@ class CommandPaymentDueEnded extends Command
      */
     public function handle()
     {
+        $now = now();
+        Log::info('cmd - payment-due-ended - jam : ' . $now);
         Order::where('status', Order::PENDING)->where('payment_due', '<=', now())->update(['status' => Order::CANCELLED]);
         
         $this->info('Pesanan yang tidak dibayar telah memasuki tenggat dan telah dibatalkan.');
