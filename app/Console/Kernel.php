@@ -17,7 +17,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('command-orders-packing-due-ended')->cron('15 10 * * *');
         $schedule->command('command-orders-packing-due-ended')->cron('30 10 * * *');
         $schedule->command('command-orders-packing-due-ended')->cron('45 10 * * *');
+        $schedule->command('command-orders-packing-due-ended')->cron('55 10 * * *');
         $schedule->command('command-orders-packing-due-ended')->cron('0 11 * * *');
+        $schedule->command('command-orders-packing-due-ended')->cron('10 11 * * *');
         $schedule->command('command-orders-packing-due-ended')->cron('20 11 * * *');
         $schedule->command('command-orders-packing-due-ended')->cron('35 11 * * *');
         $schedule->command('command-orders-packing-due-ended')->cron('55 11 * * *');
