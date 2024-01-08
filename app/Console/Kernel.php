@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('command-orders-packing-due-ended')->cron('30 9 * * *');
-        $schedule->command('command-orders-packing-due-ended')->cron('0 10 * * *');
+        $schedule->command('command-orders-packing-due-ended')->cron('15 10 * * *');
         $schedule->command('command-orders-packing-due-ended')->cron('30 10 * * *');
         $schedule->command('command-orders-packing-due-ended')->cron('45 10 * * *');
         $schedule->command('command-orders-packing-due-ended')->cron('0 11 * * *');
