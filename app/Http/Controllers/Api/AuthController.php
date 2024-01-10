@@ -41,4 +41,23 @@ class AuthController extends Controller
 
         return ResponseAPI($data);
     }
+
+    public function loginForAdmin(Request $request)
+    {
+        $request->validate([
+            // 'email' => 'required|email',
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+        if(!Auth::guard('web')->attempt(['username'=> $request->username,'password'=> $request->password])){
+            return ResponseAPI('Username atau Password Anda Salah', 401);
+        }
+
+        $user = Auth::guard('web')->user();
+        $data['token'] = $user->createToken('auth-pi-admin')->plainTextToken;
+        $data['user'] = $user->makeHidden(['password']);
+
+        return ResponseAPI($data);
+    }
 }

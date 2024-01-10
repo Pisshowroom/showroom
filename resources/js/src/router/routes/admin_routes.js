@@ -4,8 +4,8 @@ export default [
         name: "admin.dashboard",
         component: () => import("../../views/admin/Dashboard.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -13,8 +13,8 @@ export default [
         name: "admin.order.index",
         component: () => import("../../views/admin/order/OrderIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
 
@@ -24,8 +24,8 @@ export default [
         name: "admin.ads.index",
         component: () => import("../../views/admin/ads/AdsIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -34,7 +34,7 @@ export default [
         component: () => import("../../views/admin/ads/AdsForm.vue"),
         meta: {
             // authRequired: true,
-            // rule:'institution'
+            // rule:'admin'
         },
     },
     {
@@ -48,7 +48,7 @@ export default [
         component: () => import("../../views/admin/user/UserIndex.vue"),
         meta: {
             // authRequired: true,
-            // rule:'institution'
+            // rule:'admin'
         },
     },
     {
@@ -56,8 +56,8 @@ export default [
         name: "admin.category.index",
         component: () => import("../../views/admin/category/CategoryIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -65,14 +65,18 @@ export default [
         name: "admin.category.form",
         component: () => import("../../views/admin/category/CategoryForm.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
         path: "/admin/category/edit/:id",
         name: "admin.category.edit",
         component: () => import("../../views/admin/category/CategoryForm.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
     },
     
     {

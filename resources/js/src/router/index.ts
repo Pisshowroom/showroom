@@ -16,6 +16,12 @@ const routes: RouteRecordRaw[] = [
     //     component: () => import( '../admin/Dashboard.vue'),
     // },
 
+    {
+        path: '/admin/login',
+        name: 'admin.login',
+        component: () => import('../views/auth/login.vue'),
+        // meta: { layout: 'auth' },
+    },
     ...admin_routes,
     {
         path: '/analytics',
@@ -475,7 +481,7 @@ const routes: RouteRecordRaw[] = [
         meta: { layout: 'auth' },
     },
     {
-        path: '/pages/error404',
+        path: '/admin/pages/error404',
         name: 'error404',
         component: () => import(/* webpackChunkName: "pages-error404" */ '../views/pages/error404.vue'),
         meta: { layout: 'auth' },
@@ -567,19 +573,26 @@ router.beforeEach((to, from, next) => {
     if (to.meta.authRequired) {
         appSetting.changeAnimation();
         let user: any = auth.users();
+        
         if (user && auth.isAuthenticated()) {
             const rule = to.meta.rule
-            return auth.authRoute(rule, next)
+            
+            // return next('/admin/order/index'); 
+             auth.authRoute(rule, next);
         }
         else if (!auth.isAuthenticated()) {
-            return next('/auth/login')
+            return next('/admin/login')
         }
     } else {
 
         if (auth.isAuthenticated() && to.meta.rule == 'guest') {
+            console.log('x7  to.meta.rule == guest');
+
             return next('/')
         }
-        if (auth.isAuthenticated() && (to.path === "/auth/login" || to.path === "/pages/error404")) {
+        if (auth.isAuthenticated() && (to.path === "/admin/login" || to.path === "/admin/pages/error404")) {
+            console.log('x7   === "/admin/pages/error404 == guest');
+
             return next('/');
         } else if (to.meta.authRequired == undefined && to.name == 'not-found') {
             let user: any = auth.users();
@@ -593,7 +606,7 @@ router.beforeEach((to, from, next) => {
             else if (user && user.permission == 'mudabbir_qaraa') {
                 return next('/ustadz/mudabbir/uncorrected');
             } else {
-                return next('/auth/login');
+                return next('/admin/login');
             }
         }
         if (!auth.isAuthenticated())

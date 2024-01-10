@@ -64,7 +64,7 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
     Route::get('/activity-orders', [DashboardController::class, 'activityOrders']);
     Route::get('/all-type-complaints-counted', [AdminRefundController::class, 'countComplaintsRefundsReturns']);
     // Route::get('/order', [AdminOrderController::class, 'index']);
-    Route::group(['prefix' => 'order'], function () {
+    Route::group(['prefix' => 'order' , 'middleware' => 'auth:api-admin'], function () {
         Route::get('/index', [AdminOrderController::class, 'index']);
         Route::get('/{order}', [AdminOrderController::class, 'detail']);
     });
@@ -207,6 +207,8 @@ Route::group(['prefix' => 'address-seller', 'middleware' => 'auth:api-client'], 
     Route::delete('delete/{address}', [AddressSellerController::class, 'destroy']);
 });
 
+
+Route::post('login-for-admin', [AuthController::class,'loginForAdmin']);
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login-firebase', [AuthController::class, 'loginFirebase']);
     Route::get('/get-a-seller/{sellerId}', [UserController::class, 'getASeller']);
