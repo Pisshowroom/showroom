@@ -26,7 +26,7 @@
           <div class="flex flex-col sm:flex-row">
             <!-- LEFT -->
             <div
-              class="flex flex-col gap-2 theParent w-full sm:w-full md:w-1/3"
+              class="flex flex-col gap-2 theParent w-full sm:w-full md:w-1/2"
             >
               <div class="flex flex-col">
                 <label class="w-full mb-0 font-bold" for="name">Name</label>
@@ -52,11 +52,21 @@
                 >
                 <p>{{ form.birth_date }}</p>
               </div>
+              <!-- Tambahkan  1 field yaitu image -->
+              <div class="flex flex-col gap-2">
+                <label class="w-full md:mb-0 font-bold" for="image">Foto</label>
+                <p>
+                  <img
+                    :src="form.image"
+                    class="w-full h-52 object-cover rounded-md"
+                  />
+                </p>
+              </div>
             </div>
 
             <!-- RIGHT -->
             <div
-              class="flex flex-col gap-2 theParent w-full sm:w-full md:w-1/3"
+              class="flex flex-col gap-2 theParent w-full sm:w-full md:w-1/2"
             >
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="balance"
@@ -107,18 +117,21 @@
             <table class="table-auto w-full">
               <thead>
                 <tr>
-                  <th class="px-4 py-2">ID</th>
-                  <th class="px-4 py-2">Street</th>
-                  <th class="px-4 py-2">City</th>
-                  <th class="px-4 py-2">Person Name</th>
-                  <th class="px-4 py-2">Phone Number</th>
+                  <th class="px-4 py-2">No</th>
+                  <th class="px-4 py-2">Jalan</th>
+                  <th class="px-4 py-2">Kota</th>
+                  <th class="px-4 py-2">Nama Orang</th>
+                  <th class="px-4 py-2">Mo HP</th>
                   <th class="px-4 py-2">Alamat Utama</th>
-                  <th>Alamat Utama Seller</th>
+                  <th class="px-4 py-2">Alamat Utama Seller</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="address in form.addresses" :key="address.id">
-                  <td class="border px-4 py-2">{{ address.id }}</td>
+                <tr
+                  v-for="(address, index) in form.addresses"
+                  :key="address.id"
+                >
+                  <td class="border px-4 py-2">{{ index + 1 }}</td>
                   <td class="border px-4 py-2">{{ address.street }}</td>
                   <td class="border px-4 py-2">
                     {{ address.ro_city.city_name }}
@@ -126,10 +139,72 @@
                   <td class="border px-4 py-2">{{ address.person_name }}</td>
                   <td class="border px-4 py-2">{{ address.phone_number }}</td>
                   <td class="border px-4 py-2">
-                    {{ address.main ? "Ya" : "Tidak" }}
+                    <span v-if="address.main">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+                          fill="#00de0b"
+                        />
+                      </svg>
+                    </span>
+                    <span v-else>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM8.96963 8.96965C9.26252 8.67676 9.73739 8.67676 10.0303 8.96965L12 10.9393L13.9696 8.96967C14.2625 8.67678 14.7374 8.67678 15.0303 8.96967C15.3232 9.26256 15.3232 9.73744 15.0303 10.0303L13.0606 12L15.0303 13.9696C15.3232 14.2625 15.3232 14.7374 15.0303 15.0303C14.7374 15.3232 14.2625 15.3232 13.9696 15.0303L12 13.0607L10.0303 15.0303C9.73742 15.3232 9.26254 15.3232 8.96965 15.0303C8.67676 14.7374 8.67676 14.2625 8.96965 13.9697L10.9393 12L8.96963 10.0303C8.67673 9.73742 8.67673 9.26254 8.96963 8.96965Z"
+                          fill="#ff0000"
+                        />
+                      </svg>
+                    </span>
                   </td>
                   <td>
-                    {{ address.for_seller ? "Ya" : "Tidak" }}
+                    <span v-if="address.for_seller">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z"
+                          fill="#00de0b"
+                        />
+                      </svg>
+                    </span>
+                    <span v-else>
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM8.96963 8.96965C9.26252 8.67676 9.73739 8.67676 10.0303 8.96965L12 10.9393L13.9696 8.96967C14.2625 8.67678 14.7374 8.67678 15.0303 8.96967C15.3232 9.26256 15.3232 9.73744 15.0303 10.0303L13.0606 12L15.0303 13.9696C15.3232 14.2625 15.3232 14.7374 15.0303 15.0303C14.7374 15.3232 14.2625 15.3232 13.9696 15.0303L12 13.0607L10.0303 15.0303C9.73742 15.3232 9.26254 15.3232 8.96965 15.0303C8.67676 14.7374 8.67676 14.2625 8.96965 13.9697L10.9393 12L8.96963 10.0303C8.67673 9.73742 8.67673 9.26254 8.96963 8.96965Z"
+                          fill="#ff0000"
+                        />
+                      </svg>
+                    </span>
                   </td>
                 </tr>
               </tbody>
