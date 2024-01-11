@@ -576,9 +576,8 @@ router.beforeEach((to, from, next) => {
         
         if (user && auth.isAuthenticated()) {
             const rule = to.meta.rule
-            
             // return next('/admin/order/index'); 
-             auth.authRoute(rule, next);
+            auth.authRoute(rule, next);
         }
         else if (!auth.isAuthenticated()) {
             return next('/admin/login')

@@ -124,7 +124,7 @@
 
                       <span
                         class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark"
-                        >{{ $t("User") }}</span
+                        >{{ $t("Pengguna") }}</span
                       >
                     </div>
                   </router-link>
