@@ -41,10 +41,20 @@ export default [
         name: "admin.ads.edit",
         component: () => import("../../views/admin/ads/AdsForm.vue"),
     },
+    /* GROUP USER - USERGR */
     {
         path: "/admin/user/index",
         name: "admin.user.index",
         component: () => import("../../views/admin/user/UserIndex.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
+    },
+    {
+        path: "/admin/user/detail/:id",
+        name: "admin.user.detail",
+        component: () => import("../../views/admin/user/UserDetail.vue"),
         meta: {
             authRequired: true,
             rule:'admin'

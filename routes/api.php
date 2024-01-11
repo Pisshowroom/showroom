@@ -64,17 +64,21 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
     Route::get('/activity-orders', [DashboardController::class, 'activityOrders']);
     Route::get('/all-type-complaints-counted', [AdminRefundController::class, 'countComplaintsRefundsReturns']);
     // Route::get('/order', [AdminOrderController::class, 'index']);
-    Route::group(['prefix' => 'order' , 'middleware' => 'auth:api-admin'], function () {
-        Route::get('/index', [AdminOrderController::class, 'index']);
-        Route::get('/{order}', [AdminOrderController::class, 'detail']);
+    // create route group just middleware  'middleware' => 'auth:api-admin'
+    Route::group(['middleware' => 'auth:api-admin'], function() {
+        Route::group(['prefix' => 'order'], function () {
+            Route::get('/index', [AdminOrderController::class, 'index']);
+            Route::get('/{order}', [AdminOrderController::class, 'detail']);
+        });
+    
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/index', [AdminUserController::class, 'index']);
+            Route::get('/{user}', [AdminUserController::class, 'detail']);
+            Route::post('update/{user}', [AdminUserController::class, 'update']);
+        });
     });
-
-    Route::group(['prefix' => 'user'], function () {
-        // , 'middleware' => 'auth:api-client'
-        Route::get('/index', [AdminUserController::class, 'index']);
-        Route::get('/{user}', [AdminUserController::class, 'detail']);
-        Route::post('update/{user}', [AdminUserController::class, 'update']);
-    });
+    
+   
 
     Route::group(['prefix' => 'admin'], function () {
         // , 'middleware' => 'auth:api-client'

@@ -66,7 +66,7 @@ const actions = ref([
   {
     type: "editIcon",
     to: ({ value }) => {
-      return `/admin/user`;
+      return `/admin/user/detail/${value.id}`;
     },
   },
   {

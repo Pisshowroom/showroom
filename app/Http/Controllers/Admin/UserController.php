@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function detail(User $user)
     {
-        $user->load(['address.ro_city', 'orders']);
+        $user->load(['addresses.ro_city']);
 
         return $user;
     }
