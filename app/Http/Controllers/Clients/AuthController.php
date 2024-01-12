@@ -110,14 +110,9 @@ class AuthController extends Controller
         $user = User::where('api_token', $session)->first();
         if ($user) {
             $request->session()->put('user', $user);
-        }
-
-        Auth::login($user, true);
-
-        if ($user) {
-            // if (preg_match('/PiBrowser/', $request->header('user_agent'), $matches)) {
+            Auth::login($user, true);
             return redirect()->route('buyer.home', ['auth' => base64_encode($user->uid)]);
-            // }
+        } else {
             return redirect()->route('buyer.home');
         }
     }
@@ -256,6 +251,12 @@ class AuthController extends Controller
         } else {
             $user = new User;
             $user->name = $request->name;
+            if (User::where('email', $request->email)->first()) {
+                return response()->json([
+                    "status" => "error",
+                    "message" => "Email sudah digunakan sebelumnya."
+                ]);
+            }
             $user->email = $request->email;
             $randomInteger = '';
             for ($i = 0; $i < 21; $i++) {
