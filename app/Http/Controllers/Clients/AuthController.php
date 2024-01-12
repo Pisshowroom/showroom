@@ -203,7 +203,14 @@ class AuthController extends Controller
                     $user->uid = $request->uid;
                     $user->api_token = bcrypt($request->api_token);
                     $user->name = $request->displayName;
-                    $user->email = $request->email;
+                    if (User::where('email', $request->email)->first()) {
+                        return response()->json([
+                            "status" => "error",
+                            "message" => "Email sudah digunakan sebelumnya."
+                        ]);
+                    } else {
+                        $user->email = $request->email;
+                    }
                     if ($request->photoURL) {
                         try {
                             $contents = file_get_contents($request->photoURL);
@@ -256,8 +263,9 @@ class AuthController extends Controller
                     "status" => "error",
                     "message" => "Email sudah digunakan sebelumnya."
                 ]);
+            } else {
+                $user->email = $request->email;
             }
-            $user->email = $request->email;
             $randomInteger = '';
             for ($i = 0; $i < 21; $i++) {
                 $randomInteger .= mt_rand(0, 9);
