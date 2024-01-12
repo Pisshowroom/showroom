@@ -18,10 +18,12 @@
       </div>
     </div>
     <Table
-      :url="`/admin/order/index`"
+      :url="`/admin/returns/index`"
       :cols="cols"
-      :title="'Daftar Pesanan'"
+      :actions="actions"
+      :title="'Daftar Pengembalian Pesanan'"
       :dropdownAction="false"
+      :sortable="false"
       :searching="true"
       ref="datatable"
     >
@@ -42,23 +44,21 @@ import globalComponents from "@/global-components";
 import Table from "@/components/plugins/Table.vue";
 import { inject, onMounted, reactive, ref, nextTick, watch } from "vue";
 import { Axios } from "axios";
-import auth from "@/services/auth.service";
-const store = useAppStore();
 const axios = <Axios>inject("axios");
-let data: any = ref({});
-const titleActivity: any = ref("Harian");
+
+import auth from "@/services/auth.service";
+import Swal from "sweetalert2";
+
 const datatable: any = ref(null);
-const titleActivity2: any = ref("Harian");
 let user: any = auth.users();
 
 useHead({
-  title: "Pesanan",
+  title: "Pengembalian Pesanan",
 });
 
 const cols =
   ref([
-    // { field: 'number', title: 'No', slot: true, sort: false },
-    { field: "payment_identifier", title: "No. Invoice", sort: true },
+    { field: "payment_identifier", title: "No. Invoice", sort: false },
     {
       field: "nama_user",
       title: "Nama Pembeli",
@@ -67,9 +67,6 @@ const cols =
         return item?.user?.name ?? "-";
       },
     },
-    { field: "market_fee_buyer", title: " Fee Buyer", sort: false },
-    { field: "market_fee_seller", title: " Fee Seller", sort: false },
-    { field: "payment_channel", title: "Channel Pembayaran", sort: false },
     {
       field: "created_at",
       title: "Tanggal",
@@ -88,29 +85,23 @@ const cols =
         let badgeText = item.status;
 
         switch (badgeText) {
-          case "Pending":
+          case "RequestedReturn":
             badgeBgColor = "#FFC107";
             break;
-          case "Paid":
-            badgeBgColor = "#28A745";
-            break;
-          case "Completed":
-            badgeBgColor = "#007BFF";
-            break;
-          case "ProcessedBySeller":
-            badgeBgColor = "#17A2B8";
-            break;
-          case "Shipped":
-            badgeBgColor = "#6610F2";
-            break;
-          case "Delivered":
-            badgeBgColor = "#894dd7";
-            break;
-          case "ExpiredPayment":
-            badgeBgColor = "#6C757D";
-            break;
-          case "Cancelled":
+          case "ReturnDeclined":
             badgeBgColor = "#FF0000";
+            break;
+          case "ReturnAccepted":
+            badgeBgColor = "#f19d00";
+            break;
+          case "ReturnShipped":
+            badgeBgColor = "#0000FF";
+            break;
+          case "ReturnDelivered":
+            badgeBgColor = "#9a009a";
+            break;
+          case "ReturnCompleted":
+            badgeBgColor = "#28A745";
             break;
           default:
             badgeBgColor = "#000000";
@@ -122,69 +113,53 @@ const cols =
     },
 
     {
-      field: "total",
-      title: "Total",
+      field: "return_total",
+      title: "Total Pengembalian",
       sort: false,
       cellRenderer: (item: any) => {
-        return globalComponents.formatPrice(
-          item.total_final ? item.total_final : item.total
-        );
+        return globalComponents.formatPrice(item.refund_total);
       },
     },
+    { field: "actions", title: "Aksi", slot: true, sort: false },
   ]) || [];
 
 const actions = ref([
-  /* {
-    type: 'editDropdown',
+  {
+    type: "previewIcon",
     to: ({ value }) => {
-      return `/institution/student/edit/${value.id}`;
+      return `/admin/refund/detail/${value.id}`;
     },
   },
-  {
-    type: 'previewDropdown',
-    to: ({ value }) => {
-      return `/institution/student/detail/${value.id}`;
-    },
-  }, */
 ]);
 
 let statusRequest = ref(null);
 
-watch(statusRequest, (newVal, oldVal) => {
-  if (newVal === null || newVal === undefined) {
-    datatable.value.getData();
-    // clearFilterIndicator.value = false;
-  }
-});
-
-const statusesOption: any = ref([
-  "Pending",
-  "Paid",
-  "Completed",
-  "ProcessedBySeller",
-  "Shipped",
-  "Delivered",
-  "ExpiredPayment",
-  "Cancelled",
-]);
-
 /* 
-"RequestedRefund",
-  "RefundAccepted",
-  "RefundDone",
-  "RefundDeclined",
+
+    const REQUESTED_RETURN = 'RequestedReturn';
+    const RETURN_DECLINED = 'ReturnDeclined';
+    const RETURN_ACCEPTED = 'ReturnAccepted';
+    const RETURN_SHIPPED = 'ReturnShipped';
+    const RETURN_DELIVERED = 'ReturnDelivered';
+    const RETURN_COMPLETED = 'ReturnCompleted';
+    just take the string, into value strinh
+    */
+const statusesOption: any = ref([
   "RequestedReturn",
+  "ReturnDeclined",
   "ReturnAccepted",
   "ReturnShipped",
   "ReturnDelivered",
   "ReturnCompleted",
-  "Complaint",
-  "ComplaintAccepted",
-  "ComplaintDeclined",
-  "ComplaintCompleted",
-*/
+]);
+
 let filterParams = reactive({});
-// let clearFilterIndicator = ref(false);
+
+watch(statusRequest, (newVal, oldVal) => {
+  if (newVal === null || newVal === undefined) {
+    datatable.value.getData();
+  }
+});
 
 const setStatusRequest = (value: any) => {
   // statusRequest.value = value;
@@ -196,35 +171,14 @@ const setStatusRequest = (value: any) => {
   });
 };
 
-const getData = async () => {
-  // store.isShowMainLoader = true;
-  // store.isShowMainLoader = false;
-  // const response = (await axios.get('/admin/educational-institution/teacher/murajaah')).data;
-  // data.value = response;
-};
-
-/* & not USED anymore */
-/* const clearFilter = () => {
-  if (statusRequest.value != null) {
-    clearFilterIndicator.value = true;
-    statusRequest.value = null;
-    datatable.value.getData();
-
-    setTimeout(() => {
-      clearFilterIndicator.value = false;
-    }, 3000);
-  }
-}; */
-
 const runTheFilter = (value?: any) => {
   datatable.value.getData(filterParams);
 };
 
+const getData = async () => {};
+
 onMounted(async () => {
-  if (auth.isAuthenticated() && auth.getToken() != false) {
-  }
-  // await getData();
-  // datatable.value.getData();
+  await getData();
 });
 </script>
   

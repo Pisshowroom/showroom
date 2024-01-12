@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -20,9 +21,10 @@ class OrderController extends Controller
         ->when($request->filled('statusRequest'), function ($query) use ($request) {
             $query->where('status', $request->statusRequest);
         })
-        ->orderBy('created_at')
-        ->paginate(2);
-        // ->paginate($request->per_page ?? 15);
+        // ->orderByDesc('created_at')
+        ->orderBy(DB::raw("FIELD(status, 'RequestedReturn', 'ReturnShipped', 'ReturnDelivered')"))
+        // ->paginate(2);
+        ->paginate($request->per_page ?? 15);
 
         return $orders;
     }

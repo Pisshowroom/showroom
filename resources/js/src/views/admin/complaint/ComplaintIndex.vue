@@ -18,10 +18,12 @@
       </div>
     </div>
     <Table
-      :url="`/admin/order/index`"
+      :url="`/admin/complaints/index`"
       :cols="cols"
-      :title="'Daftar Pesanan'"
+      :actions="actions"
+      :title="'Daftar Komplain'"
       :dropdownAction="false"
+      :sortable="false"
       :searching="true"
       ref="datatable"
     >
@@ -42,23 +44,21 @@ import globalComponents from "@/global-components";
 import Table from "@/components/plugins/Table.vue";
 import { inject, onMounted, reactive, ref, nextTick, watch } from "vue";
 import { Axios } from "axios";
-import auth from "@/services/auth.service";
-const store = useAppStore();
 const axios = <Axios>inject("axios");
-let data: any = ref({});
-const titleActivity: any = ref("Harian");
+
+import auth from "@/services/auth.service";
+import Swal from "sweetalert2";
+
 const datatable: any = ref(null);
-const titleActivity2: any = ref("Harian");
 let user: any = auth.users();
 
 useHead({
-  title: "Pesanan",
+  title: "Komplain",
 });
 
 const cols =
   ref([
-    // { field: 'number', title: 'No', slot: true, sort: false },
-    { field: "payment_identifier", title: "No. Invoice", sort: true },
+    { field: "payment_identifier", title: "No. Invoice", sort: false },
     {
       field: "nama_user",
       title: "Nama Pembeli",
@@ -67,9 +67,6 @@ const cols =
         return item?.user?.name ?? "-";
       },
     },
-    { field: "market_fee_buyer", title: " Fee Buyer", sort: false },
-    { field: "market_fee_seller", title: " Fee Seller", sort: false },
-    { field: "payment_channel", title: "Channel Pembayaran", sort: false },
     {
       field: "created_at",
       title: "Tanggal",
@@ -88,28 +85,13 @@ const cols =
         let badgeText = item.status;
 
         switch (badgeText) {
-          case "Pending":
+          case "Complaint":
             badgeBgColor = "#FFC107";
             break;
-          case "Paid":
+          case "ComplaintDone":
             badgeBgColor = "#28A745";
             break;
-          case "Completed":
-            badgeBgColor = "#007BFF";
-            break;
-          case "ProcessedBySeller":
-            badgeBgColor = "#17A2B8";
-            break;
-          case "Shipped":
-            badgeBgColor = "#6610F2";
-            break;
-          case "Delivered":
-            badgeBgColor = "#894dd7";
-            break;
-          case "ExpiredPayment":
-            badgeBgColor = "#6C757D";
-            break;
-          case "Cancelled":
+          case "ComplaintDeclined":
             badgeBgColor = "#FF0000";
             break;
           default:
@@ -122,69 +104,84 @@ const cols =
     },
 
     {
-      field: "total",
-      title: "Total",
+      field: "complaint_total",
+      title: "Total Pengembalian",
       sort: false,
       cellRenderer: (item: any) => {
-        return globalComponents.formatPrice(
-          item.total_final ? item.total_final : item.total
-        );
+        return globalComponents.formatPrice(item.refund_total);
       },
     },
+    { field: "actions", title: "Aksi", slot: true, sort: false },
   ]) || [];
 
 const actions = ref([
-  /* {
-    type: 'editDropdown',
+  {
+    type: "previewIcon",
     to: ({ value }) => {
-      return `/institution/student/edit/${value.id}`;
+      return `/admin/refund/detail/${value.id}`;
     },
   },
-  {
-    type: 'previewDropdown',
-    to: ({ value }) => {
-      return `/institution/student/detail/${value.id}`;
+  /* {
+    type: "deleteIcon",
+    click: ({ value }) => {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          popup: "sweet-alerts",
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-dark ltr:mr-3 rtl:ml-3",
+        },
+        buttonsStyling: false,
+      });
+      const toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        customClass: {
+          popup: "color-success",
+        },
+        timer: 2000,
+        showCloseButton: true,
+      });
+
+      swalWithBootstrapButtons
+        .fire({
+          title: "Hapus data?",
+          text: "Apakah kamu yakin untuk menghapus data ini, Data yang dihapus dapat mempengaruhi fungsi pada Aplikasi Mobile !",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Hapus",
+          cancelButtonText: "Batal",
+          reverseButtons: true,
+          padding: "2em",
+        })
+        .then((result) => {
+          if (result.value) {
+            axios.delete(`/admin/complaints/${value.id}`).then((res) => {
+              toast.fire("Data berhasil dihapus.");
+              datatable.value.getData();
+            });
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+          }
+        });
     },
   }, */
 ]);
 
 let statusRequest = ref(null);
 
+const statusesOption: any = ref([
+  "Complaint",
+  "ComplaintCompleted",
+  "ComplaintDeclined",
+]);
+
+let filterParams = reactive({});
+
 watch(statusRequest, (newVal, oldVal) => {
   if (newVal === null || newVal === undefined) {
     datatable.value.getData();
-    // clearFilterIndicator.value = false;
   }
 });
-
-const statusesOption: any = ref([
-  "Pending",
-  "Paid",
-  "Completed",
-  "ProcessedBySeller",
-  "Shipped",
-  "Delivered",
-  "ExpiredPayment",
-  "Cancelled",
-]);
-
-/* 
-"RequestedRefund",
-  "RefundAccepted",
-  "RefundDone",
-  "RefundDeclined",
-  "RequestedReturn",
-  "ReturnAccepted",
-  "ReturnShipped",
-  "ReturnDelivered",
-  "ReturnCompleted",
-  "Complaint",
-  "ComplaintAccepted",
-  "ComplaintDeclined",
-  "ComplaintCompleted",
-*/
-let filterParams = reactive({});
-// let clearFilterIndicator = ref(false);
 
 const setStatusRequest = (value: any) => {
   // statusRequest.value = value;
@@ -196,35 +193,14 @@ const setStatusRequest = (value: any) => {
   });
 };
 
-const getData = async () => {
-  // store.isShowMainLoader = true;
-  // store.isShowMainLoader = false;
-  // const response = (await axios.get('/admin/educational-institution/teacher/murajaah')).data;
-  // data.value = response;
-};
-
-/* & not USED anymore */
-/* const clearFilter = () => {
-  if (statusRequest.value != null) {
-    clearFilterIndicator.value = true;
-    statusRequest.value = null;
-    datatable.value.getData();
-
-    setTimeout(() => {
-      clearFilterIndicator.value = false;
-    }, 3000);
-  }
-}; */
-
 const runTheFilter = (value?: any) => {
   datatable.value.getData(filterParams);
 };
 
+const getData = async () => {};
+
 onMounted(async () => {
-  if (auth.isAuthenticated() && auth.getToken() != false) {
-  }
-  // await getData();
-  // datatable.value.getData();
+  await getData();
 });
 </script>
   

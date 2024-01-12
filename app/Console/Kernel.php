@@ -13,6 +13,23 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('command-orders-packing-due-ended')->cron('0 0 * * *');
+        $schedule->command('command-orders-packing-due-ended')->cron('0 12 * * *');
+        
+        $schedule->command('command-returning-sending-due-ended')->cron('5 0 * * *');
+        $schedule->command('command-returning-sending-due-ended')->cron('5 12 * * *');
+        
+        $schedule->command('command-payment-due-ended')->cron('10 0 * * *');
+        $schedule->command('command-payment-due-ended')->cron('10 12 * * *');
+
+        $schedule->command('command-completed-order-due-ended')->cron('15 0 * * *');
+        $schedule->command('command-completed-order-due-ended')->cron('15 12 * * *');
+
+        
+        // $schedule->command('command-orders-packing-due-ended')->twiceDailyAt(13, 14, 38);
+        // $schedule->command('command-returning-sending-due-ended')->twiceDailyAt(0, 12, 5);
+        // $schedule->command('command-payment-due-ended')->twiceDailyAt(0, 12, 10);
+        // $schedule->command('command-completed-order-due-ended')->twiceDailyAt(0, 12, 15);
     }
 
     /**

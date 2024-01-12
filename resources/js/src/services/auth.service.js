@@ -13,14 +13,16 @@ class AuthService {
     user = null;
     login(user) {
         return axios
-            .post(API_URL + '/admin/institution/login', {
-                email: user.email,
+            .post(API_URL + '/login-for-admin', {
+                // email: user.email,
+                username: user.username,
                 password: user.password,
             })
             .then((response) => {
                 if (response.data.token) {
                     this.token = response.data.token;
-                    if (response.data.user.role == 'admin') {
+                    response.data.user.permission = 'admin';
+                    /* if (response.data.user.role == 'admin') {
                         response.data.user.permission = 'admin';
                     } else if (response.data.user.role == 'admin_institution' && response.data.user.educational_institution_id != null) {
                         response.data.user.permission = 'institution';
@@ -28,7 +30,7 @@ class AuthService {
                         response.data.user.permission = 'mudabbir';
                     } else if (response.data.user.role == 'mudabbir' && response.data.user.educational_institution_id == null) {
                         response.data.user.permission = 'mudabbir_qaraa';
-                    }
+                    } */
                     this.user = response.data.user;
                     localStorage.setItem('api-token', response.data.token);
                     localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -39,6 +41,7 @@ class AuthService {
     isAuthenticated() {
         this.token = localStorage.getItem('api-token');
         if (this.token != null) {
+            console.log("isAuth check : " + this.token);
             axios.defaults.headers.common['Authorization'] = this.token;
             return true;
         }
@@ -69,8 +72,8 @@ class AuthService {
         const user = this.users();
         let ability = [];
         if (user) {
-            switch (user.role) {
-                case 'admin_institution':
+            switch (user.permission) {
+                /* case 'admin_institution':
                     ability.push('institution');
                     ability.push('mudabbirInstitution');
                     ability.push('profile');
@@ -89,7 +92,7 @@ class AuthService {
                     ability.push('mudabbirInstitution');
                     ability.push('profile');
                     ability.push('public');
-                    break;
+                    break; */
 
                 case 'admin':
                     ability.push('admin');
@@ -107,10 +110,46 @@ class AuthService {
     authRoute(rule, next) {
         const ability = this.getAbility();
         const user = this.users();
+        console.log('si user');
+        console.log(user);
+        console.log(rule);
+        // return next();
+
         if (ability.includes(rule)) {
             return next();
-        } else if (user.role == 'admin') {
+        } else if (rule == null) {
+            return next();
+        }
+        else if (user.role == 'admin') {
             return next('/');
+        } else {
+            this.user = null;
+            this.token = null;
+            localStorage.removeItem('api-token');
+            localStorage.removeItem('user');
+            return next('/auth/login');
+        }
+
+        /* if (user != null) {
+            console.log('x8  user != null');
+            console.log(rule);
+            console.log(user);
+
+            return next('/admin/order/index');
+
+        } else {
+            this.user = null;
+            this.token = null;
+            localStorage.removeItem('api-token');
+            localStorage.removeItem('user');
+            console.log('x8  else {');
+
+            // return next('/auth/login');
+        } */
+        /* if (ability.includes(rule)) {
+            return next();
+        } else if (user.role == 'admin') {
+            return next('/admin/order/index');
         } else if (user.role == 'admin_institution') {
             return next('/institusi/dashboard');
         } else if (user.role == 'mudabbir') {
@@ -123,12 +162,12 @@ class AuthService {
             localStorage.removeItem('api-token');
             localStorage.removeItem('user');
             return next('/auth/login');
-        }
+        } */
     }
     users() {
         if (localStorage.getItem('user')) {
             const user = JSON.parse(localStorage.getItem('user'));
-            if (user.role == 'admin') {
+            /* if (user.role == 'admin') {
                 user.permission = 'admin';
             } else if (user.role == 'admin_institution' && user.educational_institution_id != null) {
                 user.permission = 'institution';
@@ -136,7 +175,8 @@ class AuthService {
                 user.permission = 'mudabbir';
             } else if (user.role == 'mudabbir' && user.educational_institution_id == null) {
                 user.permission = 'mudabbir_qaraa';
-            }
+            } */
+            user.permission = 'admin';
             this.user = user;
         }
         return this.user;

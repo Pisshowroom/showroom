@@ -24,7 +24,7 @@ class ProductController extends Controller
                 });
             }], 'quantity');
 
-        // $query->byNotVariant();
+        $query->byNotVariant();
         $filtered = false;
 
         if ($request->filled('rating')) {
@@ -271,7 +271,6 @@ class ProductController extends Controller
 
             if (empty($variant['id'])) {
                 $theVariant = $productParent->replicate();
-                $productName .= " AA";
                 if (isset($theImageItem) && is_uploaded_file($theImageItem)) {
                     $image = uploadFoto($theImageItem, 'uploads/products/' . $user->id);
                     $image = [$image];
@@ -289,7 +288,6 @@ class ProductController extends Controller
             } else {
                 $theVariant = Product::where('parent_id', $productParent->id)->where('id', $variant['id'])
                     ->firstOrFail();
-                $productName .= " BB";
                 if (isset($theImageItem) && is_uploaded_file($theImageItem)) {
                     $image = uploadFoto($theImageItem, 'uploads/products/' . $user->id);
                     $image = [$image];

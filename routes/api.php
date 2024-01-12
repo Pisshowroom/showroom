@@ -64,16 +64,21 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
     Route::get('/activity-orders', [DashboardController::class, 'activityOrders']);
     Route::get('/all-type-complaints-counted', [AdminRefundController::class, 'countComplaintsRefundsReturns']);
     // Route::get('/order', [AdminOrderController::class, 'index']);
-    Route::group(['prefix' => 'order'], function () {
-        Route::get('/index', [AdminOrderController::class, 'index']);
+    // create route group just middleware  'middleware' => 'auth:api-admin'
+    Route::group(['middleware' => 'auth:api-admin'], function() {
+        Route::group(['prefix' => 'order'], function () {
+            Route::get('/index', [AdminOrderController::class, 'index']);
+            Route::get('/{order}', [AdminOrderController::class, 'detail']);
+        });
+    
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/index', [AdminUserController::class, 'index']);
+            Route::get('/{user}', [AdminUserController::class, 'detail']);
+            Route::post('update/{user}', [AdminUserController::class, 'update']);
+        });
     });
-
-    Route::group(['prefix' => 'user'], function () {
-        // , 'middleware' => 'auth:api-client'
-        Route::get('/index', [AdminUserController::class, 'index']);
-        Route::get('/{user}', [AdminUserController::class, 'detail']);
-        Route::post('update/{user}', [AdminUserController::class, 'update']);
-    });
+    
+   
 
     Route::group(['prefix' => 'admin'], function () {
         // , 'middleware' => 'auth:api-client'
@@ -87,10 +92,10 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
         Route::get('/list-return-back', [AdminOrderDataController::class, 'listReturnBack']);
         Route::get('/list-refund', [AdminOrderDataController::class, 'listRefund']);
         Route::post('/accept-complaint/{order}', [AdminOrderDataController::class, 'acceptComplaint']);
-        Route::post('/accept-return-back/{order}', [AdminOrderDataController::class, 'acceptReturnBack']);
+        Route::post('/accept-return/{order}', [AdminOrderDataController::class, 'acceptReturnBack']);
         Route::post('/accept-refund/{order}', [AdminOrderDataController::class, 'acceptRefund']);
         Route::post('/reject-complaint/{order}', [AdminOrderDataController::class, 'rejectComplaint']);
-        Route::post('/reject-return-back/{order}', [AdminOrderDataController::class, 'rejectReturnBack']);
+        Route::post('/reject-return/{order}', [AdminOrderDataController::class, 'rejectReturnBack']);
         Route::post('/reject-refund/{order}', [AdminOrderDataController::class, 'rejectRefund']);
     });
 
@@ -105,8 +110,16 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
     Route::group(['prefix' => 'refunds'], function () {
         Route::get('/index', [AdminRefundController::class, 'index']);
         // Route::post('/', [AdminRefundController::class, 'store']);
-        Route::get('/{refund}', [AdminRefundController::class, 'show']);
+        Route::get('/{order}', [AdminRefundController::class, 'show']);
         Route::delete('/{refund}', [AdminRefundController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'complaints'], function () {
+        Route::get('/index', [AdminComplaintController::class, 'index']);
+        Route::get('/{order}', [AdminComplaintController::class, 'show']);
+    });
+    Route::group(['prefix' => 'returns'], function () {
+        Route::get('/index', [AdminReturnOrderController::class, 'index']);
     });
 
     Route::group(['prefix' => 'ads'], function () {
@@ -198,6 +211,8 @@ Route::group(['prefix' => 'address-seller', 'middleware' => 'auth:api-client'], 
     Route::delete('delete/{address}', [AddressSellerController::class, 'destroy']);
 });
 
+
+Route::post('login-for-admin', [AuthController::class,'loginForAdmin']);
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login-firebase', [AuthController::class, 'loginFirebase']);
     Route::get('/get-a-seller/{sellerId}', [UserController::class, 'getASeller']);

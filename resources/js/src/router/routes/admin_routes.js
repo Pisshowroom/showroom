@@ -4,8 +4,8 @@ export default [
         name: "admin.dashboard",
         component: () => import("../../views/admin/Dashboard.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -13,19 +13,18 @@ export default [
         name: "admin.order.index",
         component: () => import("../../views/admin/order/OrderIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
 
-    // master data iklan
     {
         path: "/admin/ads/index",
         name: "admin.ads.index",
         component: () => import("../../views/admin/ads/AdsIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -33,8 +32,8 @@ export default [
         name: "admin.ads.form",
         component: () => import("../../views/admin/ads/AdsForm.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -42,13 +41,23 @@ export default [
         name: "admin.ads.edit",
         component: () => import("../../views/admin/ads/AdsForm.vue"),
     },
+    /* GROUP USER - USERGR */
     {
         path: "/admin/user/index",
         name: "admin.user.index",
         component: () => import("../../views/admin/user/UserIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
+        },
+    },
+    {
+        path: "/admin/user/detail/:id",
+        name: "admin.user.detail",
+        component: () => import("../../views/admin/user/UserDetail.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -56,8 +65,8 @@ export default [
         name: "admin.category.index",
         component: () => import("../../views/admin/category/CategoryIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -65,14 +74,18 @@ export default [
         name: "admin.category.form",
         component: () => import("../../views/admin/category/CategoryForm.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
         path: "/admin/category/edit/:id",
         name: "admin.category.edit",
         component: () => import("../../views/admin/category/CategoryForm.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
     },
     
     {
@@ -80,8 +93,8 @@ export default [
         name: "admin.sub-category.index",
         component: () => import("../../views/admin/sub-category/SubCategoryIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -89,8 +102,8 @@ export default [
         name: "admin.sub-category.form",
         component: () => import("../../views/admin/sub-category/SubCategoryForm.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -104,8 +117,8 @@ export default [
         name: "admin.setting.index",
         component: () => import("../../views/admin/setting/SettingIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -113,8 +126,8 @@ export default [
         name: "admin.setting.form",
         component: () => import("../../views/admin/setting/SettingForm.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
@@ -128,23 +141,37 @@ export default [
         name: "admin.refund.index",
         component: () => import("../../views/admin/refund/RefundIndex.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
-        path: "/admin/refund/form",
-        name: "admin.refund.form",
-        component: () => import("../../views/admin/refund/RefundForm.vue"),
+        path: "/admin/refund/detail/:id",
+        name: "admin.refund.detail",
+        component: () => import("../../views/admin/refund/RefundDetail.vue"),
         meta: {
-            // authRequired: true,
-            // rule:'institution'
+            authRequired: true,
+            rule:'admin'
+        },
+    },
+
+    {
+        path: "/admin/complaint/index",
+        name: "admin.complaint.index",
+        component: () => import("../../views/admin/complaint/ComplaintIndex.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
         },
     },
     {
-        path: "/admin/refund/edit/:id",
-        name: "admin.refund.edit",
-        component: () => import("../../views/admin/refund/RefundForm.vue"),
+        path: "/admin/return-order/index",
+        name: "admin.return-order.index",
+        component: () => import("../../views/admin/return-order/ReturnOrderIndex.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
     },
     // {
     //     path: '/institution/prodi/edit/:id',

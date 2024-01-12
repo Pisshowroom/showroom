@@ -34,7 +34,7 @@ const titleActivity2: any = ref("Harian");
 let user: any = auth.users();
 
 useHead({
-  title: "Pesanan",
+  title: "Pengguna",
 });
 
 const cols =
@@ -66,7 +66,7 @@ const actions = ref([
   {
     type: "editIcon",
     to: ({ value }) => {
-      return `/admin/user`;
+      return `/admin/user/detail/${value.id}`;
     },
   },
   {

@@ -107,6 +107,13 @@ class GlobalComponents {
         }
         return fd;
     }
+    // create helpers util , when params string phone_number is not null returning +62 concat phone_number, but if null returning ""
+    formatPhoneNumber(phone_number) {
+        if (phone_number) {
+            return `+62${phone_number}`;
+        }
+        return '';
+    }
     dataToFormData(data) {
         const formData = new FormData();
         Object.keys(data).forEach((key) => {
