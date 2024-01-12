@@ -50,11 +50,11 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if(!Auth::guard('web')->attempt(['username'=> $request->username,'password'=> $request->password])){
+        if(!Auth::guard('web_admin')->attempt(['username'=> $request->username,'password'=> $request->password])){
             return ResponseAPI('Username atau Password Anda Salah', 401);
         }
 
-        $user = Auth::guard('web')->user();
+        $user = Auth::guard('web_admin')->user();
         $data['token'] = $user->createToken('auth-pi-admin')->plainTextToken;
         $data['user'] = $user->makeHidden(['password']);
 
