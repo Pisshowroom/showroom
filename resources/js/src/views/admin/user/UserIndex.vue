@@ -14,8 +14,8 @@
     <div :style="{ height: '70vh' }"></div>
   </div>
 </template>
-  
-<script setup lang="ts">
+    
+  <script setup lang="ts">
 import { useHead } from "@vueuse/head";
 import { useAppStore } from "@/stores/index";
 import globalComponents from "@/global-components";
@@ -76,18 +76,18 @@ const actions = ref([
     },
   },
   /*  {
-    type: 'editIcon',
-    to: ({ value }) => {
-      return `/admin/user`;
-    },
-  }, */
+      type: 'editIcon',
+      to: ({ value }) => {
+        return `/admin/user`;
+      },
+    }, */
   /* 
-  {
-    type: 'previewDropdown',
-    to: ({ value }) => {
-      return `/institution/student/detail/${value.id}`;
-    },
-  }, */
+    {
+      type: 'previewDropdown',
+      to: ({ value }) => {
+        return `/institution/student/detail/${value.id}`;
+      },
+    }, */
 ]);
 
 var statsCount: any = ref({});
@@ -99,6 +99,6 @@ onMounted(async () => {
   await getData();
 });
 </script>
-  
-  
-  
+    
+    
+    

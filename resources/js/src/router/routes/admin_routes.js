@@ -40,6 +40,10 @@ export default [
         path: "/admin/ads/edit/:id",
         name: "admin.ads.edit",
         component: () => import("../../views/admin/ads/AdsForm.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
     },
     /* GROUP USER - USERGR */
     {
@@ -110,6 +114,10 @@ export default [
         path: "/admin/sub-category/edit/:id",
         name: "admin.sub-category.edit",
         component: () => import("../../views/admin/sub-category/SubCategoryForm.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
     },
 
     {
@@ -134,6 +142,10 @@ export default [
         path: "/admin/setting/edit/:id",
         name: "admin.setting.edit",
         component: () => import("../../views/admin/setting/SettingForm.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
     },
 
     {
