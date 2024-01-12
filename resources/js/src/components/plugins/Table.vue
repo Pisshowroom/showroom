@@ -763,10 +763,13 @@ const allProgress = (material, murajaah, mudabbir) => {
                               >
                             </template>
                           </li>
-                          <!-- <li>
-                            <template v-if="previewDataDropdown"></template>
-                            <router-link :to="previewDataDropdown.to(data)">Detail</router-link>
-                          </li> -->
+                          <li>
+                            <template v-if="previewDataDropdown">
+                              <router-link :to="previewDataDropdown.to(data)"
+                                >Detail</router-link
+                              >
+                            </template>
+                          </li>
                           <li>
                             <template v-if="deleteDataDropdown">
                               <button

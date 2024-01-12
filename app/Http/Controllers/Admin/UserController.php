@@ -79,4 +79,16 @@ class UserController extends Controller
         $user->seller_description = $request->seller_description;
         $user->save();
     }
+
+    public function destroy(User $user)
+    {
+        if ($user->is_seller) {
+            $user->is_seller_active = false;
+            $user->save();
+        }
+
+        $user->delete();
+
+        return ResponseAPI('Pengguna berhasil dihapus', 200);
+    }
 }

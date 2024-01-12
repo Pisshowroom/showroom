@@ -75,6 +75,7 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
             Route::get('/index', [AdminUserController::class, 'index']);
             Route::get('/{user}', [AdminUserController::class, 'detail']);
             Route::post('update/{user}', [AdminUserController::class, 'update']);
+            Route::delete('/{user}', [AdminUserController::class,'destroy']);
         });
     });
     

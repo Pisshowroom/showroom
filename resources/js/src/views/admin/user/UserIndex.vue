@@ -5,7 +5,7 @@
       :cols="cols"
       :actions="actions"
       :title="'Daftar Pengguna'"
-      :dropdownAction="false"
+      :dropdownAction="true"
       :searching="true"
       ref="datatable"
     >
@@ -26,6 +26,7 @@ import { inject, onMounted, reactive, ref, computed } from "vue";
 import { Axios } from "axios";
 import auth from "@/services/auth.service";
 const store = useAppStore();
+import Swal from "sweetalert2";
 const axios = <Axios>inject("axios");
 let data: any = ref({});
 const titleActivity: any = ref("Harian");
@@ -64,6 +65,65 @@ const cols =
 
 const actions = ref([
   {
+    type: "previewDropdown",
+    to: ({ value }) => {
+      return `/institution/student/edit/${value.id}`;
+    },
+  },
+  {
+    type: "editDropdown",
+    to: ({ value }) => {
+      return `/institution/student/edit/${value.id}`;
+    },
+  },
+  {
+    type: "deleteDropdown",
+    /* to: ({ value }) => {
+      return `/institution/student/edit/${value.id}`;
+    }, */
+    click: ({ value }) => {
+      // popup SweetAlert
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          popup: "sweet-alerts",
+          confirmButton: "btn btn-danger",
+          cancelButton: "btn btn-dark ltr:mr-3 rtl:ml-3",
+        },
+        buttonsStyling: false,
+      });
+      const toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        customClass: {
+          popup: "color-success",
+        },
+        timer: 2000,
+        showCloseButton: true,
+      });
+      swalWithBootstrapButtons
+        .fire({
+          title: "Hapus data?",
+          text: "Apakah kamu yakin untuk menghapus data ini",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Hapus",
+          cancelButtonText: "Batal",
+          reverseButtons: true,
+          padding: "2em",
+        })
+        .then((result) => {
+          if (result.value) {
+            axios.delete(`/admin/user/${value.id}`).then((res) => {
+              toast.fire("Data berhasil dihapus.");
+              datatable.value.getData();
+            });
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+          }
+        });
+    },
+  },
+  /* {
     type: "editIcon",
     to: ({ value }) => {
       return `/admin/user/detail/${value.id}`;
@@ -74,7 +134,7 @@ const actions = ref([
     click: ({ value }) => {
       // return `/admin/user`;
     },
-  },
+  }, */
   /*  {
       type: 'editIcon',
       to: ({ value }) => {

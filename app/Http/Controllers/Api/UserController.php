@@ -224,12 +224,14 @@ class UserController extends Controller
         return ResponseAPI('Berhasil mengubah status seller', 200);
     }
 
-    // delete user account
     public function deleteAccount()
     {
         $user = Auth::guard('api-client')->user();
         $user->phone_number = null;
         $user->email = uniqid() . $user->email;
+        if ($user->is_seller) {
+            $user->is_seller_active = false;
+        }
         $user->save();
         
         $user->delete();

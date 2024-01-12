@@ -5,9 +5,9 @@
     >
       <li>
         <router-link
-          to="/admin/refund/index"
+          to="/admin/user/index"
           class="text-primary hover:underline font-medium"
-          >Refund</router-link
+          >Pengguna</router-link
         >
       </li>
       <li class="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
@@ -28,19 +28,20 @@
             <div
               class="flex flex-col gap-2 theParent w-full sm:w-full md:w-1/2"
             >
+              <!-- ... -->
               <div class="flex flex-col">
-                <label class="w-full mb-0 font-bold" for="name">Name</label>
+                <label class="w-full mb-0 font-bold" for="name">Nama</label>
                 <p>{{ form.name }}</p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="email"
-                  >Email</label
+                  >Surel</label
                 >
                 <p>{{ form.email }}</p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="phone_number"
-                  >Phone Number</label
+                  >Nomor Telepon</label
                 >
                 <p>
                   {{ globalComponents.formatPhoneNumber(form.phone_number) }}
@@ -48,11 +49,10 @@
               </div>
               <div class="flex flex-col gap-2">
                 <label class="w-full md:mb-0 font-bold" for="birth_date"
-                  >Birth Date</label
+                  >Tanggal Lahir</label
                 >
                 <p>{{ form.birth_date }}</p>
               </div>
-              <!-- Tambahkan  1 field yaitu image -->
               <div class="flex flex-col gap-2">
                 <label class="w-full md:mb-0 font-bold" for="image">Foto</label>
                 <p>
@@ -68,22 +68,23 @@
             <div
               class="flex flex-col gap-2 theParent w-full sm:w-full md:w-1/2"
             >
+              <!-- ... -->
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="balance"
-                  >Balance</label
+                  >Saldo</label
                 >
                 <p>{{ globalComponents.formatNumber(form.balance, true) }}</p>
               </div>
               <div v-if="form.is_seller == 1">
                 <div class="flex flex-col">
                   <label class="w-full md:mb-0 font-bold" for="seller_name"
-                    >Seller Name</label
+                    >Nama Penjual</label
                   >
                   <p>{{ form.seller_name }}</p>
                 </div>
                 <div class="flex flex-col">
                   <label class="w-full md:mb-0 font-bold" for="is_seller_active"
-                    >Status Aktif Seller</label
+                    >Status Aktif Penjual</label
                   >
                   <p>{{ form.is_seller_active ? "Ya" : "Tidak" }}</p>
                 </div>
@@ -91,7 +92,7 @@
                   <label
                     class="w-full md:mb-0 font-bold"
                     for="phone_number_seller"
-                    >Phone Number Seller</label
+                    >Nomor Telepon Penjual</label
                   >
                   <p>
                     {{
