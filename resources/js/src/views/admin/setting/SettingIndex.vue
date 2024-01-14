@@ -42,7 +42,7 @@ useHead({
 const cols =
   ref([
     { field: "id", title: "ID", sort: false },
-    { field: "name", title: "Name", sort: false },
+    { field: "name", title: "Nama", sort: false },
     { field: "value", title: "Nilai", sort: false },
     // { field: 'balance', title: 'Balance', sort: false },
     { field: "actions", title: "Aksi", slot: true, sort: false },

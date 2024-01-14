@@ -71,22 +71,33 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
             Route::get('/{order}', [AdminOrderController::class, 'detail']);
         });
     
-        Route::group(['prefix' => 'user'], function () {
+        Route::group(['prefix' => 'users'], function () {
             Route::get('/index', [AdminUserController::class, 'index']);
             Route::get('/{user}', [AdminUserController::class, 'detail']);
             Route::post('update/{user}', [AdminUserController::class, 'update']);
             Route::delete('/{user}', [AdminUserController::class,'destroy']);
         });
+
+        Route::group(['prefix' => 'admins'], function () {
+            Route::get('/index', [AdminAdminController::class, 'index']);
+            Route::post('/', [AdminAdminController::class, 'store']);
+            Route::get('/{admin}', [AdminAdminController::class, 'detail']);
+            // Route::post('update/{admin}', [AdminAdminController::class, 'update']);
+        });
+
+        Route::group(['prefix' => 'categories'], function () {
+            Route::get('/index', [AdminCategoryController::class, 'index']);
+            Route::get('/all-categories', [AdminCategoryController::class, 'allCategories']);
+            Route::post('/', [AdminCategoryController::class, 'store']);
+            Route::get('/{category}', [AdminCategoryController::class, 'show']);
+            // Route::post('update/{category}', [AdminCategoryController::class, 'update']);
+            Route::delete('/{category}', [AdminCategoryController::class, 'destroy']);
+        });
+    
     });
     
    
 
-    Route::group(['prefix' => 'admin'], function () {
-        // , 'middleware' => 'auth:api-client'
-        Route::get('/index', [AdminAdminController::class, 'index']);
-        Route::get('/{admin}', [AdminAdminController::class, 'detail']);
-        Route::post('update/{admin}', [AdminAdminController::class, 'update']);
-    });
 
     Route::group(['prefix' => 'complaint'], function () {
         Route::get('/list-complaint', [AdminOrderDataController::class, 'listComplaint']);

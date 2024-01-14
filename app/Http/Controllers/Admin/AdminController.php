@@ -22,9 +22,43 @@ class AdminController extends Controller
         return $admin;
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
+    {
+        $editMode = $request->has('id');
+        $admin = $editMode ? Admin::findOrFail($request->id) : new Admin;
+
+        $request->validate([
+            'name' => 'required',
+            'username' => 'required|unique:admins,username' . ($editMode ? ',' . $admin->id : ''),
+            'password' => $editMode ? 'sometimes' : 'required',
+            'image' => 'required',
+        ]);
+
+        $dataInput = $request->all();
+        if ($request->filled('password')) {
+            $dataInput['password'] = bcrypt($request->password);
+        }
+
+        $img = $dataInput['image'];
+        if (isset($img) && is_uploaded_file($img)) {
+            $dataInput['image'] = uploadFoto($img, 'uploads/admins/');
+        } else if ($editMode && !empty($img)) {
+            $dataInput['image'] = $admin->image;
+        }
+
+        $admin->fill($dataInput);
+        $admin->save();
+
+        return response()->json([
+            'message' => $editMode ? 'Admin updated successfully' : 'Admin created successfully',
+            'admin' => $admin
+        ]);
+    }
+
+   /*  public function create(Request $request)
     {
         $request->validate([
+            'name' => 'required',
             'username' => 'required|unique:admins,username',
             'password' => 'required',
             'image' => 'required',
@@ -34,7 +68,7 @@ class AdminController extends Controller
         $dataInput['password'] = bcrypt($request->password);
         $img = $dataInput['image'];
         if (isset($img) && is_uploaded_file($img)) {
-            $dataInput['image'] = uploadFoto($img, 'uploads/products/');
+            $dataInput['image'] = uploadFoto($img, 'uploads/admins/');
         }
 
         $admin = Admin::create($dataInput);
@@ -45,6 +79,7 @@ class AdminController extends Controller
     public function update(Request $request, Admin $admin)
     {
         $request->validate([
+            'name' => 'required',
             'username' => 'required|unique:admins,username,' . $admin->id,
             'password' => 'required',
             'image' => 'required',
@@ -54,7 +89,7 @@ class AdminController extends Controller
         $dataInput['password'] = bcrypt($request->password);
         $img = $dataInput['image'];
         if (isset($img) && is_uploaded_file($img)) {
-            $dataInput['image'] = uploadFoto($img, 'uploads/products/');
+            $dataInput['image'] = uploadFoto($img, 'uploads/admins/');
         } else if (!empty($img)) {
             $dataInput['image'] = $admin->image;
         }
@@ -63,7 +98,7 @@ class AdminController extends Controller
 
         return $admin;
     }
-
+ */
     public function delete(Admin $admin)
     {
         $admin->delete();

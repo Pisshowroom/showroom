@@ -252,109 +252,13 @@ const axios = <Axios>inject("axios");
 const file: any = ref(null);
 
 onMounted(async () => {
-  form.value = (await axios.get(`/admin/user/${currentRouteId}`)).data;
+  form.value = (await axios.get(`/admin/users/${currentRouteId}`)).data;
 });
 
 useHead({
-  title: "Detail Pengajuan",
+  title: "Detail Pengguna",
 });
 
-const approveRequesting = () => {
-  const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-      popup: "sweet-alerts",
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-dark ltr:mr-3 rtl:ml-3",
-    },
-    buttonsStyling: false,
-  });
-  const toast = Swal.mixin({
-    toast: true,
-    position: "bottom-right",
-    showConfirmButton: false,
-    customClass: {
-      popup: "color-success",
-    },
-    timer: 1002,
-    showCloseButton: true,
-  });
-  swalWithBootstrapButtons
-    .fire({
-      title: "Terima Pengajuan",
-      text: "Apakah kamu yakin untuk menerima Pengajuan Ini ?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Ya, Approve",
-      cancelButtonText: "Batal",
-      reverseButtons: true,
-      padding: "2em",
-    })
-    .then((result) => {
-      if (result.value) {
-        console.log(
-          `/admin/complaint/accept-${typeComplaint.value}/${form.value.id}`
-        );
 
-        axios
-          .post(
-            `/admin/complaint/accept-${typeComplaint.value}/${form.value.id}`
-          )
-          .then((res) => {
-            toast.fire("Pengajuan berhasil diapprove.");
-            router.push(`/admin/${typeComplaint.value}/index`);
-          });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-      }
-    });
-};
-
-const rejectRequesting = () => {
-  const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-      popup: "sweet-alerts",
-      confirmButton: "btn btn-danger",
-      cancelButton: "btn btn-dark ltr:mr-3 rtl:ml-3",
-    },
-    buttonsStyling: false,
-  });
-  const toast = Swal.mixin({
-    toast: true,
-    position: "bottom-right",
-    showConfirmButton: false,
-    customClass: {
-      popup: "color-success",
-    },
-    timer: 1002,
-    showCloseButton: true,
-  });
-  swalWithBootstrapButtons
-    .fire({
-      title: "Tolak Pengajuan",
-      text: "Apakah kamu yakin untuk tolak Pengajuan Ini ?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Ya, Tolak",
-      cancelButtonText: "Batal",
-      reverseButtons: true,
-      padding: "2em",
-    })
-    .then((result) => {
-      if (result.value) {
-        console.log(
-          `/admin/complaint/reject-${typeComplaint.value}/${form.value.id}`
-        );
-
-        axios
-          .post(
-            `/admin/complaint/reject-${typeComplaint.value}/${form.value.id}`
-          )
-          .then((res) => {
-            toast.fire("Pengajuan telah ditolak.");
-            router.push(`/admin/${typeComplaint.value}/index`);
-          });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-      }
-    });
-};
 </script>
 

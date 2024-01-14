@@ -1,7 +1,7 @@
 <template>
   <div>
     <Table
-      :url="`/admin/user/index`"
+      :url="`/admin/users/index`"
       :cols="cols"
       :actions="actions"
       :title="'Daftar Pengguna'"
@@ -41,7 +41,7 @@ useHead({
 const cols =
   ref([
     { field: "id", title: "ID", sort: false },
-    { field: "name", title: "Name", sort: false },
+    { field: "name", title: "Nama", sort: false },
     { field: "email", title: "Email", sort: false },
     {
       field: "phone_number",
@@ -114,7 +114,7 @@ const actions = ref([
         })
         .then((result) => {
           if (result.value) {
-            axios.delete(`/admin/user/${value.id}`).then((res) => {
+            axios.delete(`/admin/users/${value.id}`).then((res) => {
               toast.fire("Data berhasil dihapus.");
               datatable.value.getData();
             });

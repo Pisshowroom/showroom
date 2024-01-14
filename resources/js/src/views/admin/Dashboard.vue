@@ -7,7 +7,7 @@
       >
         <div class="flex justify-between">
           <div class="ltr:mr-1 rtl:ml-1 text-md font-semibold">
-            Commerce Balance
+            Saldo Commerce
           </div>
         </div>
         <div class="flex items-center mt-2">

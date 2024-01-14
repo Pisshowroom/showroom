@@ -6,7 +6,7 @@
       :addName="'Tambah'"
       :addRoute="'/admin/admin/form'"
       :actions="actions"
-      :title="'Daftar Sub Kategori'"
+      :title="'Daftar Admin'"
       :dropdownAction="false"
       :searching="true"
       ref="datatable"
@@ -36,16 +36,16 @@ const datatable: any = ref(null);
 let user: any = auth.users();
 
 useHead({
-  title: "Sub Kategori",
+  title: "Admin",
 });
 
 const cols =
   ref([
     // { field: 'id', title: 'No', slot: true, sort: false },
-    { field: "name", title: "Name", sort: false },
+    { field: "name", title: "Nama", sort: false },
     {
-      field: "category",
-      title: "Kategori Induk",
+      field: "username",
+      title: "Username",
       sort: false,
       cellRenderer: (item: any) => {
         return item.category?.name ?? "-";

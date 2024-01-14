@@ -64,6 +64,35 @@ export default [
             rule:'admin'
         },
     },
+    /* GROUP ADMIN - ADMINGR */
+    {
+        path: "/admin/admin/index",
+        name: "admin.admin.index",
+        component: () => import("../../views/admin/admin/AdminIndex.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
+    },
+    {
+        path: "/admin/admin/form",
+        name: "admin.admin.form",
+        component: () => import("../../views/admin/admin/AdminForm.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
+    },
+    {
+        path: "/admin/admin/edit/:id",
+        name: "admin.admin.edit",
+        component: () => import("../../views/admin/admin/AdminForm.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
+    },
+    /* GROUP CATEGORY - CATEGORYGR */
     {
         path: "/admin/category/index",
         name: "admin.category.index",
