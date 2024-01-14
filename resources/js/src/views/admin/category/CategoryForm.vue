@@ -219,7 +219,8 @@ onMounted(async () => {
       images: {
         baseImage:
           form.value.image != null
-            ? axios.getUri().replace("/api", "") + form.value.image
+            ? // ? axios.getUri().replace("/api", "") + form.value.image
+              form.value.image
             : "/assets/images/file-preview.svg",
         backgroundImage: "",
       },

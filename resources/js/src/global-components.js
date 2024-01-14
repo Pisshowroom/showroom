@@ -19,6 +19,29 @@ class GlobalComponents {
     formatTime(time) {
         return moment(time, 'HH:mm:ss').format('HH:mm a');
     }
+    getImageUrlOrFallback(imageUrl, fallbackUrl) {
+        return new Promise((resolve, reject) => {
+            if (imageUrl == null || imageUrl == undefined || imageUrl == '') {
+                resolve(fallbackUrl);
+            } else {
+                // axios.getUri().replace("/api", "")
+                imageUrl = window.location.origin.replace("/api", "") + imageUrl;
+            }
+            let originalUrl = imageUrl;
+
+
+            const img = new Image();
+            img.src = imageUrl;
+            img.onerror = function () {
+                // console.rog('Image is not valid or could not be loaded:', fallbackUrl);
+                resolve(fallbackUrl);
+            };
+            img.onload = function () {
+                // console.rog("Lolos ke imageUrl Lagi");
+                resolve(originalUrl);
+            };
+        });
+    }
     formatPrice(price) {
         const formatter = new Intl.NumberFormat('id-ID', {
             style: 'currency',
