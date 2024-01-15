@@ -8,10 +8,20 @@ export default [
             rule:'admin'
         },
     },
+    /* GROUP ORDER - ORDERGR */
     {
         path: "/admin/order/index",
         name: "admin.order.index",
         component: () => import("../../views/admin/order/OrderIndex.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
+    },
+    {
+        path: "/admin/order/detail/:id",
+        name: "admin.order.detail",
+        component: () => import("../../views/admin/order/OrderDetail.vue"),
         meta: {
             authRequired: true,
             rule:'admin'

@@ -22,7 +22,16 @@ import globalComponents from "@/global-components";
 
 // @ts-ignore
 import Table from "@/components/plugins/Table.vue";
-any = ref("Harian");
+import { inject, onMounted, reactive, ref, computed } from "vue";
+import { Axios } from "axios";
+import auth from "@/services/auth.service";
+const store = useAppStore();
+import Swal from "sweetalert2";
+const axios = <Axios>inject("axios");
+let data: any = ref({});
+const titleActivity: any = ref("Harian");
+const datatable: any = ref(null);
+const titleActivity2: any = ref("Harian");
 let user: any = auth.users();
 
 useHead({

@@ -492,7 +492,7 @@ class OrderDataController extends Controller
 
     public function cancelRefundReturnComplaint(Order $order)
     {
-        $order->status = Order::COMPLETED;
+        $order->status = Order::DELIVERED;
 
         $order->save();
         return ResponseAPI('Permintaan pengembalian dibatalkan', 200);

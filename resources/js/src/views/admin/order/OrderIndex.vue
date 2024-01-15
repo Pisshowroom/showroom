@@ -68,8 +68,8 @@ const cols =
         return item?.user?.name ?? "-";
       },
     },
-    { field: "market_fee_buyer", title: " Fee Buyer", sort: false },
-    { field: "market_fee_seller", title: " Fee Seller", sort: false },
+    /*    { field: "market_fee_buyer", title: " Fee Buyer", sort: false },
+    { field: "market_fee_seller", title: " Fee Seller", sort: false }, */
     { field: "payment_channel", title: "Channel Pembayaran", sort: false },
     {
       field: "created_at",

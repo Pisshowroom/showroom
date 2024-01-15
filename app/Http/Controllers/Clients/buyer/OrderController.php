@@ -142,7 +142,7 @@ class OrderController extends Controller
         if (!$order)
             return redirect("/pembeli/pesananku")->with('error', 'Pesanan tidak ditemukan')->with('auth', base64_encode($user->uid));
 
-        $order->status = Order::COMPLETED;
+        $order->status = Order::DELIVERED;
 
         $order->save();
         return redirect("/pembeli/pesananku")->with('success', 'Permintaan pengembalian dibatalkan')->with('auth', base64_encode($user->uid));
