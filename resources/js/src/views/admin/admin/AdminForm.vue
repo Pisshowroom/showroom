@@ -66,6 +66,19 @@
                   v-model="form.username"
                 />
               </div>
+              <div class="flex flex-col gap-2" v-if="!editMode">
+                <label class="w-full md:mb-0 font-semibold" for="password"
+                  >Password</label
+                >
+                <input
+                  class="md:w-4/4 form-input"
+                  id="password"
+                  type="password"
+                  required
+                  placeholder="Masukkan password"
+                  v-model="form.password"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -220,6 +233,7 @@ const route = useRoute();
 import Swal from "sweetalert2";
 import "flatpickr/dist/flatpickr.css";
 let user: any = auth.users();
+let editMode: any = ref(false);
 
 let form: any = ref({
   name: "",
@@ -241,6 +255,7 @@ let allCategories: any = ref([]);
 onMounted(async () => {
   if (route.params.id) {
     form.value = (await axios.get(`/admin/admins/${route.params.id}`)).data;
+    editMode.value = true;
     let validImageUrl = "/assets/images/file-preview.svg"; // Default image
 
     await globalComponents
@@ -252,12 +267,6 @@ onMounted(async () => {
         validImageUrl = imageUrl;
       });
 
-    /* if (form.value.image != null) {
-      
-      let validImageUrl = globalComponents.getImageUrlOrFallback(form.value.image, "/assets/images/file-preview.svg");
-    } else {
-      
-    } */
     new FileUploadWithPreview("myFirstImage", {
       images: {
         baseImage: validImageUrl,
@@ -309,6 +318,7 @@ const handleSubmit = async () => {
         store.isShowMainLoader = false;
         if (res.data.message) {
           var statusCodeColor = res.status < 300 ? "success" : "danger";
+          console.log("A1 : " + res.data);
 
           globalComponents.handleToast(statusCodeColor, res.data.message);
         } else {
@@ -326,6 +336,7 @@ const handleSubmit = async () => {
       .catch((e) => {
         store.isShowMainLoader = false;
         console.log("A2 : " + e);
+        console.log("A3 : " + e.data);
 
         globalComponents.handleToast("danger", e.message);
       });

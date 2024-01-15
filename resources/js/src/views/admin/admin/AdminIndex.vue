@@ -47,10 +47,8 @@ const cols =
       field: "username",
       title: "Username",
       sort: false,
-      cellRenderer: (item: any) => {
-        return item.category?.name ?? "-";
-      },
     },
+    { field: "roundedImage1", title: "Gambar", sort: false },
     // { field: 'balance', title: 'Balance', sort: false },
     { field: "actions", title: "Aksi", slot: true, sort: false },
   ]) || [];

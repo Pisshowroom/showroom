@@ -19,7 +19,7 @@ class AdminController extends Controller
 
     public function detail(Admin $admin)
     {
-        return $admin;
+        return $admin->makeHidden(["password"]);
     }
 
     public function store(Request $request)
@@ -49,10 +49,8 @@ class AdminController extends Controller
         $admin->fill($dataInput);
         $admin->save();
 
-        return response()->json([
-            'message' => $editMode ? 'Admin updated successfully' : 'Admin created successfully',
-            'admin' => $admin
-        ]);
+        // return ResponseAPI($editMode ? "Admin updated successfully" : "Admin created successfully");
+        return ResponseAPI("No Content", 204);
     }
 
    /*  public function create(Request $request)
