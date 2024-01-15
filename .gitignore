@@ -17,4 +17,4 @@ yarn-error.log
 .phpunit.result.cache
 /.fleet
 /.idea
-/.vscode
+# /.vscode

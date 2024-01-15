@@ -282,7 +282,7 @@ const handleSubmit = async () => {
       })
       .catch((e) => {
         store.isShowMainLoader = false;
-        let message = e.response.data?.message ?? e.message;
+        let message = e.response?.data?.message || e.message;
         globalComponents.handleToast("danger", message);
       });
   } else {

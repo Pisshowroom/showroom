@@ -283,9 +283,9 @@ const handleSubmit = async () => {
       })
       .catch((e) => {
         store.isShowMainLoader = false;
-        console.log("A2 : " + e);
+        let message = e.response?.data?.message || e.message;
 
-        globalComponents.handleToast("danger", e.message);
+        globalComponents.handleToast("danger", message);
       });
   } else {
     globalComponents.handleToast("danger", "Lengkapi data dengan benar");

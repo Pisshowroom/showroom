@@ -11,7 +11,10 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         $admins = Admin::when($request->filled('search'), function ($query) use ($request) {
-            $query->where('name', 'like', "%$request->search%");
+            $query->where(function($query) use ($request) {
+                $query->where('name', 'like', "%{$request->search}%")
+                    ->orWhere('username', 'like', "%{$request->search}%");
+            });
         })->paginate($request->per_page ?? 15);
 
         return $admins;

@@ -20,6 +20,7 @@
     <Table
       :url="`/admin/order/index`"
       :cols="cols"
+      :actions="actions"
       :title="'Daftar Pesanan'"
       :dropdownAction="false"
       :searching="true"
@@ -131,9 +132,16 @@ const cols =
         );
       },
     },
+    { field: "actions", title: "Aksi", slot: true, sort: false },
   ]) || [];
 
 const actions = ref([
+  {
+    type: "previewIcon",
+    to: ({ value }) => {
+      return `/admin/refund/detail/${value.id}`;
+    },
+  },
   /* {
     type: 'editDropdown',
     to: ({ value }) => {
