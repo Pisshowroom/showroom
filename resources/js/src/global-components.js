@@ -43,6 +43,10 @@ class GlobalComponents {
         });
     }
     formatPrice(price) {
+        if (price == null || price == undefined || price == '') {
+            return 'Rp0';
+        }
+        
         const formatter = new Intl.NumberFormat('id-ID', {
             style: 'currency',
             currency: 'IDR',
@@ -52,6 +56,9 @@ class GlobalComponents {
         return formatter.format(price);
     }
     formatThousand(angka) {
+        if (angka == null || angka == undefined || angka == '') {
+            return '0';
+        }
         return angka.toLocaleString('en-US').replace(/,/g, '.') ?? '';
     }
     dateFormat(datetime, format = null) {
@@ -136,6 +143,9 @@ class GlobalComponents {
             return `+62${phone_number}`;
         }
         return '';
+    }
+    isEmpty(value) { 
+        return value === null || value === undefined || value === "";
     }
     dataToFormData(data) {
         const formData = new FormData();

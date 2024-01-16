@@ -67,6 +67,59 @@
                 >
                 <p>{{ form.service_fee }}</p>
               </div>
+
+              <template v-if="form.delivery_service_code != null">
+                <div class="flex flex-col">
+                  <label
+                    class="w-full md:mb-0 font-bold"
+                    for="delivery_receipt_number"
+                    >Nomor Resi Pengiriman</label
+                  >
+                  <p>{{ form.delivery_receipt_number || "-" }}</p>
+                </div>
+                <div class="flex flex-col">
+                  <label
+                    class="w-full md:mb-0 font-bold"
+                    for="delivery_estimation_day"
+                    >Estimasi Hari Pengiriman</label
+                  >
+                  <p>{{ form.delivery_estimation_day || "-" }}</p>
+                </div>
+                <div class="flex flex-col">
+                  <label
+                    class="w-full md:mb-0 font-bold"
+                    for="delivery_service_code"
+                    >Kode Layanan Pengiriman</label
+                  >
+                  <p>{{ form.delivery_service_code || "-" }}</p>
+                </div>
+                <div class="flex flex-col">
+                  <label
+                    class="w-full md:mb-0 font-bold"
+                    for="delivery_service_name"
+                    >Nama Layanan Pengiriman</label
+                  >
+                  <p>{{ form.delivery_service_name || "-" }}</p>
+                </div>
+                <div class="flex flex-col">
+                  <label
+                    class="w-full md:mb-0 font-bold"
+                    for="delivery_service_kind"
+                    >Jenis Layanan Pengiriman</label
+                  >
+                  <p>{{ form.delivery_service_kind || "-" }}</p>
+                </div>
+                <div class="flex flex-col">
+                  <label
+                    class="w-full md:mb-0 font-bold"
+                    for="delivery_service_kind_description"
+                    >Deskripsi Jenis Layanan Pengiriman</label
+                  >
+                  <p>
+                    {{ form.delivery_service_kind_description || "-" }}
+                  </p>
+                </div>
+              </template>
               <!-- ... -->
             </div>
 
@@ -74,45 +127,116 @@
             <div
               class="flex flex-col gap-2 theParent w-full sm:w-full md:w-1/2"
             >
+              <!-- Payment Number -->
+              <div class="flex flex-col">
+                <label
+                  class="w-full md:mb-0 font-bold"
+                  for="delivery_service_kind"
+                  >Channel Pembayaran</label
+                >
+                <p>{{ form.payment_channel || "-" }}</p>
+              </div>
+              <div v-if="form.va_number != null" class="flex flex-col">
+                <label class="w-full md:mb-0 font-bold" for="va_number"
+                  >Nomor Virtual ACcount</label
+                >
+                <p>{{ form.va_number }}</p>
+              </div>
+              <div v-if="form.qr_id != null" class="flex flex-col">
+                <label class="w-full md:mb-0 font-bold" for="qr_id"
+                  >QRIS ID</label
+                >
+                <p>{{ form.qr_id }}</p>
+              </div>
+              <div
+                v-if="form.outlet_payment_code != null"
+                class="flex flex-col"
+              >
+                <label
+                  class="w-full md:mb-0 font-bold"
+                  for="outlet_payment_code"
+                  >Kode Pembayaran Outlet/Retail</label
+                >
+                <p>{{ form.outlet_payment_code }}</p>
+              </div>
+              <!-- End Of Payment Number -->
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="subtotal"
                   >Subtotal</label
                 >
-                <p>{{ form.subtotal }}</p>
+                <p>{{ form.subtotal || "-" }}</p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="total"
                   >Total</label
                 >
                 <p>
-                  {{ form.total_final != null ? form.total_final : form.total }}
+                  {{ globalComponents.formatPrice(form.total) }}
                 </p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="discount_product"
-                  >Diskon Produk</label
+                  >Diskon Yang Didapat Pembeli</label
                 >
-                <p>{{ form.discount_product }}</p>
+                <p>{{ globalComponents.formatPrice(form.discount_product) }}</p>
               </div>
               <div class="flex flex-col" v-if="form.refund != null">
                 <label class="w-full md:mb-0 font-bold" for="refund"
-                  >Refund</label
+                  >Telah Dilakukan Refund Senilai</label
                 >
-                <p>{{ form.refund }}</p>
+                <p>{{ globalComponents.formatPrice(form.refund) }}</p>
               </div>
-              <!-- create div if status ==  -->
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="market_fee_buyer"
                   >Fee Pembeli</label
                 >
-                <p>{{ form.market_fee_buyer ?? "-" }}</p>
+                <p>{{ globalComponents.formatPrice(form.market_fee_buyer) }}</p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="market_fee_seller"
                   >Fee Penjual</label
                 >
-                <p>{{ form.market_fee_seller ?? "-" }}</p>
+                <p>
+                  {{ globalComponents.formatPrice(form.market_fee_seller) }}
+                </p>
               </div>
+              <div v-if="form.paid_at != null" class="flex flex-col">
+                <label class="w-full md:mb-0 font-bold" for="paid_at"
+                  >Telah Dibayar Pada</label
+                >
+                <p>{{ globalComponents.formatDateTime(form.paid_at) }}</p>
+              </div>
+              <div
+                v-if="form.payment_due != null && form.paid_at == null"
+                class="flex flex-col"
+              >
+                <label class="w-full md:mb-0 font-bold" for="payment_due"
+                  >Jatuh Tempo Pembayaran</label
+                >
+                <p>{{ globalComponents.formatDateTime(form.payment_due) }}</p>
+              </div>
+              <div v-if="form.packing_due != null" class="flex flex-col">
+                <label class="w-full md:mb-0 font-bold" for="packing_due"
+                  >Jatuh Tempo Pengemasan</label
+                >
+                <p>{{ globalComponents.formatDateTime(form.packing_due) }}</p>
+              </div>
+              <div
+                v-if="form.completed_order_due != null"
+                class="flex flex-col"
+              >
+                <label
+                  class="w-full md:mb-0 font-bold"
+                  for="completed_order_due"
+                  >Jatuh Tempo Pesanan Selesai</label
+                >
+                <p>
+                  {{
+                    globalComponents.formatDateTime(form.completed_order_due)
+                  }}
+                </p>
+              </div>
+
               <!-- ... -->
             </div>
           </div>
@@ -233,11 +357,10 @@
 import "@suadelabs/vue3-multiselect/dist/vue3-multiselect.css";
 import { useHead } from "@vueuse/head";
 import { useAppStore } from "@/stores/index";
-import { ref, onMounted, computed, reactive, watch, inject } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import auth from "@/services/auth.service";
 import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
 import { Axios } from "axios";
 import globalComponents from "@/global-components";
 const router = useRouter();
@@ -250,13 +373,6 @@ let currentRouteId: any = route.params.id;
 let typeComplaint = ref("");
 
 let form: any = ref({});
-const rules = {
-  form: {
-    orderId: { required },
-    // value: { required },
-  },
-};
-const v1 = useVuelidate(rules, { form });
 
 const store = useAppStore();
 const axios = <Axios>inject("axios");
@@ -264,6 +380,17 @@ const file: any = ref(null);
 
 onMounted(async () => {
   form.value = (await axios.get(`/admin/order/${currentRouteId}`)).data;
+  form.value.total =
+    form.value.total_final != null ? form.value.total_final : form.value.total;
+  console.log(globalComponents.formatPrice(null));
+  console.log(globalComponents.formatPrice(undefined));
+  console.log(globalComponents.formatPrice(0));
+  console.log(globalComponents.formatPrice(""));
+  console.log(globalComponents.formatPrice("------"));
+  console.log(globalComponents.formatThousand(null));
+  console.log(globalComponents.formatThousand(undefined));
+  console.log(globalComponents.formatThousand(0));
+  console.log(globalComponents.formatThousand(""));
 });
 
 // create a function to handle the file upload

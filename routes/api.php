@@ -95,9 +95,6 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
         });
     
     });
-    
-   
-
 
     Route::group(['prefix' => 'complaint'], function () {
         Route::get('/list-complaint', [AdminOrderDataController::class, 'listComplaint']);

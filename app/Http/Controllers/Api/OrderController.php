@@ -284,6 +284,7 @@ class OrderController extends Controller
 
         // dd($order);
 
+        $order->paid_at = now();
         $order->status = Order::PROCESSED_BY_SELLER;
         $order->payment_status = Order::PAYMENT_PAID;
         $order->save();

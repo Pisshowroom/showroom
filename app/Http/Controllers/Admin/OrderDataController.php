@@ -38,6 +38,7 @@ class OrderDataController extends Controller
             return ResponseAPI('Gagal, Data Pembeli Tidak Ditemukan', 404);
         }
         $order->status = Order::COMPLAINT_COMPLETED;
+        $order->refund = $order->refund_total;
 
         $order->save();
 
@@ -88,6 +89,7 @@ class OrderDataController extends Controller
             return ResponseAPI('Gagal, Data Pembeli Tidak Ditemukan', 404);
         }
 
+        $order->refund = $order->refund_total;
         $order->status = Order::REFUND_DONE;
         $order->save();
 
