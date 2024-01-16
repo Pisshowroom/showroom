@@ -27,7 +27,18 @@ export default [
             rule:'admin'
         },
     },
-
+    /* GROUP PRODUCT - PRODUCTGR */
+    {
+        path: "/admin/product/index",
+        name: "admin.product.index",
+        component: () => import("../../views/admin/product/ProductIndex.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
+    },
+    
+    /* GROUP ADS - ADSGR */
     {
         path: "/admin/ads/index",
         name: "admin.ads.index",

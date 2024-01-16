@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AddressSellerController;
 use App\Http\Controllers\Api\ArticleController;
@@ -92,6 +93,13 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
             Route::get('/{category}', [AdminCategoryController::class, 'show']);
             // Route::post('update/{category}', [AdminCategoryController::class, 'update']);
             Route::delete('/{category}', [AdminCategoryController::class, 'destroy']);
+        });
+
+        Route::group(['prefix' => 'products'], function () {
+            Route::get('/index', [AdminProductController::class, 'index']);
+            Route::post('/', [AdminProductController::class, 'store']);
+            Route::get('/{category}', [AdminProductController::class, 'detail']);
+            Route::delete('/{category}', [AdminProductController::class, 'destroy']);
         });
     
     });

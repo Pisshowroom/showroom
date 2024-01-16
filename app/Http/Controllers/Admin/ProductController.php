@@ -11,7 +11,7 @@ class ProductController extends Controller
     // list product can be filtered by category, sub category, promo, latest, lowest price, highest price and can be searched by name
     public function index(Request $request)
     {
-        $query = Product::query();
+        $query = Product::with(['category']);
 
         if ($request->filled('promo')) {
             $query->whereNotNull('discount');

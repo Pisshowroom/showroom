@@ -313,6 +313,7 @@ const formatDate = (date) => {
 let timeoutId: number | undefined = undefined;
 
 const change = (data) => {
+  console.log("CHANGE TYPE", data.change_type);
   if (data?.change_type == "search" || data?.change_type == "pagesize") {
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -359,8 +360,6 @@ async function getData(paramsCustom?: any) {
         },
       })
     ).data;
-    console.log("response.total");
-    console.log(response.total);
 
     totalRows.value = response.total;
     pageSize.value = response.per_page;
