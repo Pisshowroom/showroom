@@ -255,7 +255,7 @@
     >
       <!-- Addresses Table -->
       <div class="flex flex-col gap-2">
-        <label class="w-full md:mb-0 font-bold">Daftar Alamat Pesanan</label>
+        <label class="w-full md:mb-0 font-bold">Item Pesanan</label>
         <div class="table-responsives">
           <table class="table-auto w-full">
             <thead>
@@ -303,7 +303,6 @@
         </div>
       </div>
     </div>
-    <div :style="{ height: '50vh' }"></div>
   </div>
 </template>
 
@@ -333,21 +332,34 @@ const axios = <Axios>inject("axios");
 const file: any = ref(null);
 
 onMounted(async () => {
-  form.value = (await axios.get(`/admin/order/${currentRouteId}`)).data;
-  form.value.total =
-    form.value.total_final != null ? form.value.total_final : form.value.total;
-  form.value.theAddress =
-    form.value?.user?.address?.address_text +
-    ", " +
-    form.value?.user?.address?.address_description +
-    " - " +
-    form.value?.user?.address?.street +
-    ", " +
-    form.value?.user?.address?.village +
-    ", " +
-    form.value?.user?.address?.district +
-    ", " +
-    form.value?.user?.address?.city;
+  // form.value = (await axios.get(`/admin/order/${currentRouteId}`)).data;
+  await axios
+    .get(`/admin/order/${currentRouteId}`)
+    .then((res) => {
+      form.value = res.data;
+      form.value.total =
+        form.value.total_final != null
+          ? form.value.total_final
+          : form.value.total;
+      form.value.theAddress =
+        form.value?.user?.address?.address_text +
+        ", " +
+        form.value?.user?.address?.address_description +
+        " - " +
+        form.value?.user?.address?.street +
+        ", " +
+        form.value?.user?.address?.village +
+        ", " +
+        form.value?.user?.address?.district +
+        ", " +
+        form.value?.user?.address?.city;
+    })
+    .catch((error) => {
+      console.log("DAPAT ERROR");
+
+      let errorMessage = error.response?.data?.message || error.message;
+      globalComponents.handleToast("danger", errorMessage);
+    });
 });
 
 // create a function to handle the file upload
