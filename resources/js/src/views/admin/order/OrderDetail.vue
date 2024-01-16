@@ -51,21 +51,25 @@
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="address_name"
-                  >Nama Alamat</label
+                  >Alamat Pembeli</label
                 >
-                <p>{{ form.address?.name }}</p>
+                <p>{{ form.theAddress || "-" }}</p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="delivery_cost"
                   >Biaya Pengiriman</label
                 >
-                <p>{{ form.delivery_cost }}</p>
+                <p class="text-indigo-600 font-semibold">
+                  {{ globalComponents.formatPrice(form.delivery_cost) }}
+                </p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="service_fee"
                   >Biaya Layanan</label
                 >
-                <p>{{ form.service_fee }}</p>
+                <p class="text-indigo-600 font-semibold">
+                  {{ globalComponents.formatPrice(form.service_fee) }}
+                </p>
               </div>
 
               <template v-if="form.delivery_service_code != null">
@@ -88,18 +92,14 @@
                 <div class="flex flex-col">
                   <label
                     class="w-full md:mb-0 font-bold"
-                    for="delivery_service_code"
-                    >Kode Layanan Pengiriman</label
-                  >
-                  <p>{{ form.delivery_service_code || "-" }}</p>
-                </div>
-                <div class="flex flex-col">
-                  <label
-                    class="w-full md:mb-0 font-bold"
                     for="delivery_service_name"
                     >Nama Layanan Pengiriman</label
                   >
-                  <p>{{ form.delivery_service_name || "-" }}</p>
+                  <p>
+                    {{ form.delivery_service_name || "-" }} - ({{
+                      form.delivery_service_code || "-"
+                    }})
+                  </p>
                 </div>
                 <div class="flex flex-col">
                   <label
@@ -164,13 +164,15 @@
                 <label class="w-full md:mb-0 font-bold" for="subtotal"
                   >Subtotal</label
                 >
-                <p>{{ form.subtotal || "-" }}</p>
+                <p class="text-indigo-600 font-semibold">
+                  {{ globalComponents.formatPrice(form.subtotal) }}
+                </p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="total"
                   >Total</label
                 >
-                <p>
+                <p class="text-indigo-600 font-semibold">
                   {{ globalComponents.formatPrice(form.total) }}
                 </p>
               </div>
@@ -178,25 +180,31 @@
                 <label class="w-full md:mb-0 font-bold" for="discount_product"
                   >Diskon Yang Didapat Pembeli</label
                 >
-                <p>{{ globalComponents.formatPrice(form.discount_product) }}</p>
+                <p class="text-indigo-600 font-semibold">
+                  {{ globalComponents.formatPrice(form.discount_product) }}
+                </p>
               </div>
               <div class="flex flex-col" v-if="form.refund != null">
                 <label class="w-full md:mb-0 font-bold" for="refund"
                   >Telah Dilakukan Refund Senilai</label
                 >
-                <p>{{ globalComponents.formatPrice(form.refund) }}</p>
+                <p class="text-indigo-600 font-semibold">
+                  {{ globalComponents.formatPrice(form.refund) }}
+                </p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="market_fee_buyer"
                   >Fee Pembeli</label
                 >
-                <p>{{ globalComponents.formatPrice(form.market_fee_buyer) }}</p>
+                <p class="text-indigo-600 font-semibold">
+                  {{ globalComponents.formatPrice(form.market_fee_buyer) }}
+                </p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="market_fee_seller"
                   >Fee Penjual</label
                 >
-                <p>
+                <p class="text-indigo-600 font-semibold">
                   {{ globalComponents.formatPrice(form.market_fee_seller) }}
                 </p>
               </div>
@@ -382,15 +390,18 @@ onMounted(async () => {
   form.value = (await axios.get(`/admin/order/${currentRouteId}`)).data;
   form.value.total =
     form.value.total_final != null ? form.value.total_final : form.value.total;
-  console.log(globalComponents.formatPrice(null));
-  console.log(globalComponents.formatPrice(undefined));
-  console.log(globalComponents.formatPrice(0));
-  console.log(globalComponents.formatPrice(""));
-  console.log(globalComponents.formatPrice("------"));
-  console.log(globalComponents.formatThousand(null));
-  console.log(globalComponents.formatThousand(undefined));
-  console.log(globalComponents.formatThousand(0));
-  console.log(globalComponents.formatThousand(""));
+  form.value.theAddress =
+    form.value?.user?.address?.address_text +
+    ", " +
+    form.value?.user?.address?.address_description +
+    " - " +
+    form.value?.user?.address?.street +
+    ", " +
+    form.value?.user?.address?.village +
+    ", " +
+    form.value?.user?.address?.district +
+    ", " +
+    form.value?.user?.address?.city;
 });
 
 // create a function to handle the file upload

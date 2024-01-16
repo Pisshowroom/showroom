@@ -44,7 +44,7 @@ class GlobalComponents {
     }
     formatPrice(price) {
         if (price == null || price == undefined || price == '') {
-            return 'Rp0';
+            return 'Rp 0';
         }
         
         const formatter = new Intl.NumberFormat('id-ID', {
