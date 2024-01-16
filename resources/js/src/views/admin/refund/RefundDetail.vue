@@ -90,7 +90,10 @@
           <!-- Under The 2 Col Showing Data -->
           <div class="grid grid-cols-1 gap-5">
             <div v-if="typeComplaint == 'return' || typeComplaint == 'refund'">
-              <div class="flex flex-col gap-2" v-if="typeComplaint == 'return'">
+              <div
+                class="flex flex-col gap-2 mt-4"
+                v-if="typeComplaint == 'return'"
+              >
                 <label class="w-full md:mb-0 font-semibold" for="page"
                   >Tenggat Pengiriman Barang</label
                 >

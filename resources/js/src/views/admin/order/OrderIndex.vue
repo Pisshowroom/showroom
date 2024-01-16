@@ -139,7 +139,7 @@ const actions = ref([
   {
     type: "previewIcon",
     to: ({ value }) => {
-      return `/admin/refund/detail/${value.id}`;
+      return `/admin/order/detail/${value.id}`;
     },
   },
   /* {
