@@ -234,27 +234,44 @@ const axios = <Axios>inject("axios");
 const file: any = ref(null);
 
 onMounted(async () => {
-  form.value = (await axios.get(`/admin/refunds/${currentRouteId}`)).data;
-  if (form.value.status.toLowerCase().includes("refund")) {
-    typeComplaint.value = "refund";
-    titleType.value = "Refund";
-  } else if (form.value.status.toLowerCase().includes("return")) {
-    typeComplaint.value = "return";
-    titleType.value = "Return(Pengembalian Barang)";
-  } else if (form.value.status.toLowerCase().includes("complaint")) {
-    typeComplaint.value = "complaint";
-    titleType.value = "Komplain Pesanan";
-  }
+  store.isShowMainLoader = true;
 
-  form.value.userData =
-    form.value.user?.name +
-    " - " +
-    form.value.user?.email +
-    " - " +
-    (form.value.user?.phone_number
-      ? "(+62 " + form.value.user?.phone_number + ")"
-      : "(No HP Tidak Tersedia)");
-  console.log(form.value);
+  // form.value = (await axios.get(`/admin/refunds/${currentRouteId}`)).data;
+
+  await axios
+    .get(`/admin/refunds/${currentRouteId}`)
+    .then((res) => {
+      form.value = res.data;
+      if (form.value.status.toLowerCase().includes("refund")) {
+        typeComplaint.value = "refund";
+        titleType.value = "Refund";
+      } else if (form.value.status.toLowerCase().includes("return")) {
+        typeComplaint.value = "return";
+        titleType.value = "Return(Pengembalian Barang)";
+      } else if (form.value.status.toLowerCase().includes("complaint")) {
+        typeComplaint.value = "complaint";
+        titleType.value = "Komplain Pesanan";
+      }
+
+      form.value.userData =
+        form.value.user?.name +
+        " - " +
+        form.value.user?.email +
+        " - " +
+        (form.value.user?.phone_number
+          ? "(+62 " + form.value.user?.phone_number + ")"
+          : "(No HP Tidak Tersedia)");
+      console.log(form.value);
+      store.isShowMainLoader = false;
+    })
+    .catch((error) => {
+      store.isShowMainLoader = false;
+
+      console.log("DAPAT ERROR");
+
+      let errorMessage = error.response?.data?.message || error.message;
+      globalComponents.handleToast("danger", errorMessage);
+    });
 });
 
 useHead({

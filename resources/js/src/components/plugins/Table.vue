@@ -314,7 +314,11 @@ let timeoutId: number | undefined = undefined;
 
 const change = (data) => {
   console.log("CHANGE TYPE", data.change_type);
-  if (data?.change_type == "search" || data?.change_type == "pagesize") {
+  if (
+    data?.change_type == "search" ||
+    data?.change_type == "pagesize" ||
+    data?.change_type == "sort"
+  ) {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }

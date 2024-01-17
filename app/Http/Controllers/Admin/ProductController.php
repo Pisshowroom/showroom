@@ -8,26 +8,21 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // list product can be filtered by category, sub category, promo, latest, lowest price, highest price and can be searched by name
     public function index(Request $request)
     {
         $query = Product::with(['category']);
 
-        if ($request->filled('promo')) {
-            $query->whereNotNull('discount');
+        $filtered = false;
+
+        if ($filtered == false) {
+            $query->orderBy("$request->col", "$request->dir");
+        }
+        if ($request->filled('search')) {
+            $query->where('name', 'like', "%$request->search%");
+            // $filtered = true;
         }
 
-        if ($request->filled('lowest_price')) {
-            $query->orderBy('price');
-            $filtered = true;
-        }
-
-        if ($request->filled('highest_price')) {
-            $query->orderByDesc('price');
-            $filtered = true;
-        }
-
-        $products = $query->paginate(15);
+        $products = $query->paginate($request->per_page ?? 15);
 
         return $products;
     }

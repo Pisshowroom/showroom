@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex flex-wrap mb-2 gap-3">
+    <!-- <div class="flex flex-wrap mb-2 gap-3">
       <div class="flex flex-col">
         <label class="font-semibold" for="faculty">Kategori</label>
         <multiselect
@@ -16,7 +16,7 @@
           @select="setStatusRequest"
         ></multiselect>
       </div>
-    </div>
+    </div> -->
     <Table
       :url="`/admin/products/index`"
       :cols="cols"

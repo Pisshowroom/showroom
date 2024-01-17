@@ -253,6 +253,8 @@ const file: any = ref(null);
 let allCategories: any = ref([]);
 
 onMounted(async () => {
+  store.isShowMainLoader = true;
+
   if (route.params.id) {
     form.value = (await axios.get(`/admin/admins/${route.params.id}`)).data;
     editMode.value = true;
@@ -281,6 +283,7 @@ onMounted(async () => {
       },
     });
   }
+  store.isShowMainLoader = false;
 });
 
 useHead({

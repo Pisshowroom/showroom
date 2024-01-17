@@ -163,12 +163,10 @@ const getActivity = async (value) => {
   if (value == "weekly") titleActivity.value = "Harian";
   else if (value == "monthly") titleActivity.value = "Mingguan";
   else if (value == "yearly") titleActivity.value = "Bulanan";
-  store.isShowMainLoader = true;
   activitySeries.value = [];
   activityChart.xaxis.categories = [];
   const response = (await axios.get(`/admin/activity-orders?type=${value}`))
     .data;
-  store.isShowMainLoader = false;
   activitySeries.value = response.series;
   activityChart.xaxis.categories = response.categories;
   // activityChart.colors = response.colors;
@@ -362,11 +360,9 @@ const lineChart = reactive({
 const lineChartSeries: any = ref([]);
 
 const getData = async () => {
-  store.isShowMainLoader = true;
   const tempData = (await axios.get("/admin/dashboard2")).data;
   statsCount.value = (await axios.get("/admin/dashboard2")).data;
   console.log(statsCount.value);
-  store.isShowMainLoader = false;
   // const response = (await axios.get('/admin/educational-institution/teacher/murajaah')).data;
 
   // data.value = response;
@@ -430,11 +426,14 @@ const getChart2 = async (type = "weekly") => {
 };
 
 onMounted(async () => {
+  store.isShowMainLoader = true;
+
   if (auth.isAuthenticated() && auth.getToken() != false) {
     await getChart();
   }
   getActivity("weekly");
   await getData();
+  store.isShowMainLoader = false;
 });
 </script>
   

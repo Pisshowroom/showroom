@@ -333,6 +333,9 @@ const file: any = ref(null);
 
 onMounted(async () => {
   // form.value = (await axios.get(`/admin/order/${currentRouteId}`)).data;
+  // loading true
+  store.isShowMainLoader = true;
+
   await axios
     .get(`/admin/order/${currentRouteId}`)
     .then((res) => {
@@ -353,8 +356,11 @@ onMounted(async () => {
         form.value?.user?.address?.district +
         ", " +
         form.value?.user?.address?.city;
+      store.isShowMainLoader = false;
     })
     .catch((error) => {
+      store.isShowMainLoader = false;
+
       console.log("DAPAT ERROR");
 
       let errorMessage = error.response?.data?.message || error.message;
