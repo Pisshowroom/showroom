@@ -37,6 +37,15 @@ export default [
             rule:'admin'
         },
     },
+    {
+        path: "/admin/product/detail/:id",
+        name: "admin.product.detail",
+        component: () => import("../../views/admin/product/ProductDetail.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
+    },
     
     /* GROUP ADS - ADSGR */
     {

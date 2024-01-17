@@ -98,8 +98,8 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
         Route::group(['prefix' => 'products'], function () {
             Route::get('/index', [AdminProductController::class, 'index']);
             Route::post('/', [AdminProductController::class, 'store']);
-            Route::get('/{category}', [AdminProductController::class, 'detail']);
-            Route::delete('/{category}', [AdminProductController::class, 'destroy']);
+            Route::get('/{product}', [AdminProductController::class, 'detail']);
+            Route::delete('/{product}', [AdminProductController::class, 'destroy']);
         });
     
     });
