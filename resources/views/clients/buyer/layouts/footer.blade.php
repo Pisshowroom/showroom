@@ -4,7 +4,8 @@
             <div class="row">
                 <div class="col-lg-4 width-25 mb-30">
                     <h4 class="mb-30 color-gray-1000">Kontak</h4>
-                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Alamat:</strong> Jl Demang Akub No. 95 RT. 005 RW. 002 Sui Rasau, Singkawang Utara, Kalbar - INDONESIA 79151 </div>
+                    <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">Alamat:</strong> Jl Demang Akub
+                        No. 95 RT. 005 RW. 002 Sui Rasau, Singkawang Utara, Kalbar - INDONESIA 79151 </div>
                     <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">No. Handphone:</strong> (+62)
                         8584-9680-562</div>
                     <div class="font-md mb-20 color-gray-900"><strong class="font-md-bold">E-mail:</strong>
@@ -39,11 +40,21 @@
                 <div class="col-lg-4 mb-30">
                     <h4 class="mb-30 color-gray-1000">Selengkapnya</h4>
                     <ul class="menu-footer">
-                        <li><a href="{{ route('buyer.privacy') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kebijakan Privasi</a></li>
-                        <li><a href="{{ route('buyer.contact') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kontak Kami</a></li>
-                        <li><a href="{{ route('buyer.about') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tentang Kami</a></li>
-                        <li><a href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat & Ketentuan</a></li>
-                        <li><a href="{{ route('buyer.termDeleteUser') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Ketentuan Hapus Akun</a></li>
+                        <li><a
+                                href="{{ route('buyer.privacy') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kebijakan
+                                Privasi</a></li>
+                        <li><a
+                                href="{{ route('buyer.contact') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Kontak
+                                Kami</a></li>
+                        <li><a
+                                href="{{ route('buyer.about') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Tentang
+                                Kami</a></li>
+                        <li><a
+                                href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat
+                                & Ketentuan</a></li>
+                        <li><a
+                                href="{{ route('buyer.termDeleteUser') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Ketentuan
+                                Hapus Akun</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
@@ -64,8 +75,9 @@
     <div class="footer-2">
         <div class="footer-bottom-1">
             <div class="container">
-                <div class="footer-2-top mb-20"><a href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img alt="Logo Pishop"
-                            src="{{ asset('ecom/imgs/pshop.png') }}" style="max-width:100px"></a>
+                <div class="footer-2-top mb-20"><a
+                        href="{{ route('buyer.home') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}"><img
+                            alt="Logo Pishop" src="{{ asset('ecom/imgs/pshop.png') }}" style="max-width:100px"></a>
                     {{-- <a class="font-xs color-gray-1000" href="#">EcomMarket.com</a><a
                         class="font-xs color-gray-1000" href="#">Ecom
                         Partners</a><a class="font-xs color-gray-1000" href="#">Ecom
@@ -80,13 +92,17 @@
                             class="color-gray-900 font-sm">Copyright &copy;
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> <a href="https://hotama.co.id/" target="_blank"
-                                rel="noopener noreferrer">PT.Kreasi Putra Hotama.</a> All rights
+                            </script>
+                            {{-- <a href="https://hotama.co.id/" target="_blank"
+                                rel="noopener noreferrer">PT.Kreasi Putra Hotama.</a> --}}
+                            All rights
                             reserved.
                         </span></div>
                     <div class="col-lg-6 col-md-12 text-center text-lg-end">
                         <ul class="menu-bottom">
-                            <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat dan
+                            <li><a class="font-sm color-gray-900"
+                                    href="{{ route('buyer.term') }}{{ Auth::check() && preg_match('/PiBrowser/i', request()->header('User-Agent')) ? '?auth=' . base64_encode(Auth::user()->uid) : '' }}">Syarat
+                                    dan
                                     Ketentuan</a>
                             </li>
                             {{-- <li><a class="font-sm color-gray-900" href="{{ route('buyer.term') }}">Privacy Notice</a></li> --}}

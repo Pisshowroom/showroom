@@ -57,8 +57,9 @@
                     Copyright &copy;
                     <script>
                         document.write(new Date().getFullYear())
-                    </script> <a href="https://hotama.co.id/" target="_blank"
-                        rel="noopener noreferrer">PT.Kreasi Putra Hotama.</a>
+                    </script> 
+                    {{-- <a href="https://hotama.co.id/" target="_blank"
+                        rel="noopener noreferrer">PT.Kreasi Putra Hotama.</a> --}}
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end">All rights reserved</div>
