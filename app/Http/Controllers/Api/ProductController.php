@@ -20,7 +20,7 @@ class ProductController extends Controller
         $query = Product::with(['seller'])->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
-                    $query->where('status', 'done');
+                    $query->where('status', Order::COMPLETED);
                 });
             }], 'quantity');
 
@@ -93,7 +93,7 @@ class ProductController extends Controller
 
         $product->loadSum(['order_items as total_sell' => function ($query) {
             $query->whereHas('order', function ($query) {
-                $query->where('status', 'done');
+                $query->where('status', Order::COMPLETED);
             });
         }], 'quantity');
 

@@ -322,6 +322,7 @@ class OrderDataController extends Controller
     public function completedOrder(Order $order)
     {
 
+        DB::beginTransaction();
         if (in_array($order->status, [Order::SHIPPED, Order::DELIVERED])) {
             $order->status = Order::COMPLETED;
         } else {
@@ -345,7 +346,6 @@ class OrderDataController extends Controller
             $feeCommerce = $totalPrice * ($feeGlobalAmount[1] / 100);
         }
 
-        DB::beginTransaction();
         $totalIncome = $totalPrice - $feeCommerce;
 
         $order->market_fee_seller = $feeCommerce;

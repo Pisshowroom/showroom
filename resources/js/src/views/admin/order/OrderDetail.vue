@@ -253,7 +253,6 @@
     <div
       class="w-full l-falseg:w-3/4 border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-[#0e1726]"
     >
-      <!-- Addresses Table -->
       <div class="flex flex-col gap-2">
         <label class="w-full md:mb-0 font-bold">Item Pesanan</label>
         <div class="table-responsives">
