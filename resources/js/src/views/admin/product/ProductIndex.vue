@@ -98,21 +98,9 @@ const actions = ref([
   {
     type: "previewIcon",
     to: ({ value }) => {
-      return `/admin/order/detail/${value.id}`;
+      return `/admin/product/detail/${value.id}`;
     },
   },
-  /* {
-    type: 'editDropdown',
-    to: ({ value }) => {
-      return `/institution/student/edit/${value.id}`;
-    },
-  },
-  {
-    type: 'previewDropdown',
-    to: ({ value }) => {
-      return `/institution/student/detail/${value.id}`;
-    },
-  }, */
 ]);
 
 let statusRequest = ref(null);

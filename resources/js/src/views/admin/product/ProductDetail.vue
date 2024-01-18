@@ -60,15 +60,15 @@
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="weight"
-                  >Berat (dalam gram)</label
+                  >Berat</label
                 >
-                <p>{{ form.weight }}</p>
+                <p>{{ form.weight ? form.weight + " g" : "-" }}</p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="is_featured"
-                  >Ditampilkan?</label
+                  >Aktif (Tersedia)</label
                 >
-                <p>{{ form.is_featured ? "Ya" : "Tidak" }}</p>
+                <p>{{ form.deleted_at ? "Tidak" : "Ya" }}</p>
               </div>
             </div>
 
@@ -77,22 +77,34 @@
               class="flex flex-col gap-2 theParent w-full sm:w-full md:w-1/2"
             >
               <div class="flex flex-col">
-                <label class="w-full md:mb-0 font-bold" for="category_id"
-                  >Kategori Produk</label
-                >
-                <p>{{ form.category_id }}</p>
-              </div>
-              <div class="flex flex-col">
-                <label class="w-full md:mb-0 font-bold" for="sub_category_id"
-                  >Sub Kategori Produk</label
-                >
-                <p>{{ form.sub_category_id }}</p>
+                <label class="w-full md:mb-0 font-bold" for="category_id">{{
+                  "Kategori Produk / Sub Kategori"
+                }}</label>
+                <p>
+                  {{ form.category?.name + " / " + form.sub_category?.name }}
+                </p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="images"
-                  >Gambar Produk</label
+                  >Gambar-gambar Produk</label
                 >
-                <img :src="form.images" alt="Product Image" />
+                <div
+                  class="flex flex-wrap gap-2"
+                  v-if="form?.images?.length > 0"
+                >
+                  <div
+                    v-for="(image, index) in form.images"
+                    :key="index"
+                    class="h-1/2"
+                  >
+                    <img
+                      :src="image"
+                      class="w-full h-24 object-cover rounded-md"
+                      alt="Product Image"
+                    />
+                  </div>
+                </div>
+                <p v-else>-</p>
               </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="description"
@@ -101,22 +113,16 @@
                 <p>{{ form.description }}</p>
               </div>
               <div class="flex flex-col">
-                <label class="w-full md:mb-0 font-bold" for="created_at"
-                  >Tanggal Dibuat</label
-                >
-                <p>{{ form.created_at }}</p>
-              </div>
-              <div class="flex flex-col">
-                <label class="w-full md:mb-0 font-bold" for="updated_at"
-                  >Tanggal Diperbarui</label
-                >
-                <p>{{ form.updated_at }}</p>
-              </div>
-              <div class="flex flex-col">
-                <label class="w-full md:mb-0 font-bold" for="deleted_at"
-                  >Tanggal Dihapus</label
-                >
-                <p>{{ form.deleted_at }}</p>
+                <label class="w-full md:mb-0 font-bold" for="created_at">{{
+                  "Tanggal Dibuat / Tanggal Pembaruan"
+                }}</label>
+                <p>
+                  {{
+                    globalComponents.formatDateTime(form.created_at) +
+                    " / " +
+                    globalComponents.formatDateTime(form.updated_at)
+                  }}
+                </p>
               </div>
             </div>
           </div>
@@ -200,8 +206,6 @@ const axios = <Axios>inject("axios");
 const file: any = ref(null);
 
 onMounted(async () => {
-  // form.value = (await axios.get(`/admin/order/${currentRouteId}`)).data;
-  // loading true
   store.isShowMainLoader = true;
 
   await axios
