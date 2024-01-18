@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,14 @@ class ProductController extends Controller
 
     public function detail(Product $product)
     {
-        $product->load(['parent', 'category', 'sub_category', 'variants', 'reviews', 'order_items']);
+        $product->load(['parent', 'category', 'sub_category', 'variants', 'seller']);
+        $product->loadAvg('reviews', 'rating');
+        $product->loadSum(['order_items as total_sell' => function ($query) {
+            $query->whereHas('order', function ($query) {
+                $query->where('status', Order::COMPLETED);
+            });
+        }], 'quantity');
+
 
         return $product;
     }

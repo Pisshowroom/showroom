@@ -64,6 +64,10 @@ class GlobalComponents {
     dateFormat(datetime, format = null) {
         return moment(datetime).format(format || 'D MMMM YYYY, HH:mm');
     }
+    formatDecimal(number) {
+        number = parseFloat(number);
+        return number.toFixed(2);
+    }
     rate(validity) {
         if (validity < 60) return 0;
         if (validity >= 61 && validity < 71) return 1;

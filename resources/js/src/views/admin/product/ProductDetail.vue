@@ -34,6 +34,17 @@
                 >
                 <p>{{ form.name }}</p>
               </div>
+              <div class="flex flex-col" v-if="form.parent">
+                <label class="w-full mb-0 font-bold" for="parent_product"
+                  >Produk Induk</label
+                >
+                <router-link
+                  :to="`/admin/product/detail/${form?.parent?.id}`"
+                  target="_blank"
+                >
+                  <p class="text-amber-500">{{ form?.parent?.name }}</p>
+                </router-link>
+              </div>
               <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="slug">Slug</label>
                 <p>{{ form.slug }}</p>
@@ -77,11 +88,46 @@
               class="flex flex-col gap-2 theParent w-full sm:w-full md:w-1/2"
             >
               <div class="flex flex-col">
+                <label class="w-full md:mb-0 font-bold" for="rating"
+                  >Rating Produk</label
+                >
+                <p>
+                  {{
+                    form?.reviews_avg_rating > 0
+                      ? globalComponents.formatDecimal(
+                          form?.reviews_avg_rating
+                        ) + " / 5"
+                      : "0 / 5"
+                  }}
+                </p>
+              </div>
+              <div class="flex flex-col">
+                <label class="w-full md:mb-0 font-bold" for="seller_id"
+                  >Penjual</label
+                >
+                <router-link
+                  :to="`/admin/user/detail/${form.seller?.id}`"
+                  target="_blank"
+                >
+                  <p class="text-amber-500">{{ form.seller?.name }}</p>
+                </router-link>
+              </div>
+              <div class="flex flex-col">
+                <label class="w-full md:mb-0 font-bold" for="total"
+                  >Total Penjualan</label
+                >
+                <p>{{ form.total_sell || "0" }}</p>
+              </div>
+              <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="category_id">{{
                   "Kategori Produk / Sub Kategori"
                 }}</label>
                 <p>
-                  {{ form.category?.name + " / " + form.sub_category?.name }}
+                  {{
+                    (form?.category?.name || "-") +
+                    " / " +
+                    (form?.sub_category?.name || "-")
+                  }}
                 </p>
               </div>
               <div class="flex flex-col">
@@ -129,54 +175,40 @@
         </div>
       </div>
     </div>
-    <!-- <div
+    <div
       class="w-full l-falseg:w-3/4 border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-[#0e1726]"
+      v-if="form.variants?.length > 0"
     >
       <div class="flex flex-col gap-2">
-        <label class="w-full md:mb-0 font-bold">Item Produk</label>
+        <label class="w-full md:mb-0 font-bold">Varian Produk</label>
         <div class="table-responsives">
           <table class="table-auto w-full">
             <thead>
               <tr>
                 <th class="px-4 py-2">No</th>
-                <th class="px-4 py-2">ID Produk</th>
-                <th class="px-4 py-2">Kuantitas</th>
-                <th class="px-4 py-2">Total Item</th>
-                <th class="px-4 py-2">Harga</th>
-                <th class="px-4 py-2">Catatan</th>
-                <th class="px-4 py-2">Berat</th>
+                <th class="px-4 py-2">Name</th>
+                <th class="px-4 py-2">Price</th>
+                <th class="px-4 py-2">Stock</th>
+                <th class="px-4 py-2">Weight</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in form.order_items" :key="item.id">
+              <tr v-for="(variant, index) in form.variants" :key="index">
                 <td class="border px-4 py-2">{{ index + 1 }}</td>
+                <td class="border px-4 py-2">{{ variant.name }}</td>
                 <td class="border px-4 py-2">
-                  {{
-                    item.product?.parent != null
-                      ? item.product?.parent?.name +
-                        "(" +
-                        item.product?.name +
-                        ")"
-                      : item.product?.name || "-"
-                  }}
+                  {{ globalComponents.formatThousand(variant.price) }}
                 </td>
-                <td class="border px-4 py-2">{{ item.quantity }}</td>
+                <td class="border px-4 py-2">{{ variant.stock }}</td>
                 <td class="border px-4 py-2">
-                  {{ globalComponents.formatThousand(item.item_total) }}
-                </td>
-                <td class="border px-4 py-2">
-                  {{ globalComponents.formatThousand(item.price) }}
-                </td>
-                <td class="border px-4 py-2">{{ item.note }}</td>
-                <td class="border px-4 py-2">
-                  {{ item.weight ? item.weight + " g" : "-" }}
+                  {{ variant.weight ? variant.weight + " g" : "-" }}
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
