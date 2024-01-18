@@ -70,13 +70,13 @@ class SellerController extends Controller
             $q->where('seller_id', Auth::guard('web')->user()->id);
         });
         $data['categories'] = $categories->count();
-        $data['achievement'] = Order::where('status', 'done')
+        $data['achievement'] = Order::where('status', 'Completed')
             ->whereHas('order_items', function ($q) {
                 $q->whereHas('product', function ($qq) {
                     $qq->where('seller_id', Auth::guard('web')->user()->id);
                 });
             })->sum('total_final');
-        $data['orders_done'] = Order::where('status', 'done')
+        $data['orders_done'] = Order::where('status', 'Completed')
             ->whereHas('order_items', function ($q) {
                 $q->whereHas('product', function ($qq) {
                     $qq->where('seller_id', Auth::guard('web')->user()->id);

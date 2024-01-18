@@ -55,7 +55,7 @@ class DashboardController extends Controller
             ->where('user_id', Auth::guard('web')->user()->id)->count();
         $data['cart'] = 0;
         $data['wishlist'] = 0;
-        $data['orders_done'] = Order::where('status', 'done')
+        $data['orders_done'] = Order::where('status', 'Completed')
             ->where('user_id', Auth::guard('web')->user()->id)->count();
         // dd($order);
         return view('clients.dashboard.dashboard', ['orders' => $order, 'data' => $data]);

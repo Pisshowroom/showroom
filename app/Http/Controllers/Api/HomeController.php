@@ -29,7 +29,7 @@ class HomeController extends Controller
                 'total_quantity' => OrderItem::selectRaw('sum(quantity)')
                     ->whereColumn('product_id', 'products.id')
                     ->join('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->where('orders.status', 'done')
+                    ->where('orders.status', 'Completed')
             ])->byNotVariant()
             ->orderByDesc('total_quantity')
             ->take(10)
@@ -37,7 +37,7 @@ class HomeController extends Controller
 
         // $recommendedProducts = Product::with(['category', 'parent'])
         //     ->whereHas('order_items.order', function ($query) {
-        //         $query->where('status', 'done');
+        //         $query->where('status', 'Completed');
         //     })
         //     ->havingRaw('COUNT(order_items.id) > 0')
         //     ->orderByDesc('order_items_count')

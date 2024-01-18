@@ -51,7 +51,7 @@ class SellerController extends Controller
                 $q->withAvg('reviews', 'rating')
                     ->withSum(['order_items as total_sell' => function ($query) {
                         $query->whereHas('order', function ($query) {
-                            $query->where('status', 'done');
+                            $query->where('status', 'Completed');
                         });
                     }], 'quantity');
             })
@@ -84,7 +84,7 @@ class SellerController extends Controller
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
-                    $query->where('status', 'done');
+                    $query->where('status', 'Completed');
                 });
             }], 'quantity')
             ->orderBy('id', $request->filled('orderBy') ? $request->orderBy : 'desc')

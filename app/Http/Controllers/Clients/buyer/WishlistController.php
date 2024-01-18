@@ -70,7 +70,7 @@ class WishlistController extends Controller
                 'total_quantity' => OrderItem::selectRaw('sum(quantity)')
                     ->whereColumn('product_id', 'products.id')
                     ->join('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->where('orders.status', 'done')
+                    ->where('orders.status', 'Completed')
             ])->byNotVariant()
             ->orderByDesc('total_quantity')
             ->take(8)
@@ -106,7 +106,7 @@ class WishlistController extends Controller
             })->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
-                    $query->where('status', 'done');
+                    $query->where('status', 'Completed');
                 });
             }], 'quantity')
             ->orderBy('id', $request->filled('orderBy') ? $request->orderBy : 'desc')

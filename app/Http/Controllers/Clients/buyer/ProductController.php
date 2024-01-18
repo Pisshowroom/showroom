@@ -71,7 +71,7 @@ class ProductController extends Controller
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
-                    $query->where('status', 'done');
+                    $query->where('status', 'Completed');
                 });
             }], 'quantity')
             ->orderBy('id',  !$request->filled('orderBy') || ($request->filled('orderBy') && $request->orderBy == 'desc') || ($request->filled('special') && $request->special == 'newest') ? 'desc' : 'asc')
@@ -93,7 +93,7 @@ class ProductController extends Controller
                 $q->withAvg('reviews', 'rating')
                     ->with(['order_items' => function ($query) {
                         $query->whereHas('order', function ($query) {
-                            $query->where('status', 'done');
+                            $query->where('status', 'Completed');
                         });
                     }])
                     ->withSum('order_items', 'quantity');
@@ -126,7 +126,7 @@ class ProductController extends Controller
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
-                    $query->where('status', 'done');
+                    $query->where('status', 'Completed');
                 });
             }], 'quantity')
             ->orderBy('id', $request->filled('orderBy') ? $request->orderBy : 'desc')
@@ -148,7 +148,7 @@ class ProductController extends Controller
                 $q->withAvg('reviews', 'rating')
                     ->with(['order_items' => function ($query) {
                         $query->whereHas('order', function ($query) {
-                            $query->where('status', 'done');
+                            $query->where('status', 'Completed');
                         });
                     }])
                     ->withSum('order_items', 'quantity');
@@ -185,7 +185,7 @@ class ProductController extends Controller
             ->withCount('reviews')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
-                    $query->where('status', 'done');
+                    $query->where('status', 'Completed');
                 });
             }], 'quantity')
             ->where('slug', $slug)
@@ -214,7 +214,7 @@ class ProductController extends Controller
                 'total_quantity' => OrderItem::selectRaw('sum(quantity)')
                     ->whereColumn('product_id', 'products.id')
                     ->join('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->where('orders.status', 'done')
+                    ->where('orders.status', 'Completed')
             ])->byNotVariant()
             ->orderByDesc('total_quantity')
             ->take(3)
@@ -237,7 +237,7 @@ class ProductController extends Controller
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
-                    $query->where('status', 'done');
+                    $query->where('status', 'Completed');
                 });
             }], 'quantity')->orderByDesc('total_sell')->take(5)->get();
         if ($data['related_products'] && count($data['related_products']) > 0) {
@@ -257,7 +257,7 @@ class ProductController extends Controller
             ->withAvg('reviews', 'rating')
             ->withSum(['order_items as total_sell' => function ($query) {
                 $query->whereHas('order', function ($query) {
-                    $query->where('status', 'done');
+                    $query->where('status', 'Completed');
                 });
             }], 'quantity')->orderByDesc('total_sell')->take(5)->get();
         if ($data['same_products'] && count($data['same_products']) > 0) {
@@ -345,7 +345,7 @@ class ProductController extends Controller
                 'total_quantity' => OrderItem::selectRaw('sum(quantity)')
                     ->whereColumn('product_id', 'products.id')
                     ->join('orders', 'order_items.order_id', '=', 'orders.id')
-                    ->where('orders.status', 'done')
+                    ->where('orders.status', 'Completed')
             ])->byNotVariant()
             ->orderByDesc('total_quantity')
             ->take(8)
