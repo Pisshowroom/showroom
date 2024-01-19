@@ -12,7 +12,7 @@
         </div>
         <div class="flex items-center mt-2">
           <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-            {{ statsCount?.commerce_balance }}
+            {{ globalComponents.formatPrice(statsCount?.commerce_balance) }}
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="flex items-center mt-2">
           <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-            {{ statsCount?.completed_orders }}
+            {{ globalComponents.formatThousand(statsCount?.completed_orders) }}
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="flex items-center mt-2">
           <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-            {{ statsCount?.product_count }}
+            {{ globalComponents.formatThousand(statsCount?.product_count) }}
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@
         </div>
         <div class="flex items-center mt-2">
           <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">
-            {{ statsCount?.user_count }}
+            {{ globalComponents.formatThousand(statsCount?.user_count) }}
           </div>
         </div>
       </div>

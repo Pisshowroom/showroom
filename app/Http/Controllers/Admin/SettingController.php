@@ -12,6 +12,7 @@ class SettingController extends Controller
     public function index(Request $request)
     {
         $settings = \App\Models\Setting::whereNot('name', 'commerce_balance')->paginate($request->per_page ?? 15);
+        // $settings = \App\Models\Setting::paginate($request->per_page ?? 15);
 
         return $settings;
     }

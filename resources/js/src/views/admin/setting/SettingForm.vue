@@ -105,7 +105,7 @@
             </div>
           </div>
         </div>
-        <div class="w-full lg:w-1/4">
+        <div class="w-full lg:w-1/4" v-if="form.name != 'commerce_balance'">
           <div
             class="border border-[#ebedf2] dark:border-[#191e3a] rounded-md p-4 mb-5 bg-white dark:bg-[#0e1726]"
           >

@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $data['completed_orders'] = $completedOrders;
 
         $commerceBalance = lypsisGetSetting('commerce_balance');
-        $data['commerce_balance'] = $commerceBalance;
+        $data['commerce_balance'] = intval($commerceBalance);
 
         $productCount = DB::table('products')->whereNull('deleted_at')->count();
         $data['product_count'] = $productCount;
