@@ -110,9 +110,11 @@ class AuthService {
     authRoute(rule, next) {
         const ability = this.getAbility();
         const user = this.users();
+        /* console.log('si abiltiy');
+        console.log(ability);
         console.log('si user');
         console.log(user);
-        console.log(rule);
+        console.log(rule); */
         // return next();
 
         if (ability.includes(rule)) {

@@ -47,13 +47,13 @@
                   {{ globalComponents.formatPhoneNumber(form.phone_number) }}
                 </p>
               </div>
-              <div class="flex flex-col gap-2">
+              <div class="flex flex-col">
                 <label class="w-full md:mb-0 font-bold" for="birth_date"
                   >Tanggal Lahir</label
                 >
                 <p>{{ form.birth_date }}</p>
               </div>
-              <div class="flex flex-col gap-2">
+              <div class="flex flex-col mr-4">
                 <label class="w-full md:mb-0 font-bold" for="image">Foto</label>
                 <p>
                   <img
@@ -75,7 +75,7 @@
                 >
                 <p>{{ globalComponents.formatNumber(form.balance, true) }}</p>
               </div>
-              <div v-if="form.is_seller == 1">
+              <div v-if="form.is_seller == 1" class="flex flex-col gap-2">
                 <div class="flex flex-col">
                   <label class="w-full md:mb-0 font-bold" for="seller_name"
                     >Nama Penjual</label
@@ -98,6 +98,39 @@
                     {{
                       globalComponents.formatPhoneNumber(
                         form.phone_number_seller
+                      )
+                    }}
+                  </p>
+                </div>
+                <div class="flex flex-col" v-if="form.seller_fee_amount > 0">
+                  <label
+                    class="w-full md:mb-0 font-bold"
+                    for="seller_fee_amount"
+                    >Jumlah Fee Seller</label
+                  >
+                  <p>
+                    {{
+                      globalComponents.formatNumber(
+                        form.seller_fee_amount,
+                        true
+                      )
+                    }}
+                  </p>
+                </div>
+                <div
+                  class="flex flex-col"
+                  v-if="form.seller_fee_percentage > 0"
+                >
+                  <label
+                    class="w-full md:mb-0 font-bold"
+                    for="seller_fee_percentage"
+                    >Persentase Fee Seller</label
+                  >
+                  <p>
+                    {{
+                      globalComponents.formatNumber(
+                        form.seller_fee_percentage,
+                        true
                       )
                     }}
                   </p>
@@ -258,7 +291,5 @@ onMounted(async () => {
 useHead({
   title: "Detail Pengguna",
 });
-
-
 </script>
 

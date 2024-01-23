@@ -94,6 +94,15 @@ export default [
             rule:'admin'
         },
     },
+    {
+        path: "/admin/user/edit/:id",
+        name: "admin.user.edit",
+        component: () => import("../../views/admin/user/UserForm.vue"),
+        meta: {
+            authRequired: true,
+            rule:'admin'
+        },
+    },
     /* GROUP ADMIN - ADMINGR */
     {
         path: "/admin/admin/index",

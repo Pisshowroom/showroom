@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import { useAppStore } from '@/stores/index';
 import appSetting from '@/app-setting';
 import auth from "@/services/auth.service";
 import admin_routes from './routes/admin_routes'
-
 
 import HomeView from '../views/index.vue';
 
@@ -480,11 +478,27 @@ const routes: RouteRecordRaw[] = [
         component: () => import(/* webpackChunkName: "pages-coming-soon" */ '../views/pages/coming-soon.vue'),
         meta: { layout: 'auth' },
     },
+   /*  {
+        path: "/:pathName(.*)*'",
+        redirect: '/admin/pages/error404',
+    }, */
     {
         path: '/admin/pages/error404',
         name: 'error404',
         component: () => import(/* webpackChunkName: "pages-error404" */ '../views/pages/error404.vue'),
-        meta: { layout: 'auth' },
+        meta: { rule: "public", authRequired: false, },
+    },
+    {
+        path: '/admin/pages/error404_2',
+        name: 'error404_2',
+        component: () => import(/* webpackChunkName: "pages-error404" */ '../views/pages/error404.vue'),
+        meta: {
+            rule: "public", authRequired: true,
+            layout: 'auth'
+        },
+    },
+    {
+        path: '/:pathMatch(.*)*', name: 'not-found', component: () => import(/* webpackChunkName: "pages-error404" */ '../views/pages/error404.vue'),
     },
     {
         path: '/pages/error500',
@@ -573,7 +587,7 @@ router.beforeEach((to, from, next) => {
     if (to.meta.authRequired) {
         appSetting.changeAnimation();
         let user: any = auth.users();
-        
+
         if (user && auth.isAuthenticated()) {
             const rule = to.meta.rule
             // return next('/admin/order/index'); 
@@ -589,14 +603,18 @@ router.beforeEach((to, from, next) => {
 
             return next('/')
         }
-        if (auth.isAuthenticated() && (to.path === "/admin/login" || to.path === "/admin/pages/error404")) {
-            console.log('x7   === "/admin/pages/error404 == guest');
 
-            return next('/');
+        // if (auth.isAuthenticated() && (to.path === "/admin/login" || to.path === "/admin/pages/error404")) {
+        if (auth.isAuthenticated() && (to.path === "/admin/login")) {
+
+            return next('/admin/dashboard');
         } else if (to.meta.authRequired == undefined && to.name == 'not-found') {
             let user: any = auth.users();
+            console.log("let user: any = auth.users();", user);
+
             if (user && user.permission == 'admin') {
-                return next('/');
+                // return next('/admin/dashboard');
+                return next('/admin/pages/error404_2');
             } else if (user && user.permission == 'institution') {
                 return next('/institution/dashboard');
             } else if (user && user.permission == 'mudabbir') {
