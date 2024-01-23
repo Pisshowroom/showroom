@@ -91,6 +91,9 @@ export default {
       return data;
     },
   },
+  beforeMount() {
+    console.log("PAGE LOGIN");
+  },
   created() {
     // this.$OneSignal.init({ appId: 'dabdedc1-f999-44d7-8ea3-6eb9ced91d2e', allowLocalhostAsSecureOrigin: true });
     // this.$OneSignal.User.PushSubscription.optIn().then((res) => {

@@ -29,9 +29,7 @@ const store = useAppStore();
 import Swal from "sweetalert2";
 const axios = <Axios>inject("axios");
 let data: any = ref({});
-const titleActivity: any = ref("Harian");
 const datatable: any = ref(null);
-const titleActivity2: any = ref("Harian");
 let user: any = auth.users();
 
 useHead({
@@ -73,7 +71,7 @@ const actions = ref([
   {
     type: "editDropdown",
     to: ({ value }) => {
-      return `/institution/student/edit/${value.id}`;
+      return `/admin/user/edit/${value.id}`;
     },
   },
   {
