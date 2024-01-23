@@ -31,7 +31,11 @@ useMeta({ title: "PIS Shop" });
 
 const mainLayout = computed(() => {
   // return store.mainLayout === 'auth' ? authLayout : appLayout;
-  if (route.path == "/admin/login" || route.path == "/admin/pages/error404")
+  if (
+    route.path == "/admin/login" ||
+    route.path.includes("error404") ||
+    route.path.includes("error404_2")
+  )
     return authLayout;
   else return store.mainLayout === "app" ? appLayout : authLayout;
 });

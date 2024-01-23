@@ -38,6 +38,21 @@ class AdminController extends Controller
         ]);
 
         $dataInput = $request->all();
+        /* if ($request->filled('password')) {
+            $request->validate([
+                'password' => 'required|string|min:8',
+                'confirmation_password' => 'required|string|min:8',
+            ]);
+
+            if ($request->password != $request->confirmation_password) {
+                return response()->json([
+                    'message' => 'Password dan Konfirmasi Password tidak sama',
+                ], 422);
+            }
+            $dataInput['password'] = bcrypt($request->password);
+        } */
+
+        
         if ($request->filled('password')) {
             $dataInput['password'] = bcrypt($request->password);
         }
