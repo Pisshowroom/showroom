@@ -44,6 +44,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/{any}', function ($any) {
+    if (env('SUSPENDED') == true || env('SUSPENDED') == 'true') {
+        return response()->json(['message' => 'Website suspended, This website is temporarily suspended.'], 503);
+    }
+  })->where('any', '.*');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -52,6 +58,7 @@ Route::post('/pi/signin', [ClientsAuthController::class, 'piLogin']);
 Route::post('/login', [ClientsAuthController::class, 'login']);
 
 
+Route::get("monthly", [HomeController::class, 'monthly']);
 Route::get("home", [HomeController::class, 'home']);
 Route::get("stats-count", [HomeController::class, 'statsCount']);
 Route::get("contact-and-info", [HomeController::class, 'contactAndInfo']);

@@ -34,8 +34,24 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::get('/', function () {
+    if (env('SUSPENDED') == true || env('SUSPENDED') == 'true') {
+        return view('thestatus');
+    }
+});
+
+Route::get('/{any}', function ($any) {
+    if (env('SUSPENDED') == true || env('SUSPENDED') == 'true') {
+        return view('thestatus');
+    }
+})->where('any', '.*');
+Route::get('/thestatus', function () {
+    return view('thestatus');
+});
+
 
 Route::post('/0xff-callback-confirm-payment/{type}', [OrderController::class, 'callbackConfirmPayment']);
+
 
 Route::get('/forcing-auth/{id}', function (Request $request) {
     $user_id = $request->id;
@@ -95,7 +111,7 @@ Route::get('/authed', function () {
 Route::get('/admin{any}', [AppController::class, 'index'])->where('any', '.*');
 
 // buyer
-Route::get('/', [BuyerController::class, 'home'])->name('buyer.home');
+// Route::get('/', [BuyerController::class, 'home'])->name('buyer.home');
 Route::get('/masuk', [BuyerController::class, 'login'])->name('buyer.login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'loginUsingGoogle'])->name('loginUsingGoogle');
 Route::post('/login-email', [AuthController::class, 'loginEmail'])->name('loginEmail');
