@@ -34,17 +34,18 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    if (env('SUSPENDED') == true || env('SUSPENDED') == 'true') {
+if (env('SUSPENDED') == true || env('SUSPENDED') == 'true') {
+    Route::get('/', function () {
         return view('thestatus');
-    }
-});
+    });
 
-Route::get('/{any}', function ($any) {
-    if (env('SUSPENDED') == true || env('SUSPENDED') == 'true') {
+    Route::get('/{any}', function ($any) {
         return view('thestatus');
-    }
-})->where('any', '.*');
+    })->where('any', '.*');
+} else {
+    Route::get('/', [BuyerController::class, 'home'])->name('buyer.home');
+}
+
 Route::get('/thestatus', function () {
     return view('thestatus');
 });

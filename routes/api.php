@@ -44,11 +44,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{any}', function ($any) {
-    if (env('SUSPENDED') == true || env('SUSPENDED') == 'true') {
+if (env('SUSPENDED') == true || env('SUSPENDED') == 'true') {
+    Route::get('/{any}', function ($any) {
         return response()->json(['message' => 'Website suspended, This website is temporarily suspended.'], 503);
-    }
-  })->where('any', '.*');
+    })->where('any', '.*');
+}
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -73,17 +73,17 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
     Route::get('/all-type-complaints-counted', [AdminRefundController::class, 'countComplaintsRefundsReturns']);
     // Route::get('/order', [AdminOrderController::class, 'index']);
     // create route group just middleware  'middleware' => 'auth:api-admin'
-    Route::group(['middleware' => 'auth:api-admin'], function() {
+    Route::group(['middleware' => 'auth:api-admin'], function () {
         Route::group(['prefix' => 'order'], function () {
             Route::get('/index', [AdminOrderController::class, 'index']);
             Route::get('/{order}', [AdminOrderController::class, 'detail']);
         });
-    
+
         Route::group(['prefix' => 'users'], function () {
             Route::get('/index', [AdminUserController::class, 'index']);
             Route::get('/{user}', [AdminUserController::class, 'detail']);
             Route::post('update/{user}', [AdminUserController::class, 'update']);
-            Route::delete('/{user}', [AdminUserController::class,'destroy']);
+            Route::delete('/{user}', [AdminUserController::class, 'destroy']);
         });
 
         Route::group(['prefix' => 'admins'], function () {
@@ -108,7 +108,6 @@ Route::group(['prefix' => 'admin'], function () { // * route_admin - radmin
             Route::get('/{product}', [AdminProductController::class, 'detail']);
             Route::delete('/{product}', [AdminProductController::class, 'destroy']);
         });
-    
     });
 
     Route::group(['prefix' => 'complaint'], function () {
@@ -236,7 +235,7 @@ Route::group(['prefix' => 'address-seller', 'middleware' => 'auth:api-client'], 
 });
 
 
-Route::post('login-for-admin', [AuthController::class,'loginForAdmin']);
+Route::post('login-for-admin', [AuthController::class, 'loginForAdmin']);
 Route::group(['prefix' => 'user'], function () {
     Route::post('/login-firebase', [AuthController::class, 'loginFirebase']);
     Route::get('/get-a-seller/{sellerId}', [UserController::class, 'getASeller']);

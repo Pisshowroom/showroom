@@ -18,7 +18,9 @@ use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
-{
+{    
+    
+
     public function home()
     {
         $latestProducts = Product::with(['category', 'seller'])->byNotVariant()->latest()->take(10)->get();
@@ -92,7 +94,7 @@ class HomeController extends Controller
         $subCategories = SubCategory::all();
         return SubCategoryResource::collection($subCategories);
     }
-    
+
     public function contactAndInfo()
     {
         $data['whatsapp_cs'] = lypsisGetSetting('whatsapp_cs');
