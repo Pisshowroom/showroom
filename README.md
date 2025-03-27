@@ -4,6 +4,6 @@ Perusahaan kami berdiri  dengan nama lengkap PT SHOWROOM INDONESIA INTERNATIONAL
 kami secara progresif mengembangkan portofolio layanan kami untuk mencakup berbagai sektor industri, seperti (Kendaraan, Properti, Elektronik, perhiasan, bahan pokok pangan, Agribisnis, handicraft serta Fashion). Kini, kami telah menjadi pemain yang diakui dalam industri pengadaan barang dan jasa, beroperasi tidak hanya di tingkat nasional, tetapi juga telah berhasil melakukan ekspansi ke pasar internasional.
 
 ## Links
-Testnet : https://test.pisshowroom.co
+Testnet : https://test.showroomint.com
 
-Mainnet : https://pisshowroom.co
+Mainnet : https://showroomint.com
